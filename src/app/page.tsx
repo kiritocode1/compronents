@@ -1,7 +1,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CopyButton } from "@/components/site/copy-button";
-import { REGISTRY_NAMESPACE, registryItems } from "@/lib/registry";
+import {
+  getRegistryItemsBySection,
+  librarySections,
+  REGISTRY_NAMESPACE,
+  registryItems,
+} from "@/lib/registry";
 
 const items = [...registryItems].sort((a, b) => b.date.localeCompare(a.date));
 const INSTALL = `npx shadcn@latest add ${REGISTRY_NAMESPACE}/${
@@ -29,18 +34,16 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 export default function Page() {
   return (
     <main className="pb-32">
-      {/* Title */}
       <header className="flex flex-col items-center pt-16 pb-20 text-center sm:pt-24">
         <h1 className="text-5xl tracking-tight text-foreground sm:text-7xl">
           COMPRONENTS
         </h1>
         <p className="mt-4 text-sm tracking-wide text-muted-foreground uppercase">
-          registry for blank&apos;s personal use
+          personal shadcn registry for careful interface pieces
         </p>
       </header>
 
       <div className="grid grid-cols-1 gap-x-16 gap-y-16 lg:grid-cols-[232px_1fr]">
-        {/* Meta */}
         <aside className="flex flex-col gap-9">
           <Field label="Namespace">
             <code className="text-foreground">{REGISTRY_NAMESPACE}</code>
@@ -53,15 +56,8 @@ export default function Page() {
             </div>
           </Field>
 
-          <Field label="Source">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="uppercase tracking-wide transition-colors hover:text-foreground"
-            >
-              Github
-            </a>
+          <Field label="Assets">
+            <span className="uppercase tracking-wide">Vercel Blob</span>
           </Field>
 
           <Field label="Author">
@@ -69,33 +65,57 @@ export default function Page() {
           </Field>
         </aside>
 
-        {/* Main */}
         <div className="flex flex-col gap-16">
           <Row label="Description">
             <div className="flex max-w-2xl flex-col gap-4 text-sm uppercase leading-relaxed tracking-wide text-muted-foreground">
               <p>
-                A small, quiet registry of React components for blank&apos;s
-                personal projects.
+                A library for components, full pages, backend snippets, and
+                inspiration studies that deserve source-level care.
               </p>
               <p>
-                Every item is served as JSON over HTTP and installed straight
-                into a codebase with the shadcn CLI. Full source, yours to edit.
+                Installable items stay shadcn-compatible. The site carries the
+                extra craft notes, editable studios, and asset metadata needed
+                to replicate them precisely.
               </p>
-              <p>Built with React, TypeScript, Tailwind and Motion.</p>
             </div>
           </Row>
 
-          <Row label="Components">
+          <Row label="Sections">
+            <ul className="grid gap-6 sm:grid-cols-2">
+              {librarySections.map((section) => {
+                const count = getRegistryItemsBySection(section.id).length;
+                return (
+                  <li key={section.id} className="border-t pt-4">
+                    <Link href={`/${section.id}`} className="group block">
+                      <div className="flex items-center justify-between gap-4">
+                        <h2 className="text-sm tracking-wide text-foreground uppercase transition-colors group-hover:text-accent">
+                          {section.label}
+                        </h2>
+                        <span className="text-xs tabular-nums text-faint">
+                          {count}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                        {section.description}
+                      </p>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </Row>
+
+          <Row label="Latest">
             {items.length === 0 ? (
               <p className="text-sm tracking-wide text-faint uppercase">
-                No components yet.
+                No drops yet.
               </p>
             ) : (
               <ul className="flex flex-col gap-7">
                 {items.map((item) => (
                   <li key={item.name}>
                     <Link
-                      href={`/components/${item.name}`}
+                      href={`/${item.section}/${item.name}`}
                       className="group block"
                     >
                       <div className="flex items-baseline justify-between gap-4">

@@ -138,6 +138,7 @@ body {
   /* Shiki output: strip its background, inherit our mono sizing */
   .shiki,
   .shiki span {
+    /* biome-ignore lint/complexity/noImportantStyles: Shiki emits inline token backgrounds that must be stripped. */
     background: transparent !important;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
   }

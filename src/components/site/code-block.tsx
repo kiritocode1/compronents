@@ -27,9 +27,9 @@ export function CodeBlock({
         {filename ? null : (
           <CopyButton value={raw} className="absolute top-2 right-2 z-10" />
         )}
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: trusted Shiki output from local source files */}
         <div
           className="overflow-x-auto p-4"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted Shiki output from local source files
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>

@@ -2,6 +2,9 @@
 
 import AnimatedFooter from "@/registry/animated-footer";
 
+const LEFT_HAND = "/assets/animated-footer/blank-hand-right.png";
+const RIGHT_HAND = "/assets/animated-footer/blank-hand-left.png";
+
 /**
  * Embedded preview of the Animated Footer. The full component takes over the
  * viewport and reveals on page scroll; `embedded` contains it to this box and
@@ -12,7 +15,7 @@ import AnimatedFooter from "@/registry/animated-footer";
 export default function Demo() {
   return (
     <div className="relative h-[560px] w-full overflow-hidden rounded-md">
-      <AnimatedFooter embedded />
+      <AnimatedFooter embedded leftImage={LEFT_HAND} rightImage={RIGHT_HAND} />
     </div>
   );
 }

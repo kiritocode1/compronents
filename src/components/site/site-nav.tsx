@@ -5,8 +5,10 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/", label: "Index" },
-  { href: "/docs", label: "Docs" },
+  { href: "/components", label: "Components" },
+  { href: "/pages", label: "Pages" },
+  { href: "/backend", label: "Backend" },
+  { href: "/inspiration", label: "Inspiration" },
 ];
 
 export function SiteNav() {
@@ -16,10 +18,7 @@ export function SiteNav() {
     <header className="flex items-center justify-between py-8 text-xs tracking-[0.12em] uppercase">
       <nav className="flex items-center gap-7">
         {links.map((link) => {
-          const active =
-            link.href === "/"
-              ? pathname === "/" || pathname.startsWith("/components")
-              : pathname.startsWith(link.href);
+          const active = pathname.startsWith(link.href);
           return (
             <Link
               key={link.href}
@@ -35,14 +34,6 @@ export function SiteNav() {
             </Link>
           );
         })}
-        <a
-          href="https://ui.shadcn.com/docs/registry"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Registry
-        </a>
       </nav>
       <span className="hidden text-faint sm:block">shadcn-compatible</span>
     </header>

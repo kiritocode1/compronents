@@ -13,9 +13,10 @@
  * absolute and reveals on enter via IntersectionObserver instead of driving the
  * page scroll).
  *
- * Note: the hand images are NOT bundled with this component. Pass your own via
- * `leftImage` / `rightImage` (same-origin or CORS-enabled — the pixels are read
- * back off a canvas).
+ * Note: the defaults are served from the Compronents asset route, backed by
+ * Vercel Blob in production. Pass your own `leftImage` / `rightImage` when you
+ * want full control (same-origin or CORS-enabled — the pixels are read back off
+ * a canvas).
  *
  * BLANK — aryank.space
  */
@@ -99,13 +100,14 @@ const DEFAULT_LINKS: FooterLink[] = [
 ];
 const DEFAULT_DESCRIPTION =
   "Blank — a software developer building considered digital experiences. Interfaces, motion, and the small details that make a product feel alive. From aryank.space.";
+const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/animated-footer";
 
 export default function AnimatedFooter({
   heading = DEFAULT_HEADING,
   links = DEFAULT_LINKS,
   description = DEFAULT_DESCRIPTION,
-  leftImage = "/blank-hand-right.png",
-  rightImage = "/blank-hand-left.png",
+  leftImage = `${COMPRONENTS_ASSET_BASE}/blank-hand-right.png`,
+  rightImage = `${COMPRONENTS_ASSET_BASE}/blank-hand-left.png`,
   charColor = CHAR_COLOR,
   hoverColor = HOVER_COLOR,
   embedded = false,

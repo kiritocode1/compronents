@@ -5,7 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/site/code-block";
-import { DemoStage } from "@/components/site/demo-stage";
+import { ComponentStudioPanel } from "@/components/site/component-studio-panel";
+import { getHostedAssetUrl } from "@/lib/assets";
 import { getComponentMeta } from "@/lib/component-meta";
 import {
   getRegistryItem,
@@ -74,7 +75,7 @@ export default async function ComponentPage({
       <header className="flex flex-col gap-5">
         <nav className="flex items-center gap-2 text-xs tracking-[0.12em] uppercase">
           <Link
-            href="/"
+            href="/components"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             Components
@@ -95,9 +96,107 @@ export default async function ComponentPage({
         </div>
       </header>
 
-      <Row label="Preview">
-        <DemoStage name={item.name} />
+      <Row label="Studio">
+        <ComponentStudioPanel name={item.name} />
       </Row>
+
+      {meta?.nuance.length ? (
+        <Row label="Nuance">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {meta.nuance.map((note) => (
+              <section key={note.label} className="border-t pt-3">
+                <h2 className="text-xs tracking-[0.12em] text-foreground uppercase">
+                  {note.label}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {note.description}
+                </p>
+              </section>
+            ))}
+          </div>
+        </Row>
+      ) : null}
+
+      {meta?.editable.length ? (
+        <Row label="Editable">
+          <div className="grid gap-3">
+            {meta.editable.map((control) => (
+              <div
+                key={control.name}
+                className="grid grid-cols-1 gap-2 border-b pb-3 last:border-0 sm:grid-cols-[160px_120px_1fr]"
+              >
+                <code className="text-sm text-foreground">{control.name}</code>
+                <span className="text-xs tracking-[0.12em] text-accent-soft uppercase">
+                  {control.control}
+                </span>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {control.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Row>
+      ) : null}
+
+      {meta?.assets.length ? (
+        <Row label="Assets">
+          <div className="grid gap-4">
+            {meta.assets.map((asset) => (
+              <section
+                key={asset.id}
+                className="rounded-lg border bg-surface p-4"
+              >
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h2 className="text-sm text-foreground uppercase">
+                      {asset.label}
+                    </h2>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {asset.role}
+                    </p>
+                  </div>
+                  <span className="w-fit rounded border px-2 py-1 text-[0.65rem] tracking-[0.12em] text-accent-soft uppercase">
+                    {asset.provider}
+                  </span>
+                </div>
+                <dl className="mt-4 grid gap-3 text-xs sm:grid-cols-2">
+                  <div>
+                    <dt className="label">Path</dt>
+                    <dd className="mt-1 break-all text-muted-foreground">
+                      {asset.pathname}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="label">Blob env</dt>
+                    <dd className="mt-1 break-all text-muted-foreground">
+                      {asset.envKey}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="label">Served from</dt>
+                    <dd className="mt-1 break-all text-muted-foreground">
+                      <a
+                        href={getHostedAssetUrl(asset.pathname)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-4 hover:text-foreground"
+                      >
+                        {getHostedAssetUrl(asset.pathname)}
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="label">Local fallback</dt>
+                    <dd className="mt-1 break-all text-muted-foreground">
+                      {asset.fallbackPath}
+                    </dd>
+                  </div>
+                </dl>
+              </section>
+            ))}
+          </div>
+        </Row>
+      ) : null}
 
       <Row label="Install">
         <div className="flex flex-col gap-2">

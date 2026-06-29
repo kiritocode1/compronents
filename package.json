@@ -31,7 +31,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
-    "puppeteer-core": "^25.2.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

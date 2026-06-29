@@ -2,6 +2,9 @@
 
 import AnimatedFooter from "@/registry/animated-footer";
 
+const LEFT_HAND = "/assets/animated-footer/blank-hand-right.png";
+const RIGHT_HAND = "/assets/animated-footer/blank-hand-left.png";
+
 /**
  * Full-viewport preview of the Animated Footer. A tall intro section sits above
  * it so you scroll down and watch the footer reveal — hands fully visible at the
@@ -44,7 +47,11 @@ export default function Preview() {
       </section>
 
       <div style={{ position: "relative", height: "100svh" }}>
-        <AnimatedFooter embedded />
+        <AnimatedFooter
+          embedded
+          leftImage={LEFT_HAND}
+          rightImage={RIGHT_HAND}
+        />
       </div>
     </>
   );

@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Compronents
 
-## Getting Started
+A personal shadcn-compatible registry for careful interface pieces: components,
+full pages, backend snippets, and inspiration studies.
 
-First, run the development server:
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app runs on [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Registry
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Catalog: `/r/registry.json`
+- Item JSON: `/r/<name>.json`
+- Current namespace: `@compronents`
 
-## Learn More
+Add an installable component by updating:
 
-To learn more about Next.js, take a look at the following resources:
+1. `src/registry/<name>.tsx`
+2. `src/lib/registry.ts`
+3. `src/components/demos/<name>.tsx`
+4. `src/components/demos/index.tsx`
+5. `src/lib/component-meta.ts`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If the component needs bespoke editing controls, add:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. `src/components/studios/<name>.tsx`
+2. `src/components/studios/index.tsx`
+3. `studioPath` and `editable` metadata in `src/lib/component-meta.ts`
 
-## Deploy on Vercel
+## Assets
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Component assets should be stored in Vercel Blob and served through the local
+asset route:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```txt
+/assets/<asset-path>
+```
+
+The route resolves each asset in this order:
+
+1. Per-asset Blob URL env var, for example
+   `COMPRONENTS_BLOB_ANIMATED_FOOTER_LEFT_HAND_URL`
+2. Shared Blob base URL, `COMPRONENTS_BLOB_BASE_URL`
+3. Local public fallback for development
+
+For the existing Animated Footer assets, upload these public files to Vercel
+Blob with matching pathnames:
+
+```txt
+public/blank-hand-right.png -> animated-footer/blank-hand-right.png
+public/blank-hand-left.png  -> animated-footer/blank-hand-left.png
+```
+
+The installable component defaults to the hosted Compronents asset route, so
+consumer projects receive stable public URLs while this app can swap the backing
+store to Blob without changing component source.
