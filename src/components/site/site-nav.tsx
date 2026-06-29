@@ -15,8 +15,8 @@ export function SiteNav() {
   const pathname = usePathname();
 
   return (
-    <header className="flex items-center justify-between py-8 text-xs tracking-[0.12em] uppercase">
-      <nav className="flex items-center gap-7">
+    <header className="flex flex-col gap-4 py-8 text-xs tracking-[0.12em] uppercase sm:flex-row sm:items-center sm:justify-between">
+      <nav className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-7">
         {links.map((link) => {
           const active = pathname.startsWith(link.href);
           return (
