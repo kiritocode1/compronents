@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
-:root {
+/* next-themes / forced dark uses a `.dark` class on <html>. */
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/* Quiet, monospace, near-black index aesthetic.                       */
+/* Low contrast, muted gray on black, a single restrained violet.      */
+/* ------------------------------------------------------------------ */
+:root,
+.light {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
+  --card: #fafafa;
+  --card-foreground: #1a1a1a;
+  --muted: #f2f2f2;
+  --muted-foreground: #6b6b6b;
+  --faint: #9a9a9a;
+  --surface: #f7f7f7;
+  --elevated: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.16);
+  --input: rgba(0, 0, 0, 0.12);
+  --ring: rgba(0, 0, 0, 0.22);
+  --accent: #6d5bd0;
+  --accent-foreground: #ffffff;
+  --accent-soft: #8b7fe0;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #e6e6e6;
+  --card: #0a0a0a;
+  --card-foreground: #e6e6e6;
+  --muted: #141414;
+  --muted-foreground: #6e6e6e;
+  --faint: #4a4a4a;
+  --surface: #080808;
+  --elevated: #0c0c0c;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: rgba(255, 255, 255, 0.22);
+  --accent: #a78bfa;
+  --accent-foreground: #0a0a0a;
+  --accent-soft: #c4b5fd;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint: var(--faint);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+
+  --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+@layer utilities {
+  /* Uppercase, letter-spaced mono label used for section headers */
+  .label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+
+  /* The subtle violet glow that bleeds down from the very top edge */
+  .top-glow::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 360px;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(
+      120% 100% at 50% -20%,
+      color-mix(in oklab, var(--accent) 22%, transparent) 0%,
+      transparent 60%
+    );
+  }
+
+  /* Shiki output: strip its background, inherit our mono sizing */
+  .shiki,
+  .shiki span {
+    background: transparent !important;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+  }
+  .shiki {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
 }
