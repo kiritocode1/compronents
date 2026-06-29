@@ -33,7 +33,7 @@ export default function RootLayout({
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full`}
     >
       <body className="top-glow min-h-full bg-background text-foreground">
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1200px] flex-col px-6 sm:px-10">
+        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-6 sm:px-10">
           <SiteNav />
           <div className="flex flex-1 flex-col">{children}</div>
         </div>

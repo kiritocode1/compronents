@@ -1,6 +1,7 @@
 "use client";
 
-import { RefreshCw, Sparkles } from "lucide-react";
+import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import AnimatedFooter, { type FooterLink } from "@/registry/animated-footer";
 
@@ -88,8 +89,18 @@ export default function AnimatedFooterStudio() {
   }
 
   return (
-    <div className="grid overflow-hidden rounded-lg border bg-surface lg:grid-cols-[minmax(0,1fr)_320px]">
-      <div className="relative min-h-[620px] overflow-hidden bg-black">
+    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
+      <div className="relative h-[680px] w-full overflow-hidden bg-black max-sm:h-[620px] xl:h-[720px]">
+        <Link
+          href="/components/animated-footer/preview"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open fullscreen"
+          title="Fullscreen"
+          className="absolute top-4 right-4 z-20 flex size-9 items-center justify-center rounded-md border border-white/15 bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <Maximize2 className="size-4" />
+        </Link>
         <AnimatedFooter
           key={studioKey}
           embedded
@@ -103,118 +114,126 @@ export default function AnimatedFooterStudio() {
         />
       </div>
 
-      <aside className="flex flex-col gap-5 border-t bg-background p-4 lg:border-t-0 lg:border-l">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="label">Studio</p>
-            <h2 className="mt-1 text-sm text-foreground uppercase">
-              Animated Footer
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={() => applyPreset(PRESETS[0])}
-            aria-label="Reset studio"
-            title="Reset studio"
-            className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <RefreshCw className="size-4" />
-          </button>
-        </div>
-
-        <div className="grid grid-cols-3 gap-1 rounded-md border bg-card p-1">
-          {PRESETS.map((item) => (
+      <aside className="border-t bg-background">
+        <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
+          <div className="flex items-center justify-between gap-4 xl:min-w-56">
+            <div>
+              <p className="label">Studio</p>
+              <h2 className="mt-1 text-sm text-foreground uppercase">
+                Animated Footer
+              </h2>
+            </div>
             <button
-              key={item.id}
               type="button"
-              onClick={() => applyPreset(item)}
-              className={`flex min-h-9 items-center justify-center rounded px-2 text-center text-[0.66rem] uppercase leading-tight transition-colors ${
-                preset.id === item.id
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
+              onClick={() => applyPreset(PRESETS[0])}
+              aria-label="Reset studio"
+              title="Reset studio"
+              className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
-              {item.label}
+              <RefreshCw className="size-4" />
             </button>
-          ))}
+          </div>
+
+          <div className="grid w-full grid-cols-3 gap-1 rounded-md border bg-card p-1 xl:max-w-xl">
+            {PRESETS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => applyPreset(item)}
+                className={`flex min-h-10 items-center justify-center rounded px-3 text-center text-[0.68rem] uppercase leading-tight transition-colors ${
+                  preset.id === item.id
+                    ? "bg-foreground text-background"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[minmax(220px,0.7fr)_minmax(320px,1.15fr)_minmax(320px,1fr)_minmax(220px,0.65fr)]">
+          <section className="grid content-start gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              <label className="flex flex-col gap-2">
+                <span className="label">Left word</span>
+                <input
+                  value={headingLeft}
+                  onChange={(event) => setHeadingLeft(event.target.value)}
+                  className="h-10 rounded-md border bg-card px-3 text-sm outline-none transition-colors focus:border-border-strong"
+                />
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="label">Right word</span>
+                <input
+                  value={headingRight}
+                  onChange={(event) => setHeadingRight(event.target.value)}
+                  className="h-10 rounded-md border bg-card px-3 text-sm outline-none transition-colors focus:border-border-strong"
+                />
+              </label>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <label className="flex flex-col gap-2">
+                <span className="label">Glyph</span>
+                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
+                  <input
+                    type="color"
+                    value={charColor}
+                    onChange={(event) => setCharColor(event.target.value)}
+                    className="size-5 border-0 bg-transparent p-0"
+                    aria-label="Glyph color"
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    {charColor}
+                  </span>
+                </span>
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="label">Hover</span>
+                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
+                  <input
+                    type="color"
+                    value={hoverColor}
+                    onChange={(event) => setHoverColor(event.target.value)}
+                    className="size-5 border-0 bg-transparent p-0"
+                    aria-label="Hover color"
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    {hoverColor}
+                  </span>
+                </span>
+              </label>
+            </div>
+          </section>
+
           <label className="flex flex-col gap-2">
-            <span className="label">Left word</span>
-            <input
-              value={headingLeft}
-              onChange={(event) => setHeadingLeft(event.target.value)}
-              className="h-9 rounded-md border bg-card px-3 text-sm outline-none transition-colors focus:border-border-strong"
+            <span className="label">Description</span>
+            <textarea
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              rows={6}
+              className="min-h-36 resize-none rounded-md border bg-card px-3 py-2 text-sm leading-relaxed outline-none transition-colors focus:border-border-strong"
             />
           </label>
+
           <label className="flex flex-col gap-2">
-            <span className="label">Right word</span>
-            <input
-              value={headingRight}
-              onChange={(event) => setHeadingRight(event.target.value)}
-              className="h-9 rounded-md border bg-card px-3 text-sm outline-none transition-colors focus:border-border-strong"
+            <span className="label">Links</span>
+            <textarea
+              value={linksValue}
+              onChange={(event) => setLinksValue(event.target.value)}
+              rows={6}
+              className="min-h-36 resize-none rounded-md border bg-card px-3 py-2 text-sm leading-relaxed outline-none transition-colors focus:border-border-strong"
             />
           </label>
-        </div>
 
-        <label className="flex flex-col gap-2">
-          <span className="label">Description</span>
-          <textarea
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            rows={4}
-            className="resize-none rounded-md border bg-card px-3 py-2 text-sm leading-relaxed outline-none transition-colors focus:border-border-strong"
-          />
-        </label>
-
-        <label className="flex flex-col gap-2">
-          <span className="label">Links</span>
-          <textarea
-            value={linksValue}
-            onChange={(event) => setLinksValue(event.target.value)}
-            rows={5}
-            className="resize-none rounded-md border bg-card px-3 py-2 text-sm leading-relaxed outline-none transition-colors focus:border-border-strong"
-          />
-        </label>
-
-        <div className="grid grid-cols-2 gap-3">
-          <label className="flex flex-col gap-2">
-            <span className="label">Glyph</span>
-            <span className="flex h-9 items-center gap-2 rounded-md border bg-card px-2">
-              <input
-                type="color"
-                value={charColor}
-                onChange={(event) => setCharColor(event.target.value)}
-                className="size-5 border-0 bg-transparent p-0"
-                aria-label="Glyph color"
-              />
-              <span className="text-xs text-muted-foreground">{charColor}</span>
-            </span>
-          </label>
-          <label className="flex flex-col gap-2">
-            <span className="label">Hover</span>
-            <span className="flex h-9 items-center gap-2 rounded-md border bg-card px-2">
-              <input
-                type="color"
-                value={hoverColor}
-                onChange={(event) => setHoverColor(event.target.value)}
-                className="size-5 border-0 bg-transparent p-0"
-                aria-label="Hover color"
-              />
-              <span className="text-xs text-muted-foreground">
-                {hoverColor}
-              </span>
-            </span>
-          </label>
-        </div>
-
-        <div className="flex items-start gap-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground">
-          <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />
-          <p>
-            Pixel contrast, word length, and hover heat decide whether the
-            footer feels like a quiet signature or a final title card.
-          </p>
+          <div className="flex items-start gap-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground lg:border-t-0 lg:pt-7">
+            <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />
+            <p>
+              Pixel contrast, word length, and hover heat decide whether the
+              footer feels like a quiet signature or a final title card.
+            </p>
+          </div>
         </div>
       </aside>
     </div>
