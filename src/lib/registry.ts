@@ -103,6 +103,186 @@ export interface RegistryItem {
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "accordion-frames",
+    title: "Accordion Frames",
+    description:
+      "A horizontal focus accordion: a row of thin image slats that spring open to a wide panel on hover (or tap), with a bordered focus indicator and light beams that track the open frame. Pure React, motion handled entirely by one CSS transition.",
+    section: "components",
+    category: "Layout",
+    pro: false,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/accordion-frames.tsx",
+        target: "components/ui/accordion-frames.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "portfolio-page",
+    title: "Portfolio Page",
+    description:
+      "A full single-screen portfolio with a clip-path page wipe. A dark landing reveals its wordmark line-by-line from behind masking bars, lists projects whose thumbnails slide open on hover, and carries a grainy noise overlay; clicking a project wipes the whole screen into a light project view and back. Built with Motion and AnimatePresence.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/portfolio-page.tsx",
+        target: "components/ui/portfolio-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "material-spotlight",
+    title: "Material Spotlight",
+    description:
+      "A cursor-driven material reveal on a 3D model. A near-matte standard material lit by a room-environment IBL gets a shader patch that carves a soft sphere of low-roughness, darker diffuse around the pointer's world-space hit — a wet, polished spotlight that follows the cursor and eases away. Three.js + WebGL.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/material-spotlight.tsx",
+        target: "components/ui/material-spotlight.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "inversa-scroll",
+    title: "Inversa Scroll",
+    description:
+      "A pinned hero that inverts through a masked window on scroll: the photo parallaxes up while an SVG slat-mask shrinks to punch a window through a dark overlay, the image desaturates inside it, a wireframe grid and pulsing markers fade in, copy blocks slide past, and a progress bar fills — then it re-opens to color. GSAP ScrollTrigger + Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/inversa-scroll.tsx",
+        target: "components/ui/inversa-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "award-list",
+    title: "Award List",
+    description:
+      "A hover-reactive list of accolades: each row is a three-state shutter that slides to reveal the project credit, settling up or down by exit edge, while the hovered row's image lands on a stacking preview pile in the corner that collapses on pause and clears on leave. GSAP + Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/award-list.tsx",
+        target: "components/ui/award-list.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "image-reveal",
+    title: "Image Reveal",
+    description:
+      "A scroll-powered stack of images that dissolve into each other: a clip-path wipes each frame away to expose the next, and a band of randomized ASCII characters scatters across the seam as it travels. Pinned GSAP ScrollTrigger with Lenis; owns its scroll container so it embeds anywhere.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/image-reveal.tsx",
+        target: "components/ui/image-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "mosaic-flip",
+    title: "Mosaic Flip",
+    description:
+      "A wall of 3D cubes that idles with a slow random breathing, then flips over in a center-out stagger to swap project images — each picture sliced across the grid and turned tile-by-tile. A queue absorbs rapid hovers. Built with GSAP.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/mosaic-flip.tsx",
+        target: "components/ui/mosaic-flip.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "overlay-menu",
+    title: "Overlay Menu",
+    description:
+      "A layered, curtain-style fullscreen navigation. A hamburger sweeps four colored panels down in sequence, clip-reveals a dark menu surface, and slides each link group up line-by-line. Built with a GSAP timeline and SplitText; wraps your page as a layout.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/overlay-menu.tsx",
+        target: "components/ui/overlay-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "ascii-logo",
+    title: "Interactive ASCII Logo",
+    description:
+      "A logo sampled onto a dot grid and rendered as flickering ASCII glyphs on a canvas. The cursor shoves nearby characters outward with spring physics, so the wordmark scatters and reforms as you move through it. No dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ascii-logo.tsx",
+        target: "components/ui/ascii-logo.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "animated-footer",
     title: "Animated Footer",
     description:
