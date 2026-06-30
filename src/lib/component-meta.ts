@@ -334,6 +334,30 @@ function pageAssets(prefix: string, limit = 4): ComponentAssetDoc[] {
     }));
 }
 
+function assetsByIds(ids: string[]): ComponentAssetDoc[] {
+  return ids
+    .map((id) => assetItems.find((asset) => asset.id === id))
+    .filter((asset): asset is NonNullable<typeof asset> => Boolean(asset))
+    .map((asset) => ({
+      id: asset.id,
+      label: asset.label,
+      provider: asset.provider,
+      pathname: asset.pathname,
+      fallbackPath: asset.fallbackPath,
+      role: asset.role,
+    }));
+}
+
+const march2025TemplateAssetDocs = assetsByIds([
+  "march-2025-home-hero",
+  "march-2025-fonts-rader-pprader-bold",
+  "march-2025-fonts-messina-sans-messinasans-regular",
+  "march-2025-fonts-messina-sans-mono-messinasansmono-regular",
+  "march-2025-work-work-1",
+  "march-2025-project-banner",
+  "march-2025-about-about-hero",
+  "march-2025-reviews-review-1",
+]);
 const archiveCommercePageAssetDocs = pageAssets("archive-commerce-page-", 5);
 const interiorStudioPageAssetDocs = pageAssets("interior-studio-page-", 5);
 const diningRoomPageAssetDocs = pageAssets("dining-room-page-", 5);
@@ -341,6 +365,81 @@ const filmStudioPageAssetDocs = pageAssets("film-studio-page-", 5);
 const darkCatalogPageAssetDocs = pageAssets("dark-catalog-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "march-2025-template": {
+    demoPath: "src/components/demos/march-2025-template.tsx",
+    studioPath: "src/components/studios/march-2025-template.tsx",
+    nuance: [
+      {
+        label: "The whole site is the component",
+        description:
+          "The template keeps the original Home, Work, Project, About, FAQ, and Contact route set inside a MemoryRouter, with Framer Motion AnimatePresence preserving the block transition between pages.",
+      },
+      {
+        label: "Typography is part of the replication",
+        description:
+          "The Rader display family plus Messina Sans and Messina Sans Mono are uploaded to Blob and loaded through scoped font-face rules so the page keeps the source character.",
+      },
+      {
+        label: "Motion is source-backed",
+        description:
+          "GSAP, ScrollTrigger, SplitType, and @gsap/react recreate the line reveals, sticky title sequence, menu expansion, FAQ accordion, work carousel swaps, and review text transitions.",
+      },
+      {
+        label: "Scroll nuance is preserved",
+        description:
+          "Lenis drives smooth scroll and project-image parallax, while the Work view stays as the original fixed carousel with animated title and image replacement.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Start the embedded website on /, /work, /sample-project, /about, /faq, or /contact.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted asset base starting at ${getHostedAssetUrl(
+          "march-2025-template/home/hero.jpg",
+        )}.`,
+      },
+      {
+        name: "className / style",
+        control: "text",
+        description:
+          "Optional wrapper styling for consumers embedding the full website template.",
+      },
+    ],
+    assets: march2025TemplateAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/march-2025-template"',
+        description:
+          "Base URL for the 53 Blob-hosted source assets, including images and fonts.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/sample-project" | "/about" | "/contact" | "/faq"',
+        default: '"/"',
+        description:
+          "Initial route used by the internal MemoryRouter when the template mounts.",
+      },
+      {
+        name: "className",
+        type: "string",
+        default: '""',
+        description: "Optional class added to the March template root.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Optional inline styles for the March template root.",
+      },
+    ],
+  },
   "archive-commerce-page": {
     demoPath: "src/components/demos/archive-commerce-page.tsx",
     studioPath: "src/components/studios/archive-commerce-page.tsx",

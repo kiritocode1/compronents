@@ -19,6 +19,7 @@ import FrameScrollDemo from "./frame-scroll";
 import ImageRevealDemo from "./image-reveal";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
+import March2025TemplateDemo from "./march-2025-template";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MosaicFlipDemo from "./mosaic-flip";
 import OverlayMenuDemo from "./overlay-menu";
@@ -61,4 +62,5 @@ export const demos: Record<string, ComponentType> = {
   "dining-room-page": DiningRoomPageDemo,
   "film-studio-page": FilmStudioPageDemo,
   "dark-catalog-page": DarkCatalogPageDemo,
+  "march-2025-template": March2025TemplateDemo,
 };

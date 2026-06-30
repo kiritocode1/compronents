@@ -19,6 +19,7 @@ import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
+import March2025TemplateStudio from "./march-2025-template";
 import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
 import OverlayMenuStudio from "./overlay-menu";
@@ -61,4 +62,5 @@ export const studios: Record<string, StudioComponent> = {
   "dining-room-page": DiningRoomPageStudio,
   "film-studio-page": FilmStudioPageStudio,
   "dark-catalog-page": DarkCatalogPageStudio,
+  "march-2025-template": March2025TemplateStudio,
 };

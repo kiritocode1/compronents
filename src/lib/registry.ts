@@ -128,6 +128,40 @@ export interface RegistryItem {
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "march-2025-template",
+    title: "March 2025 Template",
+    description:
+      "A source-backed full website template from the March 2025 portfolio app. It ships the complete routed experience with Blob-hosted images and fonts, Rader and Messina typography, GSAP SplitType text reveals, block route transitions, Lenis smooth scroll, parallax project images, work carousel, reviews, FAQ, contact, and footer.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-01",
+    type: "registry:ui",
+    dependencies: [
+      "@gsap/react",
+      "framer-motion",
+      "gsap",
+      "lenis",
+      "lucide-react",
+      "react-icons",
+      "react-router-dom",
+      "split-type",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/march-2025-template/index.tsx",
+        target: "components/ui/march-2025-template/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/march-2025-template/styles.ts",
+        target: "components/ui/march-2025-template/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "archive-commerce-page",
     title: "Archive Commerce Page",
     description:

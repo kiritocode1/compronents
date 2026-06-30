@@ -19,6 +19,7 @@ import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
+import March2025TemplatePreview from "./march-2025-template";
 import MaterialSpotlightPreview from "./material-spotlight";
 import MosaicFlipPreview from "./mosaic-flip";
 import OverlayMenuPreview from "./overlay-menu";
@@ -63,4 +64,5 @@ export const previews: Record<string, ComponentType> = {
   "dining-room-page": DiningRoomPagePreview,
   "film-studio-page": FilmStudioPagePreview,
   "dark-catalog-page": DarkCatalogPagePreview,
+  "march-2025-template": March2025TemplatePreview,
 };
