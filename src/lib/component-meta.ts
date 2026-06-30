@@ -320,7 +320,365 @@ const portfolioPageAssets = assetItems
     role: asset.role,
   }));
 
+function pageAssets(prefix: string, limit = 4): ComponentAssetDoc[] {
+  return assetItems
+    .filter((asset) => asset.id.startsWith(prefix))
+    .slice(0, limit)
+    .map((asset) => ({
+      id: asset.id,
+      label: asset.label,
+      provider: asset.provider,
+      pathname: asset.pathname,
+      fallbackPath: asset.fallbackPath,
+      role: asset.role,
+    }));
+}
+
+const archiveCommercePageAssetDocs = pageAssets("archive-commerce-page-", 5);
+const interiorStudioPageAssetDocs = pageAssets("interior-studio-page-", 5);
+const diningRoomPageAssetDocs = pageAssets("dining-room-page-", 5);
+const filmStudioPageAssetDocs = pageAssets("film-studio-page-", 5);
+const darkCatalogPageAssetDocs = pageAssets("dark-catalog-page-", 5);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "archive-commerce-page": {
+    demoPath: "src/components/demos/archive-commerce-page.tsx",
+    studioPath: "src/components/studios/archive-commerce-page.tsx",
+    nuance: [
+      {
+        label: "The first viewport is the composition",
+        description:
+          "The hero is designed as a full-screen storefront, with the motion asset held in the center, the title anchored to the lower left, product cards on the lower right, and the summary panel floating above the grid.",
+      },
+      {
+        label: "Assets are product roles, not decoration",
+        description:
+          "The hero GIF, product previews, and article images are separate props so the page can be rethemed without breaking the archive rhythm.",
+      },
+      {
+        label: "The index continues the same system",
+        description:
+          "After the first viewport, the product and note sections keep the same object-study cadence so it works as a complete page rather than a single hero.",
+      },
+    ],
+    editable: [
+      {
+        name: "title / subtitle / kicker",
+        control: "text",
+        description:
+          "Hero title, summary copy, and small uppercase context line.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        control: "color",
+        description:
+          "The full page palette used by the hero, index, and notes.",
+      },
+      {
+        name: "heroImage / productImages / articleImages",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "archive-commerce-page/hero.gif",
+        )}.`,
+      },
+    ],
+    assets: archiveCommercePageAssetDocs,
+    api: [
+      {
+        name: "title / subtitle / kicker",
+        type: "string",
+        default: "BLANK ARCHIVE / archive copy / drop label",
+        description: "Copy for the first viewport and summary panel.",
+      },
+      {
+        name: "heroImage",
+        type: "string",
+        default: '".../archive-commerce-page/hero.gif"',
+        description: "Animated visual used in the central hero window.",
+      },
+      {
+        name: "productImages / articleImages",
+        type: "string[]",
+        default: "6 products / 3 article notes",
+        description: "Images used in the hero strip, product index, and notes.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        type: "string",
+        default: '"#f7f5ef" / "#16130f" / "#6f675d" / "#c84f2f"',
+        description: "Page palette and action accent.",
+      },
+    ],
+  },
+  "interior-studio-page": {
+    demoPath: "src/components/demos/interior-studio-page.tsx",
+    studioPath: "src/components/studios/interior-studio-page.tsx",
+    nuance: [
+      {
+        label: "Hero needs more than one viewport",
+        description:
+          "The hero is intentionally 135svh, giving the background image and glass stat panels enough room to breathe before the page transitions into editorial content.",
+      },
+      {
+        label: "Glass panels use the same palette",
+        description:
+          "The stat cards are controlled through the glassColor prop, so dark, mineral, and warm versions preserve the same spatial hierarchy.",
+      },
+      {
+        label: "Project wall carries the source page rhythm",
+        description:
+          "Four tall project tiles follow the manifesto and keep the page useful as a template, not just as a hero treatment.",
+      },
+    ],
+    editable: [
+      {
+        name: "headline / intro",
+        control: "text",
+        description: "Centered hero heading and supporting studio copy.",
+      },
+      {
+        name: "background / textColor / softColor / glassColor",
+        control: "color",
+        description:
+          "Dark page base, primary text, muted text, and glass stat surface.",
+      },
+      {
+        name: "heroImage / projectImages / processImages",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "interior-studio-page/hero.jpg",
+        )}.`,
+      },
+    ],
+    assets: interiorStudioPageAssetDocs,
+    api: [
+      {
+        name: "headline / intro",
+        type: "string",
+        default: "interior studio headline / short intro",
+        description: "Hero copy shown over the photographic background.",
+      },
+      {
+        name: "heroImage",
+        type: "string",
+        default: '".../interior-studio-page/hero.jpg"',
+        description: "Full-bleed hero image.",
+      },
+      {
+        name: "projectImages / processImages",
+        type: "string[]",
+        default: "4 project images / 4 process images",
+        description: "Image sets used in the project wall and process archive.",
+      },
+      {
+        name: "background / textColor / softColor / glassColor",
+        type: "string",
+        default: '"#171615" / "#f2ede6" / "#c9beb0" / "#f2ede6"',
+        description: "Surface, text, muted tone, and glass card fill.",
+      },
+    ],
+  },
+  "dining-room-page": {
+    demoPath: "src/components/demos/dining-room-page.tsx",
+    studioPath: "src/components/studios/dining-room-page.tsx",
+    nuance: [
+      {
+        label: "Classic type, modern layout",
+        description:
+          "The page uses serif display type for the dining identity, then switches to a restrained sans-serif for navigation, captions, and controls.",
+      },
+      {
+        label: "Collage behaves like a long page",
+        description:
+          "The about section stretches to 220svh and places six images around a sticky text block, preserving the full-page dining source rhythm.",
+      },
+      {
+        label: "Menu and reservation are included",
+        description:
+          "The shipped component includes menu category cards and a reservation CTA so it is a complete page template.",
+      },
+    ],
+    editable: [
+      {
+        name: "title / location / since / about",
+        control: "text",
+        description: "Hero identity, footer facts, and central about copy.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        control: "color",
+        description: "Warm dining palette used across the complete page.",
+      },
+      {
+        name: "heroImage / aboutImages / menuImages / ctaImage",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "dining-room-page/hero.jpg",
+        )}.`,
+      },
+    ],
+    assets: diningRoomPageAssetDocs,
+    api: [
+      {
+        name: "title / location / since / about",
+        type: "string",
+        default: "BLANK Dining / Florence, IT / Since 1984 / about copy",
+        description: "Page copy for hero, collage, and footer facts.",
+      },
+      {
+        name: "heroImage / ctaImage",
+        type: "string",
+        default: '".../dining-room-page/hero.jpg" / ".../cta.jpg"',
+        description: "Hero and reservation images.",
+      },
+      {
+        name: "aboutImages / menuImages",
+        type: "string[]",
+        default: "6 about details / 5 menu categories",
+        description: "Image sets used in the long collage and menu grid.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        type: "string",
+        default: '"#f4efe7" / "#191612" / "#81766b" / "#7f2f21"',
+        description: "Page palette and accent color.",
+      },
+    ],
+  },
+  "film-studio-page": {
+    demoPath: "src/components/demos/film-studio-page.tsx",
+    studioPath: "src/components/studios/film-studio-page.tsx",
+    nuance: [
+      {
+        label: "The hero is video-first",
+        description:
+          "A muted looping MP4 fills the first viewport and is treated with grayscale contrast, keeping the page kinetic without requiring JavaScript animation.",
+      },
+      {
+        label: "Editorial pressure continues below",
+        description:
+          "The manifesto, banner, tag cluster, and selected-frame grid keep the stark production-house identity after the hero.",
+      },
+      {
+        label: "Accent color is functional",
+        description:
+          "The accent drives tags and key statements, so changing it shifts the whole studio mood without rewriting the layout.",
+      },
+    ],
+    editable: [
+      {
+        name: "headline / manifesto",
+        control: "text",
+        description: "Hero headline and central production statement.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        control: "color",
+        description: "Noir palette used across the video, banner, and frames.",
+      },
+      {
+        name: "videoSrc / bannerImage / spotlightImages",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "film-studio-page/hero.mp4",
+        )}.`,
+      },
+    ],
+    assets: filmStudioPageAssetDocs,
+    api: [
+      {
+        name: "headline / manifesto",
+        type: "string",
+        default: "film headline / manifesto copy",
+        description: "Main text for the video hero and callout section.",
+      },
+      {
+        name: "videoSrc / bannerImage",
+        type: "string",
+        default: '".../film-studio-page/hero.mp4" / ".../banner.jpg"',
+        description: "Hero MP4 and full-screen banner still.",
+      },
+      {
+        name: "spotlightImages",
+        type: "string[]",
+        default: "8 Blob-hosted JPGs",
+        description: "Selected frame images in the closing grid.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        type: "string",
+        default: '"#050505" / "#f1efe6" / "#8e8a80" / "#d7ff2f"',
+        description: "Page palette and statement accent.",
+      },
+    ],
+  },
+  "dark-catalog-page": {
+    demoPath: "src/components/demos/dark-catalog-page.tsx",
+    studioPath: "src/components/studios/dark-catalog-page.tsx",
+    nuance: [
+      {
+        label: "A product world before a product grid",
+        description:
+          "The first viewport uses a gridded light field, side signals, and a centered wordmark to establish atmosphere before showing the catalog.",
+      },
+      {
+        label: "High contrast but not one-note",
+        description:
+          "The accent can move from hazard yellow to cyan or orange while muted copy and image grids keep the page readable.",
+      },
+      {
+        label: "Catalog and team are part of the page",
+        description:
+          "Featured releases, active catalog cards, and operator portraits are included so the composition works as a launch page.",
+      },
+    ],
+    editable: [
+      {
+        name: "title / leftSignal / rightSignal / manifesto",
+        control: "text",
+        description: "Hero labels, image alt title, and central statement.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        control: "color",
+        description: "Dark catalog palette and signal color.",
+      },
+      {
+        name: "logoImage / featuredImages / catalogImages / teamImages",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "dark-catalog-page/wordmark.png",
+        )}.`,
+      },
+    ],
+    assets: darkCatalogPageAssetDocs,
+    api: [
+      {
+        name: "title / leftSignal / rightSignal / manifesto",
+        type: "string",
+        default: "BLANK LOCK / signal labels / manifesto copy",
+        description: "Hero and manifesto copy.",
+      },
+      {
+        name: "logoImage",
+        type: "string",
+        default: '".../dark-catalog-page/wordmark.png"',
+        description: "Centered hero wordmark image.",
+      },
+      {
+        name: "featuredImages / catalogImages / teamImages",
+        type: "string[]",
+        default: "4 featured / 4 catalog / 5 team images",
+        description: "Image sets for release tiles, catalog cards, and team.",
+      },
+      {
+        name: "background / textColor / mutedColor / accentColor",
+        type: "string",
+        default: '"#050507" / "#e9e5d7" / "#807a70" / "#ddff39"',
+        description: "Page palette and signal accent.",
+      },
+    ],
+  },
   "spiral-gallery": {
     demoPath: "src/components/demos/spiral-gallery.tsx",
     studioPath: "src/components/studios/spiral-gallery.tsx",

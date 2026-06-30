@@ -18,7 +18,7 @@ import { highlight } from "@/lib/shiki";
 
 export function generateStaticParams() {
   return registryItems
-    .filter((item) => item.section === "components")
+    .filter((item) => item.section === "pages")
     .map((item) => ({ name: item.name }));
 }
 
@@ -29,7 +29,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { name } = await params;
   const item = getRegistryItem(name);
-  if (!item) return { title: "Not found" };
+  if (!item || item.section !== "pages") return { title: "Not found" };
   return { title: item.title, description: item.description };
 }
 
@@ -42,14 +42,14 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-export default async function ComponentPage({
+export default async function PageRegistryItemPage({
   params,
 }: {
   params: Promise<{ name: string }>;
 }) {
   const { name } = await params;
   const item = getRegistryItem(name);
-  if (!item || item.section !== "components") notFound();
+  if (!item || item.section !== "pages") notFound();
 
   const meta = getComponentMeta(name);
   const built = await buildRegistryItem(name);
@@ -76,8 +76,6 @@ export default async function ComponentPage({
     ),
   ]);
 
-  // Usage shows everything needed to reproduce the demo: how it's used
-  // (demo.tsx), then every source file the component ships.
   const usageTabs: CodeTab[] = [
     ...(demoHtml && demoSource
       ? [{ label: "demo.tsx", html: demoHtml, raw: demoSource }]
@@ -90,10 +88,10 @@ export default async function ComponentPage({
       <header className="flex flex-col gap-4">
         <nav className="flex items-center gap-2 text-xs tracking-[0.12em] uppercase">
           <Link
-            href="/components"
+            href="/pages"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Components
+            Pages
           </Link>
           <span className="text-faint">/</span>
           <span className="text-foreground">{item.title}</span>
@@ -106,7 +104,7 @@ export default async function ComponentPage({
         </p>
       </header>
 
-      <Row label="Component">
+      <Row label="Page">
         <ComponentStudioPanel name={item.name} />
       </Row>
 

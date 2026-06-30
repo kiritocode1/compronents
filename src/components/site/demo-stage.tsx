@@ -4,16 +4,18 @@ import { Maximize2, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { demos } from "@/components/demos";
+import { getRegistryItem } from "@/lib/registry";
 
 export function DemoStage({ name }: { name: string }) {
   const Demo = demos[name];
+  const section = getRegistryItem(name)?.section ?? "components";
   const [resetKey, setResetKey] = useState(0);
 
   return (
     <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden rounded-lg border bg-surface p-10">
       <div className="absolute top-3 right-3 z-10 flex items-center gap-1">
         <Link
-          href={`/components/${name}/preview`}
+          href={`/${section}/${name}/preview`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open fullscreen"

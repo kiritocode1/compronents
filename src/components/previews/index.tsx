@@ -3,16 +3,21 @@
 import type { ComponentType } from "react";
 import AccordionFramesPreview from "./accordion-frames";
 import AnimatedFooterPreview from "./animated-footer";
+import ArchiveCommercePagePreview from "./archive-commerce-page";
 import AsciiImageRevealPreview from "./ascii-image-reveal";
 import AsciiLogoPreview from "./ascii-logo";
 import AwardListPreview from "./award-list";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
 import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
+import DarkCatalogPagePreview from "./dark-catalog-page";
 import DetroitParisSliderPreview from "./detroit-paris-slider";
+import DiningRoomPagePreview from "./dining-room-page";
 import FallingTagListPreview from "./falling-tag-list";
+import FilmStudioPagePreview from "./film-studio-page";
 import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
+import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
 import MaterialSpotlightPreview from "./material-spotlight";
 import MosaicFlipPreview from "./mosaic-flip";
@@ -53,4 +58,9 @@ export const previews: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,
+  "archive-commerce-page": ArchiveCommercePagePreview,
+  "interior-studio-page": InteriorStudioPagePreview,
+  "dining-room-page": DiningRoomPagePreview,
+  "film-studio-page": FilmStudioPagePreview,
+  "dark-catalog-page": DarkCatalogPagePreview,
 };

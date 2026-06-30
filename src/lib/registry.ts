@@ -128,6 +128,106 @@ export interface RegistryItem {
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "archive-commerce-page",
+    title: "Archive Commerce Page",
+    description:
+      "A full-screen editorial storefront adapted from the full-pages archive source. The first viewport uses an animated Blob-hosted hero, huge bottom-anchored type, product previews, and a compact action panel, then opens into a product index and note grid. Built as a self-contained page component with palette, title, subtitle, and asset props.",
+    section: "pages",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/archive-commerce-page.tsx",
+        target: "components/ui/archive-commerce-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "interior-studio-page",
+    title: "Interior Studio Page",
+    description:
+      "A full-page interiors studio composition with a 135svh photographic hero, glass stat panels, a material-direction manifesto, a four-room project wall, and a process archive. The page is intentionally spacious and fullscreen-first, with editable headline, intro, palette, and hosted asset sets.",
+    section: "pages",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/interior-studio-page.tsx",
+        target: "components/ui/interior-studio-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "dining-room-page",
+    title: "Dining Room Page",
+    description:
+      "A refined restaurant homepage with a cinematic hero, sticky editorial statement, long image collage, menu-card grid, and reservation call-to-action. It ports the full-page dining rhythm into a configurable page component with Blob-hosted hero, about, menu, and CTA assets.",
+    section: "pages",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dining-room-page.tsx",
+        target: "components/ui/dining-room-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "film-studio-page",
+    title: "Film Studio Page",
+    description:
+      "A stark production-house page with a muted looping MP4 hero, hard editorial typography, a full-screen banner statement, tag cluster, and selected-frame grid. The component keeps the source site's shadow-and-frame attitude while exposing headline, manifesto, color, video, and still-image props.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/film-studio-page.tsx",
+        target: "components/ui/film-studio-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "dark-catalog-page",
+    title: "Dark Catalog Page",
+    description:
+      "A high-contrast catalog page for games, media launches, and cinematic product systems. It opens with a gridded dark hero and Blob-hosted wordmark, then moves into manifesto copy, featured releases, a catalog grid, and a team row. Tunable through title, manifesto, palette, and image arrays.",
+    section: "pages",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dark-catalog-page.tsx",
+        target: "components/ui/dark-catalog-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "spiral-gallery",
     title: "Spiral Gallery",
     description:

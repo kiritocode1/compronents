@@ -1,4 +1,6 @@
 const ASSET_ORIGIN = "https://compronents.dev";
+const BLOB_PUBLIC_ORIGIN =
+  "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com";
 export const ASSET_ROUTE_PREFIX = "/assets";
 
 export type AssetProvider = "vercel-blob";
@@ -204,7 +206,227 @@ const spiralGalleryAssets = Array.from({ length: 12 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const archiveCommercePageAssets = [
+  {
+    id: "archive-commerce-page-hero",
+    label: "Archive Commerce Page hero motion",
+    provider: "vercel-blob",
+    pathname: "archive-commerce-page/hero.gif",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/hero.gif`,
+    role: "Animated visual used as the hero's central archive window.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 6 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `archive-commerce-page-product-${n}`,
+      label: `Archive Commerce Page product ${n}`,
+      provider: "vercel-blob",
+      pathname: `archive-commerce-page/product-${n}.jpeg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/product-${n}.jpeg`,
+      role: "Product surface in the hero strip and archive grid.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+  ...Array.from({ length: 3 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `archive-commerce-page-article-${n}`,
+      label: `Archive Commerce Page note ${n}`,
+      provider: "vercel-blob",
+      pathname: `archive-commerce-page/article-${n}.jpeg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/article-${n}.jpeg`,
+      role: "Editorial note image in the closing archive section.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
+const interiorStudioPageAssets = [
+  {
+    id: "interior-studio-page-hero",
+    label: "Interior Studio Page hero image",
+    provider: "vercel-blob",
+    pathname: "interior-studio-page/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/hero.jpg`,
+    role: "Full-bleed interior hero photo behind the headline and stats.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 4 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `interior-studio-page-project-${n}`,
+      label: `Interior Studio Page project ${n}`,
+      provider: "vercel-blob",
+      pathname: `interior-studio-page/project-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/project-${n}.jpg`,
+      role: "Selected room image in the project wall.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+  ...Array.from({ length: 4 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `interior-studio-page-process-${n}`,
+      label: `Interior Studio Page process ${n}`,
+      provider: "vercel-blob",
+      pathname: `interior-studio-page/process-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/process-${n}.jpg`,
+      role: "Material and process image in the closing archive.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
+const diningRoomPageAssets = [
+  {
+    id: "dining-room-page-hero",
+    label: "Dining Room Page hero image",
+    provider: "vercel-blob",
+    pathname: "dining-room-page/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/hero.jpg`,
+    role: "Full-bleed dining room hero photo.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 6 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `dining-room-page-about-${n}`,
+      label: `Dining Room Page detail ${n}`,
+      provider: "vercel-blob",
+      pathname: `dining-room-page/about-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/about-${n}.jpg`,
+      role: "Image in the long dining-room collage.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+  ...Array.from({ length: 5 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `dining-room-page-menu-${n}`,
+      label: `Dining Room Page menu ${n}`,
+      provider: "vercel-blob",
+      pathname: `dining-room-page/menu-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/menu-${n}.jpg`,
+      role: "Menu category image in the card grid.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+  {
+    id: "dining-room-page-cta",
+    label: "Dining Room Page reservation image",
+    provider: "vercel-blob",
+    pathname: "dining-room-page/cta.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/cta.jpg`,
+    role: "Reservation call-to-action image.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+];
+
+const filmStudioPageAssets = [
+  {
+    id: "film-studio-page-hero",
+    label: "Film Studio Page hero footage",
+    provider: "vercel-blob",
+    pathname: "film-studio-page/hero.mp4",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/hero.mp4`,
+    role: "Muted looping MP4 used in the film studio hero.",
+    notes:
+      "Upload this video to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  {
+    id: "film-studio-page-banner",
+    label: "Film Studio Page banner image",
+    provider: "vercel-blob",
+    pathname: "film-studio-page/banner.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/banner.jpg`,
+    role: "Full-screen banner image behind the production statement.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 8 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `film-studio-page-spotlight-${n}`,
+      label: `Film Studio Page frame ${n}`,
+      provider: "vercel-blob",
+      pathname: `film-studio-page/spotlight-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/spotlight-${n}.jpg`,
+      role: "Selected frame image in the closing grid.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
+const darkCatalogPageAssets = [
+  {
+    id: "dark-catalog-page-wordmark",
+    label: "Dark Catalog Page wordmark",
+    provider: "vercel-blob",
+    pathname: "dark-catalog-page/wordmark.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/wordmark.png`,
+    role: "Centered hero wordmark image.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 4 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `dark-catalog-page-featured-${n}`,
+      label: `Dark Catalog Page featured ${n}`,
+      provider: "vercel-blob",
+      pathname: `dark-catalog-page/featured-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/featured-${n}.jpg`,
+      role: "Featured project tile image.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+  ...Array.from({ length: 4 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `dark-catalog-page-catalog-${n}`,
+      label: `Dark Catalog Page catalog ${n}`,
+      provider: "vercel-blob",
+      pathname: `dark-catalog-page/catalog-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/catalog-${n}.jpg`,
+      role: "Catalog release image.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+  ...Array.from({ length: 5 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `dark-catalog-page-team-${n}`,
+      label: `Dark Catalog Page team ${n}`,
+      provider: "vercel-blob",
+      pathname: `dark-catalog-page/team-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/team-${n}.jpg`,
+      role: "Operator portrait in the team row.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
 export const assetItems = [
+  ...archiveCommercePageAssets,
+  ...interiorStudioPageAssets,
+  ...diningRoomPageAssets,
+  ...filmStudioPageAssets,
+  ...darkCatalogPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
   ...fallingTagListAssets,

@@ -3,16 +3,21 @@
 import type { ComponentType } from "react";
 import AccordionFramesDemo from "./accordion-frames";
 import AnimatedFooterDemo from "./animated-footer";
+import ArchiveCommercePageDemo from "./archive-commerce-page";
 import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
 import AwardListDemo from "./award-list";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CreativeClutterDemo from "./creative-clutter";
 import CrtDisplayDemo from "./crt-display";
+import DarkCatalogPageDemo from "./dark-catalog-page";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
+import DiningRoomPageDemo from "./dining-room-page";
 import FallingTagListDemo from "./falling-tag-list";
+import FilmStudioPageDemo from "./film-studio-page";
 import FrameScrollDemo from "./frame-scroll";
 import ImageRevealDemo from "./image-reveal";
+import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MosaicFlipDemo from "./mosaic-flip";
@@ -51,4 +56,9 @@ export const demos: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "spiral-gallery": SpiralGalleryDemo,
+  "archive-commerce-page": ArchiveCommercePageDemo,
+  "interior-studio-page": InteriorStudioPageDemo,
+  "dining-room-page": DiningRoomPageDemo,
+  "film-studio-page": FilmStudioPageDemo,
+  "dark-catalog-page": DarkCatalogPageDemo,
 };

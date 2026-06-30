@@ -5,7 +5,7 @@ import { getRegistryItem, registryItems } from "@/lib/registry";
 
 export function generateStaticParams() {
   return registryItems
-    .filter((item) => item.section === "components")
+    .filter((item) => item.section === "pages")
     .map((item) => ({ name: item.name }));
 }
 
@@ -16,17 +16,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { name } = await params;
   const item = getRegistryItem(name);
-  if (!item || item.section !== "components") return { title: "Not found" };
+  if (!item || item.section !== "pages") return { title: "Not found" };
   return { title: `${item.title} — Fullscreen` };
 }
 
-export default async function PreviewPage({
+export default async function PagePreviewPage({
   params,
 }: {
   params: Promise<{ name: string }>;
 }) {
   const { name } = await params;
   const item = getRegistryItem(name);
-  if (!item || item.section !== "components") notFound();
+  if (!item || item.section !== "pages") notFound();
   return <FullscreenPreview name={name} />;
 }

@@ -3,16 +3,21 @@
 import type { ComponentType } from "react";
 import AccordionFramesStudio from "./accordion-frames";
 import AnimatedFooterStudio from "./animated-footer";
+import ArchiveCommercePageStudio from "./archive-commerce-page";
 import AsciiImageRevealStudio from "./ascii-image-reveal";
 import AsciiLogoStudio from "./ascii-logo";
 import AwardListStudio from "./award-list";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
+import DarkCatalogPageStudio from "./dark-catalog-page";
 import DetroitParisSliderStudio from "./detroit-paris-slider";
+import DiningRoomPageStudio from "./dining-room-page";
 import FallingTagListStudio from "./falling-tag-list";
+import FilmStudioPageStudio from "./film-studio-page";
 import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
+import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
 import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
@@ -51,4 +56,9 @@ export const studios: Record<string, StudioComponent> = {
   "falling-tag-list": FallingTagListStudio,
   "frame-scroll": FrameScrollStudio,
   "spiral-gallery": SpiralGalleryStudio,
+  "archive-commerce-page": ArchiveCommercePageStudio,
+  "interior-studio-page": InteriorStudioPageStudio,
+  "dining-room-page": DiningRoomPageStudio,
+  "film-studio-page": FilmStudioPageStudio,
+  "dark-catalog-page": DarkCatalogPageStudio,
 };
