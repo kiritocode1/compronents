@@ -185,7 +185,7 @@ export const registryItems: RegistryItem[] = [
     name: "interior-studio-page",
     title: "Interior Studio Page",
     description:
-      "A full-page interiors studio composition with a 135svh photographic hero, glass stat panels, a material-direction manifesto, a four-room project wall, and a process archive. The page is intentionally spacious and fullscreen-first, with editable headline, intro, palette, and hosted asset sets.",
+      "A source-backed Terrene website template with Blob-hosted generated assets, interior imagery, logos, Lenis smooth scroll, GSAP ScrollTrigger sequences, SplitType copy reveals, menu choreography, spotlight gallery, review carousel, source routes, and view transitions.",
     section: "pages",
     category: "Layout",
     pro: true,

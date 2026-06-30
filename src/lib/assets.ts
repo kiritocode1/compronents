@@ -401,44 +401,106 @@ const archiveCommercePageAssets = [
   }),
 ];
 
-const interiorStudioPageAssets = [
-  {
-    id: "interior-studio-page-hero",
-    label: "Interior Studio Page hero image",
-    provider: "vercel-blob",
-    pathname: "interior-studio-page/hero.jpg",
-    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/hero.jpg`,
-    role: "Full-bleed interior hero photo behind the headline and stats.",
-    notes:
-      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-  } as const satisfies AssetItem,
-  ...Array.from({ length: 4 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `interior-studio-page-project-${n}`,
-      label: `Interior Studio Page project ${n}`,
+const interiorStudioPageAssetSources = [
+  "archive/archive-1.jpg",
+  "archive/archive-2.jpg",
+  "archive/archive-3.jpg",
+  "archive/archive-4.jpg",
+  "archive/archive-5.jpg",
+  "archive/archive-6.jpg",
+  "archive/archive-7.jpg",
+  "archive/archive-8.jpg",
+  "archive/archive-9.jpg",
+  "archive/archive-10.jpg",
+  "archive/archive-11.jpg",
+  "archive/archive-12.jpg",
+  "archive/archive-13.jpg",
+  "archive/archive-14.jpg",
+  "archive/archive-15.jpg",
+  "archive/archive-16.jpg",
+  "archive/archive-17.jpg",
+  "archive/archive-18.jpg",
+  "archive/archive-19.jpg",
+  "archive/archive-20.jpg",
+  "client-reviews/client-review-1.jpg",
+  "client-reviews/client-review-2.jpg",
+  "client-reviews/client-review-3.jpg",
+  "client-reviews/client-review-4.jpg",
+  "client-reviews/client-review-5.jpg",
+  "clients/client-1.jpg",
+  "clients/client-2.jpg",
+  "clients/client-3.jpg",
+  "clients/client-4.jpg",
+  "clients/client-5.jpg",
+  "contact/contact-img.jpg",
+  "featured-projects/featured-work-1.jpg",
+  "featured-projects/featured-work-2.jpg",
+  "featured-projects/featured-work-3.jpg",
+  "featured-projects/featured-work-4.jpg",
+  "gallery-callout/gallery-callout-1.jpg",
+  "gallery-callout/gallery-callout-2.jpg",
+  "gallery-callout/gallery-callout-3.jpg",
+  "gallery-callout/gallery-callout-4.jpg",
+  "home/hero.jpg",
+  "home/home-cta-window.jpg",
+  "how-we-work/process-1.jpg",
+  "how-we-work/process-2.jpg",
+  "how-we-work/process-3.jpg",
+  "how-we-work/process-4.jpg",
+  "logos/terrene-footer-logo.svg",
+  "logos/terrene-logo-symbol.png",
+  "logos/terrene-logo.png",
+  "sample-space/hero.jpg",
+  "sample-space/next-project.jpg",
+  "sample-space/sample-space-1.jpg",
+  "sample-space/sample-space-2.jpg",
+  "spaces/client-1.jpeg",
+  "spaces/client-2.jpeg",
+  "spaces/client-3.jpeg",
+  "spaces/client-4.jpeg",
+  "spaces/client-5.jpeg",
+  "spaces/client-6.jpeg",
+  "spaces/client-7.jpeg",
+  "spaces/space-1.jpg",
+  "spaces/space-2.jpg",
+  "spaces/space-3.jpg",
+  "spaces/space-4.jpg",
+  "spaces/space-5.jpg",
+  "spaces/space-6.jpg",
+  "spaces/space-7.jpg",
+  "spotlight/spotlight-img-1.jpg",
+  "spotlight/spotlight-img-2.jpg",
+  "spotlight/spotlight-img-3.jpg",
+  "spotlight/spotlight-img-4.jpg",
+  "spotlight/spotlight-img-5.jpg",
+  "spotlight/spotlight-img-6.jpg",
+  "spotlight/spotlight-img-7.jpg",
+  "spotlight/spotlight-img-8.jpg",
+  "spotlight/spotlight-img-9.jpg",
+  "spotlight/spotlight-img-10.jpg",
+  "studio/about-cta-window.jpg",
+  "studio/about-hero.png",
+] as const;
+
+const interiorStudioPageAssets = interiorStudioPageAssetSources.map(
+  (pathname) =>
+    ({
+      id: `interior-studio-page-${pathname
+        .replace(/\.[^.]+$/, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")}`,
+      label: `Interior Studio Page ${pathname
+        .replace(/\.[^.]+$/, "")
+        .replace(/[-_/]+/g, " ")}`,
       provider: "vercel-blob",
-      pathname: `interior-studio-page/project-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/project-${n}.jpg`,
-      role: "Selected room image in the project wall.",
+      pathname: `interior-studio-page/${pathname}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/${pathname}`,
+      role: "Source media from the Terrene static website template.",
       notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-  ...Array.from({ length: 4 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `interior-studio-page-process-${n}`,
-      label: `Interior Studio Page process ${n}`,
-      provider: "vercel-blob",
-      pathname: `interior-studio-page/process-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/interior-studio-page/process-${n}.jpg`,
-      role: "Material and process image in the closing archive.",
-      notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-];
+        "Uploaded to Vercel Blob with the source pathname for the Terrene static site bundle.",
+    }) as const satisfies AssetItem,
+);
 
 const diningRoomPageAssets = [
   {

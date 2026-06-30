@@ -507,66 +507,60 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/interior-studio-page.tsx",
     nuance: [
       {
-        label: "Hero needs more than one viewport",
+        label: "Terrene source export",
         description:
-          "The hero is intentionally 135svh, giving the background image and glass stat panels enough room to breathe before the page transitions into editorial content.",
+          "The component frames the exported Terrene source site with homepage, studio, spaces, sample-space, blueprints, and connect routes intact.",
       },
       {
-        label: "Glass panels use the same palette",
+        label: "Motion stack is preserved",
         description:
-          "The stat cards are controlled through the glassColor prop, so dark, mineral, and warm versions preserve the same spatial hierarchy.",
+          "Lenis, GSAP, ScrollTrigger, SplitType copy reveals, the animated menu, preloader sequence, spotlight gallery, review carousel, and view-transition navigation remain in the hosted bundle.",
       },
       {
-        label: "Project wall carries the source page rhythm",
+        label: "Source media stays in Blob",
         description:
-          "Four tall project tiles follow the manifesto and keep the page useful as a template, not just as a hero treatment.",
+          "The Terrene logos, home hero, studio images, spaces, clients, reviews, gallery, archive, process, and spotlight imagery are uploaded under the source pathnames in Vercel Blob.",
       },
     ],
     editable: [
       {
-        name: "headline / intro",
+        name: "assetBase",
         control: "text",
-        description: "Centered hero heading and supporting studio copy.",
+        description: "Hosted template base, defaults to the Compronents route.",
       },
       {
-        name: "background / textColor / softColor / glassColor",
-        control: "color",
+        name: "route",
+        control: "text",
         description:
-          "Dark page base, primary text, muted text, and glass stat surface.",
-      },
-      {
-        name: "heroImage / projectImages / processImages",
-        control: "asset-url",
-        description: `Blob-hosted media starting at ${getHostedAssetUrl(
-          "interior-studio-page/hero.jpg",
-        )}.`,
+          "Start the frame on studio, spaces, sample-space, blueprints, or connect.",
       },
     ],
     assets: interiorStudioPageAssetDocs,
     api: [
       {
-        name: "headline / intro",
+        name: "assetBase",
         type: "string",
-        default: "interior studio headline / short intro",
-        description: "Hero copy shown over the photographic background.",
+        default: '"https://ui.aryank.space/interior-studio-page"',
+        description:
+          "Hosted base URL for the static Terrene export. The route streams Blob files with iframe-safe headers.",
       },
       {
-        name: "heroImage",
+        name: "route",
         type: "string",
-        default: '".../interior-studio-page/hero.jpg"',
-        description: "Full-bleed hero image.",
+        default: '""',
+        description:
+          "Optional source route such as studio, spaces, sample-space, blueprints, or connect.",
       },
       {
-        name: "projectImages / processImages",
-        type: "string[]",
-        default: "4 project images / 4 process images",
-        description: "Image sets used in the project wall and process archive.",
+        name: "height",
+        type: "CSSProperties['height']",
+        default: '"100svh"',
+        description: "Frame height for embeds, previews, and studio canvases.",
       },
       {
-        name: "background / textColor / softColor / glassColor",
+        name: "className",
         type: "string",
-        default: '"#171615" / "#f2ede6" / "#c9beb0" / "#f2ede6"',
-        description: "Surface, text, muted tone, and glass card fill.",
+        description: "Optional class added to the frame wrapper.",
       },
     ],
   },
