@@ -14,6 +14,9 @@ import MaterialSpotlightPreview from "./material-spotlight";
 import MosaicFlipPreview from "./mosaic-flip";
 import OverlayMenuPreview from "./overlay-menu";
 import PortfolioPagePreview from "./portfolio-page";
+import PreloaderRevealPreview from "./preloader-reveal";
+import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
+import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
 
 /**
  * Optional full-viewport preview for a registry item, shown at
@@ -37,4 +40,7 @@ export const previews: Record<string, ComponentType> = {
   "inversa-scroll": InversaScrollPreview,
   "material-spotlight": MaterialSpotlightPreview,
   "portfolio-page": PortfolioPagePreview,
+  "scroll-tunnel-3d": ScrollTunnel3DPreview,
+  "scroll-wave-gallery": ScrollWaveGalleryPreview,
+  "preloader-reveal": PreloaderRevealPreview,
 };

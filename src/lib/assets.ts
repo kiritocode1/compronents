@@ -55,10 +55,62 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const scrollTunnel3dAssets = Array.from({ length: 12 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `scroll-tunnel-3d-img-${n}`,
+    label: `Scroll Tunnel 3D image ${n}`,
+    provider: "vercel-blob",
+    pathname: `scroll-tunnel-3d/img-${n}.jpg`,
+    fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/scroll-tunnel-3d/img-${n}.jpg`,
+    role: "Photo placed on the tunnel rings and pulled past the camera on scroll.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
+const scrollWaveGalleryAssets = Array.from({ length: 12 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `scroll-wave-gallery-img-${n}`,
+    label: `Scroll Wave Gallery image ${n}`,
+    provider: "vercel-blob",
+    pathname: `scroll-wave-gallery/img-${n}.jpg`,
+    fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/scroll-wave-gallery/img-${n}.jpg`,
+    role: "Frame stacked in the column and swayed past the viewport on scroll.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
   ...accordionFramesAssets,
   ...asciiImageRevealAssets,
   ...detroitParisSliderAssets,
+  ...scrollTunnel3dAssets,
+  ...scrollWaveGalleryAssets,
+  {
+    id: "preloader-reveal-logo",
+    label: "Preloader Reveal backdrop mark",
+    provider: "vercel-blob",
+    pathname: "preloader-reveal/logo.png",
+    fallbackPath:
+      "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/preloader-reveal/logo.png",
+    role: "Small annotation mark dashed into the white backdrop sheet.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "preloader-reveal-button-logo",
+    label: "Preloader Reveal control mark",
+    provider: "vercel-blob",
+    pathname: "preloader-reveal/logo-light.png",
+    fallbackPath:
+      "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/preloader-reveal/logo-light.png",
+    role: "Light mark centered in the boot control that fades as the ring resolves.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
   {
     id: "ascii-logo-source",
     label: "ASCII Logo source wordmark",

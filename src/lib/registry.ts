@@ -128,6 +128,66 @@ export interface RegistryItem {
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "preloader-reveal",
+    title: "Preloader Reveal",
+    description:
+      "A system-boot intro that wipes away into a hero. A black preloader draws a circular progress ring and reveals stacked telemetry readouts, settling on an Engage control; engaging collapses the sheet to the left, swaps the label to a granted state, and clip-wipes through to a hero whose headline rises word by word. A white annotation backdrop underneath makes the margins read like a technical document mid-assembly. GSAP timeline with CustomEase; runs on a loop or waits for a click.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/preloader-reveal.tsx",
+        target: "components/ui/preloader-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "scroll-wave-gallery",
+    title: "Scroll Wave Gallery",
+    description:
+      "A vertical column of photographs that sway as they scroll. Each frame rides a sum of three sine waves, a slow base swing, a faster flow, and a fine detail jitter, drifting left and right while its clip-path pinches inward at the center of the viewport. The last quarter of the set shrinks for a sense of recession. Per-image GSAP ScrollTriggers with Lenis; owns its scroll container so it embeds anywhere.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-wave-gallery.tsx",
+        target: "components/ui/scroll-wave-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "scroll-tunnel-3d",
+    title: "Scroll Tunnel 3D",
+    description:
+      "An endless depth tunnel of images: photos ring an ellipse four at a time and stack back along the Z axis, while wheel, drag, and idle motion pull the camera forward through them. Each layer wraps in depth so the tunnel never ends, and a per-layer black overlay fogs frames in from the far end and out as they pass the lens. One requestAnimationFrame loop, no animation library.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-tunnel-3d.tsx",
+        target: "components/ui/scroll-tunnel-3d.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "cappen-fluid-simulation",
     title: "Cappen Fluid Simulation",
     description:

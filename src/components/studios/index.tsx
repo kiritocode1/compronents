@@ -14,6 +14,9 @@ import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
 import OverlayMenuStudio from "./overlay-menu";
 import PortfolioPageStudio from "./portfolio-page";
+import PreloaderRevealStudio from "./preloader-reveal";
+import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
+import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 
 export type StudioComponent = ComponentType;
 
@@ -35,4 +38,7 @@ export const studios: Record<string, StudioComponent> = {
   "inversa-scroll": InversaScrollStudio,
   "material-spotlight": MaterialSpotlightStudio,
   "portfolio-page": PortfolioPageStudio,
+  "scroll-tunnel-3d": ScrollTunnel3DStudio,
+  "scroll-wave-gallery": ScrollWaveGalleryStudio,
+  "preloader-reveal": PreloaderRevealStudio,
 };

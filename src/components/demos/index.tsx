@@ -14,6 +14,9 @@ import MaterialSpotlightDemo from "./material-spotlight";
 import MosaicFlipDemo from "./mosaic-flip";
 import OverlayMenuDemo from "./overlay-menu";
 import PortfolioPageDemo from "./portfolio-page";
+import PreloaderRevealDemo from "./preloader-reveal";
+import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
+import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 
 /**
  * Maps a registry item name to its live usage demo.
@@ -35,4 +38,7 @@ export const demos: Record<string, ComponentType> = {
   "inversa-scroll": InversaScrollDemo,
   "material-spotlight": MaterialSpotlightDemo,
   "portfolio-page": PortfolioPageDemo,
+  "scroll-tunnel-3d": ScrollTunnel3DDemo,
+  "scroll-wave-gallery": ScrollWaveGalleryDemo,
+  "preloader-reveal": PreloaderRevealDemo,
 };

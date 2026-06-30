@@ -104,6 +104,47 @@ const detroitParisSliderAssets = assetItems
         : asset.role,
   }));
 
+const scrollTunnel3dAssets = assetItems
+  .filter((asset) => asset.id.startsWith("scroll-tunnel-3d-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "scroll-tunnel-3d-img-1"
+        ? "First of the 12-image set img-1.jpg ... img-12.jpg, ringed around the tunnel and pulled past the camera."
+        : asset.role,
+  }));
+
+const preloaderRevealAssets = assetItems
+  .filter((asset) => asset.id.startsWith("preloader-reveal-"))
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role: asset.role,
+  }));
+
+const scrollWaveGalleryAssets = assetItems
+  .filter((asset) => asset.id.startsWith("scroll-wave-gallery-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "scroll-wave-gallery-img-1"
+        ? "First of the 12-image set img-1.jpg ... img-12.jpg, stacked in the swaying column."
+        : asset.role,
+  }));
+
 const asciiLogoAssets = assetItems
   .filter((asset) => asset.id.startsWith("ascii-logo-"))
   .map((asset) => ({
@@ -197,6 +238,276 @@ const portfolioPageAssets = assetItems
   }));
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "preloader-reveal": {
+    demoPath: "src/components/demos/preloader-reveal.tsx",
+    studioPath: "src/components/studios/preloader-reveal.tsx",
+    nuance: [
+      {
+        label: "Two sheets, one wipe",
+        description:
+          "A black preloader sits over the hero, and a white annotation backdrop sits under it. Both the preloader and the hero's white revealer collapse to the left in sequence, so the eye reads black sheet, then white document, then the hero resolving.",
+      },
+      {
+        label: "The ring is the loader",
+        description:
+          "Two stacked circles draw with stroke-dashoffset: a muted track and a light progress arc that steps through staged stops, while the whole SVG rotates a quarter turn. It is a real progress gesture, not a spinner.",
+      },
+      {
+        label: "Masked, hand-split text",
+        description:
+          "Readouts, labels, and the hero headline are split into masked spans in markup, not by a runtime plugin, so each line and word rises from behind its own clip with no layout flash on load.",
+      },
+    ],
+    editable: [
+      {
+        name: "dark / light / muted",
+        control: "color",
+        description:
+          "Preloader and hero surface, the ring and ink, and the backdrop note tint.",
+      },
+      {
+        name: "heading",
+        control: "text",
+        description: "Hero headline revealed word by word after the wipe.",
+      },
+      {
+        name: "engageLabel / grantedLabel",
+        control: "text",
+        description: "Control labels before and after engaging.",
+      },
+      {
+        name: "logo / buttonLogo",
+        control: "asset-url",
+        description: `Backdrop and control marks, hosted through ${getHostedAssetUrl(
+          "preloader-reveal/logo.png",
+        )} and the light variant.`,
+      },
+    ],
+    assets: preloaderRevealAssets,
+    api: [
+      {
+        name: "heading",
+        type: "string",
+        default: '"The system is now visible"',
+        description: "Hero headline, revealed word by word after the wipe.",
+      },
+      {
+        name: "engageLabel / grantedLabel",
+        type: "string",
+        default: '"Engage" / "Access Granted"',
+        description: "Boot control labels before and after engaging.",
+      },
+      {
+        name: "initiatingLabel",
+        type: "string",
+        default: '"Initiating"',
+        description: "Small label in the top-left of the preloader.",
+      },
+      {
+        name: "logo / buttonLogo",
+        type: "string",
+        default: "preloader-reveal/logo.png / logo-light.png",
+        description: "Backdrop annotation mark and the boot control mark.",
+      },
+      {
+        name: "dark / light / muted",
+        type: "string",
+        default: '"#000000" / "#ffffff" / "#7a7a7a"',
+        description: "Surface, ring/ink, and backdrop-note colors.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        default: "true",
+        description:
+          "Auto-run the full sequence on a loop (true) or hold until the control is clicked (false).",
+      },
+    ],
+  },
+  "scroll-wave-gallery": {
+    demoPath: "src/components/demos/scroll-wave-gallery.tsx",
+    studioPath: "src/components/studios/scroll-wave-gallery.tsx",
+    nuance: [
+      {
+        label: "Three waves, one drift",
+        description:
+          "Each frame's horizontal offset is the sum of a slow base swing, a faster flow, and a fine detail jitter, all keyed to the image's index and its scroll progress, so the column sways like a loose ribbon instead of a rigid grid.",
+      },
+      {
+        label: "Pinch at the crossing",
+        description:
+          "The clip-path insets from both edges in proportion to distance from the viewport center, squared, so a frame is widest as it passes the middle and clipped to a sliver at the top and bottom of its travel.",
+      },
+      {
+        label: "Owns its scroll",
+        description:
+          "By default it runs a Lenis-smoothed scroll inside its own container with per-image ScrollTriggers, so it embeds in a bounded box. Pass embedded={false} to drive it from the window scroll.",
+      },
+    ],
+    editable: [
+      {
+        name: "background / textColor",
+        control: "color",
+        description: "Page surface and the intro / outro heading ink.",
+      },
+      {
+        name: "introText / outroText",
+        control: "text",
+        description: "The two headings that bookend the gallery.",
+      },
+      {
+        name: "waveStrength / clipMax",
+        control: "text",
+        description: "Sway amplitude and the maximum center pinch in percent.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: `Twelve frames hosted through ${getHostedAssetUrl(
+          "scroll-wave-gallery/img-1.jpg",
+        )} and the numbered set.`,
+      },
+    ],
+    assets: scrollWaveGalleryAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "12 Compronents-hosted JPGs",
+        description: "Frames stacked top to bottom through the scroll.",
+      },
+      {
+        name: "introText / outroText",
+        type: "string",
+        default: '"Loose Structure" / "Crafted by BLANK"',
+        description: "Headings shown in the intro and outro panels.",
+      },
+      {
+        name: "background / textColor",
+        type: "string",
+        default: '"#e3e4d8" / "#000000"',
+        description: "Page background and heading ink.",
+      },
+      {
+        name: "waveStrength",
+        type: "number",
+        default: "1",
+        description: "Scales the horizontal sway; 0 holds the column straight.",
+      },
+      {
+        name: "clipMax",
+        type: "number",
+        default: "20",
+        description: "Maximum edge pinch at the center crossing, in percent.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own an internal scroll container (true) or use the window scroll (false).",
+      },
+    ],
+  },
+  "scroll-tunnel-3d": {
+    demoPath: "src/components/demos/scroll-tunnel-3d.tsx",
+    studioPath: "src/components/studios/scroll-tunnel-3d.tsx",
+    nuance: [
+      {
+        label: "Endless by wrap",
+        description:
+          "A fixed set of layers wraps in Z with a modulo, so the camera can fall forever through a handful of rings. Far frames re-enter from the back rather than running out.",
+      },
+      {
+        label: "Overlay is the fog",
+        description:
+          "Depth is faked with a per-layer black overlay, not real fog. Its opacity is a hand-written curve of Z: frames fade in from the far end, hold clear through the visible band, and black out as they pass the lens.",
+      },
+      {
+        label: "One target, three inputs",
+        description:
+          "Wheel, drag, and idle autoplay all push a single scroll target that is lerped into the current depth, so every input shares the same soft, mechanical follow.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description:
+          "Tunnel backdrop and the color the depth overlay fades to.",
+      },
+      {
+        name: "title / caption",
+        control: "text",
+        description: "Optional corner HUD copy laid over the tunnel.",
+      },
+      {
+        name: "scrollSpeed / layerGap / lerp",
+        control: "text",
+        description: "Input sensitivity, ring spacing, and follow smoothing.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: `Twelve photos hosted through ${getHostedAssetUrl(
+          "scroll-tunnel-3d/img-1.jpg",
+        )} and the numbered set.`,
+      },
+    ],
+    assets: scrollTunnel3dAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "12 Compronents-hosted JPGs",
+        description: "Photos ringed four-to-a-layer along the tunnel.",
+      },
+      {
+        name: "title / caption",
+        type: "string",
+        default: "undefined",
+        description: "Optional HUD copy in the lower-left corner.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#000000"',
+        description: "Tunnel background and depth-overlay color.",
+      },
+      {
+        name: "scrollSpeed / layerGap / lerp",
+        type: "number",
+        default: "2 / 2500 / 0.07",
+        description:
+          "Input sensitivity, ring depth spacing (px), and smoothing.",
+      },
+      {
+        name: "radiusX / radiusY",
+        type: "number",
+        default: "400 / 280",
+        description:
+          "Ellipse radii (px) the four images ring around each layer.",
+      },
+      {
+        name: "itemWidth / itemHeight",
+        type: "number",
+        default: "180 / 220",
+        description: "Size of each image card in the tunnel, in px.",
+      },
+      {
+        name: "perspective",
+        type: "number",
+        default: "1000",
+        description: "CSS perspective applied to the 3D scene, in px.",
+      },
+      {
+        name: "autoplay / autoplaySpeed",
+        type: "boolean / number",
+        default: "true / 6",
+        description: "Idle forward drift so the tunnel moves before input.",
+      },
+    ],
+  },
   "cappen-fluid-simulation": {
     demoPath: "src/components/demos/cappen-fluid-simulation.tsx",
     studioPath: "src/components/studios/cappen-fluid-simulation.tsx",
