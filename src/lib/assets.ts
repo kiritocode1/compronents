@@ -85,6 +85,160 @@ const scrollWaveGalleryAssets = Array.from({ length: 12 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const march2025TemplateAssetSources = [
+  ["about/about-banner.jpg", "About banner", "About page image"],
+  ["about/about-hero.jpg", "About hero", "About page image"],
+  ["about/services-banner.jpg", "Services banner", "About page image"],
+  ["about/tool-1.jpg", "Tool 1", "About page tool image"],
+  ["about/tool-2.jpg", "Tool 2", "About page tool image"],
+  ["about/tool-3.jpg", "Tool 3", "About page tool image"],
+  ["about/tool-4.jpg", "Tool 4", "About page tool image"],
+  ["about/tool-5.jpg", "Tool 5", "About page tool image"],
+  ["about/tool-6.jpg", "Tool 6", "About page tool image"],
+  [
+    "fonts/messina-sans-mono/MessinaSansMono-Black.otf",
+    "Messina Sans Mono Black",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans-mono/MessinaSansMono-Bold.otf",
+    "Messina Sans Mono Bold",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans-mono/MessinaSansMono-Book.otf",
+    "Messina Sans Mono Book",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans-mono/MessinaSansMono-Light.otf",
+    "Messina Sans Mono Light",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans-mono/MessinaSansMono-Regular.otf",
+    "Messina Sans Mono Regular",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans-mono/MessinaSansMono-SemiBold.otf",
+    "Messina Sans Mono SemiBold",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-Black.otf",
+    "Messina Sans Black",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-BlackItalic.otf",
+    "Messina Sans Black Italic",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-Bold.otf",
+    "Messina Sans Bold",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-BoldItalic.otf",
+    "Messina Sans Bold Italic",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-Book.otf",
+    "Messina Sans Book",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-BookItalic.otf",
+    "Messina Sans Book Italic",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-Light.otf",
+    "Messina Sans Light",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-LightItalic.otf",
+    "Messina Sans Light Italic",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-Regular.otf",
+    "Messina Sans Regular",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-RegularItalic.otf",
+    "Messina Sans Regular Italic",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-SemiBold.otf",
+    "Messina Sans SemiBold",
+    "Source font",
+  ],
+  [
+    "fonts/messina-sans/MessinaSans-SemiBoldItalic.otf",
+    "Messina Sans SemiBold Italic",
+    "Source font",
+  ],
+  ["fonts/rader/PPRader-Bold.ttf", "Rader Bold", "Source font"],
+  ["fonts/rader/PPRader-BoldItalic.ttf", "Rader Bold Italic", "Source font"],
+  ["fonts/rader/PPRader-Hairline.ttf", "Rader Hairline", "Source font"],
+  [
+    "fonts/rader/PPRader-HairlineItalic.ttf",
+    "Rader Hairline Italic",
+    "Source font",
+  ],
+  ["fonts/rader/PPRader-Italic.ttf", "Rader Italic", "Source font"],
+  ["fonts/rader/PPRader-Medium.ttf", "Rader Medium", "Source font"],
+  [
+    "fonts/rader/PPRader-MediumItalic.ttf",
+    "Rader Medium Italic",
+    "Source font",
+  ],
+  ["fonts/rader/PPRader-Regular.ttf", "Rader Regular", "Source font"],
+  ["fonts/rader/PPRader-Thin.ttf", "Rader Thin", "Source font"],
+  ["fonts/rader/PPRader-ThinItalic.ttf", "Rader Thin Italic", "Source font"],
+  ["home/hero.jpg", "Home hero", "Home page hero image"],
+  ["project/banner.jpg", "Project banner", "Project detail image"],
+  ["project/project-1.jpg", "Project 1", "Project detail image"],
+  ["project/project-2.jpg", "Project 2", "Project detail image"],
+  ["project/project-3.jpg", "Project 3", "Project detail image"],
+  ["project/project-4.jpg", "Project 4", "Project detail image"],
+  ["project/project-5.jpg", "Project 5", "Project detail image"],
+  ["reviews/review-1.jpg", "Review 1", "Review thumbnail image"],
+  ["reviews/review-2.jpg", "Review 2", "Review thumbnail image"],
+  ["reviews/review-3.jpg", "Review 3", "Review thumbnail image"],
+  ["site-icon.png", "Site icon", "Source site icon"],
+  ["work/work-1.jpg", "Work 1", "Work carousel image"],
+  ["work/work-2.jpg", "Work 2", "Work carousel image"],
+  ["work/work-3.jpg", "Work 3", "Work carousel image"],
+  ["work/work-4.jpg", "Work 4", "Work carousel image"],
+  ["work/work-5.jpg", "Work 5", "Work carousel image"],
+] as const;
+
+const march2025TemplateAssets = march2025TemplateAssetSources.map(
+  ([pathname, label, role]) =>
+    ({
+      id: `march-2025-${pathname
+        .replace(/\.[^.]+$/, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")}`,
+      label: `March 2025 ${label}`,
+      provider: "vercel-blob",
+      pathname: `march-2025-template/${pathname}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/march-2025-template/${pathname}`,
+      role: `${role} from the March 2025 source template.`,
+      notes:
+        "Uploaded to Vercel Blob with a stable pathname for the March 2025 registry page template.",
+    }) as const satisfies AssetItem,
+);
+
 const creativeClutterIds = [
   "music",
   "cd",
@@ -422,6 +576,7 @@ const darkCatalogPageAssets = [
 ];
 
 export const assetItems = [
+  ...march2025TemplateAssets,
   ...archiveCommercePageAssets,
   ...interiorStudioPageAssets,
   ...diningRoomPageAssets,
