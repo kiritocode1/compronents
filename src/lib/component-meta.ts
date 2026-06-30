@@ -1,4 +1,4 @@
-import { assetItems, getAssetEnvKey, getHostedAssetUrl } from "@/lib/assets";
+import { assetItems, getHostedAssetUrl } from "@/lib/assets";
 
 /**
  * UI-only metadata: the documented public API (props) for each component, and
@@ -32,7 +32,6 @@ export interface ComponentAssetDoc {
   label: string;
   provider: "vercel-blob";
   pathname: string;
-  envKey: string;
   fallbackPath: string;
   role: string;
 }
@@ -54,7 +53,6 @@ const animatedFooterAssets = assetItems
     label: asset.label,
     provider: asset.provider,
     pathname: asset.pathname,
-    envKey: getAssetEnvKey(asset),
     fallbackPath: asset.fallbackPath,
     role: asset.role,
   }));

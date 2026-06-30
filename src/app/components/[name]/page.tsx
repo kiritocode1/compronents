@@ -161,15 +161,9 @@ export default async function ComponentPage({
                 </div>
                 <dl className="mt-4 grid gap-3 text-xs sm:grid-cols-2">
                   <div>
-                    <dt className="label">Path</dt>
+                    <dt className="label">Blob pathname</dt>
                     <dd className="mt-1 break-all text-muted-foreground">
                       {asset.pathname}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="label">Blob env</dt>
-                    <dd className="mt-1 break-all text-muted-foreground">
-                      {asset.envKey}
                     </dd>
                   </div>
                   <div>
@@ -183,6 +177,12 @@ export default async function ComponentPage({
                       >
                         {getHostedAssetUrl(asset.pathname)}
                       </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="label">Upload API</dt>
+                    <dd className="mt-1 break-all text-muted-foreground">
+                      /api/registry-assets with pathname={asset.pathname}
                     </dd>
                   </div>
                   <div>

@@ -44,29 +44,10 @@ export function getAssetById(id: string) {
   return assetItems.find((asset) => asset.id === id);
 }
 
-export function getAssetEnvKey(asset: Pick<AssetItem, "id">) {
-  return `COMPRONENTS_BLOB_${asset.id.replaceAll("-", "_").toUpperCase()}_URL`;
-}
-
 export function getHostedAssetUrl(pathname: string) {
   return `${ASSET_ORIGIN}${ASSET_ROUTE_PREFIX}/${pathname}`;
 }
 
 export function getLocalAssetRoute(pathname: string) {
   return `${ASSET_ROUTE_PREFIX}/${pathname}`;
-}
-
-export function getBlobAssetUrl(asset: AssetItem) {
-  const directUrl = process.env[getAssetEnvKey(asset)];
-  if (directUrl) return directUrl;
-
-  const baseUrl =
-    process.env.COMPRONENTS_BLOB_BASE_URL ??
-    process.env.NEXT_PUBLIC_COMPRONENTS_BLOB_BASE_URL;
-  if (!baseUrl) return null;
-
-  return new URL(
-    asset.pathname,
-    baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`,
-  ).toString();
 }
