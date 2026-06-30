@@ -17,6 +17,7 @@
  */
 
 import { useEffect, useRef } from "react";
+import { preload } from "react-dom";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -62,6 +63,15 @@ export default function MaterialSpotlight({
   lerp = 0.05,
   exposure = 0.65,
 }: MaterialSpotlightProps) {
+  // Start fetching the (multi-MB) model immediately, in parallel with React
+  // hydration and Three.js init, so the GLTFLoader request lands a warm cache
+  // hit instead of waiting for the effect to run.
+  preload(src, {
+    as: "fetch",
+    fetchPriority: "high",
+    crossOrigin: "anonymous",
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
