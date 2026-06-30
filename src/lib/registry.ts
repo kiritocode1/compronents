@@ -128,6 +128,106 @@ export interface RegistryItem {
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "spiral-gallery",
+    title: "Spiral Gallery",
+    description:
+      "A 3D helix of curved image tiles you scroll through. Tiles are bent into shallow arcs and stacked along a descending coil; the whole spiral idles with a slow rotation, picks up spin from scroll velocity, and tilts toward the cursor with eased parallax while the camera descends through it. A small facing shader brightens tiles as they turn to face you. Three.js + Lenis; owns its scroll container so it embeds anywhere.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["three", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/spiral-gallery.tsx",
+        target: "components/ui/spiral-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "frame-scroll",
+    title: "Frame Scroll",
+    description:
+      "A pinned hero that collapses into a drifting grid. As you scroll, the headline slides up out of frame, a second line fades in word by word, then the full-bleed image shrinks to a small rounded tile in the center. Below it, four columns of thumbnails parallax past at staggered speeds before the frame settles into a quiet outro. GSAP ScrollTrigger with Lenis; owns its scroll container so it embeds anywhere.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/frame-scroll.tsx",
+        target: "components/ui/frame-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "falling-tag-list",
+    title: "Falling Tag List",
+    description:
+      "A hover list where each oversized name springs open, fans a small stack of thumbnails up from behind it, and drops its descriptor tags in as rounded physics pills that tumble and settle on a floor. Leaving fades the pills, collapses the row, and slides the images back down, with the name flipping between a resting and an active color. GSAP for the springs, Matter.js for the pile.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap", "matter-js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/falling-tag-list.tsx",
+        target: "components/ui/falling-tag-list.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "crt-display",
+    title: "CRT Display",
+    description:
+      "A 3D monitor whose curved screen swaps images with a glitch. A GLB monitor model sits in a lit scene and follows the cursor with an eased parallax tilt; a CRT shader draws the tube with scanlines, an aperture-grille mask, vignette, chromatic split, and a noisy RGB tear that spikes whenever the displayed image changes, then decays. Hovering a project name loads that frame; leaving resets to default. Three.js, no animation library.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/crt-display.tsx",
+        target: "components/ui/crt-display.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "creative-clutter",
+    title: "Creative Clutter",
+    description:
+      "A desk of scattered cutout objects that reflows between three named layouts. Eleven props are placed as a percentage of the board with a headline floating among them; chaos, cleanup, and notebook buttons swap the whole arrangement while GSAP Flip tweens every object and the heading from where they were to where they land, staggered from the center. Reads from its own box, so it embeds anywhere.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/creative-clutter.tsx",
+        target: "components/ui/creative-clutter.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "preloader-reveal",
     title: "Preloader Reveal",
     description:

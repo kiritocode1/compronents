@@ -119,6 +119,89 @@ const scrollTunnel3dAssets = assetItems
         : asset.role,
   }));
 
+const spiralGalleryAssets = assetItems
+  .filter((asset) => asset.id.startsWith("spiral-gallery-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "spiral-gallery-img-1"
+        ? "First of the 12-image set img-1.jpg ... img-12.jpg cycled around the helix tiles."
+        : asset.role,
+  }));
+
+const frameScrollAssets = assetItems
+  .filter((asset) => asset.id.startsWith("frame-scroll-"))
+  .filter(
+    (asset) =>
+      asset.id === "frame-scroll-hero" || asset.id === "frame-scroll-img-1",
+  )
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "frame-scroll-img-1"
+        ? "First of the 16-image set img-1.jpg ... img-16.jpg laid into the four parallax columns."
+        : asset.role,
+  }));
+
+const fallingTagListAssets = assetItems
+  .filter((asset) => asset.id.startsWith("falling-tag-list-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "falling-tag-list-service-1-img-1"
+        ? "First of the 9-image set (three thumbnails per service) fanned up on hover."
+        : asset.role,
+  }));
+
+const crtDisplayAssets = assetItems
+  .filter((asset) => asset.id.startsWith("crt-display-"))
+  .filter(
+    (asset) =>
+      asset.id === "crt-display-model" ||
+      asset.id === "crt-display-default" ||
+      asset.id === "crt-display-project-1",
+  )
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "crt-display-project-1"
+        ? "First of the 5-image set project-img-1.jpg ... project-img-5.jpg loaded on hover."
+        : asset.role,
+  }));
+
+const creativeClutterAssets = assetItems
+  .filter((asset) => asset.id.startsWith("creative-clutter-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "creative-clutter-music"
+        ? "First of the 11 cutout props (music, cd, dialog, folder, and so on) arranged on the desk."
+        : asset.role,
+  }));
+
 const preloaderRevealAssets = assetItems
   .filter((asset) => asset.id.startsWith("preloader-reveal-"))
   .map((asset) => ({
@@ -238,6 +321,395 @@ const portfolioPageAssets = assetItems
   }));
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "spiral-gallery": {
+    demoPath: "src/components/demos/spiral-gallery.tsx",
+    studioPath: "src/components/studios/spiral-gallery.tsx",
+    nuance: [
+      {
+        label: "Tiles are bent geometry",
+        description:
+          "Each tile is a small grid of vertices wrapped onto a cylinder radius, not a flat plane, so the images curve with the coil. The radius eases from wide at the top to tighter at the bottom as the helix descends.",
+      },
+      {
+        label: "Scroll drives spin and descent",
+        description:
+          "The spiral always rotates slowly; scroll velocity adds spin that decays, and scroll position eases the camera down the coil, so flicking the wheel spins it and holding a scroll walks you through.",
+      },
+      {
+        label: "Facing brightens the image",
+        description:
+          "A small shader compares each tile's normal to the view direction, so tiles turning to face you brighten and those edge-on fade toward white, giving the rotation depth without any scene lights.",
+      },
+    ],
+    editable: [
+      {
+        name: "heroBackground / aboutBackground",
+        control: "color",
+        description:
+          "The two section backgrounds the transparent canvas sits over.",
+      },
+      {
+        name: "textColor",
+        control: "color",
+        description: "Heading ink in the hero and about panels.",
+      },
+      {
+        name: "heading / aboutText",
+        control: "text",
+        description: "The justified hero headline and the centered about line.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: `Twelve images, hosted through ${getHostedAssetUrl(
+          "spiral-gallery/img-1.jpg",
+        )} and the numbered set.`,
+      },
+    ],
+    assets: spiralGalleryAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "12 Compronents-hosted JPGs",
+        description: "Images cycled around the curved helix tiles.",
+      },
+      {
+        name: "heading / aboutText",
+        type: "string",
+        default: "hero headline / about line",
+        description: "Copy in the hero and about sections.",
+      },
+      {
+        name: "heroBackground / aboutBackground",
+        type: "string",
+        default: '"#242424" / "#171717"',
+        description: "Section backdrops behind the transparent 3D canvas.",
+      },
+      {
+        name: "textColor",
+        type: "string",
+        default: '"#d2d2d2"',
+        description: "Heading color in both sections.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own an internal scroll container (true) or use the window scroll (false).",
+      },
+    ],
+  },
+  "frame-scroll": {
+    demoPath: "src/components/demos/frame-scroll.tsx",
+    studioPath: "src/components/studios/frame-scroll.tsx",
+    nuance: [
+      {
+        label: "One pin, phased by hand",
+        description:
+          "A single pinned ScrollTrigger drives the whole hero in onUpdate. The header lift, the word fade, the copy hide, and the image shrink each own a slice of progress, so they overlap and hand off without a timeline.",
+      },
+      {
+        label: "Image becomes a tile",
+        description:
+          "The hero photo is full-bleed, then its width, height, and corner radius interpolate down to a small centered tile over the last stretch of the pin, so the frame literally shrinks rather than cutting to the next section.",
+      },
+      {
+        label: "Owns its scroll",
+        description:
+          "By default it pins and parallaxes inside its own Lenis-smoothed container, so it embeds in a bounded box. Pass embedded={false} to run on the window scroll.",
+      },
+    ],
+    editable: [
+      {
+        name: "background / textColor",
+        control: "color",
+        description: "Page surface and the about / outro ink.",
+      },
+      {
+        name: "heroTextColor",
+        control: "color",
+        description: "Headline and copy color over the hero image.",
+      },
+      {
+        name: "heading / copy / aboutText / outroText",
+        control: "text",
+        description:
+          "The pinned headline, the fading line, and the two panels.",
+      },
+      {
+        name: "heroImage / images",
+        control: "asset-url",
+        description: `Hero photo and 16 thumbnails, hosted through ${getHostedAssetUrl(
+          "frame-scroll/hero.jpg",
+        )} and the numbered set.`,
+      },
+    ],
+    assets: frameScrollAssets,
+    api: [
+      {
+        name: "heroImage",
+        type: "string",
+        default: '"…/frame-scroll/hero.jpg"',
+        description: "Full-bleed hero photo that shrinks to a tile.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "16 Compronents-hosted JPGs",
+        description: "Thumbnails laid into four parallax columns.",
+      },
+      {
+        name: "heading / copy",
+        type: "string",
+        default: "headline / fading second line",
+        description: "The pinned headline and the word-by-word copy line.",
+      },
+      {
+        name: "aboutText / outroText",
+        type: "string",
+        default: "about line / outro line",
+        description: "Copy in the parallax panel and the closing panel.",
+      },
+      {
+        name: "background / textColor / heroTextColor",
+        type: "string",
+        default: '"#e3e3db" / "#171717" / "#ffffff"',
+        description: "Surface, body ink, and the color over the hero image.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own an internal scroll container (true) or use the window scroll (false).",
+      },
+    ],
+  },
+  "falling-tag-list": {
+    demoPath: "src/components/demos/falling-tag-list.tsx",
+    studioPath: "src/components/studios/falling-tag-list.tsx",
+    nuance: [
+      {
+        label: "A real physics pile",
+        description:
+          "On hover the row spins up a Matter.js world with a floor and two walls, drops a body per tag, and copies each body's position and angle onto a DOM pill every frame, so the tags actually tumble and stack instead of animating along a path.",
+      },
+      {
+        label: "Springs, not eases",
+        description:
+          "The row height, the fanned thumbnails, and the collapse all use elastic easing, so opening and closing overshoot and settle. The drop is delayed a beat so the pills land into an already-open row.",
+      },
+      {
+        label: "Built to be interrupted",
+        description:
+          "Entering and leaving kill in-flight tweens, fade and clear the pile, and tear down the engine, so flicking across the list never leaves stray pills or a running simulation behind.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description: "List backdrop and the chip fill behind each name.",
+      },
+      {
+        name: "nameColor / hoverColor",
+        control: "color",
+        description: "Resting and active name color.",
+      },
+      {
+        name: "tagColor",
+        control: "color",
+        description: "Pill text and border color.",
+      },
+      {
+        name: "services",
+        control: "asset-url",
+        description: `Each service's name, tags, and thumbnails, hosted through ${getHostedAssetUrl(
+          "falling-tag-list/service_1_img_1.jpg",
+        )} and the rest of the set.`,
+      },
+    ],
+    assets: fallingTagListAssets,
+    api: [
+      {
+        name: "services",
+        type: "{ name; tags: string[]; images: string[] }[]",
+        default: "Silhouette / Chroma / Persona",
+        description: "Each row's name, descriptor tags, and fanned thumbnails.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#171717"',
+        description: "List background and the chip behind each name.",
+      },
+      {
+        name: "nameColor / hoverColor",
+        type: "string",
+        default: '"#ff3831" / "#ffffd9"',
+        description: "Resting and active name color.",
+      },
+      {
+        name: "tagColor",
+        type: "string",
+        default: '"#ffffd9"',
+        description: "Pill text and border color.",
+      },
+    ],
+  },
+  "crt-display": {
+    demoPath: "src/components/demos/crt-display.tsx",
+    studioPath: "src/components/studios/crt-display.tsx",
+    nuance: [
+      {
+        label: "The screen is a shader",
+        description:
+          "A curved plane re-UVs a rounded-rect geometry and runs a single fragment shader for the whole tube look: cover-fit, scanlines, aperture mask, vignette, and a chromatic split, so the image always reads as a CRT and never a flat photo.",
+      },
+      {
+        label: "Swap spikes the tear",
+        description:
+          "Changing the source sets a glitch value to 1, which the frame loop decays exponentially. The shader uses it to drive horizontal hash-tear and RGB noise, so every image change arrives through static instead of cutting.",
+      },
+      {
+        label: "Eased parallax tilt",
+        description:
+          "The cursor target is lerped every frame and mapped to the monitor group's rotation, so the model leans toward the pointer and glides back rather than tracking it rigidly.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description: "Backdrop color behind the monitor.",
+      },
+      {
+        name: "exposure",
+        control: "text",
+        description: "ACES tone-mapping exposure for the whole scene.",
+      },
+      {
+        name: "projects",
+        control: "text",
+        description: "Each project's name and the frame it loads on hover.",
+      },
+      {
+        name: "src / defaultImage",
+        control: "asset-url",
+        description: `Monitor GLB and the resting frame, hosted through ${getHostedAssetUrl(
+          "crt-display/monitor.glb",
+        )} and the default image.`,
+      },
+    ],
+    assets: crtDisplayAssets,
+    api: [
+      {
+        name: "src",
+        type: "string",
+        default: '"…/crt-display/monitor.glb"',
+        description: "Monitor model URL (.glb / .gltf), same-origin or CORS.",
+      },
+      {
+        name: "defaultImage",
+        type: "string",
+        default: '"…/crt-display/default.jpg"',
+        description: "Frame shown at rest and on pointer leave.",
+      },
+      {
+        name: "projects",
+        type: "{ label: string; image: string }[]",
+        default: "District / Waypoint / Corridor / Archive / Terminal",
+        description: "Project names and the image each loads on hover.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#b0b0b0"',
+        description: "Backdrop color behind the monitor.",
+      },
+      {
+        name: "exposure",
+        type: "number",
+        default: "1.25",
+        description: "ACES tone-mapping exposure.",
+      },
+    ],
+  },
+  "creative-clutter": {
+    demoPath: "src/components/demos/creative-clutter.tsx",
+    studioPath: "src/components/studios/creative-clutter.tsx",
+    nuance: [
+      {
+        label: "Flip does the work",
+        description:
+          "Layouts are just sets of percentage coordinates. The component sets the new positions instantly, then GSAP Flip reads the before and after and animates the difference, so adding a layout is data, not animation code.",
+      },
+      {
+        label: "Percent of the board",
+        description:
+          "Every object and the heading are placed as a fraction of the desk size and re-applied on resize, so the same arrangement holds its composition from a small card to a full screen.",
+      },
+      {
+        label: "Staggered from center",
+        description:
+          "The transition staggers outward from the middle of the set, so a reflow reads as the desk settling rather than every piece snapping at once.",
+      },
+    ],
+    editable: [
+      {
+        name: "background / textColor / mutedColor",
+        control: "color",
+        description: "Board surface, heading ink, and the paragraph tone.",
+      },
+      {
+        name: "surfaceColor / borderColor",
+        control: "color",
+        description: "The mode button surface and border.",
+      },
+      {
+        name: "heading / paragraph",
+        control: "text",
+        description: "The floating title and its supporting line.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: `Eleven cutout props, hosted through ${getHostedAssetUrl(
+          "creative-clutter/music.png",
+        )} and the rest of the named set.`,
+      },
+    ],
+    assets: creativeClutterAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "11 Compronents-hosted PNGs",
+        description:
+          "Cutout props in order: music, cd, dialog, folder, macmini, paper, passport, portrait, appicon, lighter, cursor.",
+      },
+      {
+        name: "heading / paragraph",
+        type: "string",
+        default: '"Creative Clutter" / a short line',
+        description: "The floating headline and its supporting copy.",
+      },
+      {
+        name: "background / textColor / mutedColor",
+        type: "string",
+        default: '"#f5f2ed" / "#171717" / "#5f5f5f"',
+        description: "Board background, heading ink, and paragraph tone.",
+      },
+      {
+        name: "surfaceColor / borderColor",
+        type: "string",
+        default: '"#f5f2ed" / "#e0dfd7"',
+        description: "Mode button surface and border colors.",
+      },
+    ],
+  },
   "preloader-reveal": {
     demoPath: "src/components/demos/preloader-reveal.tsx",
     studioPath: "src/components/studios/preloader-reveal.tsx",

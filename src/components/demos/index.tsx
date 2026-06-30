@@ -7,7 +7,11 @@ import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
 import AwardListDemo from "./award-list";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
+import CreativeClutterDemo from "./creative-clutter";
+import CrtDisplayDemo from "./crt-display";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
+import FallingTagListDemo from "./falling-tag-list";
+import FrameScrollDemo from "./frame-scroll";
 import ImageRevealDemo from "./image-reveal";
 import InversaScrollDemo from "./inversa-scroll";
 import MaterialSpotlightDemo from "./material-spotlight";
@@ -17,6 +21,7 @@ import PortfolioPageDemo from "./portfolio-page";
 import PreloaderRevealDemo from "./preloader-reveal";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
+import SpiralGalleryDemo from "./spiral-gallery";
 
 /**
  * Maps a registry item name to its live usage demo.
@@ -41,4 +46,9 @@ export const demos: Record<string, ComponentType> = {
   "scroll-tunnel-3d": ScrollTunnel3DDemo,
   "scroll-wave-gallery": ScrollWaveGalleryDemo,
   "preloader-reveal": PreloaderRevealDemo,
+  "creative-clutter": CreativeClutterDemo,
+  "crt-display": CrtDisplayDemo,
+  "falling-tag-list": FallingTagListDemo,
+  "frame-scroll": FrameScrollDemo,
+  "spiral-gallery": SpiralGalleryDemo,
 };

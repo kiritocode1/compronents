@@ -7,7 +7,11 @@ import AsciiImageRevealPreview from "./ascii-image-reveal";
 import AsciiLogoPreview from "./ascii-logo";
 import AwardListPreview from "./award-list";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
+import CreativeClutterPreview from "./creative-clutter";
+import CrtDisplayPreview from "./crt-display";
 import DetroitParisSliderPreview from "./detroit-paris-slider";
+import FallingTagListPreview from "./falling-tag-list";
+import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
 import InversaScrollPreview from "./inversa-scroll";
 import MaterialSpotlightPreview from "./material-spotlight";
@@ -17,6 +21,7 @@ import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
 import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
 import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
+import SpiralGalleryPreview from "./spiral-gallery";
 
 /**
  * Optional full-viewport preview for a registry item, shown at
@@ -43,4 +48,9 @@ export const previews: Record<string, ComponentType> = {
   "scroll-tunnel-3d": ScrollTunnel3DPreview,
   "scroll-wave-gallery": ScrollWaveGalleryPreview,
   "preloader-reveal": PreloaderRevealPreview,
+  "creative-clutter": CreativeClutterPreview,
+  "crt-display": CrtDisplayPreview,
+  "falling-tag-list": FallingTagListPreview,
+  "frame-scroll": FrameScrollPreview,
+  "spiral-gallery": SpiralGalleryPreview,
 };

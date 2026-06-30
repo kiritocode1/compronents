@@ -83,7 +83,133 @@ const scrollWaveGalleryAssets = Array.from({ length: 12 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const creativeClutterIds = [
+  "music",
+  "cd",
+  "dialog",
+  "folder",
+  "macmini",
+  "paper",
+  "passport",
+  "portrait",
+  "appicon",
+  "lighter",
+  "cursor",
+];
+const creativeClutterAssets = creativeClutterIds.map(
+  (id) =>
+    ({
+      id: `creative-clutter-${id}`,
+      label: `Creative Clutter ${id}`,
+      provider: "vercel-blob",
+      pathname: `creative-clutter/${id}.png`,
+      fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/creative-clutter/${id}.png`,
+      role: "Transparent cutout prop arranged on the desk and reflowed between layouts.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    }) as const satisfies AssetItem,
+);
+
+const crtDisplayAssets = [
+  {
+    id: "crt-display-model",
+    label: "CRT Display monitor model",
+    provider: "vercel-blob",
+    pathname: "crt-display/monitor.glb",
+    fallbackPath:
+      "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/crt-display/monitor.glb",
+    role: "GLB monitor model that holds the curved CRT screen plane.",
+    notes:
+      "Upload this GLB to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  {
+    id: "crt-display-default",
+    label: "CRT Display default frame",
+    provider: "vercel-blob",
+    pathname: "crt-display/default.jpg",
+    fallbackPath:
+      "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/crt-display/default.jpg",
+    role: "Image shown on the tube at rest and on pointer leave.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 5 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `crt-display-project-${n}`,
+      label: `CRT Display project ${n}`,
+      provider: "vercel-blob",
+      pathname: `crt-display/project-img-${n}.jpg`,
+      fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/crt-display/project-img-${n}.jpg`,
+      role: "Frame loaded onto the tube when its project name is hovered.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
+const fallingTagListAssets = Array.from({ length: 9 }, (_, i) => {
+  const service = Math.floor(i / 3) + 1;
+  const img = (i % 3) + 1;
+  return {
+    id: `falling-tag-list-service-${service}-img-${img}`,
+    label: `Falling Tag List service ${service} image ${img}`,
+    provider: "vercel-blob",
+    pathname: `falling-tag-list/service_${service}_img_${img}.jpg`,
+    fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/falling-tag-list/service_${service}_img_${img}.jpg`,
+    role: "Thumbnail fanned up behind a service name on hover.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
+const frameScrollAssets = [
+  {
+    id: "frame-scroll-hero",
+    label: "Frame Scroll hero image",
+    provider: "vercel-blob",
+    pathname: "frame-scroll/hero.jpg",
+    fallbackPath:
+      "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/frame-scroll/hero.jpg",
+    role: "Full-bleed hero photo that shrinks to a tile as the hero pins.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 16 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `frame-scroll-img-${n}`,
+      label: `Frame Scroll thumbnail ${n}`,
+      provider: "vercel-blob",
+      pathname: `frame-scroll/img-${n}.jpg`,
+      fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/frame-scroll/img-${n}.jpg`,
+      role: "Thumbnail drifting in one of the four parallax columns.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
+const spiralGalleryAssets = Array.from({ length: 12 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `spiral-gallery-img-${n}`,
+    label: `Spiral Gallery image ${n}`,
+    provider: "vercel-blob",
+    pathname: `spiral-gallery/img-${n}.jpg`,
+    fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/spiral-gallery/img-${n}.jpg`,
+    role: "Image mapped onto the curved tiles cycling around the helix.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...spiralGalleryAssets,
+  ...frameScrollAssets,
+  ...fallingTagListAssets,
+  ...crtDisplayAssets,
+  ...creativeClutterAssets,
   ...accordionFramesAssets,
   ...asciiImageRevealAssets,
   ...detroitParisSliderAssets,

@@ -11,6 +11,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.6.0
         version: 1.6.0(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@types/matter-js':
+        specifier: ^0.20.2
+        version: 0.20.2
       '@vercel/blob':
         specifier: ^2.5.0
         version: 2.5.0
@@ -32,6 +35,9 @@ importers:
       lucide-react:
         specifier: ^1.22.0
         version: 1.22.0(react@19.2.4)
+      matter-js:
+        specifier: ^0.20.0
+        version: 0.20.0
       motion:
         specifier: ^12.42.0
         version: 12.42.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -568,6 +574,9 @@ packages:
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
+  '@types/matter-js@0.20.2':
+    resolution: {integrity: sha512-3PPKy3QxvZ89h9+wdBV2488I1JLVs7DEpIkPvgO8JC1mUdiVSO37ZIvVctOTD7hIq8OAL2gJ3ugGSuUip6DhCw==}
+
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
 
@@ -837,6 +846,9 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
+  matter-js@0.20.0:
+    resolution: {integrity: sha512-iC9fYR7zVT3HppNnsFsp9XOoQdQN2tUyfaKg4CHLH8bN+j6GT4Gw7IH2rP0tflAebrHFw730RR3DkVSZRX8hwA==}
 
   mdast-util-to-hast@13.2.1:
     resolution: {integrity: sha512-cctsq2wp5vTsLIcaymblUriiTcZd0CwWtCbLvrOzYCDZoWyMNV8sZ7krj09FSnsiJi3WVsHLM4k6Dq/yaPyCXA==}
@@ -1471,6 +1483,8 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
+  '@types/matter-js@0.20.2': {}
+
   '@types/mdast@4.0.4':
     dependencies:
       '@types/unist': 3.0.3
@@ -1706,6 +1720,8 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  matter-js@0.20.0: {}
 
   mdast-util-to-hast@13.2.1:
     dependencies:
