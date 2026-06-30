@@ -445,67 +445,60 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/archive-commerce-page.tsx",
     nuance: [
       {
-        label: "The first viewport is the composition",
+        label: "Source export, not a repaint",
         description:
-          "The hero is designed as a full-screen storefront, with the motion asset held in the center, the title anchored to the lower left, product cards on the lower right, and the summary panel floating above the grid.",
+          "The component frames the exported Format Archive source site, including its preloader, cart drawer, product catalogue, editorial routes, GSAP reveals, Lenis scroll, and view-transition choreography.",
       },
       {
-        label: "Assets are product roles, not decoration",
+        label: "The full route set is preserved",
         description:
-          "The hero GIF, product previews, and article images are separate props so the page can be rethemed without breaking the archive rhythm.",
+          "The hosted bundle includes the homepage, catalogue, archive, info, 15 product detail pages, the editorial index, and 5 article pages.",
       },
       {
-        label: "The index continues the same system",
+        label: "Blob carries the heavy parts",
         description:
-          "After the first viewport, the product and note sections keep the same object-study cadence so it works as a complete page rather than a single hero.",
+          "The generated static site bundle, hero GIF, product imagery, editorial imagery, CSS, and JavaScript chunks are stored in Vercel Blob and streamed through a hosted template route.",
       },
     ],
     editable: [
       {
-        name: "title / subtitle / kicker",
+        name: "assetBase",
+        control: "text",
+        description: "Hosted template base, defaults to the Compronents route.",
+      },
+      {
+        name: "route",
         control: "text",
         description:
-          "Hero title, summary copy, and small uppercase context line.",
-      },
-      {
-        name: "background / textColor / mutedColor / accentColor",
-        control: "color",
-        description:
-          "The full page palette used by the hero, index, and notes.",
-      },
-      {
-        name: "heroImage / productImages / articleImages",
-        control: "asset-url",
-        description: `Blob-hosted media starting at ${getHostedAssetUrl(
-          "archive-commerce-page/hero.gif",
-        )}.`,
+          "Start the frame on catalogue, archive, editorial, info, or a source detail route.",
       },
     ],
     assets: archiveCommercePageAssetDocs,
     api: [
       {
-        name: "title / subtitle / kicker",
+        name: "assetBase",
         type: "string",
-        default: "BLANK ARCHIVE / archive copy / drop label",
-        description: "Copy for the first viewport and summary panel.",
+        default: '"https://ui.aryank.space/archive-commerce-page"',
+        description:
+          "Hosted base URL for the static source export. The hosted route streams Blob files with iframe-safe headers.",
       },
       {
-        name: "heroImage",
+        name: "route",
         type: "string",
-        default: '".../archive-commerce-page/hero.gif"',
-        description: "Animated visual used in the central hero window.",
+        default: '""',
+        description:
+          "Optional source route such as catalogue, archive, editorial, or catalogue/mirror-orb-mockup.",
       },
       {
-        name: "productImages / articleImages",
-        type: "string[]",
-        default: "6 products / 3 article notes",
-        description: "Images used in the hero strip, product index, and notes.",
+        name: "height",
+        type: "CSSProperties['height']",
+        default: '"100svh"',
+        description: "Frame height for embeds, previews, and studio canvases.",
       },
       {
-        name: "background / textColor / mutedColor / accentColor",
+        name: "className",
         type: "string",
-        default: '"#f7f5ef" / "#16130f" / "#6f675d" / "#c84f2f"',
-        description: "Page palette and action accent.",
+        description: "Optional class added to the frame wrapper.",
       },
     ],
   },

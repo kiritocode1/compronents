@@ -1,136 +1,73 @@
 "use client";
 
 import { useState } from "react";
-import { StudioColor } from "@/components/site/studio-controls";
 import {
   FullPageStudioShell,
-  StudioTextarea,
   StudioTextField,
 } from "@/components/studios/full-page-studio-shell";
 import ArchiveCommercePage from "@/registry/archive-commerce-page";
 
-const BASE = "/assets/archive-commerce-page";
-const PRODUCTS = Array.from(
-  { length: 6 },
-  (_, i) => `${BASE}/product-${i + 1}.jpeg`,
-);
-const ARTICLES = Array.from(
-  { length: 3 },
-  (_, i) => `${BASE}/article-${i + 1}.jpeg`,
-);
-
-const PRESETS = [
+const ROUTES = [
+  { id: "home", label: "Home", route: "" },
+  { id: "catalogue", label: "Catalogue", route: "catalogue" },
   {
-    id: "paper",
-    label: "Paper",
-    title: "BLANK ARCHIVE",
-    background: "#f7f5ef",
-    textColor: "#16130f",
-    mutedColor: "#6f675d",
-    accentColor: "#c84f2f",
+    id: "product",
+    label: "Product",
+    route: "catalogue/mirror-orb-mockup",
   },
+  { id: "archive", label: "Archive", route: "archive" },
+  { id: "editorial", label: "Editorial", route: "editorial" },
   {
-    id: "ink",
-    label: "Ink",
-    title: "BLANK INDEX",
-    background: "#11100d",
-    textColor: "#eee8dc",
-    mutedColor: "#9c9285",
-    accentColor: "#f0aa35",
-  },
-  {
-    id: "gallery",
-    label: "Gallery",
-    title: "OBJECT STUDY",
-    background: "#ece8df",
-    textColor: "#25211b",
-    mutedColor: "#756b5f",
-    accentColor: "#3f6d55",
+    id: "article",
+    label: "Article",
+    route: "editorial/designing-with-restraint",
   },
 ] as const;
 
-type Preset = (typeof PRESETS)[number];
+type RoutePreset = (typeof ROUTES)[number];
 
 export default function ArchiveCommercePageStudio() {
-  const [preset, setPreset] = useState<Preset>(PRESETS[0]);
-  const [title, setTitle] = useState<string>(preset.title);
-  const [subtitle, setSubtitle] = useState(
-    "A quiet catalogue for mockups, objects, notes, and release fragments arranged with gallery-level restraint.",
-  );
-  const [background, setBackground] = useState<string>(preset.background);
-  const [textColor, setTextColor] = useState<string>(preset.textColor);
-  const [mutedColor, setMutedColor] = useState<string>(preset.mutedColor);
-  const [accentColor, setAccentColor] = useState<string>(preset.accentColor);
+  const [preset, setPreset] = useState<RoutePreset>(ROUTES[0]);
+  const [assetBase, setAssetBase] = useState("/archive-commerce-page");
+  const [route, setRoute] = useState<string>(preset.route);
 
   function applyPreset(id: string) {
-    const next = PRESETS.find((item) => item.id === id) ?? PRESETS[0];
+    const next = ROUTES.find((item) => item.id === id) ?? ROUTES[0];
     setPreset(next);
-    setTitle(next.title);
-    setBackground(next.background);
-    setTextColor(next.textColor);
-    setMutedColor(next.mutedColor);
-    setAccentColor(next.accentColor);
+    setRoute(next.route);
   }
 
   return (
     <FullPageStudioShell
       name="archive-commerce-page"
       title="Archive Commerce Page"
-      presets={PRESETS}
+      presets={ROUTES}
       activePreset={preset.id}
       onPreset={applyPreset}
-      onReset={() => applyPreset(PRESETS[0].id)}
+      onReset={() => {
+        setAssetBase("/archive-commerce-page");
+        applyPreset(ROUTES[0].id);
+      }}
       controls={
         <>
-          <StudioTextField label="Title" value={title} onChange={setTitle} />
-          <StudioTextarea
-            label="Subtitle"
-            value={subtitle}
-            onChange={setSubtitle}
+          <StudioTextField
+            label="Hosted base"
+            value={assetBase}
+            onChange={setAssetBase}
           />
-          <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StudioColor
-              label="Back"
-              value={background}
-              onChange={setBackground}
-            />
-            <StudioColor
-              label="Text"
-              value={textColor}
-              onChange={setTextColor}
-            />
-            <StudioColor
-              label="Muted"
-              value={mutedColor}
-              onChange={setMutedColor}
-            />
-            <StudioColor
-              label="Accent"
-              value={accentColor}
-              onChange={setAccentColor}
-            />
-          </section>
+          <StudioTextField label="Route" value={route} onChange={setRoute} />
         </>
       }
       note={
         <p>
-          This page uses one animated hero asset, six product surfaces, and
-          three editorial notes from Vercel Blob. The composition is built for a
-          full viewport first, then continues into a product index.
+          This is the static export of the Format Archive source, served through
+          a hosted proxy while every generated asset stays in Vercel Blob. It
+          keeps the source preloader, cart drawer, Lenis scroll, GSAP reveals,
+          product detail routes, editorial routes, and view transitions.
         </p>
       }
     >
-      <ArchiveCommercePage
-        title={title}
-        subtitle={subtitle}
-        heroImage={`${BASE}/hero.gif`}
-        productImages={PRODUCTS}
-        articleImages={ARTICLES}
-        background={background}
-        textColor={textColor}
-        mutedColor={mutedColor}
-        accentColor={accentColor}
-      />
+      <ArchiveCommercePage assetBase={assetBase} route={route} height="100%" />
     </FullPageStudioShell>
   );
 }

@@ -165,7 +165,7 @@ export const registryItems: RegistryItem[] = [
     name: "archive-commerce-page",
     title: "Archive Commerce Page",
     description:
-      "A full-screen editorial storefront adapted from the full-pages archive source. The first viewport uses an animated Blob-hosted hero, huge bottom-anchored type, product previews, and a compact action panel, then opens into a product index and note grid. Built as a self-contained page component with palette, title, subtitle, and asset props.",
+      "A source-backed Format Archive website template. It frames the complete static export with Blob-hosted HTML, CSS, JavaScript, hero GIF, product imagery, editorial imagery, preloader, cart drawer, Lenis smooth scroll, GSAP reveals, product detail routes, editorial routes, and view-transition choreography.",
     section: "pages",
     category: "Layout",
     pro: true,

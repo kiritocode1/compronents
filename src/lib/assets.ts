@@ -1,5 +1,5 @@
 const ASSET_ORIGIN = "https://compronents.dev";
-const BLOB_PUBLIC_ORIGIN =
+export const BLOB_PUBLIC_ORIGIN =
   "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com";
 export const ASSET_ROUTE_PREFIX = "/assets";
 
@@ -371,30 +371,32 @@ const archiveCommercePageAssets = [
     notes:
       "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
   } as const satisfies AssetItem,
-  ...Array.from({ length: 6 }, (_, i) => {
+  ...Array.from({ length: 15 }, (_, i) => {
     const n = i + 1;
+    const file = `product_${String(n).padStart(3, "0")}.jpeg`;
     return {
       id: `archive-commerce-page-product-${n}`,
       label: `Archive Commerce Page product ${n}`,
       provider: "vercel-blob",
-      pathname: `archive-commerce-page/product-${n}.jpeg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/product-${n}.jpeg`,
-      role: "Product surface in the hero strip and archive grid.",
+      pathname: `archive-commerce-page/product_images/${file}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/product_images/${file}`,
+      role: "Product surface from the Format Archive catalogue and product detail routes.",
       notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+        "Uploaded to Vercel Blob with the source pathname for the Format Archive static site bundle.",
     } as const satisfies AssetItem;
   }),
-  ...Array.from({ length: 3 }, (_, i) => {
+  ...Array.from({ length: 5 }, (_, i) => {
     const n = i + 1;
+    const file = `article_${String(n).padStart(3, "0")}.jpeg`;
     return {
       id: `archive-commerce-page-article-${n}`,
       label: `Archive Commerce Page note ${n}`,
       provider: "vercel-blob",
-      pathname: `archive-commerce-page/article-${n}.jpeg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/article-${n}.jpeg`,
-      role: "Editorial note image in the closing archive section.",
+      pathname: `archive-commerce-page/article_images/${file}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/archive-commerce-page/article_images/${file}`,
+      role: "Editorial image from the Format Archive editorial routes.",
       notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+        "Uploaded to Vercel Blob with the source pathname for the Format Archive static site bundle.",
     } as const satisfies AssetItem;
   }),
 ];
