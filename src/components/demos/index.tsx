@@ -3,8 +3,11 @@
 import type { ComponentType } from "react";
 import AccordionFramesDemo from "./accordion-frames";
 import AnimatedFooterDemo from "./animated-footer";
+import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
 import AwardListDemo from "./award-list";
+import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
+import DetroitParisSliderDemo from "./detroit-paris-slider";
 import ImageRevealDemo from "./image-reveal";
 import InversaScrollDemo from "./inversa-scroll";
 import MaterialSpotlightDemo from "./material-spotlight";
@@ -21,6 +24,9 @@ import PortfolioPageDemo from "./portfolio-page";
 export const demos: Record<string, ComponentType> = {
   "animated-footer": AnimatedFooterDemo,
   "accordion-frames": AccordionFramesDemo,
+  "ascii-image-reveal": AsciiImageRevealDemo,
+  "cappen-fluid-simulation": CappenFluidSimulationDemo,
+  "detroit-paris-slider": DetroitParisSliderDemo,
   "ascii-logo": AsciiLogoDemo,
   "overlay-menu": OverlayMenuDemo,
   "mosaic-flip": MosaicFlipDemo,

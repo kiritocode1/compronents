@@ -103,6 +103,66 @@ export interface RegistryItem {
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "cappen-fluid-simulation",
+    title: "Cappen Fluid Simulation",
+    description:
+      "A WebGL fluid field laid over a hard typographic hero. Pointer velocity splats into a GPU dye simulation, the display pass thresholds it into an ink mask, and idle currents keep the canvas alive even before interaction. Three.js render targets, scoped to a React component.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cappen-fluid-simulation.tsx",
+        target: "components/ui/cappen-fluid-simulation.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "ascii-image-reveal",
+    title: "ASCII Image Reveal",
+    description:
+      "A gallery of photos that decode from canvas glyphs. Each tile samples its image into a luminance grid, reveals cells in a shuffled order, scrambles dense shadow characters, then fades the original photograph through the ASCII plate.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ascii-image-reveal.tsx",
+        target: "components/ui/ascii-image-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "detroit-paris-slider",
+    title: "Detroit Paris Slider",
+    description:
+      "An infinite image stream whose slides grow along an exponential baseline. Wheel, drag, and idle motion push one scroll target while each poster wraps through the track and swaps images as it re-enters.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-06-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/detroit-paris-slider.tsx",
+        target: "components/ui/detroit-paris-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "accordion-frames",
     title: "Accordion Frames",
     description:

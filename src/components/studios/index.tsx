@@ -3,8 +3,11 @@
 import type { ComponentType } from "react";
 import AccordionFramesStudio from "./accordion-frames";
 import AnimatedFooterStudio from "./animated-footer";
+import AsciiImageRevealStudio from "./ascii-image-reveal";
 import AsciiLogoStudio from "./ascii-logo";
 import AwardListStudio from "./award-list";
+import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
+import DetroitParisSliderStudio from "./detroit-paris-slider";
 import ImageRevealStudio from "./image-reveal";
 import InversaScrollStudio from "./inversa-scroll";
 import MaterialSpotlightStudio from "./material-spotlight";
@@ -21,6 +24,9 @@ export type StudioComponent = ComponentType;
 export const studios: Record<string, StudioComponent> = {
   "animated-footer": AnimatedFooterStudio,
   "accordion-frames": AccordionFramesStudio,
+  "ascii-image-reveal": AsciiImageRevealStudio,
+  "cappen-fluid-simulation": CappenFluidSimulationStudio,
+  "detroit-paris-slider": DetroitParisSliderStudio,
   "ascii-logo": AsciiLogoStudio,
   "overlay-menu": OverlayMenuStudio,
   "mosaic-flip": MosaicFlipStudio,

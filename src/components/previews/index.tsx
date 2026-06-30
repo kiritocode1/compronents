@@ -3,8 +3,11 @@
 import type { ComponentType } from "react";
 import AccordionFramesPreview from "./accordion-frames";
 import AnimatedFooterPreview from "./animated-footer";
+import AsciiImageRevealPreview from "./ascii-image-reveal";
 import AsciiLogoPreview from "./ascii-logo";
 import AwardListPreview from "./award-list";
+import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
+import DetroitParisSliderPreview from "./detroit-paris-slider";
 import ImageRevealPreview from "./image-reveal";
 import InversaScrollPreview from "./inversa-scroll";
 import MaterialSpotlightPreview from "./material-spotlight";
@@ -23,6 +26,9 @@ import PortfolioPagePreview from "./portfolio-page";
 export const previews: Record<string, ComponentType> = {
   "animated-footer": AnimatedFooterPreview,
   "accordion-frames": AccordionFramesPreview,
+  "ascii-image-reveal": AsciiImageRevealPreview,
+  "cappen-fluid-simulation": CappenFluidSimulationPreview,
+  "detroit-paris-slider": DetroitParisSliderPreview,
   "ascii-logo": AsciiLogoPreview,
   "overlay-menu": OverlayMenuPreview,
   "mosaic-flip": MosaicFlipPreview,

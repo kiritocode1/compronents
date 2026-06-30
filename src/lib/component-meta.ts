@@ -74,6 +74,36 @@ const accordionFramesAssets = assetItems
         : asset.role,
   }));
 
+const asciiImageRevealAssets = assetItems
+  .filter((asset) => asset.id.startsWith("ascii-image-reveal-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "ascii-image-reveal-img-1"
+        ? "First of the 15-image set img1.jpg ... img15.jpg, each sampled into ASCII before its photo reveal."
+        : asset.role,
+  }));
+
+const detroitParisSliderAssets = assetItems
+  .filter((asset) => asset.id.startsWith("detroit-paris-slider-"))
+  .slice(0, 3)
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role:
+      asset.id === "detroit-paris-slider-img-1"
+        ? "First of the 10-image set slide-img-1.jpg ... slide-img-10.jpg, wrapped through the infinite stream."
+        : asset.role,
+  }));
+
 const asciiLogoAssets = assetItems
   .filter((asset) => asset.id.startsWith("ascii-logo-"))
   .map((asset) => ({
@@ -167,6 +197,226 @@ const portfolioPageAssets = assetItems
   }));
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "cappen-fluid-simulation": {
+    demoPath: "src/components/demos/cappen-fluid-simulation.tsx",
+    studioPath: "src/components/studios/cappen-fluid-simulation.tsx",
+    nuance: [
+      {
+        label: "The canvas is the material",
+        description:
+          "The text remains ordinary DOM. A transparent WebGL canvas sits above it with mix-blend-mode difference, so the ink reads as an optical layer rather than a background animation.",
+      },
+      {
+        label: "Scoped fluid state",
+        description:
+          "Renderer, render targets, pointer listeners, resize observer, and rAF loop are all owned by the component and disposed on unmount.",
+      },
+      {
+        label: "Idle splats prevent silence",
+        description:
+          "The original waits for input. This port seeds the field and adds subtle idle splats so a registry preview is never blank.",
+      },
+    ],
+    editable: [
+      {
+        name: "headline",
+        control: "tuple",
+        description: "Three uppercase lines arranged left, right, and center.",
+      },
+      {
+        name: "inkColor / blendMode",
+        control: "color",
+        description:
+          "The shader output color and the CSS compositing mode used over the typography.",
+      },
+      {
+        name: "curl / forceStrength",
+        control: "text",
+        description:
+          "Simulation energy controls: vortex pull and pointer velocity injection.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "headline",
+        type: "string[]",
+        default: '["Fluid System In", "Constant Field", "Of Interaction"]',
+        description: "Three hero lines rendered behind the fluid layer.",
+      },
+      {
+        name: "navLinks",
+        type: "{ label: string; href: string }[]",
+        default: "works / about / updates / start a project",
+        description: "Optional mono navigation row.",
+      },
+      {
+        name: "inkColor / background / textColor",
+        type: "string",
+        default: '"#ffffff" / "#ffffff" / "#000000"',
+        description: "Color system for the ink pass and page layer.",
+      },
+      {
+        name: "simResolution / dyeResolution",
+        type: "number",
+        default: "256 / 1024",
+        description: "Render target resolution for velocity and dye fields.",
+      },
+      {
+        name: "curl / forceStrength / splatRadius",
+        type: "number",
+        default: "50 / 8.5 / 0.3",
+        description: "Fluid behavior controls.",
+      },
+    ],
+  },
+  "ascii-image-reveal": {
+    demoPath: "src/components/demos/ascii-image-reveal.tsx",
+    studioPath: "src/components/studios/ascii-image-reveal.tsx",
+    nuance: [
+      {
+        label: "ASCII before image",
+        description:
+          "The photo is hidden while a canvas version appears cell-by-cell. Only once the glyph grid settles does the real image fade in.",
+      },
+      {
+        label: "Shadows scramble longer",
+        description:
+          "Darker sampled cells use a denser character subset and continue scrambling, giving silhouettes a noisy darkroom feel.",
+      },
+      {
+        label: "Grid positions matter",
+        description:
+          "The desktop layout intentionally leaves holes across a 10-column stage. Mobile collapses to a clean two-column gallery.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: `Fifteen images hosted through ${getHostedAssetUrl(
+          "ascii-image-reveal/img1.jpg",
+        )} and the numbered set.`,
+      },
+      {
+        name: "chars / columns",
+        control: "text",
+        description: "Glyph ramp and sampling density.",
+      },
+      {
+        name: "glyphColor / canvasBackground",
+        control: "color",
+        description: "ASCII plate colors before the image reveal.",
+      },
+    ],
+    assets: asciiImageRevealAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "15 Compronents-hosted JPGs",
+        description: "Images sampled into the ASCII reveal tiles.",
+      },
+      {
+        name: "chars",
+        type: "string",
+        default: '"........:::=+xX#0369"',
+        description: "Dark-to-bright glyph ramp.",
+      },
+      {
+        name: "columns / fontSize",
+        type: "number",
+        default: "25 / 14",
+        description: "ASCII sampling grid and canvas font size.",
+      },
+      {
+        name: "scrambleCount / scrambleSpeedMs",
+        type: "number",
+        default: "10 / 100",
+        description: "How long dark cells keep cycling random dense glyphs.",
+      },
+      {
+        name: "gap / background",
+        type: "string",
+        default: '"2rem" / "#111111"',
+        description: "Gallery spacing and page background.",
+      },
+    ],
+  },
+  "detroit-paris-slider": {
+    demoPath: "src/components/demos/detroit-paris-slider.tsx",
+    studioPath: "src/components/studios/detroit-paris-slider.tsx",
+    nuance: [
+      {
+        label: "Exponential track",
+        description:
+          "Slide edges are not linearly spaced. The width grows exponentially as a slide approaches the foreground.",
+      },
+      {
+        label: "One scroll target",
+        description:
+          "Wheel, drag, and idle motion all push a single target that is lerped into the current scroll for a soft mechanical feel.",
+      },
+      {
+        label: "Images wrap, not clone",
+        description:
+          "A fixed pool of slide elements changes image source when its stream index wraps back into view.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: `Ten poster images hosted through ${getHostedAssetUrl(
+          "detroit-paris-slider/slide-img-1.jpg",
+        )} and the numbered set.`,
+      },
+      {
+        name: "title",
+        control: "text",
+        description: "Large header over the stream.",
+      },
+      {
+        name: "growth / scrollSpeed",
+        control: "text",
+        description:
+          "Exponential spacing strength and pointer/wheel sensitivity.",
+      },
+    ],
+    assets: detroitParisSliderAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "10 Compronents-hosted JPGs",
+        description: "Poster images wrapped through the stream.",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: '"Perpetual Motion"',
+        description: "Display title placed over the slider.",
+      },
+      {
+        name: "lerp / scrollSpeed",
+        type: "number",
+        default: "0.075 / 3.5",
+        description: "Smoothing and input sensitivity.",
+      },
+      {
+        name: "minSize / growth / aspect",
+        type: "number",
+        default: "0.1 / 0.25 / 0.8",
+        description: "The math that determines slide sizes along the track.",
+      },
+      {
+        name: "autoplay / autoplaySpeed",
+        type: "boolean / number",
+        default: "true / 0.004",
+        description: "Idle motion so the stream moves before user input.",
+      },
+    ],
+  },
   "portfolio-page": {
     demoPath: "src/components/demos/portfolio-page.tsx",
     studioPath: "src/components/studios/portfolio-page.tsx",

@@ -27,8 +27,38 @@ const accordionFramesAssets = Array.from({ length: 20 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const asciiImageRevealAssets = Array.from({ length: 15 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `ascii-image-reveal-img-${n}`,
+    label: `ASCII Image Reveal frame ${n}`,
+    provider: "vercel-blob",
+    pathname: `ascii-image-reveal/img${n}.jpg`,
+    fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/ascii-image-reveal/img${n}.jpg`,
+    role: "Photo sampled into the staggered ASCII grid before the original image is revealed.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
+const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `detroit-paris-slider-img-${n}`,
+    label: `Detroit Paris Slider image ${n}`,
+    provider: "vercel-blob",
+    pathname: `detroit-paris-slider/slide-img-${n}.jpg`,
+    fallbackPath: `https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/detroit-paris-slider/slide-img-${n}.jpg`,
+    role: "Looping slide image resized along the exponential infinite track.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
   ...accordionFramesAssets,
+  ...asciiImageRevealAssets,
+  ...detroitParisSliderAssets,
   {
     id: "ascii-logo-source",
     label: "ASCII Logo source wordmark",
