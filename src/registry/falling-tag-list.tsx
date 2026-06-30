@@ -222,7 +222,7 @@ export default function FallingTagList({
 
       const onEnter = () => {
         isHovered = true;
-        const expandedHeight = service.offsetWidth < 1000 ? "12.5rem" : "25rem";
+        const expandedHeight = window.innerWidth < 1000 ? "12.5rem" : "25rem";
         gsap.killTweensOf(service);
         gsap.killTweensOf(serviceImages);
         if (serviceName) gsap.killTweensOf(serviceName);
@@ -252,7 +252,7 @@ export default function FallingTagList({
 
       const onLeave = () => {
         isHovered = false;
-        const collapsedHeight = service.offsetWidth < 1000 ? "5rem" : "10rem";
+        const collapsedHeight = window.innerWidth < 1000 ? "5rem" : "10rem";
         if (dropTimer) dropTimer.kill();
         gsap.killTweensOf(service);
         gsap.killTweensOf(serviceImages);
