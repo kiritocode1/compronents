@@ -343,13 +343,14 @@ const styles = `
   min-height: 480px;
   overflow: hidden;
   container-type: inline-size;
+  background: linear-gradient(var(--sg-hero-bg), var(--sg-about-bg));
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
 .sg-canvas {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 .sg-canvas canvas {
@@ -360,7 +361,7 @@ const styles = `
 
 .sg-root.sg-embedded .sg-scroller {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -386,12 +387,12 @@ const styles = `
 
 .sg-hero {
   height: 150svh;
-  background: var(--sg-hero-bg);
+  background: transparent;
   text-align: justify;
 }
 .sg-about {
   height: 100svh;
-  background: var(--sg-about-bg);
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;

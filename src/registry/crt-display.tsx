@@ -134,7 +134,7 @@ function createScreenGeometry(w: number, h: number, r: number) {
 
 export default function CrtDisplay({
   src = `${COMPRONENTS_ASSET_BASE}/monitor.glb`,
-  defaultImage = `${COMPRONENTS_ASSET_BASE}/default.jpg`,
+  defaultImage = `${COMPRONENTS_ASSET_BASE}/project-img-1.jpg`,
   projects = DEFAULT_PROJECTS,
   background = "#b0b0b0",
   exposure = 1.25,

@@ -15,7 +15,7 @@ export default function CrtDisplayDemo() {
     <div className="relative h-[620px] w-full overflow-hidden rounded-md bg-[#b0b0b0]">
       <CrtDisplay
         src="/assets/crt-display/monitor.glb"
-        defaultImage="/assets/crt-display/default.jpg"
+        defaultImage="/assets/crt-display/project-img-1.jpg"
         projects={PROJECTS}
       />
     </div>

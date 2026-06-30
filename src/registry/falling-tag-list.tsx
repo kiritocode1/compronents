@@ -341,6 +341,8 @@ export default function FallingTagList({
 }
 
 const styles = `
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&display=swap");
+
 .ftl-root {
   position: relative;
   width: 100%;
@@ -373,7 +375,7 @@ const styles = `
   position: relative;
   margin: 0;
   text-transform: uppercase;
-  font-size: clamp(3.5rem, 14cqw, 10rem);
+  font-size: clamp(2.75rem, 12cqw, 9rem);
   font-weight: 900;
   letter-spacing: -0.1rem;
   line-height: 1;

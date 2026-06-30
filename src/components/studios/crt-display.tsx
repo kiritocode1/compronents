@@ -51,7 +51,7 @@ export default function CrtDisplayStudio() {
         </Link>
         <CrtDisplay
           src="/assets/crt-display/monitor.glb"
-          defaultImage="/assets/crt-display/default.jpg"
+          defaultImage="/assets/crt-display/project-img-1.jpg"
           projects={PROJECTS}
           background={background}
           exposure={exposure}

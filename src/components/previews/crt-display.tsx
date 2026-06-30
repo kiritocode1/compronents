@@ -15,7 +15,7 @@ export default function CrtDisplayPreview() {
     <main className="h-screen w-full overflow-hidden bg-[#b0b0b0]">
       <CrtDisplay
         src="/assets/crt-display/monitor.glb"
-        defaultImage="/assets/crt-display/default.jpg"
+        defaultImage="/assets/crt-display/project-img-1.jpg"
         projects={PROJECTS}
       />
     </main>
