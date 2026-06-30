@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@vercel/blob": "^2.5.0",
     "calligraph": "^1.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

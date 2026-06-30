@@ -34,19 +34,55 @@ If the component needs bespoke editing controls, add:
 
 ## Assets
 
-Component assets should be stored in Vercel Blob and served through the local
-asset route:
+Component assets are stored in Vercel Blob and served through the local asset
+route:
 
 ```txt
 /assets/<asset-path>
 ```
 
-The route resolves each asset in this order:
+The public route resolves each asset in this order:
 
-1. Per-asset Blob URL env var, for example
-   `COMPRONENTS_BLOB_ANIMATED_FOOTER_LEFT_HAND_URL`
-2. Shared Blob base URL, `COMPRONENTS_BLOB_BASE_URL`
-3. Local public fallback for development
+1. Vercel Blob object at `<asset-path>`
+2. Local public fallback for development, when the asset is registered in
+   `src/lib/assets.ts`
+
+Required environment variables:
+
+```txt
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
+REGISTRY_ASSET_ADMIN_TOKEN=long-random-admin-token
+```
+
+Optional:
+
+```txt
+REGISTRY_ASSET_MAX_BYTES=26214400
+```
+
+Upload assets through the admin-protected API:
+
+```bash
+curl -X POST http://localhost:3000/api/registry-assets \
+  -H "Authorization: Bearer $REGISTRY_ASSET_ADMIN_TOKEN" \
+  -F "pathname=animated-footer/blank-hand-right.png" \
+  -F "file=@public/blank-hand-right.png" \
+  -F "allowOverwrite=true"
+```
+
+List assets:
+
+```bash
+curl http://localhost:3000/api/registry-assets?prefix=animated-footer \
+  -H "Authorization: Bearer $REGISTRY_ASSET_ADMIN_TOKEN"
+```
+
+Delete an asset:
+
+```bash
+curl -X DELETE http://localhost:3000/api/registry-assets/animated-footer/blank-hand-right.png \
+  -H "Authorization: Bearer $REGISTRY_ASSET_ADMIN_TOKEN"
+```
 
 For the existing Animated Footer assets, upload these public files to Vercel
 Blob with matching pathnames:

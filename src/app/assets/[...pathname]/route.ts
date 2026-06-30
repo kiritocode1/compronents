@@ -1,4 +1,8 @@
-import { assetItems, getAssetByPathname, getBlobAssetUrl } from "@/lib/assets";
+import { assetItems, getAssetByPathname } from "@/lib/assets";
+import {
+  getRegistryAssetServingUrl,
+  normalizeAssetPathname,
+} from "@/lib/blob-assets";
 
 export function generateStaticParams() {
   return assetItems.map((asset) => ({
@@ -11,12 +15,31 @@ export async function GET(
   context: { params: Promise<{ pathname: string[] }> },
 ) {
   const { pathname } = await context.params;
-  const asset = getAssetByPathname(pathname.join("/"));
+  let safePathname: string;
 
-  if (!asset) {
+  try {
+    safePathname = normalizeAssetPathname(pathname.join("/"));
+  } catch (error) {
+    return Response.json(
+      { error: error instanceof Error ? error.message : "Invalid pathname." },
+      { status: 400 },
+    );
+  }
+
+  const target = await getRegistryAssetServingUrl(
+    safePathname,
+    getAssetByPathname(safePathname),
+  );
+
+  if (!target) {
     return Response.json({ error: "Asset not found." }, { status: 404 });
   }
 
-  const target = getBlobAssetUrl(asset) ?? asset.fallbackPath;
-  return Response.redirect(new URL(target, request.url), 307);
+  return new Response(null, {
+    status: 307,
+    headers: {
+      Location: new URL(target, request.url).toString(),
+      "Cache-Control": "public, max-age=60",
+    },
+  });
 }
