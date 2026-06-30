@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import MaterialSpotlight from "@/registry/material-spotlight";
 
 const MODEL = "/assets/material-spotlight/model.glb";
@@ -49,8 +53,8 @@ export default function MaterialSpotlightStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[500px] w-full overflow-hidden xl:h-[540px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[500px] w-full overflow-hidden rounded-t-lg xl:h-[540px]">
         <Link
           href="/components/material-spotlight/preview"
           target="_blank"
@@ -70,7 +74,7 @@ export default function MaterialSpotlightStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -109,47 +113,33 @@ export default function MaterialSpotlightStudio() {
         </div>
 
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[1fr_1fr_1fr]">
-          <label className="flex flex-col gap-2">
-            <span className="label">Background</span>
-            <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-              <input
-                type="color"
-                value={background}
-                onChange={(e) => setBackground(e.target.value)}
-                className="size-5 border-0 bg-transparent p-0"
-                aria-label="Background color"
-              />
-              <span className="text-xs text-muted-foreground">
-                {background}
-              </span>
-            </span>
-          </label>
+          <StudioColor
+            label="Background"
+            value={background}
+            onChange={setBackground}
+          />
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Radius — {radius.toFixed(2)}</span>
-            <input
-              type="range"
-              min={0.05}
-              max={0.4}
-              step={0.01}
-              value={radius}
-              onChange={(e) => setRadius(Number(e.target.value))}
-              className="mt-3 w-full accent-foreground"
-            />
-          </label>
+          <SliderComfortable
+            variant="scrubber"
+            label="Radius"
+            value={radius}
+            onChange={setRadius}
+            min={0.05}
+            max={0.4}
+            step={0.01}
+            formatValue={(v) => v.toFixed(2)}
+          />
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Softness — {softness.toFixed(2)}</span>
-            <input
-              type="range"
-              min={0.05}
-              max={0.8}
-              step={0.01}
-              value={softness}
-              onChange={(e) => setSoftness(Number(e.target.value))}
-              className="mt-3 w-full accent-foreground"
-            />
-          </label>
+          <SliderComfortable
+            variant="scrubber"
+            label="Softness"
+            value={softness}
+            onChange={setSoftness}
+            min={0.05}
+            max={0.8}
+            step={0.01}
+            formatValue={(v) => v.toFixed(2)}
+          />
         </div>
 
         <div className="flex items-start gap-2 border-t p-4 text-xs leading-relaxed text-muted-foreground sm:p-5">

@@ -25,6 +25,8 @@
   --accent: #6d5bd0;
   --accent-foreground: #ffffff;
   --accent-soft: #8b7fe0;
+  /* Selected / hover pill background for tab-style controls */
+  --active: rgba(0, 0, 0, 0.05);
   --radius: 0.5rem;
 }
 
@@ -45,6 +47,7 @@
   --accent: #a78bfa;
   --accent-foreground: #0a0a0a;
   --accent-soft: #c4b5fd;
+  --active: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
@@ -64,6 +67,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-soft: var(--accent-soft);
+  --color-active: var(--active);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 0.125rem);
@@ -112,6 +116,14 @@ body {
 }
 
 @layer utilities {
+  /* Hide scrollbars on horizontally-scrollable strips (e.g. tab rails) */
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Uppercase, letter-spaced mono label used for section headers */
   .label {
     text-transform: uppercase;

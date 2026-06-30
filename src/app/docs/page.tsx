@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/site/code-block";
 import {
+  REGISTRY_BASE_URL,
   REGISTRY_NAME,
   REGISTRY_NAMESPACE,
   registryItems,
+  registryItemUrl,
 } from "@/lib/registry";
 import { highlight } from "@/lib/shiki";
 
@@ -15,12 +17,12 @@ export const metadata: Metadata = {
 };
 
 const first = registryItems[0]?.name ?? "button";
-const URL_CMD = `npx shadcn@latest add http://localhost:3000/r/${first}.json`;
-const NAMESPACE_CMD = `npx shadcn@latest registry add ${REGISTRY_NAMESPACE}=http://localhost:3000/r/{name}.json`;
+const URL_CMD = `npx shadcn@latest add ${registryItemUrl(first)}`;
+const NAMESPACE_CMD = `npx shadcn@latest registry add ${REGISTRY_NAMESPACE}=${REGISTRY_BASE_URL}/r/{name}.json`;
 const ADD_CMD = `npx shadcn@latest add ${REGISTRY_NAMESPACE}/${first}`;
 const COMPONENTS_JSON = `{
   "registries": {
-    "${REGISTRY_NAMESPACE}": "http://localhost:3000/r/{name}.json"
+    "${REGISTRY_NAMESPACE}": "${REGISTRY_BASE_URL}/r/{name}.json"
   }
 }`;
 

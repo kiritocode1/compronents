@@ -3,6 +3,7 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { StudioColor } from "@/components/site/studio-controls";
 import MosaicFlip from "@/registry/mosaic-flip";
 
 const IMAGES = [
@@ -48,8 +49,8 @@ export default function MosaicFlipStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[520px] w-full overflow-hidden bg-[#171717]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[520px] w-full overflow-hidden rounded-t-lg bg-[#171717]">
         <Link
           href="/components/mosaic-flip/preview"
           target="_blank"
@@ -70,7 +71,7 @@ export default function MosaicFlipStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -109,19 +110,11 @@ export default function MosaicFlipStudio() {
         </div>
 
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[1fr_2fr]">
-          <label className="flex flex-col gap-2">
-            <span className="label">Cube edge</span>
-            <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-              <input
-                type="color"
-                value={edgeColor}
-                onChange={(e) => setEdgeColor(e.target.value)}
-                className="size-5 border-0 bg-transparent p-0"
-                aria-label="Cube edge color"
-              />
-              <span className="text-xs text-muted-foreground">{edgeColor}</span>
-            </span>
-          </label>
+          <StudioColor
+            label="Cube edge"
+            value={edgeColor}
+            onChange={setEdgeColor}
+          />
 
           <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />

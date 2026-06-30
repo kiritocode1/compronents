@@ -3,6 +3,7 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { StudioColor } from "@/components/site/studio-controls";
 import AnimatedFooter, { type FooterLink } from "@/registry/animated-footer";
 
 const LEFT_HAND = "/assets/animated-footer/blank-hand-right.png";
@@ -89,8 +90,8 @@ export default function AnimatedFooterStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[680px] w-full overflow-hidden bg-black max-sm:h-[620px] xl:h-[720px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[680px] w-full overflow-hidden rounded-t-lg bg-black max-sm:h-[620px] xl:h-[720px]">
         <Link
           href="/components/animated-footer/preview"
           target="_blank"
@@ -114,7 +115,7 @@ export default function AnimatedFooterStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -174,36 +175,16 @@ export default function AnimatedFooterStudio() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-2">
-                <span className="label">Glyph</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={charColor}
-                    onChange={(event) => setCharColor(event.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Glyph color"
-                  />
-                  <span className="text-xs text-muted-foreground">
-                    {charColor}
-                  </span>
-                </span>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="label">Hover</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={hoverColor}
-                    onChange={(event) => setHoverColor(event.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Hover color"
-                  />
-                  <span className="text-xs text-muted-foreground">
-                    {hoverColor}
-                  </span>
-                </span>
-              </label>
+              <StudioColor
+                label="Glyph"
+                value={charColor}
+                onChange={setCharColor}
+              />
+              <StudioColor
+                label="Hover"
+                value={hoverColor}
+                onChange={setHoverColor}
+              />
             </div>
           </section>
 

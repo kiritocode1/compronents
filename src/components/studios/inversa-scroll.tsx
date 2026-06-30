@@ -3,6 +3,7 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { StudioColor } from "@/components/site/studio-controls";
 import InversaScroll, { type InversaMarker } from "@/registry/inversa-scroll";
 
 const BASE = "/assets/inversa-scroll";
@@ -53,8 +54,8 @@ export default function InversaScrollStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[560px] w-full overflow-hidden">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[560px] w-full overflow-hidden rounded-t-lg">
         <Link
           href="/components/inversa-scroll/preview"
           target="_blank"
@@ -75,7 +76,7 @@ export default function InversaScrollStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -115,26 +116,17 @@ export default function InversaScrollStudio() {
 
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[2fr_1.4fr]">
           <section className="grid grid-cols-3 gap-3">
-            {[
-              ["Marker 1", accent1, setAccent1],
-              ["Marker 2", accent2, setAccent2],
-              ["Backdrop", dark, setDark],
-            ].map(([labelText, value, setter]) => (
-              <label key={labelText as string} className="flex flex-col gap-2">
-                <span className="label">{labelText as string}</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={value as string}
-                    onChange={(e) =>
-                      (setter as (v: string) => void)(e.target.value)
-                    }
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label={labelText as string}
-                  />
-                </span>
-              </label>
-            ))}
+            <StudioColor
+              label="Marker 1"
+              value={accent1}
+              onChange={setAccent1}
+            />
+            <StudioColor
+              label="Marker 2"
+              value={accent2}
+              onChange={setAccent2}
+            />
+            <StudioColor label="Backdrop" value={dark} onChange={setDark} />
           </section>
 
           <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">

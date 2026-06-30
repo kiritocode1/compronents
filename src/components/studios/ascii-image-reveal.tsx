@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import AsciiImageReveal from "@/registry/ascii-image-reveal";
 
 const IMAGES = Array.from(
@@ -12,8 +16,8 @@ const IMAGES = Array.from(
 
 const PRESETS = [
   {
-    id: "codegrid",
-    label: "Codegrid",
+    id: "blank",
+    label: "Blank",
     background: "#111111",
     canvasBackground: "#111111",
     glyphColor: "#c8c8c8",
@@ -84,8 +88,8 @@ export default function AsciiImageRevealStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[680px] w-full overflow-hidden bg-black xl:h-[760px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[680px] w-full overflow-hidden rounded-t-lg bg-black xl:h-[760px]">
         <Link
           href="/components/ascii-image-reveal/preview"
           target="_blank"
@@ -109,7 +113,7 @@ export default function AsciiImageRevealStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -150,26 +154,21 @@ export default function AsciiImageRevealStudio() {
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[minmax(240px,1fr)_minmax(280px,1.1fr)_minmax(240px,1fr)]">
           <section className="grid content-start gap-3">
             <div className="grid grid-cols-3 gap-3">
-              {[
-                ["Glyph", glyphColor, setGlyphColor],
-                ["Canvas", canvasBackground, setCanvasBackground],
-                ["Back", background, setBackground],
-              ].map(([label, value, setter]) => (
-                <label className="flex flex-col gap-2" key={label as string}>
-                  <span className="label">{label as string}</span>
-                  <span className="flex h-10 items-center rounded-md border bg-card px-2">
-                    <input
-                      type="color"
-                      value={value as string}
-                      onChange={(event) =>
-                        (setter as (value: string) => void)(event.target.value)
-                      }
-                      className="size-5 border-0 bg-transparent p-0"
-                      aria-label={`${label as string} color`}
-                    />
-                  </span>
-                </label>
-              ))}
+              <StudioColor
+                label="Glyph"
+                value={glyphColor}
+                onChange={setGlyphColor}
+              />
+              <StudioColor
+                label="Canvas"
+                value={canvasBackground}
+                onChange={setCanvasBackground}
+              />
+              <StudioColor
+                label="Back"
+                value={background}
+                onChange={setBackground}
+              />
             </div>
             <label className="flex flex-col gap-2">
               <span className="label">Gap</span>
@@ -181,32 +180,36 @@ export default function AsciiImageRevealStudio() {
             </label>
           </section>
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Glyph ramp</span>
-            <input
-              value={chars}
-              onChange={(event) => setChars(event.target.value || ".")}
-              className="h-10 rounded-md border bg-card px-3 font-mono text-sm outline-none transition-colors focus:border-border-strong"
-            />
-            <span className="label mt-3">Columns - {columns}</span>
-            <input
-              type="range"
-              min={16}
-              max={36}
-              value={columns}
-              onChange={(event) => setColumns(Number(event.target.value))}
-              className="w-full accent-foreground"
-            />
-            <span className="label mt-3">Scramble - {scrambleCount}</span>
-            <input
-              type="range"
-              min={1}
-              max={18}
-              value={scrambleCount}
-              onChange={(event) => setScrambleCount(Number(event.target.value))}
-              className="w-full accent-foreground"
-            />
-          </label>
+          <div className="flex flex-col gap-2">
+            <label className="flex flex-col gap-2">
+              <span className="label">Glyph ramp</span>
+              <input
+                value={chars}
+                onChange={(event) => setChars(event.target.value || ".")}
+                className="h-10 rounded-md border bg-card px-3 font-mono text-sm outline-none transition-colors focus:border-border-strong"
+              />
+            </label>
+            <div className="mt-3 flex flex-col gap-4">
+              <SliderComfortable
+                variant="scrubber"
+                label="Columns"
+                value={columns}
+                onChange={setColumns}
+                min={16}
+                max={36}
+                step={1}
+              />
+              <SliderComfortable
+                variant="scrubber"
+                label="Scramble"
+                value={scrambleCount}
+                onChange={setScrambleCount}
+                min={1}
+                max={18}
+                step={1}
+              />
+            </div>
+          </div>
 
           <div className="flex items-start gap-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground lg:border-t-0 lg:pt-0">
             <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />

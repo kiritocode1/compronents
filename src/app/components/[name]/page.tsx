@@ -4,12 +4,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { CodeBlock } from "@/components/site/code-block";
+import { type CodeTab, CodeTabs } from "@/components/site/code-tabs";
 import { ComponentStudioPanel } from "@/components/site/component-studio-panel";
-import { getHostedAssetUrl } from "@/lib/assets";
 import { getComponentMeta } from "@/lib/component-meta";
 import {
   getRegistryItem,
+  installCommands,
   REGISTRY_NAMESPACE,
   registryItems,
 } from "@/lib/registry";
@@ -51,28 +51,41 @@ export default async function ComponentPage({
 
   const meta = getComponentMeta(name);
   const built = await buildRegistryItem(name);
-  const installCmd = `npx shadcn@latest add ${REGISTRY_NAMESPACE}/${item.name}`;
 
   const demoSource = meta
     ? await readFile(path.join(process.cwd(), meta.demoPath), "utf-8")
     : null;
 
-  const [installHtml, demoHtml, sourceHtmls] = await Promise.all([
-    highlight(installCmd, "bash"),
+  const [installTabs, demoHtml, sourceHtmls] = await Promise.all([
+    Promise.all(
+      installCommands(item.name).map(async (pm) => ({
+        label: pm.label,
+        html: await highlight(pm.command, "bash"),
+        raw: pm.command,
+      })),
+    ),
     demoSource ? highlight(demoSource, "tsx") : Promise.resolve(null),
     Promise.all(
       built.files.map(async (file) => ({
-        filename: file.target.split("/").pop() ?? file.target,
+        label: file.target.split("/").pop() ?? file.target,
         html: await highlight(file.content, "tsx"),
         raw: file.content,
       })),
     ),
   ]);
 
+  // Usage shows everything needed to reproduce the demo: how it's used
+  // (demo.tsx), then every source file the component ships.
+  const usageTabs: CodeTab[] = [
+    ...(demoHtml && demoSource
+      ? [{ label: "demo.tsx", html: demoHtml, raw: demoSource }]
+      : []),
+    ...sourceHtmls,
+  ];
+
   return (
     <main className="flex flex-col gap-14 pt-8 pb-32">
-      {/* Header */}
-      <header className="flex flex-col gap-5">
+      <header className="flex flex-col gap-4">
         <nav className="flex items-center gap-2 text-xs tracking-[0.12em] uppercase">
           <Link
             href="/components"
@@ -83,126 +96,24 @@ export default async function ComponentPage({
           <span className="text-faint">/</span>
           <span className="text-foreground">{item.title}</span>
         </nav>
-        <div className="flex flex-col gap-3">
-          <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
-            {item.title}
-          </h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            {item.description}
-          </p>
-          <p className="text-xs tracking-[0.12em] text-faint uppercase">
-            Released {item.date}
-          </p>
-        </div>
+        <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
+          {item.title}
+        </h1>
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          {item.description}
+        </p>
       </header>
 
-      <Row label="Studio">
+      <Row label="Component">
         <ComponentStudioPanel name={item.name} />
       </Row>
 
-      {meta?.nuance.length ? (
-        <Row label="Nuance">
-          <div className="grid gap-4 sm:grid-cols-3">
-            {meta.nuance.map((note) => (
-              <section key={note.label} className="border-t pt-3">
-                <h2 className="text-xs tracking-[0.12em] text-foreground uppercase">
-                  {note.label}
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {note.description}
-                </p>
-              </section>
-            ))}
-          </div>
-        </Row>
-      ) : null}
-
-      {meta?.editable.length ? (
-        <Row label="Editable">
-          <div className="grid gap-3">
-            {meta.editable.map((control) => (
-              <div
-                key={control.name}
-                className="grid grid-cols-1 gap-2 border-b pb-3 last:border-0 sm:grid-cols-[160px_120px_1fr]"
-              >
-                <code className="text-sm text-foreground">{control.name}</code>
-                <span className="text-xs tracking-[0.12em] text-accent-soft uppercase">
-                  {control.control}
-                </span>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {control.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Row>
-      ) : null}
-
-      {meta?.assets.length ? (
-        <Row label="Assets">
-          <div className="grid gap-4">
-            {meta.assets.map((asset) => (
-              <section
-                key={asset.id}
-                className="rounded-lg border bg-surface p-4"
-              >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <h2 className="text-sm text-foreground uppercase">
-                      {asset.label}
-                    </h2>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {asset.role}
-                    </p>
-                  </div>
-                  <span className="w-fit rounded border px-2 py-1 text-[0.65rem] tracking-[0.12em] text-accent-soft uppercase">
-                    {asset.provider}
-                  </span>
-                </div>
-                <dl className="mt-4 grid gap-3 text-xs sm:grid-cols-2">
-                  <div>
-                    <dt className="label">Blob pathname</dt>
-                    <dd className="mt-1 break-all text-muted-foreground">
-                      {asset.pathname}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="label">Served from</dt>
-                    <dd className="mt-1 break-all text-muted-foreground">
-                      <a
-                        href={getHostedAssetUrl(asset.pathname)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline underline-offset-4 hover:text-foreground"
-                      >
-                        {getHostedAssetUrl(asset.pathname)}
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="label">Upload API</dt>
-                    <dd className="mt-1 break-all text-muted-foreground">
-                      /api/registry-assets with pathname={asset.pathname}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="label">Local fallback</dt>
-                    <dd className="mt-1 break-all text-muted-foreground">
-                      {asset.fallbackPath}
-                    </dd>
-                  </div>
-                </dl>
-              </section>
-            ))}
-          </div>
-        </Row>
-      ) : null}
-
       <Row label="Install">
         <div className="flex flex-col gap-2">
-          <CodeBlock html={installHtml} raw={installCmd} />
+          <CodeTabs tabs={installTabs} />
           <p className="text-xs text-faint">
-            Or register the {REGISTRY_NAMESPACE} namespace once — see the{" "}
+            Installs from ui.aryank.space. To add it by hand, copy the files in
+            Usage below, or register the {REGISTRY_NAMESPACE} namespace via the{" "}
             <Link href="/docs" className="underline hover:text-foreground">
               docs
             </Link>
@@ -211,9 +122,9 @@ export default async function ComponentPage({
         </div>
       </Row>
 
-      {demoHtml && demoSource ? (
-        <Row label="demo.tsx">
-          <CodeBlock html={demoHtml} raw={demoSource} filename="demo.tsx" />
+      {usageTabs.length ? (
+        <Row label="Usage">
+          <CodeTabs tabs={usageTabs} />
         </Row>
       ) : null}
 
@@ -233,7 +144,7 @@ export default async function ComponentPage({
                 {meta.api.map((prop) => (
                   <tr
                     key={prop.name}
-                    className="border-b last:border-0 align-top"
+                    className="border-b align-top last:border-0"
                   >
                     <td className="px-4 py-2.5 whitespace-nowrap text-foreground">
                       {prop.name}
@@ -255,18 +166,26 @@ export default async function ComponentPage({
         </Row>
       ) : null}
 
-      <Row label="Source">
-        <div className="flex flex-col gap-3">
-          {sourceHtmls.map((file) => (
-            <CodeBlock
-              key={file.filename}
-              html={file.html}
-              raw={file.raw}
-              filename={file.filename}
-            />
-          ))}
-        </div>
-      </Row>
+      {meta?.editable.length ? (
+        <Row label="Customize">
+          <div className="grid gap-3">
+            {meta.editable.map((control) => (
+              <div
+                key={control.name}
+                className="grid grid-cols-1 gap-2 border-b pb-3 last:border-0 sm:grid-cols-[160px_120px_1fr]"
+              >
+                <code className="text-sm text-foreground">{control.name}</code>
+                <span className="text-xs tracking-[0.12em] text-accent-soft uppercase">
+                  {control.control}
+                </span>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {control.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Row>
+      ) : null}
 
       <Row label="Dependencies">
         <div className="flex flex-wrap gap-2 text-sm">

@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import ImageReveal from "@/registry/image-reveal";
 
 const IMAGES = [1, 2, 3, 4, 5].map((n) => `/assets/image-reveal/img-${n}.jpg`);
@@ -48,8 +52,8 @@ export default function ImageRevealStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[560px] w-full overflow-hidden">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[560px] w-full overflow-hidden rounded-t-lg">
         <Link
           href="/components/image-reveal/preview"
           target="_blank"
@@ -68,7 +72,7 @@ export default function ImageRevealStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -107,34 +111,22 @@ export default function ImageRevealStudio() {
         </div>
 
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[1fr_1fr_1fr]">
-          <label className="flex flex-col gap-2">
-            <span className="label">Dissolve color</span>
-            <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-              <input
-                type="color"
-                value={dissolveColor}
-                onChange={(e) => setDissolveColor(e.target.value)}
-                className="size-5 border-0 bg-transparent p-0"
-                aria-label="Dissolve color"
-              />
-              <span className="text-xs text-muted-foreground">
-                {dissolveColor}
-              </span>
-            </span>
-          </label>
+          <StudioColor
+            label="Dissolve color"
+            value={dissolveColor}
+            onChange={setDissolveColor}
+          />
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Cell size — {dissolveCellSize}px</span>
-            <input
-              type="range"
-              min={8}
-              max={28}
-              step={2}
-              value={dissolveCellSize}
-              onChange={(e) => setDissolveCellSize(Number(e.target.value))}
-              className="mt-3 w-full accent-foreground"
-            />
-          </label>
+          <SliderComfortable
+            variant="scrubber"
+            label="Cell size"
+            value={dissolveCellSize}
+            onChange={setDissolveCellSize}
+            min={8}
+            max={28}
+            step={2}
+            formatValue={(v) => `${v}px`}
+          />
 
           <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />

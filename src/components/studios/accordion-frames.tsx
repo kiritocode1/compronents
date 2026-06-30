@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import AccordionFrames from "@/registry/accordion-frames";
 
 const IMAGES = Array.from(
@@ -66,8 +70,8 @@ export default function AccordionFramesStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[480px] w-full overflow-hidden xl:h-[520px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[480px] w-full overflow-hidden rounded-t-lg xl:h-[520px]">
         <Link
           href="/components/accordion-frames/preview"
           target="_blank"
@@ -89,7 +93,7 @@ export default function AccordionFramesStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -130,49 +134,29 @@ export default function AccordionFramesStudio() {
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[minmax(220px,1fr)_minmax(220px,1fr)_minmax(240px,1fr)]">
           <section className="grid content-start gap-3">
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-2">
-                <span className="label">Accent</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={accentColor}
-                    onChange={(e) => setAccentColor(e.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Accent color"
-                  />
-                  <span className="text-xs text-muted-foreground">
-                    {accentColor}
-                  </span>
-                </span>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="label">Background</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={background}
-                    onChange={(e) => setBackground(e.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Background color"
-                  />
-                  <span className="text-xs text-muted-foreground">
-                    {background}
-                  </span>
-                </span>
-              </label>
+              <StudioColor
+                label="Accent"
+                value={accentColor}
+                onChange={setAccentColor}
+              />
+              <StudioColor
+                label="Background"
+                value={background}
+                onChange={setBackground}
+              />
             </div>
           </section>
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Open width — {expandedWidth}px</span>
-            <input
-              type="range"
+          <div className="flex flex-col gap-2">
+            <SliderComfortable
+              variant="scrubber"
+              label="Open width"
+              value={expandedWidth}
+              onChange={setExpandedWidth}
               min={220}
               max={560}
               step={10}
-              value={expandedWidth}
-              onChange={(e) => setExpandedWidth(Number(e.target.value))}
-              className="mt-3 w-full accent-foreground"
+              formatValue={(v) => `${v}px`}
             />
             <label className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
               <input
@@ -183,7 +167,7 @@ export default function AccordionFramesStudio() {
               />
               Focus indicator + beams
             </label>
-          </label>
+          </div>
 
           <div className="flex items-start gap-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground lg:border-t-0 lg:pt-0">
             <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />

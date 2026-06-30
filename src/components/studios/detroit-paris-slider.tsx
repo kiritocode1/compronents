@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import DetroitParisSlider from "@/registry/detroit-paris-slider";
 
 const IMAGES = Array.from(
@@ -60,8 +64,8 @@ export default function DetroitParisSliderStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[680px] w-full overflow-hidden bg-[#edede7] xl:h-[760px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[680px] w-full overflow-hidden rounded-t-lg bg-[#edede7] xl:h-[760px]">
         <Link
           href="/components/detroit-paris-slider/preview"
           target="_blank"
@@ -82,7 +86,7 @@ export default function DetroitParisSliderStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -132,60 +136,40 @@ export default function DetroitParisSliderStudio() {
 
           <section className="grid content-start gap-3">
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-2">
-                <span className="label">Text</span>
-                <span className="flex h-10 items-center rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={textColor}
-                    onChange={(event) => setTextColor(event.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Text color"
-                  />
-                </span>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="label">Back</span>
-                <span className="flex h-10 items-center rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={background}
-                    onChange={(event) => setBackground(event.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Background color"
-                  />
-                </span>
-              </label>
+              <StudioColor
+                label="Text"
+                value={textColor}
+                onChange={setTextColor}
+              />
+              <StudioColor
+                label="Back"
+                value={background}
+                onChange={setBackground}
+              />
             </div>
           </section>
 
           <section className="grid content-start gap-4">
-            <label className="flex flex-col gap-1 text-sm text-muted-foreground">
-              <span className="label">Growth - {growth.toFixed(2)}</span>
-              <input
-                type="range"
-                min={0.1}
-                max={0.4}
-                step={0.01}
-                value={growth}
-                onChange={(event) => setGrowth(Number(event.target.value))}
-                className="w-full accent-foreground"
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-sm text-muted-foreground">
-              <span className="label">
-                Scroll speed - {scrollSpeed.toFixed(1)}
-              </span>
-              <input
-                type="range"
-                min={1}
-                max={6}
-                step={0.1}
-                value={scrollSpeed}
-                onChange={(event) => setScrollSpeed(Number(event.target.value))}
-                className="w-full accent-foreground"
-              />
-            </label>
+            <SliderComfortable
+              variant="scrubber"
+              label="Growth"
+              value={growth}
+              onChange={setGrowth}
+              min={0.1}
+              max={0.4}
+              step={0.01}
+              formatValue={(v) => v.toFixed(2)}
+            />
+            <SliderComfortable
+              variant="scrubber"
+              label="Scroll speed"
+              value={scrollSpeed}
+              onChange={setScrollSpeed}
+              min={1}
+              max={6}
+              step={0.1}
+              formatValue={(v) => v.toFixed(1)}
+            />
             <div className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />
               <p>

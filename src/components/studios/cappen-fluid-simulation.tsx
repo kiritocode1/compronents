@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import CappenFluidSimulation from "@/registry/cappen-fluid-simulation";
 
 const PRESETS = [
@@ -72,8 +76,8 @@ export default function CappenFluidSimulationStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[680px] w-full overflow-hidden bg-white xl:h-[760px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[680px] w-full overflow-hidden rounded-t-lg bg-white xl:h-[760px]">
         <Link
           href="/components/cappen-fluid-simulation/preview"
           target="_blank"
@@ -95,7 +99,7 @@ export default function CappenFluidSimulationStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -156,52 +160,40 @@ export default function CappenFluidSimulationStudio() {
 
           <section className="grid content-start gap-3">
             <div className="grid grid-cols-3 gap-3">
-              {[
-                ["Ink", inkColor, setInkColor],
-                ["Text", textColor, setTextColor],
-                ["Back", background, setBackground],
-              ].map(([label, value, setter]) => (
-                <label className="flex flex-col gap-2" key={label as string}>
-                  <span className="label">{label as string}</span>
-                  <span className="flex h-10 items-center rounded-md border bg-card px-2">
-                    <input
-                      type="color"
-                      value={value as string}
-                      onChange={(event) =>
-                        (setter as (value: string) => void)(event.target.value)
-                      }
-                      className="size-5 border-0 bg-transparent p-0"
-                      aria-label={`${label as string} color`}
-                    />
-                  </span>
-                </label>
-              ))}
+              <StudioColor
+                label="Ink"
+                value={inkColor}
+                onChange={setInkColor}
+              />
+              <StudioColor
+                label="Text"
+                value={textColor}
+                onChange={setTextColor}
+              />
+              <StudioColor
+                label="Back"
+                value={background}
+                onChange={setBackground}
+              />
             </div>
-            <label className="flex flex-col gap-1 text-sm text-muted-foreground">
-              <span className="label">Curl - {curl}</span>
-              <input
-                type="range"
-                min={0}
-                max={90}
-                value={curl}
-                onChange={(event) => setCurl(Number(event.target.value))}
-                className="w-full accent-foreground"
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-sm text-muted-foreground">
-              <span className="label">Force - {forceStrength}</span>
-              <input
-                type="range"
-                min={2}
-                max={14}
-                step={0.5}
-                value={forceStrength}
-                onChange={(event) =>
-                  setForceStrength(Number(event.target.value))
-                }
-                className="w-full accent-foreground"
-              />
-            </label>
+            <SliderComfortable
+              variant="scrubber"
+              label="Curl"
+              value={curl}
+              onChange={setCurl}
+              min={0}
+              max={90}
+              step={1}
+            />
+            <SliderComfortable
+              variant="scrubber"
+              label="Force"
+              value={forceStrength}
+              onChange={setForceStrength}
+              min={2}
+              max={14}
+              step={0.5}
+            />
           </section>
 
           <div className="flex items-start gap-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground lg:border-t-0 lg:pt-0">

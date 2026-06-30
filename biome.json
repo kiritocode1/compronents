@@ -33,5 +33,27 @@
         "organizeImports": "on"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["src/components/ui/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off",
+            "noGlobalIsNan": "off"
+          },
+          "style": { "noNonNullAssertion": "off" },
+          "correctness": { "useExhaustiveDependencies": "off" },
+          "a11y": {
+            "noLabelWithoutControl": "off",
+            "useFocusableInteractive": "off",
+            "useKeyWithClickEvents": "off",
+            "noSvgWithoutTitle": "off",
+            "noStaticElementInteractions": "off"
+          }
+        }
+      }
+    }
+  ]
 }

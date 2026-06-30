@@ -3,6 +3,10 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SliderComfortable,
+  StudioColor,
+} from "@/components/site/studio-controls";
 import AsciiLogo from "@/registry/ascii-logo";
 
 const LOGO = "/assets/ascii-logo/logo.png";
@@ -61,8 +65,8 @@ export default function AsciiLogoStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[480px] w-full overflow-hidden xl:h-[520px]">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[480px] w-full overflow-hidden rounded-t-lg xl:h-[520px]">
         <Link
           href="/components/ascii-logo/preview"
           target="_blank"
@@ -84,7 +88,7 @@ export default function AsciiLogoStudio() {
         />
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -125,65 +129,43 @@ export default function AsciiLogoStudio() {
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[minmax(220px,1fr)_minmax(220px,1fr)_minmax(240px,1fr)]">
           <section className="grid content-start gap-3">
             <div className="grid grid-cols-3 gap-3">
-              <label className="flex flex-col gap-2">
-                <span className="label">Glyph</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={charColor}
-                    onChange={(e) => setCharColor(e.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Glyph color"
-                  />
-                </span>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="label">Grid</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={gridColor}
-                    onChange={(e) => setGridColor(e.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Grid color"
-                  />
-                </span>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="label">Back</span>
-                <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                  <input
-                    type="color"
-                    value={background}
-                    onChange={(e) => setBackground(e.target.value)}
-                    className="size-5 border-0 bg-transparent p-0"
-                    aria-label="Background color"
-                  />
-                </span>
-              </label>
+              <StudioColor
+                label="Glyph"
+                value={charColor}
+                onChange={setCharColor}
+              />
+              <StudioColor
+                label="Grid"
+                value={gridColor}
+                onChange={setGridColor}
+              />
+              <StudioColor
+                label="Back"
+                value={background}
+                onChange={setBackground}
+              />
             </div>
           </section>
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Glyph ramp</span>
-            <input
-              value={chars}
-              onChange={(e) => setChars(e.target.value || ".")}
-              className="h-10 rounded-md border bg-card px-3 font-mono text-sm outline-none transition-colors focus:border-border-strong"
-            />
-            <label className="mt-1 flex flex-col gap-1 text-sm text-muted-foreground">
-              <span className="label">Push force — {pushForce}</span>
+          <div className="flex flex-col gap-3">
+            <label className="flex flex-col gap-2">
+              <span className="label">Glyph ramp</span>
               <input
-                type="range"
-                min={0}
-                max={60}
-                step={2}
-                value={pushForce}
-                onChange={(e) => setPushForce(Number(e.target.value))}
-                className="w-full accent-foreground"
+                value={chars}
+                onChange={(e) => setChars(e.target.value || ".")}
+                className="h-10 rounded-md border bg-card px-3 font-mono text-sm outline-none transition-colors focus:border-border-strong"
               />
             </label>
-          </label>
+            <SliderComfortable
+              variant="scrubber"
+              label="Push force"
+              value={pushForce}
+              onChange={setPushForce}
+              min={0}
+              max={60}
+              step={2}
+            />
+          </div>
 
           <div className="flex items-start gap-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground lg:border-t-0 lg:pt-0">
             <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent-soft" />

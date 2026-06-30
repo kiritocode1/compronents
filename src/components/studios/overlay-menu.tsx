@@ -3,6 +3,7 @@
 import { Maximize2, RefreshCw, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { StudioColor } from "@/components/site/studio-controls";
 import OverlayMenu from "@/registry/overlay-menu";
 
 const LOGO = "/assets/overlay-menu/logo.png";
@@ -49,8 +50,8 @@ export default function OverlayMenuStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
-      <div className="relative h-[620px] w-full overflow-hidden">
+    <div className="flex w-full flex-col rounded-lg border bg-surface">
+      <div className="relative h-[620px] w-full overflow-hidden rounded-t-lg">
         <Link
           href="/components/overlay-menu/preview"
           target="_blank"
@@ -79,7 +80,7 @@ export default function OverlayMenuStudio() {
         </OverlayMenu>
       </div>
 
-      <aside className="border-t bg-background">
+      <aside className="rounded-b-lg border-t bg-background">
         <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-4 xl:min-w-56">
             <div>
@@ -122,41 +123,22 @@ export default function OverlayMenuStudio() {
             <span className="label">Curtain panels</span>
             <div className="grid grid-cols-4 gap-3">
               {panels.map((color, i) => (
-                <label
+                <StudioColor
                   // biome-ignore lint/suspicious/noArrayIndexKey: fixed four panels keyed by position.
                   key={`panel-${i}`}
-                  className="flex flex-col gap-2"
-                >
-                  <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-                    <input
-                      type="color"
-                      value={color}
-                      onChange={(e) => setPanel(i, e.target.value)}
-                      className="size-5 border-0 bg-transparent p-0"
-                      aria-label={`Panel ${i + 1} color`}
-                    />
-                    <span className="text-[0.6rem] text-muted-foreground">
-                      {i + 1}
-                    </span>
-                  </span>
-                </label>
+                  label={`${i + 1}`}
+                  value={color}
+                  onChange={(v) => setPanel(i, v)}
+                />
               ))}
             </div>
           </section>
 
-          <label className="flex flex-col gap-2">
-            <span className="label">Menu surface</span>
-            <span className="flex h-10 items-center gap-2 rounded-md border bg-card px-2">
-              <input
-                type="color"
-                value={menuColor}
-                onChange={(e) => setMenuColor(e.target.value)}
-                className="size-5 border-0 bg-transparent p-0"
-                aria-label="Menu surface color"
-              />
-              <span className="text-xs text-muted-foreground">{menuColor}</span>
-            </span>
-          </label>
+          <StudioColor
+            label="Menu surface"
+            value={menuColor}
+            onChange={setMenuColor}
+          />
         </div>
 
         <div className="flex items-start gap-2 border-t p-4 text-xs leading-relaxed text-muted-foreground sm:p-5">

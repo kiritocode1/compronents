@@ -22,6 +22,31 @@ export const REGISTRY_NAME = "Compronents";
 export const REGISTRY_NAMESPACE = "@compronents";
 export const REGISTRY_HOMEPAGE = "https://compronents.dev";
 
+/** Public origin the shadcn registry is served from (used in install commands). */
+export const REGISTRY_BASE_URL = "https://ui.aryank.space";
+
+/** URL of a single installable item's JSON, e.g. for `shadcn add <url>`. */
+export function registryItemUrl(name: string) {
+  return `${REGISTRY_BASE_URL}/r/${name}.json`;
+}
+
+/** Per-package-manager `shadcn add` invocations for a registry item. */
+export const PACKAGE_MANAGERS = [
+  { id: "npm", label: "npm", exec: "npx" },
+  { id: "pnpm", label: "pnpm", exec: "pnpm dlx" },
+  { id: "yarn", label: "yarn", exec: "yarn dlx" },
+  { id: "bun", label: "bun", exec: "bunx --bun" },
+] as const;
+
+export function installCommands(name: string) {
+  const url = registryItemUrl(name);
+  return PACKAGE_MANAGERS.map((pm) => ({
+    id: pm.id,
+    label: pm.label,
+    command: `${pm.exec} shadcn@latest add ${url}`,
+  }));
+}
+
 export type LibrarySectionId =
   | "components"
   | "pages"
