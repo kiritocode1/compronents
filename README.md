@@ -32,6 +32,19 @@ If the component needs bespoke editing controls, add:
 2. `src/components/studios/index.tsx`
 3. `studioPath` and `editable` metadata in `src/lib/component-meta.ts`
 
+## Full-page template ports
+
+Source sites in `~/Documents/full-pages/CGMWT*/` are ported into the registry as
+real, editable React page templates. See **[PAGE-PORTS.md](./PAGE-PORTS.md)** for
+the status table (done / next / later), the per-source recipe, and the gotchas
+(scroll container, CSS tokenizer, WebGL CORS, transition overlay, global-selector
+scoping, bounded iframe preview).
+
+- Done: `dining-room-page` (Salle Blanche), `film-studio-page` (Negative Films),
+  plus pre-existing `archive-commerce-page`, `interior-studio-page`,
+  `march-2025-template`.
+- Next: `dark-catalog-page` (deadlock-studios).
+
 ## Assets
 
 Component assets are stored in Vercel Blob and served through the local asset
