@@ -54,6 +54,23 @@
           }
         }
       }
+    },
+    {
+      "includes": ["src/registry/**"],
+      "linter": {
+        "rules": {
+          "performance": { "noImgElement": "off" },
+          "correctness": { "useExhaustiveDependencies": "off" },
+          "suspicious": { "noArrayIndexKey": "off" },
+          "a11y": {
+            "noSvgWithoutTitle": "off",
+            "useKeyWithClickEvents": "off",
+            "noStaticElementInteractions": "off",
+            "useFocusableInteractive": "off",
+            "noLabelWithoutControl": "off"
+          }
+        }
+      }
     }
   ]
 }

@@ -502,54 +502,70 @@ const interiorStudioPageAssets = interiorStudioPageAssetSources.map(
     }) as const satisfies AssetItem,
 );
 
-const diningRoomPageAssets = [
-  {
-    id: "dining-room-page-hero",
-    label: "Dining Room Page hero image",
-    provider: "vercel-blob",
-    pathname: "dining-room-page/hero.jpg",
-    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/hero.jpg`,
-    role: "Full-bleed dining room hero photo.",
-    notes:
-      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-  } as const satisfies AssetItem,
-  ...Array.from({ length: 6 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `dining-room-page-about-${n}`,
-      label: `Dining Room Page detail ${n}`,
-      provider: "vercel-blob",
-      pathname: `dining-room-page/about-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/about-${n}.jpg`,
-      role: "Image in the long dining-room collage.",
-      notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-  ...Array.from({ length: 5 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `dining-room-page-menu-${n}`,
-      label: `Dining Room Page menu ${n}`,
-      provider: "vercel-blob",
-      pathname: `dining-room-page/menu-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/menu-${n}.jpg`,
-      role: "Menu category image in the card grid.",
-      notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-  {
-    id: "dining-room-page-cta",
-    label: "Dining Room Page reservation image",
-    provider: "vercel-blob",
-    pathname: "dining-room-page/cta.jpg",
-    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/cta.jpg`,
-    role: "Reservation call-to-action image.",
-    notes:
-      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-  } as const satisfies AssetItem,
+const diningRoomPageAssetPaths = [
+  "about/about-hero.jpg",
+  "about/about-image-banner.jpg",
+  "about/sticky-card-1.jpg",
+  "about/sticky-card-2.jpg",
+  "about/sticky-card-3.jpg",
+  "about/sticky-card-4.jpg",
+  "about/sticky-card-5.jpg",
+  "about/sticky-card-6.jpg",
+  "chefs/avatar1.jpg",
+  "chefs/avatar2.jpg",
+  "chefs/avatar3.jpg",
+  "chefs/avatar4.jpg",
+  "chefs/avatar5.jpg",
+  "chefs/avatar6.jpg",
+  "chefs/avatar7.jpg",
+  "chefs/avatar8.jpg",
+  "cta/cta-img.jpg",
+  "dining-menu/dining-menu-breakfast.jpg",
+  "dining-menu/dining-menu-drinks.jpg",
+  "dining-menu/dining-menu-foodsharing.jpg",
+  "dining-menu/dining-menu-ice-cream.jpg",
+  "dining-menu/dining-menu-pizza.jpg",
+  "dining-menu/dining-menu.jpg",
+  "footer/footer-img-1.jpg",
+  "footer/footer-img-2.jpg",
+  "footer/footer-img-3.jpg",
+  "footer/footer-img-4.jpg",
+  "footer/footer-img-5.jpg",
+  "home/about-1.jpg",
+  "home/about-2.jpg",
+  "home/about-3.jpg",
+  "home/about-4.jpg",
+  "home/about-5.jpg",
+  "home/about-6.jpg",
+  "home/hero.jpg",
+  "home/image-banner.jpg",
+  "image-banner/image-banner.jpg",
+  "menu/menu-book.jpg",
+  "menu/menu-carte.jpg",
+  "menu/menu-essence.jpg",
+  "menu/menu-home.jpg",
+  "testimonials/clara.jpg",
+  "testimonials/emma.jpg",
+  "testimonials/fine.jpg",
+  "testimonials/james.jpg",
+  "testimonials/lucas.jpg",
+  "testimonials/olivia.jpg",
+  "testimonials/sophie.jpg",
 ];
+
+const diningRoomPageAssets = diningRoomPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `dining-room-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Dining Room Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `dining-room-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dining-room-page/${rel}`,
+      role: "Salle Blanche restaurant template image (hero, dining, chefs, footer, or menu).",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the dining-room-page template.",
+    }) as const satisfies AssetItem,
+);
 
 const filmStudioPageAssets = [
   {

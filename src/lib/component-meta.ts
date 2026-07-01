@@ -586,48 +586,39 @@ export const componentMeta: Record<string, ComponentMeta> = {
     ],
     editable: [
       {
-        name: "title / location / since / about",
+        name: "initialPath",
         control: "text",
-        description: "Hero identity, footer facts, and central about copy.",
+        description:
+          "Which source route the template opens on: /, /about, /menu, or /reservation.",
       },
       {
-        name: "background / textColor / mutedColor / accentColor",
-        control: "color",
-        description: "Warm dining palette used across the complete page.",
-      },
-      {
-        name: "heroImage / aboutImages / menuImages / ctaImage",
+        name: "assetBase",
         control: "asset-url",
-        description: `Blob-hosted media starting at ${getHostedAssetUrl(
-          "dining-room-page/hero.jpg",
+        description: `Base URL for the template's Blob-hosted imagery, starting at ${getHostedAssetUrl(
+          "dining-room-page/home/hero.jpg",
         )}.`,
       },
     ],
     assets: diningRoomPageAssetDocs,
     api: [
       {
-        name: "title / location / since / about",
+        name: "assetBase",
         type: "string",
-        default: "BLANK Dining / Florence, IT / Since 1984 / about copy",
-        description: "Page copy for hero, collage, and footer facts.",
+        default: '"https://ui.aryank.space/assets/dining-room-page"',
+        description:
+          "Base URL prefixed to every image the template renders (home, dining, chefs, footer, menu).",
       },
       {
-        name: "heroImage / ctaImage",
-        type: "string",
-        default: '".../dining-room-page/hero.jpg" / ".../cta.jpg"',
-        description: "Hero and reservation images.",
+        name: "initialPath",
+        type: '"/" | "/about" | "/menu" | "/reservation"',
+        default: '"/"',
+        description: "Source route the MemoryRouter mounts first.",
       },
       {
-        name: "aboutImages / menuImages",
-        type: "string[]",
-        default: "6 about details / 5 menu categories",
-        description: "Image sets used in the long collage and menu grid.",
-      },
-      {
-        name: "background / textColor / mutedColor / accentColor",
-        type: "string",
-        default: '"#f4efe7" / "#191612" / "#81766b" / "#7f2f21"',
-        description: "Page palette and accent color.",
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root <main> wrapper for sizing and layout.",
       },
     ],
   },
