@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { type CodeTab, CodeTabs } from "@/components/site/code-tabs";
-import { ComponentStudioPanel } from "@/components/site/component-studio-panel";
+import { PageIframePreview } from "@/components/site/page-iframe-preview";
 import { getComponentMeta } from "@/lib/component-meta";
 import {
   getRegistryItem,
@@ -105,7 +105,7 @@ export default async function PageRegistryItemPage({
       </header>
 
       <Row label="Page">
-        <ComponentStudioPanel name={item.name} />
+        <PageIframePreview name={item.name} />
       </Row>
 
       <Row label="Install">
