@@ -15,7 +15,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import ReactLenis, { useLenis } from "lenis/react";
+import { useLenis } from "lenis/react";
 import type * as React from "react";
 import {
   Children,
@@ -1928,7 +1928,9 @@ function StickyCards() {
       section.classList.remove("sticky-cards-mobile");
       requestAnimationFrame(() => {
         ctx = gsap.context(() => {
-          const cards = gsap.utils.toArray<HTMLElement>(".sticky-card");
+          const cards = gsap.utils.toArray<HTMLElement>(
+            section.querySelectorAll(".sticky-card"),
+          );
           const totalCards = cards.length;
           const lastLeftColumnIndex =
             totalCards % 2 === 0 ? totalCards - 2 : totalCards - 1;
@@ -2219,7 +2221,9 @@ function HomePage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const aboutImages = gsap.utils.toArray<HTMLElement>(".about-img");
+      const aboutImages = gsap.utils.toArray<HTMLElement>(
+        aboutSectionRef.current?.querySelectorAll(".about-img") ?? [],
+      );
       aboutImages.forEach((image) => {
         gsap
           .timeline({
@@ -2791,6 +2795,37 @@ function renderRoute(pathname: string) {
   }
 }
 
+/** Nearest scrollable ancestor, or null when this is the page's own scroller. */
+function getScrollParent(el: HTMLElement | null): HTMLElement | null {
+  let node: HTMLElement | null = el?.parentElement ?? null;
+  while (node) {
+    const oy = getComputedStyle(node).overflowY;
+    if (oy === "auto" || oy === "scroll") return node;
+    node = node.parentElement;
+  }
+  return null;
+}
+
+/**
+ * Points ScrollTrigger at the real scroll container. When embedded (registry
+ * preview / demo box), the component lives inside an `overflow-y:auto` element,
+ * not the window; without this, scroll-reveals never fire. Runs as the shell's
+ * first child so its layout effect precedes every page's ScrollTrigger.
+ */
+function ScrollerSetup() {
+  useGSAP(() => {
+    const root = document.querySelector<HTMLElement>(".dining-room-page");
+    const scroller = getScrollParent(root);
+    if (!scroller) return;
+    ScrollTrigger.defaults({ scroller });
+    ScrollTrigger.refresh();
+    return () => {
+      ScrollTrigger.defaults({ scroller: undefined });
+    };
+  }, []);
+  return null;
+}
+
 function RouteLayer({
   pathname,
   isOverlay,
@@ -2893,6 +2928,7 @@ function DiningRoomShell({
 
   return (
     <RouterContext.Provider value={routerValue}>
+      <ScrollerSetup />
       <Nav rootRef={rootRef} />
       <div className="dining-viewport">
         {layers.map((route, index) => (
@@ -2919,14 +2955,6 @@ export interface DiningRoomPageProps {
   style?: CSSProperties;
 }
 
-const LENIS_OPTIONS = {
-  duration: 1.2,
-  easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
-  smoothWheel: true,
-  syncTouch: true,
-  touchMultiplier: 2,
-};
-
 export default function DiningRoomPage({
   assetBase = DEFAULT_ASSET_BASE,
   initialPath = "/",
@@ -2949,13 +2977,11 @@ export default function DiningRoomPage({
       >
         {/** biome-ignore lint/security/noDangerouslySetInnerHtml: scoped template stylesheet */}
         <style dangerouslySetInnerHTML={{ __html: styles }} />
-        <ReactLenis root options={LENIS_OPTIONS}>
-          <DiningRoomShell
-            key={initialPath}
-            initialPath={initialPath}
-            rootRef={rootRef}
-          />
-        </ReactLenis>
+        <DiningRoomShell
+          key={initialPath}
+          initialPath={initialPath}
+          rootRef={rootRef}
+        />
       </main>
     </ASSET_CONTEXT.Provider>
   );
