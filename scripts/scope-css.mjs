@@ -19,17 +19,29 @@ function splitBlocks(input) {
   const blocks = [];
   let depth = 0;
   let buf = "";
+  let str = null; // active string quote char, or null
+  let paren = 0; // depth inside url()/(...) so ; inside is not a separator
   for (let i = 0; i < input.length; i++) {
     const ch = input[i];
     buf += ch;
-    if (ch === "{") depth++;
+    if (str) {
+      if (ch === str && input[i - 1] !== "\\") str = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      str = ch;
+      continue;
+    }
+    if (ch === "(") paren++;
+    else if (ch === ")") paren = Math.max(0, paren - 1);
+    else if (ch === "{") depth++;
     else if (ch === "}") {
       depth--;
       if (depth === 0) {
         blocks.push(buf.trim());
         buf = "";
       }
-    } else if (ch === ";" && depth === 0) {
+    } else if (ch === ";" && depth === 0 && paren === 0) {
       // top-level statement like @import ...;
       blocks.push(buf.trim());
       buf = "";
