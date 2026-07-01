@@ -1040,7 +1040,19 @@ function usePixelDistortion(
         updateData();
         onFrame?.();
         material.uniforms.time.value += 0.05;
-        renderer.render(scene, camera);
+        try {
+          renderer.render(scene, camera);
+        } catch {
+          // Tainted texture (cross-origin media without CORS): stop the effect
+          // and fall back to the plain source element instead of crashing.
+          destroyed = true;
+          renderer.domElement.remove();
+          const media = container.querySelector<HTMLElement>(
+            ".hero-video, .pixelated-text h1",
+          );
+          if (media) media.style.opacity = "1";
+          return;
+        }
         raf = requestAnimationFrame(loop);
       };
       loop();
@@ -1517,7 +1529,14 @@ function HomePage() {
       <Preloader onDone={() => setReady(true)} />
 
       <section className="hero">
-        <video className="hero-video" autoPlay muted loop playsInline>
+        <video
+          className="hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          crossOrigin="anonymous"
+        >
           <source src={asset("hero/hero-footage.mp4")} type="video/mp4" />
         </video>
         <div className="hero-content">
@@ -2618,7 +2637,14 @@ function ContactPage() {
 
   return (
     <section className="hero contact-page">
-      <video className="hero-video" autoPlay muted loop playsInline>
+      <video
+        className="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        crossOrigin="anonymous"
+      >
         <source src={asset("contact/contact-hero.mp4")} type="video/mp4" />
       </video>
       <div className="contact-copy">
