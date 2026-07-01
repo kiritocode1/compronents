@@ -61,7 +61,11 @@
         "rules": {
           "performance": { "noImgElement": "off" },
           "correctness": { "useExhaustiveDependencies": "off" },
-          "suspicious": { "noArrayIndexKey": "off" },
+          "style": { "noNonNullAssertion": "off" },
+          "suspicious": {
+            "noArrayIndexKey": "off",
+            "useIterableCallbackReturn": "off"
+          },
           "a11y": {
             "noSvgWithoutTitle": "off",
             "useKeyWithClickEvents": "off",
