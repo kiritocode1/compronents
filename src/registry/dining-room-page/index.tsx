@@ -886,13 +886,16 @@ function Footer() {
     const section = sectionRef.current;
     const button = visitButtonRef.current;
     if (!section || !button) return;
-    const cards = gsap.utils.toArray<HTMLElement>(".footer-postcard");
+    const cards = gsap.utils.toArray<HTMLElement>(
+      section.querySelectorAll(".footer-postcard"),
+    );
     const postcardsContainer =
       section.querySelector<HTMLElement>(".footer-postcards");
     if (!cards.length || !postcardsContainer) return;
     const postcardTimeline = gsap.timeline({ paused: true });
     cards.forEach((card, index) => {
       const cardData = POSTCARDS[index];
+      if (!cardData) return;
       postcardTimeline.fromTo(
         card,
         { yPercent: 250, xPercent: 0, rotation: 0 },

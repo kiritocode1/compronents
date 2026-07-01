@@ -1,136 +1,61 @@
 "use client";
 
 import { useState } from "react";
-import { StudioColor } from "@/components/site/studio-controls";
 import {
   FullPageStudioShell,
-  StudioTextarea,
   StudioTextField,
 } from "@/components/studios/full-page-studio-shell";
-import FilmStudioPage from "@/registry/film-studio-page";
-
-const BASE = "/assets/film-studio-page";
-const SPOTLIGHT = Array.from(
-  { length: 8 },
-  (_, i) => `${BASE}/spotlight-${i + 1}.jpg`,
-);
+import FilmStudioPage, {
+  type FilmStudioPageProps,
+} from "@/registry/film-studio-page";
 
 const PRESETS = [
-  {
-    id: "negative",
-    label: "Negative",
-    headline: "Films forged on shadow, silence, and geometry.",
-    background: "#050505",
-    textColor: "#f1efe6",
-    mutedColor: "#8e8a80",
-    accentColor: "#d7ff2f",
-  },
-  {
-    id: "oxide",
-    label: "Oxide",
-    headline: "Images built from pressure, grain, and restraint.",
-    background: "#0b0908",
-    textColor: "#f4e7db",
-    mutedColor: "#a08f81",
-    accentColor: "#ff5c35",
-  },
-  {
-    id: "silver",
-    label: "Silver",
-    headline: "A production page with cold light and durable form.",
-    background: "#111315",
-    textColor: "#edf0f0",
-    mutedColor: "#899196",
-    accentColor: "#b7d6ff",
-  },
-] as const;
+  { id: "/", label: "Index" },
+  { id: "/work", label: "Work" },
+  { id: "/culture", label: "Culture" },
+  { id: "/directors", label: "Directors" },
+  { id: "/film", label: "Film" },
+  { id: "/contact", label: "Contact" },
+] as const satisfies readonly {
+  id: NonNullable<FilmStudioPageProps["initialPath"]>;
+  label: string;
+}[];
 
-type Preset = (typeof PRESETS)[number];
+type PresetId = (typeof PRESETS)[number]["id"];
 
 export default function FilmStudioPageStudio() {
-  const [preset, setPreset] = useState<Preset>(PRESETS[0]);
-  const [headline, setHeadline] = useState<string>(preset.headline);
-  const [manifesto, setManifesto] = useState(
-    "We approach cinema as a construction of form and weight. Each frame is laid like concrete, measured and precise.",
-  );
-  const [background, setBackground] = useState<string>(preset.background);
-  const [textColor, setTextColor] = useState<string>(preset.textColor);
-  const [mutedColor, setMutedColor] = useState<string>(preset.mutedColor);
-  const [accentColor, setAccentColor] = useState<string>(preset.accentColor);
-
-  function applyPreset(id: string) {
-    const next = PRESETS.find((item) => item.id === id) ?? PRESETS[0];
-    setPreset(next);
-    setHeadline(next.headline);
-    setBackground(next.background);
-    setTextColor(next.textColor);
-    setMutedColor(next.mutedColor);
-    setAccentColor(next.accentColor);
-  }
+  const [activePath, setActivePath] = useState<PresetId>(PRESETS[0].id);
+  const [assetBase, setAssetBase] = useState("/assets/film-studio-page");
 
   return (
     <FullPageStudioShell
       name="film-studio-page"
       title="Film Studio Page"
       presets={PRESETS}
-      activePreset={preset.id}
-      onPreset={applyPreset}
-      onReset={() => applyPreset(PRESETS[0].id)}
+      activePreset={activePath}
+      onPreset={(id) => setActivePath(id as PresetId)}
+      onReset={() => {
+        setActivePath(PRESETS[0].id);
+        setAssetBase("/assets/film-studio-page");
+      }}
       controls={
-        <>
-          <StudioTextField
-            label="Headline"
-            value={headline}
-            onChange={setHeadline}
-          />
-          <StudioTextarea
-            label="Manifesto"
-            value={manifesto}
-            onChange={setManifesto}
-          />
-          <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StudioColor
-              label="Back"
-              value={background}
-              onChange={setBackground}
-            />
-            <StudioColor
-              label="Text"
-              value={textColor}
-              onChange={setTextColor}
-            />
-            <StudioColor
-              label="Muted"
-              value={mutedColor}
-              onChange={setMutedColor}
-            />
-            <StudioColor
-              label="Accent"
-              value={accentColor}
-              onChange={setAccentColor}
-            />
-          </section>
-        </>
+        <StudioTextField
+          label="Asset base"
+          value={assetBase}
+          onChange={setAssetBase}
+        />
       }
       note={
         <p>
-          The hero is a Blob-hosted MP4 with a stark editorial stack below it.
-          Keep the video muted and looped for installable page use, then tune
-          the text and accent color for the target production house.
+          Source-backed Negative Films template ported with the original route
+          set, project-grid Preloader, scramble nav menu, Three.js
+          pixelated-video hero, html2canvas pixelated-text, lens-distortion work
+          slider, expanding spotlight gallery, Lenis scroll, ukiyojs parallax,
+          and Blob-hosted media. The pixelation and lens effects run on desktop.
         </p>
       }
     >
-      <FilmStudioPage
-        headline={headline}
-        manifesto={manifesto}
-        videoSrc={`${BASE}/hero.mp4`}
-        bannerImage={`${BASE}/banner.jpg`}
-        spotlightImages={SPOTLIGHT}
-        background={background}
-        textColor={textColor}
-        mutedColor={mutedColor}
-        accentColor={accentColor}
-      />
+      <FilmStudioPage assetBase={assetBase} initialPath={activePath} />
     </FullPageStudioShell>
   );
 }

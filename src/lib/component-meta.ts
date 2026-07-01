@@ -627,65 +627,56 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/film-studio-page.tsx",
     nuance: [
       {
-        label: "The hero is video-first",
+        label: "The hero is a WebGL video",
         description:
-          "A muted looping MP4 fills the first viewport and is treated with grayscale contrast, keeping the page kinetic without requiring JavaScript animation.",
+          "A Three.js data-texture shader pixel-distorts the looping MP4 hero around the cursor, so the first viewport reacts to pointer movement on desktop.",
       },
       {
-        label: "Editorial pressure continues below",
+        label: "Text is captured, then distorted",
         description:
-          "The manifesto, banner, tag cluster, and selected-frame grid keep the stark production-house identity after the hero.",
+          "Section headlines are rasterised with html2canvas and pushed through the same distortion shader, and the work slider crossfades stills through a lens-bubble shader.",
       },
       {
-        label: "Accent color is functional",
+        label: "Every route ships",
         description:
-          "The accent drives tags and key statements, so changing it shifts the whole studio mood without rewriting the layout.",
+          "The template includes index, work, culture, directors, contact, and a sample film route behind a project-grid preloader and scramble nav, so it is a complete site, not one screen.",
       },
     ],
     editable: [
       {
-        name: "headline / manifesto",
+        name: "initialPath",
         control: "text",
-        description: "Hero headline and central production statement.",
+        description:
+          "Which source route the template opens on: /, /work, /culture, /directors, /contact, or /film.",
       },
       {
-        name: "background / textColor / mutedColor / accentColor",
-        control: "color",
-        description: "Noir palette used across the video, banner, and frames.",
-      },
-      {
-        name: "videoSrc / bannerImage / spotlightImages",
+        name: "assetBase",
         control: "asset-url",
-        description: `Blob-hosted media starting at ${getHostedAssetUrl(
-          "film-studio-page/hero.mp4",
+        description: `Base URL for the template's Blob-hosted media, starting at ${getHostedAssetUrl(
+          "film-studio-page/hero/hero-footage.mp4",
         )}.`,
       },
     ],
     assets: filmStudioPageAssetDocs,
     api: [
       {
-        name: "headline / manifesto",
+        name: "assetBase",
         type: "string",
-        default: "film headline / manifesto copy",
-        description: "Main text for the video hero and callout section.",
+        default: '"https://ui.aryank.space/assets/film-studio-page"',
+        description:
+          "Base URL prefixed to every image, video, and CSS background the template renders.",
       },
       {
-        name: "videoSrc / bannerImage",
-        type: "string",
-        default: '".../film-studio-page/hero.mp4" / ".../banner.jpg"',
-        description: "Hero MP4 and full-screen banner still.",
+        name: "initialPath",
+        type: '"/" | "/work" | "/culture" | "/directors" | "/contact" | "/film"',
+        default: '"/"',
+        description: "Source route mounted first.",
       },
       {
-        name: "spotlightImages",
-        type: "string[]",
-        default: "8 Blob-hosted JPGs",
-        description: "Selected frame images in the closing grid.",
-      },
-      {
-        name: "background / textColor / mutedColor / accentColor",
-        type: "string",
-        default: '"#050505" / "#f1efe6" / "#8e8a80" / "#d7ff2f"',
-        description: "Page palette and statement accent.",
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root <main> wrapper for sizing and layout.",
       },
     ],
   },

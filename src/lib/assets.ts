@@ -567,41 +567,87 @@ const diningRoomPageAssets = diningRoomPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
-const filmStudioPageAssets = [
-  {
-    id: "film-studio-page-hero",
-    label: "Film Studio Page hero footage",
-    provider: "vercel-blob",
-    pathname: "film-studio-page/hero.mp4",
-    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/hero.mp4`,
-    role: "Muted looping MP4 used in the film studio hero.",
-    notes:
-      "Upload this video to Vercel Blob at the same pathname and serve it with public access.",
-  } as const satisfies AssetItem,
-  {
-    id: "film-studio-page-banner",
-    label: "Film Studio Page banner image",
-    provider: "vercel-blob",
-    pathname: "film-studio-page/banner.jpg",
-    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/banner.jpg`,
-    role: "Full-screen banner image behind the production statement.",
-    notes:
-      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-  } as const satisfies AssetItem,
-  ...Array.from({ length: 8 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `film-studio-page-spotlight-${n}`,
-      label: `Film Studio Page frame ${n}`,
-      provider: "vercel-blob",
-      pathname: `film-studio-page/spotlight-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/spotlight-${n}.jpg`,
-      role: "Selected frame image in the closing grid.",
-      notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
+const filmStudioPageAssetPaths = [
+  "contact/contact-hero.mp4",
+  "culture/hero.jpg",
+  "culture/team/team-1.jpg",
+  "culture/team/team-2.jpg",
+  "culture/team/team-3.jpg",
+  "culture/team/team-4.jpg",
+  "culture/team/team-5.jpg",
+  "culture/team/team-6.jpg",
+  "culture/team/team-7.jpg",
+  "culture/team/team-8.jpg",
+  "culture/team/team-9.jpg",
+  "culture/team/team-10.jpg",
+  "culture/team/team-11.jpg",
+  "culture/team/team-12.jpg",
+  "culture/team/team-13.jpg",
+  "culture/team/team-14.jpg",
+  "culture/team/team-15.jpg",
+  "culture/team/team-16.jpg",
+  "culture/team/team-17.jpg",
+  "directors/director-1.jpg",
+  "directors/director-2.jpg",
+  "directors/director-3.jpg",
+  "directors/director-4.jpg",
+  "directors/director-5.jpg",
+  "directors/director-6.jpg",
+  "directors/director-7.jpg",
+  "directors/director-8.jpg",
+  "directors/director-9.jpg",
+  "directors/director-10.jpg",
+  "hero/hero-footage.mp4",
+  "home/banner.jpg",
+  "home/cta-team.jpg",
+  "home/form.svg",
+  "sample-film/banner.jpg",
+  "sample-film/film-snapshot-1.jpg",
+  "sample-film/film-snapshot-2.jpg",
+  "sample-film/film-snapshot-3.jpg",
+  "sample-film/film-snapshot-4.jpg",
+  "sample-film/film-snapshot-5.jpg",
+  "sample-film/film-snapshot-6.jpg",
+  "site-icon.png",
+  "spotlight/spotlight-1.jpg",
+  "spotlight/spotlight-2.jpg",
+  "spotlight/spotlight-3.jpg",
+  "spotlight/spotlight-4.jpg",
+  "spotlight/spotlight-5.jpg",
+  "spotlight/spotlight-6.jpg",
+  "spotlight/spotlight-7.jpg",
+  "spotlight/spotlight-8.jpg",
+  "spotlight/spotlight-9.jpg",
+  "spotlight/spotlight-10.jpg",
+  "spotlight/spotlight-11.jpg",
+  "spotlight/spotlight-12.jpg",
+  "spotlight/spotlight-13.jpg",
+  "spotlight/spotlight-14.jpg",
+  "spotlight/spotlight-15.jpg",
+  "spotlight/spotlight-16.jpg",
+  "spotlight/spotlight-17.jpg",
+  "spotlight/spotlight-18.jpg",
+  "spotlight/spotlight-19.jpg",
+  "spotlight/spotlight-20.jpg",
+  "work/work-1.jpg",
+  "work/work-2.jpg",
+  "work/work-3.jpg",
+  "work/work-4.jpg",
 ];
+
+const filmStudioPageAssets = filmStudioPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `film-studio-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Film Studio Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `film-studio-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/film-studio-page/${rel}`,
+      role: "Negative Films template media (hero footage, spotlight frames, directors, team, or work stills).",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the film-studio-page template.",
+    }) as const satisfies AssetItem,
+);
 
 const darkCatalogPageAssets = [
   {
