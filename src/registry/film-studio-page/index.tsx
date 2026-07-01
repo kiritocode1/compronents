@@ -2724,6 +2724,12 @@ function FilmStudioShell({ initialPath }: { initialPath: RoutePath }) {
   const lenis = useLenis();
   const busy = useRef(false);
 
+  // The transition overlay defaults to a full-screen scaleY(1) red panel; the
+  // source hides it on load. Do the same before paint so the page isn't red.
+  useGSAP(() => {
+    gsap.set(".transition-overlay", { scaleY: 0, transformOrigin: "top" });
+  }, []);
+
   const navigate = useCallback(
     (to: string) => {
       if (!ROUTE_PATHS.includes(to) || to === current || busy.current) return;
