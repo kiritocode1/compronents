@@ -277,8 +277,132 @@ export const registryItems: RegistryItem[] = [
         type: "registry:ui",
       },
       {
+        path: "src/registry/dark-catalog-page/components/Accordion/Accordion.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/Accordion/Accordion.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/AnimeText/AnimeText.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/AnimeText/AnimeText.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/BlindingLight/BlindingLight.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/BlindingLight/BlindingLight.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/BlindingLight/logoPath.ts",
+        target:
+          "components/ui/dark-catalog-page/components/BlindingLight/logoPath.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Copy/Copy.tsx",
+        target: "components/ui/dark-catalog-page/components/Copy/Copy.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/FeaturedProjects/FeaturedProjects.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/FeaturedProjects/FeaturedProjects.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Fluorescent/Fluorescent.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/Fluorescent/Fluorescent.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Footer/Footer.tsx",
+        target: "components/ui/dark-catalog-page/components/Footer/Footer.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Menu/Menu.tsx",
+        target: "components/ui/dark-catalog-page/components/Menu/Menu.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Menu/scramble.ts",
+        target: "components/ui/dark-catalog-page/components/Menu/scramble.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Preloader/Preloader.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/Preloader/Preloader.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Spiral/Spiral.tsx",
+        target: "components/ui/dark-catalog-page/components/Spiral/Spiral.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/Team/Team.tsx",
+        target: "components/ui/dark-catalog-page/components/Team/Team.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/components/TrailContainer/TrailContainer.tsx",
+        target:
+          "components/ui/dark-catalog-page/components/TrailContainer/TrailContainer.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/pages/brief.tsx",
+        target: "components/ui/dark-catalog-page/pages/brief.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/pages/catalog.tsx",
+        target: "components/ui/dark-catalog-page/pages/catalog.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/pages/connect.tsx",
+        target: "components/ui/dark-catalog-page/pages/connect.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/pages/home.tsx",
+        target: "components/ui/dark-catalog-page/pages/home.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/pages/studio.tsx",
+        target: "components/ui/dark-catalog-page/pages/studio.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/providers/TransitionProvider.tsx",
+        target:
+          "components/ui/dark-catalog-page/providers/TransitionProvider.tsx",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/runtime.tsx",
+        target: "components/ui/dark-catalog-page/runtime.tsx",
+        type: "registry:lib",
+      },
+      {
         path: "src/registry/dark-catalog-page/styles.ts",
         target: "components/ui/dark-catalog-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/utils/menuClose.ts",
+        target: "components/ui/dark-catalog-page/utils/menuClose.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/dark-catalog-page/utils/scramble.ts",
+        target: "components/ui/dark-catalog-page/utils/scramble.ts",
         type: "registry:lib",
       },
     ],
