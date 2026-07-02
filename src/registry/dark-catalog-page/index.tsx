@@ -4,7 +4,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import Menu from "./components/Menu/Menu";
 import Brief from "./pages/brief";
@@ -49,7 +49,7 @@ export default function DarkCatalogPage({
   className?: string;
   style?: CSSProperties;
 }) {
-  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [rootElement, setRootElement] = useState<HTMLDivElement | null>(null);
   const [pathname, setPathnameState] = useState(() => {
     const normalized = normalizePath(initialPath);
     return ROUTES.has(normalized) ? normalized : "/";
@@ -70,19 +70,21 @@ export default function DarkCatalogPage({
   return (
     <AssetProvider base={assetBase}>
       <div
-        ref={rootRef}
+        ref={setRootElement}
         className={["dark-catalog-page", className].filter(Boolean).join(" ")}
         style={style}
       >
         <style dangerouslySetInnerHTML={{ __html: css }} />
-        <ScrollProvider rootRef={rootRef}>
-          <TransitionProvider pathname={pathname} setPathname={setPathname}>
-            <Menu />
-            <div className="dark-catalog-route" key={pathname}>
-              <PageOutlet pathname={pathname} />
-            </div>
-          </TransitionProvider>
-        </ScrollProvider>
+        {rootElement ? (
+          <ScrollProvider rootElement={rootElement}>
+            <TransitionProvider pathname={pathname} setPathname={setPathname}>
+              <Menu />
+              <div className="dark-catalog-route" key={pathname}>
+                <PageOutlet pathname={pathname} />
+              </div>
+            </TransitionProvider>
+          </ScrollProvider>
+        ) : null}
       </div>
     </AssetProvider>
   );

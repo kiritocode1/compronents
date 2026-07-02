@@ -4,12 +4,12 @@
 "use client";
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { ComponentPropsWithoutRef, ReactNode, RefObject } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
@@ -135,31 +135,34 @@ export function useTemplateLenis() {
 }
 
 export function ScrollProvider({
-  rootRef,
+  rootElement,
   children,
 }: {
-  rootRef: RefObject<HTMLElement | null>;
+  rootElement: HTMLElement;
   children: ReactNode;
 }) {
   const [scroller, setScroller] = useState<HTMLElement | Window | null>(null);
 
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-
-    const nextScroller = getScrollParent(root);
-    setScroller(nextScroller);
+  useLayoutEffect(() => {
+    const nextScroller = getScrollParent(rootElement);
     ScrollTrigger.defaults({ scroller: nextScroller });
+    setScroller(nextScroller);
 
-    const refresh = () => ScrollTrigger.refresh();
-    requestAnimationFrame(refresh);
+    const refreshFrame = window.requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
 
     return () => {
+      window.cancelAnimationFrame(refreshFrame);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill(true));
       ScrollTrigger.defaults({ scroller: undefined });
       setScroller(null);
     };
-  }, [rootRef]);
+  }, [rootElement]);
+
+  if (!scroller) {
+    return null;
+  }
 
   return (
     <ScrollContext.Provider value={{ scroller }}>
