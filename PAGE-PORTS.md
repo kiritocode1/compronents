@@ -16,7 +16,7 @@ Commit per source on `main`. Validate every slice: `tsc --noEmit`, `biome check`
 | CGMWTMAR2025 / nico-palmer           | `march-2025-template`     | React port   | ✅ done (pre-existing) |
 | CGMWTFEB2026 / salle-blanche         | `dining-room-page`        | React port   | ✅ done (`684b40c`) |
 | CGMWTSEPT2025 / negative-films        | `film-studio-page`        | React port   | ✅ done (`16628b0` + fixes) |
-| CGMWTMAY2026 / deadlock-studios      | `dark-catalog-page`       | React port   | ✅ done (`a5707e4`) |
+| CGMWTMAY2026 / deadlock-studios      | `dark-catalog-page`       | React port   | ✅ done (`afdd7c4` + `75039f9`) |
 | CGMWTJAN2026 / deadspace             | new slot                  | React port   | ⏳ later |
 | CGMWTMAY2025 / otis-valen            | new slot                  | React port   | ⏳ later |
 | CGMWTAPR2026 / lemon-bureau          | new slot                  | React port   | ⏳ later |
@@ -54,9 +54,10 @@ Mirror `src/registry/march-2025-template/` and the two done ports.
 
 - **Scroll:** do NOT use `<ReactLenis root>`. The FullscreenPreview wraps pages in a
   `fixed inset-0 overflow-y-auto` container (its own scroller, not the window), so
-  window-Lenis hijacks the wheel and nothing scrolls. Instead add a `ScrollerSetup`
-  as the shell's FIRST child: `getScrollParent(root)` → `ScrollTrigger.defaults({ scroller })`.
-  `useLenis()` safely returns undefined without a provider.
+  window-Lenis hijacks the wheel and nothing scrolls. Resolve that container from the
+  concrete root element, set `ScrollTrigger.defaults({ scroller })`, then mount the
+  source page only after the scroller is ready. If components mount first, some pins bind
+  to `window` and scrolling feels like it is jumping against the sticky sections.
 - **Global selectors:** effects using `document.querySelector`/`gsap.utils.toArray(".class")`
   match BOTH transition layers when two are mounted → e.g. dining's Footer crashed
   `POSTCARDS[5..9]` undefined ("reading 'x'"). Scope queries to the component's own
