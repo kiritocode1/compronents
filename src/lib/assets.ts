@@ -649,57 +649,86 @@ const filmStudioPageAssets = filmStudioPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
-const darkCatalogPageAssets = [
-  {
-    id: "dark-catalog-page-wordmark",
-    label: "Dark Catalog Page wordmark",
-    provider: "vercel-blob",
-    pathname: "dark-catalog-page/wordmark.png",
-    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/wordmark.png`,
-    role: "Centered hero wordmark image.",
-    notes:
-      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-  } as const satisfies AssetItem,
-  ...Array.from({ length: 4 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `dark-catalog-page-featured-${n}`,
-      label: `Dark Catalog Page featured ${n}`,
+const darkCatalogPageAssetPaths = [
+  "accordion/accordion-1.jpg",
+  "accordion/accordion-2.jpg",
+  "accordion/accordion-3.jpg",
+  "accordion/accordion-4.jpg",
+  "brief/brief-img-1.jpg",
+  "brief/brief-img-2.jpg",
+  "brief/brief-img-3.jpg",
+  "brief/brief-img-4.jpg",
+  "catalog/catalog-1.jpg",
+  "catalog/catalog-2.jpg",
+  "catalog/catalog-3.jpg",
+  "catalog/catalog-4.jpg",
+  "featured-work/featured-work-1.jpg",
+  "featured-work/featured-work-2.jpg",
+  "featured-work/featured-work-3.jpg",
+  "featured-work/featured-work-4.jpg",
+  "fonts/cossette-titre.ttf",
+  "fonts/suse-mono-variable.ttf",
+  "fonts/verilet.ttf",
+  "logo-type.png",
+  "logo.png",
+  "spiral/spiral-1.jpg",
+  "spiral/spiral-2.jpg",
+  "spiral/spiral-3.jpg",
+  "spiral/spiral-4.jpg",
+  "spiral/spiral-5.jpg",
+  "spiral/spiral-6.jpg",
+  "spiral/spiral-7.jpg",
+  "spiral/spiral-8.jpg",
+  "spiral/spiral-9.jpg",
+  "spiral/spiral-10.jpg",
+  "spiral/spiral-11.jpg",
+  "spiral/spiral-12.jpg",
+  "spiral/spiral-13.jpg",
+  "spiral/spiral-14.jpg",
+  "spiral/spiral-15.jpg",
+  "spiral/spiral-16.jpg",
+  "spiral/spiral-17.jpg",
+  "spiral/spiral-18.jpg",
+  "spiral/spiral-19.jpg",
+  "team/team-1.jpg",
+  "team/team-2.jpg",
+  "team/team-3.jpg",
+  "team/team-4.jpg",
+  "team/team-5.jpg",
+  "trail-images/trail-1.jpg",
+  "trail-images/trail-2.jpg",
+  "trail-images/trail-3.jpg",
+  "trail-images/trail-4.jpg",
+  "trail-images/trail-5.jpg",
+  "trail-images/trail-6.jpg",
+  "trail-images/trail-7.jpg",
+  "trail-images/trail-8.jpg",
+  "trail-images/trail-9.jpg",
+  "trail-images/trail-10.jpg",
+  "trail-images/trail-11.jpg",
+  "trail-images/trail-12.jpg",
+  "trail-images/trail-13.jpg",
+  "trail-images/trail-14.jpg",
+  "trail-images/trail-15.jpg",
+  "trail-images/trail-16.jpg",
+  "trail-images/trail-17.jpg",
+  "trail-images/trail-18.jpg",
+  "trail-images/trail-19.jpg",
+] as const;
+
+const darkCatalogPageAssets = darkCatalogPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `dark-catalog-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Dark Catalog Page asset ${rel}`,
       provider: "vercel-blob",
-      pathname: `dark-catalog-page/featured-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/featured-${n}.jpg`,
-      role: "Featured project tile image.",
+      pathname: `dark-catalog-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/${rel}`,
+      role: "Deadlock Studios source template image, font, logo, or gallery asset.",
       notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-  ...Array.from({ length: 4 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `dark-catalog-page-catalog-${n}`,
-      label: `Dark Catalog Page catalog ${n}`,
-      provider: "vercel-blob",
-      pathname: `dark-catalog-page/catalog-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/catalog-${n}.jpg`,
-      role: "Catalog release image.",
-      notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-  ...Array.from({ length: 5 }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `dark-catalog-page-team-${n}`,
-      label: `Dark Catalog Page team ${n}`,
-      provider: "vercel-blob",
-      pathname: `dark-catalog-page/team-${n}.jpg`,
-      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/dark-catalog-page/team-${n}.jpg`,
-      role: "Operator portrait in the team row.",
-      notes:
-        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
-    } as const satisfies AssetItem;
-  }),
-];
+        "Uploaded to Vercel Blob at the source pathname for the dark-catalog-page template.",
+    }) as const satisfies AssetItem,
+);
 
 export const assetItems = [
   ...march2025TemplateAssets,
