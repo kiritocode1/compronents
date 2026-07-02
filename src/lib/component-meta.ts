@@ -685,65 +685,56 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/dark-catalog-page.tsx",
     nuance: [
       {
-        label: "A product world before a product grid",
+        label: "Full routed source port",
         description:
-          "The first viewport uses a gridded light field, side signals, and a centered wordmark to establish atmosphere before showing the catalog.",
+          "The template includes the Deadlock index, studio, catalog, brief, and connect pages behind a local router so it installs as one component.",
       },
       {
-        label: "High contrast but not one-note",
+        label: "WebGL atmosphere stays in the page",
         description:
-          "The accent can move from hazard yellow to cyan or orange while muted copy and image grids keep the page readable.",
+          "The fluorescent hero, scroll god-rays logo stage, catalog canvas, spiral gallery, trail images, and smoke footer are kept in React rather than framed as an iframe.",
       },
       {
-        label: "Catalog and team are part of the page",
+        label: "Blob source media",
         description:
-          "Featured releases, active catalog cards, and operator portraits are included so the composition works as a launch page.",
+          "Fonts, logos, featured work, catalog frames, brief imagery, team portraits, accordion panels, spiral frames, and trail images resolve through the stable asset base.",
       },
     ],
     editable: [
       {
-        name: "title / leftSignal / rightSignal / manifesto",
+        name: "initialPath",
         control: "text",
-        description: "Hero labels, image alt title, and central statement.",
+        description:
+          "Which source route opens first: /, /studio, /catalog, /brief, or /connect.",
       },
       {
-        name: "background / textColor / mutedColor / accentColor",
-        control: "color",
-        description: "Dark catalog palette and signal color.",
-      },
-      {
-        name: "logoImage / featuredImages / catalogImages / teamImages",
+        name: "assetBase",
         control: "asset-url",
         description: `Blob-hosted media starting at ${getHostedAssetUrl(
-          "dark-catalog-page/wordmark.png",
+          "dark-catalog-page/logo-type.png",
         )}.`,
       },
     ],
     assets: darkCatalogPageAssetDocs,
     api: [
       {
-        name: "title / leftSignal / rightSignal / manifesto",
+        name: "assetBase",
         type: "string",
-        default: "BLANK LOCK / signal labels / manifesto copy",
-        description: "Hero and manifesto copy.",
+        default: '"https://ui.aryank.space/assets/dark-catalog-page"',
+        description:
+          "Base URL prefixed to every image, font, and CSS background the template renders.",
       },
       {
-        name: "logoImage",
-        type: "string",
-        default: '".../dark-catalog-page/wordmark.png"',
-        description: "Centered hero wordmark image.",
+        name: "initialPath",
+        type: '"/" | "/studio" | "/catalog" | "/brief" | "/connect"',
+        default: '"/"',
+        description: "Source route mounted first.",
       },
       {
-        name: "featuredImages / catalogImages / teamImages",
-        type: "string[]",
-        default: "4 featured / 4 catalog / 5 team images",
-        description: "Image sets for release tiles, catalog cards, and team.",
-      },
-      {
-        name: "background / textColor / mutedColor / accentColor",
-        type: "string",
-        default: '"#050507" / "#e9e5d7" / "#807a70" / "#ddff39"',
-        description: "Page palette and signal accent.",
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root <main> wrapper for sizing and layout.",
       },
     ],
   },
