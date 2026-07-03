@@ -730,6 +730,57 @@ const darkCatalogPageAssets = darkCatalogPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const deadspacePageAssetPaths = [
+  "contact/contact_icon_1.png",
+  "contact/contact_icon_2.png",
+  "contact/contact_icon_3.png",
+  "contact/contact_icon_4.png",
+  "contact/contact_icon_5.png",
+  "contact/icon_1.svg",
+  "contact/icon_10.svg",
+  "contact/icon_2.svg",
+  "contact/icon_3.svg",
+  "contact/icon_4.svg",
+  "contact/icon_5.svg",
+  "contact/icon_6.svg",
+  "contact/icon_7.svg",
+  "contact/icon_8.svg",
+  "contact/icon_9.svg",
+  "fonts/de-fonte-plus.ttf",
+  "fonts/dm-mono.ttf",
+  "fonts/stylish.ttf",
+  "global/logo.svg",
+  "lab/hero-visual.png",
+  "project/project_1.jpg",
+  "project/project_2.jpg",
+  "project/project_3.jpg",
+  "project/project_4.jpg",
+  "project/project_5.jpg",
+  "sfx/menu-close.mp3",
+  "sfx/menu-open.mp3",
+  "sfx/menu-select.mp3",
+  "site-icon.png",
+  "work/work_01.jpg",
+  "work/work_02.jpg",
+  "work/work_03.jpg",
+  "work/work_04.jpg",
+  "work/work_05.jpg",
+] as const;
+
+const deadspacePageAssets = deadspacePageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `deadspace-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Deadspace Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `deadspace-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/deadspace-page/${rel}`,
+      role: "Deadspace source template image, font, logo, icon, or sound asset.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the deadspace-page template.",
+    }) as const satisfies AssetItem,
+);
+
 export const assetItems = [
   ...march2025TemplateAssets,
   ...archiveCommercePageAssets,
@@ -737,6 +788,7 @@ export const assetItems = [
   ...diningRoomPageAssets,
   ...filmStudioPageAssets,
   ...darkCatalogPageAssets,
+  ...deadspacePageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
   ...fallingTagListAssets,
