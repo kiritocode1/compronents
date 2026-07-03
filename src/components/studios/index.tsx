@@ -23,6 +23,7 @@ import InversaScrollStudio from "./inversa-scroll";
 import March2025TemplateStudio from "./march-2025-template";
 import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
+import OtisValenPageStudio from "./otis-valen-page";
 import OverlayMenuStudio from "./overlay-menu";
 import PortfolioPageStudio from "./portfolio-page";
 import PreloaderRevealStudio from "./preloader-reveal";
@@ -64,5 +65,6 @@ export const studios: Record<string, StudioComponent> = {
   "film-studio-page": FilmStudioPageStudio,
   "dark-catalog-page": DarkCatalogPageStudio,
   "deadspace-page": DeadspacePageStudio,
+  "otis-valen-page": OtisValenPageStudio,
   "march-2025-template": March2025TemplateStudio,
 };

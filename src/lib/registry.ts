@@ -443,6 +443,36 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "otis-valen-page",
+    title: "Otis Valen Page",
+    description:
+      "A source-backed Otis Valen portfolio template. It ships the routed index, work, project, about, and contact pages with the block transition, menu reveal, pinned hero image, horizontal featured-work stage, stacked services, SplitText work and project reveals, project preview zoom, about tag motion, contact cursor trail, footer image burst, Lenis scroll, and Blob-hosted source fonts and images.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-03",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/otis-valen-page/index.tsx",
+        target: "components/ui/otis-valen-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/otis-valen-page/fragments.ts",
+        target: "components/ui/otis-valen-page/fragments.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/otis-valen-page/styles.ts",
+        target: "components/ui/otis-valen-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "spiral-gallery",
     title: "Spiral Gallery",
     description:

@@ -364,6 +364,7 @@ const diningRoomPageAssetDocs = pageAssets("dining-room-page-", 5);
 const filmStudioPageAssetDocs = pageAssets("film-studio-page-", 5);
 const darkCatalogPageAssetDocs = pageAssets("dark-catalog-page-", 5);
 const deadspacePageAssetDocs = pageAssets("deadspace-page-", 5);
+const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -786,6 +787,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "otis-valen-page": {
+    demoPath: "src/components/demos/otis-valen-page.tsx",
+    studioPath: "src/components/studios/otis-valen-page.tsx",
+    nuance: [
+      {
+        label: "Full routed portfolio port",
+        description:
+          "The component includes the Otis Valen index, work, project, about, and contact pages behind a local router so the whole portfolio installs as one page template.",
+      },
+      {
+        label: "Source motion translated",
+        description:
+          "The block page transition, menu reveal, pinned hero image, horizontal featured-work stage, service-card stack, work item entrances, project preview zoom, about tag drift, contact trail, and footer burst are recreated with scoped GSAP.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "Formula, Rader, and Supply Mono fonts plus all portraits, symbols, hero images, service images, and work cards resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /work, /project, /about, or /contact.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "otis-valen-page/images/work-items/work-item-1.jpg",
+        )}.`,
+      },
+    ],
+    assets: otisValenPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/otis-valen-page"',
+        description:
+          "Base URL prefixed to every image and font the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/project" | "/about" | "/contact"',
         default: '"/"',
         description: "Source route mounted first.",
       },

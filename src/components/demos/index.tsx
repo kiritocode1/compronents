@@ -23,6 +23,7 @@ import InversaScrollDemo from "./inversa-scroll";
 import March2025TemplateDemo from "./march-2025-template";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MosaicFlipDemo from "./mosaic-flip";
+import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderRevealDemo from "./preloader-reveal";
@@ -64,5 +65,6 @@ export const demos: Record<string, ComponentType> = {
   "film-studio-page": FilmStudioPageDemo,
   "dark-catalog-page": DarkCatalogPageDemo,
   "deadspace-page": DeadspacePageDemo,
+  "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
 };
