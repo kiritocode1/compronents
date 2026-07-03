@@ -364,6 +364,7 @@ const diningRoomPageAssetDocs = pageAssets("dining-room-page-", 5);
 const filmStudioPageAssetDocs = pageAssets("film-studio-page-", 5);
 const darkCatalogPageAssetDocs = pageAssets("dark-catalog-page-", 5);
 const deadspacePageAssetDocs = pageAssets("deadspace-page-", 5);
+const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
@@ -845,6 +846,63 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/work" | "/project" | "/about" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "damien-tsarantos-page": {
+    demoPath: "src/components/demos/damien-tsarantos-page.tsx",
+    studioPath: "src/components/studios/damien-tsarantos-page.tsx",
+    nuance: [
+      {
+        label: "Six source routes",
+        description:
+          "The component includes the Damien Tsarantos home, about, projects, project detail, awards, and contact pages behind a local router.",
+      },
+      {
+        label: "Source motion translated",
+        description:
+          "The original Lenis scroll, magnetic button tracking, contact-card ScrollTrigger stack, marquee loops, and h1 letter reveals are recreated with scoped GSAP.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "All work thumbnails, project device shots, and contact cards resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /about, /work, /project, /awards, or /contact.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "damien-tsarantos-page/work/img1.jpg",
+        )}.`,
+      },
+    ],
+    assets: damienTsarantosPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/damien-tsarantos-page"',
+        description: "Base URL prefixed to every image the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/about" | "/work" | "/project" | "/awards" | "/contact"',
         default: '"/"',
         description: "Source route mounted first.",
       },

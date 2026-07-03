@@ -10,6 +10,7 @@ import AwardListStudio from "./award-list";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
+import DamienTsarantosPageStudio from "./damien-tsarantos-page";
 import DarkCatalogPageStudio from "./dark-catalog-page";
 import DeadspacePageStudio from "./deadspace-page";
 import DetroitParisSliderStudio from "./detroit-paris-slider";
@@ -64,6 +65,7 @@ export const studios: Record<string, StudioComponent> = {
   "dining-room-page": DiningRoomPageStudio,
   "film-studio-page": FilmStudioPageStudio,
   "dark-catalog-page": DarkCatalogPageStudio,
+  "damien-tsarantos-page": DamienTsarantosPageStudio,
   "deadspace-page": DeadspacePageStudio,
   "otis-valen-page": OtisValenPageStudio,
   "march-2025-template": March2025TemplateStudio,

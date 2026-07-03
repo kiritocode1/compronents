@@ -473,6 +473,36 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "damien-tsarantos-page",
+    title: "Damien Tsarantos Page",
+    description:
+      "A source-backed Damien Tsarantos portfolio template. It ships the routed home, about, projects, project detail, awards, and contact pages with Lenis scroll, magnetic buttons, contact-card ScrollTrigger stack, split h1 letter reveals, marquee strips, scoped GSAP, and Blob-hosted source images.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-03",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/damien-tsarantos-page/index.tsx",
+        target: "components/ui/damien-tsarantos-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/damien-tsarantos-page/fragments.ts",
+        target: "components/ui/damien-tsarantos-page/fragments.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/damien-tsarantos-page/styles.ts",
+        target: "components/ui/damien-tsarantos-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "spiral-gallery",
     title: "Spiral Gallery",
     description:

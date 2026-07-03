@@ -781,6 +781,43 @@ const deadspacePageAssets = deadspacePageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const damienTsarantosPageAssetPaths = [
+  "contact-dark.png",
+  "contact-light.png",
+  "work/img1.jpg",
+  "work/img2.jpg",
+  "work/img3.jpg",
+  "work/img4.jpg",
+  "work/img5.jpg",
+  "work/img6.jpg",
+  "work/img7.jpg",
+  "work/img8.jpg",
+  "work/img9.jpg",
+  "work/project-a.png",
+  "work/project-d.png",
+  "work/project-m-1.png",
+  "work/project-m-2.png",
+  "work/project-m-3.png",
+  "work/project-m-4.png",
+  "work/project-m-5.png",
+  "work/project-m-6.png",
+  "work/project-t.png",
+] as const;
+
+const damienTsarantosPageAssets = damienTsarantosPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `damien-tsarantos-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Damien Tsarantos Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `damien-tsarantos-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/damien-tsarantos-page/${rel}`,
+      role: "Damien Tsarantos source template work image or contact card asset.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the damien-tsarantos-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const otisValenPageAssetPaths = [
   "fonts/formula/PPFormula-CondensedBlack.ttf",
   "fonts/formula/PPFormula-CondensedExtralight.ttf",
@@ -882,6 +919,7 @@ export const assetItems = [
   ...filmStudioPageAssets,
   ...darkCatalogPageAssets,
   ...deadspacePageAssets,
+  ...damienTsarantosPageAssets,
   ...otisValenPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

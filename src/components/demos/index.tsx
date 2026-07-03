@@ -10,6 +10,7 @@ import AwardListDemo from "./award-list";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CreativeClutterDemo from "./creative-clutter";
 import CrtDisplayDemo from "./crt-display";
+import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
@@ -64,6 +65,7 @@ export const demos: Record<string, ComponentType> = {
   "dining-room-page": DiningRoomPageDemo,
   "film-studio-page": FilmStudioPageDemo,
   "dark-catalog-page": DarkCatalogPageDemo,
+  "damien-tsarantos-page": DamienTsarantosPageDemo,
   "deadspace-page": DeadspacePageDemo,
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
