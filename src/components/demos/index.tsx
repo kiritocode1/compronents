@@ -11,6 +11,7 @@ import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CreativeClutterDemo from "./creative-clutter";
 import CrtDisplayDemo from "./crt-display";
 import DarkCatalogPageDemo from "./dark-catalog-page";
+import DeadspacePageDemo from "./deadspace-page";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import FallingTagListDemo from "./falling-tag-list";
@@ -62,5 +63,6 @@ export const demos: Record<string, ComponentType> = {
   "dining-room-page": DiningRoomPageDemo,
   "film-studio-page": FilmStudioPageDemo,
   "dark-catalog-page": DarkCatalogPageDemo,
+  "deadspace-page": DeadspacePageDemo,
   "march-2025-template": March2025TemplateDemo,
 };

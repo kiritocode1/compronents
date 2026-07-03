@@ -408,6 +408,41 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "deadspace-page",
+    title: "Deadspace Page",
+    description:
+      "A source-backed Deadspace spatial-design template. It ships the routed index, lab, archive, record, and connect pages with a boot preloader, block transition, circular WebGL menu, procedural skyline hero, SplitText copy reveals, pinned lab sequence, stats and client scroll motion, contact ticker, image distortion, and Blob-hosted source fonts, images, icons, and sounds.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-03",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/deadspace-page/index.tsx",
+        target: "components/ui/deadspace-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/deadspace-page/fragments.ts",
+        target: "components/ui/deadspace-page/fragments.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/deadspace-page/menu-shader.ts",
+        target: "components/ui/deadspace-page/menu-shader.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/deadspace-page/styles.ts",
+        target: "components/ui/deadspace-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "spiral-gallery",
     title: "Spiral Gallery",
     description:

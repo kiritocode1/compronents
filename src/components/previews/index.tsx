@@ -11,6 +11,7 @@ import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
 import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
 import DarkCatalogPagePreview from "./dark-catalog-page";
+import DeadspacePagePreview from "./deadspace-page";
 import DetroitParisSliderPreview from "./detroit-paris-slider";
 import DiningRoomPagePreview from "./dining-room-page";
 import FallingTagListPreview from "./falling-tag-list";
@@ -64,5 +65,6 @@ export const previews: Record<string, ComponentType> = {
   "dining-room-page": DiningRoomPagePreview,
   "film-studio-page": FilmStudioPagePreview,
   "dark-catalog-page": DarkCatalogPagePreview,
+  "deadspace-page": DeadspacePagePreview,
   "march-2025-template": March2025TemplatePreview,
 };

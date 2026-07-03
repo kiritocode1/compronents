@@ -16,8 +16,8 @@ Commit per source on `main`. Validate every slice: `tsc --noEmit`, `biome check`
 | CGMWTMAR2025 / nico-palmer           | `march-2025-template`     | React port   | ✅ done (pre-existing) |
 | CGMWTFEB2026 / salle-blanche         | `dining-room-page`        | React port   | ✅ done (`684b40c`) |
 | CGMWTSEPT2025 / negative-films        | `film-studio-page`        | React port   | ✅ done (`16628b0` + fixes) |
-| CGMWTMAY2026 / deadlock-studios      | `dark-catalog-page`       | React port   | ✅ done (`afdd7c4` + `75039f9`) |
-| CGMWTJAN2026 / deadspace             | new slot                  | React port   | ⏳ later |
+| CGMWTMAY2026 / deadlock-studios      | `dark-catalog-page`       | React port   | ✅ done (`afdd7c4` + `75039f9` + `4951bd0`) |
+| CGMWTJAN2026 / deadspace             | `deadspace-page`          | React port   | ✅ done (`1f194a0` + current) |
 | CGMWTMAY2025 / otis-valen            | new slot                  | React port   | ⏳ later |
 | CGMWTAPR2026 / lemon-bureau          | new slot                  | React port   | ⏳ later |
 | CGMWTJUNE2025 / wu-wei               | new slot                  | React port   | ⏳ later |

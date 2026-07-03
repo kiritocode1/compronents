@@ -11,6 +11,7 @@ import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
 import DarkCatalogPageStudio from "./dark-catalog-page";
+import DeadspacePageStudio from "./deadspace-page";
 import DetroitParisSliderStudio from "./detroit-paris-slider";
 import DiningRoomPageStudio from "./dining-room-page";
 import FallingTagListStudio from "./falling-tag-list";
@@ -62,5 +63,6 @@ export const studios: Record<string, StudioComponent> = {
   "dining-room-page": DiningRoomPageStudio,
   "film-studio-page": FilmStudioPageStudio,
   "dark-catalog-page": DarkCatalogPageStudio,
+  "deadspace-page": DeadspacePageStudio,
   "march-2025-template": March2025TemplateStudio,
 };

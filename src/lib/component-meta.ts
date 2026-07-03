@@ -363,6 +363,7 @@ const interiorStudioPageAssetDocs = pageAssets("interior-studio-page-", 5);
 const diningRoomPageAssetDocs = pageAssets("dining-room-page-", 5);
 const filmStudioPageAssetDocs = pageAssets("film-studio-page-", 5);
 const darkCatalogPageAssetDocs = pageAssets("dark-catalog-page-", 5);
+const deadspacePageAssetDocs = pageAssets("deadspace-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -735,6 +736,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string / CSSProperties",
         default: "undefined",
         description: "Passed to the root <main> wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "deadspace-page": {
+    demoPath: "src/components/demos/deadspace-page.tsx",
+    studioPath: "src/components/studios/deadspace-page.tsx",
+    nuance: [
+      {
+        label: "Full routed source port",
+        description:
+          "The template includes the Deadspace index, lab, archive, record, and connect pages behind a local router so it installs as one component.",
+      },
+      {
+        label: "Source motion translated",
+        description:
+          "The preloader grid, block page transition, circular WebGL menu, skyline canvas, SplitText reveals, pinned lab sequence, stats motion, contact ticker, and image distortion are recreated with scoped GSAP and Three.js effects.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "Fonts, project images, work stills, contact icons, menu sounds, logo artwork, and lab visuals resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /lab, /work, /project, or /contact.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "deadspace-page/lab/hero-visual.png",
+        )}.`,
+      },
+    ],
+    assets: deadspacePageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/deadspace-page"',
+        description:
+          "Base URL prefixed to every image, font, icon, and sound the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
       },
     ],
   },
