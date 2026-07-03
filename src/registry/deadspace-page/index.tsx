@@ -231,7 +231,7 @@ function DeadspaceRouteView({
   return (
     <div
       ref={setRouteElement}
-      className="deadspace-route"
+      className={`deadspace-route deadspace-route-${pathname === "/" ? "index" : pathname.slice(1)}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
