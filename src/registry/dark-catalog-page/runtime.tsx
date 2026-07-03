@@ -3,7 +3,9 @@
 
 "use client";
 
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import {
   createContext,
@@ -24,6 +26,7 @@ const RouterContext = createContext({
 });
 const ScrollContext = createContext({
   scroller: null as HTMLElement | Window | null,
+  lenis: null as Lenis | null,
 });
 
 export function normalizePath(path: string) {
@@ -107,30 +110,34 @@ export function useScroller() {
 }
 
 export function useTemplateLenis() {
-  const { scroller } = useScroller();
+  const { scroller, lenis } = useScroller();
 
   return useMemo(
-    () => ({
-      get scroll() {
-        return getScrollerScrollTop(scroller);
+    () =>
+      lenis ?? {
+        get scroll() {
+          return getScrollerScrollTop(scroller);
+        },
+        start() {},
+        stop() {},
+        scrollTo(
+          _value: number | string,
+          options: { immediate?: boolean } = {},
+        ) {
+          scrollScrollerToTop(scroller);
+        },
+        on(eventName: string, callback: () => void) {
+          if (eventName !== "scroll") return;
+          const target = scroller || window;
+          target.addEventListener("scroll", callback, { passive: true });
+        },
+        off(eventName: string, callback: () => void) {
+          if (eventName !== "scroll") return;
+          const target = scroller || window;
+          target.removeEventListener("scroll", callback);
+        },
       },
-      start() {},
-      stop() {},
-      scrollTo(_value: number | string, options: { immediate?: boolean } = {}) {
-        scrollScrollerToTop(scroller);
-      },
-      on(eventName: string, callback: () => void) {
-        if (eventName !== "scroll") return;
-        const target = scroller || window;
-        target.addEventListener("scroll", callback, { passive: true });
-      },
-      off(eventName: string, callback: () => void) {
-        if (eventName !== "scroll") return;
-        const target = scroller || window;
-        target.removeEventListener("scroll", callback);
-      },
-    }),
-    [scroller],
+    [scroller, lenis],
   );
 }
 
@@ -141,12 +148,41 @@ export function ScrollProvider({
   rootElement: HTMLElement;
   children: ReactNode;
 }) {
-  const [scroller, setScroller] = useState<HTMLElement | Window | null>(null);
+  const [scrollState, setScrollState] = useState<{
+    scroller: HTMLElement | Window | null;
+    lenis: Lenis | null;
+  }>({ scroller: null, lenis: null });
 
   useLayoutEffect(() => {
     const nextScroller = getScrollParent(rootElement);
+    let nextLenis: Lenis | null = null;
+    let ticker: ((time: number) => void) | null = null;
+    let previousOverflowAnchor = "";
+    let previousOverscrollBehavior = "";
+    let previousScrollBehavior = "";
+
+    if (nextScroller instanceof HTMLElement) {
+      previousOverflowAnchor = nextScroller.style.overflowAnchor;
+      previousOverscrollBehavior = nextScroller.style.overscrollBehavior;
+      previousScrollBehavior = nextScroller.style.scrollBehavior;
+      nextScroller.style.overflowAnchor = "none";
+      nextScroller.style.overscrollBehavior = "contain";
+      nextScroller.style.scrollBehavior = "auto";
+
+      nextLenis = new Lenis({
+        wrapper: nextScroller,
+        content: rootElement,
+        smoothWheel: true,
+        lerp: 0.1,
+      });
+      nextLenis.on("scroll", ScrollTrigger.update);
+      ticker = (time) => nextLenis?.raf(time * 1000);
+      gsap.ticker.add(ticker);
+      gsap.ticker.lagSmoothing(0);
+    }
+
     ScrollTrigger.defaults({ scroller: nextScroller });
-    setScroller(nextScroller);
+    setScrollState({ scroller: nextScroller, lenis: nextLenis });
 
     const refreshFrame = window.requestAnimationFrame(() => {
       ScrollTrigger.refresh();
@@ -154,18 +190,25 @@ export function ScrollProvider({
 
     return () => {
       window.cancelAnimationFrame(refreshFrame);
+      if (ticker) gsap.ticker.remove(ticker);
+      nextLenis?.destroy();
+      if (nextScroller instanceof HTMLElement) {
+        nextScroller.style.overflowAnchor = previousOverflowAnchor;
+        nextScroller.style.overscrollBehavior = previousOverscrollBehavior;
+        nextScroller.style.scrollBehavior = previousScrollBehavior;
+      }
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill(true));
       ScrollTrigger.defaults({ scroller: undefined });
-      setScroller(null);
+      setScrollState({ scroller: null, lenis: null });
     };
   }, [rootElement]);
 
-  if (!scroller) {
+  if (!scrollState.scroller) {
     return null;
   }
 
   return (
-    <ScrollContext.Provider value={{ scroller }}>
+    <ScrollContext.Provider value={scrollState}>
       {children}
     </ScrollContext.Provider>
   );
