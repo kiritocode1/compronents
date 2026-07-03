@@ -1613,11 +1613,20 @@ function initContact(
   lenis: Lenis,
 ) {
   const contactVisual = root.querySelector<HTMLElement>(".contact-visual");
+  const contactVisualIconWrap = root.querySelector<HTMLElement>(
+    ".contact-visual-icon",
+  );
   const contactVisualIcon = root.querySelector<HTMLImageElement>(
     ".contact-visual-icon img",
   );
   const contactInfo = root.querySelector<HTMLElement>(".contact-info");
-  if (!contactVisual || !contactVisualIcon || !contactInfo) return () => {};
+  if (
+    !contactVisual ||
+    !contactVisualIconWrap ||
+    !contactVisualIcon ||
+    !contactInfo
+  )
+    return () => {};
   let currentIconIndex = 1;
   let lastCenteredRow: HTMLElement | null = null;
   const timers: number[] = [];
@@ -1645,7 +1654,39 @@ function initContact(
     contactInfo.parentElement?.appendChild(contactInfo.cloneNode(true));
   }
 
+  function centerIconOnVisibleRows() {
+    const viewportCenter = window.innerHeight / 2;
+    const sections = [...root.querySelectorAll<HTMLElement>(".contact-info")];
+    const visibleSection = sections.reduce<HTMLElement | null>(
+      (best, section) => {
+        const rect = section.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+        if (!best) return section;
+        const bestRect = best.getBoundingClientRect();
+        const bestDistance = Math.abs(
+          bestRect.top + bestRect.height / 2 - viewportCenter,
+        );
+        return distance < bestDistance ? section : best;
+      },
+      null,
+    );
+    const rows = [
+      ...(visibleSection ?? contactInfo).querySelectorAll<HTMLElement>(
+        ".contact-info-row",
+      ),
+    ];
+    if (rows.length === 0) return;
+
+    const top = Math.min(...rows.map((row) => row.getBoundingClientRect().top));
+    const bottom = Math.max(
+      ...rows.map((row) => row.getBoundingClientRect().bottom),
+    );
+    const textCenter = top + (bottom - top) / 2;
+    contactVisualIconWrap.style.transform = `translateY(${textCenter - viewportCenter}px)`;
+  }
+
   const onScroll = () => {
+    centerIconOnVisibleRows();
     const viewportCenter = window.innerHeight / 2;
     const rows = [...root.querySelectorAll<HTMLElement>(".contact-info-row")];
     let closestRow: HTMLElement | null = null;
@@ -1716,17 +1757,20 @@ function initContact(
   function handleResize() {
     const wasMobile = isMobile;
     isMobile = window.innerWidth < 1000;
+    centerIconOnVisibleRows();
 
     if (wasMobile !== isMobile) {
       initGapAnimations();
     }
   }
 
+  centerIconOnVisibleRows();
   lenis.on("scroll", onScroll);
   initGapAnimations();
   window.addEventListener("resize", handleResize);
 
   return () => {
+    contactVisualIconWrap.style.transform = "";
     lenis.off("scroll", onScroll);
     lenis.options.infinite = previousInfinite;
     window.removeEventListener("resize", handleResize);
