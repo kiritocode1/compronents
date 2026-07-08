@@ -20,7 +20,7 @@ Commit per source on `main`. Validate every slice: `tsc --noEmit`, `biome check`
 | CGMWTJAN2026 / deadspace             | `deadspace-page`          | React port   | ✅ done (`1f194a0` + current) |
 | CGMWTMAY2025 / otis-valen            | `otis-valen-page`         | React port   | ✅ done (`2139f55`) |
 | CGMWTAPR2026 / lemon-bureau          | new slot                  | React port   | ⏳ later |
-| CGMWTJUNE2025 / wu-wei               | new slot                  | React port   | ⏳ later |
+| CGMWTJUNE2025 / wu-wei               | `wu-wei-page`             | React port   | ✅ done (current) |
 | CGMWTJULY2024 / damien-tsarantos     | `damien-tsarantos-page`   | React port   | ✅ done (current) |
 
 ## Port recipe (per source)

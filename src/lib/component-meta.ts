@@ -365,6 +365,7 @@ const filmStudioPageAssetDocs = pageAssets("film-studio-page-", 5);
 const darkCatalogPageAssetDocs = pageAssets("dark-catalog-page-", 5);
 const deadspacePageAssetDocs = pageAssets("deadspace-page-", 5);
 const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
+const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
@@ -903,6 +904,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/about" | "/work" | "/project" | "/awards" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "wu-wei-page": {
+    demoPath: "src/components/demos/wu-wei-page.tsx",
+    studioPath: "src/components/studios/wu-wei-page.tsx",
+    nuance: [
+      {
+        label: "Six source routes",
+        description:
+          "The component includes the Wu Wei index, work, studio, archive, contact, and sample project pages behind a local router.",
+      },
+      {
+        label: "Source motion translated",
+        description:
+          "The GSAP preloader, menu reveal, WebGL particle logo, SplitText copy reveals, work-year ScrollTriggers, pinned studio stage, stacked process cards, archive drag field, and sample-project progress counter are recreated with scoped motion.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "The nm font, logo, archive grid, work images, team portraits, process images, studio hero, and contact image resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /work, /studio, /archive, /contact, or /sample-project.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "wu-wei-page/images/work/work_001.jpeg",
+        )}.`,
+      },
+    ],
+    assets: wuWeiPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/wu-wei-page"',
+        description:
+          "Base URL prefixed to every image, logo, and font the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/studio" | "/archive" | "/contact" | "/sample-project"',
         default: '"/"',
         description: "Source route mounted first.",
       },

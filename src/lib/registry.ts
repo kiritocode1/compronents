@@ -503,6 +503,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "wu-wei-page",
+    title: "Wu Wei Page",
+    description:
+      "A source-backed Wu Wei creative studio template. It ships the routed index, work, studio, archive, contact, and sample project pages with the original preloader cadence, menu overlay reveal, WebGL particle logo, SplitText copy reveals, work-year ScrollTriggers, pinned studio stage, stacked process cards, draggable archive field, contact reveal, sample-project progress counter, Lenis scroll, and Blob-hosted source font and images.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-03",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wu-wei-page/index.tsx",
+        target: "components/ui/wu-wei-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/wu-wei-page/styles.ts",
+        target: "components/ui/wu-wei-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "spiral-gallery",
     title: "Spiral Gallery",
     description:

@@ -31,6 +31,7 @@ import PreloaderRevealDemo from "./preloader-reveal";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
+import WuWeiPageDemo from "./wu-wei-page";
 
 /**
  * Maps a registry item name to its live usage demo.
@@ -69,4 +70,5 @@ export const demos: Record<string, ComponentType> = {
   "deadspace-page": DeadspacePageDemo,
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
+  "wu-wei-page": WuWeiPageDemo,
 };
