@@ -1307,6 +1307,26 @@ export const assetItems = [
     notes:
       "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
   },
+  {
+    id: "vinyl-orbit-player-disk",
+    label: "Vinyl Orbit Player disk",
+    provider: "vercel-blob",
+    pathname: "vinyl-orbit-player/disk.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/vinyl-orbit-player/disk.png`,
+    role: "Spinning record texture under the circular cover image.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "vinyl-orbit-player-cover",
+    label: "Vinyl Orbit Player cover",
+    provider: "vercel-blob",
+    pathname: "vinyl-orbit-player/sample-cover.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/vinyl-orbit-player/sample-cover.jpg`,
+    role: "Circular center cover mounted on top of the spinning record.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

@@ -35,6 +35,7 @@ import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
+import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WuWeiPageDemo from "./wu-wei-page";
 
@@ -70,6 +71,7 @@ export const demos: Record<string, ComponentType> = {
   "threejs-infinite-slider": ThreejsInfiniteSliderDemo,
   "grid-scramble-hover": GridScrambleHoverDemo,
   "text-displacement-field": TextDisplacementFieldDemo,
+  "vinyl-orbit-player": VinylOrbitPlayerDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,

@@ -1307,6 +1307,54 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "vinyl-orbit-player": {
+    demoPath: "src/components/demos/vinyl-orbit-player.tsx",
+    nuance: [
+      {
+        label: "Native SVG orbit",
+        description:
+          "The curved copy rides real SVG text paths, so the motion stays crisp without canvas or animation libraries.",
+      },
+      {
+        label: "Single spinning layer",
+        description:
+          "The record and center cover rotate as one circle, matching the source behavior with a small CSS loop.",
+      },
+    ],
+    editable: [
+      {
+        name: "coverImage / diskImage",
+        control: "asset-url",
+        description: "The circular cover art and record texture.",
+      },
+      {
+        name: "primaryText / secondaryText",
+        control: "text",
+        description: "The phrases rendered on the large and small text paths.",
+      },
+    ],
+    assets: pageAssets("vinyl-orbit-player-", 2),
+    api: [
+      {
+        name: "coverImage",
+        type: "string",
+        default: "Compronents-hosted JPG",
+        description: "Circular cover image placed at the center of the record.",
+      },
+      {
+        name: "diskImage",
+        type: "string",
+        default: "Compronents-hosted PNG",
+        description: "Record texture spun behind the cover.",
+      },
+      {
+        name: "primaryText / secondaryText",
+        type: "string",
+        default: "Fly to the moon now / Throwback Music Vol",
+        description: "Curved text shown around the record.",
+      },
+    ],
+  },
   "frame-scroll": {
     demoPath: "src/components/demos/frame-scroll.tsx",
     studioPath: "src/components/studios/frame-scroll.tsx",

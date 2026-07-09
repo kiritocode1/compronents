@@ -673,6 +673,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "vinyl-orbit-player",
+    title: "Vinyl Orbit Player",
+    description:
+      "A spinning vinyl record with circular cover art and two curved SVG text paths. The primary phrase loops around a wide orbit while the secondary label sits on a smaller lower curve.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vinyl-orbit-player.tsx",
+        target: "components/ui/vinyl-orbit-player.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "frame-scroll",
     title: "Frame Scroll",
     description:
