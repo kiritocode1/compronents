@@ -1341,6 +1341,33 @@ export const assetItems = [
           "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
       }) as const satisfies AssetItem,
   ),
+  {
+    id: "terminal-text-reveal-intro",
+    label: "Terminal Text Reveal intro",
+    provider: "vercel-blob",
+    pathname: "terminal-text-reveal/intro.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/terminal-text-reveal/intro.jpg`,
+    role: "Opening full-bleed image before the copy reveal sections.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  ...Array.from(
+    { length: 5 },
+    (_, index) =>
+      ({
+        id: `terminal-text-reveal-img-${index + 1}`,
+        label: `Terminal Text Reveal image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `terminal-text-reveal/img_${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/terminal-text-reveal/img_${index + 1}.jpg`,
+        role:
+          index === 0
+            ? "Banner image between the intro copy and service sections."
+            : "Service image paired with scroll-reactive copy.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

@@ -1403,6 +1403,54 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "terminal-text-reveal": {
+    demoPath: "src/components/demos/terminal-text-reveal.tsx",
+    nuance: [
+      {
+        label: "Scroll parent aware",
+        description:
+          "The copy measures against the nearest scrolling parent, so it works in the bounded demo stage and fullscreen preview.",
+      },
+      {
+        label: "Word progress",
+        description:
+          "Each paragraph splits into words and advances through muted, accent, and final colors as the block crosses the viewport.",
+      },
+    ],
+    editable: [
+      {
+        name: "headline / intro / outro",
+        control: "textarea",
+        description: "Editorial copy shown around the image sections.",
+      },
+      {
+        name: "services",
+        control: "links",
+        description: "Service titles, body copy, and image URLs.",
+      },
+    ],
+    assets: pageAssets("terminal-text-reveal-", 4),
+    api: [
+      {
+        name: "introImage / bannerImage",
+        type: "string",
+        default: "Compronents-hosted JPGs",
+        description: "Full-bleed images at the start and middle of the layout.",
+      },
+      {
+        name: "services",
+        type: "{ title: string; body: string; image: string }[]",
+        default: "4 service sections",
+        description: "Text and image pairs used by the reveal sections.",
+      },
+      {
+        name: "initialColor / accentColor / finalColor",
+        type: "string",
+        default: '"#d5d5d5" / "#abff02" / "#101010"',
+        description: "The three colors used during the word reveal pass.",
+      },
+    ],
+  },
   "frame-scroll": {
     demoPath: "src/components/demos/frame-scroll.tsx",
     studioPath: "src/components/studios/frame-scroll.tsx",

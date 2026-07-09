@@ -713,6 +713,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "terminal-text-reveal",
+    title: "Terminal Text Reveal",
+    description:
+      "A scroll-reactive editorial layout where paragraph words move from muted gray to bright accent and then settle into final black as each section enters view.",
+    section: "components",
+    category: "Text",
+    pro: false,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/terminal-text-reveal.tsx",
+        target: "components/ui/terminal-text-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "frame-scroll",
     title: "Frame Scroll",
     description:

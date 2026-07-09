@@ -34,6 +34,7 @@ import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
+import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
@@ -74,6 +75,7 @@ export const demos: Record<string, ComponentType> = {
   "text-displacement-field": TextDisplacementFieldDemo,
   "vinyl-orbit-player": VinylOrbitPlayerDemo,
   "svg-stroke-hover": SvgStrokeHoverDemo,
+  "terminal-text-reveal": TerminalTextRevealDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,
