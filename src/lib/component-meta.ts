@@ -367,6 +367,7 @@ const deadspacePageAssetDocs = pageAssets("deadspace-page-", 5);
 const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
 const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
+const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -962,6 +963,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/work" | "/studio" | "/archive" | "/contact" | "/sample-project"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "lemon-bureau-page": {
+    demoPath: "src/components/demos/lemon-bureau-page.tsx",
+    studioPath: "src/components/studios/lemon-bureau-page.tsx",
+    nuance: [
+      {
+        label: "Five source routes",
+        description:
+          "The component includes the Lemon Bureau home, studio, work, project, and contact pages behind a local router.",
+      },
+      {
+        label: "Source motion translated",
+        description:
+          "The GSAP preloader split, menu overlay reveal, full-page WebGL fluid-ink cursor trail, WebGL particle logo, pinned studio hero, stacked team cards, boosted client marquee, SVG work carousel, three.js contact cube, and GPU FLIP fluid footer are recreated with scoped motion and cleanup.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "The Humane and Neue Montreal fonts, logo, icons, client logos, team portraits, work images, studio hero, project imagery, and footer fluid shaders resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /studio, /work, /sample-project, or /contact.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "lemon-bureau-page/logo/nav-logo.svg",
+        )}.`,
+      },
+    ],
+    assets: lemonBureauPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/lemon-bureau-page"',
+        description:
+          "Base URL prefixed to every image, font, and footer fluid shader the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/studio" | "/work" | "/sample-project" | "/contact"',
         default: '"/"',
         description: "Source route mounted first.",
       },

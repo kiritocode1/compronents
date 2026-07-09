@@ -31,6 +31,7 @@ import PreloaderRevealDemo from "./preloader-reveal";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
+import LemonBureauPageDemo from "./lemon-bureau-page";
 import WuWeiPageDemo from "./wu-wei-page";
 
 /**
@@ -71,4 +72,5 @@ export const demos: Record<string, ComponentType> = {
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
   "wu-wei-page": WuWeiPageDemo,
+  "lemon-bureau-page": LemonBureauPageDemo,
 };

@@ -528,6 +528,51 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "lemon-bureau-page",
+    title: "Lemon Bureau Page",
+    description:
+      "A source-backed Lemon Bureau creative-studio template. It ships the routed home, studio, work, project, and contact pages with the original GSAP preloader split, menu overlay reveal, full-page WebGL fluid-ink cursor trail, WebGL particle logo, pinned studio hero, stacked team cards, boosted client marquee, SVG work carousel, a three.js bouncing-ball contact cube, a GPU FLIP fluid footer, Lenis scroll, and Blob-hosted source fonts and images.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/lemon-bureau-page/index.tsx",
+        target: "components/ui/lemon-bureau-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/lemon-bureau-page/fragments.ts",
+        target: "components/ui/lemon-bureau-page/fragments.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/lemon-bureau-page/styles.ts",
+        target: "components/ui/lemon-bureau-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/lemon-bureau-page/webgl.ts",
+        target: "components/ui/lemon-bureau-page/webgl.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/lemon-bureau-page/simulation.ts",
+        target: "components/ui/lemon-bureau-page/simulation.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/lemon-bureau-page/particle-visual.ts",
+        target: "components/ui/lemon-bureau-page/particle-visual.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "spiral-gallery",
     title: "Spiral Gallery",
     description:

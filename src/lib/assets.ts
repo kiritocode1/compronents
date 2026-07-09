@@ -1016,6 +1016,65 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const lemonBureauPageAssetPaths = [
+  "clients/client-logo-1.svg",
+  "clients/client-logo-2.svg",
+  "clients/client-logo-3.svg",
+  "clients/client-logo-4.svg",
+  "clients/client-logo-5.svg",
+  "fonts/dm-mono/dm-mono-light.ttf",
+  "fonts/dm-mono/dm-mono-medium.ttf",
+  "fonts/dm-mono/dm-mono-regular.ttf",
+  "fonts/humane/humane-bold.woff2",
+  "fonts/humane/humane-extralight.woff2",
+  "fonts/humane/humane-light.woff2",
+  "fonts/humane/humane-medium.woff2",
+  "fonts/humane/humane-regular.woff2",
+  "fonts/humane/humane-semibold.woff2",
+  "fonts/humane/humane-thin.woff2",
+  "fonts/neue-montreal/neue-montreal-bold.ttf",
+  "fonts/neue-montreal/neue-montreal-book.ttf",
+  "fonts/neue-montreal/neue-montreal-light.ttf",
+  "fonts/neue-montreal/neue-montreal-medium.ttf",
+  "fonts/neue-montreal/neue-montreal-regular.ttf",
+  "fonts/neue-montreal/neue-montreal-thin.ttf",
+  "home/particle-visual.png",
+  "icons/cursor.png",
+  "icons/nav-icon.png",
+  "icons/site-icon.png",
+  "logo/nav-logo.svg",
+  "menu/menu-img.jpg",
+  "sample-project/details-1.jpg",
+  "sample-project/details-2.jpg",
+  "sample-project/hero.jpg",
+  "studio/hero.jpg",
+  "team-cards/team-member-1.jpg",
+  "team-cards/team-member-2.jpg",
+  "team-cards/team-member-3.jpg",
+  "team-cards/team-member-4.jpg",
+  "team-cards/team-member-5.jpg",
+  "work/work1.jpg",
+  "work/work2.jpg",
+  "work/work3.jpg",
+  "work/work4.jpg",
+  "work/work5.jpg",
+  "work/work6.jpg",
+] as const;
+
+const lemonBureauPageAssets = lemonBureauPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `lemon-bureau-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Lemon Bureau Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `lemon-bureau-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/lemon-bureau-page/${rel}`,
+      role: "Lemon Bureau source template font, logo, icon, client, team, work, studio, or project asset.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the lemon-bureau-page template.",
+    }) as const satisfies AssetItem,
+);
+
 export const assetItems = [
   ...march2025TemplateAssets,
   ...archiveCommercePageAssets,
@@ -1027,6 +1086,7 @@ export const assetItems = [
   ...damienTsarantosPageAssets,
   ...wuWeiPageAssets,
   ...otisValenPageAssets,
+  ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
   ...fallingTagListAssets,

@@ -31,6 +31,7 @@ import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SpiralGalleryStudio from "./spiral-gallery";
+import LemonBureauPageStudio from "./lemon-bureau-page";
 import WuWeiPageStudio from "./wu-wei-page";
 
 export type StudioComponent = ComponentType;
@@ -71,4 +72,5 @@ export const studios: Record<string, StudioComponent> = {
   "otis-valen-page": OtisValenPageStudio,
   "march-2025-template": March2025TemplateStudio,
   "wu-wei-page": WuWeiPageStudio,
+  "lemon-bureau-page": LemonBureauPageStudio,
 };
