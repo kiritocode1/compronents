@@ -261,6 +261,20 @@ const styles = `
   border: 1px solid rgb(255 255 255 / 0.14);
 }
 
+.gsh-stage::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: rgb(0 0 0 / 0.62);
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.gsh-stage:hover::after {
+  opacity: 1;
+}
+
 .gsh-stage img {
   width: 100%;
   height: 100%;
@@ -271,6 +285,7 @@ const styles = `
 .gsh-grid {
   position: absolute;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
