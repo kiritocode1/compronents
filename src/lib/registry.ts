@@ -593,6 +593,86 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "voku-image-slider",
+    title: "Voku Image Slider",
+    description:
+      "A looping image slider arranged along a shallow arc. Wheel, drag, and touch move the same eased target; frames scale down toward the edges and lift into focus at center while the active title follows the closest slide.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/voku-image-slider.tsx",
+        target: "components/ui/voku-image-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "threejs-infinite-slider",
+    title: "Three.js Infinite Slider",
+    description:
+      "A vertical WebGL image loop with velocity distortion. Drag, wheel, and touch input move a wrapped plane stack while mesh vertices bend forward during fast motion and the active title tracks the nearest frame.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/threejs-infinite-slider.tsx",
+        target: "components/ui/threejs-infinite-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "grid-scramble-hover",
+    title: "Grid Scramble Hover",
+    description:
+      "A hover image covered by a symbol grid. Moving near a cell wakes it, spills activation across neighboring cells, and scrambles selected glyphs before the field cools back down.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/grid-scramble-hover.tsx",
+        target: "components/ui/grid-scramble-hover.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "text-displacement-field",
+    title: "Text Displacement Field",
+    description:
+      "A readable field of words and display letters pushed away by cursor proximity. Each span keeps an eased target, so the copy ripples around the pointer and then settles home.",
+    section: "components",
+    category: "Text",
+    pro: false,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/text-displacement-field.tsx",
+        target: "components/ui/text-displacement-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "frame-scroll",
     title: "Frame Scroll",
     description:

@@ -18,9 +18,11 @@ import DiningRoomPageDemo from "./dining-room-page";
 import FallingTagListDemo from "./falling-tag-list";
 import FilmStudioPageDemo from "./film-studio-page";
 import FrameScrollDemo from "./frame-scroll";
+import GridScrambleHoverDemo from "./grid-scramble-hover";
 import ImageRevealDemo from "./image-reveal";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
+import LemonBureauPageDemo from "./lemon-bureau-page";
 import March2025TemplateDemo from "./march-2025-template";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MosaicFlipDemo from "./mosaic-flip";
@@ -31,7 +33,9 @@ import PreloaderRevealDemo from "./preloader-reveal";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
-import LemonBureauPageDemo from "./lemon-bureau-page";
+import TextDisplacementFieldDemo from "./text-displacement-field";
+import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
+import VokuImageSliderDemo from "./voku-image-slider";
 import WuWeiPageDemo from "./wu-wei-page";
 
 /**
@@ -62,6 +66,10 @@ export const demos: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "spiral-gallery": SpiralGalleryDemo,
+  "voku-image-slider": VokuImageSliderDemo,
+  "threejs-infinite-slider": ThreejsInfiniteSliderDemo,
+  "grid-scramble-hover": GridScrambleHoverDemo,
+  "text-displacement-field": TextDisplacementFieldDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,

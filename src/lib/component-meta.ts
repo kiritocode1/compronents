@@ -1112,6 +1112,201 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "voku-image-slider": {
+    demoPath: "src/components/demos/voku-image-slider.tsx",
+    nuance: [
+      {
+        label: "One eased target",
+        description:
+          "Wheel, pointer drag, and touch all move the same scroll target, so the component never has competing input paths.",
+      },
+      {
+        label: "Arc from geometry",
+        description:
+          "Each slide computes its wrapped distance from center, then derives scale, vertical drop, lift, and stacking from that single number.",
+      },
+    ],
+    editable: [
+      {
+        name: "images / titles",
+        control: "asset-url",
+        description: "The frame URLs and labels displayed at center.",
+      },
+      {
+        name: "slideWidth / slideHeight / gap",
+        control: "tuple",
+        description:
+          "The base image size and spacing before the arc transform.",
+      },
+    ],
+    assets: pageAssets("voku-image-slider-", 3),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "9 Compronents-hosted JPGs",
+        description: "Images wrapped through the curved track.",
+      },
+      {
+        name: "titles",
+        type: "string[]",
+        default: "Profile Study / Pump Noir / ...",
+        description: "Labels synced to the closest centered slide.",
+      },
+      {
+        name: "slideWidth / slideHeight / gap",
+        type: "number",
+        default: "200 / 275 / 100",
+        description: "Base sizing used before distance-based scaling.",
+      },
+    ],
+  },
+  "threejs-infinite-slider": {
+    demoPath: "src/components/demos/threejs-infinite-slider.tsx",
+    nuance: [
+      {
+        label: "Looping plane stack",
+        description:
+          "Slides are WebGL planes assigned offsets inside a loop length. Each frame wraps through the same vertical range.",
+      },
+      {
+        label: "Velocity bends vertices",
+        description:
+          "Fast input raises a distortion target, then each plane's vertices bend forward based on distance from the viewport center.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "asset-url",
+        description:
+          "Slide names and texture URLs mapped onto the WebGL planes.",
+      },
+      {
+        name: "distortionStrength",
+        control: "tuple",
+        description: "How far the mesh bends when wheel or drag input spikes.",
+      },
+    ],
+    assets: pageAssets("threejs-infinite-slider-", 3),
+    api: [
+      {
+        name: "slides",
+        type: "{ name: string; image: string }[]",
+        default: "10 Compronents-hosted JPGs",
+        description: "Named texture set used by the infinite stack.",
+      },
+      {
+        name: "minHeight / maxHeight / aspectRatio",
+        type: "number",
+        default: "1 / 1.5 / 1.5",
+        description: "Plane sizing range in world units.",
+      },
+      {
+        name: "distortionStrength",
+        type: "number",
+        default: "2.5",
+        description: "Strength multiplier for velocity-based vertex bending.",
+      },
+    ],
+  },
+  "grid-scramble-hover": {
+    demoPath: "src/components/demos/grid-scramble-hover.tsx",
+    nuance: [
+      {
+        label: "Nearest cell wakes first",
+        description:
+          "The pointer activates the closest grid block inside a detection radius, then randomly walks adjacent cells for a small cluster.",
+      },
+      {
+        label: "Scramble is local",
+        description:
+          "Only selected active cells spin their symbol interval, and each interval is cleared as soon as that cell expires.",
+      },
+    ],
+    editable: [
+      {
+        name: "image",
+        control: "asset-url",
+        description: "The image underneath the generated symbol grid.",
+      },
+      {
+        name: "symbols / blockSize / detectionRadius",
+        control: "tuple",
+        description: "Glyph set and grid sensitivity.",
+      },
+    ],
+    assets: pageAssets("grid-scramble-hover-", 1),
+    api: [
+      {
+        name: "image",
+        type: "string",
+        default: "Compronents-hosted JPG",
+        description: "Image covered by the symbol grid.",
+      },
+      {
+        name: "symbols",
+        type: "string[]",
+        default: "O / X / * / > / $ / W",
+        description: "Glyphs randomly assigned and scrambled in active cells.",
+      },
+      {
+        name: "blockSize / detectionRadius",
+        type: "number",
+        default: "25 / 50",
+        description: "Grid cell size and pointer activation radius in pixels.",
+      },
+    ],
+  },
+  "text-displacement-field": {
+    demoPath: "src/components/demos/text-displacement-field.tsx",
+    nuance: [
+      {
+        label: "Measured spans",
+        description:
+          "The copy is rendered as spans, measured after layout, and moved with transform only, so the paragraph stays readable.",
+      },
+      {
+        label: "Soft field",
+        description:
+          "Each span eases toward a target derived from pointer distance and returns to zero when the pointer leaves.",
+      },
+    ],
+    editable: [
+      {
+        name: "intro / body / outro",
+        control: "textarea",
+        description:
+          "Display lines and paragraph copy split into moving spans.",
+      },
+      {
+        name: "radius / displacement / ease",
+        control: "tuple",
+        description: "Pointer field radius, maximum push, and easing factor.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "intro / body / outro",
+        type: "string",
+        default: "source-inspired copy",
+        description: "Text split into letters and words for displacement.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        default: "150",
+        description: "Pointer influence radius in pixels.",
+      },
+      {
+        name: "displacement / ease",
+        type: "number",
+        default: "300 / 0.1",
+        description: "Maximum span offset and interpolation amount.",
+      },
+    ],
+  },
   "frame-scroll": {
     demoPath: "src/components/demos/frame-scroll.tsx",
     studioPath: "src/components/studios/frame-scroll.tsx",

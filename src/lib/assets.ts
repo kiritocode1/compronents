@@ -1269,6 +1269,44 @@ export const assetItems = [
     notes:
       "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
   },
+  ...Array.from(
+    { length: 9 },
+    (_, index) =>
+      ({
+        id: `voku-image-slider-img-${index + 1}`,
+        label: `Voku Image Slider frame ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `voku-image-slider/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/voku-image-slider/img${index + 1}.jpg`,
+        role: "Image wrapped through the curved slider track.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  ...Array.from(
+    { length: 10 },
+    (_, index) =>
+      ({
+        id: `threejs-infinite-slider-img-${index + 1}`,
+        label: `Three.js Infinite Slider frame ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `threejs-infinite-slider/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/threejs-infinite-slider/img${index + 1}.jpg`,
+        role: "Texture mapped onto a looping vertical WebGL plane.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "grid-scramble-hover-img",
+    label: "Grid Scramble Hover image",
+    provider: "vercel-blob",
+    pathname: "grid-scramble-hover/img.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/grid-scramble-hover/img.jpg`,
+    role: "Image covered by the pointer-reactive symbol grid.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {
