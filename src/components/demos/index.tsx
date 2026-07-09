@@ -33,6 +33,7 @@ import PreloaderRevealDemo from "./preloader-reveal";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
+import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
@@ -72,6 +73,7 @@ export const demos: Record<string, ComponentType> = {
   "grid-scramble-hover": GridScrambleHoverDemo,
   "text-displacement-field": TextDisplacementFieldDemo,
   "vinyl-orbit-player": VinylOrbitPlayerDemo,
+  "svg-stroke-hover": SvgStrokeHoverDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,

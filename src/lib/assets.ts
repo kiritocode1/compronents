@@ -1327,6 +1327,20 @@ export const assetItems = [
     notes:
       "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
   },
+  ...Array.from(
+    { length: 6 },
+    (_, index) =>
+      ({
+        id: `svg-stroke-hover-img-${index + 1}`,
+        label: `SVG Stroke Hover image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `svg-stroke-hover/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/svg-stroke-hover/img${index + 1}.jpg`,
+        role: "Image card revealed under the animated SVG scribble stroke.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

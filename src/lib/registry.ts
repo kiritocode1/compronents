@@ -693,6 +693,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "svg-stroke-hover",
+    title: "SVG Stroke Hover",
+    description:
+      "A two-column image grid where each card draws broad SVG scribble strokes on hover and raises its title over the image.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-09",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/svg-stroke-hover.tsx",
+        target: "components/ui/svg-stroke-hover.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "frame-scroll",
     title: "Frame Scroll",
     description:

@@ -1355,6 +1355,54 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "svg-stroke-hover": {
+    demoPath: "src/components/demos/svg-stroke-hover.tsx",
+    nuance: [
+      {
+        label: "Stroke reveal",
+        description:
+          "Each card uses SVG paths with pathLength, so the scribble reveal runs from CSS without measuring path length in JavaScript.",
+      },
+      {
+        label: "Title lift",
+        description:
+          "The card title stays tucked below the image until hover, then rises into the same frame as the broad strokes.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "links",
+        description: "Card titles, image URLs, and accent colors.",
+      },
+      {
+        name: "heading",
+        control: "text",
+        description: "The large heading above the hover grid.",
+      },
+    ],
+    assets: pageAssets("svg-stroke-hover-", 3),
+    api: [
+      {
+        name: "cards",
+        type: "{ title: string; image: string; accent: string }[]",
+        default: "6 Compronents-hosted JPGs",
+        description: "Image cards and accent stroke colors.",
+      },
+      {
+        name: "heading",
+        type: "string",
+        default: "The Hover State",
+        description: "Large heading rendered above the image grid.",
+      },
+      {
+        name: "background / textColor",
+        type: "string",
+        default: '"#f2f0eb" / "#111111"',
+        description: "Page background and heading color.",
+      },
+    ],
+  },
   "frame-scroll": {
     demoPath: "src/components/demos/frame-scroll.tsx",
     studioPath: "src/components/studios/frame-scroll.tsx",
