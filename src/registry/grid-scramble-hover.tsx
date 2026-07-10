@@ -1,10 +1,14 @@
 "use client";
 
+import type * as React from "react";
 import { useEffect, useRef } from "react";
 
 export interface GridScrambleHoverProps {
   image?: string;
   symbols?: string[];
+  background?: string;
+  textColor?: string;
+  activeColor?: string;
   blockSize?: number;
   detectionRadius?: number;
   clusterSize?: number;
@@ -29,10 +33,13 @@ const DEFAULT_SYMBOLS = ["O", "X", "*", ">", "$", "W"];
 export default function GridScrambleHover({
   image = `${ASSET_BASE}/img.jpg`,
   symbols = DEFAULT_SYMBOLS,
+  background = "#101010",
+  textColor = "#d3d3d3",
+  activeColor = "#ff3831",
   blockSize = 25,
   detectionRadius = 50,
   clusterSize = 7,
-  blockLifetime = 300,
+  blockLifetime = 900,
 }: GridScrambleHoverProps) {
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -46,8 +53,7 @@ export default function GridScrambleHover({
     const getRandomSymbol = () =>
       symbols[Math.floor(Math.random() * symbols.length)] ?? "*";
 
-    const clearGrid = () => {
-      cancelAnimationFrame(animationFrame);
+    const removeGrid = () => {
       for (const block of blocks) {
         if (block.scrambleInterval) clearInterval(block.scrambleInterval);
       }
@@ -67,7 +73,7 @@ export default function GridScrambleHover({
     };
 
     const buildGrid = () => {
-      clearGrid();
+      removeGrid();
 
       const width = stage.offsetWidth;
       const height = stage.offsetHeight;
@@ -185,26 +191,28 @@ export default function GridScrambleHover({
     return () => {
       resizeObserver.disconnect();
       stage.removeEventListener("mousemove", onMouseMove);
-      clearGrid();
+      cancelAnimationFrame(animationFrame);
+      removeGrid();
     };
   }, [blockLifetime, blockSize, clusterSize, detectionRadius, symbols]);
 
   return (
-    <section className="gsh-root">
+    <section
+      className="gsh-root"
+      style={
+        {
+          "--gsh-background": background,
+          "--gsh-text": textColor,
+          "--gsh-active": activeColor,
+        } as React.CSSProperties
+      }
+    >
       <style>{styles}</style>
-      <header className="gsh-nav">
-        <p>Scramble Hover Effect</p>
-        <p>CG01701202025</p>
-      </header>
       <div className="gsh-hero">
-        <div className="gsh-hover-image" ref={stageRef}>
+        <div className="gsh-stage" ref={stageRef}>
           <img src={image} alt="" draggable={false} />
         </div>
       </div>
-      <footer className="gsh-footer">
-        <p>Experiment 515</p>
-        <p>Developed by BLANK</p>
-      </footer>
     </section>
   );
 }
@@ -213,49 +221,35 @@ const styles = `
 .gsh-root {
   position: relative;
   width: 100%;
+  min-height: 100svh;
   overflow: hidden;
-  background: #e3e3db;
-  color: #1a1a1a;
-  font-family: "Geist Sans", sans-serif;
-}
-
-.gsh-nav,
-.gsh-footer {
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2rem;
-}
-
-.gsh-nav { top: 0; }
-.gsh-footer { bottom: 0; }
-
-.gsh-nav p,
-.gsh-footer p {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0;
+  background: var(--gsh-background);
 }
 
 .gsh-hero {
   display: flex;
-  height: 100svh;
-  align-items: center;
-  justify-content: center;
+  min-height: 100svh;
+  align-items: flex-start;
+  padding: 4svh 0 6svh 6vw;
 }
 
-.gsh-hover-image {
+.gsh-stage {
   position: relative;
-  width: 700px;
-  height: 500px;
+  width: 82.4vw;
+  height: 90svh;
   overflow: hidden;
 }
 
-.gsh-hover-image img {
+.gsh-stage::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: rgb(0 0 0 / 0.52);
+}
+
+.gsh-stage img {
   display: block;
   width: 100%;
   height: 100%;
@@ -274,13 +268,17 @@ const styles = `
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1a1a1a;
-  color: #e3e3db;
+  color: var(--gsh-text);
   font-family: "IBM Plex Mono", "Geist Mono", monospace;
-  font-size: 20px;
+  font-size: 1.15rem;
   font-weight: 400;
-  opacity: 0;
+  line-height: 1;
+  opacity: 0.22;
 }
 
-.gsh-grid-block.active { opacity: 1; }
+.gsh-grid-block.active {
+  background: rgb(0 0 0 / 0.58);
+  color: var(--gsh-active);
+  opacity: 1;
+}
 `;
