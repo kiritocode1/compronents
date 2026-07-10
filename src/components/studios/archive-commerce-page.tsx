@@ -7,67 +7,52 @@ import {
 } from "@/components/studios/full-page-studio-shell";
 import ArchiveCommercePage from "@/registry/archive-commerce-page";
 
-const ROUTES = [
-  { id: "home", label: "Home", route: "" },
-  { id: "catalogue", label: "Catalogue", route: "catalogue" },
-  {
-    id: "product",
-    label: "Product",
-    route: "catalogue/mirror-orb-mockup",
-  },
-  { id: "archive", label: "Archive", route: "archive" },
-  { id: "editorial", label: "Editorial", route: "editorial" },
-  {
-    id: "article",
-    label: "Article",
-    route: "editorial/designing-with-restraint",
-  },
+const PRESETS = [
+  { id: "/", label: "Home" },
+  { id: "/catalogue", label: "Catalogue" },
+  { id: "/catalogue/mirror-orb-mockup", label: "Product" },
+  { id: "/archive", label: "Archive" },
+  { id: "/editorial", label: "Editorial" },
+  { id: "/editorial/designing-with-restraint", label: "Article" },
+  { id: "/info", label: "Info" },
 ] as const;
 
-type RoutePreset = (typeof ROUTES)[number];
+type PresetId = (typeof PRESETS)[number]["id"];
 
 export default function ArchiveCommercePageStudio() {
-  const [preset, setPreset] = useState<RoutePreset>(ROUTES[0]);
-  const [assetBase, setAssetBase] = useState("/archive-commerce-page");
-  const [route, setRoute] = useState<string>(preset.route);
-
-  function applyPreset(id: string) {
-    const next = ROUTES.find((item) => item.id === id) ?? ROUTES[0];
-    setPreset(next);
-    setRoute(next.route);
-  }
+  const [activePath, setActivePath] = useState<PresetId>(PRESETS[0].id);
+  const [assetBase, setAssetBase] = useState("/assets/archive-commerce-page");
 
   return (
     <FullPageStudioShell
       name="archive-commerce-page"
       title="Archive Commerce Page"
-      presets={ROUTES}
-      activePreset={preset.id}
-      onPreset={applyPreset}
+      presets={PRESETS}
+      activePreset={activePath}
+      onPreset={(id) => setActivePath(id as PresetId)}
       onReset={() => {
-        setAssetBase("/archive-commerce-page");
-        applyPreset(ROUTES[0].id);
+        setActivePath(PRESETS[0].id);
+        setAssetBase("/assets/archive-commerce-page");
       }}
       controls={
-        <>
-          <StudioTextField
-            label="Hosted base"
-            value={assetBase}
-            onChange={setAssetBase}
-          />
-          <StudioTextField label="Route" value={route} onChange={setRoute} />
-        </>
+        <StudioTextField
+          label="Asset base"
+          value={assetBase}
+          onChange={setAssetBase}
+        />
       }
       note={
         <p>
-          This is the static export of the Format Archive source, served through
-          a hosted proxy while every generated asset stays in Vercel Blob. It
-          keeps the source preloader, cart drawer, Lenis scroll, GSAP reveals,
-          product detail routes, editorial routes, and view transitions.
+          Source-backed Format Archive commerce template ported with the
+          original route set (home, catalogue, product detail, archive,
+          editorial, article detail, info), counter preloader, clip-path menu
+          overlay, persistent cart drawer, hover-trail archive previews,
+          SplitType reveals, Lenis smooth scroll, and a clip-path page
+          transition. Imagery is served from Blob.
         </p>
       }
     >
-      <ArchiveCommercePage assetBase={assetBase} route={route} height="100%" />
+      <ArchiveCommercePage assetBase={assetBase} initialPath={activePath} />
     </FullPageStudioShell>
   );
 }

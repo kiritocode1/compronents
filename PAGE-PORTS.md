@@ -11,8 +11,8 @@ Commit per source on `main`. Validate every slice: `tsc --noEmit`, `biome check`
 
 | Source (full-pages/…)                | Registry page             | Method       | Status |
 | ------------------------------------ | ------------------------- | ------------ | ------ |
-| CGMWTAPR2025 / format-archive        | `archive-commerce-page`   | static iframe| ✅ done (pre-existing) |
-| CGMWTAUGUST2025 / terrene            | `interior-studio-page`    | static iframe| ✅ done (pre-existing) |
+| CGMWTAPR2025 / format-archive        | `archive-commerce-page`   | React port   | ✅ done (current; replaced the static iframe) |
+| CGMWTAUGUST2025 / terrene            | `interior-studio-page`    | React port   | ✅ done (current; replaced the static iframe) |
 | CGMWTMAR2025 / nico-palmer           | `march-2025-template`     | React port   | ✅ done (pre-existing) |
 | CGMWTFEB2026 / salle-blanche         | `dining-room-page`        | React port   | ✅ done (`684b40c`) |
 | CGMWTSEPT2025 / negative-films        | `film-studio-page`        | React port   | ✅ done (`16628b0` + fixes) |

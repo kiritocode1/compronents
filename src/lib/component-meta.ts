@@ -450,32 +450,34 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/archive-commerce-page.tsx",
     nuance: [
       {
-        label: "Source export, not a repaint",
+        label: "A real port, not a frame",
         description:
-          "The component frames the exported Format Archive source site, including its preloader, cart drawer, product catalogue, editorial routes, GSAP reveals, Lenis scroll, and view-transition choreography.",
+          "Every route is React: home with the counter preloader, catalogue, product detail, archive, editorial, article detail, and info, joined by a clip-path page transition that replaces the source's view transitions.",
       },
       {
-        label: "The full route set is preserved",
+        label: "The cart is functional",
         description:
-          "The hosted bundle includes the homepage, catalogue, archive, info, 15 product detail pages, the editorial index, and 5 article pages.",
+          "Add to cart, remove, quantities, and the subtotal work against a persistent local store, and the drawer slides in with the source's custom ease.",
       },
       {
-        label: "Blob carries the heavy parts",
+        label: "The archive leaves a trail",
         description:
-          "The generated static site bundle, hero GIF, product imagery, editorial imagery, CSS, and JavaScript chunks are stored in Vercel Blob and streamed through a hosted template route.",
+          "Hovering archive rows stacks preview images in a fixed viewer that scales old frames away, matching the source's mouse-trail behavior.",
       },
     ],
     editable: [
       {
-        name: "assetBase",
-        control: "text",
-        description: "Hosted template base, defaults to the Compronents route.",
-      },
-      {
-        name: "route",
+        name: "initialPath",
         control: "text",
         description:
-          "Start the frame on catalogue, archive, editorial, info, or a source detail route.",
+          "Which source route the template opens on: /, /catalogue, /catalogue/<slug>, /archive, /editorial, /editorial/<slug>, or /info.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Base URL for the template's Blob-hosted imagery, starting at ${getHostedAssetUrl(
+          "archive-commerce-page/hero.gif",
+        )}.`,
       },
     ],
     assets: archiveCommercePageAssetDocs,
@@ -483,27 +485,22 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "assetBase",
         type: "string",
-        default: '"https://ui.aryank.space/archive-commerce-page"',
+        default: '"https://ui.aryank.space/assets/archive-commerce-page"',
         description:
-          "Hosted base URL for the static source export. The hosted route streams Blob files with iframe-safe headers.",
+          "Base URL prefixed to every image the template renders (hero GIF, product imagery, editorial imagery).",
       },
       {
-        name: "route",
+        name: "initialPath",
         type: "string",
-        default: '""',
+        default: '"/"',
         description:
-          "Optional source route such as catalogue, archive, editorial, or catalogue/mirror-orb-mockup.",
+          "Source route the internal router mounts first, including product and article slugs.",
       },
       {
-        name: "height",
-        type: "CSSProperties['height']",
-        default: '"100svh"',
-        description: "Frame height for embeds, previews, and studio canvases.",
-      },
-      {
-        name: "className",
-        type: "string",
-        description: "Optional class added to the frame wrapper.",
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root <main> wrapper for sizing and layout.",
       },
     ],
   },
@@ -512,32 +509,34 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/interior-studio-page.tsx",
     nuance: [
       {
-        label: "Terrene source export",
+        label: "A real port, not a frame",
         description:
-          "The component frames the exported Terrene source site with homepage, studio, spaces, sample-space, blueprints, and connect routes intact.",
+          "Every route is React: home behind the counter preloader, studio with the pinned process steps and arc-path spotlight, spaces, sample space, the draggable blueprint gallery, and connect, joined by a circular clip-path page transition.",
       },
       {
-        label: "Motion stack is preserved",
+        label: "The gallery is infinite",
         description:
-          "Lenis, GSAP, ScrollTrigger, SplitType copy reveals, the animated menu, preloader sequence, spotlight gallery, review carousel, and view-transition navigation remain in the hosted bundle.",
+          "Blueprints renders a draggable canvas that virtualizes tiles in every direction with momentum, and clicking a tile expands it over an overlay with a word-split title reveal.",
       },
       {
-        label: "Source media stays in Blob",
+        label: "Scroll drives the set pieces",
         description:
-          "The Terrene logos, home hero, studio images, spaces, clients, reviews, gallery, archive, process, and spotlight imagery are uploaded under the source pathnames in Vercel Blob.",
+          "The featured-projects deck pins and folds cards away in 3D, the spotlight pins for ten viewport heights while titles and images ride a bezier arc, and the top bar hides on scroll down.",
       },
     ],
     editable: [
       {
-        name: "assetBase",
-        control: "text",
-        description: "Hosted template base, defaults to the Compronents route.",
-      },
-      {
-        name: "route",
+        name: "initialPath",
         control: "text",
         description:
-          "Start the frame on studio, spaces, sample-space, blueprints, or connect.",
+          "Which source route the template opens on: /, /studio, /spaces, /sample-space, /blueprints, or /connect.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Base URL for the template's Blob-hosted imagery, starting at ${getHostedAssetUrl(
+          "interior-studio-page/home/hero.jpg",
+        )}.`,
       },
     ],
     assets: interiorStudioPageAssetDocs,
@@ -545,27 +544,21 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "assetBase",
         type: "string",
-        default: '"https://ui.aryank.space/interior-studio-page"',
+        default: '"https://ui.aryank.space/assets/interior-studio-page"',
         description:
-          "Hosted base URL for the static Terrene export. The route streams Blob files with iframe-safe headers.",
+          "Base URL prefixed to every image the template renders (hero, projects, reviews, gallery, spotlight, logos).",
       },
       {
-        name: "route",
+        name: "initialPath",
         type: "string",
-        default: '""',
-        description:
-          "Optional source route such as studio, spaces, sample-space, blueprints, or connect.",
+        default: '"/"',
+        description: "Source route the internal router mounts first.",
       },
       {
-        name: "height",
-        type: "CSSProperties['height']",
-        default: '"100svh"',
-        description: "Frame height for embeds, previews, and studio canvases.",
-      },
-      {
-        name: "className",
-        type: "string",
-        description: "Optional class added to the frame wrapper.",
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root <main> wrapper for sizing and layout.",
       },
     ],
   },
