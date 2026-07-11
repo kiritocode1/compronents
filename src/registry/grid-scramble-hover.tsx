@@ -7,8 +7,8 @@ export interface GridScrambleHoverProps {
   image?: string;
   symbols?: string[];
   background?: string;
-  textColor?: string;
-  activeColor?: string;
+  blockColor?: string;
+  symbolColor?: string;
   blockSize?: number;
   detectionRadius?: number;
   clusterSize?: number;
@@ -27,19 +27,19 @@ interface GridBlock {
   scrambleInterval: ReturnType<typeof setInterval> | null;
 }
 
-const ASSET_BASE = "https://compronents.dev/assets/grid-scramble-hover";
+const ASSET_BASE = "https://ui.aryank.space/assets/grid-scramble-hover";
 const DEFAULT_SYMBOLS = ["O", "X", "*", ">", "$", "W"];
 
 export default function GridScrambleHover({
   image = `${ASSET_BASE}/img.jpg`,
   symbols = DEFAULT_SYMBOLS,
-  background = "#101010",
-  textColor = "#d3d3d3",
-  activeColor = "#ff3831",
+  background = "#e3e3db",
+  blockColor = "#1a1a1a",
+  symbolColor = "#e3e3db",
   blockSize = 25,
   detectionRadius = 50,
   clusterSize = 7,
-  blockLifetime = 900,
+  blockLifetime = 300,
 }: GridScrambleHoverProps) {
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -202,22 +202,32 @@ export default function GridScrambleHover({
       style={
         {
           "--gsh-background": background,
-          "--gsh-text": textColor,
-          "--gsh-active": activeColor,
+          "--gsh-block": blockColor,
+          "--gsh-symbol": symbolColor,
         } as React.CSSProperties
       }
     >
       <style>{styles}</style>
+      <nav className="gsh-bar gsh-nav">
+        <p>Scramble Hover Effect</p>
+        <p>BLANK01701202025</p>
+      </nav>
       <div className="gsh-hero">
         <div className="gsh-stage" ref={stageRef}>
           <img src={image} alt="" draggable={false} />
         </div>
       </div>
+      <footer className="gsh-bar gsh-footer">
+        <p>Experiment 515</p>
+        <p>Developed by BLANK</p>
+      </footer>
     </section>
   );
 }
 
 const styles = `
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:opsz,wght@14..32,500&display=swap");
+
 .gsh-root {
   position: relative;
   width: 100%;
@@ -226,27 +236,46 @@ const styles = `
   background: var(--gsh-background);
 }
 
-.gsh-hero {
+.gsh-bar {
+  position: absolute;
+  z-index: 2;
   display: flex;
-  min-height: 100svh;
-  align-items: flex-start;
-  padding: 4svh 0 6svh 6vw;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.gsh-nav {
+  top: 0;
+}
+
+.gsh-footer {
+  bottom: 0;
+}
+
+.gsh-bar p {
+  color: #1a1a1a;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: -0.01rem;
+}
+
+.gsh-hero {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100svh;
+  align-items: center;
+  justify-content: center;
 }
 
 .gsh-stage {
   position: relative;
-  width: 82.4vw;
-  height: 90svh;
+  width: 700px;
+  height: 500px;
   overflow: hidden;
-}
-
-.gsh-stage::after {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  content: "";
-  pointer-events: none;
-  background: rgb(0 0 0 / 0.52);
 }
 
 .gsh-stage img {
@@ -268,17 +297,15 @@ const styles = `
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gsh-text);
-  font-family: "IBM Plex Mono", "Geist Mono", monospace;
-  font-size: 1.15rem;
+  background-color: var(--gsh-block);
+  color: var(--gsh-symbol);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 20px;
   font-weight: 400;
-  line-height: 1;
-  opacity: 0.22;
+  opacity: 0;
 }
 
 .gsh-grid-block.active {
-  background: rgb(0 0 0 / 0.58);
-  color: var(--gsh-active);
   opacity: 1;
 }
 `;

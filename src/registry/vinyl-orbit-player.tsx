@@ -8,7 +8,7 @@
 
 import type * as React from "react";
 
-const ASSET_BASE = "https://compronents.dev/assets/vinyl-orbit-player";
+const ASSET_BASE = "https://ui.aryank.space/assets/vinyl-orbit-player";
 
 export interface VinylOrbitPlayerProps {
   coverImage?: string;
@@ -42,6 +42,8 @@ export default function VinylOrbitPlayer({
       <style>{styles}</style>
       <svg
         className="vop-primary"
+        width="800px"
+        height="600px"
         viewBox="0 0 350 350"
         aria-hidden="true"
         role="presentation"
@@ -54,12 +56,7 @@ export default function VinylOrbitPlayer({
         </defs>
         <text>
           {repeated.map((index) => (
-            <textPath
-              className="vop-marquee"
-              href="#vop-primary-path"
-              key={index}
-              startOffset="-25%"
-            >
+            <textPath href="#vop-primary-path" key={index} startOffset="-25%">
               {primaryText}
               <animate
                 attributeName="startOffset"
@@ -75,6 +72,8 @@ export default function VinylOrbitPlayer({
       </svg>
       <svg
         className="vop-secondary"
+        width="600px"
+        height="600px"
         viewBox="0 0 350 350"
         aria-hidden="true"
         role="presentation"
@@ -85,7 +84,8 @@ export default function VinylOrbitPlayer({
             d="M -393 60 C -53 60 -70 365 180 365 C 421 352 407 60 725 56"
           />
         </defs>
-        <text>
+        {/* source sets dominant-baseline "end", an invalid value browsers treat as auto */}
+        <text x="50%" y="50%" textAnchor="middle">
           <textPath href="#vop-secondary-path" startOffset="37%">
             {secondaryText}
           </textPath>
@@ -102,15 +102,29 @@ export default function VinylOrbitPlayer({
 }
 
 const styles = `
+@font-face {
+  font-family: "BLANK Vinyl Display";
+  src: url("${ASSET_BASE}/fonts/primary-display.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BLANK Vinyl Label";
+  src: url("${ASSET_BASE}/fonts/neue-montreal-medium.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .vop-root {
   position: relative;
-  display: grid;
+  width: 100%;
+  height: 100%;
   min-height: 620px;
-  place-items: center;
   overflow: hidden;
   background: var(--vop-bg);
-  color: var(--vop-text);
-  font-family: "Geist", "Inter", system-ui, sans-serif;
 }
 
 .vop-root svg {
@@ -118,16 +132,11 @@ const styles = `
   top: 50%;
   left: 50%;
   overflow: visible;
-  fill: transparent;
   transform: translate(-50%, -50%);
 }
 
-.vop-primary {
-  width: min(82vw, 820px);
-}
-
-.vop-secondary {
-  width: min(62vw, 620px);
+.vop-root path {
+  fill: transparent;
 }
 
 .vop-root text,
@@ -136,24 +145,25 @@ const styles = `
   text-transform: uppercase;
 }
 
-.vop-primary text {
+.vop-primary {
+  font-family: "Tusker Grotesk", "BLANK Vinyl Display", sans-serif;
   font-size: 46px;
-  font-weight: 800;
-  letter-spacing: 0;
 }
 
-.vop-secondary text {
+.vop-secondary {
+  font-family: "PP Neue Montreal", "BLANK Vinyl Label", sans-serif;
   font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
 }
 
 .vop-disk {
-  position: relative;
-  width: min(54vw, 550px);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  animation: vop-spin 2.4s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 550px;
+  height: 550px;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  animation: vop-spin 2s linear infinite;
 }
 
 .vop-disk > img,
@@ -168,27 +178,16 @@ const styles = `
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 45%;
-  aspect-ratio: 1;
+  width: 250px;
+  height: 250px;
   overflow: hidden;
-  border: 2px solid rgb(255 255 255 / 0.16);
-  border-radius: 999px;
+  border-radius: 100%;
   transform: translate(-50%, -50%);
 }
 
 @keyframes vop-spin {
   to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 760px) {
-  .vop-root {
-    min-height: 520px;
-  }
-
-  .vop-disk {
-    width: min(76vw, 430px);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 `;
