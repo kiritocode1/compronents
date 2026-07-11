@@ -14,13 +14,29 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const DESCRIPTION =
+  "A quiet registry for careful interfaces for BLANK. Components, full pages, and backend pieces, installable with the shadcn CLI.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ui.aryank.space"),
   title: {
-    default: "Compronents — a component registry",
-    template: "%s — Compronents",
+    default: "Compronents",
+    template: "%s · Compronents",
   },
-  description:
-    "A small, quiet registry of React components. Installable with the shadcn CLI.",
+  description: DESCRIPTION,
+  openGraph: {
+    title: "Compronents",
+    description: DESCRIPTION,
+    url: "https://ui.aryank.space",
+    siteName: "Compronents",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Compronents",
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
