@@ -34,7 +34,7 @@ export interface FallingTagListProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/falling-tag-list";
+  "https://ui.aryank.space/assets/falling-tag-list";
 
 const DEFAULT_SERVICES: FallingTagService[] = [
   {

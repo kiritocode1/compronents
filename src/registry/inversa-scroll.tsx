@@ -45,7 +45,7 @@ export interface InversaScrollProps {
   embedded?: boolean;
 }
 
-const ASSET = "https://compronents.dev/assets/inversa-scroll";
+const ASSET = "https://ui.aryank.space/assets/inversa-scroll";
 
 const DEFAULT_BLOCKS: [InversaBlock, InversaBlock, InversaBlock] = [
   {

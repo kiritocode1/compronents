@@ -28,7 +28,7 @@ export interface ThreejsInfiniteSliderProps {
   distortionStrength?: number;
 }
 
-const ASSET_BASE = "https://compronents.dev/assets/threejs-infinite-slider";
+const ASSET_BASE = "https://ui.aryank.space/assets/threejs-infinite-slider";
 const DEFAULT_SLIDES: ThreeSliderItem[] = [
   "Contour",
   "Velum Drift",

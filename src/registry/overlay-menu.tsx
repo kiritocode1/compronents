@@ -41,7 +41,7 @@ export interface OverlayMenuProps {
   togglerColor?: string;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/overlay-menu";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/overlay-menu";
 const HREF = "https://aryank.space";
 
 const DEFAULT_SOCIALS: MenuLink[] = [

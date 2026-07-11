@@ -8,6 +8,7 @@ import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
 import AwardListDemo from "./award-list";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
+import ClientHoverPreviewDemo from "./client-hover-preview";
 import CreativeClutterDemo from "./creative-clutter";
 import CrtDisplayDemo from "./crt-display";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
@@ -17,6 +18,7 @@ import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import FallingTagListDemo from "./falling-tag-list";
 import FilmStudioPageDemo from "./film-studio-page";
+import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FrameScrollDemo from "./frame-scroll";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import ImageRevealDemo from "./image-reveal";
@@ -26,10 +28,12 @@ import LemonBureauPageDemo from "./lemon-bureau-page";
 import March2025TemplateDemo from "./march-2025-template";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MosaicFlipDemo from "./mosaic-flip";
+import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderRevealDemo from "./preloader-reveal";
+import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
@@ -37,6 +41,7 @@ import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
+import VideoCardStackDemo from "./video-card-stack";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WuWeiPageDemo from "./wu-wei-page";
@@ -76,6 +81,11 @@ export const demos: Record<string, ComponentType> = {
   "vinyl-orbit-player": VinylOrbitPlayerDemo,
   "svg-stroke-hover": SvgStrokeHoverDemo,
   "terminal-text-reveal": TerminalTextRevealDemo,
+  "orbit-text-preloader": OrbitTextPreloaderDemo,
+  "scroll-text-blocks": ScrollTextBlocksDemo,
+  "video-card-stack": VideoCardStackDemo,
+  "client-hover-preview": ClientHoverPreviewDemo,
+  "folder-preview-hover": FolderPreviewHoverDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,

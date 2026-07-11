@@ -9,7 +9,7 @@
 import type * as React from "react";
 import { useEffect, useRef, useState } from "react";
 
-const ASSET_BASE = "https://compronents.dev/assets/terminal-text-reveal";
+const ASSET_BASE = "https://ui.aryank.space/assets/terminal-text-reveal";
 
 export interface TerminalTextRevealService {
   title: string;

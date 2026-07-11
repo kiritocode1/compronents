@@ -38,7 +38,7 @@ export interface CrtDisplayProps {
   exposure?: number;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/crt-display";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/crt-display";
 
 const DEFAULT_PROJECTS: CrtProject[] = [
   { label: "District", image: `${COMPRONENTS_ASSET_BASE}/project-img-1.jpg` },

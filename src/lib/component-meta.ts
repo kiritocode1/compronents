@@ -1326,7 +1326,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description: "The phrases rendered on the large and small text paths.",
       },
     ],
-    assets: pageAssets("vinyl-orbit-player-", 2),
+    assets: pageAssets("vinyl-orbit-player-", 4),
     api: [
       {
         name: "coverImage",
@@ -1345,6 +1345,235 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string",
         default: "Fly to the moon now / Throwback Music Vol",
         description: "Curved text shown around the record.",
+      },
+    ],
+  },
+  "orbit-text-preloader": {
+    demoPath: "src/components/demos/orbit-text-preloader.tsx",
+    nuance: [
+      {
+        label: "Orbits breathe",
+        description:
+          "Each ring's textLength stretches toward a target and yoyos back, with duration scaled by orbit radius, so outer rings move slower than inner ones.",
+      },
+      {
+        label: "Offset compensation",
+        description:
+          "As textLength grows the startOffset shifts back by half the increase over the path length, so each word stays centered on its ring.",
+      },
+    ],
+    editable: [
+      {
+        name: "heroImage",
+        control: "asset-url",
+        description: "The hero revealed after the loader fades.",
+      },
+      {
+        name: "orbitWords / heroText",
+        control: "text",
+        description: "The eight ring words and the hero copy line.",
+      },
+    ],
+    assets: pageAssets("orbit-text-preloader-", 1),
+    api: [
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK-hosted JPG",
+        description: "Background image scaled from 1.25 to 1 on reveal.",
+      },
+      {
+        name: "orbitWords",
+        type: "string[]",
+        default: "Developer / Frontend / ... / Design",
+        description: "Words placed on the eight concentric orbit paths.",
+      },
+      {
+        name: "loaderBackground / loaderColor",
+        type: "string",
+        default: '"#d1d9b8" / "#0f0f0f"',
+        description: "Loader plate color and orbit text color.",
+      },
+    ],
+  },
+  "scroll-text-blocks": {
+    demoPath: "src/components/demos/scroll-text-blocks.tsx",
+    nuance: [
+      {
+        label: "Word-level scrub",
+        description:
+          "Scroll progress maps to per-word offsets with an overlap window, so outgoing words drop while incoming words rise in a staggered wave.",
+      },
+      {
+        label: "Velocity-fed marquee",
+        description:
+          "The image marquee always drifts, and Lenis scroll velocity is smoothed into a speed boost that decays when you stop scrolling.",
+      },
+    ],
+    editable: [
+      {
+        name: "blocks",
+        control: "textarea",
+        description: "The three copy paragraphs that swap as you scroll.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: "The ten marquee images.",
+      },
+    ],
+    assets: pageAssets("scroll-text-blocks-", 10),
+    api: [
+      {
+        name: "blocks",
+        type: "[string, string, string]",
+        default: "source-inspired copy",
+        description: "Copy blocks split into masked words.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "10 BLANK-hosted JPGs",
+        description: "Marquee tiles, duplicated for the seamless loop.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "video-card-stack": {
+    demoPath: "src/components/demos/video-card-stack.tsx",
+    nuance: [
+      {
+        label: "DOM-order deck",
+        description:
+          "The deck order lives in the DOM: the front card animates off, is prepended to the slider, and every card re-tweens into its stacked slot.",
+      },
+      {
+        label: "Perspective stage",
+        description:
+          "A tight 175px perspective with origin at the bottom center gives the stack its deep lean without any 3D library.",
+      },
+    ],
+    editable: [
+      {
+        name: "videos",
+        control: "links",
+        description: "Vimeo id, title, category, and date per card.",
+      },
+      {
+        name: "logoText / navLinks / ctaText",
+        control: "text",
+        description: "The chrome copy above the deck.",
+      },
+    ],
+    assets: pageAssets("video-card-stack-", 1),
+    api: [
+      {
+        name: "videos",
+        type: "{ id: string; title: string; category: string; date: string }[]",
+        default: "4 Vimeo films",
+        description: "Looping muted players stacked as cards.",
+      },
+      {
+        name: "logoText / navLinks / ctaText",
+        type: "string / string[] / string",
+        default: "Directory / Home... / Contact",
+        description: "Navbar copy rendered above the stack.",
+      },
+    ],
+  },
+  "client-hover-preview": {
+    demoPath: "src/components/demos/client-hover-preview.tsx",
+    nuance: [
+      {
+        label: "Clip-path wipe",
+        description:
+          "Each hover creates a fresh wrapper clipped to a center point and expands it to the full box, so quick hops between names stack cross-fading previews.",
+      },
+      {
+        label: "Blend-mode text",
+        description:
+          "Names and chrome sit in mix-blend-mode difference, flipping from black-on-white to white when the preview image passes underneath.",
+      },
+    ],
+    editable: [
+      {
+        name: "clients",
+        control: "textarea",
+        description: "The client names in the wall.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: "One preview image per client, matched by index.",
+      },
+    ],
+    assets: pageAssets("client-hover-preview-", 12),
+    api: [
+      {
+        name: "clients",
+        type: "string[]",
+        default: "12 product studios",
+        description: "Hoverable names, punctuation included.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "12 BLANK-hosted JPGs",
+        description: "Centered preview images revealed per client.",
+      },
+      {
+        name: "header / footerLeft / footerRight",
+        type: "string",
+        default: "Trusted Us / Experiment 503 / Developed by BLANK",
+        description: "Chrome copy around the client wall.",
+      },
+    ],
+  },
+  "folder-preview-hover": {
+    demoPath: "src/components/demos/folder-preview-hover.tsx",
+    nuance: [
+      {
+        label: "Randomized pop",
+        description:
+          "The three preview photos rise out of the folder with randomized rotation per slot (left leans left, right leans right) on every hover.",
+      },
+      {
+        label: "Sibling dimming",
+        description:
+          "Hovering one folder adds a disabled state to every other folder, dropping them to the muted palette until the pointer leaves.",
+      },
+    ],
+    editable: [
+      {
+        name: "folders",
+        control: "links",
+        description: "Folder index, name, color variant, and three images.",
+      },
+      {
+        name: "navLeft / navRight",
+        control: "text",
+        description: "The header line above the folder stack.",
+      },
+    ],
+    assets: pageAssets("folder-preview-hover-", 18),
+    api: [
+      {
+        name: "folders",
+        type: "{ index: string; name: string; variant: 1 | 2 | 3; images: [string, string, string] }[]",
+        default: "6 folders, 18 BLANK-hosted JPGs",
+        description: "Rows of two folders with per-folder preview photos.",
+      },
+      {
+        name: "background / textColor",
+        type: "string",
+        default: '"#f4f7f0" / "#0f0f0f"',
+        description: "Page background and folder label color.",
       },
     ],
   },
@@ -2930,7 +3159,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "src",
         type: "string",
-        default: '"https://compronents.dev/assets/ascii-logo/logo.png"',
+        default: '"https://ui.aryank.space/assets/ascii-logo/logo.png"',
         description:
           "Logo image, sampled into glyphs. Same-origin or CORS-enabled.",
       },
@@ -3236,7 +3465,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "leftImage",
         type: "string",
         default:
-          '"https://compronents.dev/assets/animated-footer/blank-hand-right.png"',
+          '"https://ui.aryank.space/assets/animated-footer/blank-hand-right.png"',
         description:
           "Left hand image, sampled into ASCII. Defaults to the Compronents asset route backed by Vercel Blob.",
       },
@@ -3244,7 +3473,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "rightImage",
         type: "string",
         default:
-          '"https://compronents.dev/assets/animated-footer/blank-hand-left.png"',
+          '"https://ui.aryank.space/assets/animated-footer/blank-hand-left.png"',
         description:
           "Right hand image, sampled into ASCII. Defaults to the Compronents asset route backed by Vercel Blob.",
       },

@@ -35,7 +35,7 @@ export interface FrameScrollProps {
   embedded?: boolean;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/frame-scroll";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/frame-scroll";
 const DEFAULT_HERO = `${COMPRONENTS_ASSET_BASE}/hero.jpg`;
 const DEFAULT_IMAGES = Array.from(
   { length: 16 },

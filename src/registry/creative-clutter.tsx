@@ -45,7 +45,7 @@ export interface CreativeClutterProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/creative-clutter";
+  "https://ui.aryank.space/assets/creative-clutter";
 
 const ITEM_IDS = [
   "music",

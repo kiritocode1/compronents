@@ -36,7 +36,7 @@ export interface ScrollTunnel3DProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/scroll-tunnel-3d";
+  "https://ui.aryank.space/assets/scroll-tunnel-3d";
 
 const DEFAULT_IMAGES = Array.from(
   { length: 12 },

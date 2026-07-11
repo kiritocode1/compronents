@@ -36,7 +36,7 @@ export interface MosaicFlipProps {
   perspective?: number;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/mosaic-flip";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/mosaic-flip";
 
 const DEFAULT_IMAGES = [
   "default.jpg",

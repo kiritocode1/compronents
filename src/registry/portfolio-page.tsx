@@ -42,7 +42,7 @@ export interface PortfolioPageProps {
   projectBg?: string;
 }
 
-const ASSET = "https://compronents.dev/assets/portfolio-page";
+const ASSET = "https://ui.aryank.space/assets/portfolio-page";
 const EASE: Easing = [0.83, 0, 0.17, 1];
 
 const DEFAULT_PROJECTS: PortfolioProject[] = [

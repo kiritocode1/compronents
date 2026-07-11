@@ -38,7 +38,7 @@ export interface MaterialSpotlightProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/material-spotlight";
+  "https://ui.aryank.space/assets/material-spotlight";
 
 const vertexPars = "varying vec3 vWPos;";
 const vertexMain = "vWPos = (modelMatrix * vec4(transformed, 1.0)).xyz;";

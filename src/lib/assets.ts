@@ -1,4 +1,4 @@
-const ASSET_ORIGIN = "https://compronents.dev";
+const ASSET_ORIGIN = "https://ui.aryank.space";
 export const BLOB_PUBLIC_ORIGIN =
   "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com";
 export const ASSET_ROUTE_PREFIX = "/assets";
@@ -1327,6 +1327,88 @@ export const assetItems = [
     notes:
       "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
   },
+  {
+    id: "vinyl-orbit-player-font-primary",
+    label: "Vinyl Orbit Player display font",
+    provider: "vercel-blob",
+    pathname: "vinyl-orbit-player/fonts/primary-display.ttf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/vinyl-orbit-player/fonts/primary-display.ttf`,
+    role: "Condensed display face for the large curved marquee text.",
+    notes:
+      "Stand-in for the source's Tusker Grotesk. Upload this font to Vercel Blob at the same pathname.",
+  },
+  {
+    id: "vinyl-orbit-player-font-label",
+    label: "Vinyl Orbit Player label font",
+    provider: "vercel-blob",
+    pathname: "vinyl-orbit-player/fonts/neue-montreal-medium.otf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/vinyl-orbit-player/fonts/neue-montreal-medium.otf`,
+    role: "Grotesque face for the smaller lower curve label.",
+    notes:
+      "Matches the source's PP Neue Montreal. Upload this font to Vercel Blob at the same pathname.",
+  },
+  {
+    id: "orbit-text-preloader-hero",
+    label: "Orbit Text Preloader hero",
+    provider: "vercel-blob",
+    pathname: "orbit-text-preloader/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/orbit-text-preloader/hero.jpg`,
+    role: "Hero image revealed once the orbit loader fades out.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  ...Array.from(
+    { length: 10 },
+    (_, index) =>
+      ({
+        id: `scroll-text-blocks-img-${index + 1}`,
+        label: `Scroll Text Blocks image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `scroll-text-blocks/img_${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/scroll-text-blocks/img_${index + 1}.jpg`,
+        role: "Portrait tile in the scroll-velocity-reactive marquee.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "video-card-stack-font-label",
+    label: "Video Card Stack label font",
+    provider: "vercel-blob",
+    pathname: "video-card-stack/fonts/neue-montreal-medium.otf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/video-card-stack/fonts/neue-montreal-medium.otf`,
+    role: "Grotesque face for the nav and card metadata.",
+    notes:
+      "Matches the source's PP Neue Montreal. Upload this font to Vercel Blob at the same pathname.",
+  },
+  ...Array.from(
+    { length: 12 },
+    (_, index) =>
+      ({
+        id: `client-hover-preview-img-${index + 1}`,
+        label: `Client Hover Preview image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `client-hover-preview/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/client-hover-preview/img${index + 1}.jpg`,
+        role: "Preview image wiped open when its client name is hovered.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  ...Array.from(
+    { length: 18 },
+    (_, index) =>
+      ({
+        id: `folder-preview-hover-img-${index + 1}`,
+        label: `Folder Preview Hover image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `folder-preview-hover/img-${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/folder-preview-hover/img-${index + 1}.jpg`,
+        role: "Photo that pops out of a folder mouth on hover.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
   ...Array.from(
     { length: 6 },
     (_, index) =>

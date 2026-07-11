@@ -48,7 +48,7 @@ export interface AsciiLogoProps {
   logoScale?: number;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/ascii-logo";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/ascii-logo";
 
 type Cell = {
   col: number;

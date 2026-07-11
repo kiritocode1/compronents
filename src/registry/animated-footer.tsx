@@ -100,7 +100,7 @@ const DEFAULT_LINKS: FooterLink[] = [
 ];
 const DEFAULT_DESCRIPTION =
   "Blank — a software developer building considered digital experiences. Interfaces, motion, and the small details that make a product feel alive. From aryank.space.";
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/animated-footer";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/animated-footer";
 
 export default function AnimatedFooter({
   heading = DEFAULT_HEADING,

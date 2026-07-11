@@ -30,7 +30,7 @@ export interface DetroitParisSliderProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/detroit-paris-slider";
+  "https://ui.aryank.space/assets/detroit-paris-slider";
 
 const DEFAULT_IMAGES = Array.from(
   { length: 10 },

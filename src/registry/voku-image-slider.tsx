@@ -25,7 +25,7 @@ export interface VokuImageSliderProps {
   lerp?: number;
 }
 
-const ASSET_BASE = "https://compronents.dev/assets/voku-image-slider";
+const ASSET_BASE = "https://ui.aryank.space/assets/voku-image-slider";
 const DEFAULT_IMAGES = Array.from(
   { length: 9 },
   (_, index) => `${ASSET_BASE}/img${index + 1}.jpg`,

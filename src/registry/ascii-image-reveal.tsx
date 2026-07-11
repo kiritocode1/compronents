@@ -34,7 +34,7 @@ export interface AsciiImageRevealProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/ascii-image-reveal";
+  "https://ui.aryank.space/assets/ascii-image-reveal";
 
 const DEFAULT_IMAGES = Array.from(
   { length: 15 },

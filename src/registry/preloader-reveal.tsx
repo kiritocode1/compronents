@@ -42,7 +42,7 @@ export interface PreloaderRevealProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/preloader-reveal";
+  "https://ui.aryank.space/assets/preloader-reveal";
 const DEFAULT_LOGO = `${COMPRONENTS_ASSET_BASE}/logo.png`;
 const DEFAULT_BUTTON_LOGO = `${COMPRONENTS_ASSET_BASE}/logo-light.png`;
 

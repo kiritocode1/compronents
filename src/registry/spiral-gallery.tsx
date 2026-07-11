@@ -31,7 +31,7 @@ export interface SpiralGalleryProps {
   embedded?: boolean;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/spiral-gallery";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/spiral-gallery";
 const DEFAULT_IMAGES = Array.from(
   { length: 12 },
   (_, i) => `${COMPRONENTS_ASSET_BASE}/img-${i + 1}.jpg`,

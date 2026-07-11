@@ -20,7 +20,7 @@
 
 export const REGISTRY_NAME = "Compronents";
 export const REGISTRY_NAMESPACE = "@compronents";
-export const REGISTRY_HOMEPAGE = "https://compronents.dev";
+export const REGISTRY_HOMEPAGE = "https://ui.aryank.space";
 
 /** Public origin the shadcn registry is served from (used in install commands). */
 export const REGISTRY_BASE_URL = "https://ui.aryank.space";
@@ -698,6 +698,106 @@ export const registryItems: RegistryItem[] = [
       {
         path: "src/registry/vinyl-orbit-player.tsx",
         target: "components/ui/vinyl-orbit-player.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "orbit-text-preloader",
+    title: "Orbit Text Preloader",
+    description:
+      "A preloader of eight concentric text orbits that stretch, spin, and breathe around a counting percentage, then fade out to reveal a scaling hero image and rising copy.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/orbit-text-preloader.tsx",
+        target: "components/ui/orbit-text-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "scroll-text-blocks",
+    title: "Scroll Text Blocks",
+    description:
+      "Three columns of copy whose words roll out and in per-word as you scroll a pinned hero, with a scroll-velocity-reactive image marquee and a thin progress bar.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-text-blocks.tsx",
+        target: "components/ui/scroll-text-blocks.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "video-card-stack",
+    title: "Video Card Stack",
+    description:
+      "A 3D perspective deck of looping video cards. Clicking anywhere throws the front card down and off, then tucks it behind the stack with a staggered re-layout.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "react-player"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/video-card-stack.tsx",
+        target: "components/ui/video-card-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "client-hover-preview",
+    title: "Client Hover Preview",
+    description:
+      "A wall of client names under blend-mode chrome. Hovering a name wipes a centered image preview open with a clip-path and cross-fades as you move between clients.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/client-hover-preview.tsx",
+        target: "components/ui/client-hover-preview.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "folder-preview-hover",
+    title: "Folder Preview Hover",
+    description:
+      "Stacked folder rows in three color variants. Hovering lifts a folder, dims its siblings, and pops three photos out of the folder mouth with randomized tilt.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/folder-preview-hover.tsx",
+        target: "components/ui/folder-preview-hover.tsx",
         type: "registry:ui",
       },
     ],

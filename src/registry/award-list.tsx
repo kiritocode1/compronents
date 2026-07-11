@@ -42,7 +42,7 @@ export interface AwardListProps {
   embedded?: boolean;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/award-list";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/award-list";
 
 const DEFAULT_AWARDS: Award[] = [
   {

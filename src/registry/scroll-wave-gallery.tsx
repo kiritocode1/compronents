@@ -41,7 +41,7 @@ export interface ScrollWaveGalleryProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/scroll-wave-gallery";
+  "https://ui.aryank.space/assets/scroll-wave-gallery";
 const DEFAULT_IMAGES = Array.from(
   { length: 12 },
   (_, i) => `${COMPRONENTS_ASSET_BASE}/img-${i + 1}.jpg`,

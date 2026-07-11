@@ -47,7 +47,7 @@ export interface AccordionFramesProps {
 }
 
 const COMPRONENTS_ASSET_BASE =
-  "https://compronents.dev/assets/accordion-frames";
+  "https://ui.aryank.space/assets/accordion-frames";
 
 const DEFAULT_IMAGES: string[] = Array.from(
   { length: 20 },

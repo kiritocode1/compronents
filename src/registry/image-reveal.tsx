@@ -34,7 +34,7 @@ export interface ImageRevealProps {
   embedded?: boolean;
 }
 
-const COMPRONENTS_ASSET_BASE = "https://compronents.dev/assets/image-reveal";
+const COMPRONENTS_ASSET_BASE = "https://ui.aryank.space/assets/image-reveal";
 const DEFAULT_IMAGES = [1, 2, 3, 4, 5].map(
   (n) => `${COMPRONENTS_ASSET_BASE}/img-${n}.jpg`,
 );

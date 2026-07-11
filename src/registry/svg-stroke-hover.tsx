@@ -8,7 +8,7 @@
 
 import type * as React from "react";
 
-const ASSET_BASE = "https://compronents.dev/assets/svg-stroke-hover";
+const ASSET_BASE = "https://ui.aryank.space/assets/svg-stroke-hover";
 
 export interface SvgStrokeCard {
   title: string;
