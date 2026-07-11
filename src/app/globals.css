@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ------------------------------------------------------------------ */
-/* Quiet, monospace, near-black index aesthetic.                       */
-/* Low contrast, muted gray on black, a single restrained violet.      */
+/* Quiet, near-black index aesthetic.                                  */
+/* Sans body, mono for code, muted gray on black, restrained violet.   */
 /* ------------------------------------------------------------------ */
 :root,
 .light {
@@ -74,7 +74,7 @@
   --radius-sm: calc(var(--radius) - 0.25rem);
   --radius-xl: calc(var(--radius) + 0.25rem);
 
-  --font-sans: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -90,10 +90,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
-  font-feature-settings:
-    "liga" 0,
-    "calt" 0;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 ::selection {
@@ -132,19 +129,12 @@ body {
     color: var(--muted-foreground);
   }
 
-  /* The subtle violet glow that bleeds down from the very top edge */
-  .top-glow::before {
-    content: "";
-    position: fixed;
-    inset: 0 0 auto 0;
-    height: 360px;
-    pointer-events: none;
-    z-index: 0;
-    background: radial-gradient(
-      120% 100% at 50% -20%,
-      color-mix(in oklab, var(--accent) 22%, transparent) 0%,
-      transparent 60%
-    );
+  /* Index rows: hovering one row quiets its siblings */
+  .dim-list > li {
+    transition: opacity 180ms ease;
+  }
+  .dim-list:hover > li:not(:hover) {
+    opacity: 0.4;
   }
 
   /* Shiki output: strip its background, inherit our mono sizing */
@@ -157,5 +147,138 @@ body {
   .shiki {
     font-size: 0.8125rem;
     line-height: 1.7;
+  }
+}
+
+@utility hit-area-debug {
+    position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+    @apply border border-dashed border-blue-500 bg-blue-500/10;
+  }
+  &:hover::before {
+    @apply border border-dashed border-green-500 bg-green-500/10;
+  }
+}
+
+@utility hit-area {
+    position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-* {
+    position: relative;
+    --hit-area-t: --spacing(--value(number) * -1); --hit-area-t: calc(--value([*]) * -1);
+    --hit-area-b: --spacing(--value(number) * -1); --hit-area-b: calc(--value([*]) * -1);
+    --hit-area-l: --spacing(--value(number) * -1); --hit-area-l: calc(--value([*]) * -1);
+    --hit-area-r: --spacing(--value(number) * -1); --hit-area-r: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-l-* {
+    position: relative;
+    --hit-area-l: --spacing(--value(number) * -1); --hit-area-l: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-r-* {
+    position: relative;
+    --hit-area-r: --spacing(--value(number) * -1); --hit-area-r: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-t-* {
+    position: relative;
+    --hit-area-t: --spacing(--value(number) * -1); --hit-area-t: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-b-* {
+    position: relative;
+    --hit-area-b: --spacing(--value(number) * -1); --hit-area-b: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-x-* {
+    position: relative;
+    --hit-area-l: --spacing(--value(number) * -1); --hit-area-l: calc(--value([*]) * -1);
+    --hit-area-r: --spacing(--value(number) * -1); --hit-area-r: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
+  }
+}
+
+@utility hit-area-y-* {
+    position: relative;
+    --hit-area-t: --spacing(--value(number) * -1); --hit-area-t: calc(--value([*]) * -1);
+    --hit-area-b: --spacing(--value(number) * -1); --hit-area-b: calc(--value([*]) * -1);
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--hit-area-t, 0px);
+    right: var(--hit-area-r, 0px);
+    bottom: var(--hit-area-b, 0px);
+    left: var(--hit-area-l, 0px);
+    pointer-events: inherit;
   }
 }

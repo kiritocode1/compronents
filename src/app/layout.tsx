@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteNav } from "@/components/site/site-nav";
+import { SiteSoundProvider } from "@/components/site/sound-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,11 +33,13 @@ export default function RootLayout({
       lang="en"
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full`}
     >
-      <body className="top-glow min-h-full bg-background text-foreground">
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-6 sm:px-10">
-          <SiteNav />
-          <div className="flex flex-1 flex-col">{children}</div>
-        </div>
+      <body className="min-h-full bg-background text-foreground">
+        <SiteSoundProvider>
+          <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-6 sm:px-10">
+            <SiteNav />
+            <div className="flex flex-1 flex-col">{children}</div>
+          </div>
+        </SiteSoundProvider>
       </body>
     </html>
   );

@@ -14,6 +14,7 @@
     "@gsap/react": "^2.1.2",
     "@types/matter-js": "^0.20.2",
     "@vercel/blob": "^2.5.0",
+    "@web-kits/audio": "^0.1.0",
     "calligraph": "^1.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

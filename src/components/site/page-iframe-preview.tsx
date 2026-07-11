@@ -1,8 +1,11 @@
 "use client";
 
-import { Maximize2, RotateCcw } from "lucide-react";
+import { useSound } from "@web-kits/audio/react";
+import { RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { ExpandIcon } from "@/components/ui/expand-icon";
+import { uiTap } from "@/lib/sounds";
 
 /**
  * Bounded iframe preview for full-page templates. Page templates are heavy
@@ -13,6 +16,7 @@ import { useState } from "react";
  */
 export function PageIframePreview({ name }: { name: string }) {
   const [reloadKey, setReloadKey] = useState(0);
+  const playTap = useSound(uiTap);
   const src = `/pages/${name}/preview`;
 
   return (
@@ -24,16 +28,22 @@ export function PageIframePreview({ name }: { name: string }) {
           rel="noopener noreferrer"
           aria-label="Open fullscreen"
           title="Fullscreen"
-          className="flex size-7 items-center justify-center rounded-md bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white"
+          className="hit-area-1 flex size-7 items-center justify-center rounded-md bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white"
         >
-          <Maximize2 className="size-3.5" />
+          <ExpandIcon
+            size={14}
+            className="flex size-full items-center justify-center"
+          />
         </Link>
         <button
           type="button"
-          onClick={() => setReloadKey((k) => k + 1)}
+          onClick={() => {
+            playTap();
+            setReloadKey((k) => k + 1);
+          }}
           aria-label="Reload preview"
           title="Reload"
-          className="flex size-7 items-center justify-center rounded-md bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white"
+          className="hit-area-1 flex size-7 items-center justify-center rounded-md bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white"
         >
           <RotateCcw className="size-3.5" />
         </button>
