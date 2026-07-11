@@ -883,6 +883,366 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "counter-star-loader",
+    title: "Counter Star Loader",
+    description:
+      "A one-shot loader: two odometer columns roll their digits while the counter walks across the bottom of the screen in six steps, then three four-point stars scale up in sequence to wipe the screen, and the headline swings in from a 3D Y-rotation as the site info lines and a toggle button pop in.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/counter-star-loader.tsx",
+        target: "components/ui/counter-star-loader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "inversion-lens-hover",
+    title: "Inversion Lens Hover",
+    description:
+      "A WebGL image where a soft circular lens tracks the cursor and inverts a grayscale version of the image inside it, its edge broken up by 8-octave turbulence scrolling over time so the boundary churns like a living blot; the lens eases open on enter and closes when the pointer leaves or the element scrolls out of view.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/inversion-lens-hover.tsx",
+        target: "components/ui/inversion-lens-hover.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "line-rise-text",
+    title: "Line Rise Text",
+    description:
+      "A long editorial page where every copy block is split into masked lines that rise up from behind their own baseline as the block scrolls into view; text-indented paragraphs keep their indent on the first line only, and the hero copy rises on a short delay at load.",
+    section: "components",
+    category: "Text",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/line-rise-text.tsx",
+        target: "components/ui/line-rise-text.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "mask-reveal-preloader",
+    title: "Mask Reveal Preloader",
+    description:
+      "A one-shot intro: a logo slides in char by char over a filling progress bar with a mix-blend footer line, then an SVG-shaped mask (a rounded capsule cut from a solid fill) scales up to punch through and reveal the hero, whose image settles from a zoom as the headline, footer copy, and pill buttons animate in.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "react-icons"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/mask-reveal-preloader.tsx",
+        target: "components/ui/mask-reveal-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "converging-search-scroll",
+    title: "Converging Search Scroll",
+    description:
+      "A pinned sequence: scattered labelled feature pills slide to the center and shrink into a single rounded dot while their text fades, the spotlight line lifts away, then the dot grows into a search bar that drops into place and a final header fades up beneath it.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/converging-search-scroll.tsx",
+        target: "components/ui/converging-search-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "model-menu-3d",
+    title: "Model Menu 3D",
+    description:
+      "A fullscreen menu overlay built around a lit 3D model: a toggle fades the panel in, a GLB object behind the links reacts to the cursor with eased parallax rotation and a pointer-tracked point light, and each menu label fills with a left-to-right gradient wipe on hover.",
+    section: "components",
+    category: "Overlays",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/model-menu-3d.tsx",
+        target: "components/ui/model-menu-3d.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "name-preloader-reveal",
+    title: "Name Preloader Reveal",
+    description:
+      "A one-shot editorial intro: a progress bar fills and empties while four portraits stack and clip open in the center, a caption rises line by line, and a large name splits into alternating characters, then its first and last letters slide to center and the whole name shrinks into a mix-blend corner mark as the hero headline rises with its dividers.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/name-preloader-reveal.tsx",
+        target: "components/ui/name-preloader-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "fractal-glass-hover",
+    title: "Fractal Glass Hover",
+    description:
+      "A hero image seen through vertical fluted glass: a WebGL shader slices it into ~35 refracted stripes, then eased cursor movement drives a subtle parallax that pushes harder where the distortion is strongest, so the surface reads like real ribbed glass reacting to the pointer.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fractal-glass-hover.tsx",
+        target: "components/ui/fractal-glass-hover.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "preloader-panel-reveal",
+    title: "Preloader Panel Reveal",
+    description:
+      "A one-shot intro: two columns of masked copy and a glitching NN counter animate over a black panel while a center square grows in stepped scales to full frame, then the panel wipes up and out as the nav, hero image, and product card slide up into place.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/preloader-panel-reveal.tsx",
+        target: "components/ui/preloader-panel-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "block-reveal-text",
+    title: "Block Reveal Text",
+    description:
+      "An editorial scroll page where every copy block is split into lines and each line is uncovered by a colored bar that wipes across left to right then retracts, timed off a scroll trigger so the text reveals line by line as it enters view, with full-bleed image sections between the copy.",
+    section: "components",
+    category: "Text",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/block-reveal-text.tsx",
+        target: "components/ui/block-reveal-text.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "landing-counter-reveal",
+    title: "Landing Counter Reveal",
+    description:
+      "A one-shot intro: a giant 0 to 100 counter scales up from the corner while a progress bar fills, then the digits slide out and a clip-path opens the hero from a center diamond to full frame before the headline characters slide in and the nav and footer words rise.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/landing-counter-reveal.tsx",
+        target: "components/ui/landing-counter-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "webgl-dissolve-scroll",
+    title: "WebGL Dissolve Scroll",
+    description:
+      "A hero image progressively dissolved from the bottom up by a real-time WebGL noise field as you scroll: an fbm-driven edge eats across the frame in a colored wash while a stacked headline below fades in one word at a time.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/webgl-dissolve-scroll.tsx",
+        target: "components/ui/webgl-dissolve-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "expanding-navbar-reveal",
+    title: "Expanding Navbar Reveal",
+    description:
+      "A fixed 16:9 navbar card centered over a full-bleed image; scrolling the first viewport expands the card's background and link row to fill the screen while the logo FLIPs from the card's bottom center up to a pinned top bar, uncovering the hero beneath.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/expanding-navbar-reveal.tsx",
+        target: "components/ui/expanding-navbar-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "spotlight-index-scroll",
+    title: "Spotlight Index Scroll",
+    description:
+      "A pinned gallery where a centered column of images scrolls past a fixed sightline: whichever image sits on the center line brightens, a running NN/TT index counter climbs the left edge, and a stacked list of project names on the right lights up and slides one entry at a time.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/spotlight-index-scroll.tsx",
+        target: "components/ui/spotlight-index-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "aperture-zoom-hero",
+    title: "Aperture Zoom Hero",
+    description:
+      "A pinned hero that pushes a window frame toward the camera on scroll: the frame and header scale up and translate in Z while a tall sky image pans behind them, then a closing headline rises into place as the zoom settles.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/aperture-zoom-hero.tsx",
+        target: "components/ui/aperture-zoom-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "infinite-contact-scroll",
+    title: "Infinite Contact Scroll",
+    description:
+      "A looping contact sheet where each row's column gap breathes open and closed as it crosses the center line, while a pinned icon in the middle swaps to the next glyph every time a new row locks to center.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/infinite-contact-scroll.tsx",
+        target: "components/ui/infinite-contact-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "ribbon-stroke-scroll",
+    title: "Ribbon Stroke Scroll",
+    description:
+      "A pinned intro where thick rounded ribbons draw themselves across three oversized rows on scroll, two curved ribbons sweep through and erase themselves, the palette flips to dark halfway, and the rows finally slide off screen.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ribbon-stroke-scroll.tsx",
+        target: "components/ui/ribbon-stroke-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "expanding-rows-gallery",
+    title: "Expanding Rows Gallery",
+    description:
+      "Rows of project cards wider than the viewport stretch from a tight 125% strip to 500% width as they scroll through view, so the whole grid feels like it zooms past the camera.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/expanding-rows-gallery.tsx",
+        target: "components/ui/expanding-rows-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "drag-timeline-scroll",
     title: "Drag Timeline Scroll",
     description:
@@ -1338,6 +1698,46 @@ export const registryItems: RegistryItem[] = [
       {
         path: "src/registry/animated-footer.tsx",
         target: "components/ui/animated-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "corridor-scene-3d",
+    title: "Corridor Scene 3D",
+    description:
+      "A brutalist sci-fi corridor that rotates into view behind a stepped loading counter, then follows the pointer with slow orbital camera parallax while bloom and film grain shape the rendered scene.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "postprocessing", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/corridor-scene-3d.tsx",
+        target: "components/ui/corridor-scene-3d.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "cursor-trail-scroll",
+    title: "Cursor Trail Scroll",
+    description:
+      "A monochrome editorial page where the pointer paints a persistent blurred line across the full document, with scroll deltas extending the trail beneath a pinned three-column navigation.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cursor-trail-scroll.tsx",
+        target: "components/ui/cursor-trail-scroll.tsx",
         type: "registry:ui",
       },
     ],

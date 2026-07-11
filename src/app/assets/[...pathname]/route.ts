@@ -40,6 +40,24 @@ export async function GET(
     headers: {
       Location: new URL(target, request.url).toString(),
       "Cache-Control": "public, max-age=60",
+      // WebGL loaders (TextureLoader, GLTFLoader) request cross-origin assets
+      // with crossOrigin="anonymous"; the browser CORS-checks this redirect
+      // itself, so it must carry ACAO or the load fails with "Failed to fetch".
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+}
+
+export function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Max-Age": "86400",
     },
   });
 }

@@ -1540,6 +1540,295 @@ export const assetItems = [
           "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
       }) as const satisfies AssetItem,
   ),
+  {
+    id: "inversion-lens-hover-portrait",
+    label: "Inversion Lens Hover portrait",
+    provider: "vercel-blob",
+    pathname: "inversion-lens-hover/portrait.jpeg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/inversion-lens-hover/portrait.jpeg`,
+    role: "Image sampled and inverted inside the turbulent cursor lens.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "line-rise-text-hero",
+    label: "Line Rise Text hero",
+    provider: "vercel-blob",
+    pathname: "line-rise-text/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/line-rise-text/hero.jpg`,
+    role: "Full-bleed hero behind the delayed rising headline.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "line-rise-text-about",
+    label: "Line Rise Text about image",
+    provider: "vercel-blob",
+    pathname: "line-rise-text/about.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/line-rise-text/about.jpg`,
+    role: "Portrait panel between the about and story sections.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "mask-reveal-preloader-hero",
+    label: "Mask Reveal Preloader hero",
+    provider: "vercel-blob",
+    pathname: "mask-reveal-preloader/hero-img.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/mask-reveal-preloader/hero-img.jpg`,
+    role: "Hero image punched through by the scaling capsule mask.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "mask-reveal-preloader-mask",
+    label: "Mask Reveal Preloader mask",
+    provider: "vercel-blob",
+    pathname: "mask-reveal-preloader/mask.svg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/mask-reveal-preloader/mask.svg`,
+    role: "Rounded capsule shape cut out of the preloader fill.",
+    notes:
+      "Upload this SVG to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "converging-search-scroll-mesh",
+    label: "Converging Search Scroll mesh",
+    provider: "vercel-blob",
+    pathname: "converging-search-scroll/mesh.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/converging-search-scroll/mesh.png`,
+    role: "Faint mesh graphic behind the spotlight line.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "model-menu-3d-model",
+    label: "Model Menu 3D model",
+    provider: "vercel-blob",
+    pathname: "model-menu-3d/model.glb",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/model-menu-3d/model.glb`,
+    role: "GLB object lit behind the menu links and driven by the cursor.",
+    notes:
+      "Upload this GLB to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "model-menu-3d-hero",
+    label: "Model Menu 3D hero",
+    provider: "vercel-blob",
+    pathname: "model-menu-3d/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/model-menu-3d/hero.jpg`,
+    role: "Hero background behind the closed menu.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  ...Array.from(
+    { length: 4 },
+    (_, index) =>
+      ({
+        id: `name-preloader-reveal-img-${index + 1}`,
+        label: `Name Preloader Reveal image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `name-preloader-reveal/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/name-preloader-reveal/img${index + 1}.jpg`,
+        role: "Portrait stacked and clipped open in the preloader center.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "fractal-glass-hover-hero",
+    label: "Fractal Glass Hover hero",
+    provider: "vercel-blob",
+    pathname: "fractal-glass-hover/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/fractal-glass-hover/hero.jpg`,
+    role: "Hero image refracted through the fluted-glass shader.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "preloader-panel-reveal-hero",
+    label: "Preloader Panel Reveal hero",
+    provider: "vercel-blob",
+    pathname: "preloader-panel-reveal/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/preloader-panel-reveal/hero.jpg`,
+    role: "Hero image slid up into place as the preloader panel wipes away.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  ...Array.from(
+    { length: 4 },
+    (_, index) =>
+      ({
+        id: `block-reveal-text-img-${index + 1}`,
+        label: `Block Reveal Text image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `block-reveal-text/img_${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/block-reveal-text/img_${index + 1}.jpg`,
+        role: "Full-bleed image between the block-reveal copy sections.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "landing-counter-reveal-hero",
+    label: "Landing Counter Reveal hero",
+    provider: "vercel-blob",
+    pathname: "landing-counter-reveal/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/landing-counter-reveal/hero.jpg`,
+    role: "Hero image opened by the clip-path reveal after the counter.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "webgl-dissolve-scroll-hero",
+    label: "WebGL Dissolve Scroll hero",
+    provider: "vercel-blob",
+    pathname: "webgl-dissolve-scroll/hero-img.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/webgl-dissolve-scroll/hero-img.jpg`,
+    role: "Hero image dissolved from the bottom up by the WebGL noise field.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "expanding-navbar-reveal-backdrop",
+    label: "Expanding Navbar Reveal backdrop",
+    provider: "vercel-blob",
+    pathname: "expanding-navbar-reveal/navbar-img.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/expanding-navbar-reveal/navbar-img.jpg`,
+    role: "Full-bleed image uncovered as the navbar card expands.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "expanding-navbar-reveal-logo",
+    label: "Expanding Navbar Reveal logo",
+    provider: "vercel-blob",
+    pathname: "expanding-navbar-reveal/logo.svg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/expanding-navbar-reveal/logo.svg`,
+    role: "Wordmark that FLIPs from the card's bottom center to the top bar.",
+    notes:
+      "Upload this SVG to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  ...Array.from(
+    { length: 10 },
+    (_, index) =>
+      ({
+        id: `spotlight-index-scroll-img-${index + 1}`,
+        label: `Spotlight Index Scroll image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `spotlight-index-scroll/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/spotlight-index-scroll/img${index + 1}.jpg`,
+        role: "Gallery image that brightens when it crosses the center sightline.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "aperture-zoom-hero-sky",
+    label: "Aperture Zoom Hero sky",
+    provider: "vercel-blob",
+    pathname: "aperture-zoom-hero/sky.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/aperture-zoom-hero/sky.jpg`,
+    role: "Tall sky image that pans behind the zooming window frame.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  {
+    id: "aperture-zoom-hero-window",
+    label: "Aperture Zoom Hero window frame",
+    provider: "vercel-blob",
+    pathname: "aperture-zoom-hero/window.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/aperture-zoom-hero/window.png`,
+    role: "Window frame overlay scaled toward the camera as you scroll.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  },
+  ...Array.from(
+    { length: 7 },
+    (_, index) =>
+      ({
+        id: `infinite-contact-scroll-icon-${index + 1}`,
+        label: `Infinite Contact Scroll icon ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `infinite-contact-scroll/icon_${index + 1}.png`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/infinite-contact-scroll/icon_${index + 1}.png`,
+        role: "Center glyph swapped in when a new row locks to center.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  ...Array.from(
+    { length: 16 },
+    (_, index) =>
+      ({
+        id: `expanding-rows-gallery-img-${index + 1}`,
+        label: `Expanding Rows Gallery image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `expanding-rows-gallery/img${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/expanding-rows-gallery/img${index + 1}.jpg`,
+        role: "Project card image tiled across the expanding rows.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "corridor-scene-3d-gltf",
+    label: "Corridor Scene 3D GLTF",
+    provider: "vercel-blob",
+    pathname: "corridor-scene-3d/scene.gltf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/corridor-scene-3d/scene.gltf`,
+    role: "Brutalist corridor scene loaded by GLTFLoader.",
+    notes:
+      "Keep scene.bin and the textures directory beside this file so its relative URIs resolve.",
+  },
+  {
+    id: "corridor-scene-3d-bin",
+    label: "Corridor Scene 3D geometry",
+    provider: "vercel-blob",
+    pathname: "corridor-scene-3d/scene.bin",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/corridor-scene-3d/scene.bin`,
+    role: "Binary geometry buffer referenced by the corridor GLTF.",
+    notes: "Upload beside scene.gltf with the original filename.",
+  },
+  ...[
+    ["base-color", "Concrete_Tiles_baseColor.jpeg", "Concrete base-color map."],
+    [
+      "metallic-roughness",
+      "Concrete_Tiles_metallicRoughness.png",
+      "Concrete metallic and roughness map.",
+    ],
+    ["emissive", "Concrete_Tiles_emissive.png", "Concrete emissive map."],
+    ["normal", "Concrete_Tiles_normal.png", "Concrete normal map."],
+  ].map(
+    ([id, filename, role]) =>
+      ({
+        id: `corridor-scene-3d-${id}`,
+        label: `Corridor Scene 3D ${id}`,
+        provider: "vercel-blob",
+        pathname: `corridor-scene-3d/textures/${filename}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/corridor-scene-3d/textures/${filename}`,
+        role,
+        notes:
+          "Keep this file under textures/ because scene.gltf references the relative path.",
+      }) as const satisfies AssetItem,
+  ),
+  ...[
+    ["logo", "logo.png", "Editorial wordmark shown at the top and bottom."],
+    ["image-1", "img-1.jpg", "First full-width monochrome editorial image."],
+    ["image-2", "img-2.jpg", "Second full-width monochrome editorial image."],
+    ["image-3", "img-3.jpg", "Third full-width monochrome editorial image."],
+  ].map(
+    ([id, filename, role]) =>
+      ({
+        id: `cursor-trail-scroll-${id}`,
+        label: `Cursor Trail Scroll ${id}`,
+        provider: "vercel-blob",
+        pathname: `cursor-trail-scroll/${filename}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cursor-trail-scroll/${filename}`,
+        role,
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

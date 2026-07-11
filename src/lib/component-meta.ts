@@ -3718,6 +3718,992 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "counter-star-loader": {
+    demoPath: "src/components/demos/counter-star-loader.tsx",
+    nuance: [
+      {
+        label: "Odometer walk",
+        description:
+          "The digit strip slides in six power4 steps while the clipped wrapper simultaneously walks one sixth of the free width per step, so the counter both rolls and travels across the bottom edge.",
+      },
+      {
+        label: "Star wipe handoff",
+        description:
+          "Three stars scale to 45x on staggered delays in white, lime, then black; the last one's onComplete hides the loader, so the final black star becomes the page background.",
+      },
+    ],
+    editable: [
+      {
+        name: "digitsLeft / digitsRight",
+        control: "tuple",
+        description: "The six-digit values in each odometer column.",
+      },
+      {
+        name: "headline / infoLines / revealerColors",
+        control: "text",
+        description: "The 3D headline, corner info lines, and star colors.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "digitsLeft / digitsRight",
+        type: "[number x6]",
+        default: "9 8 7 4 2 0 / 9 5 9 7 4 0",
+        description: "Digit values shown in the two rolling columns.",
+      },
+      {
+        name: "headline",
+        type: "string",
+        default: '"HauteMuse"',
+        description: "The headline that swings in from a 3D rotation.",
+      },
+      {
+        name: "revealerColors",
+        type: "[string, string, string]",
+        default: "white, lime, black",
+        description: "Fills of the three scaling star revealers.",
+      },
+    ],
+  },
+  "inversion-lens-hover": {
+    demoPath: "src/components/demos/inversion-lens-hover.tsx",
+    nuance: [
+      {
+        label: "Turbulent lens edge",
+        description:
+          "The mask is a distance step whose threshold is perturbed by 8-octave time-scrolling turbulence, so the lens boundary is never a clean circle but a churning organic edge.",
+      },
+      {
+        label: "Eased open and close",
+        description:
+          "Cursor position and lens radius both lerp toward their targets; leaving the element or scrolling it out of view (via IntersectionObserver) drives the radius back to zero so the lens closes smoothly.",
+      },
+    ],
+    editable: [
+      {
+        name: "maskRadius / turbulenceIntensity",
+        control: "tuple",
+        description: "Lens size and how ragged its edge churns.",
+      },
+      {
+        name: "maskSpeed / lerpFactor",
+        control: "tuple",
+        description: "Turbulence scroll speed and cursor easing.",
+      },
+    ],
+    assets: assetsByIds(["inversion-lens-hover-portrait"]),
+    api: [
+      {
+        name: "src",
+        type: "string",
+        default: "BLANK-hosted JPEG",
+        description: "Image inverted inside the lens.",
+      },
+      {
+        name: "maskRadius / turbulenceIntensity / maskSpeed",
+        type: "number",
+        default: "0.15 / 0.075 / 0.75",
+        description: "Lens radius, edge turbulence, and churn speed.",
+      },
+      {
+        name: "lerpFactor / radiusLerpSpeed",
+        type: "number",
+        default: "0.05 / 0.1",
+        description: "Cursor follow easing and lens open/close easing.",
+      },
+    ],
+  },
+  "line-rise-text": {
+    demoPath: "src/components/demos/line-rise-text.tsx",
+    nuance: [
+      {
+        label: "Indent-aware split",
+        description:
+          "Blocks with a text-indent have the indent moved onto the first split line as padding, then cleared on the element, so only the opening line stays indented after the mask split.",
+      },
+      {
+        label: "Grouped reveals",
+        description:
+          "A copy block can wrap several children; they split together and their lines share one scroll trigger, so a whole paragraph group rises as a single staggered sequence.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "Studio name used across the nav, story, and footer.",
+      },
+      {
+        name: "heroImage / aboutImage",
+        control: "asset-url",
+        description: "The hero backdrop and the portrait panel.",
+      },
+    ],
+    assets: assetsByIds(["line-rise-text-hero", "line-rise-text-about"]),
+    api: [
+      {
+        name: "heroImage / aboutImage",
+        type: "string",
+        default: "BLANK-hosted JPGs",
+        description: "Hero backdrop and mid-page portrait.",
+      },
+      {
+        name: "brand",
+        type: "string",
+        default: '"Greyloom"',
+        description: "Studio name woven through the copy.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "mask-reveal-preloader": {
+    demoPath: "src/components/demos/mask-reveal-preloader.tsx",
+    nuance: [
+      {
+        label: "SVG mask cut-out",
+        description:
+          "The reveal layer composites a solid fill against the capsule SVG with mask-composite, so the shape is a hole in the fill; scaling that layer to 6x grows the hole until the hero shows through.",
+      },
+      {
+        label: "Nested onStart timeline",
+        description:
+          "When the pill buttons pop in, their onStart appends icon clip-path and label tweens to the same timeline with negative delays, so the icon fills and label rises overlap the button scaling.",
+      },
+    ],
+    editable: [
+      {
+        name: "maskShape",
+        control: "asset-url",
+        description: "The SVG whose shape is cut from the reveal fill.",
+      },
+      {
+        name: "headline / footerHeading / footerText",
+        control: "text",
+        description: "The hero copy revealed after the mask.",
+      },
+    ],
+    assets: assetsByIds([
+      "mask-reveal-preloader-hero",
+      "mask-reveal-preloader-mask",
+    ]),
+    api: [
+      {
+        name: "heroImage / maskShape",
+        type: "string",
+        default: "BLANK-hosted JPG / SVG",
+        description: "Revealed hero and the capsule mask shape.",
+      },
+      {
+        name: "logo / headline",
+        type: "string",
+        default: '"Obsidian"',
+        description: "Preloader logo and hero headline.",
+      },
+      {
+        name: "contactLabel / menuLabel",
+        type: "string",
+        default: '"Contact" / "Menu"',
+        description: "Labels on the two pill buttons.",
+      },
+    ],
+  },
+  "converging-search-scroll": {
+    demoPath: "src/components/demos/converging-search-scroll.tsx",
+    nuance: [
+      {
+        label: "Phased single pin",
+        description:
+          "One pinned ScrollTrigger drives the whole sequence off progress bands: 0 to 0.5 converges the pills, 0.5 to 0.75 grows the search bar, 0.75 to 1 fades in the final header, all from a single scrub.",
+      },
+      {
+        label: "Measured pill morph",
+        description:
+          "Each pill's starting box is measured on mount, then width, height, radius, and border are interpolated to a 3rem dot, so every label collapses into the same rounded target regardless of its text length.",
+      },
+    ],
+    editable: [
+      {
+        name: "features",
+        control: "links",
+        description: "The scattered feature pill labels.",
+      },
+      {
+        name: "spotlightText / headerText / searchLabel",
+        control: "text",
+        description: "The copy across the three phases.",
+      },
+    ],
+    assets: assetsByIds(["converging-search-scroll-mesh"]),
+    api: [
+      {
+        name: "features",
+        type: "string[]",
+        default: "7 feature labels",
+        description:
+          "Pills placed at fixed start points that converge to center.",
+      },
+      {
+        name: "meshImage",
+        type: "string",
+        default: "BLANK-hosted PNG",
+        description: "Faint mesh behind the spotlight line.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "model-menu-3d": {
+    demoPath: "src/components/demos/model-menu-3d.tsx",
+    nuance: [
+      {
+        label: "Auto-framed model",
+        description:
+          "The GLB is measured with a bounding box on load, then centered and pushed back by a multiple of its largest dimension, so any model you drop in is framed the same way without hand-tuning the camera.",
+      },
+      {
+        label: "Cursor light and tilt",
+        description:
+          "The pointer drives both an eased parallax rotation of the model and a point light that trails the cursor in the scene, so the object catches light as it turns toward you.",
+      },
+    ],
+    editable: [
+      {
+        name: "menuItems",
+        control: "links",
+        description: "The menu labels with the gradient hover wipe.",
+      },
+      {
+        name: "modelSrc / heroImage",
+        control: "asset-url",
+        description: "The GLB object and the hero background.",
+      },
+    ],
+    assets: assetsByIds(["model-menu-3d-model", "model-menu-3d-hero"]),
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        default: "BLANK-hosted GLB",
+        description: "The 3D object framed behind the menu links.",
+      },
+      {
+        name: "menuItems",
+        type: "string[]",
+        default: "8 menu labels",
+        description: "Links shown when the overlay is open.",
+      },
+      {
+        name: "canvasBg",
+        type: "string",
+        default: '"#1a1a1a"',
+        description: "Scene background behind the model.",
+      },
+    ],
+  },
+  "name-preloader-reveal": {
+    demoPath: "src/components/demos/name-preloader-reveal.tsx",
+    nuance: [
+      {
+        label: "Split-then-reunite name",
+        description:
+          "Every letter starts offset up or down by parity and settles, then all but the first and last letters leave again while those two slide to the measured center and the name scales into a corner mark.",
+      },
+      {
+        label: "Blend-mode handoff",
+        description:
+          "Once the letters meet, the header switches to mix-blend-mode difference and shrinks, so the mark inverts against whatever hero content sits behind it.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "The four stacked preloader portraits.",
+      },
+      {
+        name: "name / caption / headingLines",
+        control: "text",
+        description: "The reveal name, caption, and hero heading rows.",
+      },
+    ],
+    assets: pageAssets("name-preloader-reveal-", 4),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "4 BLANK-hosted JPGs",
+        description: "Portraits clipped open in sequence in the center.",
+      },
+      {
+        name: "name",
+        type: "string",
+        default: '"Dorian Valez"',
+        description: "The name split into the reuniting character mark.",
+      },
+      {
+        name: "headingLines",
+        type: "string[]",
+        default: "3 hero lines",
+        description: "The hero headline rows revealed after the preloader.",
+      },
+    ],
+  },
+  "fractal-glass-hover": {
+    demoPath: "src/components/demos/fractal-glass-hover.tsx",
+    nuance: [
+      {
+        label: "Sampled refraction",
+        description:
+          "Each stripe's offset is the average of 11 samples of a mod-based displacement, giving the fluted edges a soft, glassy falloff instead of hard steps.",
+      },
+      {
+        label: "Distortion-weighted parallax",
+        description:
+          "The cursor parallax is multiplied by the local distortion factor, so the image shifts more through the thickest part of the flute and the glass feels physically responsive.",
+      },
+    ],
+    editable: [
+      {
+        name: "stripesFrequency / glassStrength",
+        control: "tuple",
+        description: "Number of flutes and refraction strength.",
+      },
+      {
+        name: "parallaxStrength / lerpFactor",
+        control: "tuple",
+        description: "Cursor parallax amount and easing.",
+      },
+    ],
+    assets: assetsByIds(["fractal-glass-hover-hero"]),
+    api: [
+      {
+        name: "imgSrc",
+        type: "string",
+        default: "BLANK-hosted JPG",
+        description: "Image refracted through the glass.",
+      },
+      {
+        name: "stripesFrequency / glassStrength / glassSmoothness",
+        type: "number",
+        default: "35 / 2.0 / 0.0001",
+        description: "Flute count, refraction strength, and edge softness.",
+      },
+      {
+        name: "parallaxStrength / distortionMultiplier / lerpFactor",
+        type: "number",
+        default: "0.1 / 10 / 0.035",
+        description:
+          "Cursor parallax amount, distortion weighting, and easing.",
+      },
+    ],
+  },
+  "preloader-panel-reveal": {
+    demoPath: "src/components/demos/preloader-panel-reveal.tsx",
+    nuance: [
+      {
+        label: "Stepped panel growth",
+        description:
+          "The center square is not one tween: it steps through 0.1, 0.25, 0.5, 0.75, then 1 with different eases, so the fill lands in deliberate stages rather than one smooth push.",
+      },
+      {
+        label: "Glitch counter",
+        description:
+          "The NN counter jumps by a random 5 to 30 each tick, clamped to the elapsed-time target, so it stutters upward to 100 instead of counting evenly.",
+      },
+    ],
+    editable: [
+      {
+        name: "navLinks / copyColumns",
+        control: "links",
+        description: "Nav items and the two preloader copy columns.",
+      },
+      {
+        name: "logo / productName / productLink",
+        control: "text",
+        description: "The wordmark and the hero product card copy.",
+      },
+    ],
+    assets: assetsByIds(["preloader-panel-reveal-hero"]),
+    api: [
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK-hosted JPG",
+        description: "Hero image revealed behind the preloader.",
+      },
+      {
+        name: "copyColumns",
+        type: "[string, string]",
+        default: "Two studio blurbs",
+        description: "The two masked copy columns in the preloader.",
+      },
+      {
+        name: "navLinks",
+        type: "string[]",
+        default: "4 nav items",
+        description: "Links in the revealed nav bar.",
+      },
+    ],
+  },
+  "block-reveal-text": {
+    demoPath: "src/components/demos/block-reveal-text.tsx",
+    nuance: [
+      {
+        label: "Wipe then retract",
+        description:
+          "Each line's bar scales in from the left to cover the line, the line is flipped to visible under it, then the bar's origin switches to the right and it scales back out, so the reveal reads as a bar sliding through.",
+      },
+      {
+        label: "Line-wrapped SplitText",
+        description:
+          "SplitText breaks each block into lines, then each line is wrapped in a positioned container that hosts its own reveal bar; the wrappers are unwound on cleanup so the DOM is left as it started.",
+      },
+    ],
+    editable: [
+      {
+        name: "sections",
+        control: "links",
+        description: "Ordered image, heading, and body blocks.",
+      },
+      {
+        name: "stagger / duration",
+        control: "tuple",
+        description: "Per-line delay and bar wipe duration.",
+      },
+    ],
+    assets: pageAssets("block-reveal-text-", 4),
+    api: [
+      {
+        name: "sections",
+        type: "RevealSection[]",
+        default: "7 mixed image/copy blocks",
+        description:
+          "The page composition; copy blocks carry a reveal-bar color.",
+      },
+      {
+        name: "stagger / duration",
+        type: "number",
+        default: "0.15 / 0.75",
+        description: "Line stagger and wipe duration in seconds.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container and scope the fixed nav to it; set false for a viewport-fixed nav on window scroll.",
+      },
+    ],
+  },
+  "landing-counter-reveal": {
+    demoPath: "src/components/demos/landing-counter-reveal.tsx",
+    nuance: [
+      {
+        label: "Diamond clip-path",
+        description:
+          "The hero opens in two clip-path stages on a custom 0.9,0,0.1,1 ease: first to a centered diamond while the image scales, then to the full rectangle as it settles back to 1x.",
+      },
+      {
+        label: "Masked SplitText",
+        description:
+          "Headline chars, nav words, and footer words are split with masking so they slide up and in from behind their own overflow edge; the counter itself is re-split into digits to slide out.",
+      },
+    ],
+    editable: [
+      {
+        name: "navLinks / footerTags",
+        control: "links",
+        description: "The nav items and the three footer tags.",
+      },
+      {
+        name: "logo / headline",
+        control: "text",
+        description: "The wordmark and the large hero headline.",
+      },
+    ],
+    assets: assetsByIds(["landing-counter-reveal-hero"]),
+    api: [
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK-hosted JPG",
+        description: "Image revealed by the clip-path stages.",
+      },
+      {
+        name: "navLinks / footerTags",
+        type: "string[]",
+        default: "5 nav items / 3 tags",
+        description: "Nav links and footer tag words.",
+      },
+      {
+        name: "headline",
+        type: "string",
+        default: '"Canon"',
+        description: "The large hero headline split into sliding characters.",
+      },
+    ],
+  },
+  "webgl-dissolve-scroll": {
+    demoPath: "src/components/demos/webgl-dissolve-scroll.tsx",
+    nuance: [
+      {
+        label: "fbm dissolve edge",
+        description:
+          "The fragment shader compares each pixel's y against scroll progress plus a fractal-noise offset, so the wash eats across the image with a ragged, organic edge instead of a straight line.",
+      },
+      {
+        label: "Word-by-word copy",
+        description:
+          "The body headline is split into word spans and each owns a slice of the copy block's scroll, fading in in sequence rather than all at once.",
+      },
+    ],
+    editable: [
+      {
+        name: "dissolveColor / spread / speed",
+        control: "tuple",
+        description: "Wash color, noise displacement, and scroll multiplier.",
+      },
+      {
+        name: "eyebrow / headerText / bodyText / aboutText",
+        control: "textarea",
+        description: "The layered hero and about copy.",
+      },
+    ],
+    assets: assetsByIds(["webgl-dissolve-scroll-hero"]),
+    api: [
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK-hosted JPG",
+        description: "Image dissolved by the WebGL field.",
+      },
+      {
+        name: "dissolveColor / spread / speed",
+        type: "string / number / number",
+        default: '"#ebf5df" / 0.5 / 2',
+        description:
+          "Wash color, edge noise amount, and scroll-to-dissolve rate.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "expanding-navbar-reveal": {
+    demoPath: "src/components/demos/expanding-navbar-reveal.tsx",
+    nuance: [
+      {
+        label: "FLIP logo handoff",
+        description:
+          "The logo's before and after layout is captured with GSAP Flip, then driven by scroll progress, so it travels smoothly from the card's bottom center to the pinned top bar without a layout jump.",
+      },
+      {
+        label: "Scoped when embedded",
+        description:
+          "In embedded mode the root gets a transform so its position:fixed navbar is contained to the bounded stage instead of the whole viewport; drop embedded for a true full-page fixed navbar.",
+      },
+    ],
+    editable: [
+      {
+        name: "leftLinks / rightLinks",
+        control: "links",
+        description: "The two navbar link pairs.",
+      },
+      {
+        name: "backdropImage / logoImage",
+        control: "asset-url",
+        description: "The revealed image and the FLIPping wordmark.",
+      },
+    ],
+    assets: assetsByIds([
+      "expanding-navbar-reveal-backdrop",
+      "expanding-navbar-reveal-logo",
+    ]),
+    api: [
+      {
+        name: "backdropImage / logoImage",
+        type: "string",
+        default: "BLANK-hosted JPG / SVG",
+        description: "Revealed backdrop and the navbar wordmark.",
+      },
+      {
+        name: "leftLinks / rightLinks",
+        type: "[NavLink, NavLink]",
+        default: "Index/Studio and Archive/Connect",
+        description: "The link pairs flanking the logo.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container and scope the fixed navbar to it; set false to ride the window scroll with a viewport-fixed navbar.",
+      },
+    ],
+  },
+  "spotlight-index-scroll": {
+    demoPath: "src/components/demos/spotlight-index-scroll.tsx",
+    nuance: [
+      {
+        label: "Center-line spotlight",
+        description:
+          "Each frame checks which image straddles the half-viewport line by its live bounding box and sets that one to full opacity, so the highlight tracks the scroll exactly.",
+      },
+      {
+        label: "Per-name windows",
+        description:
+          "Every project name owns a 1/N slice of the scroll; inside its slice it slides up and turns white, then hands off to the next as the counter ticks over.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "links",
+        description: "Name and image per gallery entry.",
+      },
+      {
+        name: "introText / outroText",
+        control: "text",
+        description: "The centered copy before and after the pin.",
+      },
+    ],
+    assets: pageAssets("spotlight-index-scroll-", 4),
+    api: [
+      {
+        name: "projects",
+        type: "{ name: string; image: string }[]",
+        default: "10 BLANK-hosted JPGs",
+        description:
+          "Gallery entries; the counter and name list size to this length.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "aperture-zoom-hero": {
+    demoPath: "src/components/demos/aperture-zoom-hero.tsx",
+    nuance: [
+      {
+        label: "Two-phase zoom",
+        description:
+          "The window scales from 1x to 4x over the first half of the pin, then holds at 4x while the header keeps translating in Z, so the frame appears to pass the camera.",
+      },
+      {
+        label: "Late copy rise",
+        description:
+          "The closing headline stays fully below the fold until 66% progress, then eases up to zero, arriving only as the zoom finishes.",
+      },
+    ],
+    editable: [
+      {
+        name: "skyImage / windowImage",
+        control: "asset-url",
+        description: "The panning backdrop and the zooming frame overlay.",
+      },
+      {
+        name: "leftHeading / rightHeading / copyText",
+        control: "textarea",
+        description: "The layered hero copy.",
+      },
+    ],
+    assets: assetsByIds([
+      "aperture-zoom-hero-sky",
+      "aperture-zoom-hero-window",
+    ]),
+    api: [
+      {
+        name: "skyImage",
+        type: "string",
+        default: "BLANK-hosted JPG",
+        description: "Tall backdrop that pans as the frame zooms.",
+      },
+      {
+        name: "windowImage",
+        type: "string",
+        default: "BLANK-hosted PNG",
+        description: "Window frame overlay that scales toward the camera.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "infinite-contact-scroll": {
+    demoPath: "src/components/demos/infinite-contact-scroll.tsx",
+    nuance: [
+      {
+        label: "Gap ripple",
+        description:
+          "Two overlapping ScrollTriggers per row scrub the flex gap from 1rem to 10rem and back, so a wave of spacing travels through the sheet as it scrolls.",
+      },
+      {
+        label: "Center lock icon",
+        description:
+          "On every Lenis scroll event the row nearest the center line (within 25px) is found; when it changes, the pinned icon advances to the next glyph.",
+      },
+    ],
+    editable: [
+      {
+        name: "rows",
+        control: "links",
+        description: "Label and value per contact row.",
+      },
+      {
+        name: "icons",
+        control: "asset-url",
+        description: "The cycling center glyphs.",
+      },
+    ],
+    assets: pageAssets("infinite-contact-scroll-", 4),
+    api: [
+      {
+        name: "rows",
+        type: "{ label: string; value: string }[]",
+        default: "8 BLANK contact rows",
+        description: "The contact sheet entries, repeated for the loop.",
+      },
+      {
+        name: "icons",
+        type: "string[]",
+        default: "7 BLANK-hosted PNGs",
+        description: "Glyphs cycled by the pinned center icon.",
+      },
+      {
+        name: "copies",
+        type: "number",
+        default: "11",
+        description: "Stacked copies of the sheet that feed the infinite loop.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "ribbon-stroke-scroll": {
+    demoPath: "src/components/demos/ribbon-stroke-scroll.tsx",
+    nuance: [
+      {
+        label: "Outlined ribbons",
+        description:
+          "Every ribbon is two stacked paths: a border stroke 10px wider under the colored stroke, so each ribbon carries a dark outline as it draws in.",
+      },
+      {
+        label: "Draw then erase",
+        description:
+          "The two curve ribbons animate strokeDashoffset to zero to draw, then keep going negative to erase themselves tail-first before the rows exit.",
+      },
+    ],
+    editable: [
+      {
+        name: "rowColors / curveColors",
+        control: "color",
+        description: "The ribbon palette per row and for the two sweeps.",
+      },
+      {
+        name: "introInText / introOutText / outroText",
+        control: "text",
+        description: "Headline copy before and after the dark flip.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "rowColors",
+        type: "[string, string, string][]",
+        default: "3x3 warm and cool palette",
+        description: "Stroke colors of the nine straight ribbons.",
+      },
+      {
+        name: "curveColors",
+        type: "[string, string]",
+        default: '["#FFC412", "#FF6D38"]',
+        description: "Stroke colors of the two curved sweep ribbons.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "expanding-rows-gallery": {
+    demoPath: "src/components/demos/expanding-rows-gallery.tsx",
+    nuance: [
+      {
+        label: "Measured height",
+        description:
+          "The section pre-measures its height with every row at full 500% width, so the page length never jumps while rows stretch.",
+      },
+      {
+        label: "Ticker-driven widths",
+        description:
+          "Row width is written every frame from each row's scroll progress on the gsap ticker, not from a ScrollTrigger, so it stays exact under Lenis smoothing.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "links",
+        description: "Name, year, and image per project card.",
+      },
+      {
+        name: "introText / outroText",
+        control: "text",
+        description: "The centered copy before and after the grid.",
+      },
+    ],
+    assets: pageAssets("expanding-rows-gallery-", 4),
+    api: [
+      {
+        name: "projects",
+        type: "{ name: string; year: number; img: string }[]",
+        default: "16 BLANK-hosted JPGs",
+        description:
+          "Cards tiled across the rows, looping when rows need more.",
+      },
+      {
+        name: "projectsPerRow / totalRows",
+        type: "number",
+        default: "9 / 10",
+        description: "Grid density; cards repeat from the projects list.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "corridor-scene-3d": {
+    demoPath: "src/components/demos/corridor-scene-3d.tsx",
+    nuance: [
+      {
+        label: "Scene-first reveal",
+        description:
+          "The loader only begins its stepped count after the GLTF and relative texture files resolve, so the overlay never reveals an empty canvas.",
+      },
+      {
+        label: "Slow orbital parallax",
+        description:
+          "The camera rotates through half a turn during the intro, then eases toward a narrow pointer-driven orbit while bloom and additive grain remain in one postprocessing pass.",
+      },
+    ],
+    editable: [
+      {
+        name: "modelSrc",
+        control: "asset-url",
+        description: "GLTF scene with its binary and texture dependencies.",
+      },
+      {
+        name: "brand / navItems / statement / year / credit",
+        control: "text",
+        description: "All copy placed over the corridor scene.",
+      },
+    ],
+    assets: assetsByIds([
+      "corridor-scene-3d-gltf",
+      "corridor-scene-3d-bin",
+      "corridor-scene-3d-base-color",
+      "corridor-scene-3d-metallic-roughness",
+      "corridor-scene-3d-emissive",
+      "corridor-scene-3d-normal",
+    ]),
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        default: "BLANK-hosted scene.gltf",
+        description: "CORS-enabled GLTF URL for the corridor scene.",
+      },
+      {
+        name: "brand / navItems / statement",
+        type: "string / string[] / string",
+        default: "Astrolume / three links / editorial statement",
+        description: "Brand, navigation, and headline content.",
+      },
+    ],
+  },
+  "cursor-trail-scroll": {
+    demoPath: "src/components/demos/cursor-trail-scroll.tsx",
+    nuance: [
+      {
+        label: "Document-length trail",
+        description:
+          "The canvas matches the complete editorial height, so the blurred pointer line remains painted as the page scrolls instead of being clipped to one viewport.",
+      },
+      {
+        label: "Scroll-aware drawing",
+        description:
+          "Lenis scroll deltas are added to the last pointer coordinate, which keeps the trail connected even while the pointer stays still and the document moves underneath it.",
+      },
+    ],
+    editable: [
+      {
+        name: "logoImage / images",
+        control: "asset-url",
+        description: "Wordmark and three full-width editorial images.",
+      },
+      {
+        name: "brand / discipline / about",
+        control: "text",
+        description: "Pinned navigation and studio description copy.",
+      },
+    ],
+    assets: assetsByIds([
+      "cursor-trail-scroll-logo",
+      "cursor-trail-scroll-image-1",
+      "cursor-trail-scroll-image-2",
+      "cursor-trail-scroll-image-3",
+    ]),
+    api: [
+      {
+        name: "logoImage / images",
+        type: "string / [string, string, string]",
+        default: "Four BLANK-hosted images",
+        description: "Wordmark and monochrome editorial image sequence.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {
