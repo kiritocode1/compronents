@@ -1,5 +1,6 @@
-import { LibrarySectionPage } from "@/components/site/library-section-page";
+import { InspirationIndex } from "@/components/site/inspiration-index";
+import { inspirationGroups } from "@/lib/inspiration";
 
 export default function InspirationPage() {
-  return <LibrarySectionPage sectionId="inspiration" />;
+  return <InspirationIndex groups={inspirationGroups} />;
 }
