@@ -1396,6 +1396,96 @@ export const assetItems = [
       }) as const satisfies AssetItem,
   ),
   ...Array.from(
+    { length: 5 },
+    (_, index) =>
+      ({
+        id: `minimap-parallax-scroll-img-${index + 1}`,
+        label: `Minimap Parallax Scroll image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `minimap-parallax-scroll/img_${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/minimap-parallax-scroll/img_${index + 1}.jpg`,
+        role: "Full-screen project image mirrored in the minimap strip.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  ...Array.from(
+    { length: 7 },
+    (_, index) =>
+      ({
+        id: `scroll-scrub-slider-img-${index + 1}`,
+        label: `Scroll Scrub Slider image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `scroll-scrub-slider/slider_img_${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/scroll-scrub-slider/slider_img_${index + 1}.jpg`,
+        role: "Full-screen slide cross-faded in as the pin is scrubbed.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  ...Array.from(
+    { length: 3 },
+    (_, index) =>
+      ({
+        id: `split-card-scroll-img-${index + 1}`,
+        label: `Split Card Scroll cover ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `split-card-scroll/card_cover_${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/split-card-scroll/card_cover_${index + 1}.jpg`,
+        role: "Front face of one of the three splitting cards.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  ...Array.from(
+    { length: 5 },
+    (_, index) =>
+      ({
+        id: `hour-timeline-slider-img-${index + 1}`,
+        label: `Hour Timeline Slider image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `hour-timeline-slider/img-${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/hour-timeline-slider/img-${index + 1}.jpg`,
+        role: "Full-screen slide revealed by the clip-path wipe.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "hour-timeline-slider-font-display",
+    label: "Hour Timeline Slider display font",
+    provider: "vercel-blob",
+    pathname: "hour-timeline-slider/fonts/neue-montreal-medium.otf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/hour-timeline-slider/fonts/neue-montreal-medium.otf`,
+    role: "Grotesque face for the hour numerals.",
+    notes:
+      "Matches the source's PP Neue Montreal. Upload this font to Vercel Blob at the same pathname.",
+  },
+  ...Array.from(
+    { length: 9 },
+    (_, index) =>
+      ({
+        id: `drag-timeline-scroll-img-${index + 1}`,
+        label: `Drag Timeline Scroll image ${index + 1}`,
+        provider: "vercel-blob",
+        pathname: `drag-timeline-scroll/img-${index + 1}.jpg`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/drag-timeline-scroll/img-${index + 1}.jpg`,
+        role: "Editorial image in one of the horizontal image screens.",
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
+  {
+    id: "drag-timeline-scroll-font-display",
+    label: "Drag Timeline Scroll display font",
+    provider: "vercel-blob",
+    pathname: "drag-timeline-scroll/fonts/neue-montreal-medium.otf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/drag-timeline-scroll/fonts/neue-montreal-medium.otf`,
+    role: "Grotesque face for the headings and body copy.",
+    notes:
+      "Matches the source's PP Neue Montreal. Upload this font to Vercel Blob at the same pathname.",
+  },
+  ...Array.from(
     { length: 18 },
     (_, index) =>
       ({

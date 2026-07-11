@@ -1577,6 +1577,226 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "minimap-parallax-scroll": {
+    demoPath: "src/components/demos/minimap-parallax-scroll.tsx",
+    nuance: [
+      {
+        label: "Windowed infinity",
+        description:
+          "Only a buffer of eleven slides exists at once; elements outside the window are removed and recreated as you scroll, so the feed loops forever without growing the DOM.",
+      },
+      {
+        label: "Idle snap",
+        description:
+          "After 100ms without input the feed eases to the nearest project with a cubic ease-out, and the minimap mirrors the exact same scroll at 250px scale.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "links",
+        description: "Title, image, category, and year per project.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor",
+        control: "tuple",
+        description: "Wheel multiplier and inertia smoothing.",
+      },
+    ],
+    assets: pageAssets("minimap-parallax-scroll-", 5),
+    api: [
+      {
+        name: "projects",
+        type: "{ title: string; image: string; category: string; year: string }[]",
+        default: "5 BLANK-hosted JPGs",
+        description:
+          "Looped project entries shown full screen and in the minimap.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor",
+        type: "number",
+        default: "0.75 / 0.05",
+        description: "Wheel delta multiplier and per-frame interpolation.",
+      },
+    ],
+  },
+  "scroll-scrub-slider": {
+    demoPath: "src/components/demos/scroll-scrub-slider.tsx",
+    nuance: [
+      {
+        label: "Pin-scrubbed steps",
+        description:
+          "The slider pins for one viewport per slide; crossing a step boundary appends a fresh image that fades and settles from a 1.1 scale, keeping at most three stacked.",
+      },
+      {
+        label: "Rebuilt titles",
+        description:
+          "Each step replaces the headline and re-splits it into masked lines, so the copy always animates up from a clean state.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "links",
+        description: "Image and headline per step.",
+      },
+      {
+        name: "introText / outroText",
+        control: "textarea",
+        description: "The full-screen copy before and after the pin.",
+      },
+    ],
+    assets: pageAssets("scroll-scrub-slider-", 7),
+    api: [
+      {
+        name: "slides",
+        type: "{ title: string; image: string }[]",
+        default: "7 BLANK-hosted JPGs",
+        description: "Scrub steps; pin length is one viewport per slide.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "split-card-scroll": {
+    demoPath: "src/components/demos/split-card-scroll.tsx",
+    nuance: [
+      {
+        label: "Threshold tweens",
+        description:
+          "The width scrubs continuously, but the gap split and the flip fire once as tweens when progress crosses 0.35 and 0.7, and reverse when it crosses back.",
+      },
+      {
+        label: "Desktop-only pin",
+        description:
+          "A gsap.matchMedia gates the whole ScrollTrigger to 1000px and up; below that the cards stack statically with their inline styles cleared.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "links",
+        description: "Cover image, label, text, and back color per card.",
+      },
+      {
+        name: "introText / headerText / outroText",
+        control: "text",
+        description: "The serif copy around the card strip.",
+      },
+    ],
+    assets: pageAssets("split-card-scroll-", 3),
+    api: [
+      {
+        name: "cards",
+        type: "[SplitCard, SplitCard, SplitCard]",
+        default: "3 BLANK-hosted JPGs",
+        description: "Front covers and colored backs of the strip.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "hour-timeline-slider": {
+    demoPath: "src/components/demos/hour-timeline-slider.tsx",
+    nuance: [
+      {
+        label: "Elastic hours",
+        description:
+          "Each click shifts every hour's flex-grow to its neighbor's value, so past hours compress toward zero width while the current hour stretches widest.",
+      },
+      {
+        label: "Recycled slides",
+        description:
+          "The outgoing slide is re-appended to the end of the deck with its clip-path reset, so the five images loop forever.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "The five looping slides.",
+      },
+      {
+        name: "navLeft / navRight / footerLeft / footerRight",
+        control: "text",
+        description: "The chrome copy around the slider.",
+      },
+    ],
+    assets: pageAssets("hour-timeline-slider-", 6),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "5 BLANK-hosted JPGs",
+        description: "Slides wiped in by the clip-path reveal.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        default: "1.5",
+        description: "Length of the wipe and timeline redistribution.",
+      },
+    ],
+  },
+  "drag-timeline-scroll": {
+    demoPath: "src/components/demos/drag-timeline-scroll.tsx",
+    nuance: [
+      {
+        label: "Drag maps to travel",
+        description:
+          "Scrubber progress along the tick timeline maps to minus four screen-widths of container travel, eased with power3 so the page glides after the pointer.",
+      },
+      {
+        label: "Generated ticks",
+        description:
+          "Fifty tick marks are appended at mount and spaced with justify-content, so the timeline stays evenly divided at any width.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "The nine editorial images across three screens.",
+      },
+      {
+        name: "firstSection / fourthSection",
+        control: "textarea",
+        description: "Heading and body copy of the two text screens.",
+      },
+    ],
+    assets: pageAssets("drag-timeline-scroll-", 10),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "9 BLANK-hosted JPGs",
+        description: "Images split into three horizontal screens.",
+      },
+      {
+        name: "firstSection / fourthSection",
+        type: "{ heading: string; body: string }",
+        default: "source-inspired copy",
+        description:
+          "The two text screens; body paragraphs split on blank lines.",
+      },
+      {
+        name: "dragLabel",
+        type: "string",
+        default: '"Drag"',
+        description: "Label inside the timeline scrubber.",
+      },
+    ],
+  },
   "svg-stroke-hover": {
     demoPath: "src/components/demos/svg-stroke-hover.tsx",
     nuance: [

@@ -803,6 +803,106 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "minimap-parallax-scroll",
+    title: "Minimap Parallax Scroll",
+    description:
+      "An infinite full-screen project feed with wheel and touch inertia, snap-to-project, parallax images, and a centered minimap strip that mirrors the scroll in miniature.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/minimap-parallax-scroll.tsx",
+        target: "components/ui/minimap-parallax-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "scroll-scrub-slider",
+    title: "Scroll Scrub Slider",
+    description:
+      "A pinned full-screen slider scrubbed by scroll. Each step cross-fades a new image, rebuilds the headline line-by-line, and updates numbered indices with sliding markers and a vertical progress bar.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-scrub-slider.tsx",
+        target: "components/ui/scroll-scrub-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "split-card-scroll",
+    title: "Split Card Scroll",
+    description:
+      "Three joined cards pinned on scroll: the strip narrows, splits apart into rounded cards with a gap, then each card flips to its colored back with staggered tilt.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/split-card-scroll.tsx",
+        target: "components/ui/split-card-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "hour-timeline-slider",
+    title: "Hour Timeline Slider",
+    description:
+      "Click anywhere to wipe in the next slide with a clip-path reveal while an elastic timeline of hours redistributes its flex spacing, compressing the past and stretching the present.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/hour-timeline-slider.tsx",
+        target: "components/ui/hour-timeline-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "drag-timeline-scroll",
+    title: "Drag Timeline Scroll",
+    description:
+      "A five-screen horizontal layout driven by a draggable scrubber riding a tick-mark timeline along the bottom edge, easing the whole page sideways as you drag.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-11",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drag-timeline-scroll.tsx",
+        target: "components/ui/drag-timeline-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "svg-stroke-hover",
     title: "SVG Stroke Hover",
     description:

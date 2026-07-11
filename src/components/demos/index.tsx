@@ -16,27 +16,32 @@ import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
+import DragTimelineScrollDemo from "./drag-timeline-scroll";
 import FallingTagListDemo from "./falling-tag-list";
 import FilmStudioPageDemo from "./film-studio-page";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FrameScrollDemo from "./frame-scroll";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
+import HourTimelineSliderDemo from "./hour-timeline-slider";
 import ImageRevealDemo from "./image-reveal";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import March2025TemplateDemo from "./march-2025-template";
 import MaterialSpotlightDemo from "./material-spotlight";
+import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MosaicFlipDemo from "./mosaic-flip";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderRevealDemo from "./preloader-reveal";
+import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
+import SplitCardScrollDemo from "./split-card-scroll";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
@@ -86,6 +91,11 @@ export const demos: Record<string, ComponentType> = {
   "video-card-stack": VideoCardStackDemo,
   "client-hover-preview": ClientHoverPreviewDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,
+  "minimap-parallax-scroll": MinimapParallaxScrollDemo,
+  "scroll-scrub-slider": ScrollScrubSliderDemo,
+  "split-card-scroll": SplitCardScrollDemo,
+  "hour-timeline-slider": HourTimelineSliderDemo,
+  "drag-timeline-scroll": DragTimelineScrollDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,
