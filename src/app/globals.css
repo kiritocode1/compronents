@@ -97,6 +97,35 @@ body {
   background: color-mix(in oklab, var(--accent) 35%, transparent);
 }
 
+@keyframes pixel-afterimage-a {
+  0%,
+  100% {
+    transform: translate(0.04em, 0.04em);
+  }
+  25% {
+    transform: translate(0.07em, 0.03em);
+  }
+  50% {
+    transform: translate(0.05em, 0.07em);
+  }
+  75% {
+    transform: translate(0.03em, 0.05em);
+  }
+}
+
+@keyframes pixel-afterimage-b {
+  0%,
+  100% {
+    transform: translate(0.08em, 0.07em);
+  }
+  30% {
+    transform: translate(0.05em, 0.1em);
+  }
+  60% {
+    transform: translate(0.11em, 0.05em);
+  }
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) transparent;
@@ -127,6 +156,25 @@ body {
     letter-spacing: 0.12em;
     font-size: 0.75rem;
     color: var(--muted-foreground);
+  }
+
+  /* Pixel after-images behind the PRO in the wordmark: stepped drift so the
+     ghost jumps in pixel-grid increments instead of gliding */
+  .pixel-afterimage-a {
+    animation: pixel-afterimage-a 2.8s steps(1, end) infinite;
+  }
+  .pixel-afterimage-b {
+    animation: pixel-afterimage-b 3.6s steps(1, end) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pixel-afterimage-a {
+      animation: none;
+      transform: translate(0.04em, 0.04em);
+    }
+    .pixel-afterimage-b {
+      animation: none;
+      transform: translate(0.08em, 0.07em);
+    }
   }
 
   /* Index rows: hovering one row quiets its siblings */

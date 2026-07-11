@@ -4,16 +4,18 @@ import { useSound } from "@web-kits/audio/react";
 import { Calligraph } from "calligraph";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import type { RegistryItem } from "@/lib/registry";
 import { uiHover } from "@/lib/sounds";
 
 export function RegistryIndex({
   heading,
   items,
+  brand,
 }: {
-  heading: string;
+  heading: ReactNode;
   items: RegistryItem[];
+  brand?: ReactNode;
 }) {
   const [query, setQuery] = useState("");
   const playHover = useSound(uiHover);
@@ -24,13 +26,30 @@ export function RegistryIndex({
 
   return (
     <main className="mx-auto w-full max-w-[40rem] pb-32">
-      <Calligraph
-        as="h1"
-        initial
-        className="pt-28 text-2xl font-semibold tracking-tight text-foreground sm:pt-36"
-      >
-        {heading}
-      </Calligraph>
+      {brand ? <div className="pt-24 sm:pt-32">{brand}</div> : null}
+      {typeof heading === "string" ? (
+        <Calligraph
+          as="h1"
+          initial
+          className={
+            brand
+              ? "pt-8 text-2xl font-semibold tracking-tight text-foreground"
+              : "pt-28 text-2xl font-semibold tracking-tight text-foreground sm:pt-36"
+          }
+        >
+          {heading}
+        </Calligraph>
+      ) : (
+        <h1
+          className={
+            brand
+              ? "pt-8 text-2xl font-semibold tracking-tight text-foreground"
+              : "pt-28 text-2xl font-semibold tracking-tight text-foreground sm:pt-36"
+          }
+        >
+          {heading}
+        </h1>
+      )}
 
       <div className="mt-20 flex items-center gap-3">
         <Search size={15} className="shrink-0 text-faint" aria-hidden />

@@ -4,6 +4,7 @@ import { useSound } from "@web-kits/audio/react";
 import { Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CompronentsWordmark } from "@/components/site/compronents-wordmark";
 import { useSoundSetting } from "@/components/site/sound-provider";
 import { uiHover, uiToggleOn } from "@/lib/sounds";
 import { cn } from "@/lib/utils";
@@ -45,13 +46,8 @@ export function SiteNav() {
 
   return (
     <header className="flex items-center justify-between py-8 text-[13px]">
-      <Link
-        href="/"
-        className="font-semibold tracking-tight text-foreground"
-        aria-label="BLANK home"
-        onMouseEnter={playHover}
-      >
-        BLANK
+      <Link href="/" aria-label="Compronents home" onMouseEnter={playHover}>
+        <CompronentsWordmark />
       </Link>
       <nav className="flex items-center gap-5">
         {links.map((link) => {
