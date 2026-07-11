@@ -8,7 +8,8 @@
  * headline, footer copy, and pill buttons animate in.
  *
  * Fills its container, so it drops into any bounded box or a full-screen
- * section. Plays once on mount; no scroll needed.
+ * section. Plays once when most of the component is visible; no scroll-driven
+ * timeline is needed after it starts.
  *
  * BLANK - aryank.space
  */
@@ -51,11 +52,15 @@ export default function MaskRevealPreloader({
 
     gsap.registerPlugin(SplitText);
 
+    let active = true;
     let tl: gsap.core.Timeline | null = null;
+    let observer: IntersectionObserver | null = null;
     const splits: SplitText[] = [];
+    root.dataset.mrpState = "waiting";
 
-    document.fonts.ready.then(() => {
-      if (!rootRef.current) return;
+    const start = () => {
+      if (!active || tl) return;
+      root.dataset.mrpState = "playing";
 
       const make = (selector: string, type: "chars" | "lines", cls: string) => {
         const s = SplitText.create(root.querySelectorAll(selector), {
@@ -75,6 +80,11 @@ export default function MaskRevealPreloader({
       const btnLabels = make(".mrp-btn-label span", "lines", "mrp-line");
 
       const q = (sel: string) => root.querySelectorAll(sel);
+      const progress = root.querySelector<HTMLElement>(".mrp-progress");
+      const progressBar = root.querySelector<HTMLElement>(".mrp-progress-bar");
+      const mask = root.querySelector<HTMLElement>(".mrp-mask");
+      const heroImage = root.querySelector<HTMLElement>(".mrp-hero-img");
+      if (!progress || !progressBar || !mask || !heroImage) return;
 
       gsap.set(logoChars.chars, { x: "100%" });
       gsap.set(
@@ -100,7 +110,7 @@ export default function MaskRevealPreloader({
             ? 1
             : Math.min(currentProgress + Math.random() * 0.3 + 0.1, 0.9);
           currentProgress = targetProgress;
-          progressTl.to(".mrp-progress-bar", {
+          progressTl.to(progressBar, {
             scaleX: targetProgress,
             duration: duration / counterSteps,
             ease: "power2.out",
@@ -109,7 +119,12 @@ export default function MaskRevealPreloader({
         return progressTl;
       };
 
-      tl = gsap.timeline({ delay: 0.5 });
+      tl = gsap.timeline({
+        delay: 0.35,
+        onComplete: () => {
+          root.dataset.mrpState = "complete";
+        },
+      });
 
       tl.to(logoChars.chars, {
         x: "0%",
@@ -123,7 +138,7 @@ export default function MaskRevealPreloader({
           "0.25",
         )
         .add(animateProgress(), "<")
-        .set(".mrp-progress", { backgroundColor: "#fff" })
+        .set(progress, { backgroundColor: "#fff" })
         .to(
           logoChars.chars,
           {
@@ -140,16 +155,12 @@ export default function MaskRevealPreloader({
           "<",
         )
         .to(
-          ".mrp-progress",
+          progress,
           { opacity: 0, duration: 0.5, ease: "power3.out" },
           "-=0.25",
         )
-        .to(".mrp-mask", { scale: 6, duration: 2.5, ease: "power3.out" }, "<")
-        .to(
-          ".mrp-hero-img",
-          { scale: 1, duration: 1.5, ease: "power3.out" },
-          "<",
-        )
+        .to(mask, { scale: 6, duration: 2.5, ease: "power3.out" }, "<")
+        .to(heroImage, { scale: 1, duration: 1.5, ease: "power3.out" }, "<")
         .to(headerChars.chars, {
           y: 0,
           stagger: 0.05,
@@ -163,30 +174,44 @@ export default function MaskRevealPreloader({
           "-=1.5",
         )
         .to(
-          ".mrp-btn",
+          q(".mrp-btn"),
           {
             scale: 1,
             duration: 1,
             ease: "power4.out",
-            onStart: () => {
-              tl?.to(".mrp-btn-icon", {
-                clipPath: "circle(100% at 50% 50%)",
-                duration: 1,
-                ease: "power2.out",
-                delay: -1.25,
-              }).to(btnLabels.lines, {
-                y: 0,
-                duration: 1,
-                ease: "power4.out",
-                delay: -1.25,
-              });
-            },
           },
           "<",
-        );
+        )
+        .to(
+          q(".mrp-btn-icon"),
+          {
+            clipPath: "circle(100% at 50% 50%)",
+            duration: 1,
+            ease: "power2.out",
+          },
+          "<0.1",
+        )
+        .to(btnLabels.lines, { y: 0, duration: 1, ease: "power4.out" }, "<");
+    };
+
+    document.fonts.ready.then(() => {
+      if (!active) return;
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry || entry.intersectionRatio < 0.55) return;
+          observer?.disconnect();
+          observer = null;
+          start();
+        },
+        { threshold: [0, 0.55] },
+      );
+      observer.observe(root);
     });
 
     return () => {
+      active = false;
+      observer?.disconnect();
       tl?.kill();
       for (const s of splits) s.revert();
     };

@@ -926,7 +926,7 @@ export const registryItems: RegistryItem[] = [
     name: "line-rise-text",
     title: "Line Rise Text",
     description:
-      "A long editorial page where every copy block is split into masked lines that rise up from behind their own baseline as the block scrolls into view; text-indented paragraphs keep their indent on the first line only, and the hero copy rises on a short delay at load.",
+      "A long editorial page where every copy block is split into masked lines that rise from behind their baseline as it scrolls into view, while the central portrait opens from a cropped close-up; indented paragraphs preserve their opening indent after splitting.",
     section: "components",
     category: "Text",
     pro: false,

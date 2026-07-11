@@ -3827,6 +3827,11 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description:
           "A copy block can wrap several children; they split together and their lines share one scroll trigger, so a whole paragraph group rises as a single staggered sequence.",
       },
+      {
+        label: "Portrait opening",
+        description:
+          "The central portrait begins enlarged inside a tight inset clip, then opens to its full frame as its section crosses the viewport center.",
+      },
     ],
     editable: [
       {

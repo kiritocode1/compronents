@@ -105,7 +105,34 @@ export default function LineRiseText({
       );
     }
 
+    const aboutImageSection = root.querySelector<HTMLElement>(".lrt-about-img");
+    const aboutImage =
+      root.querySelector<HTMLImageElement>(".lrt-about-img img");
+    if (aboutImageSection && aboutImage) {
+      tweens.push(
+        gsap.fromTo(
+          aboutImage,
+          { scale: 1.18, clipPath: "inset(12% 12% 12% 12%)" },
+          {
+            scale: 1,
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "none",
+            scrollTrigger: {
+              trigger: aboutImageSection,
+              scroller: embedded ? root : undefined,
+              start: "top 95%",
+              end: "center 50%",
+              scrub: 0.8,
+            },
+          },
+        ),
+      );
+    }
+
+    const refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+
     return () => {
+      cancelAnimationFrame(refreshFrame);
       for (const t of tweens) t.kill();
       for (const s of splits) s.revert();
       gsap.ticker.remove(tickerFn);
@@ -244,6 +271,7 @@ const styles = `
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #fff;
+  color: #000;
   font-family: "Lay Grotesk - Trial", "Manrope", sans-serif;
 }
 
@@ -350,6 +378,8 @@ const styles = `
 .lrt-about-img img {
   width: 20%;
   aspect-ratio: 4/5;
+  transform-origin: center;
+  will-change: transform, clip-path;
 }
 
 .lrt-about,
