@@ -90,7 +90,6 @@ export default function FallingTagList({
 }: FallingTagListProps) {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: colors seed CSS vars / tween targets; the physics wiring rebuilds only when the service set changes.
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -329,7 +328,6 @@ export default function FallingTagList({
           <div className="ftl-images">
             {service.images.map((src, i) => (
               <div className="ftl-img" key={`${service.name}-${i}`}>
-                {/* biome-ignore lint/performance/noImgElement: raw cover thumbnail fanned behind the name. */}
                 <img src={src} alt="" draggable={false} />
               </div>
             ))}

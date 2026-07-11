@@ -94,7 +94,6 @@ export default function AccordionFrames({
   }, [mobileBreakpoint]);
 
   // Reset focus when the layout flips between mobile and desktop panel counts.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: defaultFocus is the intended reset target on layout flip.
   useEffect(() => {
     setFocusedPanel(Math.min(defaultFocus, panelCount - 1));
   }, [panelCount]);
@@ -145,7 +144,6 @@ export default function AccordionFrames({
                 onFocus={isMobile ? undefined : () => setFocusedPanel(i)}
                 onClick={() => setFocusedPanel(i)}
               >
-                {/* biome-ignore lint/performance/noImgElement: the panel needs a raw cover image, not Next's layout-aware loader. */}
                 <img src={images[i % images.length]} alt="" />
               </button>
             );

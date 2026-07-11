@@ -93,7 +93,6 @@ export default function OverlayMenu({
   const rootRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLButtonElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: link/text props seed the SplitText once; re-splitting on every keystroke is undesirable.
   useEffect(() => {
     gsap.registerPlugin(SplitText);
     const root = rootRef.current;
@@ -204,7 +203,6 @@ export default function OverlayMenu({
       <nav className="om-nav">
         <div className="om-logo">
           <a href={HREF}>
-            {/* biome-ignore lint/performance/noImgElement: a small raw logo, not a layout-managed image. */}
             <img src={logo} alt="" />
           </a>
         </div>
@@ -223,7 +221,6 @@ export default function OverlayMenu({
       <div className="om-content">
         {panelColors.map((color, i) => (
           <div
-            // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length curtain panels keyed by position.
             key={`panel-${i}`}
             className="om-bg"
             style={{ backgroundColor: color }}

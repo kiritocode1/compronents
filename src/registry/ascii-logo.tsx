@@ -84,7 +84,6 @@ export default function AsciiLogo({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: `src` re-runs setup so a new source image is re-sampled from scratch.
   useEffect(() => {
     const root = rootRef.current;
     const canvas = canvasRef.current;
@@ -312,7 +311,6 @@ export default function AsciiLogo({
       <style>{styles}</style>
       <canvas ref={canvasRef} />
       <div className="al-logo" style={{ width: `${logoScale}%` }}>
-        {/* biome-ignore lint/performance/noImgElement: pixels are read back off a canvas for ASCII sampling. */}
         <img ref={imgRef} src={src} alt="" crossOrigin="anonymous" />
       </div>
     </div>

@@ -286,7 +286,6 @@ export default function CreativeClutter({
 
         {ITEM_IDS.map((id, i) => (
           <div className="cc-item" data-item={id} key={id}>
-            {/* biome-ignore lint/performance/noImgElement: transparent cutout prop, not a content image. */}
             <img src={images[i]} alt="" draggable={false} />
           </div>
         ))}

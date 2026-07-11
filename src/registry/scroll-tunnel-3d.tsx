@@ -218,7 +218,6 @@ export default function ScrollTunnel3D({
                 className="st3d-item"
                 style={{ left: `${item.x}px`, top: `${item.y}px` }}
               >
-                {/* biome-ignore lint/performance/noImgElement: the tunnel needs a raw cover image, not Next's layout-aware loader. */}
                 <img src={item.src} alt="" draggable={false} />
                 <div className="st3d-item-overlay" />
               </div>

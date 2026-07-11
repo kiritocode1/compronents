@@ -509,7 +509,6 @@ function ParallaxImage({
   });
 
   return (
-    // biome-ignore lint/performance/noImgElement: source template uses direct image elements.
     <img
       ref={imageRef}
       src={src}
@@ -1180,7 +1179,6 @@ function Reviews() {
             }`}
             onClick={() => handleReviewClick(index)}
           >
-            {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
             <img src={review.image} alt={`Review by ${review.author}`} />
           </button>
         ))}
@@ -1304,7 +1302,6 @@ function HomePage() {
       <div className="page home">
         <section className="hero">
           <div className="hero-img">
-            {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
             <img src={asset("home/hero.jpg")} alt="" />
           </div>
 
@@ -1370,7 +1367,6 @@ function HomePage() {
                 )} - ${String(workItems.length).padStart(2, "0")}`}</p>
                 <h3>{work.title}</h3>
                 <div className="work-item-img">
-                  {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
                   <img src={work.image} alt={work.title} />
                 </div>
                 <h4>{work.category}</h4>
@@ -1538,7 +1534,6 @@ function WorkPage() {
     <div className="page work">
       <div className="work-carousel">
         <div className="work-slider-img" ref={workSliderImgRef}>
-          {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
           <img src={activeProject.image} alt={activeProject.title} />
         </div>
 
@@ -1553,7 +1548,6 @@ function WorkPage() {
               }`}
               onClick={() => handleWorkItemClick(project)}
             >
-              {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
               <img src={project.image} alt={project.title} />
             </button>
           ))}
@@ -1698,7 +1692,6 @@ function AboutPage() {
 
         <section className="about-hero">
           <div className="about-hero-img">
-            {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
             <img src={asset("about/about-hero.jpg")} alt="" />
           </div>
         </section>
@@ -1728,7 +1721,6 @@ function AboutPage() {
         <section className="services">
           <div className="services-col">
             <div className="services-banner">
-              {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
               <img src={asset("about/services-banner.jpg")} alt="" />
             </div>
             <p className="primary">Crafted with Intention</p>
@@ -1770,7 +1762,6 @@ function AboutPage() {
 
         <section className="about-banner-img">
           <div className="about-banner-img-wrapper">
-            {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
             <img src={asset("about/about-banner.jpg")} alt="" />
           </div>
         </section>
@@ -1811,7 +1802,6 @@ function AboutPage() {
                     return (
                       <div className="fav-tool" key={title}>
                         <div className="fav-tool-img">
-                          {/* biome-ignore lint/performance/noImgElement: source template uses direct image elements. */}
                           <img
                             src={asset(`about/tool-${assetIndex}.jpg`)}
                             alt=""

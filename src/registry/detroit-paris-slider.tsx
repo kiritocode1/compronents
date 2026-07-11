@@ -199,7 +199,6 @@ export default function DetroitParisSlider({
             if (node) slideRefs.current[index] = node;
           }}
         >
-          {/* biome-ignore lint/performance/noImgElement: sources are swapped imperatively inside the animation loop. */}
           <img alt="" draggable={false} crossOrigin="anonymous" />
         </div>
       ))}

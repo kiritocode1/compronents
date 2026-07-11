@@ -233,7 +233,6 @@ export default function PortfolioPage({
                       >
                         <div className="pf-project-l">
                           <div className="pf-project-link-img">
-                            {/* biome-ignore lint/performance/noImgElement: hover-revealed raw thumbnail. */}
                             <img src={project.image} alt="" />
                           </div>
                           <div className="pf-project-name">
@@ -366,7 +365,6 @@ function ProjectView({
               transition: { duration: 1.75, ease: EASE },
             }}
           >
-            {/* biome-ignore lint/performance/noImgElement: raw image driven by Motion (scale) inside a clip-path reveal. */}
             <motion.img
               src={project.image}
               alt=""

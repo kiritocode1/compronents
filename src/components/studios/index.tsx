@@ -21,6 +21,7 @@ import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
+import LemonBureauPageStudio from "./lemon-bureau-page";
 import March2025TemplateStudio from "./march-2025-template";
 import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
@@ -31,7 +32,6 @@ import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SpiralGalleryStudio from "./spiral-gallery";
-import LemonBureauPageStudio from "./lemon-bureau-page";
 import WuWeiPageStudio from "./wu-wei-page";
 
 export type StudioComponent = ComponentType;

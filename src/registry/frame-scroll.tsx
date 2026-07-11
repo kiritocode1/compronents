@@ -64,7 +64,6 @@ export default function FrameScroll({
   const copyWords = copy.split(" ");
   const columns = [0, 1, 2, 3].map((c) => images.slice(c * 4, c * 4 + 4));
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: text props seed static DOM; the scroll machinery rebuilds only on layout / image / mode changes.
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const scroller = scrollerRef.current;
@@ -184,7 +183,6 @@ export default function FrameScroll({
         <div className="fs-content" ref={contentRef}>
           <section className="fs-hero" ref={heroRef}>
             <div className="fs-hero-img">
-              {/* biome-ignore lint/performance/noImgElement: full-bleed cover image shrunk to a tile on scroll. */}
               <img src={heroImage} alt="" />
             </div>
             <div className="fs-hero-header">
@@ -193,7 +191,6 @@ export default function FrameScroll({
             <div className="fs-hero-copy">
               <h3>
                 {copyWords.map((word, i) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: copy words can repeat, so position is part of the identity.
                   <span className="fs-word" key={`${word}-${i}`}>
                     {word}
                     {i < copyWords.length - 1 ? " " : ""}
@@ -212,7 +209,6 @@ export default function FrameScroll({
                 >
                   {col.map((src) => (
                     <div className="fs-img" key={src}>
-                      {/* biome-ignore lint/performance/noImgElement: raw cover thumbnail in a parallax column. */}
                       <img src={src} alt="" />
                     </div>
                   ))}

@@ -109,7 +109,6 @@ function AsciiRevealTile({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [revealed, setRevealed] = useState(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: `src` changes should restart sampling after the img element receives the new source.
   useEffect(() => {
     const img = imageRef.current;
     const canvas = canvasRef.current;
@@ -341,7 +340,6 @@ function AsciiRevealTile({
 
   return (
     <div className={revealed ? "air-tile air-revealed" : "air-tile"}>
-      {/* biome-ignore lint/performance/noImgElement: the image is sampled into canvas pixels before reveal. */}
       <img ref={imageRef} src={src} alt={alt} crossOrigin="anonymous" />
       <canvas ref={canvasRef} />
     </div>

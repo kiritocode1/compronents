@@ -196,7 +196,6 @@ export default function ScrollWaveGallery({
                 key={src}
                 style={{ aspectRatio: ASPECT_RATIOS[i % ASPECT_RATIOS.length] }}
               >
-                {/* biome-ignore lint/performance/noImgElement: raw cover image swayed and clipped on scroll. */}
                 <img src={src} alt="" draggable={false} />
               </div>
             ))}

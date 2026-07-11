@@ -81,7 +81,6 @@ export default function PreloaderReveal({
   const rootRef = useRef<HTMLDivElement>(null);
   const words = heading.split(" ");
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: readout/label copy seeds static DOM; the timeline rebuilds only on heading / mode changes.
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -252,7 +251,6 @@ export default function PreloaderReveal({
           {TOP_ROW.map((col) => (
             <div className="plr-pb-col" key={`top-${col[0]}`}>
               {col[0] === "logo" ? (
-                // biome-ignore lint/performance/noImgElement: small annotation mark, not a content image.
                 <img className="plr-pb-logo" src={logo} alt="" />
               ) : (
                 col.map((line) => <p key={line}>{line}</p>)
@@ -275,7 +273,6 @@ export default function PreloaderReveal({
         <div className="plr-revealer" />
         <h1>
           {words.map((word, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: headline words can repeat, so position is part of the identity.
             <span className="plr-word" key={`${word}-${i}`}>
               <span className="plr-word-inner">{word}</span>
               {i < words.length - 1 ? " " : ""}
@@ -324,7 +321,6 @@ export default function PreloaderReveal({
         </div>
 
         <div className="plr-btn">
-          {/* biome-ignore lint/performance/noImgElement: small mark fading out as the ring resolves. */}
           <img id="pbc-logo" className="plr-btn-logo" src={buttonLogo} alt="" />
           <p id="pbc-label">
             <span className="plr-line">

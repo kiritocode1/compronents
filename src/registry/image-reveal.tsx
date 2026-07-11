@@ -60,7 +60,6 @@ export default function ImageReveal({
   const spotlightRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: text props seed static DOM; the scroll machinery rebuilds only on layout / image / mode changes.
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const scroller = scrollerRef.current;
@@ -234,7 +233,6 @@ export default function ImageReveal({
           <section className="ir-spotlight" ref={spotlightRef}>
             {images.map((src) => (
               <div className="ir-img" key={src}>
-                {/* biome-ignore lint/performance/noImgElement: raw cover image stacked for clip-path reveal. */}
                 <img src={src} alt="" />
               </div>
             ))}

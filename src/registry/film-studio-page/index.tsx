@@ -21,7 +21,6 @@ import { useLenis } from "lenis/react";
 import {
   type CSSProperties,
   createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useEffect,

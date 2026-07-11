@@ -93,7 +93,6 @@ export default function InversaScroll({
   const heroContentRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: copy props seed static DOM; the scroll machinery rebuilds only on image / mode changes.
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const scroller = scrollerRef.current;
@@ -248,14 +247,12 @@ export default function InversaScroll({
         <div className="iv-content" ref={contentScrollRef}>
           <section className="iv-hero" ref={heroRef}>
             <div className="iv-hero-img" ref={heroImgRef}>
-              {/* biome-ignore lint/performance/noImgElement: raw image driven imperatively by ScrollTrigger. */}
               <img ref={heroImgElRef} src={heroImage} alt="" />
             </div>
 
             <div className="iv-hero-mask" ref={heroMaskRef} style={maskStyle} />
 
             <div className="iv-grid-overlay" ref={gridOverlayRef}>
-              {/* biome-ignore lint/performance/noImgElement: decorative SVG overlay. */}
               <img src={gridImage} alt="" />
             </div>
 

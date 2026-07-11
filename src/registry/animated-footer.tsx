@@ -118,7 +118,6 @@ export default function AnimatedFooter({
   const leftImgRef = useRef<HTMLImageElement>(null);
   const rightImgRef = useRef<HTMLImageElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: text/link props are read once at setup; re-splitting on every keystroke is undesirable.
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -490,7 +489,6 @@ export default function AnimatedFooter({
       <footer ref={footerRef}>
         <div className="footer-images">
           <div className="footer-hand-img">
-            {/* biome-ignore lint/performance/noImgElement: the raw element is needed to read pixels back off a canvas for the ASCII sampling. */}
             <img
               className="ascii-hand"
               src={leftImage}
@@ -501,7 +499,6 @@ export default function AnimatedFooter({
             <canvas />
           </div>
           <div className="footer-hand-img">
-            {/* biome-ignore lint/performance/noImgElement: the raw element is needed to read pixels back off a canvas for the ASCII sampling. */}
             <img
               className="ascii-hand"
               src={rightImage}
