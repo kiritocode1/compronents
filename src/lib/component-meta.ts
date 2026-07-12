@@ -4709,6 +4709,60 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "word-highlight-scroll": {
+    demoPath: "src/components/demos/word-highlight-scroll.tsx",
+    nuance: [
+      {
+        label: "Overlapping word timeline",
+        description:
+          "Each word's reveal window is offset by its index but stretched to overlap the next fifteen, so the highlight reads as a continuous sweep across the paragraph rather than fifteen discrete pops.",
+      },
+      {
+        label: "Chip-then-text handoff",
+        description:
+          "A word's grey chip reaches full opacity before the letters fade in through it, and the chip only clears in the final tenth of that word's progress, so the color always precedes the reading.",
+      },
+    ],
+    editable: [
+      {
+        name: "headlineHero / headlineCta / headlineOutro",
+        control: "text",
+        description: "The three bold color-card headlines.",
+      },
+      {
+        name: "aboutParagraphs / featuresParagraphs",
+        control: "text",
+        description: "The two pinned, word-revealed paragraph blocks.",
+      },
+      {
+        name: "keywords",
+        control: "text",
+        description: "Words that get a colored pill during the reveal.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "headlineHero / headlineCta / headlineOutro",
+        type: "string",
+        default: "BLANK editorial headlines",
+        description: "Color-card headlines between the paragraph sections.",
+      },
+      {
+        name: "aboutParagraphs / featuresParagraphs",
+        type: "[string, string]",
+        default: "BLANK studio copy",
+        description: "The two pinned word-reveal paragraph blocks.",
+      },
+      {
+        name: "keywords / embedded",
+        type: "string[] / boolean",
+        default: "Nine keywords / true",
+        description:
+          "Pill-highlighted words; embedded owns the scroll container.",
+      },
+    ],
+  },
   "split-reveal-preloader": {
     demoPath: "src/components/demos/split-reveal-preloader.tsx",
     nuance: [

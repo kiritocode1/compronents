@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "word-highlight-scroll",
+    title: "Word Highlight Scroll",
+    description:
+      "Pinned copy that reads itself in as you scroll. Each paragraph section pins while its words light up one after another: a grey chip fades in, the word resolves through it, and selected keywords carry a colored pill; past 70 percent the sweep reverses. Bold color-card headlines sit between the sections. GSAP ScrollTrigger with Lenis, no images.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/word-highlight-scroll.tsx",
+        target: "components/ui/word-highlight-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "split-reveal-preloader",
     title: "Split Reveal Preloader",
     description:

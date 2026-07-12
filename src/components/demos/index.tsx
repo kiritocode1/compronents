@@ -78,6 +78,7 @@ import VideoCardStackDemo from "./video-card-stack";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
+import WordHighlightScrollDemo from "./word-highlight-scroll";
 import WuWeiPageDemo from "./wu-wei-page";
 
 /**
@@ -137,6 +138,7 @@ export const demos: Record<string, ComponentType> = {
   "spotlight-index-scroll": SpotlightIndexScrollDemo,
   "expanding-navbar-reveal": ExpandingNavbarRevealDemo,
   "webgl-dissolve-scroll": WebglDissolveScrollDemo,
+  "word-highlight-scroll": WordHighlightScrollDemo,
   "landing-counter-reveal": LandingCounterRevealDemo,
   "block-reveal-text": BlockRevealTextDemo,
   "preloader-panel-reveal": PreloaderPanelRevealDemo,
