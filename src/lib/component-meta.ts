@@ -4709,6 +4709,62 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "filter-scrub-gallery": {
+    demoPath: "src/components/demos/filter-scrub-gallery.tsx",
+    nuance: [
+      {
+        label: "Pointer-mapped scrub",
+        description:
+          "Cursor x is converted to a percentage of the container and multiplied by the overflow, then eased toward with a 0.025 lerp, so the strip trails the pointer smoothly instead of snapping to it.",
+      },
+      {
+        label: "Width-grow filtering",
+        description:
+          "Matching cards animate from a 25px sliver to full width while the rest collapse to display none; the track is re-measured on completion so the scrub range always matches the visible set.",
+      },
+    ],
+    editable: [
+      {
+        name: "filters",
+        control: "text",
+        description: "Category labels and the item indices each one shows.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: "The pool of card images (index-aligned to the filters).",
+      },
+      {
+        name: "brand / navLinks",
+        control: "text",
+        description: "Wordmark and the center navigation links.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 50 }, (_, i) => `filter-scrub-gallery-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "filters",
+        type: "GalleryFilter[]",
+        default: "Six BLANK categories",
+        description:
+          "Each filter's label and the 1-based item indices it shows.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "Fifty BLANK-hosted images",
+        description: "Card image pool; item index maps to filter membership.",
+      },
+      {
+        name: "brand / navLinks",
+        type: "string / string[]",
+        default: "BLANK / Services, Work, Contact",
+        description: "Wordmark and center navigation links.",
+      },
+    ],
+  },
   "cross-reveal-scroll": {
     demoPath: "src/components/demos/cross-reveal-scroll.tsx",
     nuance: [

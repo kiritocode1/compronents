@@ -57,6 +57,20 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const filterScrubGalleryAssets = Array.from({ length: 50 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `filter-scrub-gallery-img-${n}`,
+    label: `Filter Scrub Gallery image ${n}`,
+    provider: "vercel-blob",
+    pathname: `filter-scrub-gallery/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/filter-scrub-gallery/img${n}.jpg`,
+    role: "Project card image in the mouse-scrubbed, category-filtered strip.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const scrollTunnel3dAssets = Array.from({ length: 12 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1096,6 +1110,7 @@ export const assetItems = [
   ...asciiImageRevealAssets,
   ...detroitParisSliderAssets,
   ...scrollTunnel3dAssets,
+  ...filterScrubGalleryAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

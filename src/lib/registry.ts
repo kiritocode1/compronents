@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "filter-scrub-gallery",
+    title: "Filter Scrub Gallery",
+    description:
+      "A horizontal wall of image cards panned by pointer position with a lerped offset, plus a column of category filters that expand matching cards from a sliver to full width with a custom hop ease and collapse the rest, re-measuring the scrub range each time. GSAP with CustomEase, no other dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/filter-scrub-gallery.tsx",
+        target: "components/ui/filter-scrub-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "cross-reveal-scroll",
     title: "Cross Reveal Scroll",
     description:
