@@ -1245,6 +1245,36 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const velascoSolariPageAssetPaths = [
+  "project-images/01.jpg",
+  "project-images/02.jpg",
+  "project-images/03.jpg",
+  "project-images/04.jpg",
+  "project-images/05.jpg",
+  "project-images/06.jpg",
+  "project-images/07.jpg",
+  "project-images/08.jpg",
+  "fonts/TestFoundersGrotesk-Light.otf",
+  "fonts/TestFoundersGrotesk-Regular.otf",
+  "fonts/TestFoundersGrotesk-Medium.otf",
+  "fonts/TestFoundersGrotesk-Semibold.otf",
+  "fonts/TestFoundersGrotesk-Bold.otf",
+] as const;
+
+const velascoSolariPageAssets = velascoSolariPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `velasco-solari-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Velasco Solari Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `velasco-solari-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/velasco-solari-page/${rel}`,
+      role: "Velasco Solari source template project image or Founders Grotesk font.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the velasco-solari-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const lemonBureauPageAssetPaths = [
   "clients/client-logo-1.svg",
   "clients/client-logo-2.svg",
@@ -1359,6 +1389,7 @@ export const assetItems = [
   ...damienTsarantosPageAssets,
   ...wuWeiPageAssets,
   ...otisValenPageAssets,
+  ...velascoSolariPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "velasco-solari-page",
+    title: "Velasco Solari Page",
+    description:
+      "A source-backed Velasco Solari director portfolio template. It ships the routed home reel, work grid, overview table, Mustang film page, info, and sample project pages behind a lightweight internal router, with the original fixed nav, hover blur-and-slide work grid, focus-dimming overview table, Vimeo background reels, and Blob-hosted Founders Grotesk fonts and project images.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/velasco-solari-page/index.tsx",
+        target: "components/ui/velasco-solari-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/velasco-solari-page/styles.ts",
+        target: "components/ui/velasco-solari-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "curtain-reveal-hero",
     title: "Curtain Reveal Hero",
     description:

@@ -368,6 +368,7 @@ const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
 const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
+const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -783,6 +784,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "velasco-solari-page": {
+    demoPath: "src/components/demos/velasco-solari-page.tsx",
+    studioPath: "src/components/studios/velasco-solari-page.tsx",
+    nuance: [
+      {
+        label: "Full routed portfolio port",
+        description:
+          "The component ships the Velasco Solari home reel, work grid, overview table, Mustang film page, info, and sample project layouts behind a local router, so the whole director portfolio installs as one page template.",
+      },
+      {
+        label: "Source interactions preserved",
+        description:
+          "The hover blur and slide on the work grid, the focus-dim on the overview table rows, the fixed nav, and the scaled background reels are recreated 1:1 from the source CSS.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "The five Founders Grotesk weights and all eight project images resolve through the stable asset base; the reels stream from Vimeo as native background players.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /work, /overview, /mustang, /info, or /sample-project.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "velasco-solari-page/project-images/01.jpg",
+        )}.`,
+      },
+    ],
+    assets: velascoSolariPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/velasco-solari-page"',
+        description:
+          "Base URL prefixed to every image and font the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/overview" | "/mustang" | "/info" | "/sample-project"',
         default: '"/"',
         description: "Source route mounted first.",
       },
