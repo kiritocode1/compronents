@@ -370,6 +370,7 @@ const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 const sorenPageAssetDocs = pageAssets("soren-page-", 5);
+const neotericPageAssetDocs = pageAssets("neoteric-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -785,6 +786,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "neoteric-page": {
+    demoPath: "src/components/demos/neoteric-page.tsx",
+    studioPath: "src/components/studios/neoteric-page.tsx",
+    nuance: [
+      {
+        label: "Full routed agency site port",
+        description:
+          "The component ships the Neoteric home, work, studio, thinking, feed, contact, and sample project pages behind a local router, so the whole agency site installs as one page template.",
+      },
+      {
+        label: "Source motion preserved",
+        description:
+          "The framer-motion slide-in/slide-out page transition, the dark nav and footer on the thinking route, and a self-contained masonry grid (replacing react-masonry-css) recreate the source.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "All 11 project images and 2 team portraits resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /work, /studio, /thinking, /feed, /contact, or /work/sample-project.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "neoteric-page/project-images/img1.jpg",
+        )}.`,
+      },
+    ],
+    assets: neotericPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/neoteric-page"',
+        description:
+          "Base URL prefixed to every image the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/studio" | "/thinking" | "/feed" | "/contact" | "/work/sample-project"',
         default: '"/"',
         description: "Source route mounted first.",
       },

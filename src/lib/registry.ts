@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "neoteric-page",
+    title: "Neoteric Page",
+    description:
+      "A source-backed Neoteric Studio agency template. It ships the routed home, work, studio, dark thinking, feed, contact, and sample project pages behind a lightweight internal router, with a framer-motion slide-in/slide-out page transition, dark nav and footer on the thinking route, a self-contained masonry grid, and Blob-hosted imagery.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["framer-motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/neoteric-page/index.tsx",
+        target: "components/ui/neoteric-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/neoteric-page/styles.ts",
+        target: "components/ui/neoteric-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "soren-page",
     title: "Soren Page",
     description:

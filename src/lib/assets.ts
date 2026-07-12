@@ -1245,6 +1245,26 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const neotericPageAssetPaths = [
+  ...Array.from({ length: 11 }, (_, i) => `project-images/img${i + 1}.jpg`),
+  "team/team1.jpg",
+  "team/team2.jpg",
+] as readonly string[];
+
+const neotericPageAssets = neotericPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `neoteric-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Neoteric Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `neoteric-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/neoteric-page/${rel}`,
+      role: "Neoteric source template project or team image.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the neoteric-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const sorenPageAssetPaths = Array.from(
   { length: 22 },
   (_, i) => `work/work-${i + 1}.jpg`,
@@ -1410,6 +1430,7 @@ export const assetItems = [
   ...otisValenPageAssets,
   ...velascoSolariPageAssets,
   ...sorenPageAssets,
+  ...neotericPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

@@ -32,6 +32,7 @@ import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SpiralGalleryStudio from "./spiral-gallery";
+import NeotericPageStudio from "./neoteric-page";
 import SorenPageStudio from "./soren-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
 import WuWeiPageStudio from "./wu-wei-page";
@@ -75,6 +76,7 @@ export const studios: Record<string, StudioComponent> = {
   "march-2025-template": March2025TemplateStudio,
   "wu-wei-page": WuWeiPageStudio,
   "lemon-bureau-page": LemonBureauPageStudio,
+  "neoteric-page": NeotericPageStudio,
   "soren-page": SorenPageStudio,
   "velasco-solari-page": VelascoSolariPageStudio,
 };
