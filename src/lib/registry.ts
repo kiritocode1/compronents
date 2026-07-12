@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "split-reveal-preloader",
+    title: "Split Reveal Preloader",
+    description:
+      "A one-shot intro where a studio name and numeral settle, the first letter drifts up into a compact logo mark, floating tags fade through, then the screen splits along its middle: the top lifts, the bottom drops, and a thin seam widens into the hero with a centered card whose title rolls up. GSAP timeline with SplitText and CustomEase.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/split-reveal-preloader.tsx",
+        target: "components/ui/split-reveal-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "cursor-image-trail",
     title: "Cursor Image Trail",
     description:

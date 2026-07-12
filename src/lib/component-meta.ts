@@ -4709,6 +4709,59 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "split-reveal-preloader": {
+    demoPath: "src/components/demos/split-reveal-preloader.tsx",
+    nuance: [
+      {
+        label: "First-letter logo morph",
+        description:
+          "The opening letter of the studio name is tracked separately, sliding up and scaling to 0.75 with a heavier weight so the wordmark collapses into the compact N10-style mark instead of just fading between two logos.",
+      },
+      {
+        label: "Mirrored split halves",
+        description:
+          "A duplicate overlay is pre-set to the finished logo state and clipped to the bottom half; when the seam parts, the top preloader lifts and this bottom copy drops, so the split looks like one surface tearing rather than two layers.",
+      },
+    ],
+    editable: [
+      {
+        name: "studio / numeral / logo / cardWord",
+        control: "text",
+        description: "Intro name, numeral, compact logo, and hero card word.",
+      },
+      {
+        name: "tags",
+        control: "text",
+        description: "The three floating tags shown during the intro.",
+      },
+      {
+        name: "heroImage",
+        control: "asset-url",
+        description: "Hero backdrop revealed behind the split.",
+      },
+    ],
+    assets: assetsByIds(["split-reveal-preloader-hero"]),
+    api: [
+      {
+        name: "studio / numeral / logo / cardWord",
+        type: "string",
+        default: "Nullspace Studio / 10 / N10 / Nullspace",
+        description: "Intro name, numeral, compact logo, and hero card word.",
+      },
+      {
+        name: "tags / heroImage",
+        type: "[string, string, string] / string",
+        default: "BLANK tags and hero",
+        description: "Floating intro tags and the revealed hero backdrop.",
+      },
+      {
+        name: "menuLabel / footerLeft / footerRight",
+        type: "string",
+        default: "Menu / Scroll Down / Made by BLANK",
+        description: "Hero nav and footer copy.",
+      },
+    ],
+  },
   "cursor-image-trail": {
     demoPath: "src/components/demos/cursor-image-trail.tsx",
     nuance: [

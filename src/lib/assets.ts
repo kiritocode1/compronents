@@ -57,6 +57,19 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const splitRevealPreloaderAssets = [
+  {
+    id: "split-reveal-preloader-hero",
+    label: "Split Reveal Preloader hero",
+    provider: "vercel-blob",
+    pathname: "split-reveal-preloader/hero-img.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/split-reveal-preloader/hero-img.jpg`,
+    role: "Hero backdrop revealed as the split preloader opens.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+];
+
 const cursorImageTrailAssets = [
   {
     id: "cursor-image-trail-hero",
@@ -1197,6 +1210,7 @@ export const assetItems = [
   ...curvedPlaneSliderAssets,
   ...minimapScrubberAssets,
   ...cursorImageTrailAssets,
+  ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

@@ -68,6 +68,7 @@ import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
+import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
@@ -125,6 +126,7 @@ export const demos: Record<string, ComponentType> = {
   "minimap-scrubber": MinimapScrubberDemo,
   "scroll-scrub-slider": ScrollScrubSliderDemo,
   "split-card-scroll": SplitCardScrollDemo,
+  "split-reveal-preloader": SplitRevealPreloaderDemo,
   "hour-timeline-slider": HourTimelineSliderDemo,
   "drag-timeline-scroll": DragTimelineScrollDemo,
   "expanding-rows-gallery": ExpandingRowsGalleryDemo,
