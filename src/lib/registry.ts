@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "scroll-flip-cards",
+    title: "Scroll Flip Cards",
+    description:
+      "A process section choreographed entirely by scroll. Three hero cards fan apart and drop away, then a pinned services panel draws the heading up from below while the same cards fly in from underneath, scale up, gather to center, and flip a half turn to reveal their service lists. Below 1000px it falls back to a static stacked layout. GSAP ScrollTrigger with Lenis, no images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-flip-cards.tsx",
+        target: "components/ui/scroll-flip-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "word-highlight-scroll",
     title: "Word Highlight Scroll",
     description:

@@ -62,6 +62,7 @@ import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
+import ScrollFlipCardsDemo from "./scroll-flip-cards";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
@@ -119,6 +120,7 @@ export const demos: Record<string, ComponentType> = {
   "svg-stroke-hover": SvgStrokeHoverDemo,
   "terminal-text-reveal": TerminalTextRevealDemo,
   "orbit-text-preloader": OrbitTextPreloaderDemo,
+  "scroll-flip-cards": ScrollFlipCardsDemo,
   "scroll-text-blocks": ScrollTextBlocksDemo,
   "video-card-stack": VideoCardStackDemo,
   "client-hover-preview": ClientHoverPreviewDemo,

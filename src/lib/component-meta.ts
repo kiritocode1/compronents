@@ -4709,6 +4709,61 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "scroll-flip-cards": {
+    demoPath: "src/components/demos/scroll-flip-cards.tsx",
+    nuance: [
+      {
+        label: "Staggered card timelines",
+        description:
+          "Each card reads the same pinned scroll progress but offsets its start by index, so the three fly in, gather, and flip in a rolling sequence instead of moving as one block.",
+      },
+      {
+        label: "Phased flight and flip",
+        description:
+          "A single card progress value is sliced into phases: rise and scale up to 60 percent, then translate to center while the inner face rotates the final 180 degrees, so motion and flip never fight for the same frames.",
+      },
+    ],
+    editable: [
+      {
+        name: "services",
+        control: "text",
+        description: "The three card names, numbers, and their service lists.",
+      },
+      {
+        name: "aboutHeading / servicesHeading / outroHeading",
+        control: "text",
+        description: "The three section headings.",
+      },
+      {
+        name: "logo / menuLabel",
+        control: "text",
+        description: "Fixed nav wordmark and menu label.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "services",
+        type: "[FlipCardService, FlipCardService, FlipCardService]",
+        default: "Plan / Design / Develop",
+        description:
+          "Card name, number, and service list for each of the three.",
+      },
+      {
+        name: "aboutHeading / servicesHeading / outroHeading / logo / menuLabel",
+        type: "string",
+        default: "BLANK copy",
+        description: "Section headings and nav labels.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "word-highlight-scroll": {
     demoPath: "src/components/demos/word-highlight-scroll.tsx",
     nuance: [
