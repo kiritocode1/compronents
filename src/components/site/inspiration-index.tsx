@@ -46,11 +46,11 @@ export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
       <div className="mt-12 space-y-14">
         {visible.map((group) => (
           <section key={group.title}>
-            <div className="flex items-baseline justify-between gap-4 border-b pb-3">
-              <h2 className="text-sm font-medium text-foreground">
+            <div className="flex items-baseline justify-between gap-4 border-b border-blue-500/25 pb-3">
+              <h2 className="text-sm font-medium tracking-wide text-blue-600 dark:text-blue-400">
                 {group.title}
               </h2>
-              <span className="tabular-nums text-xs text-faint">
+              <span className="tabular-nums text-xs text-blue-500/70">
                 {group.links.length}
               </span>
             </div>
