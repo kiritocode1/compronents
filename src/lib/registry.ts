@@ -1803,6 +1803,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "shader-grid-gallery",
+    title: "Shader Grid Gallery",
+    description:
+      "An infinite, draggable grid of framed images rendered entirely in one fragment shader. A single full-screen plane tiles the projects into cells with borders, captions, and a lens-warped vignette; dragging pans the field with inertia and eases in a slight zoom, the cell under the pointer lifts, and a click that does not drag selects that project. Three.js with on-the-fly image and text atlases.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shader-grid-gallery.tsx",
+        target: "components/ui/shader-grid-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "minimap-scrubber",
     title: "Minimap Scrubber",
     description:

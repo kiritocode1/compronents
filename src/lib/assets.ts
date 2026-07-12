@@ -70,6 +70,20 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const shaderGridGalleryAssets = Array.from({ length: 25 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `shader-grid-gallery-img-${n}`,
+    label: `Shader Grid Gallery image ${n}`,
+    provider: "vercel-blob",
+    pathname: `shader-grid-gallery/img${n}.jpeg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/shader-grid-gallery/img${n}.jpeg`,
+    role: "Project still packed into the image atlas and tiled across the shader grid.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const cursorImageTrailAssets = [
   {
     id: "cursor-image-trail-hero",
@@ -1210,6 +1224,7 @@ export const assetItems = [
   ...curvedPlaneSliderAssets,
   ...minimapScrubberAssets,
   ...cursorImageTrailAssets,
+  ...shaderGridGalleryAssets,
   ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {

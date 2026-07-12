@@ -4869,6 +4869,52 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "shader-grid-gallery": {
+    demoPath: "src/components/demos/shader-grid-gallery.tsx",
+    nuance: [
+      {
+        label: "Everything in one draw",
+        description:
+          "The whole gallery is a single plane and one fragment shader: cells, borders, images, and captions are all resolved per pixel from two atlases, so panning an infinite field costs one draw call rather than one mesh per tile.",
+      },
+      {
+        label: "Barrel-warped picking",
+        description:
+          "The same lens distortion applied in the shader is reproduced in JavaScript on click, so the cell you select matches the warped tile you actually see under the pointer instead of a flat projection.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Title, year, image, and optional link for each cell.",
+      },
+      {
+        name: "onSelect",
+        control: "text",
+        description:
+          "Callback fired with the project of a clicked (non-dragged) cell.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 25 }, (_, i) => `shader-grid-gallery-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "projects",
+        type: "ShaderGridProject[]",
+        default: "Twenty-five BLANK projects",
+        description:
+          "Title, year, image, and optional href tiled across the grid.",
+      },
+      {
+        name: "onSelect",
+        type: "(project) => void",
+        default: "undefined",
+        description: "Called when a cell is clicked without dragging.",
+      },
+    ],
+  },
   "minimap-scrubber": {
     demoPath: "src/components/demos/minimap-scrubber.tsx",
     nuance: [
