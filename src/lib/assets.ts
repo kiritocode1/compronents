@@ -57,6 +57,32 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const cursorImageTrailAssets = [
+  {
+    id: "cursor-image-trail-hero",
+    label: "Cursor Image Trail hero",
+    provider: "vercel-blob",
+    pathname: "cursor-image-trail/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cursor-image-trail/hero.jpg`,
+    role: "Dimmed hero backdrop behind the pointer image trail.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 20 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `cursor-image-trail-img-${n}`,
+      label: `Cursor Image Trail image ${n}`,
+      provider: "vercel-blob",
+      pathname: `cursor-image-trail/img${n}.jpeg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cursor-image-trail/img${n}.jpeg`,
+      role: "Frame dropped into the pointer trail and revealed by the mask layers.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
 const minimapScrubberAssets = Array.from({ length: 15 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1170,6 +1196,7 @@ export const assetItems = [
   ...rotatingHandScrollAssets,
   ...curvedPlaneSliderAssets,
   ...minimapScrubberAssets,
+  ...cursorImageTrailAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

@@ -4709,6 +4709,59 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "cursor-image-trail": {
+    demoPath: "src/components/demos/cursor-image-trail.tsx",
+    nuance: [
+      {
+        label: "Center-out mask reveal",
+        description:
+          "Each dropped frame is split into ten horizontal bands whose clip-paths open from a center seam outward, staggered by distance from the middle, so the image unzips rather than simply fading in.",
+      },
+      {
+        label: "Distance-gated spawns",
+        description:
+          "A new frame only appears once the pointer has moved past a 150px threshold from the last drop, so the trail spaces itself by speed instead of flooding on every mouse event.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "The pool of frames cycled through the trail.",
+      },
+      {
+        name: "heroImage",
+        control: "asset-url",
+        description: "Dimmed backdrop behind the trail.",
+      },
+      {
+        name: "captionTop / captionBottom",
+        control: "text",
+        description: "The two centered hero captions.",
+      },
+    ],
+    assets: assetsByIds([
+      "cursor-image-trail-hero",
+      ...Array.from(
+        { length: 20 },
+        (_, i) => `cursor-image-trail-img-${i + 1}`,
+      ),
+    ]),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "Twenty BLANK-hosted frames",
+        description: "Frames cycled into the pointer trail.",
+      },
+      {
+        name: "heroImage / captionTop / captionBottom",
+        type: "string / string / string",
+        default: "BLANK-hosted backdrop and captions",
+        description: "Dimmed backdrop and the two centered captions.",
+      },
+    ],
+  },
   "minimap-scrubber": {
     demoPath: "src/components/demos/minimap-scrubber.tsx",
     nuance: [

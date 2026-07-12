@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "cursor-image-trail",
+    title: "Cursor Image Trail",
+    description:
+      "A hero that spawns a trail of images behind a fast pointer. Once the cursor travels far enough inside the frame, an image is dropped at the interpolated position and slides to the live one, revealed by ten horizontal mask layers that clip open from the center out, then collapse and fade as each image ages out. Desktop only, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cursor-image-trail.tsx",
+        target: "components/ui/cursor-image-trail.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "minimap-scrubber",
     title: "Minimap Scrubber",
     description:
