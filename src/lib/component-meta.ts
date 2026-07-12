@@ -5713,14 +5713,14 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description: "Name and still for each entry in the telescope column.",
       },
       {
+        name: "items[].img",
+        control: "asset-url",
+        description: "Backdrop still and arcing thumbnail per entry.",
+      },
+      {
         name: "intro / outro / introWords / headerLabel",
         control: "text",
         description: "Opening line, closing line, split words, and side label.",
-      },
-      {
-        name: "items",
-        control: "asset-url",
-        description: "Backdrop still and arcing thumbnail per entry.",
       },
     ],
     assets: assetsByIds(
@@ -5768,14 +5768,14 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description: "Index, title, image, and description per card.",
       },
       {
+        name: "cards[].image",
+        control: "asset-url",
+        description: "Feature image inside each card.",
+      },
+      {
         name: "intro / outro / captionLabel",
         control: "text",
         description: "Opening panel, closing panel, and the small caption.",
-      },
-      {
-        name: "cards",
-        control: "asset-url",
-        description: "Feature image inside each card.",
       },
     ],
     assets: assetsByIds(
