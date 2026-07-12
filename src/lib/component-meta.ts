@@ -4709,6 +4709,50 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "minimap-scrubber": {
+    demoPath: "src/components/demos/minimap-scrubber.tsx",
+    nuance: [
+      {
+        label: "Overlap-based selection",
+        description:
+          "Active state is decided by measuring which thumbnail overlaps the fixed indicator window the most, so the selection is precise even mid-glide rather than snapped to discrete steps.",
+      },
+      {
+        label: "Two lerp speeds",
+        description:
+          "Wheel and drag settle with a 0.075 lerp for responsiveness, while clicking a thumbnail uses a slower 0.05 lerp so the programmatic ease into the indicator reads as deliberate.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "Thumbnail filmstrip and the frames shown in the preview.",
+      },
+      {
+        name: "brand / code / label",
+        control: "text",
+        description: "Nav wordmark and the two site-info lines.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 15 }, (_, i) => `minimap-scrubber-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "Fifteen BLANK-hosted frames",
+        description: "Filmstrip thumbnails; the active one fills the preview.",
+      },
+      {
+        name: "brand / code / label",
+        type: "string / string / string",
+        default: "BLANK / E427 / Responsive Minimap",
+        description: "Nav wordmark and the two site-info lines.",
+      },
+    ],
+  },
   "curved-plane-slider": {
     demoPath: "src/components/demos/curved-plane-slider.tsx",
     nuance: [

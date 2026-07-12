@@ -49,6 +49,7 @@ import March2025TemplateDemo from "./march-2025-template";
 import MaskRevealPreloaderDemo from "./mask-reveal-preloader";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
+import MinimapScrubberDemo from "./minimap-scrubber";
 import ModelMenu3DDemo from "./model-menu-3d";
 import MosaicFlipDemo from "./mosaic-flip";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
@@ -120,6 +121,7 @@ export const demos: Record<string, ComponentType> = {
   "folding-panel-menu": FoldingPanelMenuDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,
   "minimap-parallax-scroll": MinimapParallaxScrollDemo,
+  "minimap-scrubber": MinimapScrubberDemo,
   "scroll-scrub-slider": ScrollScrubSliderDemo,
   "split-card-scroll": SplitCardScrollDemo,
   "hour-timeline-slider": HourTimelineSliderDemo,

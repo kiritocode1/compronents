@@ -57,6 +57,20 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const minimapScrubberAssets = Array.from({ length: 15 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `minimap-scrubber-img-${n}`,
+    label: `Minimap Scrubber image ${n}`,
+    provider: "vercel-blob",
+    pathname: `minimap-scrubber/img${n}.jpeg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/minimap-scrubber/img${n}.jpeg`,
+    role: "Thumbnail in the filmstrip and the full frame shown in the preview.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const curvedPlaneSliderAssets = Array.from({ length: 7 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1155,6 +1169,7 @@ export const assetItems = [
   ...catalogSwapGalleryAssets,
   ...rotatingHandScrollAssets,
   ...curvedPlaneSliderAssets,
+  ...minimapScrubberAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

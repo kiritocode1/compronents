@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "minimap-scrubber",
+    title: "Minimap Scrubber",
+    description:
+      "A filmstrip navigator with a fixed selector window. A column of thumbnails glides under a bordered indicator as you wheel or drag; whichever overlaps the indicator most dims to mark itself active and swaps the large centered preview, and clicking a thumbnail eases it into the indicator. Turns horizontal on narrow screens. Lerped, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/minimap-scrubber.tsx",
+        target: "components/ui/minimap-scrubber.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "curved-plane-slider",
     title: "Curved Plane Slider",
     description:
