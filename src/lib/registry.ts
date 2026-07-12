@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "unusual-studio-page",
+    title: "Unusual Studio Page",
+    description:
+      "A source-backed Unusual Designs creative-studio template. It ships the routed home, portfolio, about (with native sticky panels), careers (Lottie), contact, and sample project pages behind a lightweight internal router, with a framer-motion slide page transition, a CSS marquee, the official Lottie web-component player, and Blob-hosted Neue Montreal fonts and images. Locomotive-scroll is dropped for native container scroll.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["framer-motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/unusual-studio-page/index.tsx",
+        target: "components/ui/unusual-studio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/unusual-studio-page/styles.ts",
+        target: "components/ui/unusual-studio-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "neoteric-page",
     title: "Neoteric Page",
     description:

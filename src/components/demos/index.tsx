@@ -91,6 +91,7 @@ import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
 import NeotericPageDemo from "./neoteric-page";
 import SorenPageDemo from "./soren-page";
+import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import WuWeiPageDemo from "./wu-wei-page";
 
@@ -190,6 +191,7 @@ export const demos: Record<string, ComponentType> = {
   "march-2025-template": March2025TemplateDemo,
   "neoteric-page": NeotericPageDemo,
   "soren-page": SorenPageDemo,
+  "unusual-studio-page": UnusualStudioPageDemo,
   "velasco-solari-page": VelascoSolariPageDemo,
   "wu-wei-page": WuWeiPageDemo,
   "lemon-bureau-page": LemonBureauPageDemo,

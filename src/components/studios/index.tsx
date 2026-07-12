@@ -34,6 +34,7 @@ import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SpiralGalleryStudio from "./spiral-gallery";
 import NeotericPageStudio from "./neoteric-page";
 import SorenPageStudio from "./soren-page";
+import UnusualStudioPageStudio from "./unusual-studio-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
 import WuWeiPageStudio from "./wu-wei-page";
 
@@ -78,5 +79,6 @@ export const studios: Record<string, StudioComponent> = {
   "lemon-bureau-page": LemonBureauPageStudio,
   "neoteric-page": NeotericPageStudio,
   "soren-page": SorenPageStudio,
+  "unusual-studio-page": UnusualStudioPageStudio,
   "velasco-solari-page": VelascoSolariPageStudio,
 };

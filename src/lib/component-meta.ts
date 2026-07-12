@@ -371,6 +371,7 @@ const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 const sorenPageAssetDocs = pageAssets("soren-page-", 5);
 const neotericPageAssetDocs = pageAssets("neoteric-page-", 5);
+const unusualStudioPageAssetDocs = pageAssets("unusual-studio-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -786,6 +787,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "unusual-studio-page": {
+    demoPath: "src/components/demos/unusual-studio-page.tsx",
+    studioPath: "src/components/studios/unusual-studio-page.tsx",
+    nuance: [
+      {
+        label: "Full routed studio site port",
+        description:
+          "The component ships the Unusual Designs home, portfolio, about, careers, contact, and sample project pages behind a local router, so the whole studio site installs as one page template.",
+      },
+      {
+        label: "Source motion, no heavy deps",
+        description:
+          "framer-motion drives the slide page transition, a CSS marquee replaces react-fast-marquee, the about page keeps its native sticky panels, and the careers Lottie loads through the official web-component player; locomotive-scroll is dropped for native scroll.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "All twelve source images, the four Neue Montreal weights, and the careers Lottie resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /projects, /about, /careers, /contact, or /sample-project-page.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "unusual-studio-page/images/banner-img.jpg",
+        )}.`,
+      },
+    ],
+    assets: unusualStudioPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/unusual-studio-page"',
+        description:
+          "Base URL prefixed to every image, font, and the Lottie the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/projects" | "/about" | "/careers" | "/contact" | "/sample-project-page"',
         default: '"/"',
         description: "Source route mounted first.",
       },

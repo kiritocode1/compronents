@@ -1245,6 +1245,40 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const unusualStudioPageAssetPaths = [
+  "images/about-feature.jpg",
+  "images/about-hero.jpg",
+  "images/about-office.jpg",
+  "images/article-img.jpg",
+  "images/banner-img.jpg",
+  "images/hero-img.jpg",
+  "images/project-img-1.jpg",
+  "images/project-img-2.jpg",
+  "images/project-img-3.jpg",
+  "images/project-img-4.jpg",
+  "images/project-img.jpg",
+  "images/project-page-img-2.jpg",
+  "fonts/NeueMontreal-Light.otf",
+  "fonts/NeueMontreal-Regular.otf",
+  "fonts/NeueMontreal-Medium.otf",
+  "fonts/NeueMontreal-Bold.otf",
+  "careers-lottie.json",
+] as readonly string[];
+
+const unusualStudioPageAssets = unusualStudioPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `unusual-studio-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Unusual Studio Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `unusual-studio-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/unusual-studio-page/${rel}`,
+      role: "Unusual Studio source template image, Neue Montreal font, or Lottie animation.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the unusual-studio-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const neotericPageAssetPaths = [
   ...Array.from({ length: 11 }, (_, i) => `project-images/img${i + 1}.jpg`),
   "team/team1.jpg",
@@ -1431,6 +1465,7 @@ export const assetItems = [
   ...velascoSolariPageAssets,
   ...sorenPageAssets,
   ...neotericPageAssets,
+  ...unusualStudioPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
