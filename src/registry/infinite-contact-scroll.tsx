@@ -238,6 +238,7 @@ const styles = `
   position: relative;
   width: 8rem;
   height: 8rem;
+  transform: translateY(-6.6rem);
 }
 
 .ics-info {
@@ -278,6 +279,7 @@ const styles = `
   .ics-icon {
     width: 4rem;
     height: 4rem;
+    transform: translateY(-0.5rem);
   }
 }
 `;
