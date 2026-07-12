@@ -10,6 +10,7 @@ import AsciiLogoDemo from "./ascii-logo";
 import AwardListDemo from "./award-list";
 import BlockRevealTextDemo from "./block-reveal-text";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
+import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ClientHoverPreviewDemo from "./client-hover-preview";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
 import CorridorScene3DDemo from "./corridor-scene-3d";
@@ -140,6 +141,7 @@ export const demos: Record<string, ComponentType> = {
   "inversion-lens-hover": InversionLensHoverDemo,
   "counter-star-loader": CounterStarLoaderDemo,
   "corridor-scene-3d": CorridorScene3DDemo,
+  "catalog-swap-gallery": CatalogSwapGalleryDemo,
   "cross-reveal-scroll": CrossRevealScrollDemo,
   "cursor-trail-scroll": CursorTrailScrollDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,

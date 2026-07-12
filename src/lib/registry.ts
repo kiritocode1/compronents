@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "catalog-swap-gallery",
+    title: "Catalog Swap Gallery",
+    description:
+      "A documentary catalog with a scrolling thumbnail rail. Picking a thumbnail throws the current project out (title, line-split synopsis and credits lift and clip away while the featured still scales down and drops) then builds the next one in from below over a blurred backdrop that cross-fades to the new frame. GSAP with SplitText.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/catalog-swap-gallery.tsx",
+        target: "components/ui/catalog-swap-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "filter-scrub-gallery",
     title: "Filter Scrub Gallery",
     description:

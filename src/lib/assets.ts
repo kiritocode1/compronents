@@ -57,6 +57,20 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const catalogSwapGalleryAssets = Array.from({ length: 15 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `catalog-swap-gallery-img-${n}`,
+    label: `Catalog Swap Gallery image ${n}`,
+    provider: "vercel-blob",
+    pathname: `catalog-swap-gallery/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/catalog-swap-gallery/img${n}.jpg`,
+    role: "Documentary still used as a thumbnail, featured image, and blurred backdrop.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const filterScrubGalleryAssets = Array.from({ length: 50 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1111,6 +1125,7 @@ export const assetItems = [
   ...detroitParisSliderAssets,
   ...scrollTunnel3dAssets,
   ...filterScrubGalleryAssets,
+  ...catalogSwapGalleryAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

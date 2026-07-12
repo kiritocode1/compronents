@@ -4709,6 +4709,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "catalog-swap-gallery": {
+    demoPath: "src/components/demos/catalog-swap-gallery.tsx",
+    nuance: [
+      {
+        label: "Rebuilt detail block",
+        description:
+          "Each swap fully removes the old detail column and image, then constructs the next one and re-splits its synopsis into lines, so the exit and entrance never share DOM and can overlap cleanly.",
+      },
+      {
+        label: "Layered cross-fade backdrop",
+        description:
+          "A fresh blurred still is inserted behind the current one and fades in on a half-second delay while the old fades out, keeping a full-bleed color wash under the frosted glass at all times.",
+      },
+    ],
+    editable: [
+      {
+        name: "items",
+        control: "text",
+        description:
+          "Title, synopsis, director, and cinematographer per entry.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: "Still for each catalog entry (thumbnail and feature).",
+      },
+      {
+        name: "brand / navLinks / intro",
+        control: "text",
+        description: "Studio wordmark, navigation, and the standing blurb.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 15 }, (_, i) => `catalog-swap-gallery-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "items",
+        type: "CatalogItem[]",
+        default: "Fifteen BLANK documentary entries",
+        description:
+          "Title, synopsis, director, and cinematographer per entry.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "Fifteen BLANK-hosted stills",
+        description: "Still for each entry; index-aligned to items.",
+      },
+      {
+        name: "brand / navLinks / intro",
+        type: "string / string[] / string",
+        default: "BLANK / Home, Work, Contact / standing blurb",
+        description:
+          "Studio wordmark, navigation links, and the left-column copy.",
+      },
+    ],
+  },
   "filter-scrub-gallery": {
     demoPath: "src/components/demos/filter-scrub-gallery.tsx",
     nuance: [
