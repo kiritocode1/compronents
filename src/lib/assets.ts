@@ -70,6 +70,32 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const montageRevealHeroAssets = [
+  {
+    id: "montage-reveal-hero-logo",
+    label: "Montage Reveal Hero logo",
+    provider: "vercel-blob",
+    pathname: "montage-reveal-hero/logo.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/montage-reveal-hero/logo.png`,
+    role: "Sidebar mark that scales in after the counter finishes.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 15 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `montage-reveal-hero-img-${n}`,
+      label: `Montage Reveal Hero image ${n}`,
+      provider: "vercel-blob",
+      pathname: `montage-reveal-hero/img${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/montage-reveal-hero/img${n}.jpg`,
+      role: "Thumbnail that pops in and Flips across the frame during the intro.",
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    } as const satisfies AssetItem;
+  }),
+];
+
 const shaderGridGalleryAssets = Array.from({ length: 25 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1225,6 +1251,7 @@ export const assetItems = [
   ...minimapScrubberAssets,
   ...cursorImageTrailAssets,
   ...shaderGridGalleryAssets,
+  ...montageRevealHeroAssets,
   ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {

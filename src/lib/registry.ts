@@ -1823,6 +1823,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "montage-reveal-hero",
+    title: "Montage Reveal Hero",
+    description:
+      "A landing intro that counts itself in. A rolling three-digit counter runs to 100 while a loader panel wipes up and a stack of thumbnails pops in at one corner, then the whole stack Flips across to the opposite corner with a scale pulse as the counter fades, and the navigation, sidebar, dividers, and headline rise into place line by line. GSAP Flip with SplitText.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/montage-reveal-hero.tsx",
+        target: "components/ui/montage-reveal-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "shader-grid-gallery",
     title: "Shader Grid Gallery",
     description:

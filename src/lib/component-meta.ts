@@ -4924,6 +4924,59 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "montage-reveal-hero": {
+    demoPath: "src/components/demos/montage-reveal-hero.tsx",
+    nuance: [
+      {
+        label: "Flip-driven relocation",
+        description:
+          "The thumbnails are laid out at one corner, then the target class moves them to the other; GSAP Flip captures the before state and animates the transition, so the montage travels along real layout positions rather than tweened offsets.",
+      },
+      {
+        label: "Odometer counters",
+        description:
+          "Each digit column is a tall strip of numbers translated up by its measured height, with three columns of different lengths and speeds combining into a single 0-to-100 roll.",
+      },
+    ],
+    editable: [
+      {
+        name: "images / logo",
+        control: "asset-url",
+        description: "The fifteen montage thumbnails and the sidebar mark.",
+      },
+      {
+        name: "brand / navLinks / cta",
+        control: "text",
+        description: "Wordmark, nav links, and the call-to-action.",
+      },
+      {
+        name: "heading / subheading / infoLines / footer",
+        control: "text",
+        description: "Headline, supporting lines, and the showreel footer.",
+      },
+    ],
+    assets: assetsByIds([
+      "montage-reveal-hero-logo",
+      ...Array.from(
+        { length: 15 },
+        (_, i) => `montage-reveal-hero-img-${i + 1}`,
+      ),
+    ]),
+    api: [
+      {
+        name: "images / logo",
+        type: "string[] / string",
+        default: "Fifteen BLANK thumbnails and a logo",
+        description: "Montage thumbnails and the sidebar mark.",
+      },
+      {
+        name: "brand / navLinks / cta / heading / subheading / infoLines / footer",
+        type: "string / [string, string] / string / string / string / [string, string] / string",
+        default: "BLANK landing copy",
+        description: "All hero and navigation text.",
+      },
+    ],
+  },
   "shader-grid-gallery": {
     demoPath: "src/components/demos/shader-grid-gallery.tsx",
     nuance: [

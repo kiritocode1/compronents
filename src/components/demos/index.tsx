@@ -52,6 +52,7 @@ import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
 import ModelMenu3DDemo from "./model-menu-3d";
+import MontageRevealHeroDemo from "./montage-reveal-hero";
 import MosaicFlipDemo from "./mosaic-flip";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
@@ -129,6 +130,7 @@ export const demos: Record<string, ComponentType> = {
   "folder-preview-hover": FolderPreviewHoverDemo,
   "minimap-parallax-scroll": MinimapParallaxScrollDemo,
   "minimap-scrubber": MinimapScrubberDemo,
+  "montage-reveal-hero": MontageRevealHeroDemo,
   "scroll-scrub-slider": ScrollScrubSliderDemo,
   "split-card-scroll": SplitCardScrollDemo,
   "split-reveal-preloader": SplitRevealPreloaderDemo,
