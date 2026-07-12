@@ -57,7 +57,8 @@
             "useFocusableInteractive": "off",
             "useKeyWithClickEvents": "off",
             "noSvgWithoutTitle": "off",
-            "noStaticElementInteractions": "off"
+            "noStaticElementInteractions": "off",
+            "useSemanticElements": "off"
           }
         }
       }

@@ -4,8 +4,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { type CodeTab, CodeTabs } from "@/components/site/code-tabs";
+import { CodeTabs } from "@/components/site/code-tabs";
 import { ComponentStudioPanel } from "@/components/site/component-studio-panel";
+import { RegistryFiles } from "@/components/site/registry-files";
 import { getComponentMeta } from "@/lib/component-meta";
 import {
   getRegistryItem,
@@ -58,32 +59,13 @@ export default async function ComponentPage({
     ? await readFile(path.join(process.cwd(), meta.demoPath), "utf-8")
     : null;
 
-  const [installTabs, demoHtml, sourceHtmls] = await Promise.all([
-    Promise.all(
-      installCommands(item.name).map(async (pm) => ({
-        label: pm.label,
-        html: await highlight(pm.command, "bash"),
-        raw: pm.command,
-      })),
-    ),
-    demoSource ? highlight(demoSource, "tsx") : Promise.resolve(null),
-    Promise.all(
-      built.files.map(async (file) => ({
-        label: file.target.split("/").pop() ?? file.target,
-        html: await highlight(file.content, "tsx"),
-        raw: file.content,
-      })),
-    ),
-  ]);
-
-  // Usage shows everything needed to reproduce the demo: how it's used
-  // (demo.tsx), then every source file the component ships.
-  const usageTabs: CodeTab[] = [
-    ...(demoHtml && demoSource
-      ? [{ label: "demo.tsx", html: demoHtml, raw: demoSource }]
-      : []),
-    ...sourceHtmls,
-  ];
+  const installTabs = await Promise.all(
+    installCommands(item.name).map(async (pm) => ({
+      label: pm.label,
+      html: await highlight(pm.command, "bash"),
+      raw: pm.command,
+    })),
+  );
 
   return (
     <main className="flex flex-col gap-14 pt-8 pb-32">
@@ -124,11 +106,16 @@ export default async function ComponentPage({
         </div>
       </Row>
 
-      {usageTabs.length ? (
-        <Row label="Usage">
-          <CodeTabs tabs={usageTabs} />
-        </Row>
-      ) : null}
+      <Row label="Files">
+        <RegistryFiles
+          files={built.files}
+          demo={
+            demoSource
+              ? { filename: "demo.tsx", content: demoSource }
+              : undefined
+          }
+        />
+      </Row>
 
       {meta ? (
         <Row label="API">

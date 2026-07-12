@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "test": "node --test tests/registry-integrity.test.mjs tests/portrayal.test.mjs",
+    "test:install": "node --test tests/shadcn-install.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
