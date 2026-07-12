@@ -4,6 +4,7 @@ import type { ComponentType } from "react";
 import AccordionFramesDemo from "./accordion-frames";
 import AnimatedFooterDemo from "./animated-footer";
 import ApertureZoomHeroDemo from "./aperture-zoom-hero";
+import ArcSpotlightScrollDemo from "./arc-spotlight-scroll";
 import ArchiveCommercePageDemo from "./archive-commerce-page";
 import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
@@ -76,6 +77,8 @@ import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
+import StickyStackCardsDemo from "./sticky-stack-cards";
+import StretchTextScrollDemo from "./stretch-text-scroll";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
@@ -133,6 +136,9 @@ export const demos: Record<string, ComponentType> = {
   "client-hover-preview": ClientHoverPreviewDemo,
   "filter-scrub-gallery": FilterScrubGalleryDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
+  "sticky-stack-cards": StickyStackCardsDemo,
+  "stretch-text-scroll": StretchTextScrollDemo,
+  "arc-spotlight-scroll": ArcSpotlightScrollDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,
   "minimap-parallax-scroll": MinimapParallaxScrollDemo,
   "minimap-scrubber": MinimapScrubberDemo,

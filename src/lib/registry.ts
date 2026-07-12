@@ -2082,6 +2082,66 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "stretch-text-scroll",
+    title: "Stretch Text Scroll",
+    description:
+      "Three pinned panels whose oversized words grow on a vertical scaleY as you scroll in, snap to full height, then collapse back out. The final panel keeps scaling its word past the frame until a background still takes over, its wash fades, and a centered headline reads in word by word. GSAP ScrollTrigger with SplitText and Lenis.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/stretch-text-scroll.tsx",
+        target: "components/ui/stretch-text-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "arc-spotlight-scroll",
+    title: "Arc Spotlight Scroll",
+    description:
+      "A pinned telescope reveal. Two words split apart to open a scaling background frame, then a diagonally clipped viewport scrolls a column of titles past its center. As each title reaches the middle it lights up, the backdrop swaps to its still, and thumbnail frames arc down a bezier path on the right. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/arc-spotlight-scroll.tsx",
+        target: "components/ui/arc-spotlight-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "sticky-stack-cards",
+    title: "Sticky Stack Cards",
+    description:
+      "Full-height cards that pin in place and stack. As the next card scrolls up over the current one, the underlying card scales down, tilts a few degrees in alternating directions, and darkens under a shadow overlay, so the deck compresses into a layered pile. GSAP ScrollTrigger.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sticky-stack-cards.tsx",
+        target: "components/ui/sticky-stack-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
 ];
 
 export function getRegistryItem(name: string): RegistryItem | undefined {

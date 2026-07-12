@@ -1304,7 +1304,51 @@ const lemonBureauPageAssets = lemonBureauPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const stretchTextScrollAssets = [
+  {
+    id: "stretch-text-scroll-img",
+    label: "Stretch Text Scroll background",
+    provider: "vercel-blob",
+    pathname: "stretch-text-scroll/img.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/stretch-text-scroll/img.jpg`,
+    role: "Full-bleed still revealed behind the final pinned panel as its word scales past the frame.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+];
+
+const arcSpotlightScrollAssets = Array.from({ length: 10 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `arc-spotlight-scroll-img-${n}`,
+    label: `Arc Spotlight Scroll image ${n}`,
+    provider: "vercel-blob",
+    pathname: `arc-spotlight-scroll/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/arc-spotlight-scroll/img${n}.jpg`,
+    role: "Backdrop still and arcing thumbnail for one entry in the telescope reveal.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
+const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `sticky-stack-cards-img-${n}`,
+    label: `Sticky Stack Cards image ${n}`,
+    provider: "vercel-blob",
+    pathname: `sticky-stack-cards/card${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/sticky-stack-cards/card${n}.jpg`,
+    role: "Feature image inside one of the pinned, stacking cards.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...stretchTextScrollAssets,
+  ...arcSpotlightScrollAssets,
+  ...stickyStackCardsAssets,
   ...march2025TemplateAssets,
   ...archiveCommercePageAssets,
   ...interiorStudioPageAssets,

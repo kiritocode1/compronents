@@ -5638,6 +5638,170 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "stretch-text-scroll": {
+    demoPath: "src/components/demos/stretch-text-scroll.tsx",
+    nuance: [
+      {
+        label: "Height-fitted scaleY",
+        description:
+          "Each word's target scale is measured live as the panel height divided by the glyph height, so a single word stretches to exactly fill its section rather than to a fixed multiplier that would break at other viewports.",
+      },
+      {
+        label: "Staged final blowup",
+        description:
+          "On the last panel the word keeps scaling to ten times while its dark wash fades between 25 and 50 percent progress, the word itself fades between 50 and 75, and the headline reads in word by word after 75, so the image, the type, and the copy never overlap.",
+      },
+    ],
+    editable: [
+      {
+        name: "words",
+        control: "text",
+        description: "The three oversized panel words that stretch in and out.",
+      },
+      {
+        name: "heroText / header / outroText",
+        control: "text",
+        description: "Opening line, revealed headline, and closing line.",
+      },
+      {
+        name: "image",
+        control: "asset-url",
+        description: "Still revealed behind the final scaling panel.",
+      },
+    ],
+    assets: assetsByIds(["stretch-text-scroll-img"]),
+    api: [
+      {
+        name: "words",
+        type: "[string, string, string]",
+        default: "Overdrive / Static / Friction",
+        description: "The three stretched panel words.",
+      },
+      {
+        name: "heroText / header / outroText",
+        type: "string",
+        default: "BLANK editorial lines",
+        description: "Opening, revealed headline, and closing copy.",
+      },
+      {
+        name: "image / embedded",
+        type: "string / boolean",
+        default: "BLANK-hosted still / true",
+        description:
+          "Backdrop for the final panel; embedded owns the scroll container.",
+      },
+    ],
+  },
+  "arc-spotlight-scroll": {
+    demoPath: "src/components/demos/arc-spotlight-scroll.tsx",
+    nuance: [
+      {
+        label: "Bezier arc timing",
+        description:
+          "Each thumbnail rides a quadratic bezier whose start and end share an x, so the frames bow out to the right and back; a per-index gap and shared speed stagger them into a continuous stream keyed to the same scroll progress that moves the titles.",
+      },
+      {
+        label: "Center-nearest activation",
+        description:
+          "On every update the title closest to the viewport middle is measured by bounding rect, and only when that index changes does the backdrop still swap and the highlight move, so the active state tracks reading position instead of a fixed step count.",
+      },
+    ],
+    editable: [
+      {
+        name: "items",
+        control: "text",
+        description: "Name and still for each entry in the telescope column.",
+      },
+      {
+        name: "intro / outro / introWords / headerLabel",
+        control: "text",
+        description: "Opening line, closing line, split words, and side label.",
+      },
+      {
+        name: "items",
+        control: "asset-url",
+        description: "Backdrop still and arcing thumbnail per entry.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 10 }, (_, i) => `arc-spotlight-scroll-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "items",
+        type: "ArcSpotlightItem[]",
+        default: "Ten BLANK stills with titles",
+        description: "Name and image for each telescope entry.",
+      },
+      {
+        name: "intro / outro / introWords / headerLabel",
+        type: "string / string / [string, string] / string",
+        default: "BLANK editorial copy / Beneath, Beyond / Discover",
+        description: "Framing copy, the split intro words, and the side label.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description: "Owns the scroll container so it fits a bounded box.",
+      },
+    ],
+  },
+  "sticky-stack-cards": {
+    demoPath: "src/components/demos/sticky-stack-cards.tsx",
+    nuance: [
+      {
+        label: "Pin-to-last handoff",
+        description:
+          "Every card but the last pins from its own top down to the final card's top, so each stays fixed while the ones after it slide up over it and the stack builds without any card releasing early.",
+      },
+      {
+        label: "Alternating tilt and shade",
+        description:
+          "As the next card advances, the card underneath scales to 0.75 and rotates plus or minus five degrees by parity, while a shadow overlay fades in on the same progress, so buried cards read as tilted and dimmed rather than simply covered.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description: "Index, title, image, and description per card.",
+      },
+      {
+        name: "intro / outro / captionLabel",
+        control: "text",
+        description: "Opening panel, closing panel, and the small caption.",
+      },
+      {
+        name: "cards",
+        control: "asset-url",
+        description: "Feature image inside each card.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 4 }, (_, i) => `sticky-stack-cards-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "cards",
+        type: "StickyStackCard[]",
+        default: "Four BLANK principle cards",
+        description: "Index, title, image, and description per card.",
+      },
+      {
+        name: "intro / outro / captionLabel",
+        type: "string",
+        default: "The Foundations / Ends in Form / (About the state)",
+        description: "Opening panel, closing panel, and card caption.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description: "Owns the scroll container so it fits a bounded box.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {
