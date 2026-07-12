@@ -57,6 +57,19 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const rotatingHandScrollAssets = [
+  {
+    id: "rotating-hand-scroll-portrait",
+    label: "Rotating Hand Scroll portrait",
+    provider: "vercel-blob",
+    pathname: "rotating-hand-scroll/portrait.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/rotating-hand-scroll/portrait.jpg`,
+    role: "Portrait revealed inside the rotating hand and zoomed to fill the frame.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+];
+
 const catalogSwapGalleryAssets = Array.from({ length: 15 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1126,6 +1139,7 @@ export const assetItems = [
   ...scrollTunnel3dAssets,
   ...filterScrubGalleryAssets,
   ...catalogSwapGalleryAssets,
+  ...rotatingHandScrollAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

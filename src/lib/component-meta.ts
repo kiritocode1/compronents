@@ -4709,6 +4709,63 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "rotating-hand-scroll": {
+    demoPath: "src/components/demos/rotating-hand-scroll.tsx",
+    nuance: [
+      {
+        label: "Cycle-mapped headlines",
+        description:
+          "Total rotation is divided into 360-degree cycles; each completed cycle advances the headline, and cycle four is the trigger that fades the portrait in and slides the body copy into place.",
+      },
+      {
+        label: "Staged end transition",
+        description:
+          "The final eighth of the scroll is choreographed in steps: the hand grows to full height, scales past twentyfold, fades out, and only then does the wordmark fade up, so the phases read as one continuous zoom.",
+      },
+    ],
+    editable: [
+      {
+        name: "headlines",
+        control: "text",
+        description: "The muted lead and bright tail shown on each rotation.",
+      },
+      {
+        name: "portrait / copy",
+        control: "asset-url",
+        description:
+          "Portrait revealed in the hand and the two body paragraphs.",
+      },
+      {
+        name: "brand / aboutText",
+        control: "text",
+        description:
+          "Closing wordmark and the following section's placeholder.",
+      },
+    ],
+    assets: assetsByIds(["rotating-hand-scroll-portrait"]),
+    api: [
+      {
+        name: "headlines",
+        type: "RotatingHeadline[]",
+        default: "Five BLANK headlines",
+        description: "Muted lead and bright tail swapped on each full turn.",
+      },
+      {
+        name: "portrait / copy / brand",
+        type: "string / [string, string] / string",
+        default: "BLANK-hosted portrait and copy",
+        description:
+          "Portrait revealed in the hand, body paragraphs, and wordmark.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "catalog-swap-gallery": {
     demoPath: "src/components/demos/catalog-swap-gallery.tsx",
     nuance: [

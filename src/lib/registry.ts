@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "rotating-hand-scroll",
+    title: "Rotating Hand Scroll",
+    description:
+      "A long pinned section built around a single clock-hand pill. Scrolling sweeps it through five full turns, each swapping the headline; on the fourth a portrait fades into the hand as body copy slides in, then the hand grows, scales up more than twentyfold to fill the frame, and dissolves to reveal the closing wordmark. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/rotating-hand-scroll.tsx",
+        target: "components/ui/rotating-hand-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "catalog-swap-gallery",
     title: "Catalog Swap Gallery",
     description:

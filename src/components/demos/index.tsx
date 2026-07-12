@@ -58,6 +58,7 @@ import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
+import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
@@ -124,6 +125,7 @@ export const demos: Record<string, ComponentType> = {
   "drag-timeline-scroll": DragTimelineScrollDemo,
   "expanding-rows-gallery": ExpandingRowsGalleryDemo,
   "ribbon-stroke-scroll": RibbonStrokeScrollDemo,
+  "rotating-hand-scroll": RotatingHandScrollDemo,
   "infinite-contact-scroll": InfiniteContactScrollDemo,
   "aperture-zoom-hero": ApertureZoomHeroDemo,
   "spotlight-index-scroll": SpotlightIndexScrollDemo,
