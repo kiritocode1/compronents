@@ -4,6 +4,7 @@ import {
   getRegistryItemsBySection,
   type LibrarySectionId,
 } from "@/lib/registry";
+import { registryGroupsBySection } from "@/lib/registry-groups";
 
 export function LibrarySectionPage({
   sectionId,
@@ -17,6 +18,7 @@ export function LibrarySectionPage({
     <RegistryIndex
       heading={section.label}
       items={getRegistryItemsBySection(sectionId)}
+      groups={registryGroupsBySection[sectionId]}
     />
   );
 }
