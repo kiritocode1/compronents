@@ -37,6 +37,11 @@ export const inspirationGroups: InspirationGroup[] = [
       },
       { title: "Notch case study", href: "https://iamnoman.com/notch" },
       { title: "Dot Matrix", href: "https://dotmatrix.zzzzshawn.cloud/" },
+      { title: "Interfaces.dev", href: "https://interfaces.dev/" },
+      {
+        title: "Make interfaces feel better",
+        href: "https://jakub.kr/skills/make-interfaces-feel-better",
+      },
     ],
   },
   {
@@ -117,6 +122,11 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "React Native Reusables",
         href: "https://reactnativereusables.com/",
       },
+      { title: "Iconiqui", href: "https://iconiqui.com/" },
+      {
+        title: "Code Blocks by pheralb",
+        href: "https://code-blocks.pheralb.dev/",
+      },
     ],
   },
   {
@@ -154,7 +164,12 @@ export const inspirationGroups: InspirationGroup[] = [
       },
       { title: "Fabio Ottaviani", href: "https://www.supah.it/portfolio/" },
       { title: "Arlan Marat vault", href: "https://www.arlan.me/vault" },
+      { title: "Jakub Krehel", href: "https://jakub.kr/" },
     ],
+  },
+  {
+    title: "SEO",
+    links: [{ title: "Seolo blog", href: "https://www.seolo.live/blogs" }],
   },
   {
     title: "Motion and interaction",
@@ -189,6 +204,7 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://skiper-ui.com/v1/skiper5",
       },
       { title: "Lina scroll area", href: "https://lina.sameer.sh/" },
+      { title: "aMicro", href: "https://amicro.vercel.app/" },
     ],
   },
   {
@@ -224,6 +240,10 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Shaders hero section",
         href: "https://v0.app/templates/shaders-hero-section-cJOO8mnVR01?ref=Z0HBR4",
+      },
+      {
+        title: "Cells to Pixels",
+        href: "https://cells2pixels.github.io/#growing",
       },
     ],
   },
