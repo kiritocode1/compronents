@@ -376,6 +376,7 @@ const brutalistPortfolioPageAssetDocs = pageAssets(
   "brutalist-portfolio-page-",
   5,
 );
+const nullStudioPageAssetDocs = pageAssets("null-studio-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -791,6 +792,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "null-studio-page": {
+    demoPath: "src/components/demos/null-studio-page.tsx",
+    studioPath: "src/components/studios/null-studio-page.tsx",
+    nuance: [
+      {
+        label: "Full routed agency site port",
+        description:
+          "The component ships the Null Studio home, projects, about, sample project, careers, and contact pages behind a local router, so the whole agency site installs as one page template.",
+      },
+      {
+        label: "Interactions rebuilt without deps",
+        description:
+          "The fullscreen overlay menu, the draggable auto-playing team carousel, and the sample project's custom video player and collapsible copy are rebuilt with React state and CSS, so the template ships no runtime dependencies.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "Every source image and the Cosi Times, PP Eiko, and PP Neue Montreal fonts resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /work, /about, /contact, /careers, or /work-sample.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "null-studio-page/images/home/hero.jpg",
+        )}.`,
+      },
+    ],
+    assets: nullStudioPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/null-studio-page"',
+        description:
+          "Base URL prefixed to every image and font the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/about" | "/contact" | "/careers" | "/work-sample"',
         default: '"/"',
         description: "Source route mounted first.",
       },

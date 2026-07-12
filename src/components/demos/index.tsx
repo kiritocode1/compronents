@@ -90,6 +90,7 @@ import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
+import NullStudioPageDemo from "./null-studio-page";
 import NeotericPageDemo from "./neoteric-page";
 import SorenPageDemo from "./soren-page";
 import UnusualStudioPageDemo from "./unusual-studio-page";
@@ -191,6 +192,7 @@ export const demos: Record<string, ComponentType> = {
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
   "brutalist-portfolio-page": BrutalistPortfolioPageDemo,
+  "null-studio-page": NullStudioPageDemo,
   "neoteric-page": NeotericPageDemo,
   "soren-page": SorenPageDemo,
   "unusual-studio-page": UnusualStudioPageDemo,

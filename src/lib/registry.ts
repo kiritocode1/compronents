@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "null-studio-page",
+    title: "Null Studio Page",
+    description:
+      "A source-backed Null Studio agency template. It ships the routed home, projects, about (with a draggable auto-playing team carousel), sample project (custom video player and collapsible copy), careers, and contact pages behind a lightweight internal router. The fullscreen overlay menu and interactions are rebuilt with React state and CSS, so it ships no runtime dependencies, with Blob-hosted Cosi Times, PP Eiko, and PP Neue Montreal fonts and imagery.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/null-studio-page/index.tsx",
+        target: "components/ui/null-studio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/null-studio-page/styles.ts",
+        target: "components/ui/null-studio-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "brutalist-portfolio-page",
     title: "Brutalist Portfolio Page",
     description:

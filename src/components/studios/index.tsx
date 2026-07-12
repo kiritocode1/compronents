@@ -33,6 +33,7 @@ import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SpiralGalleryStudio from "./spiral-gallery";
 import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
+import NullStudioPageStudio from "./null-studio-page";
 import NeotericPageStudio from "./neoteric-page";
 import SorenPageStudio from "./soren-page";
 import UnusualStudioPageStudio from "./unusual-studio-page";
@@ -79,6 +80,7 @@ export const studios: Record<string, StudioComponent> = {
   "wu-wei-page": WuWeiPageStudio,
   "lemon-bureau-page": LemonBureauPageStudio,
   "brutalist-portfolio-page": BrutalistPortfolioPageStudio,
+  "null-studio-page": NullStudioPageStudio,
   "neoteric-page": NeotericPageStudio,
   "soren-page": SorenPageStudio,
   "unusual-studio-page": UnusualStudioPageStudio,

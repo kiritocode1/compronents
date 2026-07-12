@@ -1245,6 +1245,41 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const nullStudioPageAssetPaths = [
+  "images/home/hero.jpg",
+  "images/home/article-1.jpg",
+  "images/home/article-2.jpg",
+  "images/about/about-hero.jpg",
+  ...Array.from({ length: 6 }, (_, i) => `images/about/logo-${i + 1}.webp`),
+  ...[1, 2, 3, 4, 5, 6, 7].map((i) => `images/about/team-${i}.jpg`),
+  "images/work/project-1.jpg",
+  "images/work/project-2.jpg",
+  "images/work/project-4.jpg",
+  "fonts/CosiTimes-Roman.ttf",
+  "fonts/CosiTimes-Bold.ttf",
+  "fonts/CosiTimes-Light.ttf",
+  "fonts/PPEiko-Light.otf",
+  "fonts/PPEiko-Medium.otf",
+  "fonts/PPEiko-Regular.otf",
+  "fonts/NeueMontreal-Light.otf",
+  "fonts/NeueMontreal-Medium.otf",
+  "fonts/NeueMontreal-Regular.otf",
+] as readonly string[];
+
+const nullStudioPageAssets = nullStudioPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `null-studio-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Null Studio Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `null-studio-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/null-studio-page/${rel}`,
+      role: "Null Studio source template image or font.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the null-studio-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const brutalistPortfolioPageAssetPaths = [
   ...Array.from({ length: 9 }, (_, i) => `images/0${i + 1}.png`),
   "fonts/PPMondwest-Regular.otf",
@@ -1487,6 +1522,7 @@ export const assetItems = [
   ...neotericPageAssets,
   ...unusualStudioPageAssets,
   ...brutalistPortfolioPageAssets,
+  ...nullStudioPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
