@@ -4709,6 +4709,62 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "curved-plane-slider": {
+    demoPath: "src/components/demos/curved-plane-slider.tsx",
+    nuance: [
+      {
+        label: "Texture-space scroll",
+        description:
+          "Nothing in the 3D scene actually moves; scroll progress offsets where the slides are drawn in a repeating 2048x8192 canvas, and RepeatWrapping loops the strip so the plane appears to scroll forever.",
+      },
+      {
+        label: "Parabolic plane",
+        description:
+          "The plane's vertices are pushed along z by the square of their distance from center, curving it into a concave sheet, then tilted on two axes so the slides read as a receding ribbon.",
+      },
+    ],
+    editable: [
+      {
+        name: "images / titles",
+        control: "asset-url",
+        description: "The seven slide stills and their captions.",
+      },
+      {
+        name: "brand / tagline / navLinks",
+        control: "text",
+        description: "Fixed nav wordmark, tagline, and links.",
+      },
+      {
+        name: "experiment / copyright",
+        control: "text",
+        description: "Footer experiment label and copyright line.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 7 }, (_, i) => `curved-plane-slider-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "images / titles",
+        type: "string[] / string[]",
+        default: "Seven BLANK stills and captions",
+        description: "Slide stills and the caption drawn over each.",
+      },
+      {
+        name: "brand / tagline / navLinks / experiment / copyright",
+        type: "string / string / [string, string] / string / string",
+        default: "BLANK chrome copy",
+        description: "Fixed nav and footer text around the slider.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "rotating-hand-scroll": {
     demoPath: "src/components/demos/rotating-hand-scroll.tsx",
     nuance: [

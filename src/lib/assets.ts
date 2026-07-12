@@ -57,6 +57,20 @@ const detroitParisSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const curvedPlaneSliderAssets = Array.from({ length: 7 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `curved-plane-slider-img-${n}`,
+    label: `Curved Plane Slider image ${n}`,
+    provider: "vercel-blob",
+    pathname: `curved-plane-slider/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/curved-plane-slider/img${n}.jpg`,
+    role: "Slide still painted into the repeating texture wrapped around the curved plane.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const rotatingHandScrollAssets = [
   {
     id: "rotating-hand-scroll-portrait",
@@ -1140,6 +1154,7 @@ export const assetItems = [
   ...filterScrubGalleryAssets,
   ...catalogSwapGalleryAssets,
   ...rotatingHandScrollAssets,
+  ...curvedPlaneSliderAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

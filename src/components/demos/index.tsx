@@ -19,6 +19,7 @@ import CreativeClutterDemo from "./creative-clutter";
 import CrossRevealScrollDemo from "./cross-reveal-scroll";
 import CrtDisplayDemo from "./crt-display";
 import CursorTrailScrollDemo from "./cursor-trail-scroll";
+import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
@@ -146,6 +147,7 @@ export const demos: Record<string, ComponentType> = {
   "catalog-swap-gallery": CatalogSwapGalleryDemo,
   "cross-reveal-scroll": CrossRevealScrollDemo,
   "cursor-trail-scroll": CursorTrailScrollDemo,
+  "curved-plane-slider": CurvedPlaneSliderDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,
   "dining-room-page": DiningRoomPageDemo,

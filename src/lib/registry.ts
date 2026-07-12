@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "curved-plane-slider",
+    title: "Curved Plane Slider",
+    description:
+      "A WebGL slider that wraps its images around a curved plane. Stills and titles are painted into a tall repeating canvas texture mapped onto a parabolic plane tilted in 3D; scrolling shifts the texture so the slides glide up the curve and loop seamlessly, framed by a fixed nav, footer, and vignette. Three.js with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["three", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/curved-plane-slider.tsx",
+        target: "components/ui/curved-plane-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "rotating-hand-scroll",
     title: "Rotating Hand Scroll",
     description:
