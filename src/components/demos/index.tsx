@@ -77,6 +77,7 @@ import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
+import TiltCardStackDemo from "./tilt-card-stack";
 import VideoCardStackDemo from "./video-card-stack";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
@@ -120,6 +121,7 @@ export const demos: Record<string, ComponentType> = {
   "vinyl-orbit-player": VinylOrbitPlayerDemo,
   "svg-stroke-hover": SvgStrokeHoverDemo,
   "terminal-text-reveal": TerminalTextRevealDemo,
+  "tilt-card-stack": TiltCardStackDemo,
   "orbit-text-preloader": OrbitTextPreloaderDemo,
   "scroll-flip-cards": ScrollFlipCardsDemo,
   "scroll-text-blocks": ScrollTextBlocksDemo,

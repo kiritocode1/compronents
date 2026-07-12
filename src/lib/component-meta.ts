@@ -4924,6 +4924,59 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "tilt-card-stack": {
+    demoPath: "src/components/demos/tilt-card-stack.tsx",
+    nuance: [
+      {
+        label: "Next-card triggers",
+        description:
+          "Every card's tilt is driven by the following card's position, not its own, so a card only begins to fall back once the next one is genuinely climbing over it.",
+      },
+      {
+        label: "Origin at the base",
+        description:
+          "The inner card rotates around its bottom edge and recedes in Z, so it hinges backward like a turning page rather than shrinking toward its center.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description:
+          "Info line, title, description, image, and accent per card.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "The opening and closing full-screen headings.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from({ length: 4 }, (_, i) => `tilt-card-stack-img-${i + 1}`),
+    ),
+    api: [
+      {
+        name: "cards",
+        type: "TiltCard[]",
+        default: "Four BLANK artwork cards",
+        description:
+          "Info, title, description, image, and accent color per card.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        type: "string",
+        default: "BLANK headings",
+        description: "Opening and closing full-screen headings.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "montage-reveal-hero": {
     demoPath: "src/components/demos/montage-reveal-hero.tsx",
     nuance: [

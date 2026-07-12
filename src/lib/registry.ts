@@ -1823,6 +1823,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "tilt-card-stack",
+    title: "Tilt Card Stack",
+    description:
+      "Full-screen colored cards that pin and fall back as the next one climbs over them. Each card holds until the following card reaches the top of the frame, then tilts away on its X axis, sinks in Z, and darkens under a black veil, so the deck reads as pages laid down one behind another. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/tilt-card-stack.tsx",
+        target: "components/ui/tilt-card-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "montage-reveal-hero",
     title: "Montage Reveal Hero",
     description:

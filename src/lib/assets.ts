@@ -70,6 +70,20 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const tiltCardStackAssets = Array.from({ length: 4 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `tilt-card-stack-img-${n}`,
+    label: `Tilt Card Stack image ${n}`,
+    provider: "vercel-blob",
+    pathname: `tilt-card-stack/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/tilt-card-stack/img${n}.jpg`,
+    role: "Artwork filling the lower half of each stacked card.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const montageRevealHeroAssets = [
   {
     id: "montage-reveal-hero-logo",
@@ -1252,6 +1266,7 @@ export const assetItems = [
   ...cursorImageTrailAssets,
   ...shaderGridGalleryAssets,
   ...montageRevealHeroAssets,
+  ...tiltCardStackAssets,
   ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {
