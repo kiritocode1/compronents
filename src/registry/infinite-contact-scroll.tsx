@@ -238,7 +238,7 @@ const styles = `
   position: relative;
   width: 8rem;
   height: 8rem;
-  transform: translateY(-8.9rem);
+  transform: translateY(-6.6rem);
 }
 
 .ics-info {
