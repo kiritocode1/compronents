@@ -293,6 +293,8 @@ export function getVelascoSolariPageStyles(assetBase: string): string {
 /* info */
 .velasco-solari-page .container {
   padding: 1em;
+  max-width: none;
+  margin: 0;
 }
 .velasco-solari-page .container .info-row {
   width: 100%;

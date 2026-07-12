@@ -56,6 +56,8 @@ export function getSorenPageStyles(): string {
 
 .soren-page .container {
   padding: 0.5em;
+  max-width: none;
+  margin: 0;
 }
 
 .soren-page h1 {
