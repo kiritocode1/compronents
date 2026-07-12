@@ -2018,6 +2018,86 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "sticky-flip-cards",
+    title: "Sticky Flip Cards",
+    description:
+      "A pinned hero where a single front card flips a half turn to reveal a fanned stack of color-coded back cards, which then peel off and dismiss one by one with a tilt as you scroll. The headline lifts away on entry and an outro statement closes it out. GSAP ScrollTrigger with Lenis, no images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-13",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sticky-flip-cards.tsx",
+        target: "components/ui/sticky-flip-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "smudge-cursor-reveal",
+    title: "Smudge Cursor Reveal",
+    description:
+      "A hero where moving the cursor smudges away the top layer to reveal a hidden message underneath. Circles are stamped along the pointer path into an SVG goo-filter mask, then expand and dissolve, so the reveal reads like wiping fog off glass. Pointer and touch driven, GSAP only, no scroll.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-13",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/smudge-cursor-reveal.tsx",
+        target: "components/ui/smudge-cursor-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "landing-image-reveal",
+    title: "Landing Image Reveal",
+    description:
+      "A load intro where a progress bar wipes away, five scattered images slide in and line up across the frame, then the outer pairs fly off-screen while the center image scales up to fill the hero. The nav, headline, and contact lines reveal in masked lines on top. GSAP timeline with SplitText, Blob-hosted images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-13",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/landing-image-reveal.tsx",
+        target: "components/ui/landing-image-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "spotlight-gallery-scroll",
+    title: "Spotlight Gallery Scroll",
+    description:
+      "A pinned hero where a giant three-column image wall shrinks to a tidy grid as you scroll, a corner logo scales down and rides up into place, the headline fades in word by word while the footer blurs away, then the whole hero lifts and dims to hand off to the next sections. GSAP ScrollTrigger with SplitText and Lenis, Blob-hosted images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-13",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/spotlight-gallery-scroll.tsx",
+        target: "components/ui/spotlight-gallery-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "curtain-reveal-hero",
     title: "Curtain Reveal Hero",
     description:

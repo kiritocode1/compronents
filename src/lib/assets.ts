@@ -1278,6 +1278,37 @@ const isochromePageAssets = isochromePageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const landingImageRevealAssets = Array.from({ length: 5 }, (_, i) => `img-${i + 1}.jpg`).map(
+  (rel) =>
+    ({
+      id: `landing-image-reveal-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Landing Image Reveal asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `landing-image-reveal/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/landing-image-reveal/${rel}`,
+      role: "Landing Image Reveal source template image.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the landing-image-reveal component.",
+    }) as const satisfies AssetItem,
+);
+
+const spotlightGalleryScrollAssets = [
+  ...Array.from({ length: 9 }, (_, i) => `img${i + 1}.jpg`),
+  "logo.svg",
+].map(
+  (rel) =>
+    ({
+      id: `spotlight-gallery-scroll-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Spotlight Gallery Scroll asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `spotlight-gallery-scroll/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/spotlight-gallery-scroll/${rel}`,
+      role: "Spotlight Gallery Scroll source template image or logo.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the spotlight-gallery-scroll component.",
+    }) as const satisfies AssetItem,
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -1557,6 +1588,8 @@ export const assetItems = [
   ...brutalistPortfolioPageAssets,
   ...nullStudioPageAssets,
   ...isochromePageAssets,
+  ...landingImageRevealAssets,
+  ...spotlightGalleryScrollAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

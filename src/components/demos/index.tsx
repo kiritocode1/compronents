@@ -47,6 +47,7 @@ import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
+import LandingImageRevealDemo from "./landing-image-reveal";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LineRiseTextDemo from "./line-rise-text";
 import March2025TemplateDemo from "./march-2025-template";
@@ -73,7 +74,10 @@ import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
+import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
 import SpiralGalleryDemo from "./spiral-gallery";
+import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
+import StickyFlipCardsDemo from "./sticky-flip-cards";
 import SplitCardScrollDemo from "./split-card-scroll";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
@@ -144,6 +148,10 @@ export const demos: Record<string, ComponentType> = {
   "filter-scrub-gallery": FilterScrubGalleryDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
   "sticky-stack-cards": StickyStackCardsDemo,
+  "sticky-flip-cards": StickyFlipCardsDemo,
+  "smudge-cursor-reveal": SmudgeCursorRevealDemo,
+  "landing-image-reveal": LandingImageRevealDemo,
+  "spotlight-gallery-scroll": SpotlightGalleryScrollDemo,
   "stretch-text-scroll": StretchTextScrollDemo,
   "arc-spotlight-scroll": ArcSpotlightScrollDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,

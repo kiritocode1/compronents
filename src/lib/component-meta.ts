@@ -378,6 +378,8 @@ const brutalistPortfolioPageAssetDocs = pageAssets(
 );
 const nullStudioPageAssetDocs = pageAssets("null-studio-page-", 5);
 const isochromePageAssetDocs = pageAssets("isochrome-page-", 5);
+const landingImageRevealAssetDocs = pageAssets("landing-image-reveal-", 5);
+const spotlightGalleryScrollAssetDocs = pageAssets("spotlight-gallery-scroll-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -5121,6 +5123,179 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "true",
         description:
           "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "sticky-flip-cards": {
+    demoPath: "src/components/demos/sticky-flip-cards.tsx",
+    nuance: [
+      {
+        label: "Progress sliced into phases",
+        description:
+          "One pinned scroll progress is mapped to svh milestones: cards enter, the front card flips at a trigger point, then each back card dismisses across its own 100svh window, so entry, flip, and exit never share frames.",
+      },
+      {
+        label: "Reverse dismiss order",
+        description:
+          "The back cards peel off top of stack first (dismiss order is reversed from render order), and each keeps an elastic flip tilt that eases into a steeper dismiss tilt.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description: "The four back-card titles, bodies, and icon names.",
+      },
+      {
+        name: "heroHeading / frontTitle / frontBody / outroHeading",
+        control: "text",
+        description: "The hero headline, front card copy, and outro statement.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "cards",
+        type: "FlipCardItem[]",
+        default: "Four BLANK cards",
+        description: "Back-card title, body, and icon (lock-open/layers/prism/infinite).",
+      },
+      {
+        name: "heroHeading / frontTitle / frontLabel / frontBody / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Hero, front-card, and outro copy.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description: "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "smudge-cursor-reveal": {
+    demoPath: "src/components/demos/smudge-cursor-reveal.tsx",
+    nuance: [
+      {
+        label: "Goo-filter mask",
+        description:
+          "Circles stamped along the smoothed pointer path feed an SVG feGaussianBlur plus feColorMatrix goo filter, so overlapping stamps merge into organic blobs that mask the layer beneath.",
+      },
+      {
+        label: "Speed-scaled stamps",
+        description:
+          "Each stamp's radius scales with pointer speed, then a per-stamp timeline expands and dissolves it, so fast strokes clear more and every smudge heals itself.",
+      },
+    ],
+    editable: [
+      {
+        name: "foreground / background",
+        control: "text",
+        description: "The top-layer word and the hidden message revealed underneath.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "foreground / background",
+        type: "string",
+        default: '"Dig in" / hidden line',
+        description: "Top-layer headline and the revealed message.",
+      },
+    ],
+  },
+  "landing-image-reveal": {
+    demoPath: "src/components/demos/landing-image-reveal.tsx",
+    nuance: [
+      {
+        label: "Off-screen row math",
+        description:
+          "The five images are laid out as a scaled, rotated row computed from the container width, parked off-screen, then glided to their centered slots before the outer pairs exit and the center image scales to full bleed.",
+      },
+      {
+        label: "Masked line reveals",
+        description:
+          "SplitText splits the nav, headline, and contact lines into masked lines that rise into place on the same timeline, timed against the image choreography.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading / logo / navItems / email",
+        control: "text",
+        description: "Hero headline, wordmark, nav links, and contact email.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description: `The five hero images, starting at ${getHostedAssetUrl(
+          "landing-image-reveal/img-1.jpg",
+        )}.`,
+      },
+    ],
+    assets: landingImageRevealAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "[string, string, string, string, string]",
+        default: "Blob-hosted img-1..5",
+        description: "The five images; the third is the center hero image.",
+      },
+      {
+        name: "heading / logo / navItems / email",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Hero and nav copy.",
+      },
+    ],
+  },
+  "spotlight-gallery-scroll": {
+    demoPath: "src/components/demos/spotlight-gallery-scroll.tsx",
+    nuance: [
+      {
+        label: "One progress, many mappings",
+        description:
+          "The pinned progress is remapped into separate ranges that scale the gallery, counter-scale the images, shrink and travel the logo, blur out the footer, and fade the headline in word by word.",
+      },
+      {
+        label: "Scrubbed handoff",
+        description:
+          "A second ScrollTrigger on the next section scrubs the hero up and fades a black overlay in as it scrolls away, so the pinned stage hands off cleanly.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading / buttonLabel / footer / studioHeading / connectHeading",
+        control: "text",
+        description: "Hero headline, CTA, footer, and the two section headings.",
+      },
+      {
+        name: "images / logo",
+        control: "asset-url",
+        description: `The nine gallery images and the logo, starting at ${getHostedAssetUrl(
+          "spotlight-gallery-scroll/img1.jpg",
+        )}.`,
+      },
+    ],
+    assets: spotlightGalleryScrollAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "Blob-hosted img1..9",
+        description: "Nine images filling the three-column wall.",
+      },
+      {
+        name: "logo / heading / buttonLabel / footer / studioHeading / connectHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Logo asset and hero/section copy.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description: "Own the scroll container; set false to ride the window scroll.",
       },
     ],
   },
