@@ -1853,6 +1853,29 @@ export const assetItems = [
           "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
       }) as const satisfies AssetItem,
   ),
+  ...[
+    [
+      "hero",
+      "hero.jpg",
+      "Fullscreen hero backdrop behind the opening wordmark.",
+    ],
+    ["img-1", "img-1.jpg", "First editorial frame in the four-up strip."],
+    ["img-2", "img-2.jpg", "Second editorial frame in the four-up strip."],
+    ["img-3", "img-3.jpg", "Third editorial frame in the four-up strip."],
+    ["img-4", "img-4.jpg", "Fourth editorial frame in the four-up strip."],
+  ].map(
+    ([id, filename, role]) =>
+      ({
+        id: `cross-reveal-scroll-${id}`,
+        label: `Cross Reveal Scroll ${id}`,
+        provider: "vercel-blob",
+        pathname: `cross-reveal-scroll/${filename}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cross-reveal-scroll/${filename}`,
+        role,
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

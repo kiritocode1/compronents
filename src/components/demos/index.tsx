@@ -15,6 +15,7 @@ import ConvergingSearchScrollDemo from "./converging-search-scroll";
 import CorridorScene3DDemo from "./corridor-scene-3d";
 import CounterStarLoaderDemo from "./counter-star-loader";
 import CreativeClutterDemo from "./creative-clutter";
+import CrossRevealScrollDemo from "./cross-reveal-scroll";
 import CrtDisplayDemo from "./crt-display";
 import CursorTrailScrollDemo from "./cursor-trail-scroll";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
@@ -137,6 +138,7 @@ export const demos: Record<string, ComponentType> = {
   "inversion-lens-hover": InversionLensHoverDemo,
   "counter-star-loader": CounterStarLoaderDemo,
   "corridor-scene-3d": CorridorScene3DDemo,
+  "cross-reveal-scroll": CrossRevealScrollDemo,
   "cursor-trail-scroll": CursorTrailScrollDemo,
   "archive-commerce-page": ArchiveCommercePageDemo,
   "interior-studio-page": InteriorStudioPageDemo,

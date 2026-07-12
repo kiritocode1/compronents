@@ -4709,6 +4709,66 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "cross-reveal-scroll": {
+    demoPath: "src/components/demos/cross-reveal-scroll.tsx",
+    nuance: [
+      {
+        label: "Layered pin timing",
+        description:
+          "The editorial copy and the cross are pinned on separate triggers that both release at the whitespace boundary, so the text holds still while the mark keeps rotating and scaling over it.",
+      },
+      {
+        label: "Bar clip-path spread",
+        description:
+          "Each bar starts as a 10% slit and widens symmetrically to a full quadrant; combined with the 90-degree offset of the second bar, the thin cross fills into a solid square exactly as it reaches full scale.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand / headerRows / outro",
+        control: "text",
+        description: "Hero wordmark, the two banner rows, and closing line.",
+      },
+      {
+        name: "intro / images",
+        control: "text",
+        description: "Editorial paragraph and the four-up image strip.",
+      },
+      {
+        name: "heroImage",
+        control: "asset-url",
+        description: "Fullscreen hero backdrop.",
+      },
+    ],
+    assets: assetsByIds([
+      "cross-reveal-scroll-hero",
+      "cross-reveal-scroll-img-1",
+      "cross-reveal-scroll-img-2",
+      "cross-reveal-scroll-img-3",
+      "cross-reveal-scroll-img-4",
+    ]),
+    api: [
+      {
+        name: "brand / headerRows / intro / outro",
+        type: "string / [string, string] / string / string",
+        default: "BLANK editorial copy",
+        description: "Hero wordmark, banner rows, paragraph, and closing line.",
+      },
+      {
+        name: "images / heroImage",
+        type: "[string, string, string, string] / string",
+        default: "Five BLANK-hosted images",
+        description: "Four-up image strip and the hero backdrop.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "folding-panel-menu": {
     demoPath: "src/components/demos/folding-panel-menu.tsx",
     nuance: [

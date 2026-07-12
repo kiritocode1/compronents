@@ -1743,6 +1743,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "cross-reveal-scroll",
+    title: "Cross Reveal Scroll",
+    description:
+      "A pinned scroll sequence that resolves onto a single white cross. As you scroll it rotates a full turn, its two bars widen from thin slits into solid quadrants, drifts to center, then scales up more than tenfold to wipe the screen and reveal the closing statement. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cross-reveal-scroll.tsx",
+        target: "components/ui/cross-reveal-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "folding-panel-menu",
     title: "Folding Panel Menu",
     description:
