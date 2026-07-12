@@ -146,8 +146,20 @@ function Footer() {
         <p>34 21 2323 2323</p>
       </div>
       <div className="footer-item footer-links">
-        <RouteLink to="/">instagram</RouteLink>
-        <RouteLink to="/">vimeo</RouteLink>
+        <a
+          href="https://x.com/blank_spacets"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          x
+        </a>
+        <a
+          href="https://github.com/kiritocode1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github
+        </a>
       </div>
     </div>
   );
@@ -431,13 +443,25 @@ function Info() {
           <div className="info-col">
             <div className="info-contact-2">
               <p className="header">contact</p>
-              <p>contact@velascoso.com</p>
+              <p>hello@aryank.space</p>
               <p>23 234 234 23</p>
               <p>
-                <RouteLink to="/">instagram</RouteLink>
+                <a
+                  href="https://x.com/blank_spacets"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  x
+                </a>
               </p>
               <p>
-                <RouteLink to="/">vimeo</RouteLink>
+                <a
+                  href="https://www.linkedin.com/in/kiritocode1/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  linkedin
+                </a>
               </p>
             </div>
           </div>

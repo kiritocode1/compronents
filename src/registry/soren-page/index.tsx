@@ -173,9 +173,9 @@ const DOCK_ICONS = [
   { icon: FaPalette, path: "/work" },
   { icon: FaFolderOpen, path: "/projects" },
   { icon: FaCamera, path: "/photos" },
-  { icon: FaTwitter, path: "https://twitter.com/codegridweb", external: true },
-  { icon: FaGithub, path: "https://github.com/codegrid", external: true },
-  { icon: FaEnvelope, path: "mailto:contact@codegridweb.com", external: true },
+  { icon: FaTwitter, path: "https://x.com/blank_spacets", external: true },
+  { icon: FaGithub, path: "https://github.com/kiritocode1", external: true },
+  { icon: FaEnvelope, path: "mailto:hello@aryank.space", external: true },
 ] as const;
 
 function Dock() {

@@ -382,7 +382,7 @@ function Footer() {
         <div className="footer-item" id="footer-contact">
           <p>
             Work with us, write to{" "}
-            <a href="mailto:contact@neoteric.com">contact@neoteric.com</a>
+            <a href="mailto:hello@aryank.space">hello@aryank.space</a>
           </p>
         </div>
         <div className="footer-item">
@@ -893,15 +893,15 @@ function Contact({ base }: { base: string }) {
             </div>
             <div className="contact-info-sub-col">
               <a
-                href="https://instagram.com"
+                href="https://github.com/kiritocode1"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Instagram
+                GitHub
               </a>{" "}
               <br />
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/kiritocode1/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -909,11 +909,11 @@ function Contact({ base }: { base: string }) {
               </a>{" "}
               <br />
               <a
-                href="https://twitter.com"
+                href="https://x.com/blank_spacets"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Twitter
+                X
               </a>
             </div>
           </div>
