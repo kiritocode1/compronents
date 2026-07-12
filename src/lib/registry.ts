@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "isochrome-page",
+    title: "ISOChrome Page",
+    description:
+      "A source-backed ISOChrome creative-agency template ported from a Next App Router build. It ships the routed home (preloader), about (pinned expertise panel, parallax), work, project, and contact pages behind a lightweight internal router. Line-reveal text uses gsap SplitText (replacing split-type), parallax and ScrollTrigger run against the preview's own scroll container (replacing Lenis), and routing is local (replacing next-view-transitions), so it depends only on gsap. Druk and Akkurat Mono fonts and imagery are Blob-hosted.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "@gsap/react"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/isochrome-page/index.tsx",
+        target: "components/ui/isochrome-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/isochrome-page/styles.ts",
+        target: "components/ui/isochrome-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "null-studio-page",
     title: "Null Studio Page",
     description:

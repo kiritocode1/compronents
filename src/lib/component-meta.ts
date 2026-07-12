@@ -377,6 +377,7 @@ const brutalistPortfolioPageAssetDocs = pageAssets(
   5,
 );
 const nullStudioPageAssetDocs = pageAssets("null-studio-page-", 5);
+const isochromePageAssetDocs = pageAssets("isochrome-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -792,6 +793,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "isochrome-page": {
+    demoPath: "src/components/demos/isochrome-page.tsx",
+    studioPath: "src/components/studios/isochrome-page.tsx",
+    nuance: [
+      {
+        label: "Full routed agency site port",
+        description:
+          "The component ships the ISOChrome home, about, work, project, and contact pages behind a local router, so the whole Next App Router site installs as one page template.",
+      },
+      {
+        label: "Deps swapped for the registry",
+        description:
+          "split-type line reveals become gsap SplitText, Lenis parallax and ScrollTrigger run against the preview's own scroll container, and next-view-transitions routing becomes a local state router, so it depends only on gsap and @gsap/react.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "Every source image, all sixteen client logos, and the Druk and Akkurat Mono fonts resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /about, /work, /project, or /contact.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "isochrome-page/home/hero-img.jpg",
+        )}.`,
+      },
+    ],
+    assets: isochromePageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/isochrome-page"',
+        description:
+          "Base URL prefixed to every image and font the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/about" | "/work" | "/project" | "/contact"',
         default: '"/"',
         description: "Source route mounted first.",
       },

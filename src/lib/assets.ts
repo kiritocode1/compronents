@@ -1245,6 +1245,39 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const isochromePageAssetPaths = [
+  "home/hero-img.jpg",
+  "about/hero.jpg",
+  "about/founder.jpg",
+  "about/about-copy.jpg",
+  "about/about-outro.jpg",
+  "about/expertise-img-1.jpg",
+  "about/expertise-img-2.jpg",
+  "contact/banner.jpg",
+  ...Array.from({ length: 7 }, (_, i) => `projects/project-banner-${i + 1}.jpg`),
+  ...[1, 2, 3].map((i) => `project/project-img-${i}.jpg`),
+  ..."ABCDEFGH".split("").flatMap((c) => [`client-logos/${c}1.png`, `client-logos/${c}2.png`]),
+  "fonts/akkuratmono.ttf",
+  "fonts/druk-bold.otf",
+  "fonts/druk-heavy.otf",
+  "fonts/druk-medium.otf",
+  "fonts/druk-super.otf",
+] as readonly string[];
+
+const isochromePageAssets = isochromePageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `isochrome-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `ISOChrome Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `isochrome-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/isochrome-page/${rel}`,
+      role: "ISOChrome source template image, client logo, or Druk font.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the isochrome-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -1523,6 +1556,7 @@ export const assetItems = [
   ...unusualStudioPageAssets,
   ...brutalistPortfolioPageAssets,
   ...nullStudioPageAssets,
+  ...isochromePageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
