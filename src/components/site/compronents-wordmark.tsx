@@ -2,6 +2,12 @@
 
 import { Calligraph } from "calligraph";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
+import {
+  PRO_COLS,
+  PRO_LETTERS,
+  proLetterCells,
+  proRnd,
+} from "@/lib/pro-mosaic";
 import { cn } from "@/lib/utils";
 
 /**
@@ -11,51 +17,6 @@ import { cn } from "@/lib/utils";
  * idle-twinkle to scattered accent colors. In the header (`mosaic={false}`)
  * PRO is plain amber text so the animation only lives where it is showcased.
  */
-
-// 7x8 bitmaps for the three letters (1 = filled cell).
-const GLYPHS: Record<string, string[]> = {
-  P: [
-    "1111110",
-    "1100011",
-    "1100011",
-    "1111110",
-    "1100000",
-    "1100000",
-    "1100000",
-    "1100000",
-  ],
-  R: [
-    "1111110",
-    "1100011",
-    "1100011",
-    "1111110",
-    "1101100",
-    "1100110",
-    "1100011",
-    "1100011",
-  ],
-  O: [
-    "0111110",
-    "1100011",
-    "1100011",
-    "1100011",
-    "1100011",
-    "1100011",
-    "1100011",
-    "0111110",
-  ],
-};
-
-const COLS = 7;
-const BASE = "#f4b400"; // amber / yellow
-const FLASH = "#ffd766"; // brighter yellow (accent cells twinkle back to this)
-const ACCENTS = ["#e8402a", "#2f6bff", "#c3f53b", "#141d3f"]; // red, blue, lime, navy
-
-/** Deterministic 0..1 from an integer, stable across SSR and client. */
-function rnd(n: number) {
-  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
-  return x - Math.floor(x);
-}
 
 function ProMosaic() {
   const ref = useRef<HTMLSpanElement>(null);
@@ -91,45 +52,48 @@ function ProMosaic() {
       )}
       style={{ gap: "0.1em", height: "0.72em" }}
     >
-      {"PRO".split("").map((ch, li) => (
-        <span
-          // biome-ignore lint/suspicious/noArrayIndexKey: fixed 3-letter lockup
-          key={li}
-          className="grid shrink-0"
-          style={{
-            gridTemplateColumns: `repeat(${COLS}, ${cell})`,
-            gridAutoRows: cell,
-            gap,
-          }}
-        >
-          {GLYPHS[ch].flatMap((row, r) =>
-            row.split("").map((bit, c) => {
+      {PRO_LETTERS.map((ch, li) => {
+        const cells = proLetterCells(ch, li);
+        const filled = new Map(
+          cells.map((data) => [`${data.r}-${data.c}`, data]),
+        );
+        return (
+          <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: fixed 3-letter lockup
+            key={li}
+            className="grid shrink-0"
+            style={{
+              gridTemplateColumns: `repeat(${PRO_COLS}, ${cell})`,
+              gridAutoRows: cell,
+              gap,
+            }}
+          >
+            {Array.from({ length: 8 * PRO_COLS }, (_, i) => {
+              const r = Math.floor(i / PRO_COLS);
+              const c = i % PRO_COLS;
               const key = `${r}-${c}`;
-              if (bit !== "1") return <span key={key} />;
-              const gi = li * 100 + r * COLS + c;
-              const accent = ACCENTS[Math.floor(rnd(gi + 7) * ACCENTS.length)];
-              const isAccentCell = rnd(gi) < 0.2;
-              const colPos = li * (COLS + 1) + c; // left-to-right across the word
-              const delay = colPos * 0.018 + rnd(gi + 3) * 0.05;
-              const twinkle = 1.8 + rnd(gi + 11) * 1.8;
+              const data = filled.get(key);
+              if (!data) return <span key={key} />;
+              const delay = data.colPos * 0.018 + proRnd(data.gi + 3) * 0.05;
+              const twinkle = 1.8 + proRnd(data.gi + 11) * 1.8;
               return (
                 <span
                   key={key}
                   className="pro-cell"
                   style={
                     {
-                      "--pro-base": isAccentCell ? accent : BASE,
-                      "--pro-flash": isAccentCell ? FLASH : accent,
+                      "--pro-base": data.color,
+                      "--pro-flash": data.flash,
                       "--pro-d": `${delay.toFixed(3)}s`,
                       "--pro-t": `${twinkle.toFixed(2)}s`,
                     } as CSSProperties
                   }
                 />
               );
-            }),
-          )}
-        </span>
-      ))}
+            })}
+          </span>
+        );
+      })}
     </span>
   );
 }
