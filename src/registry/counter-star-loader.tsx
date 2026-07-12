@@ -345,7 +345,7 @@ const styles = `
 
 .csl-header h1 {
   position: relative;
-  font-size: 25vw;
+  font-size: 18vw;
   font-weight: lighter;
   letter-spacing: -0.02em;
   line-height: 0.85;

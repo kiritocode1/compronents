@@ -417,6 +417,7 @@ const styles = `
   width: 100%;
   height: 100%;
   background-color: var(--light);
+  color: var(--dark);
   font-family: "DM Sans", sans-serif;
 }
 
@@ -672,6 +673,19 @@ const styles = `
   gap: 2rem;
   background-color: #fff;
   transform: rotateY(180deg);
+}
+
+#sfc-card-1 .sfc-flip-card-back,
+#sfc-mobile-card-1 .sfc-flip-card-back {
+  background-color: var(--accent-1);
+}
+#sfc-card-2 .sfc-flip-card-back,
+#sfc-mobile-card-2 .sfc-flip-card-back {
+  background-color: var(--accent-2);
+}
+#sfc-card-3 .sfc-flip-card-back,
+#sfc-mobile-card-3 .sfc-flip-card-back {
+  background-color: var(--accent-3);
 }
 
 .sfc-card-copy {

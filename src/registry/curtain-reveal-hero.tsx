@@ -147,7 +147,7 @@ export default function CurtainRevealHero({
     });
 
     tl.to(
-      heroOutroContent,
+      [heroOutroContent, outroClone],
       { scale: 1, duration: cascadeDuration },
       cascadeStart + heroImages.length * cascadeStagger + cascadeStagger * 0.5,
     );
@@ -340,7 +340,7 @@ const styles = `
   padding: 2rem;
   background-color: var(--base-100);
   color: var(--base-300);
-  margin-top: 500svh;
+  margin-top: 600svh;
   z-index: 1;
 }
 
