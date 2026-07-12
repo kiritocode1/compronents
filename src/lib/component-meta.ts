@@ -372,6 +372,10 @@ const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 const sorenPageAssetDocs = pageAssets("soren-page-", 5);
 const neotericPageAssetDocs = pageAssets("neoteric-page-", 5);
 const unusualStudioPageAssetDocs = pageAssets("unusual-studio-page-", 5);
+const brutalistPortfolioPageAssetDocs = pageAssets(
+  "brutalist-portfolio-page-",
+  5,
+);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -787,6 +791,63 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "brutalist-portfolio-page": {
+    demoPath: "src/components/demos/brutalist-portfolio-page.tsx",
+    studioPath: "src/components/studios/brutalist-portfolio-page.tsx",
+    nuance: [
+      {
+        label: "Full routed portfolio port",
+        description:
+          "The component ships the Brutal Portfolio home, about, and case-studies pages behind a local router, so the whole portfolio installs as one page template.",
+      },
+      {
+        label: "Cursor image-trail in gsap 3",
+        description:
+          "The original TweenMax image trail that follows the cursor across the home is reimplemented with gsap 3, scoped to the component and aligned to its own bounding box.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "All nine source images and the PP Mondwest and PP NeueBit fonts resolve through the stable asset base.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description: "Which source route opens first: /, /case-studies, or /about.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "brutalist-portfolio-page/images/01.png",
+        )}.`,
+      },
+    ],
+    assets: brutalistPortfolioPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/brutalist-portfolio-page"',
+        description:
+          "Base URL prefixed to every image and font the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/case-studies" | "/about"',
         default: '"/"',
         description: "Source route mounted first.",
       },

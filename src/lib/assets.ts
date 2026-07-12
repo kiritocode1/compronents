@@ -1245,6 +1245,26 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const brutalistPortfolioPageAssetPaths = [
+  ...Array.from({ length: 9 }, (_, i) => `images/0${i + 1}.png`),
+  "fonts/PPMondwest-Regular.otf",
+  "fonts/PPNeueBit-Bold.otf",
+] as readonly string[];
+
+const brutalistPortfolioPageAssets = brutalistPortfolioPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `brutalist-portfolio-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Brutalist Portfolio Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `brutalist-portfolio-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/brutalist-portfolio-page/${rel}`,
+      role: "Brutalist Portfolio source template image or PP font.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the brutalist-portfolio-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const unusualStudioPageAssetPaths = [
   "images/about-feature.jpg",
   "images/about-hero.jpg",
@@ -1466,6 +1486,7 @@ export const assetItems = [
   ...sorenPageAssets,
   ...neotericPageAssets,
   ...unusualStudioPageAssets,
+  ...brutalistPortfolioPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

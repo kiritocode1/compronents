@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "brutalist-portfolio-page",
+    title: "Brutalist Portfolio Page",
+    description:
+      "A source-backed Brutal Portfolio template. It ships the routed home (a cursor image-trail over a red brutalist layout), an about page, and a case-studies list behind a lightweight internal router. The original TweenMax image trail is reimplemented in gsap 3, scoped to the component, with Blob-hosted PP Mondwest and PP NeueBit fonts and imagery.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/brutalist-portfolio-page/index.tsx",
+        target: "components/ui/brutalist-portfolio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/brutalist-portfolio-page/styles.ts",
+        target: "components/ui/brutalist-portfolio-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "unusual-studio-page",
     title: "Unusual Studio Page",
     description:

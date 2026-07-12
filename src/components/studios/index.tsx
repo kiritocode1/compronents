@@ -32,6 +32,7 @@ import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SpiralGalleryStudio from "./spiral-gallery";
+import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import NeotericPageStudio from "./neoteric-page";
 import SorenPageStudio from "./soren-page";
 import UnusualStudioPageStudio from "./unusual-studio-page";
@@ -77,6 +78,7 @@ export const studios: Record<string, StudioComponent> = {
   "march-2025-template": March2025TemplateStudio,
   "wu-wei-page": WuWeiPageStudio,
   "lemon-bureau-page": LemonBureauPageStudio,
+  "brutalist-portfolio-page": BrutalistPortfolioPageStudio,
   "neoteric-page": NeotericPageStudio,
   "soren-page": SorenPageStudio,
   "unusual-studio-page": UnusualStudioPageStudio,
