@@ -961,7 +961,7 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.youtube.com/playlist?list=PL4-IK0AVhVjOJs_UjdQeyEZ_cmEV3uJvx",
       },
       {
-        title: "Digital Design and Computer Architecture",
+        title: "Digital Design and Computer Architecture (Spring 2026 livestream)",
         href: "https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-yo9kK-BKrq11ykNKkVEpd",
       },
     ],
@@ -1162,6 +1162,41 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://handmade.network/podcast",
       },
       {
+        title: "John Hammond",
+        href: "https://www.youtube.com/@_JohnHammond",
+      },
+      {
+        title: "Andrej Karpathy",
+        href: "https://www.youtube.com/@AndrejKarpathy",
+      },
+      {
+        title: "Yannic Kilcher",
+        href: "https://www.youtube.com/@YannicKilcher",
+      },
+      { title: "The Net Ninja", href: "https://www.youtube.com/@NetNinja" },
+      { title: "Corey Schafer", href: "https://www.youtube.com/@coreyms" },
+      {
+        title: "TechWorld with Nana",
+        href: "https://www.youtube.com/@TechWorldwithNana",
+      },
+      {
+        title: "AWS re:Invent",
+        href: "https://www.youtube.com/playlist?list=PL2yQDdvlhXf_NqSnDKx7Hbb9FrNQKmxg7",
+      },
+      {
+        title: "Luke Barousse",
+        href: "https://www.youtube.com/@LukeBarousse",
+      },
+      { title: "Gaurav Sen", href: "https://www.youtube.com/@gkcs" },
+      { title: "Hussein Nasser", href: "https://www.youtube.com/@hnasr" },
+      { title: "The Cherno", href: "https://www.youtube.com/@TheCherno" },
+      {
+        title: "Learn Linux TV",
+        href: "https://www.youtube.com/@LearnLinuxTV",
+      },
+      { title: "David Bombal", href: "https://www.youtube.com/@davidbombal" },
+      { title: "3Blue1Brown", href: "https://www.youtube.com/@3blue1brown" },
+      {
         title: "The DevOps roadmap that got me hired",
         href: "https://youtu.be/8s0DWeHuEaw",
       },
@@ -1192,3 +1227,36 @@ export const inspirationGroups: InspirationGroup[] = [
     links: [{ title: "Seolo blog", href: "https://www.seolo.live/blogs" }],
   },
 ];
+
+/** Full catalog as markdown for /inspiration/llms.txt and LLM tooling. */
+export function inspirationGroupsToMarkdown(
+  groups: InspirationGroup[] = inspirationGroups,
+): string {
+  const total = groups.reduce((n, g) => n + g.links.length, 0);
+  const lines: string[] = [
+    "# Inspiration",
+    "",
+    "Curated links from [ui.aryank.space/inspiration](https://ui.aryank.space/inspiration).",
+    "",
+    `${groups.length} categories, ${total} links.`,
+    "",
+    "---",
+    "",
+  ];
+
+  for (const group of groups) {
+    lines.push(`## ${group.title}`, "");
+    for (const link of group.links) {
+      lines.push(`- [${link.title}](${link.href})`);
+    }
+    lines.push("");
+  }
+
+  lines.push("---", "");
+  lines.push(
+    "Source of truth: `src/lib/inspiration.ts` in the compronents registry.",
+    "",
+  );
+
+  return lines.join("\n");
+}
