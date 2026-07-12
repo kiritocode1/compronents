@@ -1245,6 +1245,25 @@ const otisValenPageAssets = otisValenPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const sorenPageAssetPaths = Array.from(
+  { length: 22 },
+  (_, i) => `work/work-${i + 1}.jpg`,
+) as readonly string[];
+
+const sorenPageAssets = sorenPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `soren-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Soren Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `soren-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/soren-page/${rel}`,
+      role: "Soren source template work and photo image.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the soren-page template.",
+    }) as const satisfies AssetItem,
+);
+
 const velascoSolariPageAssetPaths = [
   "project-images/01.jpg",
   "project-images/02.jpg",
@@ -1390,6 +1409,7 @@ export const assetItems = [
   ...wuWeiPageAssets,
   ...otisValenPageAssets,
   ...velascoSolariPageAssets,
+  ...sorenPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

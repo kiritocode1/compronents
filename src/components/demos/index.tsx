@@ -89,6 +89,7 @@ import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
+import SorenPageDemo from "./soren-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import WuWeiPageDemo from "./wu-wei-page";
 
@@ -186,6 +187,7 @@ export const demos: Record<string, ComponentType> = {
   "deadspace-page": DeadspacePageDemo,
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
+  "soren-page": SorenPageDemo,
   "velasco-solari-page": VelascoSolariPageDemo,
   "wu-wei-page": WuWeiPageDemo,
   "lemon-bureau-page": LemonBureauPageDemo,

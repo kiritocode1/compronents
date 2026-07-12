@@ -1843,6 +1843,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "soren-page",
+    title: "Soren Page",
+    description:
+      "A source-backed Soren personal portfolio template. It ships the routed home with a Spline 3D hero and live clock, a magnifying macOS-style dock, a GSAP work masonry, a projects list with scramble text, a photos grid, and a sample blog post, all behind a lightweight internal router with Blob-hosted imagery. The Spline scene loads through the official web-component viewer.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "@gsap/react", "react-icons"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/soren-page/index.tsx",
+        target: "components/ui/soren-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/soren-page/styles.ts",
+        target: "components/ui/soren-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "velasco-solari-page",
     title: "Velasco Solari Page",
     description:

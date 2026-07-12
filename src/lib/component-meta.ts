@@ -369,6 +369,7 @@ const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
+const sorenPageAssetDocs = pageAssets("soren-page-", 5);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -784,6 +785,64 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         type: '"/" | "/lab" | "/work" | "/project" | "/contact"',
+        default: '"/"',
+        description: "Source route mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "soren-page": {
+    demoPath: "src/components/demos/soren-page.tsx",
+    studioPath: "src/components/studios/soren-page.tsx",
+    nuance: [
+      {
+        label: "Full routed portfolio port",
+        description:
+          "The component ships the Soren home, work masonry, projects list, photos grid, and sample post behind a local router, so the whole portfolio installs as one page template.",
+      },
+      {
+        label: "Source interactions preserved",
+        description:
+          "The magnifying macOS-style dock, GSAP entrance staggers on work and photos, and a self-contained scramble reveal on the projects list are recreated from the source; the Spline 3D hero loads through the official web-component viewer.",
+      },
+      {
+        label: "Blob source media",
+        description:
+          "All 22 source work images resolve through the stable asset base; fonts are the Google Urbanist and JetBrains Mono families.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which source route opens first: /, /work, /projects, /photos, or /post.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted media starting at ${getHostedAssetUrl(
+          "soren-page/work/work-1.jpg",
+        )}.`,
+      },
+    ],
+    assets: sorenPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/soren-page"',
+        description:
+          "Base URL prefixed to every image the template renders.",
+      },
+      {
+        name: "initialPath",
+        type: '"/" | "/work" | "/projects" | "/photos" | "/post"',
         default: '"/"',
         description: "Source route mounted first.",
       },
