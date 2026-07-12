@@ -70,6 +70,20 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const convergingIconsTextAssets = Array.from({ length: 5 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `converging-icons-text-icon-${n}`,
+    label: `Converging Icons Text icon ${n}`,
+    provider: "vercel-blob",
+    pathname: `converging-icons-text/icon_${n}.png`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/converging-icons-text/icon_${n}.png`,
+    role: "Icon in the floating row that clones and flies into a headline slot.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 const curtainRevealHeroAssets = [
   [
     "bg",
@@ -1322,6 +1336,7 @@ export const assetItems = [
   ...tiltCardStackAssets,
   ...slitRevealHeroAssets,
   ...curtainRevealHeroAssets,
+  ...convergingIconsTextAssets,
   ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {

@@ -1823,6 +1823,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "converging-icons-text",
+    title: "Converging Icons Text",
+    description:
+      "A pinned hero where a row of icons collects itself into a sentence. As you scroll, the header fades, the floating icon row lifts and scales down to caption size, then clones of each icon peel off and travel into inline slots inside a headline, moving vertically then horizontally into place, and the surrounding words fade in one by one in a shuffled order. GSAP ScrollTrigger with Lenis, desktop only.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/converging-icons-text.tsx",
+        target: "components/ui/converging-icons-text.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "curtain-reveal-hero",
     title: "Curtain Reveal Hero",
     description:

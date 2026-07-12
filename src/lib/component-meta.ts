@@ -4924,6 +4924,65 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "converging-icons-text": {
+    demoPath: "src/components/demos/converging-icons-text.tsx",
+    nuance: [
+      {
+        label: "Clone-and-fly handoff",
+        description:
+          "The real icon row scales into caption size, then live clones take over the last leg, flying into the headline slots so the originals never have to leave their flex row and break the layout.",
+      },
+      {
+        label: "Two-axis approach",
+        description:
+          "Each clone covers its vertical distance to the slot in the first half of the phase and its horizontal distance in the second, so icons drop into their line before sliding to the exact word position.",
+      },
+    ],
+    editable: [
+      {
+        name: "icons",
+        control: "asset-url",
+        description: "The five icons that fly into the sentence.",
+      },
+      {
+        name: "heroTitle / heroSubtitle / outroText",
+        control: "text",
+        description: "Opening header, subtitle, and closing line.",
+      },
+      {
+        name: "segments",
+        control: "text",
+        description: "The six word groups the icons slot between.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from(
+        { length: 5 },
+        (_, i) => `converging-icons-text-icon-${i + 1}`,
+      ),
+    ),
+    api: [
+      {
+        name: "icons",
+        type: "[string, string, string, string, string]",
+        default: "Five BLANK-hosted icons",
+        description: "Icons that clone and fly into the headline slots.",
+      },
+      {
+        name: "heroTitle / heroSubtitle / segments / outroText",
+        type: "string / string / [string x6] / string",
+        default: "BLANK PRO copy",
+        description: "Header, subtitle, sentence fragments, and closing line.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "curtain-reveal-hero": {
     demoPath: "src/components/demos/curtain-reveal-hero.tsx",
     nuance: [

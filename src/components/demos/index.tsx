@@ -12,6 +12,7 @@ import BlockRevealTextDemo from "./block-reveal-text";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ClientHoverPreviewDemo from "./client-hover-preview";
+import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
 import CorridorScene3DDemo from "./corridor-scene-3d";
 import CounterStarLoaderDemo from "./counter-star-loader";
@@ -156,6 +157,7 @@ export const demos: Record<string, ComponentType> = {
   "fractal-glass-hover": FractalGlassHoverDemo,
   "name-preloader-reveal": NamePreloaderRevealDemo,
   "model-menu-3d": ModelMenu3DDemo,
+  "converging-icons-text": ConvergingIconsTextDemo,
   "converging-search-scroll": ConvergingSearchScrollDemo,
   "mask-reveal-preloader": MaskRevealPreloaderDemo,
   "line-rise-text": LineRiseTextDemo,
