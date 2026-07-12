@@ -4924,6 +4924,59 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "slit-reveal-hero": {
+    demoPath: "src/components/demos/slit-reveal-hero.tsx",
+    nuance: [
+      {
+        label: "Sequenced phases",
+        description:
+          "One scroll progress value is split into overlapping windows for the slit, rotation, scale, copy slide, and outro clips, so each stage owns its own slice of the timeline and hands off cleanly to the next.",
+      },
+      {
+        label: "Masked line outro",
+        description:
+          "The closing headline is split into masked lines held below their clip; only past 90 percent do they rise, and scrolling back drops them again, so the reveal is a discrete beat rather than a scrubbed tween.",
+      },
+    ],
+    editable: [
+      {
+        name: "heroImage / outroImages",
+        control: "asset-url",
+        description: "Lead image and the two outro images.",
+      },
+      {
+        name: "heroHeading / columns / outroHeading / aboutHeading",
+        control: "text",
+        description: "All headline and column copy.",
+      },
+    ],
+    assets: assetsByIds([
+      "slit-reveal-hero-hero",
+      "slit-reveal-hero-outro-1",
+      "slit-reveal-hero-outro-2",
+    ]),
+    api: [
+      {
+        name: "heroImage / outroImages",
+        type: "string / [string, string]",
+        default: "Three BLANK-hosted images",
+        description: "Lead hero image and the two outro images.",
+      },
+      {
+        name: "heroHeading / columns / outroHeading / aboutHeading",
+        type: "string / [SlitColumn, SlitColumn] / string / string",
+        default: "BLANK editorial copy",
+        description: "Hero headline, the two copy columns, and closing lines.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "tilt-card-stack": {
     demoPath: "src/components/demos/tilt-card-stack.tsx",
     nuance: [

@@ -70,6 +70,36 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const slitRevealHeroAssets = [
+  [
+    "hero",
+    "hero.jpg",
+    "Lead hero image that narrows to a slit and rotates away.",
+  ],
+  [
+    "outro-1",
+    "hero-outro-img-1.jpg",
+    "Top outro image clipped in from the top.",
+  ],
+  [
+    "outro-2",
+    "hero-outro-img-2.jpg",
+    "Bottom outro image clipped in from the bottom.",
+  ],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `slit-reveal-hero-${id}`,
+      label: `Slit Reveal Hero ${id}`,
+      provider: "vercel-blob",
+      pathname: `slit-reveal-hero/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/slit-reveal-hero/${filename}`,
+      role,
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    }) as const satisfies AssetItem,
+);
+
 const tiltCardStackAssets = Array.from({ length: 4 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1267,6 +1297,7 @@ export const assetItems = [
   ...shaderGridGalleryAssets,
   ...montageRevealHeroAssets,
   ...tiltCardStackAssets,
+  ...slitRevealHeroAssets,
   ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {

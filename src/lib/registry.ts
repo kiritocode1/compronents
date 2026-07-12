@@ -1823,6 +1823,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "slit-reveal-hero",
+    title: "Slit Reveal Hero",
+    description:
+      "A pinned hero that peels itself apart in stages. The lead image narrows to a vertical slit as a dark veil closes over it, then the whole panel rotates and shrinks to nothing while two columns of copy slide off behind it under a red wash, and finally two outro images clip in from top and bottom as the closing headline rises line by line. GSAP ScrollTrigger with SplitText and Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/slit-reveal-hero.tsx",
+        target: "components/ui/slit-reveal-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "tilt-card-stack",
     title: "Tilt Card Stack",
     description:

@@ -69,6 +69,7 @@ import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
+import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
@@ -113,6 +114,7 @@ export const demos: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
+  "slit-reveal-hero": SlitRevealHeroDemo,
   "spiral-gallery": SpiralGalleryDemo,
   "voku-image-slider": VokuImageSliderDemo,
   "threejs-infinite-slider": ThreejsInfiniteSliderDemo,
