@@ -47,7 +47,7 @@ export function SiteNav() {
   return (
     <header className="flex items-center justify-between py-8 text-[13px]">
       <Link href="/" aria-label="Compronents home" onMouseEnter={playHover}>
-        <CompronentsWordmark />
+        <CompronentsWordmark mosaic={false} />
       </Link>
       <nav className="flex items-center gap-5">
         {links.map((link) => {

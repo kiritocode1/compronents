@@ -16,7 +16,7 @@ export default function Page() {
         </>
       }
       items={items}
-      brand={<CompronentsWordmark className="text-4xl sm:text-5xl" />}
+      brand={<CompronentsWordmark className="text-6xl sm:text-7xl" />}
     />
   );
 }
