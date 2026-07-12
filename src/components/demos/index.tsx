@@ -20,6 +20,7 @@ import CrossRevealScrollDemo from "./cross-reveal-scroll";
 import CrtDisplayDemo from "./crt-display";
 import CursorImageTrailDemo from "./cursor-image-trail";
 import CursorTrailScrollDemo from "./cursor-trail-scroll";
+import CurtainRevealHeroDemo from "./curtain-reveal-hero";
 import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
@@ -163,6 +164,7 @@ export const demos: Record<string, ComponentType> = {
   "corridor-scene-3d": CorridorScene3DDemo,
   "catalog-swap-gallery": CatalogSwapGalleryDemo,
   "cross-reveal-scroll": CrossRevealScrollDemo,
+  "curtain-reveal-hero": CurtainRevealHeroDemo,
   "cursor-image-trail": CursorImageTrailDemo,
   "cursor-trail-scroll": CursorTrailScrollDemo,
   "curved-plane-slider": CurvedPlaneSliderDemo,

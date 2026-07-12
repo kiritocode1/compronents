@@ -1823,6 +1823,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "curtain-reveal-hero",
+    title: "Curtain Reveal Hero",
+    description:
+      "A long pinned hero that stages a full reveal on scroll. A red wipe splits from a center seam to fill the frame, three images cascade open from nothing with a clip-and-scale, and a closing statement scales up, then that statement is cut down the middle and its two halves slide apart like curtains to hand off to the next section. GSAP timeline ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/curtain-reveal-hero.tsx",
+        target: "components/ui/curtain-reveal-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "slit-reveal-hero",
     title: "Slit Reveal Hero",
     description:

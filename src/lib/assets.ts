@@ -70,6 +70,29 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const curtainRevealHeroAssets = [
+  [
+    "bg",
+    "hero-bg.jpg",
+    "Full-bleed hero backdrop that scales down as the reveal begins.",
+  ],
+  ["img-1", "hero-img-1.jpg", "First interior image in the cascade reveal."],
+  ["img-2", "hero-img-2.jpg", "Second interior image in the cascade reveal."],
+  ["img-3", "hero-img-3.jpg", "Third interior image in the cascade reveal."],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `curtain-reveal-hero-${id}`,
+      label: `Curtain Reveal Hero ${id}`,
+      provider: "vercel-blob",
+      pathname: `curtain-reveal-hero/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/curtain-reveal-hero/${filename}`,
+      role,
+      notes:
+        "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+    }) as const satisfies AssetItem,
+);
+
 const slitRevealHeroAssets = [
   [
     "hero",
@@ -1298,6 +1321,7 @@ export const assetItems = [
   ...montageRevealHeroAssets,
   ...tiltCardStackAssets,
   ...slitRevealHeroAssets,
+  ...curtainRevealHeroAssets,
   ...splitRevealPreloaderAssets,
   ...scrollWaveGalleryAssets,
   {

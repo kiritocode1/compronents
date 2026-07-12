@@ -4924,6 +4924,65 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "curtain-reveal-hero": {
+    demoPath: "src/components/demos/curtain-reveal-hero.tsx",
+    nuance: [
+      {
+        label: "Cloned split curtain",
+        description:
+          "The outro statement is duplicated at runtime and each copy clipped to one half, so the single headline can split down its center and slide apart as two curtains without any seam.",
+      },
+      {
+        label: "One timeline, many beats",
+        description:
+          "Background scale, the seam wipe, the staggered image cascade, and the curtain exit are all placed on one scrubbed timeline at fixed positions, so scroll speed alone drives the whole sequence in order.",
+      },
+    ],
+    editable: [
+      {
+        name: "heroImage / images",
+        control: "asset-url",
+        description: "Backdrop and the three cascade images.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "Opening headline and the split curtain statement.",
+      },
+      {
+        name: "aboutHeading / aboutBody",
+        control: "text",
+        description: "The following section's heading and copy.",
+      },
+    ],
+    assets: assetsByIds([
+      "curtain-reveal-hero-bg",
+      "curtain-reveal-hero-img-1",
+      "curtain-reveal-hero-img-2",
+      "curtain-reveal-hero-img-3",
+    ]),
+    api: [
+      {
+        name: "heroImage / images",
+        type: "string / [string, string, string]",
+        default: "Four BLANK-hosted images",
+        description: "Backdrop and the three cascade images.",
+      },
+      {
+        name: "heroHeading / outroHeading / aboutHeading / aboutBody",
+        type: "string",
+        default: "BLANK editorial copy",
+        description: "Hero, curtain, and following-section text.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
   "slit-reveal-hero": {
     demoPath: "src/components/demos/slit-reveal-hero.tsx",
     nuance: [
