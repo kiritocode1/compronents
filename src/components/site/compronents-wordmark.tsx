@@ -77,25 +77,29 @@ function ProMosaic() {
     return () => io.disconnect();
   }, []);
 
+  // 8 rows of cells sized to match capital letter height (~0.72em).
+  const cell = "0.078em";
+  const gap = "0.014em";
+
   return (
     <span
       ref={ref}
       aria-hidden
       className={cn(
-        "pro-mosaic mx-[0.1em] inline-block align-baseline",
+        "pro-mosaic mx-[0.08em] inline-flex shrink-0 items-center",
         inView && "is-in",
       )}
+      style={{ gap: "0.1em", height: "0.72em" }}
     >
       {"PRO".split("").map((ch, li) => (
         <span
           // biome-ignore lint/suspicious/noArrayIndexKey: fixed 3-letter lockup
           key={li}
-          className="inline-grid"
+          className="grid shrink-0"
           style={{
-            gridTemplateColumns: `repeat(${COLS}, 0.08em)`,
-            gridAutoRows: "0.08em",
-            gap: "0.015em",
-            marginRight: li < 2 ? "0.11em" : undefined,
+            gridTemplateColumns: `repeat(${COLS}, ${cell})`,
+            gridAutoRows: cell,
+            gap,
           }}
         >
           {GLYPHS[ch].flatMap((row, r) =>
@@ -140,7 +144,7 @@ export function CompronentsWordmark({
   return (
     <span
       className={cn(
-        "inline-block whitespace-nowrap font-semibold tracking-tight text-foreground",
+        "inline-flex flex-nowrap items-center whitespace-nowrap font-semibold tracking-tight text-foreground",
         className,
       )}
     >
@@ -150,7 +154,9 @@ export function CompronentsWordmark({
       {mosaic ? (
         <ProMosaic />
       ) : (
-        <span className="mx-[0.04em] font-semibold text-amber-500">PRO</span>
+        <span className="mx-[0.04em] shrink-0 font-semibold text-amber-500">
+          PRO
+        </span>
       )}
       <Calligraph as="span" initial>
         NENTS
