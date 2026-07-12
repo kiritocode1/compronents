@@ -4709,6 +4709,66 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "folding-panel-menu": {
+    demoPath: "src/components/demos/folding-panel-menu.tsx",
+    nuance: [
+      {
+        label: "Clip-path strip reveal",
+        description:
+          "Each panel clips to its own rectangle, so the oversized rotated word is hidden inside the thin folded column and only becomes legible as the strip widens to the full frame.",
+      },
+      {
+        label: "Directional letter stagger",
+        description:
+          "Opening raises the letters bottom-up with a negative stagger; closing drops them top-down with a positive one, so the type feels weighted in both directions rather than simply reversed.",
+      },
+    ],
+    editable: [
+      {
+        name: "items",
+        control: "text",
+        description: "Panel index, label, and per-panel image.",
+      },
+      {
+        name: "heroImage",
+        control: "asset-url",
+        description: "Fullscreen backdrop behind the folded strip.",
+      },
+      {
+        name: "cream / muted / ink",
+        control: "color",
+        description: "Panel surface, index, and display-type colors.",
+      },
+    ],
+    assets: assetsByIds([
+      "folding-panel-menu-hero",
+      "folding-panel-menu-img-1",
+      "folding-panel-menu-img-2",
+      "folding-panel-menu-img-3",
+      "folding-panel-menu-img-4",
+      "folding-panel-menu-img-5",
+    ]),
+    api: [
+      {
+        name: "items",
+        type: "FoldingPanelMenuItem[]",
+        default: "Five BLANK panels (Why, Who, What, How, Join)",
+        description: "Panel index, label, and image for each folded column.",
+      },
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK-hosted image",
+        description: "Fullscreen backdrop shown behind the menu.",
+      },
+      {
+        name: "cream / muted / ink",
+        type: "string",
+        default: "#eee5d2 / #a39b89 / #2c221d",
+        description: "Panel surface, index text, and display-type colors.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

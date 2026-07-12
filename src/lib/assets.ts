@@ -1829,6 +1829,30 @@ export const assetItems = [
           "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
       }) as const satisfies AssetItem,
   ),
+  ...[
+    [
+      "hero",
+      "hero.jpg",
+      "Fullscreen backdrop shown behind the folded menu strip.",
+    ],
+    ["img-1", "img1.jpg", "Panel 01 image, clip-revealed on hover when open."],
+    ["img-2", "img2.jpg", "Panel 02 image, clip-revealed on hover when open."],
+    ["img-3", "img3.jpg", "Panel 03 image, clip-revealed on hover when open."],
+    ["img-4", "img4.jpg", "Panel 04 image, clip-revealed on hover when open."],
+    ["img-5", "img5.jpg", "Panel 05 image, clip-revealed on hover when open."],
+  ].map(
+    ([id, filename, role]) =>
+      ({
+        id: `folding-panel-menu-${id}`,
+        label: `Folding Panel Menu ${id}`,
+        provider: "vercel-blob",
+        pathname: `folding-panel-menu/${filename}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/folding-panel-menu/${filename}`,
+        role,
+        notes:
+          "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+      }) as const satisfies AssetItem,
+  ),
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

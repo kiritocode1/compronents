@@ -28,6 +28,7 @@ import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
 import FilmStudioPageDemo from "./film-studio-page";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
+import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
@@ -110,6 +111,7 @@ export const demos: Record<string, ComponentType> = {
   "scroll-text-blocks": ScrollTextBlocksDemo,
   "video-card-stack": VideoCardStackDemo,
   "client-hover-preview": ClientHoverPreviewDemo,
+  "folding-panel-menu": FoldingPanelMenuDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,
   "minimap-parallax-scroll": MinimapParallaxScrollDemo,
   "scroll-scrub-slider": ScrollScrubSliderDemo,

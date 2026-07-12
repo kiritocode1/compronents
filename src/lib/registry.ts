@@ -1742,6 +1742,26 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "folding-panel-menu",
+    title: "Folding Panel Menu",
+    description:
+      "A strip of numbered panels pinned to the right edge that unfolds into a fullscreen navigation. Tapping Menu widens the strip with a custom hop ease while each panel's giant rotated word rises letter by letter; once open, hovering a panel swaps its label and clip-reveals its image. GSAP timeline with CustomEase.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/folding-panel-menu.tsx",
+        target: "components/ui/folding-panel-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
 ];
 
 export function getRegistryItem(name: string): RegistryItem | undefined {
