@@ -13,37 +13,71 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "React",
     links: [
-      { title: "React Flow", href: "https://reactflow.dev/" },
-      { title: "Made With React", href: "https://madewithreactjs.com/" },
+      {
+        title: "React Flow",
+        href: "https://reactflow.dev/",
+        description:
+          "Library for building node-based editors and interactive diagrams in React, drag-and-drop nodes, edges and custom node types, used for flow builders, pipelines and mind maps.",
+      },
+      {
+        title: "Made With React",
+        href: "https://madewithreactjs.com/",
+        description:
+          "Curated showcase of projects and apps built with React, browsable by category: frameworks, UI components, boilerplates and full apps.",
+      },
       {
         title: "React Handbook",
         href: "https://devouringdetails.com/resources/react-handbook",
+        description:
+          "Guide to writing better React components through naming and architecture patterns: contextual props to cut redundancy, deriving booleans from existing props to prevent impossible states, and enum props for stronger typing and autocomplete.",
       },
       {
         title: "React Fiber, part 1",
         href: "https://kishore.app/blog/fiber-part-1?utm_source=x",
+        description:
+          "First part of a blog series digging into React Fiber, React's reconciliation engine, explaining how it schedules and interrupts rendering work.",
       },
       {
         title: "React Tricks",
         href: "https://molefrog.com/notes/react-tricks",
+        description:
+          "Performance and bundle-size techniques the author learned maintaining Wouter, a lightweight React router: composing with React.cloneElement, stable object references, initializing with useState, stable callbacks via useEvent, and subscribing to external state with useSyncExternalStore.",
       },
       {
         title: "Web Workers with React",
         href: "https://www.rahuljuliato.com/posts/react-workers",
+        description:
+          "Post walking through offloading heavy computation from a React app's main thread into Web Workers, keeping the UI responsive during expensive work.",
       },
       {
         title: "Prod-ready React hooks",
         href: "https://4markdown.com/1-prod-ready-react-usefeature-and-usesimplefeature-hooks/",
+        description:
+          "Walks through two custom hooks for managing UI visibility state: useSimpleFeature for plain toggles and useFeature for toggles that carry associated data, using a discriminant property for type safety.",
       },
       {
         title: "React TypeScript Cheatsheet",
         href: "https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forms_and_events/",
+        description:
+          "Community-maintained cheatsheet for typing React with TypeScript: props, hooks, forms, events and common patterns, the go-to reference when you're not sure how to type something in React.",
       },
-      { title: "TkDodo's blog", href: "https://tkdodo.eu/blog/all" },
-      { title: "React Grab", href: "https://react-grab.com/" },
+      {
+        title: "TkDodo's blog",
+        href: "https://tkdodo.eu/blog/all",
+        description:
+          "Blog by Dominik Dorfmeister, maintainer of TanStack Query, with deep, practical posts on React Query, testing, and React patterns that go well beyond the official docs.",
+      },
+      {
+        title: "React Grab",
+        href: "https://react-grab.com/",
+        description:
+          "Browser tool for grabbing a UI element's React component context with a hover and keyboard shortcut, for handing precise context to a coding agent instead of describing it in prose.",
+      },
       {
         title: "React Quill",
         href: "https://zenoamaro.github.io/react-quill/",
+        description:
+          "React wrapper around the Quill rich text editor, for dropping a full WYSIWYG editor into a React app without wiring up Quill's imperative API by hand.",
       },
     ],
   },
@@ -53,17 +87,33 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "React Native Reusables",
         href: "https://reactnativereusables.com/",
+        description:
+          "shadcn/ui-style, copy-paste component library for React Native and Expo, universal (works on web too) components styled with NativeWind.",
       },
       {
         title: "React Native Audio API",
         href: "https://docs.swmansion.com/react-native-audio-api/",
+        description:
+          "Native audio library from Software Mansion giving React Native a Web Audio API-like interface, for real-time effects, visualization and multi-track playback consistent across iOS, Android and web.",
       },
       {
         title: "React Native data detector",
         href: "https://github.com/pablogdcr/react-native-data-detector",
+        description:
+          "Cross-platform text data detection for React Native, using NSDataDetector on iOS and ML Kit Entity Extraction on Android to find phone numbers, URLs, emails, dates and addresses in text, with both imperative and hook-based APIs.",
       },
-      { title: "Expo Demos", href: "https://expo.dev/demos" },
-      { title: "Margelo", href: "https://margelo.com/" },
+      {
+        title: "Expo Demos",
+        href: "https://expo.dev/demos",
+        description:
+          "Official gallery of demo apps built with Expo, showing real implementations of specific APIs and patterns you can reference or clone.",
+      },
+      {
+        title: "Margelo",
+        href: "https://margelo.com/",
+        description:
+          "Mobile app development studio specializing in high-performance React Native apps, known for widely used open-source libraries (Vision Camera, Nitro Modules and others) running on billions of devices.",
+      },
     ],
   },
   {
@@ -72,32 +122,51 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Making html_of_jsx 10x faster",
         href: "https://sancho.dev/blog/making-html-of-jsx-10x-faster",
+        description:
+          "Explains how static analysis sped up the html_of_jsx library by pre-computing the static parts of HTML at build time instead of runtime, separating dynamic content from fixed structure for a 2-12x speedup depending on nesting.",
       },
       {
         title: "Eloquent JavaScript: values",
         href: "https://eloquentjavascript.net/01_values.html",
+        description:
+          "Chapter 1 of Marijn Haverbeke's free, well-known JavaScript book, covering values, types and expressions from first principles.",
       },
       {
         title: "Eloquent JavaScript: program structure",
         href: "https://eloquentjavascript.net/02_program_structure.html",
+        description:
+          "Chapter 2 of Eloquent JavaScript, covering control flow, functions and how JavaScript programs are structured.",
       },
       {
         title: "Exploring JS",
         href: "https://exploringjs.com/js/book/index.html",
+        description:
+          "Axel Rauschmayer's free, deeply detailed online book covering modern JavaScript language features from the ground up, often used as a language reference rather than a beginner tutorial.",
       },
       {
         title: "You Don't Know JS",
         href: "https://github.com/getify/You-Dont-Know-JS",
+        description:
+          "Kyle Simpson's book series digging into JavaScript's actual mechanics (scope, closures, this, prototypes, async), aimed at developers who use JS daily but want to understand why it behaves the way it does.",
       },
       {
         title: "Myers diff algorithm",
         href: "https://www.30secondsofcode.org/js/s/myers-diff-algorithm/",
+        description:
+          "Explains and implements the Myers diff algorithm in JavaScript, the same algorithm behind `git diff` and most text-diffing tools.",
       },
       {
         title: "30 seconds of code",
         href: "https://www.30secondsofcode.org/js/p/1/",
+        description:
+          "Library of short, copy-paste JavaScript snippets for common tasks, each explained in a few lines, for when you want a working solution without pulling in a dependency.",
       },
-      { title: "VisualizeJS", href: "https://visualizejs.com/javascript" },
+      {
+        title: "VisualizeJS",
+        href: "https://visualizejs.com/javascript",
+        description:
+          "Interactive, step-by-step visualizations of core JavaScript runtime concepts (event loop, closures, promises, memory) across 15 topics from beginner to advanced.",
+      },
     ],
   },
   {
@@ -106,67 +175,186 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "How modern browsers work",
         href: "https://addyo.substack.com/p/how-modern-browsers-work",
+        description:
+          "Addy Osmani newsletter post walking through what actually happens inside a browser between a URL request and pixels on screen: parsing, rendering, compositing and the performance implications of each step.",
       },
       {
         title: "A friendly intro to container queries",
         href: "https://www.joshwcomeau.com/css/container-queries-introduction/",
+        description:
+          "Josh Comeau's approachable explainer on CSS container queries, how they differ from media queries and when to reach for them instead.",
       },
       {
         title: "Picture perfect image optimization",
         href: "https://bholmes.dev/blog/picture-perfect-image-optimization/",
+        description:
+          "Deep dive on responsive image optimization on the web: srcset, sizes, formats and the picture element, aimed at shipping the right image for the right device.",
       },
-      { title: "SVG tutorial", href: "https://svg-tutorial.com/summary" },
-      { title: "WebHaptics", href: "https://haptics.lochie.me/" },
-      { title: "WebVitals", href: "https://webvitals.com/" },
+      {
+        title: "SVG tutorial",
+        href: "https://svg-tutorial.com/summary",
+        description:
+          "Interactive, slide-based SVG tutorial starting from circles and rectangles and working up to paths, bezier curves, animation and dynamic transforms.",
+      },
+      {
+        title: "WebHaptics",
+        href: "https://haptics.lochie.me/",
+        description:
+          "Demo of haptic (vibration) feedback for the mobile web, showing how to add tactile response to web interactions instead of only visual/audio feedback.",
+      },
+      {
+        title: "WebVitals",
+        href: "https://webvitals.com/",
+        description:
+          "Free tool for measuring a site's real-world Core Web Vitals from actual user data, surfacing speed and responsiveness issues to fix.",
+      },
     ],
   },
   {
     title: "Frontend architecture and patterns",
     links: [
-      { title: "Patterns.dev", href: "https://www.patterns.dev/" },
+      {
+        title: "Patterns.dev",
+        href: "https://www.patterns.dev/",
+        description:
+          "Free book/reference on modern web app design patterns and rendering patterns (SSR, ISR, islands, and classic JS design patterns applied to React and Vue), from the team behind web.dev.",
+      },
       {
         title: "GreatFrontend blog",
         href: "https://www.greatfrontend.com/blog",
+        description:
+          "Blog from GreatFrontend covering front-end interview prep and practical engineering topics, system design, JavaScript internals, and framework-specific deep dives.",
       },
       {
         title: "Fundamentals of Frontend Architecture",
         href: "https://frontendatscale.com/courses/frontend-architecture/foundations/introduction/",
+        description:
+          "Course on structuring large frontend codebases: module boundaries, state management strategy and architectural tradeoffs as an app scales past a handful of components.",
       },
-      { title: "JSON Render", href: "https://json-render.dev/" },
-      { title: "Puck", href: "https://github.com/measuredco/puck" },
-      { title: "Workflow SDK", href: "https://workflow-sdk.dev/" },
+      {
+        title: "JSON Render",
+        href: "https://json-render.dev/",
+        description:
+          "Generative UI framework where an AI generates JSON constrained to a predefined component catalog, streamed and progressively rendered in React or React Native, exportable as standalone code with no runtime dependency.",
+      },
+      {
+        title: "Puck",
+        href: "https://github.com/measuredco/puck",
+        description:
+          "Open-source, self-hosted visual page builder for React: drag-and-drop editing on top of your own component library, for giving non-developers a CMS-like editing experience.",
+      },
+      {
+        title: "Workflow SDK",
+        href: "https://workflow-sdk.dev/",
+        description:
+          "TypeScript library that makes async functions durable: automatic retries, state persistence and resumability, bringing reliability and observability to long-running JavaScript workflows and agents.",
+      },
     ],
   },
   {
     title: "Icons",
     links: [
-      { title: "Iconiqui", href: "https://iconiqui.com/" },
+      {
+        title: "Iconiqui",
+        href: "https://iconiqui.com/",
+        description:
+          "Icon-focused design system built on shadcn/ui and Motion, with subtle, functional animation that stays out of the way rather than drawing attention to itself.",
+      },
       {
         title: "Animate UI icons",
         href: "https://animate-ui.com/docs/icons?icon=volume-1",
+        description:
+          "Animated icon set from the Animate UI component library, each icon with a built-in hover/trigger animation instead of a static SVG.",
       },
-      { title: "Phosphor Icons", href: "https://phosphoricons.com/" },
-      { title: "Reicon", href: "https://reicon.dev/usage/react" },
+      {
+        title: "Phosphor Icons",
+        href: "https://phosphoricons.com/",
+        description:
+          "Large, flexible open-source icon family with multiple weights (thin, light, regular, bold, fill, duotone), one of the most widely used icon sets in modern web UI.",
+      },
+      {
+        title: "Reicon",
+        href: "https://reicon.dev/usage/react",
+        description:
+          "React icon library with its own usage docs for dropping icons into a React app.",
+      },
       {
         title: "Heroicons Animated",
         href: "https://www.heroicons-animated.com/",
+        description:
+          "Open-source set of 316 icons that adds smooth Motion-powered animation on top of the original Heroicons, free under MIT for React projects.",
       },
-      { title: "Glyphs", href: "https://glyphs.fyi/dir?i=hourglass" },
+      {
+        title: "Glyphs",
+        href: "https://glyphs.fyi/dir?i=hourglass",
+        description:
+          "Icon directory site for browsing and picking glyphs, linked here to a specific hourglass icon entry.",
+      },
     ],
   },
   {
     title: "UI kit directories",
     links: [
-      { title: "basecn", href: "http://basecn.dev" },
-      { title: "smoothui", href: "http://smoothui.dev" },
-      { title: "Hexta UI", href: "http://hextaui.com" },
-      { title: "Tailark", href: "http://tailark.com" },
-      { title: "Luxe UI", href: "http://luxeui.com" },
-      { title: "Animate UI", href: "http://animate-ui.com" },
-      { title: "Magic UI", href: "http://magicui.design" },
-      { title: "HeroUI", href: "http://heroui.com" },
-      { title: "Coss UI", href: "http://coss.com/ui" },
-      { title: "Shoelace", href: "https://shoelace.style/" },
+      {
+        title: "basecn",
+        href: "http://basecn.dev",
+        description:
+          "shadcn/ui-style component distribution built on Base UI (the unstyled component library from the MUI team) instead of Radix primitives.",
+      },
+      {
+        title: "smoothui",
+        href: "http://smoothui.dev",
+        description:
+          "Copy-paste component library focused on smooth, physics-based motion and micro-interactions built with Tailwind and Motion.",
+      },
+      {
+        title: "Hexta UI",
+        href: "http://hextaui.com",
+        description:
+          "Library of extended components and blocks built on top of shadcn/ui, offering ready-to-use foundation components that go beyond shadcn's default set.",
+      },
+      {
+        title: "Tailark",
+        href: "http://tailark.com",
+        description:
+          "Collection of reusable marketing site components built with shadcn/ui and Tailwind, hundreds of premium blocks and ready-made landing pages across multiple design styles.",
+      },
+      {
+        title: "Luxe UI",
+        href: "http://luxeui.com",
+        description:
+          "Copy-paste component library aiming for an elegant, sophisticated visual style, built with React, Tailwind, Motion and Radix UI.",
+      },
+      {
+        title: "Animate UI",
+        href: "http://animate-ui.com",
+        description:
+          "shadcn/ui-style component library where every component ships with a built-in Motion animation, copy-paste like shadcn but animated by default.",
+      },
+      {
+        title: "Magic UI",
+        href: "http://magicui.design",
+        description:
+          "Popular free component library of animated, marketing-site-friendly effects (particles, beams, text animations) built on shadcn/ui and Tailwind.",
+      },
+      {
+        title: "HeroUI",
+        href: "http://heroui.com",
+        description:
+          "Full React UI library (formerly NextUI) built on Tailwind CSS and React Aria, providing accessible, themeable components as a complete design system rather than a copy-paste block collection.",
+      },
+      {
+        title: "Coss UI",
+        href: "http://coss.com/ui",
+        description:
+          "Modern component library built on Base UI aimed at both human developers and AI coding agents, with 496+ pre-built components from basic buttons to complex dialogs, date pickers and command palettes.",
+      },
+      {
+        title: "Shoelace",
+        href: "https://shoelace.style/",
+        description:
+          "Framework-agnostic library of standalone web components (custom elements), so components work the same in React, Vue, plain HTML or anything else without a JS framework dependency.",
+      },
     ],
   },
   {
@@ -175,193 +363,486 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Awesome shadcn/ui",
         href: "https://awesome-shadcn-ui.vercel.app/",
+        description:
+          "Curated list of shadcn/ui-compatible component libraries, blocks, themes and tools, the map of the whole shadcn ecosystem in one page.",
       },
-      { title: "Origin UI", href: "https://github.com/origin-space/originui" },
-      { title: "Fancy Components", href: "https://www.fancycomponents.dev/" },
-      { title: "Componentry", href: "https://www.componentry.fun/docs" },
-      { title: "React Bits", href: "https://reactbits.dev/" },
-      { title: "Intent UI", href: "https://intentui.com/components" },
-      { title: "Unlumen UI", href: "https://ui.unlumen.com/" },
+      {
+        title: "Origin UI",
+        href: "https://github.com/origin-space/originui",
+        description:
+          "Large, well-known collection of copy-paste components built on shadcn/ui and Tailwind, hundreds of ready-made pieces from form fields to complex widgets, one of the most popular shadcn extensions.",
+      },
+      {
+        title: "Fancy Components",
+        href: "https://www.fancycomponents.dev/",
+        description:
+          "Component library focused on eye-catching visual effects (particles, distortions, creative hover states) for marketing sites that want to stand out.",
+      },
+      {
+        title: "Componentry",
+        href: "https://www.componentry.fun/docs",
+        description:
+          "Growing collection of animated primitives for React spanning text animations, interactive components, hero backgrounds and visual effects.",
+      },
+      {
+        title: "React Bits",
+        href: "https://reactbits.dev/",
+        description:
+          "Library of animated UI components for React, motion-enhanced, ready-to-use interface elements for adding visual polish quickly.",
+      },
+      {
+        title: "Intent UI",
+        href: "https://intentui.com/components",
+        description:
+          "Accessible React component library built on React Aria with 80+ production-ready components, positioned as 'copy, customize, and own your UI' rather than a locked-in dependency.",
+      },
+      {
+        title: "Unlumen UI",
+        href: "https://ui.unlumen.com/",
+        description:
+          "React component library offering both free and premium ready-to-use UI elements.",
+      },
       {
         title: "Watermelon UI",
         href: "https://ui.watermelon.sh/animated-components/category/tabs",
+        description:
+          "Animated component library, this link points at its tabs category, showing motion-driven tab navigation components.",
       },
-      { title: "Eldora UI", href: "https://www.eldoraui.site/docs" },
-      { title: "Bklit charts", href: "https://ui.bklit.com/" },
-      { title: "Reactix", href: "https://www.reacticx.com/" },
+      {
+        title: "Eldora UI",
+        href: "https://www.eldoraui.site/docs",
+        description:
+          "Component library of animated, copy-paste React pieces, including creative hover effects like card flips.",
+      },
+      {
+        title: "Bklit charts",
+        href: "https://ui.bklit.com/",
+        description:
+          "Chart component library from Bklit, styled data visualization components (line, bar, funnel and more) for React dashboards.",
+      },
+      {
+        title: "Reactix",
+        href: "https://www.reacticx.com/",
+        description:
+          "React component library offering ready-to-use UI pieces for building interfaces faster.",
+      },
       {
         title: "Nexvyn UI",
         href: "https://ui.nexvyn.dev/components/bounce-sidebar",
+        description:
+          "React component library emphasizing visual clarity and premium micro-interactions through physics-based animation, built with Framer Motion and semantic tokens that adapt to light/dark mode.",
       },
       {
         title: "beUI",
         href: "https://beui.dev/components/blocks/overflow-actions",
+        description:
+          "React motion component library with 30+ animated pieces, including an overflow-actions pill rail that springs open to reveal extra controls.",
       },
-      { title: "ReUI", href: "https://reui.io/components/tooltip" },
+      {
+        title: "ReUI",
+        href: "https://reui.io/components/tooltip",
+        description:
+          "shadcn/ui-based component library with a broad catalog of individual components (this link points at its tooltip) plus full page patterns.",
+      },
       {
         title: "Molecule UI",
         href: "https://www.moleculeui.design/docs/components/profile-menu",
+        description:
+          "Component library including pieces like a styled profile menu dropdown, for assembling app UI chrome quickly.",
       },
       {
         title: "Spectrum UI",
         href: "https://ui.spectrumhq.in/docs/multistepform",
+        description:
+          "React/Next.js component library spanning basic inputs to complex pieces like kanban boards, animated charts and multi-step forms.",
       },
       {
         title: "Shark UI",
         href: "https://shark.vini.one/docs/components/tour",
+        description:
+          "Design system with reusable, customizable UI elements, including a guided product-tour component for onboarding flows.",
       },
       {
         title: "GAIA UI",
         href: "https://ui.heygaia.io/docs/components/component-preview-tooltip",
+        description:
+          "Open-source component library with charts, cards, tooltips and interactive pieces, built for the HeyGaia product.",
       },
       {
         title: "Morphin",
         href: "https://morphin.dev/components/scroll-scramble-section",
+        description:
+          "Component library specializing in scroll-triggered text and layout effects, this link shows its scroll-scramble text component.",
       },
       {
         title: "uselayouts",
         href: "https://uselayouts.com/docs/components/animated-collection",
+        description:
+          "Component library including an Animated Collection piece that morphs between list, card and pack views with shared-element transitions.",
       },
-      { title: "Boneyard", href: "https://boneyard.vercel.app/overview" },
-      { title: "Kairo UI", href: "https://www.kairoui.online/templates" },
+      {
+        title: "Boneyard",
+        href: "https://boneyard.vercel.app/overview",
+        description:
+          "Tool that generates pixel-perfect skeleton loading screens by capturing a component's real rendered layout: wrap it in a Skeleton tag, run the CLI, and get placeholder 'bones' as JSON, framework-agnostic.",
+      },
+      {
+        title: "Kairo UI",
+        href: "https://www.kairoui.online/templates",
+        description:
+          "Free, open-source landing page templates built with Next.js and Tailwind, installable with a single command.",
+      },
       {
         title: "Liquid Glass OSS",
         href: "https://liquid-glass-oss.vercel.app/",
+        description:
+          "Open-source recreation of Apple's Liquid Glass visual effect for the web.",
       },
-      { title: "framecn", href: "https://www.framecn.dev/" },
+      {
+        title: "framecn",
+        href: "https://www.framecn.dev/",
+        description:
+          "shadcn/ui-compatible collection of video components built on Editframe, for embedding polished, customizable video UI pieces.",
+      },
       {
         title: "shadcn minimal Tiptap",
         href: "https://shadcn-minimal-tiptap.vercel.app",
+        description:
+          "Minimal rich text editor built on Tiptap and styled to match shadcn/ui, a lighter starting point than a full editor framework.",
       },
-      { title: "tweakcn", href: "https://tweakcn.com/editor/theme" },
+      {
+        title: "tweakcn",
+        href: "https://tweakcn.com/editor/theme",
+        description:
+          "Visual theme editor for shadcn/ui: tweak colors, typography and component styling interactively and export the resulting theme, open source.",
+      },
       {
         title: "Code Blocks by pheralb",
         href: "https://code-blocks.pheralb.dev/",
+        description:
+          "Component collection for displaying code snippets with syntax highlighting, line numbers, diff notation, focus effects and line highlighting.",
       },
       {
         title: "Shadcncraft tooltip",
         href: "https://shadcncraft.com/components/official-shadcn/tooltip",
+        description:
+          "Design system built on shadcn/ui offering production-ready components and blocks with matching Figma files, this link shows its tooltip component; serves 9,000+ builders.",
       },
       {
         title: "mindmapcn",
         href: "https://mindmapcn.vercel.app/docs/installation",
+        description:
+          "shadcn/ui-compatible mind map component for React, with automatic light/dark theming via OKLCH colors.",
       },
       {
         title: "Micro FAQs",
         href: "https://micro.bossadizenith.me/components/faqs",
+        description:
+          "Small, focused component from a library of reusable UI pieces (carousels, forms, navigation, accordions), this link shows its FAQ accordion component.",
       },
       {
         title: "Vengeance UI",
         href: "https://www.vengenceui.com/components/twisting-ribbon",
+        description:
+          "Component library featuring unusual, high-motion effects, this link shows its twisting ribbon component.",
       },
       {
         title: "jal-co JSON viewer",
         href: "https://ui.justinlevine.me/docs/components/json-viewer",
+        description:
+          "Open-source, always-free React/Tailwind component collection; this link shows its collapsible, syntax-highlighted JSON tree viewer with search and copy.",
       },
-      { title: "Evil Charts", href: "https://evilcharts.com/docs" },
+      {
+        title: "Evil Charts",
+        href: "https://evilcharts.com/docs",
+        description:
+          "Copy-paste chart component library built on Recharts and shadcn/ui, styled data visualizations that look better than the defaults out of the box.",
+      },
       {
         title: "Eldora card flip hover",
         href: "https://www.eldoraui.site/docs/components/card-flip-hover",
+        description:
+          "Card component from Eldora UI that flips on hover to reveal a back face, a common pattern for feature or team cards.",
       },
-      { title: "Border Beam", href: "https://beam.jakubantalik.com/" },
+      {
+        title: "Border Beam",
+        href: "https://beam.jakubantalik.com/",
+        description:
+          "Animated border-beam component for React: a light trail travels around an element's border, a popular highlight effect for cards and buttons.",
+      },
       {
         title: "React Wheel Picker",
         href: "https://react-wheel-picker.chanhdai.com/",
+        description:
+          "iOS-style scrollable wheel picker component for React, the kind of control used for date/time or option selection on mobile.",
       },
       {
         title: "RigidUI",
         href: "https://www.rigidui.com/docs/hooks/use-location",
+        description:
+          "React component and hooks library; this link shows its useLocation hook, which handles browser geolocation and reverse geocoding via OpenStreetMap.",
       },
       {
         title: "Solace UI",
         href: "https://www.solaceui.com/sections/hero-section",
+        description:
+          "Component library of full page sections, this link shows a hero section example, for assembling marketing pages from bigger building blocks than single components.",
       },
       {
         title: "tnks data table",
         href: "https://github.com/jacksonkasi1/tnks-data-table",
+        description:
+          "Advanced React data table component with server-side sorting, filtering and pagination, backed by Hono.js, Drizzle ORM and PostgreSQL rather than doing the work client-side.",
       },
-      { title: "Driver.js", href: "https://driverjs.com/" },
-      { title: "use-gesture", href: "https://use-gesture.netlify.app/" },
+      {
+        title: "Driver.js",
+        href: "https://driverjs.com/",
+        description:
+          "Lightweight, dependency-free library for building product tours and onboarding walkthroughs: highlight an element, attach a popover, and step through a guided sequence.",
+      },
+      {
+        title: "use-gesture",
+        href: "https://use-gesture.netlify.app/",
+        description:
+          "React (and vanilla JS) library from the pmndrs ecosystem for handling drag, pinch, wheel, scroll and hover gestures with a single consistent hook.",
+      },
       {
         title: "Tripwire dither kit",
         href: "https://www.tripwire.sh/dither-kit",
+        description:
+          "Dithering effect kit from Tripwire for applying retro, halftone-style dither patterns to images or UI in a web project.",
       },
       {
         title: "beUI motion radio",
         href: "https://beui.dev/components/motion/radio",
+        description:
+          "Animated radio button component from beUI's motion component set.",
       },
       {
         title: "Skiper UI drag and scroll",
         href: "https://skiper-ui.com/v1/skiper5",
+        description:
+          "Drag-and-scroll interaction component from Skiper UI's numbered component series, for building draggable horizontal scroll galleries.",
       },
-      { title: "Klick Here", href: "https://klick-here.vercel.app/" },
+      {
+        title: "Klick Here",
+        href: "https://klick-here.vercel.app/",
+        description:
+          "Small interactive demo site, minimal enough that its exact purpose isn't documented beyond the click interaction itself.",
+      },
     ],
   },
   {
     title: "Interface design guidelines and craft",
     links: [
-      { title: "userinterface.wiki", href: "https://www.userinterface.wiki/" },
+      {
+        title: "userinterface.wiki",
+        href: "https://www.userinterface.wiki/",
+        description:
+          "Reference wiki of UI/UX best practices organized by category (animation, typography, forms, accessibility and more), with concrete do's and don'ts rather than abstract principles.",
+      },
       {
         title: "Vercel Web Interface Guidelines",
         href: "https://vercel.com/design/guidelines",
+        description:
+          "Vercel's own published guidelines for building web interfaces: interaction, accessibility, performance and design details their product teams hold themselves to.",
       },
       {
         title: "Components Build principles",
         href: "https://www.components.build/principles",
+        description:
+          "Foundational principles for building modern UI components: favor composition over inheritance, and make components accessible, customizable, performant and transparent by default.",
       },
       {
         title: "System button",
         href: "https://devouringdetails.com/system/button",
+        description:
+          "Deep documentation of a single Button component's design system: variant/color/size props decoupled from appearance, smooth loading transitions, Safari force-press detection, and the reasoning behind its disabled and loading states.",
       },
-      { title: "LINE Design System", href: "https://designsystem.line.me/" },
-      { title: "Impeccable", href: "https://impeccable.style/#downloads" },
-      { title: "Hit area", href: "https://bazza.dev/craft/2026/hit-area" },
-      { title: "Designing Depth", href: "https://rauno.me/craft/depth" },
-      { title: "New Interfaces", href: "https://www.interfaces.new/" },
-      { title: "Design Engineers", href: "http://designengineers.net" },
+      {
+        title: "LINE Design System",
+        href: "https://designsystem.line.me/",
+        description:
+          "LINE's official design system: the visual and interaction standards used to keep its products consistent across a huge, multi-team surface area.",
+      },
+      {
+        title: "Impeccable",
+        href: "https://impeccable.style/#downloads",
+        description:
+          "Design system and style resource focused on precise, considered visual details, downloadable assets for building interfaces with the same level of polish.",
+      },
+      {
+        title: "Hit area",
+        href: "https://bazza.dev/craft/2026/hit-area",
+        description:
+          "Introduces a small set of Tailwind utility classes (installable via the shadcn registry) for expanding an element's clickable area beyond its visual bounds, with patterns for checkboxes in tables and sidebar nav items.",
+      },
+      {
+        title: "Designing Depth",
+        href: "https://rauno.me/craft/depth",
+        description:
+          "Rauno Freiberg's essay on using shadow, blur and layering to create a real sense of depth in interfaces, rather than flat drop-shadows applied uniformly.",
+      },
+      {
+        title: "New Interfaces",
+        href: "https://www.interfaces.new/",
+        description:
+          "Platform and event series showcasing experimental digital interfaces and creative coding projects from independent artists and designers.",
+      },
+      {
+        title: "Design Engineers",
+        href: "http://designengineers.net",
+        description:
+          "Community/resource site for the design engineer discipline, the hybrid role that sits between design and frontend engineering.",
+      },
       {
         title: "Industrial Empathy",
         href: "https://www.industrialempathy.com/",
+        description:
+          "Marc Hedlund's widely cited essay collection on internal tools, engineering management and building software people actually want to use, including the well-known 'build internal tools for adoption, not mandate' piece.",
       },
-      { title: "Notch case study", href: "https://iamnoman.com/notch" },
-      { title: "Dot Matrix", href: "https://dotmatrix.zzzzshawn.cloud/" },
-      { title: "Interfaces.dev", href: "https://interfaces.dev/" },
+      {
+        title: "Notch case study",
+        href: "https://iamnoman.com/notch",
+        description:
+          "Case study on refining a pixel-gradient tool's UI: working with Claude to go from a functional prototype to a polished interface by focusing specifically on how the notch moves, spring physics and transitions over instant state changes.",
+      },
+      {
+        title: "Dot Matrix",
+        href: "https://dotmatrix.zzzzshawn.cloud/",
+        description:
+          "Personal design/craft site by zzzzshawn exploring interface details and small interactive experiments.",
+      },
+      {
+        title: "Interfaces.dev",
+        href: "https://interfaces.dev/",
+        description:
+          "Subscription design engineering magazine by Jakub Krehel, monthly issues with interactive demos and source code covering animation, typography and micro-interactions.",
+      },
       {
         title: "Make interfaces feel better",
         href: "https://jakub.kr/skills/make-interfaces-feel-better",
+        description:
+          "Claude Code skill that applies craft principles (typography, hover states, shadows, micro-interactions) to polish a UI's details, installable via CLI, with feedback on what it changed.",
       },
-      { title: "Mockdown", href: "https://www.mockdown.design/" },
-      { title: "Unsung", href: "https://unsung.aresluna.org/" },
-      { title: "TOLIS technical drawing", href: "https://tol.is/blueprint" },
+      {
+        title: "Mockdown",
+        href: "https://www.mockdown.design/",
+        description:
+          "Web-based tool for turning rough wireframes or sketches into structured design mockups.",
+      },
+      {
+        title: "Unsung",
+        href: "https://unsung.aresluna.org/",
+        description:
+          "Marcin Wichary's blog on software craft: essays on the small, easy-to-miss interface details, from keyboard shortcuts to typography to forgotten computing history, that shape how software actually feels to use.",
+      },
+      {
+        title: "TOLIS technical drawing",
+        href: "https://tol.is/blueprint",
+        description:
+          "Series of technical-drawing-style illustrations from design studio TOLIS, blueprint-style diagrams as a visual reference for precise, engineered-looking graphics.",
+      },
     ],
   },
   {
     title: "Design inspiration galleries",
     links: [
-      { title: "Details Inspo", href: "https://www.details.so/inspo" },
-      { title: "Inspo Page", href: "https://www.inspo.page/" },
-      { title: "Design Engineer Tools", href: "https://designengineer.tools/" },
-      { title: "Items Design", href: "https://items.design/" },
-      { title: "Landbook", href: "https://land-book.com/" },
-      { title: "Recent Design", href: "https://recent.design/" },
-      { title: "Dark Mode Design", href: "https://www.darkmodedesign.com/" },
-      { title: "Next.js Design", href: "https://www.nextjs.design/products" },
+      {
+        title: "Details Inspo",
+        href: "https://www.details.so/inspo",
+        description:
+          "Gallery focused specifically on small interface details (micro-interactions, transitions, edge cases) rather than whole-page layouts.",
+      },
+      {
+        title: "Inspo Page",
+        href: "https://www.inspo.page/",
+        description:
+          "Browsable gallery of website design inspiration, screenshots of real sites organized for quick scanning.",
+      },
+      {
+        title: "Design Engineer Tools",
+        href: "https://designengineer.tools/",
+        description:
+          "Curated directory of tools specifically for the design engineer workflow, bridging design and frontend implementation.",
+      },
+      {
+        title: "Items Design",
+        href: "https://items.design/",
+        description:
+          "Gallery of individual UI 'items' (components, patterns, micro-interactions) pulled from real products, for browsing at the piece level rather than full pages.",
+      },
+      {
+        title: "Landbook",
+        href: "https://land-book.com/",
+        description:
+          "Long-running landing page inspiration gallery, searchable by industry, style and layout.",
+      },
+      {
+        title: "Recent Design",
+        href: "https://recent.design/",
+        description:
+          "Feed of recently launched or redesigned websites, for seeing what's shipping right now rather than an evergreen archive.",
+      },
+      {
+        title: "Dark Mode Design",
+        href: "https://www.darkmodedesign.com/",
+        description:
+          "Gallery specifically curating sites and products with well-executed dark mode design.",
+      },
+      {
+        title: "Next.js Design",
+        href: "https://www.nextjs.design/products",
+        description:
+          "Showcase of products and sites built with Next.js, for seeing what real Next.js apps look like in production.",
+      },
       {
         title: "Pillarstack",
         href: "https://www.pillarstack.com/resources/doing-cool-stuff",
+        description:
+          "Design resource collection under the theme 'doing cool stuff', a grab-bag of inspiring tools and references.",
       },
       {
         title: "Craftwork catalog",
         href: "https://craftwork.design/catalog?filterByPrice=paid_free&sort=recent",
+        description:
+          "Marketplace catalog of design assets (templates, illustrations, UI kits) filterable by price, this link is sorted to show recent free and paid items.",
       },
-      { title: "Shoot Design", href: "https://www.shoot.design/" },
-      { title: "Websitevice", href: "https://websitevice.com/examples-5" },
-      { title: "Osmo collection", href: "https://www.osmo.supply/collection" },
-      { title: "Landing Love", href: "https://www.landing.love/" },
-      { title: "Best Designs on X", href: "https://bestdesignsonx.com/" },
+      {
+        title: "Shoot Design",
+        href: "https://www.shoot.design/",
+        description:
+          "Design inspiration gallery, screenshots of notable websites organized for browsing.",
+      },
+      {
+        title: "Websitevice",
+        href: "https://websitevice.com/examples-5",
+        description:
+          "Website design inspiration gallery, this link points at one of its curated example collections.",
+      },
+      {
+        title: "Osmo collection",
+        href: "https://www.osmo.supply/collection",
+        description:
+          "Osmo Supply's collection of interactive web experiments and design references, from the studio known for creative, high-craft site builds.",
+      },
+      {
+        title: "Landing Love",
+        href: "https://www.landing.love/",
+        description:
+          "Gallery specifically of landing page designs, for studying how real products structure their marketing pages.",
+      },
+      {
+        title: "Best Designs on X",
+        href: "https://bestdesignsonx.com/",
+        description:
+          "Curated roundup of well-designed sites and products that have been shared and praised on X (Twitter).",
+      },
       {
         title: "Figma community resources",
         href: "https://www.figma.com/files/team/1072912386122463093/resources/community/file/1403172659817779958",
+        description:
+          "Shared Figma community file with design resources: components, templates or references published for others to duplicate and use.",
       },
     ],
   },
