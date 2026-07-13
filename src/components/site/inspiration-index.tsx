@@ -16,7 +16,11 @@ export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
       ...group,
       links:
         q && !group.title.toLowerCase().includes(q)
-          ? group.links.filter((link) => link.title.toLowerCase().includes(q))
+          ? group.links.filter(
+              (link) =>
+                link.title.toLowerCase().includes(q) ||
+                link.description?.toLowerCase().includes(q),
+            )
           : group.links,
     }))
     .filter((group) => group.links.length > 0);
@@ -67,15 +71,8 @@ export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
                     onMouseEnter={playHover}
                     className="group flex items-center gap-5 py-3.5 text-sm"
                   >
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-medium text-foreground">
-                        {link.title}
-                      </span>
-                      {link.description ? (
-                        <span className="mt-0.5 block truncate text-xs text-muted-foreground">
-                          {link.description}
-                        </span>
-                      ) : null}
+                    <span className="min-w-0 flex-1 truncate font-medium text-foreground">
+                      {link.title}
                     </span>
                     <span className="hidden max-w-56 truncate text-xs text-faint sm:block">
                       {new URL(link.href).hostname.replace(/^www\./, "")}
