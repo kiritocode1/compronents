@@ -2892,6 +2892,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "Dashboard for tracking every domain you own across registrars in one place, with monitoring, renewal alerts, and security and performance insights.",
       },
       {
+        title: "Domain SDK",
+        href: "https://www.domain-sdk.dev",
+        description:
+          "TypeScript library for managing custom domains in a SaaS app: one API to add, verify, monitor and remove customer domains across hosting platforms like Vercel, Cloudflare and Railway, with honest status reporting on DNS routing, ownership and TLS certificates.",
+      },
+      {
         title: "Typefully",
         href: "https://typefully.com",
         description:
