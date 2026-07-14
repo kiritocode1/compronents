@@ -99,7 +99,8 @@ export type ComponentCategory =
   | "Layout"
   | "Animations"
   | "Icons"
-  | "Text";
+  | "Text"
+  | "Backend";
 
 export interface RegistryFile {
   /** Path on disk, relative to the repo root. Also used as the JSON `path`. */
@@ -120,7 +121,7 @@ export interface RegistryItem {
   pro: boolean;
   /** Released date, ISO `YYYY-MM-DD`. */
   date: string;
-  type: "registry:ui" | "registry:component";
+  type: "registry:ui" | "registry:component" | "registry:lib";
   dependencies: string[];
   registryDependencies: string[];
   files: RegistryFile[];
@@ -2472,6 +2473,26 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "websocket-route-handler",
+    title: "WebSocket Route Handler",
+    description:
+      "Native WebSocket upgrade support in a Next.js route handler via NextResponse.upgrade(), powered by crossws (bundled with Next.js, no extra install). Requires the experimental.webSocketRouteHandlers flag in next.config.ts; Node.js runtime only, not supported on Edge, static export, or Vercel Functions.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-15",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/websocket-route-handler.ts",
+        target: "app/api/ws/route.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryItem(name: string): RegistryItem | undefined {
@@ -2497,4 +2518,5 @@ export const categoryOrder: ComponentCategory[] = [
   "Animations",
   "Icons",
   "Text",
+  "Backend",
 ];

@@ -79,6 +79,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "React wrapper around the Quill rich text editor, for dropping a full WYSIWYG editor into a React app without wiring up Quill's imperative API by hand.",
       },
+      {
+        title: "NextFaster",
+        href: "https://github.com/ethanniser/NextFaster",
+        description:
+          "Performance-obsessed Next.js e-commerce template built to feel instant: aggressive prefetching, minimal client JS and careful data loading, with a live demo and full source to study.",
+      },
     ],
   },
   {
@@ -119,6 +125,30 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.nativewind.dev",
         description:
           "Brings Tailwind CSS's utility classes to React Native, so styling mobile components uses the same className syntax as a Tailwind web project.",
+      },
+      {
+        title: "reactnative.se",
+        href: "https://github.com/pontusab/reactnative.se",
+        description:
+          "Community showcase site listing React Native apps built in Sweden, by Pontus Abrahamsson.",
+      },
+      {
+        title: "React Native ExecuTorch",
+        href: "https://github.com/software-mansion/react-native-executorch",
+        description:
+          "Software Mansion library for declarative on-device inference: LLMs, Whisper speech-to-text and vision models via hooks like useLLM and useWhisper, running fully offline once a model is bundled.",
+      },
+      {
+        title: "React Native RAG",
+        href: "https://blog.swmansion.com/introducing-react-native-rag-fbb62efa4991",
+        description:
+          "Software Mansion library pairing on-device embeddings with an ExecuTorch-run LLM so a full RAG pipeline executes on-device with no server round trip.",
+      },
+      {
+        title: "Expo Router v6",
+        href: "https://expo.dev/blog/expo-router-v6",
+        description:
+          "File-based router for Expo that now forks parts of React Navigation directly instead of just wrapping it, and adds native tabs for a platform-native tab bar.",
       },
     ],
   },
@@ -179,6 +209,24 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Visualizer for TypeScript type structures, for seeing how a complex generic or conditional type actually resolves.",
       },
+      {
+        title: "VueUse",
+        href: "https://github.com/vueuse/vueuse",
+        description:
+          "Collection of 200+ Vue Composition API utility functions (useMouse, useStorage, useFetch and similar), by Anthony Fu, works with both Vue 2 and 3.",
+      },
+      {
+        title: "Shiki",
+        href: "https://github.com/shikijs/shiki",
+        description:
+          "Syntax highlighter that reuses TextMate grammars and real VS Code themes for byte-for-byte accurate highlighting, the engine behind VitePress and Nuxt Content's code blocks.",
+      },
+      {
+        title: "magic-regexp",
+        href: "https://github.com/danielroe/magic-regexp",
+        description:
+          "Compiled-away, type-safe, readable alternative to writing raw RegExp literals in TypeScript, by Daniel Roe.",
+      },
     ],
   },
   {
@@ -226,6 +274,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Quick reference for common CSS media query breakpoints, saving a trip to check exact device widths.",
       },
+      {
+        title: "Turbopack persistent build cache",
+        href: "https://nextjs.org/blog/next-16-3-turbopack",
+        description:
+          "Next.js 16.3 announcement extending Turbopack's cache to production builds, not just dev, citing roughly 90% dev memory reduction on Vercel's own large internal apps.",
+      },
     ],
   },
   {
@@ -272,6 +326,30 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.styleframe.dev",
         description:
           "TypeScript library for writing type-safe, composable CSS for design systems. Generates CSS at build time for performance, with optional runtime styling, and works with React, Vue or Astro.",
+      },
+      {
+        title: "Pure UI",
+        href: "https://rauchg.com/2015/pure-ui",
+        description:
+          "Guillermo Rauch's 2015 essay arguing UI is a pure function of state, an early articulation of the thinking that shaped React's component model.",
+      },
+      {
+        title: "Nitro",
+        href: "https://nitro.build",
+        description:
+          "Universal server engine originally built inside Nuxt then extracted standalone; the same codebase deploys unmodified to Node, Cloudflare Workers, Deno, Bun, AWS Lambda, Vercel and Netlify.",
+      },
+      {
+        title: "fontaine",
+        href: "https://github.com/danielroe/fontaine",
+        description:
+          "Daniel Roe's library that auto-generates font-fallback metrics to eliminate cumulative layout shift from web font loading.",
+      },
+      {
+        title: "beasties",
+        href: "https://github.com/danielroe/beasties",
+        description:
+          "Daniel Roe's maintained fork of Critters: inlines an app's critical CSS and lazy-loads the rest.",
       },
     ],
   },
@@ -325,6 +403,18 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://github.com/gravity-ui/icons",
         description:
           "Open-source icon set from Yandex's Gravity UI design system, consistent, interface-focused SVG icons free to use in any project.",
+      },
+      {
+        title: "Icônes",
+        href: "https://github.com/antfu-collective/icones",
+        description:
+          "Icon explorer by Anthony Fu searching 200,000+ icons across 150+ sets via the Iconify API, with instant local fuzzy search and one-click copy for multiple frameworks.",
+      },
+      {
+        title: "unplugin-icons",
+        href: "https://github.com/unplugin/unplugin-icons",
+        description:
+          "Bundler plugin (Vite, Webpack, Rollup, esbuild) that turns any Iconify icon set into an importable component on demand, no icon font or sprite sheet needed.",
       },
     ],
   },
@@ -545,6 +635,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://tocn.vercel.app",
         description:
           "shadcn, but for terminal-themed components: copy-paste UI pieces styled to look like a terminal window.",
+      },
+      {
+        title: "Geist Design System",
+        href: "https://vercel.com/geist",
+        description:
+          "Vercel's open-sourced design system: React components, guidelines and the Geist Sans/Mono type family, the visual language behind Vercel's own products.",
       },
     ],
   },
@@ -868,6 +964,18 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://platejs.org",
         description:
           "Rich text editor framework for React, the kind of building blocks behind Notion-style editors, with a plugin system for extending it rather than building a WYSIWYG editor from scratch.",
+      },
+      {
+        title: "AI Elements",
+        href: "https://github.com/vercel/ai-elements",
+        description:
+          "Vercel's shadcn/ui registry built specifically for AI SDK apps: chat bubbles, streaming responses, reasoning blocks, tool-call UI and prompt input, installed the same way as any shadcn component.",
+      },
+      {
+        title: "Nuxt UI",
+        href: "https://ui.nuxt.com",
+        description:
+          "Vue component library built on Reka UI and Tailwind CSS, 110+ components; v4 merged the formerly paid Pro tier and Figma kit into the free MIT-licensed release.",
       },
     ],
   },
@@ -1399,6 +1507,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://interfaces.rauno.me",
         description:
           "Rauno Freiberg's curated collection of great interface details, screenshots of specific, well-executed UI moments from real products.",
+      },
+      {
+        title: "Midday",
+        href: "https://midday.ai",
+        description:
+          "Open-source financial OS for freelancers and small businesses (invoicing, time tracking, bank reconciliation), by Pontus Abrahamsson; featured twice on One Page Love for its interface craft.",
       },
     ],
   },
@@ -2421,6 +2535,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Page transition library for single-page apps, for animating between routes instead of hard page cuts.",
       },
+      {
+        title: "React Native Reanimated",
+        href: "https://github.com/software-mansion/react-native-reanimated",
+        description:
+          "Software Mansion's animation library that runs animation logic on the UI thread via worklets; Meta's core team is now collaborating on a shared animation backend landing in React Native itself.",
+      },
     ],
   },
   {
@@ -2509,6 +2629,30 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://editor.pascal.app",
         description:
           "Free, open-source, browser-based 3D building editor for turning physical spaces into digital twins, aimed at architects, developers and homeowners alike.",
+      },
+      {
+        title: "Halftone Waves",
+        href: "https://halftone-waves.ctate.dev",
+        description:
+          "Canvas-based generative art piece rendering an animated halftone dot pattern as flowing waves, by Vercel engineer Chris Tate (ctate.dev).",
+      },
+      {
+        title: "Neon Maze",
+        href: "https://neon-maze.ctate.dev",
+        description:
+          "Isometric maze rendered in glowing neon colors, a small creative-coding demo by Chris Tate (ctate.dev).",
+      },
+      {
+        title: "Tetrahedron Physics",
+        href: "https://tetrahedron-physics.ctate.dev",
+        description:
+          "Real-time 3D physics simulation of balls bouncing inside a rotating tetrahedron, by Chris Tate (ctate.dev).",
+      },
+      {
+        title: "Audio Visualizer template",
+        href: "https://v0.app/templates/audio-visualizer-eGfAJ9Uw70W",
+        description:
+          "v0 template for an audio-reactive visualizer, ready to remix or drop into a project.",
       },
     ],
   },
@@ -2842,6 +2986,30 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Open-source platform providing instant Firecracker microVMs, a terminal, a real browser and preinstalled coding agents driven by an AI, self-hostable with your own Anthropic and S3 keys.",
       },
+      {
+        title: "v0",
+        href: "https://v0.app",
+        description:
+          "Vercel's text-to-app generator: describe a UI or product in prompts and get a working Next.js/Tailwind app back, with a sandboxed runtime and native GitHub branches/PRs.",
+      },
+      {
+        title: "Cursor Directory",
+        href: "https://cursor.directory",
+        description:
+          "Directory of Cursor .cursorrules and community plugins for tuning AI pair-programming behavior per language and framework.",
+      },
+      {
+        title: "Languine",
+        href: "https://languine.ai",
+        description:
+          "AI-powered CLI for app localization, built on the Vercel AI SDK, detects changed translation keys via git diff instead of re-translating everything.",
+      },
+      {
+        title: "3D Model Generator",
+        href: "https://3d-model-generator.ctate.dev",
+        description:
+          "AI tool that generates 3D models from a prompt via Hyper3D Rodin, by Chris Tate (ctate.dev).",
+      },
     ],
   },
   {
@@ -2997,11 +3165,77 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Curated design inspiration directory covering 270+ sites, decoding each one's fonts, colors and tech stack specifically for AI agents to reference, with an MCP server for pulling the data into Claude or Cursor.",
       },
+      {
+        title: "agent-browser",
+        href: "https://github.com/vercel-labs/agent-browser",
+        description:
+          "Browser automation CLI from Vercel Labs built for AI agents to drive a real browser session.",
+      },
+      {
+        title: "ralph-loop-agent",
+        href: "https://github.com/vercel-labs/ralph-loop-agent",
+        description:
+          "Experimental framework from Vercel Labs that wraps the AI SDK with outer iteration logic, running an autonomous agent loop until a verification function confirms the task is done, with stop conditions by iteration count, token budget or cost.",
+      },
+      {
+        title: "Zero",
+        href: "https://zerolang.ai",
+        description:
+          "Experimental programming language where the graph is the program instead of text files: agents query a semantic graph, submit compiler-checked edits, and humans review the changes as a readable projection.",
+      },
+      {
+        title: "OpenUI Spec",
+        href: "https://openuispec.org",
+        description:
+          "AI-native specification for describing UIs, aimed at giving agents a structured format to generate and reason about interfaces instead of raw markup.",
+      },
+      {
+        title: "Tooly",
+        href: "https://tooly.ctate.dev",
+        description:
+          "Packages popular APIs (GitHub, Stripe, Linear, Notion) as ready-made AI SDK/agent tools, by Chris Tate (ctate.dev).",
+      },
+      {
+        title: "Executor",
+        href: "https://github.com/UsefulSoftwareCo/executor",
+        description:
+          "Integration layer for AI agents: lets an agent call any OpenAPI, MCP, GraphQL or custom JS function inside a secure sandboxed environment, by Rhys Sullivan.",
+      },
+      {
+        title: "Vercel AI SDK",
+        href: "https://vercel.com/docs/ai-sdk",
+        description:
+          "TypeScript SDK unifying LLM provider APIs (OpenAI, Anthropic, Google and others) behind one streaming and tool-calling interface, one of the most widely used AI libraries in the JS ecosystem.",
+      },
+      {
+        title: "Vercel Sandbox",
+        href: "https://vercel.com/docs/sandbox",
+        description:
+          "MicroVM compute primitive for running untrusted or agent-generated code with persistent filesystem state, available through the standard Vercel CLI.",
+      },
+      {
+        title: "Cloudflare Workers AI and AI Gateway",
+        href: "https://developers.cloudflare.com/workers-ai/",
+        description:
+          "Inference at the edge plus a unified gateway across 14+ LLM providers, for routing, caching and logging AI requests from one place.",
+      },
+      {
+        title: "Cloudflare Agents SDK",
+        href: "https://developers.cloudflare.com/agents/",
+        description:
+          "JavaScript framework for building persistent, stateful AI agents on Cloudflare Workers, used as the runtime other agent frameworks build on top of.",
+      },
     ],
   },
   {
     title: "Backend engineering",
     links: [
+      {
+        title: "Next.js WebSocket upgrade in route handlers",
+        href: "https://github.com/vercel/next.js/discussions/95514",
+        description:
+          "RFC for NextResponse.upgrade(), the first native way to handle WebSocket connections directly in a Next.js route handler with open/message/close/error hooks, powered by crossws with an API similar to Bun's.",
+      },
       {
         title: "Laws of Software Engineering",
         href: "https://lawsofsoftwareengineering.com/",
@@ -3122,6 +3356,36 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Mock Service Worker: intercepts real network requests at the browser/Node level for API mocking in tests and dev environments, so components hit realistic mocked responses instead of a mocked fetch function.",
       },
+      {
+        title: "Better Auth",
+        href: "https://better-auth.com",
+        description:
+          "Framework-agnostic, self-hosted TypeScript authentication library configured entirely in code, with plugins for 2FA, SSO, SCIM and social login across Next.js, Nuxt, SvelteKit and 20+ other frameworks.",
+      },
+      {
+        title: "Cloudflare Queues",
+        href: "https://developers.cloudflare.com/queues/",
+        description:
+          "Managed message queue for Cloudflare Workers with pull-based consumers, for offloading work from the request/response cycle.",
+      },
+      {
+        title: "The only scalable delete in Postgres is DROP TABLE",
+        href: "https://planetscale.com/blog/the-only-scalable-delete-in-postgres-is-drop-table",
+        description:
+          "PlanetScale post arguing large-scale DELETE statements degrade badly from MVCC bloat and vacuum pressure, and recommending table partitioning so bulk deletion becomes DROP TABLE or TRUNCATE instead.",
+      },
+      {
+        title: "Why we chose NanoIDs for PlanetScale's API",
+        href: "https://planetscale.com/blog/why-we-chose-nanoids-for-planetscales-api",
+        description:
+          "Covers the ID-design tradeoff of keeping a BIGINT auto-increment as the clustered primary key while exposing a separate NanoID column as the public-facing identifier.",
+      },
+      {
+        title: "Deadlocks and downtime",
+        href: "https://planetscale.com/blog/deadlocks-and-downtime",
+        description:
+          "PlanetScale walkthrough of how transaction lock contention escalates into full outages, and how retry logic plus traffic shaping prevents the cascade.",
+      },
     ],
   },
   {
@@ -3241,6 +3505,48 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Reactive backend platform with a built-in database: write server functions in TypeScript and get automatic real-time sync to the client, no separate API layer to hand-wire.",
       },
+      {
+        title: "Drizzle ORM",
+        href: "https://orm.drizzle.team",
+        description:
+          "TypeScript ORM with zero runtime dependencies and a SQL-like query builder, supporting Postgres, MySQL, SQLite and more, with drivers for serverless targets like Neon, Turso and Cloudflare D1.",
+      },
+      {
+        title: "Cloudflare D1",
+        href: "https://developers.cloudflare.com/d1/",
+        description:
+          "SQLite-based serverless SQL database on Cloudflare's edge network, designed to be sharded per-tenant rather than run as one central database.",
+      },
+      {
+        title: "Cloudflare R2",
+        href: "https://developers.cloudflare.com/r2/",
+        description:
+          "S3-compatible object storage on Cloudflare with zero egress fees, a common pick for teams that got burned by S3 bandwidth bills.",
+      },
+      {
+        title: "Cloudflare Hyperdrive",
+        href: "https://developers.cloudflare.com/hyperdrive/",
+        description:
+          "Connection pooling and acceleration layer that sits in front of an existing Postgres or MySQL database, for querying it fast from Cloudflare Workers.",
+      },
+      {
+        title: "Vercel Blob",
+        href: "https://vercel.com/docs/storage/vercel-blob",
+        description:
+          "Managed object storage for file uploads served through a global CDN, the same storage this registry's own asset pipeline runs on.",
+      },
+      {
+        title: "Non-blocking schema changes",
+        href: "https://planetscale.com/blog/non-blocking-schema-changes",
+        description:
+          "PlanetScale explains how it avoids running raw DDL against production: build a shadow table, backfill rows in batches, and apply ongoing writes via binlog streaming before cutover.",
+      },
+      {
+        title: "RLS sounds great until it isn't",
+        href: "https://planetscale.com/blog/rls-sounds-great-until-it-isnt",
+        description:
+          "PlanetScale details concrete failure modes of Postgres Row Level Security at scale: connection-pooler incompatibilities, planner cost blind spots, and per-query policy-evaluation overhead.",
+      },
     ],
   },
   {
@@ -3348,6 +3654,54 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Exposes a local development server to the internet via a public URL, similar to ngrok, for testing webhooks or sharing a local build.",
       },
+      {
+        title: "Cloudflare Workers",
+        href: "https://developers.cloudflare.com/workers/",
+        description:
+          "V8-isolate-based edge compute platform officially supporting 18+ frameworks, one of the most widely deployed serverless runtimes.",
+      },
+      {
+        title: "Cloudflare Durable Objects",
+        href: "https://developers.cloudflare.com/durable-objects/",
+        description:
+          "Stateful serverless compute with strict serializability for global request ordering, the primitive that Cloudflare's own D1 and Queues are built on top of.",
+      },
+      {
+        title: "Cloudflare Containers",
+        href: "https://developers.cloudflare.com/containers/",
+        description:
+          "Runs full Linux container workloads deployed via wrangler, for workloads that don't fit the Workers isolate model.",
+      },
+      {
+        title: "Introducing Database Traffic Control",
+        href: "https://planetscale.com/blog/introducing-database-traffic-control",
+        description:
+          "PlanetScale's proxy-layer system that enforces real-time budgets on query traffic using leaky-bucket rate limiting, estimating per-query resource cost from the planner before execution.",
+      },
+      {
+        title: "EAS Build",
+        href: "https://expo.dev/eas",
+        description:
+          "Expo's cloud service that compiles native iOS/Android builds without a local Xcode or Android Studio setup, configured through eas.json build profiles.",
+      },
+      {
+        title: "EAS Update",
+        href: "https://docs.expo.dev/eas-update/introduction/",
+        description:
+          "Ships JavaScript and asset changes over the air to already-installed Expo builds, bypassing App Store and Play Store review for non-native changes.",
+      },
+      {
+        title: "EAS Workflows",
+        href: "https://docs.expo.dev/eas/workflows/get-started/",
+        description:
+          "YAML-defined CI/CD pipelines for build, test, submit and update jobs that run on EAS infrastructure and trigger on GitHub events.",
+      },
+      {
+        title: "EAS Observe",
+        href: "https://expo.dev/blog/introducing-observe",
+        description:
+          "Expo's production performance monitoring in open beta, tracking cold and warm launch time, time to interactive and first render across real user sessions with per-release percentile breakdowns.",
+      },
     ],
   },
   {
@@ -3454,6 +3808,18 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Sam Rose's interactive, animated explainer of Big-O notation, making algorithmic complexity intuitive through visualization instead of just formulas.",
       },
+      {
+        title: "Announcing Neki",
+        href: "https://planetscale.com/blog/announcing-neki",
+        description:
+          "PlanetScale's from-scratch sharded Postgres system, built by the Vitess team but not a Vitess fork, addressing Postgres's different planner and replication model instead of reusing MySQL-oriented sharding logic.",
+      },
+      {
+        title: "What is Vitess",
+        href: "https://planetscale.com/blog/what-is-vitess",
+        description:
+          "Explains the VTGate/VTTablet architecture: a stateless proxy layer routing queries to sharded MySQL tablets and presenting a single logical database to the application, originally built at YouTube in 2011.",
+      },
     ],
   },
   {
@@ -3525,6 +3891,36 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://ui.dev",
         description:
           "Frontend courses and tutorials, especially React, from the team behind the React Router and TanStack Query educational content.",
+      },
+      {
+        title: "JavaScript30",
+        href: "https://javascript30.com",
+        description:
+          "Wes Bos's free 30-day vanilla JavaScript coding challenge: 30 build-along tutorials with no frameworks or libraries.",
+      },
+      {
+        title: "CSS Grid",
+        href: "https://cssgrid.io",
+        description:
+          "Wes Bos's free 25-video course covering CSS Grid fundamentals through real-world layout examples.",
+      },
+      {
+        title: "Beginner JavaScript",
+        href: "https://beginnerjavascript.com",
+        description:
+          "Wes Bos's paid, exercise-heavy course teaching modern JavaScript from scratch.",
+      },
+      {
+        title: "Command Line Power User",
+        href: "https://commandlinepoweruser.com",
+        description:
+          "Wes Bos's free course on a modern command-line workflow: ZSH, aliases and related terminal tooling.",
+      },
+      {
+        title: "Level Up Tutorials",
+        href: "https://levelup.video",
+        description:
+          "Scott Tolinski's tutorial platform (founded 2012, merged into Syntax.fm in 2023), thousands of free and premium web dev video tutorials.",
       },
     ],
   },
@@ -3889,6 +4285,186 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://web-check.xyz",
         description:
           "Runs a full OSINT and security check on any website: DNS records, headers, certificates, hosting and more, in one report.",
+      },
+      {
+        title: "Visual JSON",
+        href: "https://visual-json.dev",
+        description:
+          "Interactive JSON editor with tree and raw views for reading and editing files like package.json without hand-editing brackets and commas.",
+      },
+      {
+        title: "Portless",
+        href: "https://portless.sh",
+        description:
+          "Replaces localhost port numbers with stable, named .localhost URLs for local dev, with HTTPS and HTTP/2 on by default via a reverse proxy.",
+      },
+      {
+        title: "shadcn CLI v4",
+        href: "https://ui.shadcn.com/docs/changelog/2026-03-cli-v4",
+        description:
+          "shadcn init now scaffolds full project templates (Next.js, Vite, Laravel, React Router, Astro, TanStack Start) plus shadcn/skills and presets, not just individual components.",
+      },
+      {
+        title: "shadcn registry include and validate",
+        href: "https://ui.shadcn.com/docs/changelog/2026-05-registry-include",
+        description:
+          "Lets registry authors split a large registry.json across files and validate a source registry before publishing, directly relevant to maintaining a shadcn-based component registry.",
+      },
+      {
+        title: "Create v1",
+        href: "https://github.com/midday-ai/v1",
+        description:
+          "Open-source production SaaS starter by Pontus Abrahamsson's Midday team: Next.js, Turborepo, Supabase and shadcn/ui, with i18n, email, analytics and background jobs pre-wired.",
+      },
+      {
+        title: "create-t3-app",
+        href: "https://create.t3.gg",
+        description:
+          "CLI maintained by Theo Browne and collaborators that scaffolds a typesafe Next.js app combining tRPC, Tailwind CSS, Auth.js and a choice of Prisma or Drizzle for the ORM.",
+      },
+      {
+        title: "Varlock",
+        href: "https://varlock.dev",
+        description:
+          "Schema-first environment variable and secrets manager: a committable .env.schema defines types, validation and defaults, and the CLI resolves real values while redacting secrets from logs.",
+      },
+      {
+        title: "uv",
+        href: "https://docs.astral.sh/uv/",
+        description:
+          "Rust-built Python package and project manager from Astral that replaces pip, poetry, pyenv and virtualenv with one tool, with a lockfile and built-in Python version management.",
+      },
+      {
+        title: "ty",
+        href: "https://docs.astral.sh/ty/",
+        description:
+          "Astral's Rust-based Python type checker and language server, positioned as a much faster alternative to mypy and Pyright.",
+      },
+      {
+        title: "Wrangler",
+        href: "https://developers.cloudflare.com/workers/wrangler/",
+        description:
+          "Cloudflare's primary CLI for developing and deploying Workers, D1, Containers and Queues.",
+      },
+      {
+        title: "Answer Overflow",
+        href: "https://www.answeroverflow.com",
+        description:
+          "Turns Discord thread content into indexable, searchable web pages, used by communities like Cloudflare, Nuxt and Valorant to make help-channel answers findable via search engines.",
+      },
+      {
+        title: "Shiptalkers",
+        href: "https://shiptalkers.dev",
+        description:
+          "Pulls GitHub and social activity into a ranked comparison of how much people actually ship versus how much they post about shipping, by Rhys Sullivan.",
+      },
+      {
+        title: "UnoCSS",
+        href: "https://github.com/unocss/unocss",
+        description:
+          "Atomic CSS engine by Anthony Fu with no core utilities of its own, generating classes on demand through presets like Wind4 and Mini.",
+      },
+      {
+        title: "Vitest",
+        href: "https://github.com/vitest-dev/vitest",
+        description:
+          "Vite-native test runner with a Jest-compatible API, in-source testing and a real browser mode.",
+      },
+      {
+        title: "tsdown",
+        href: "https://github.com/rolldown/tsdown",
+        description:
+          "TypeScript library bundler built on Rolldown, the Rust bundler from the former VoidZero, positioned as a faster tsup replacement.",
+      },
+      {
+        title: "taze",
+        href: "https://github.com/antfu-collective/taze",
+        description:
+          "CLI by Anthony Fu that checks and bumps package.json dependency versions with a mode-based range filter (major, minor, patch) in an interactive terminal UI.",
+      },
+      {
+        title: "ni",
+        href: "https://github.com/antfu-collective/ni",
+        description:
+          "Package-manager-agnostic CLI (ni, nr, nun, nlx) that detects a repo's lockfile and dispatches to npm, yarn, pnpm or bun automatically.",
+      },
+      {
+        title: "vite-plugin-inspect",
+        href: "https://github.com/antfu-collective/vite-plugin-inspect",
+        description:
+          "Vite plugin that exposes an inspector UI showing each intermediate transform step a module goes through across the full plugin pipeline.",
+      },
+      {
+        title: "Nuxt DevTools",
+        href: "https://github.com/nuxt/devtools",
+        description:
+          "In-browser devtools overlay for Nuxt apps showing pages, components, composables, server routes and the Vite module graph.",
+      },
+      {
+        title: "UnJS",
+        href: "https://unjs.io",
+        description:
+          "Umbrella org for framework-agnostic JS utilities extracted from Nuxt (h3, ofetch, unbuild, unstorage and others), each independently usable outside Nuxt or Vue.",
+      },
+      {
+        title: "h3",
+        href: "https://github.com/unjs/h3",
+        description:
+          "Minimal, composable HTTP server framework from UnJS that runs on Node, Deno, Bun and edge runtimes, and serves as Nitro's request layer.",
+      },
+      {
+        title: "unstorage",
+        href: "https://github.com/unjs/unstorage",
+        description:
+          "Async key-value storage API with one interface across 20+ drivers (filesystem, Redis, S3, Cloudflare KV, memory), mountable per-namespace and swappable without code changes.",
+      },
+      {
+        title: "Nuxt Studio",
+        href: "https://content.nuxt.com",
+        description:
+          "Free, open-source, self-hostable visual editing module for Nuxt Content sites that edits content directly on the production site.",
+      },
+      {
+        title: "page-speed.dev",
+        href: "https://page-speed.dev",
+        description:
+          "Daniel Roe's tool for capturing and sharing Core Web Vitals and PageSpeed Insights results as shareable links.",
+      },
+      {
+        title: "vitess-operator",
+        href: "https://github.com/planetscale/vitess-operator",
+        description:
+          "Kubernetes Operator for deploying and managing Vitess clusters declaratively, PlanetScale's primary open-source infrastructure tool outside the core Vitess project.",
+      },
+      {
+        title: "Cobalt2 Theme",
+        href: "https://github.com/wesbos/cobalt2-vscode",
+        description:
+          "Wes Bos's VS Code, Sublime and iTerm color theme, one of the most-installed themes on the VS Code marketplace.",
+      },
+      {
+        title: "Syntax Snackpack",
+        href: "https://syntax.fm/snackpack",
+        description:
+          "Syntax.fm's own newsletter, separate from Bytes, for tips, tricks and swag drops distinct from the podcast episode feed.",
+      },
+      {
+        title: "Expo Atlas",
+        href: "https://github.com/expo/atlas",
+        description:
+          "Module-level Metro bundle visualizer that walks Metro's dependency graph to show per-module size and Babel transform output for bundle-size debugging.",
+      },
+      {
+        title: "Expo Orbit",
+        href: "https://github.com/expo/orbit",
+        description:
+          "Open-source menu-bar app (React Native and Electron) for one-click install and launch of EAS builds, local .apk/.app files or Snack projects onto simulators and emulators.",
+      },
+      {
+        title: "React Native Worklets",
+        href: "https://docs.swmansion.com/react-native-worklets/",
+        description:
+          "Standalone multithreading engine, split out of Reanimated, that lets libraries run JS functions synchronously on separate threads via a shared worklet runtime.",
       },
     ],
   },
@@ -4356,6 +4932,24 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "X account of Ivan Velichko (iximiuz), a well-known educator on containers, Linux internals and how the container runtime stack actually works under the hood.",
       },
+      {
+        title: "Anthony Fu",
+        href: "https://github.com/antfu",
+        description:
+          "GitHub of Anthony Fu, extremely prolific open-source maintainer behind Vitest, UnoCSS, Slidev, VueUse and much of the Vite plugin ecosystem.",
+      },
+      {
+        title: "Daniel Roe",
+        href: "https://roe.dev",
+        description:
+          "Site of Daniel Roe, Nuxt core team member and maintainer of fontaine, beasties, magic-regexp and page-speed.dev.",
+      },
+      {
+        title: "Sebastien Chopin",
+        href: "https://atinux.com",
+        description:
+          "Site of Sebastien Chopin (atinux), co-creator of Nuxt.js.",
+      },
     ],
   },
   {
@@ -4414,6 +5008,36 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://bytes.dev",
         description:
           "Twice-weekly JavaScript news newsletter from the Syntax.fm crew, summarizing what happened in the JS ecosystem with a conversational, funny tone.",
+      },
+      {
+        title: "The Turbopack vision",
+        href: "https://vercel.com/blog/the-turbopack-vision",
+        description:
+          "Architecture and rationale piece on Turbopack, the Rust bundler built to replace webpack, Babel and Terser in the Next.js toolchain.",
+      },
+      {
+        title: "Building an MCP server for Nuxt",
+        href: "https://nuxt.com/blog/building-nuxt-mcp",
+        description:
+          "Nuxt team's technical writeup on exposing Nuxt's docs to AI assistants via a structured MCP server with composable tools.",
+      },
+      {
+        title: "Introducing the Nuxt Agent",
+        href: "https://nuxt.com/blog/introducing-nuxt-agent",
+        description:
+          "Nuxt team's post on Nuxi, an in-docs AI assistant grounded in official documentation, built with the AI SDK and Nuxt UI components.",
+      },
+      {
+        title: "New performance panel in React Native 0.83",
+        href: "https://swmansion.com/blog/react-native-debugging-new-performance-panel-in-react-native-0-83-21ca90871f6d/",
+        description:
+          "Software Mansion post detailing the in-app performance-trace recording panel they built into React Native DevTools for measuring runtime performance without Flipper.",
+      },
+      {
+        title: "Out with the old, in with the New Architecture",
+        href: "https://expo.dev/blog/out-with-the-old-in-with-the-new-architecture",
+        description:
+          "Expo engineering post on the SDK 53 default-on switch to Fabric, TurboModules and JSI replacing the legacy bridge, plus the interop layer keeping old-architecture libraries working unmodified.",
       },
     ],
   },
