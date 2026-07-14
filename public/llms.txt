@@ -1,0 +1,7 @@
+# Compronents
+
+> A quiet registry for careful interfaces for BLANK. Components, full pages, and backend pieces, installable with the shadcn CLI. By Aryan Kathawale (ui.aryank.space).
+
+## Inspiration
+
+- [Inspiration index](https://ui.aryank.space/inspiration/llms.txt): the full curated vault of design, typography, animation, and developer resources, served as plain markdown.
