@@ -1354,41 +1354,74 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "The Book of Shaders",
         href: "https://thebookofshaders.com/06/",
+        description:
+          "The canonical, widely used interactive guide to GLSL fragment shaders by Patricio Gonzalez Vivo, teaching shader programming from first principles with live, editable examples.",
       },
       {
         title: "Drei AsciiRenderer",
         href: "https://drei.docs.pmnd.rs/abstractions/ascii-renderer",
+        description:
+          "ASCII-art post-processing effect from Drei, the popular helper library for React Three Fiber, rendering a 3D scene as live ASCII characters.",
       },
-      { title: "GLSL Sandbox", href: "https://mrdoob.com/#/139/glsl_sandbox" },
+      {
+        title: "GLSL Sandbox",
+        href: "https://mrdoob.com/#/139/glsl_sandbox",
+        description:
+          "Long-running community sandbox by mrdoob (Three.js creator) for writing and sharing GLSL shaders live in the browser.",
+      },
       {
         title: "Chrome Experiments",
         href: "https://experiments.withgoogle.com/collection/chrome",
+        description:
+          "Google's showcase of creative web experiments pushing browser capabilities, WebGL, audio, and interaction demos from the early Chrome era onward.",
       },
       {
         title: "Fluid pendant",
         href: "https://mitxela.com/projects/fluid-pendant",
+        description:
+          "Handmade jewelry project by mitxela: a gold-plated pendant with a tiny LED matrix running a real-time FLIP fluid simulation on an STM32 microcontroller, motion-activated and coin-cell powered.",
       },
-      { title: "Floor796", href: "https://floor796.com/#wandering" },
-      { title: "Heerich", href: "https://meodai.github.io/heerich/" },
+      {
+        title: "Floor796",
+        href: "https://floor796.com/#wandering",
+        description:
+          "Interactive isometric illustration of an office building where every window reveals an animated vignette, a well-known example of large-scale, detailed 2D animation on the web.",
+      },
+      {
+        title: "Heerich",
+        href: "https://meodai.github.io/heerich/",
+        description:
+          "Tiny engine by meodai for building 3D voxel scenes and rendering them as SVG, DOM-integrated so scenes can be styled with CSS and scale infinitely, inspired by sculptor Erwin Heerich's geometric forms.",
+      },
       {
         title: "Whitespace Experiments",
         href: "https://experiments.thisiswhitespace.com/",
+        description:
+          "Playground of creative coding experiments from design studio Whitespace.",
       },
       {
         title: "Shaders hero section",
         href: "https://v0.app/templates/shaders-hero-section-cJOO8mnVR01?ref=Z0HBR4",
+        description:
+          "v0 template for a shader-driven animated hero section, ready to remix or drop into a project.",
       },
       {
         title: "Cells to Pixels",
         href: "https://cells2pixels.github.io/#growing",
+        description:
+          "Research project on Neural Cellular Automata: a coarse self-organizing grid paired with a lightweight decoder network generates high-resolution textures and patterns in real time, across 2D/3D grids and mesh surfaces.",
       },
       {
         title: "Awwwards WebGL and HTML course",
         href: "https://www.awwwards.com/academy/course/merging-webgl-and-html-worlds/lectures/7a14a7a1-72fe-428c-b5c1-680d7b90c026",
+        description:
+          "Awwwards Academy course on blending WebGL scenes with regular HTML/DOM content in the same page.",
       },
       {
         title: "Awwwards interactive 3D scenes course",
         href: "https://www.awwwards.com/academy/course/the-fun-process-of-creating-lively-interactive-3d-scenes-for-the-web/lectures/d84661d2-bc8d-4a55-9928-280aba8b92b2",
+        description:
+          "Awwwards Academy course on building lively, interactive 3D scenes for the web from start to finish.",
       },
     ],
   },
@@ -1398,25 +1431,68 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Audio by Raphael Salaja",
         href: "https://audio.raphaelsalaja.com/",
+        description:
+          "@web-kits/audio, a declarative audio synthesis library for the web: define sounds as plain objects (sources, envelopes, effects) and play them with a simple function call. This is the library powering this site's own hover sounds.",
       },
-      { title: "soundcn", href: "https://www.soundcn.xyz/" },
-      { title: "soundzjs", href: "https://soundzjs.vercel.app/docs" },
-      { title: "Remocn", href: "https://www.remocn.dev/docs/compositions" },
-      { title: "Mediabunny", href: "https://mediabunny.dev/" },
-      { title: "VERT", href: "https://vert.sh/" },
-      { title: "Optimo", href: "https://optimo.microlink.io/" },
+      {
+        title: "soundcn",
+        href: "https://www.soundcn.xyz/",
+        description:
+          "Free sound effects library packaged for modern web apps, shadcn-style naming for a UI-ready audio asset collection.",
+      },
+      {
+        title: "soundzjs",
+        href: "https://soundzjs.vercel.app/docs",
+        description:
+          "React library for adding customizable sound effects to UI elements, with theming, haptic feedback and accessibility built in.",
+      },
+      {
+        title: "Remocn",
+        href: "https://www.remocn.dev/docs/compositions",
+        description:
+          "React animation library (built for Remotion-style video generation) offering higher-level compositions that combine primitives, UI blocks and transitions into finished animated 'shots', plus lower-level building blocks.",
+      },
+      {
+        title: "Mediabunny",
+        href: "https://mediabunny.dev/",
+        description:
+          "Zero-dependency JavaScript/TypeScript library for reading, writing and converting video and audio files directly in the browser, built from scratch for speed and small bundle size.",
+      },
+      {
+        title: "VERT",
+        href: "https://vert.sh/",
+        description:
+          "Free, open-source, privacy-friendly file converter that runs entirely client-side, no upload to a server for the conversion.",
+      },
+      {
+        title: "Optimo",
+        href: "https://optimo.microlink.io/",
+        description:
+          "Free, open-source CLI for optimizing and converting images and video, built on ImageMagick and FFmpeg, supporting 14 formats with batch resizing, lossy compression and metadata handling.",
+      },
       {
         title: "Apple TV recreation",
         href: "https://www.frontend.fyi/tutorials/rebuilding-the-apple-tv-plus-website-with-framer-motion-and-tailwind",
+        description:
+          "Tutorial walking through rebuilding the Apple TV+ marketing site's interactions using Framer Motion and Tailwind, a practical reference for high-craft scroll and hover animation.",
       },
       {
         title: "Supertonic",
         href: "https://github.com/supertone-inc/supertonic",
+        description:
+          "Open-source project from Supertone (voice AI company) related to speech/audio synthesis technology.",
       },
-      { title: "Web Reel", href: "https://webreel.dev/" },
+      {
+        title: "Web Reel",
+        href: "https://webreel.dev/",
+        description:
+          "Tool that records scripted browser demos as video: describe interactions in JSON and it automates capture in a headless browser, adding cursor animation and keystroke overlays, for product demos, tutorials and CI pipelines.",
+      },
       {
         title: "WebRTC video streaming",
         href: "https://blog.logrocket.com/webrtc-video-streaming/",
+        description:
+          "LogRocket guide to building real-time video streaming with WebRTC, covering the core APIs and common gotchas.",
       },
     ],
   },
@@ -1426,46 +1502,86 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Vibe coding is not AI-assisted engineering",
         href: "https://addyo.substack.com/p/vibe-coding-is-not-the-same-as-ai",
+        description:
+          "Addy Osmani essay drawing a line between casually 'vibe coding' with an LLM and disciplined AI-assisted software engineering, arguing the two get conflated in ways that hurt production code quality.",
       },
       {
         title: "Building an elite AI engineering culture",
         href: "https://www.cjroth.com/blog/2026-02-18-building-an-elite-engineering-culture",
+        description:
+          "Argues AI amplifies a team's existing strengths rather than leveling the playing field; elite results need taste (knowing what to build), discipline (spec-driven process, real testing) and leverage (small teams, powerful tools) multiplied together, citing Linear, Cursor and Vercel.",
       },
       {
         title: "Effective communication in AI engineering",
         href: "https://jxnl.co/writing/2024/10/15/effective-communication-in-ai-engineering-moving-beyond-vague-updates/",
+        description:
+          "Jason Liu (jxnl) essay on why AI engineering teams need more precise status communication than 'still working on it', and how vague updates hide real progress and risk.",
       },
       {
         title: "How LLMs actually work",
         href: "https://www.0xkato.xyz/how-llms-actually-work/",
+        description:
+          "Plain-language explainer of how large language models work under the hood, aimed at engineers who use LLMs daily but haven't studied the internals.",
       },
-      { title: "LLM Visualization", href: "https://bbycroft.net/llm" },
+      {
+        title: "LLM Visualization",
+        href: "https://bbycroft.net/llm",
+        description:
+          "Well-known interactive 3D visualization of a GPT-style language model, watch tokens flow through embeddings, attention and MLP layers in real time.",
+      },
       {
         title: "The Transformers",
         href: "https://www.vizuaranewsletter.com/p/the-transformers",
+        description:
+          "Newsletter explainer on the Transformer architecture, the attention-based model behind essentially every modern LLM.",
       },
       {
         title: "LLM Architecture Gallery",
         href: "https://sebastianraschka.com/llm-architecture-gallery/",
+        description:
+          "Sebastian Raschka's visual gallery comparing the architectures of major LLM families side by side, a fast way to see how GPT, Llama, Mistral and others actually differ structurally.",
       },
-      { title: "Hyperagents", href: "https://arxiv.org/abs/2603.19461" },
-      { title: "arXiv 2501.02305", href: "https://arxiv.org/pdf/2501.02305" },
-      { title: "FMHY AI", href: "https://fmhy.net/ai" },
+      {
+        title: "Hyperagents",
+        href: "https://arxiv.org/abs/2603.19461",
+        description:
+          "Paper introducing 'hyperagents': self-referential AI systems pairing a task-solving agent with a meta-agent that can rewrite both itself and the task agent as editable code, extending the Darwin Gödel Machine framework so the improvement mechanism itself is improvable.",
+      },
+      {
+        title: "arXiv 2501.02305",
+        href: "https://arxiv.org/pdf/2501.02305",
+        description:
+          "Paper on open-addressed hash tables: shows they can achieve better search performance than previously believed, disproving Yao's long-standing 'Uniform Hashing is Optimal' conjecture with matching upper and lower bounds.",
+      },
+      {
+        title: "FMHY AI",
+        href: "https://fmhy.net/ai",
+        description:
+          "The AI section of the FMHY (Free Media Heck Yeah) wiki, a huge categorized directory of AI tools: chatbots, image/video/audio generators, local frontends, ML frameworks and benchmarks.",
+      },
       {
         title: "Kill the bloat in Claude Code's system prompt",
         href: "https://www.aihero.dev/how-to-kill-the-bloat-in-claude-codes-system-prompt",
+        description:
+          "AI Hero post on trimming unnecessary context and instructions from a Claude Code system prompt to reduce token overhead and improve response quality.",
       },
       {
         title: "KV Cache explained intuitively",
         href: "https://medium.com/@saad.ahmed1926q/kv-cache-explained-intuitively-2b425a36dfc7",
+        description:
+          "Intuitive explainer of the KV (key-value) cache technique that makes autoregressive LLM inference fast by avoiding recomputing attention for tokens already generated.",
       },
       {
         title: "Berkeley EECS technical report",
         href: "https://www2.eecs.berkeley.edu/Pubs/TechRpts/2016/Archive/EECS-2016-143.pdf",
+        description:
+          "2016 UC Berkeley EECS technical report (PDF), archival research writeup from the department's technical report series.",
       },
       {
         title: "How I use LLMs, Karpathy",
         href: "https://www.youtube.com/watch?v=EWvNQjAaOHw",
+        description:
+          "Andrej Karpathy's practical walkthrough of his actual day-to-day LLM usage and workflow, widely watched for its concrete, unhyped take on using these tools well.",
       },
     ],
   },
@@ -1475,68 +1591,152 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Maths, CS and AI compendium",
         href: "https://github.com/HenryNdubuaku/maths-cs-ai-compendium",
+        description:
+          "GitHub-hosted compendium of math, computer science and AI learning resources, organized as a structured reading path rather than a random link dump.",
       },
-      { title: "ML Visualizer", href: "https://mlvisualizer.org/" },
+      {
+        title: "ML Visualizer",
+        href: "https://mlvisualizer.org/",
+        description:
+          "Interactive visualizations of machine learning concepts and model behavior, for building intuition beyond the equations.",
+      },
       {
         title: "TensorFlow Playground",
         href: "https://playground.tensorflow.org/",
+        description:
+          "Google's classic interactive neural network visualizer: adjust layers, features and hyperparameters in the browser and watch a small network learn a toy dataset in real time.",
       },
-      { title: "GPU Glossary", href: "https://modal.com/gpu-glossary" },
+      {
+        title: "GPU Glossary",
+        href: "https://modal.com/gpu-glossary",
+        description:
+          "Modal's reference glossary for GPU and CUDA terminology, demystifying the vocabulary (SMs, warps, tensor cores, memory hierarchy) that GPU performance work assumes you already know.",
+      },
       {
         title: "Quantization from the ground up",
         href: "https://ngrok.com/blog/quantization",
+        description:
+          "Explainer on model quantization, how reducing numeric precision shrinks models and speeds inference, and the tradeoffs involved, from first principles.",
       },
       {
         title: "TurboQuant",
         href: "https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/",
+        description:
+          "Google Research blog post on TurboQuant, a technique for extreme model compression aimed at making AI inference dramatically more efficient.",
       },
       {
         title: "Best resources to learn deep learning",
         href: "https://www.mltut.com/best-resources-to-learn-deep-learning/",
+        description:
+          "Roundup of recommended courses, books and resources for learning deep learning from scratch.",
       },
-      { title: "Algebrica", href: "https://algebrica.org/" },
+      {
+        title: "Algebrica",
+        href: "https://algebrica.org/",
+        description:
+          "Resource site for learning the mathematics (algebra and beyond) underpinning machine learning and computer science.",
+      },
     ],
   },
   {
     title: "AI tools, agents and search",
     links: [
-      { title: "ai-cli", href: "https://ai-cli.dev/" },
-      { title: "Models.dev", href: "https://models.dev/" },
-      { title: "ai-ng", href: "https://github.com/ai-ng" },
+      {
+        title: "ai-cli",
+        href: "https://ai-cli.dev/",
+        description:
+          "Command-line tool for generating text, image, video and audio content from various AI models directly in the terminal, supports comparing multiple models in parallel and composes with Unix pipes.",
+      },
+      {
+        title: "Models.dev",
+        href: "https://models.dev/",
+        description:
+          "Well-known, frequently updated reference comparing LLM pricing, context windows and capabilities across providers, the go-to page when deciding which model to use for a task.",
+      },
+      {
+        title: "ai-ng",
+        href: "https://github.com/ai-ng",
+        description:
+          "GitHub organization building AI-powered developer tools, including Swift (a fast voice assistant) and 2txt (an image-to-text converter).",
+      },
       {
         title: "AI tool system prompts",
         href: "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/tree/main/Amp",
+        description:
+          "Widely referenced repository collecting the leaked/extracted system prompts and model configs of popular AI coding tools, this link points at the Amp entry specifically.",
       },
       {
         title: "Hegelian dialectic skill",
         href: "https://github.com/KyleAMathews/hegelian-dialectic-skill",
+        description:
+          "Claude Code skill that automates deep reasoning by spawning two agents to fully embody opposing positions on a topic ('Electric Monks'), then decomposes both arguments and synthesizes a richer, non-binary conclusion.",
       },
-      { title: "c0da", href: "https://c0da.org/" },
-      { title: "Ostralyan", href: "https://ostralyan.com/" },
+      {
+        title: "c0da",
+        href: "https://c0da.org/",
+        description:
+          "Feminist research and publishing platform exploring the intersection of feminist writing and the history of women in coding, commissioned essays and artworks on programming's overlooked female history.",
+      },
+      {
+        title: "Ostralyan",
+        href: "https://ostralyan.com/",
+        description:
+          "Interactive machine learning education platform: browser-based visualizations and live parameter tweaking across 25+ algorithms spanning neural networks, NLP, clustering and regression.",
+      },
       {
         title: "Emil Kowalski skills",
         href: "https://github.com/emilkowalski/skills",
+        description:
+          "Claude Code skills published by Emil Kowalski (Sonner/Vaul creator), packaging his interaction-design and animation craft as installable agent skills.",
       },
       {
         title: "Matt Pocock skills",
         href: "https://github.com/mattpocock/skills",
+        description:
+          "Claude Code skills published by Matt Pocock (Total TypeScript), packaging his TypeScript expertise as installable agent skills.",
       },
       {
         title: "David Ondrej skills",
         href: "https://github.com/davidondrej/skills",
+        description:
+          "Claude Code skills published by David Ondrej, an AI-focused content creator.",
       },
       {
         title: "Building a web search engine from scratch",
         href: "https://blog.wilsonl.in/search-engine/",
+        description:
+          "Detailed, widely shared technical writeup on building a real web search engine from the ground up: crawling, indexing, ranking and the infrastructure decisions at each stage.",
       },
-      { title: "Orama", href: "https://github.com/oramasearch/orama" },
-      { title: "Streamdown", href: "https://streamdown.ai/" },
+      {
+        title: "Orama",
+        href: "https://github.com/oramasearch/orama",
+        description:
+          "Fast, full-text and vector open-source search engine written in TypeScript, runs in the browser, Node or at the edge, popular as a lightweight Algolia/Elasticsearch alternative.",
+      },
+      {
+        title: "Streamdown",
+        href: "https://streamdown.ai/",
+        description:
+          "Markdown renderer built specifically for streaming AI model output: typography, syntax highlighting and animation handle text arriving incrementally, with optional math and diagram plugins.",
+      },
       {
         title: "code-chunk",
         href: "https://github.com/supermemoryai/code-chunk/blob/main/packages/code-chunk/src/chunker.ts",
+        description:
+          "Chunking utility from Supermemory AI for splitting source code into semantically meaningful pieces, used for feeding code into embeddings/RAG pipelines without breaking mid-function.",
       },
-      { title: "integrations.sh", href: "https://integrations.sh/" },
-      { title: "Boring Computers", href: "https://boringcomputers.com/" },
+      {
+        title: "integrations.sh",
+        href: "https://integrations.sh/",
+        description:
+          "Registry of 5,758+ publicly accessible integration specs across MCP, OpenAPI and GraphQL, letting AI agents discover and connect to third-party services from one catalog.",
+      },
+      {
+        title: "Boring Computers",
+        href: "https://boringcomputers.com/",
+        description:
+          "Open-source platform providing instant Firecracker microVMs, a terminal, a real browser and preinstalled coding agents driven by an AI, self-hostable with your own Anthropic and S3 keys.",
+      },
     ],
   },
   {
@@ -1545,48 +1745,93 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Laws of Software Engineering",
         href: "https://lawsofsoftwareengineering.com/",
+        description:
+          "Collection of named laws, heuristics and adages about software engineering (Conway's Law, Hyrum's Law and similar), a quick-reference for the rules of thumb the field keeps rediscovering.",
       },
       {
         title: "The hidden performance cost of Node and GraphQL",
         href: "https://www.softwareatscale.dev/p/the-hidden-performance-cost-of-nodejs",
+        description:
+          "Deep dive on performance pitfalls that show up specifically when running GraphQL servers on Node.js at scale, and how to avoid them.",
       },
       {
         title: "Systems Engineering",
         href: "https://www.ashpreetbedi.com/articles/systems-engineering",
+        description:
+          "Essay on systems engineering thinking applied to software: designing for the whole system's behavior, not just individual components.",
       },
       {
         title: "The many JavaScript runtimes of the last decade",
         href: "https://buttondown.com/whatever_jamie/archive/the-many-many-many-javascript-runtimes-of-the-last-decade/",
+        description:
+          "Retrospective tour of the JavaScript runtime landscape over the past decade, Node, Deno, Bun and the rest, and how we ended up with so many.",
       },
-      { title: "Serverless Horrors", href: "https://serverlesshorrors.com/" },
-      { title: "V8 research grant", href: "https://v8.dev/grant" },
-      { title: "Tech Vault", href: "https://github.com/moabukar/tech-vault/" },
+      {
+        title: "Serverless Horrors",
+        href: "https://serverlesshorrors.com/",
+        description:
+          "Collection of real-world serverless horror stories, cautionary tales of cost blowups, cold-start disasters and architecture gone wrong.",
+      },
+      {
+        title: "V8 research grant",
+        href: "https://v8.dev/grant",
+        description:
+          "Official V8 team page describing their research grant program for academic and open-source work related to the V8 JavaScript engine.",
+      },
+      {
+        title: "Tech Vault",
+        href: "https://github.com/moabukar/tech-vault/",
+        description:
+          "GitHub repository collecting curated technical resources and notes across backend, infrastructure and systems topics.",
+      },
       {
         title: "Refactoring and Design Patterns",
         href: "https://refactoring.guru/",
+        description:
+          "Extremely well-known reference site cataloging classic design patterns and refactoring techniques with clear diagrams and code examples in multiple languages.",
       },
-      { title: "JWT anatomy", href: "https://rmrf.tips/en/posts/jwt-anatomy/" },
+      {
+        title: "JWT anatomy",
+        href: "https://rmrf.tips/en/posts/jwt-anatomy/",
+        description:
+          "Breaks down the structure of a JSON Web Token piece by piece, header, payload and signature, and what each part actually does.",
+      },
       {
         title: "Understanding Streams in Node.js",
         href: "https://nodesource.com/blog/understanding-streams-in-nodejs",
+        description:
+          "NodeSource guide to Node.js streams: readable, writable, duplex and transform streams, and when to reach for each.",
       },
       {
         title: "What Node.js is",
         href: "https://www.thenodebook.com/node-arch/what-is-nodejs",
+        description:
+          "Foundational explainer on Node.js's architecture: the event loop, libuv and how it achieves non-blocking I/O.",
       },
       {
         title: "SSE vs WebSockets",
         href: "https://neciudan.dev/sse-vs-websockets",
+        description:
+          "Comparison of Server-Sent Events and WebSockets for real-time features, covering when the simpler one-way SSE is enough versus needing full duplex WebSockets.",
       },
       {
         title: "Server survival",
         href: "https://github.com/pshenok/server-survival",
+        description:
+          "Interactive 3D tower-defense game that teaches cloud architecture through gameplay: build and scale infrastructure to handle traffic, manage budgets, defend against DDoS, and keep services healthy.",
       },
       {
         title: "Backend from first principles",
         href: "https://github.com/hanspaa2017108/backend-from-first-principles-sriniously",
+        description:
+          "Repository of notes following Sriniously's 'Backend from first principles' YouTube course, lecture-by-lecture writeups of backend fundamentals.",
       },
-      { title: "tinbase", href: "https://www.tinbase.dev/" },
+      {
+        title: "tinbase",
+        href: "https://www.tinbase.dev/",
+        description:
+          "Supabase-compatible backend that fits in a tin: a lightweight, open-source local dev stack running as a single process with real Postgres, works unchanged with the official supabase-js SDK, and can even run inside a browser tab.",
+      },
     ],
   },
   {
