@@ -1840,58 +1840,86 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Databasemaxxing",
         href: "https://pthorpe92.dev/databasemaxxing/",
+        description:
+          "Post on pushing a single database as far as it can go before reaching for distributed/sharded architecture, in the spirit of the 'you're probably not Google' school of database advice.",
       },
       {
         title: "High memory usage in Postgres is good",
         href: "https://planetscale.com/blog/high-memory-usage-in-postgres-is-good-actually",
+        description:
+          "PlanetScale post arguing that Postgres using most of your server's RAM (via the OS page cache) is a healthy sign, not a leak, and explains why.",
       },
       {
         title: "Patterns for Postgres traffic control",
         href: "https://planetscale.com/blog/patterns-for-postgres-traffic-control",
+        description:
+          "PlanetScale post on managing and shaping traffic to a Postgres database, connection limits, queueing and backpressure patterns to avoid overload.",
       },
       {
         title: "FokosDB",
         href: "https://www.lambrospetrou.com/articles/fokosdb/",
+        description:
+          "Writeup of a custom database built on Cloudflare Durable Objects with strong consistency and bottomless storage, using a B+tree partition topology with hash/range splits to scale throughput to millions of items while keeping strict consistency.",
       },
       {
         title: "Database connections and pooling",
         href: "https://sagarshiroya.dev/posts/database-connection-and-pooling",
+        description:
+          "Explains how database connections actually work and why pooling matters at scale, including sizing a pool with Little's Law and Kingman's Formula.",
       },
       {
         title: "MySQL for developers",
         href: "https://planetscale.com/learn/courses/mysql-for-developers/schema/introduction-to-schema",
+        description:
+          "PlanetScale's free course on MySQL fundamentals for application developers, starting with schema design.",
       },
       {
         title: "IO devices and latency",
         href: "https://planetscale.com/blog/io-devices-and-latency",
+        description:
+          "PlanetScale post on the real latency characteristics of different storage IO devices, and why that matters for database performance tuning.",
       },
       {
         title: "Postgres OLTP benchmarks",
         href: "https://benjdd.com/pg-oltp/",
+        description:
+          "Interactive benchmark archive of Postgres OLTP transactions-per-second performance across scales, types and modes, tracing performance changes across Postgres history.",
       },
       {
         title: "How Agoda unified its data pipelines",
         href: "https://www.infoq.com/news/2026/01/agoda-unified-data-pipeline/",
+        description:
+          "InfoQ writeup on how Agoda consolidated its fragmented data pipeline infrastructure into a single unified system.",
       },
       {
         title: "Agoda financial metrics uptime",
         href: "https://medium.com/agoda-engineering/how-agoda-enhanced-the-uptime-and-consistency-of-financial-metrics-ef7d54c4e4f0",
+        description:
+          "Agoda engineering post on how they improved the uptime and consistency of their financial metrics pipeline, a real-world reliability case study.",
       },
       {
         title: "B-trees and database indexes",
         href: "https://planetscale.com/blog/btrees-and-database-indexes",
+        description:
+          "PlanetScale explainer on how B-tree indexes actually work under the hood and why they're the default structure for database indexing.",
       },
       {
         title: "Database transactions",
         href: "https://planetscale.com/blog/database-transactions",
+        description:
+          "PlanetScale explainer on database transactions: ACID guarantees, isolation levels, and what can go wrong when you don't understand them.",
       },
       {
         title: "Managing Postgres connections",
         href: "https://brandur.org/postgres-connections",
+        description:
+          "Brandur Leach's well-known deep dive on how Postgres handles connections, why each one is relatively expensive, and practical strategies for managing connection count at scale.",
       },
       {
         title: "Solving the hot key problem",
         href: "https://ximedes.com/blog/solving-the-hot-key-problem",
+        description:
+          "Interview with TigerBeetle's CEO on the 'hot key' problem, the roughly-100-TPS-per-account ceiling most databases hit, and how TigerBeetle's design (built for financial transactions, NASA-grade safety standards) avoids it while keeping predictable latency.",
       },
     ],
   },
@@ -1901,33 +1929,75 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Tracing a memory leak in an LRU cache",
         href: "https://blog.openresty.com/en/xray-casestudy-lua-lru/",
+        description:
+          "Case study of using OpenResty XRay to diagnose a memory leak caused by an oversized Lua LRU cache holding SSL certificate objects, memory analysis and flame graphs traced it to a specific table blocking garbage collection.",
       },
-      { title: "OpenStatus", href: "https://www.openstatus.dev/" },
-      { title: "Just use evlog", href: "https://www.justfuckinguseevlog.com/" },
-      { title: "evlog", href: "https://www.evlog.dev/" },
-      { title: "Workbench for BullMQ", href: "https://getworkbench.dev/" },
+      {
+        title: "OpenStatus",
+        href: "https://www.openstatus.dev/",
+        description:
+          "Open-source uptime monitoring and status page platform, a self-hostable alternative to paid status-page SaaS.",
+      },
+      {
+        title: "Just use evlog",
+        href: "https://www.justfuckinguseevlog.com/",
+        description:
+          "Blunt marketing site for evlog, a TypeScript-first structured logger: one JSON event per operation with full context instead of scattered log lines, zero transitive dependencies.",
+      },
+      {
+        title: "evlog",
+        href: "https://www.evlog.dev/",
+        description:
+          "Main site for evlog, the modern TypeScript logger for scripts, libraries, jobs, edge and requests, with simple logging, wide-event context accumulation, and structured errors with actionable guidance.",
+      },
+      {
+        title: "Workbench for BullMQ",
+        href: "https://getworkbench.dev/",
+        description:
+          "Dashboard for inspecting, debugging and managing BullMQ job queues in real time, available as a native macOS app, embeddable Node integration, or standalone Docker container.",
+      },
       {
         title: "A peek behind Colossus",
         href: "https://cloud.google.com/blog/products/storage-data-transfer/a-peek-behind-colossus-googles-file-system",
+        description:
+          "Google Cloud blog post describing Colossus, Google's internal distributed file system that underpins most of its storage products, one of the few public looks at its design.",
       },
       {
         title: "Brendan Gregg's blog",
         href: "https://www.brendangregg.com/blog/index.html",
+        description:
+          "Blog of Brendan Gregg, one of the most respected performance engineers in the industry (BPF, flame graphs, USE method), essential reading for systems performance work.",
       },
-      { title: "Perfetto UI", href: "https://ui.perfetto.dev/#!/query" },
+      {
+        title: "Perfetto UI",
+        href: "https://ui.perfetto.dev/#!/query",
+        description:
+          "Google's web-based trace viewer and query tool for analyzing performance traces (Chrome, Android, Linux ftrace), this link opens its SQL-style trace query interface.",
+      },
       {
         title: "AWS serverless topics",
         href: "https://builder.aws.com/learn/topics/serverless",
+        description:
+          "AWS's own learning hub for serverless architecture topics: Lambda, event-driven design, and related patterns.",
       },
       {
         title: "Kubernetes, what I wish I knew",
         href: "https://aws.plainenglish.io/kubernetes-still-feels-weird-what-i-wish-i-knew-sooner-dd61b90463db",
+        description:
+          "Personal retrospective on the Kubernetes concepts that took longest to click, written for engineers who still find k8s confusing despite using it daily.",
       },
       {
         title: "EC2 instances comparison",
         href: "https://instances.vantage.sh/",
+        description:
+          "Well-known, exhaustive comparison table of every AWS EC2 instance type, specs and pricing, side by side, for picking the right instance without digging through AWS docs.",
       },
-      { title: "Akamai blog", href: "https://www.akamai.com/blog" },
+      {
+        title: "Akamai blog",
+        href: "https://www.akamai.com/blog",
+        description:
+          "Akamai's engineering and industry blog, covering CDN, security and infrastructure topics from one of the largest edge networks in the world.",
+      },
     ],
   },
   {
@@ -1936,28 +2006,50 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "The TCP/IP Guide",
         href: "http://www.tcpipguide.com/free/t_toc.html",
+        description:
+          "Extremely thorough, free reference on TCP/IP networking, from the physical layer up through application protocols, a classic deep-reference for how the internet actually works.",
       },
       {
         title: "Computer Networks: A Systems Approach",
         href: "https://book.systemsapproach.org/",
+        description:
+          "Free online edition of Peterson and Davie's well-known networking textbook, teaching networks from a systems-design perspective rather than pure protocol trivia.",
       },
-      { title: "Putting the You in CPU", href: "https://cpu.land/" },
+      {
+        title: "Putting the You in CPU",
+        href: "https://cpu.land/",
+        description:
+          "Widely shared, illustrated explainer of how a program actually runs: multiprocessing, system calls, hardware interrupts, memory management and how Linux loads an executable, written for people without a CS background.",
+      },
       {
         title: "Building Distributed Systems roadmap",
         href: "https://builddistributedsystem.com/roadmap",
+        description:
+          "Structured roadmap for learning distributed systems concepts in order, consensus, replication, partitioning and the rest, rather than picking topics at random.",
       },
       {
         title: "A tale of four fuzzers",
         href: "https://tigerbeetle.com/blog/2025-11-28-tale-of-four-fuzzers/",
+        description:
+          "TigerBeetle blog post comparing four different fuzzing approaches used to find bugs in their financial database, a look at how seriously they test for correctness.",
       },
       {
         title: "JGroups building blocks",
         href: "http://www.jgroups.org/blocks.html",
+        description:
+          "Documentation for JGroups' 'building blocks', higher-level clustering and group-communication primitives built on top of its core reliable multicast library.",
       },
-      { title: "AO hyper parallel computer", href: "https://ao.arweave.net/" },
+      {
+        title: "AO hyper parallel computer",
+        href: "https://ao.arweave.net/",
+        description:
+          "AO is a decentralized, massively parallel compute layer built on Arweave, for running processes across a permanent, permissionless network instead of centralized cloud infrastructure.",
+      },
       {
         title: "Lumen JS runtime in Rust",
         href: "https://github.com/lucid-softworks/lumen",
+        description:
+          "From-scratch JavaScript engine written in Rust with zero dependencies and an ARM64 JIT compiler, plus a Node-like runtime layer (event loop, filesystem, timers, web APIs) that passes the test262 conformance suite.",
       },
     ],
   },
@@ -1967,29 +2059,51 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Crafting Interpreters",
         href: "https://craftinginterpreters.com/",
+        description:
+          "Robert Nystrom's beloved free book on building programming language interpreters from scratch, walking through a tree-walking interpreter and then a bytecode VM, widely considered one of the best hands-on CS books written.",
       },
       {
         title: "Software Design by Example",
         href: "https://third-bit.com/sdxjs/",
+        description:
+          "Greg Wilson's free book teaching software design by building small tools (a testing framework, a template engine, a version control system) from scratch in JavaScript, learning architecture by rebuilding it.",
       },
       {
         title: "Designing Data-Intensive Applications",
         href: "https://github.com/NirmalSilwal/system-design-resources/blob/master/Books/Designing%20Data%20Intensive%20Applications%20-%20Martin%20Kleppmann.pdf",
+        description:
+          "Martin Kleppmann's landmark book on the principles behind reliable, scalable data systems, replication, partitioning, transactions and consistency, essential reading for backend and systems engineers.",
       },
       {
         title: "Can Programming Be Liberated (Backus)",
         href: "https://worrydream.com/refs/Backus_1978_-_Can_Programming_Be_Liberated_from_the_von_Neumann_Style.pdf",
+        description:
+          "John Backus's 1977 Turing Award lecture arguing that imperative, von Neumann-style programming is fundamentally limiting, and proposing functional programming as an alternative, a foundational paper in PL theory.",
       },
-      { title: "The Joy of Elixir", href: "https://joyofelixir.com/" },
+      {
+        title: "The Joy of Elixir",
+        href: "https://joyofelixir.com/",
+        description:
+          "Friendly, beginner-focused book teaching Elixir from scratch, aimed at people with little to no prior programming experience.",
+      },
       {
         title: "Build your own X",
         href: "https://github.com/codecrafters-io/build-your-own-x",
+        description:
+          "Massive, extremely popular curated list of tutorials for building real technology from scratch, your own Git, Docker, database, shell, regex engine and dozens more, learn by rebuilding it.",
       },
       {
         title: "System Design Primer",
         href: "https://github.com/donnemartin/system-design-primer",
+        description:
+          "One of the most-starred repos on GitHub, a comprehensive, organized primer on system design fundamentals for interviews and real architecture work alike.",
       },
-      { title: "Big-O visualized", href: "https://samwho.dev/big-o" },
+      {
+        title: "Big-O visualized",
+        href: "https://samwho.dev/big-o",
+        description:
+          "Sam Rose's interactive, animated explainer of Big-O notation, making algorithmic complexity intuitive through visualization instead of just formulas.",
+      },
     ],
   },
   {
@@ -1998,31 +2112,45 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Tech Interview Handbook",
         href: "https://www.techinterviewhandbook.org/software-engineering-interview-guide/",
+        description:
+          "Free, comprehensive guide to software engineering interviews: coding rounds, system design, behavioral questions and negotiation, widely used by candidates prepping for big-tech interviews.",
       },
       {
         title: "Frontend Masters courses",
         href: "https://frontendmasters.com/courses/",
+        description:
+          "Frontend Masters' full course catalog, in-depth video courses on JavaScript, frameworks, CSS and web performance taught by well-known practitioners.",
       },
       {
         title: "Frontend.fyi courses",
         href: "https://www.frontend.fyi/courses",
+        description:
+          "Course catalog from Frontend.fyi, practical frontend engineering courses and tutorials.",
       },
       {
         title: "Effective Software courses",
         href: "https://www.effective.software/courses",
+        description:
+          "Course catalog from Effective Software, focused on writing better, more maintainable software.",
       },
       {
         title: "Database School Convex course",
         href: "https://databaseschool.com/series/convex/videos/359",
+        description:
+          "Database School's video course specifically on Convex, the reactive backend platform, walking through its data model and real-time sync.",
       },
       {
         title: "HTML and CSS for absolute beginners",
         href: "https://www.youtube.com/playlist?list=PL4-IK0AVhVjOJs_UjdQeyEZ_cmEV3uJvx",
+        description:
+          "YouTube playlist teaching HTML and CSS from zero, aimed at people who have never written a line of code before.",
       },
       {
         title:
           "Digital Design and Computer Architecture (Spring 2026 livestream)",
         href: "https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-yo9kK-BKrq11ykNKkVEpd",
+        description:
+          "Recorded livestream playlist of a Digital Design and Computer Architecture course, covering hardware fundamentals from logic gates up to processor design.",
       },
     ],
   },
@@ -2032,11 +2160,20 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Build your own load tester",
         href: "https://codingchallenges.fyi/challenges/challenge-load-tester",
+        description:
+          "Coding Challenges project spec for building your own HTTP load-testing tool from scratch, understanding load testing by implementing one instead of just using wrk or k6.",
       },
-      { title: "One Billion Row Challenge", href: "https://1brc.dev/" },
+      {
+        title: "One Billion Row Challenge",
+        href: "https://1brc.dev/",
+        description:
+          "The viral 1BRC challenge: parse and aggregate a billion rows of temperature data as fast as possible, a popular benchmark for language and I/O performance tuning across many languages.",
+      },
       {
         title: "One Trillion Row Challenge",
         href: "https://docs.coiled.io/blog/1trc.html",
+        description:
+          "Coiled's writeup tackling a trillion-row version of the 1BRC challenge, pushing the same problem into genuinely distributed-computing territory.",
       },
     ],
   },
