@@ -114,6 +114,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Mobile app development studio specializing in high-performance React Native apps, known for widely used open-source libraries (Vision Camera, Nitro Modules and others) running on billions of devices.",
       },
+      {
+        title: "NativeWind",
+        href: "https://www.nativewind.dev",
+        description:
+          "Brings Tailwind CSS's utility classes to React Native, so styling mobile components uses the same className syntax as a Tailwind web project.",
+      },
     ],
   },
   {
@@ -167,6 +173,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Interactive, step-by-step visualizations of core JavaScript runtime concepts (event loop, closures, promises, memory) across 15 topics from beginner to advanced.",
       },
+      {
+        title: "types.kitlangton.com",
+        href: "https://types.kitlangton.com",
+        description:
+          "Visualizer for TypeScript type structures, for seeing how a complex generic or conditional type actually resolves.",
+      },
     ],
   },
   {
@@ -207,6 +219,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://webvitals.com/",
         description:
           "Free tool for measuring a site's real-world Core Web Vitals from actual user data, surfacing speed and responsiveness issues to fix.",
+      },
+      {
+        title: "Media Cheatsheet",
+        href: "https://mediacheatsheet.com",
+        description:
+          "Quick reference for common CSS media query breakpoints, saving a trip to check exact device widths.",
       },
     ],
   },
@@ -249,6 +267,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "TypeScript library that makes async functions durable: automatic retries, state persistence and resumability, bringing reliability and observability to long-running JavaScript workflows and agents.",
       },
+      {
+        title: "Styleframe",
+        href: "https://www.styleframe.dev",
+        description:
+          "TypeScript library for writing type-safe, composable CSS for design systems. Generates CSS at build time for performance, with optional runtime styling, and works with React, Vue or Astro.",
+      },
     ],
   },
   {
@@ -289,6 +313,65 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://glyphs.fyi/dir?i=hourglass",
         description:
           "Icon directory site for browsing and picking glyphs, linked here to a specific hourglass icon entry.",
+      },
+      {
+        title: "Smallbits",
+        href: "https://smallbits.design",
+        description:
+          "Set of 290+ pixel icons constrained to an 8x8 grid, by Minor Adventures, minimalist icon design where every pixel counts.",
+      },
+      {
+        title: "Gravity UI icons",
+        href: "https://github.com/gravity-ui/icons",
+        description:
+          "Open-source icon set from Yandex's Gravity UI design system, consistent, interface-focused SVG icons free to use in any project.",
+      },
+    ],
+  },
+  {
+    title: "Animated icon libraries",
+    links: [
+      {
+        title: "Lucide Animated",
+        href: "https://lucide-animated.com",
+        description:
+          "Free, open-source collection of 435+ animated React icons built on Lucide and Motion. Copy-paste ready, installable via the shadcn CLI, MIT licensed, with ports for Svelte, Vue, Angular and Flutter.",
+      },
+      {
+        title: "Eva Icons",
+        href: "https://akveo.github.io/eva-icons",
+        description:
+          "Open-source pack of carefully designed UI icons covering common interface actions and items, free to use in any project.",
+      },
+      {
+        title: "Moving Icons",
+        href: "https://www.movingicons.dev",
+        description:
+          "500+ hand-crafted, interaction-ready animated Lucide icons for Svelte 5. Tree-shakeable, zero dependencies, installable via npm or the shadcn-svelte registry, with animations controllable through props and hover states.",
+      },
+      {
+        title: "useAnimations",
+        href: "https://useanimations.com",
+        description:
+          "Free library of 90+ handcrafted animated icons built on the Lottie framework, working across React, iOS and Android, with both looping and click-triggered playback.",
+      },
+      {
+        title: "Blendy",
+        href: "https://blendy.tahazsh.com",
+        description:
+          "Library for morphing shapes smoothly from one icon or SVG into another, useful for animated icon-swap transitions instead of a hard cut.",
+      },
+      {
+        title: "Animate Icons",
+        href: "https://animateicons.vercel.app",
+        description:
+          "Collection of animated icon components for React, ready to drop into a project for hover and state-change micro-interactions.",
+      },
+      {
+        title: "Lineicons",
+        href: "https://lineicons.com",
+        description:
+          "Free line-style icon pack with a large, consistent set of outline icons for interfaces and marketing sites.",
       },
     ],
   },
@@ -354,6 +437,114 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://shoelace.style/",
         description:
           "Framework-agnostic library of standalone web components (custom elements), so components work the same in React, Vue, plain HTML or anything else without a JS framework dependency.",
+      },
+      {
+        title: "Shoogle",
+        href: "https://shoogle.dev",
+        description:
+          "Search engine for the shadcn ecosystem: search blocks and components across many different shadcn registries at once, browse what's new, and bookmark favorites.",
+      },
+      {
+        title: "termcn",
+        href: "https://www.termcn.dev",
+        description:
+          "shadcn, but for terminal-themed UI components, copy-paste pieces styled to look like a terminal window.",
+      },
+      {
+        title: "formscn",
+        href: "https://formscn.space",
+        description:
+          "shadcn, but for form components, copy-paste form fields and layouts styled to match shadcn/ui.",
+      },
+      {
+        title: "servercn",
+        href: "https://servercn.vercel.app",
+        description:
+          "shadcn, but for server and infrastructure status components, uptime badges and status displays styled to match shadcn/ui.",
+      },
+      {
+        title: "Flowkit UI",
+        href: "https://flowkit-ui.vzkiss.com",
+        description:
+          "Component library that fills in UI patterns shadcn/ui doesn't ship, following shadcn conventions, including a Creatable Combobox that combines multiselect, autocomplete and inline item creation.",
+      },
+      {
+        title: "Satis UI",
+        href: "https://satisui.xyz",
+        description:
+          "React component library on top of shadcn/ui with Awwwards-inspired, GSAP-powered animated components, built with Next.js, TypeScript and Tailwind for copy-paste use.",
+      },
+      {
+        title: "bundui",
+        href: "https://bundui.io",
+        description:
+          "shadcn/ui-based component and block library for quickly assembling marketing and app pages from copy-paste pieces.",
+      },
+      {
+        title: "shadcnstore",
+        href: "https://shadcnstore.com",
+        description:
+          "Marketplace of shadcn/ui blocks and page templates, both free and paid, for faster page assembly.",
+      },
+      {
+        title: "Joly UI",
+        href: "https://www.jolyui.dev/docs/components",
+        description:
+          "50+ free shadcn/ui components for React and Next.js, copy-paste ready, combining accessibility with Framer Motion and WebGL-driven animation across buttons, text effects, inputs and navigation.",
+      },
+      {
+        title: "Assistant UI",
+        href: "https://www.assistant-ui.com",
+        description:
+          "React component library specifically for building AI chat interfaces: message streams, tool-call rendering and input handling out of the box.",
+      },
+      {
+        title: "9ui",
+        href: "https://www.9ui.dev",
+        description:
+          "Minimal shadcn-style component library with a pared-back visual style.",
+      },
+      {
+        title: "ui-layouts",
+        href: "https://www.ui-layouts.com",
+        description:
+          "Copy-paste library of animated Tailwind layout components for building page sections quickly.",
+      },
+      {
+        title: "hookcn",
+        href: "https://hookcn.ouassim.tech",
+        description:
+          "shadcn, but for React hooks: copy-paste, well-typed hooks distributed the same way shadcn/ui distributes components.",
+      },
+      {
+        title: "shadcnui-blocks",
+        href: "https://www.shadcnui-blocks.com/blocks",
+        description:
+          "Free shadcn/ui page section blocks for assembling landing pages without building every section from scratch.",
+      },
+      {
+        title: "buouui",
+        href: "https://buouui.com/docs",
+        description:
+          "Minimal shadcn-style component library with a pared-back visual style.",
+      },
+      {
+        title: "MynaUI",
+        href: "https://mynaui.com",
+        description:
+          "Free, beautifully designed UI component library aimed at giving indie projects a polished look without a design team.",
+      },
+      {
+        title: "HyperUI",
+        href: "https://www.hyperui.dev",
+        description:
+          "Free, open-source Tailwind CSS component library with a large catalog of marketing and application UI sections to copy and paste.",
+      },
+      {
+        title: "tocn",
+        href: "https://tocn.vercel.app",
+        description:
+          "shadcn, but for terminal-themed components: copy-paste UI pieces styled to look like a terminal window.",
       },
     ],
   },
@@ -624,6 +815,251 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Small interactive demo site, minimal enough that its exact purpose isn't documented beyond the click interaction itself.",
       },
+      {
+        title: "Torph (lochie)",
+        href: "https://torph.lochie.me",
+        description:
+          "Dependency-free animated text transition component, framework-agnostic with ports for React, TypeScript, Vue and Svelte, installable via npm for morphing text effects.",
+      },
+      {
+        title: "Fluid Functionalism",
+        href: "https://www.fluidfunctionalism.com",
+        description:
+          "Animated component library with a tactile, fluid feel to its interactions, one of the sources this registry ports components from.",
+      },
+      {
+        title: "Trophy UI",
+        href: "https://ui.trophy.so",
+        description:
+          "Open-source React gamification kit built on shadcn/ui and Tailwind: production-ready streak trackers, achievement badges, leaderboards and points displays as copy-paste components.",
+      },
+      {
+        title: "LiveKit Agents UI",
+        href: "https://livekit.com/products/agents-ui",
+        description:
+          "Prebuilt UI components from LiveKit for building voice AI agent interfaces: waveforms, transcripts and call controls out of the box.",
+      },
+      {
+        title: "Sileo",
+        href: "https://sileo.aaryan.design",
+        description:
+          "React toast notification library with SVG morphing, spring physics and a minimal API, described as 'beautiful by default'; available via npm with a docs playground.",
+      },
+      {
+        title: "ReUI patterns",
+        href: "https://reui.io/patterns",
+        description:
+          "Full-page UI pattern examples (not just single components) built with shadcn/ui, useful as reference for assembling whole screens.",
+      },
+      {
+        title: "shadcnthemer",
+        href: "https://shadcnthemer.com",
+        description:
+          "Visual theme editor for shadcn/ui: tweak colors, radius and spacing live and export the resulting theme config.",
+      },
+      {
+        title: "ElevenLabs UI",
+        href: "https://ui.elevenlabs.io",
+        description:
+          "Official component library from ElevenLabs for building voice AI interfaces, matching the components they use in their own products.",
+      },
+      {
+        title: "Plate",
+        href: "https://platejs.org",
+        description:
+          "Rich text editor framework for React, the kind of building blocks behind Notion-style editors, with a plugin system for extending it rather than building a WYSIWYG editor from scratch.",
+      },
+    ],
+  },
+  {
+    title: "Component demos and micro-interactions",
+    links: [
+      {
+        title: "Line nav (chanhdai)",
+        href: "https://chanhdai.com/components/line-nav",
+        description:
+          "Animated underline nav bar component from chanhdai's component collection, where the underline slides and morphs between tabs.",
+      },
+      {
+        title: "Coverflow",
+        href: "https://coverflow.ashishgogula.in",
+        description:
+          "Recreation of Apple's classic Coverflow browsing interaction in CSS and JS, a reference for building similar carousel-style pickers.",
+      },
+      {
+        title: "Goey Toast",
+        href: "https://goey-toast.vercel.app",
+        description:
+          "Squishy, gooey toast notification component with a blob-like morph animation instead of a plain slide-in.",
+      },
+      {
+        title: "React Table Craft",
+        href: "https://react-table-craft.vercel.app",
+        description:
+          "Drag-and-drop table builder for React, for visually assembling a data table instead of hand-coding columns and rows.",
+      },
+      {
+        title: "Ali Imam blocks",
+        href: "https://aliimam.in/blocks",
+        description:
+          "Collection of copy-paste Tailwind CSS UI blocks for quickly assembling common page sections.",
+      },
+      {
+        title: "itshover",
+        href: "https://www.itshover.com",
+        description:
+          "Open-source library of animated React icon components built to work with Next.js, described as 'icons that move with intent', browsable and customizable, with community contributions.",
+      },
+      {
+        title: "Button (lakshb)",
+        href: "https://button.lakshb.dev",
+        description:
+          "Collection of animated button styles and micro-interactions to copy into a project.",
+      },
+      {
+        title: "Cult UI: dynamic island",
+        href: "https://www.cult-ui.com/docs/components/dynamic-island",
+        description:
+          "Recreation of iOS's Dynamic Island as a React component, for pill-shaped expanding notification UI on the web.",
+      },
+      {
+        title: "Codepen: simeydotme",
+        href: "https://codepen.io/simeydotme/pen/myVddQ0",
+        description:
+          "CodePen demo by simeydotme, a well-known CSS/SVG animator, showing a creative UI interaction technique.",
+      },
+      {
+        title: "Cult UI: family button",
+        href: "https://www.cult-ui.com/docs/components/family-button",
+        description:
+          "Expanding action button group component from Cult UI, a single button that fans out into related actions.",
+      },
+      {
+        title: "Cult UI: mock browser window",
+        href: "https://www.cult-ui.com/docs/components/mock-browser-window",
+        description:
+          "Fake browser chrome component from Cult UI for framing screenshots and demos inside a realistic browser window.",
+      },
+      {
+        title: "Codepen: jh3y",
+        href: "https://codepen.io/jh3y/pen/QwyYoVr",
+        description:
+          "CodePen demo by jh3y, a prolific CSS animator known for physics-driven and generative interaction experiments.",
+      },
+      {
+        title: "buttonyui",
+        href: "https://buttonyui.com",
+        description:
+          "Library of animated button components ready to copy into a project.",
+      },
+      {
+        title: "Wigggle UI widgets",
+        href: "https://wigggle-ui.vercel.app/widgets",
+        description:
+          "Wobbly, spring-physics widget component kit with a deliberately playful, jiggly feel.",
+      },
+      {
+        title: "Typed.js demo",
+        href: "https://mattboldt.com/demos/typed-js",
+        description:
+          "Live demo of Typed.js, the long-running classic library for typewriter-style text animation on the web.",
+      },
+      {
+        title: "SpoilerJS",
+        href: "https://spoilerjs.sh4jid.me",
+        description:
+          "Discord-style spoiler text component that blurs text until clicked or hovered to reveal it.",
+      },
+      {
+        title: "shadcnexamples: authentication",
+        href: "https://shadcnexamples.com/authentication",
+        description:
+          "Full, ready-to-copy shadcn/ui authentication page example, not just an isolated form component.",
+      },
+      {
+        title: "21st.dev: location tag",
+        href: "https://21st.dev/community/components/jatin-yadav05/location-tag/default",
+        description:
+          "Community-submitted location tag component on 21st.dev, a small pill-style UI element for showing a place name.",
+      },
+      {
+        title: "21st.dev: 3D folder",
+        href: "https://21st.dev/community/components/jatin-yadav05/3d-folder/default",
+        description:
+          "Community-submitted 3D folder hover component on 21st.dev, a folder icon that opens with a 3D tilt on hover.",
+      },
+      {
+        title: "21st.dev: AI chat",
+        href: "https://21st.dev/community/components/s/ai-chat",
+        description:
+          "Community-submitted AI chat interface component on 21st.dev, a ready-made message thread UI for chatbot products.",
+      },
+      {
+        title: "kokonutui: AI voice",
+        href: "https://kokonutui.com/docs/components/ai-voice",
+        description:
+          "Voice AI waveform component from kokonutui's component library, for visualizing live audio input or playback in a voice assistant UI.",
+      },
+      {
+        title: "21st.dev: agenticfleet",
+        href: "https://21st.dev/community/agenticfleet",
+        description:
+          "Community components on 21st.dev built for AI agent fleet dashboards, monitoring multiple running agents at once.",
+      },
+      {
+        title: "shadcnexamples: blog detail page",
+        href: "https://shadcnexamples.com/blog-detail-page",
+        description:
+          "Full, ready-to-copy shadcn/ui blog post detail page example.",
+      },
+      {
+        title: "21st.dev: moon chat",
+        href: "https://21st.dev/community/components/ruixenui/ruixen-moon-chat/default",
+        description:
+          "Community-submitted AI chat widget on 21st.dev with a moon-themed visual style.",
+      },
+      {
+        title: "Skiper UI: skiper87",
+        href: "https://skiper-ui.com/v1/skiper87",
+        description:
+          "Drag-and-scroll interaction component from Skiper UI's numbered component series.",
+      },
+      {
+        title: "21st.dev: blog cards",
+        href: "https://21st.dev/community/components/sumonadotwork/blog-cards/default",
+        description:
+          "Community-submitted blog card component on 21st.dev for displaying post previews in a grid.",
+      },
+      {
+        title: "21st.dev: reading text reveal",
+        href: "https://21st.dev/community/components/wisedev/reading-text-reveal/default",
+        description:
+          "Community-submitted scroll-triggered text reveal component on 21st.dev, text that fades or highlights in as you scroll past it.",
+      },
+      {
+        title: "21st.dev: retro button",
+        href: "https://21st.dev/serafimcloud/button-retro/default",
+        description:
+          "Community-submitted retro-styled button component on 21st.dev with a chunky, skeuomorphic look.",
+      },
+      {
+        title: "Magic UI: highlighter",
+        href: "https://magicui.design/docs/components/highlighter",
+        description:
+          "Animated text highlighter component from Magic UI that draws a marker-style highlight stroke behind text on scroll or load.",
+      },
+      {
+        title: "devl.dev",
+        href: "https://www.devl.dev",
+        description:
+          "Collection of 158 production-ready UI experiments built with React, Tailwind and Base UI, spanning layouts, forms, dashboards, tables and charts, meant to be copied and adapted directly.",
+      },
+      {
+        title: "JustGage",
+        href: "https://toorshia.github.io/justgage",
+        description:
+          "Lightweight JavaScript library for drawing animated gauge and dial charts with no dependencies beyond Raphael/SVG.",
+      },
     ],
   },
   {
@@ -731,6 +1167,60 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Series of technical-drawing-style illustrations from design studio TOLIS, blueprint-style diagrams as a visual reference for precise, engineered-looking graphics.",
       },
+      {
+        title: "Rams",
+        href: "https://www.rams.ai/",
+        description:
+          "Automated design-review platform that scores every UI change in a pull request against 194 design-system and accessibility rules (color, typography, spacing, motion, components, UX, craft), giving a senior design review on every PR with inline fix suggestions.",
+      },
+      {
+        title: "10 principles for fluid UI",
+        href: "https://karlkoch.me/writing/10-principles-for-fluid-ui",
+        description:
+          "Essay laying out ten concrete principles for building interfaces that feel fluid and responsive to touch and motion, not just visually animated.",
+      },
+      {
+        title: "Good Microcopy",
+        href: "https://goodmicrocopy.com",
+        description:
+          "Collection of real, well-written UX copy examples from shipped products, organized by use case (empty states, errors, confirmations) for writers to reference.",
+      },
+      {
+        title: "State of AI Design",
+        href: "https://stateofaidesign.com",
+        description:
+          "Annual report surveying how AI tools are changing design workflows, roles and output, with data from working designers.",
+      },
+      {
+        title: "The UX of AI",
+        href: "https://www.shapeof.ai",
+        description:
+          "Reference library of interaction patterns and case studies specifically for designing AI product features, from chat to agentic flows.",
+      },
+      {
+        title: "UI Guideline components",
+        href: "https://www.uiguideline.com/components",
+        description:
+          "Database compiling best practices from the top 20 design systems and UI libraries into one component-by-component reference, from buttons to data tables, with Figma kits included.",
+      },
+      {
+        title: "Design Beyond Barriers",
+        href: "https://designbeyondbarriers.com",
+        description:
+          "Accessibility guide written by designers for designers: 30 articles covering typography, color, form design and testing, arguing accessibility is a design decision, not just a developer checklist.",
+      },
+      {
+        title: "Stack and Justify",
+        href: "https://max-esnee.com/stack-and-justify",
+        description:
+          "Interactive cheatsheet for CSS flexbox stacking and justification, showing how justify-content and align-items combinations actually lay elements out.",
+      },
+      {
+        title: "The Good Line Height",
+        href: "https://thegoodlineheight.com",
+        description:
+          "Short interactive guide to picking a good line-height value for body text, showing the readability difference live.",
+      },
     ],
   },
   {
@@ -831,6 +1321,84 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.figma.com/files/team/1072912386122463093/resources/community/file/1403172659817779958",
         description:
           "Shared Figma community file with design resources: components, templates or references published for others to duplicate and use.",
+      },
+      {
+        title: "Viewport UI",
+        href: "https://viewport-ui.design",
+        description:
+          "Curated gallery of UI design work organized by platform (web, mobile, iOS, Android), with links back to the designers who made it.",
+      },
+      {
+        title: "ui.live",
+        href: "https://ui.live",
+        description:
+          "Social platform for designers to post their work, rank up on trending leaderboards, and get discovered, a competitive spin on design inspiration feeds.",
+      },
+      {
+        title: "UIBits",
+        href: "https://uibits.co",
+        description:
+          "Curated feed of small UI component snippets for quick reference and reuse.",
+      },
+      {
+        title: "Details Matter",
+        href: "https://detailsmatter.framer.website",
+        description:
+          "Showcase collecting small, easy-to-miss UI details from real products, the kind of polish that separates good interfaces from great ones.",
+      },
+      {
+        title: "Another Graphic",
+        href: "https://anothergraphic.org",
+        description:
+          "Archive of graphic design focused on typographic treatment, curating editorial, identity and poster work from international designers, browsable by designer, year, medium or country.",
+      },
+      {
+        title: "Pageflows: iOS",
+        href: "https://pageflows.com/ios",
+        description:
+          "Library of recorded UX flows captured from real iOS apps, useful for studying how shipped products actually handle onboarding, checkout and other common flows.",
+      },
+      {
+        title: "Screens Design",
+        href: "https://screensdesign.com",
+        description:
+          "Gallery of mobile app screen designs organized by pattern and category, for browsing how real apps solve specific UI problems.",
+      },
+      {
+        title: "User Inyerface",
+        href: "https://userinyerface.com",
+        description:
+          "Game that makes you fight the worst dark-pattern UI ever built: fake buttons, hostile forms and deliberately confusing flows, a memorable way to feel why good UX matters.",
+      },
+      {
+        title: "Nicely Done",
+        href: "https://nicelydone.club",
+        description:
+          "Teardown reviews of well-designed products, breaking down the specific decisions that make them work.",
+      },
+      {
+        title: "Hoverstat.es",
+        href: "https://www.hoverstat.es",
+        description:
+          "Curated gallery of standout personal and studio portfolio sites, organized around featured designers.",
+      },
+      {
+        title: "Craftwork: onfire",
+        href: "https://onfire.craftwork.design",
+        description:
+          "Trending premium design assets currently popular on Craftwork's marketplace.",
+      },
+      {
+        title: "Trending Design",
+        href: "https://trending.design",
+        description:
+          "Curated marketplace recommending products for creative professionals across three categories: design tech (devices and tools), design books and design documentaries, each with independent reviews.",
+      },
+      {
+        title: "Interfaces (rauno)",
+        href: "https://interfaces.rauno.me",
+        description:
+          "Rauno Freiberg's curated collection of great interface details, screenshots of specific, well-executed UI moments from real products.",
       },
     ],
   },
@@ -974,6 +1542,137 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Color palette generation library by Mikael Ainalem (meodai) that builds palettes by walking points around a color wheel in polar coordinates, producing smoother, more intentional palettes than random sampling.",
       },
+      {
+        title: "Colorflow",
+        href: "https://colorflow.ls.graphics",
+        description:
+          "Interactive tool from LS.GRAPHICS for generating and animating smooth, flowing gradient combinations for use in design work.",
+      },
+      {
+        title: "Colorize",
+        href: "https://colorize.design",
+        description:
+          "Color palette generator aimed at designers picking cohesive color sets for a project.",
+      },
+      {
+        title: "Colormoods",
+        href: "https://colormoods.co",
+        description:
+          "Generates pairs of colors along a 0-100 'stimulation' scale, weighing intensity, contrast, hue separation and vibration to suggest combinations that read as calm or energetic.",
+      },
+      {
+        title: "Color Palette Pro",
+        href: "https://colorpalette.pro",
+        description:
+          "Color palette generator and export tool for building and downloading cohesive color sets.",
+      },
+      {
+        title: "Harmonizer (Evil Martians)",
+        href: "https://harmonizer.evilmartians.com",
+        description:
+          "Tool from Evil Martians that generates a harmonious color palette from a single base color, useful for quickly extending a brand color into a full UI palette.",
+      },
+      {
+        title: "Radix Colors",
+        href: "https://www.radix-ui.com/colors",
+        description:
+          "Accessible, systematic 12-step color scale system for UI design from the Radix team, designed so each step has a defined semantic role (backgrounds, borders, text) across light and dark mode.",
+      },
+      {
+        title: "Background generator (ibelick)",
+        href: "https://bg.ibelick.com",
+        description:
+          "Generates CSS gradient and pattern backgrounds you can copy straight out as CSS, no image export needed.",
+      },
+      {
+        title: "Oklch.fyi",
+        href: "https://oklch.fyi",
+        description:
+          "OKLCH color picker and converter, for working in the perceptually uniform OKLCH color space instead of RGB or HSL.",
+      },
+    ],
+  },
+  {
+    title: "CSS and shape generators",
+    links: [
+      {
+        title: "Cascade (Design Surface)",
+        href: "https://designsurface.dev/cascade",
+        description:
+          "Set of visual icons representing individual CSS properties, giving styling attributes a graphical reference instead of plain text names.",
+      },
+      {
+        title: "Grainrad",
+        href: "https://grainrad.com",
+        description:
+          "Grain and noise texture generator for adding film-grain-style texture to designs.",
+      },
+      {
+        title: "Shaders.com presets",
+        href: "https://shaders.com/presets",
+        description:
+          "Library of ready-made WebGL shader presets to drop into a project instead of writing GLSL from scratch.",
+      },
+      {
+        title: "Blobsketch",
+        href: "https://cpreid2.github.io/blobsketch",
+        description:
+          "Browser tool for drawing organic blob shapes by hand and exporting them as SVG for use in designs.",
+      },
+      {
+        title: "Tekdetek",
+        href: "https://vikmil.com/tekdetek",
+        description:
+          "Browser-based VJ tool by Vik Mil for live, real-time manipulation of ASCII-style video during visual performances.",
+      },
+      {
+        title: "Meshic",
+        href: "https://meshic.app",
+        description:
+          "Procedural pattern generator for creating mesh-style visual patterns for design work.",
+      },
+      {
+        title: "Easemaster",
+        href: "https://easemaster.satisui.xyz",
+        description:
+          "Visual easing curve editor for animation, for dialing in a custom cubic-bezier by eye instead of guessing numbers.",
+      },
+      {
+        title: "Clip Paths editor (ui-layouts)",
+        href: "https://tools.ui-layouts.com/clip-paths#editor",
+        description:
+          "Visual editor for building CSS clip-path shapes by dragging points, then copying out the generated clip-path value.",
+      },
+      {
+        title: "Monoco",
+        href: "https://glass3d.dev",
+        description:
+          "Tiny JavaScript library that adds squircles and other smooth-corner types to HTML elements, generating dynamic SVG applied as a background image or clip-path. Available for vanilla JS, Svelte and React.",
+      },
+      {
+        title: "Monoco (mirror)",
+        href: "https://somonoco.com",
+        description:
+          "Alternate domain hosting Monoco, the smooth-corner (squircle) JavaScript library.",
+      },
+      {
+        title: "aethercss",
+        href: "https://aethercss.lovable.app",
+        description:
+          "Free generator for Liquid Glass, Glassmorphism and Neumorphism CSS effects with a live preview: adjust sliders and colors and copy the generated code. Works best in Chromium browsers.",
+      },
+      {
+        title: "Lisse",
+        href: "https://corne.rs",
+        description:
+          "Small JavaScript library that draws squircle corners, the same continuous curve Figma and iOS use. Ships bindings for React, Vue and Svelte plus a framework-agnostic core, with per-corner control, borders, and shadows included.",
+      },
+      {
+        title: "Liquid Glass (shuding)",
+        href: "https://github.com/shuding/liquid-glass",
+        description:
+          "CSS/JS recreation of Apple's Liquid Glass visual effect by Shu Ding (creator of SWR/Next.js contributor), for bringing the effect to the web.",
+      },
     ],
   },
   {
@@ -1026,10 +1725,52 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://image.jakubantalik.com/",
         description: "Jakub Antalik's image generation tool/experiment.",
       },
+      {
+        title: "Graphite.art",
+        href: "https://graphite.art",
+        description:
+          "Free, open-source vector and raster graphics editor that runs in the browser, aiming to be a serious Illustrator/Photoshop-style alternative.",
+      },
+      {
+        title: "theSVG",
+        href: "https://thesvg.org",
+        description:
+          "Library of 6,400+ free brand SVG icons for developers and designers to download and drop into projects.",
+      },
+      {
+        title: "SVG Studio",
+        href: "https://svgstudio.org",
+        description:
+          "Browser-based animation editor for turning static vector art into smooth keyframe animations, exported as self-contained animated SVGs with embedded CSS, no software or account needed.",
+      },
+      {
+        title: "SVG Path Editor",
+        href: "https://yqnn.github.io/svg-path-editor",
+        description:
+          "Visual editor for SVG path data: drag control points and see the `d` attribute update live, instead of hand-editing path commands.",
+      },
+      {
+        title: "Halftone Maker",
+        href: "https://halftonemaker.com",
+        description:
+          "Turns an uploaded image into a halftone dot pattern, the classic newsprint-style effect, adjustable in the browser.",
+      },
+      {
+        title: "SVG Converter",
+        href: "https://svgconverter.online",
+        description:
+          "Converts images to and from SVG format directly in the browser.",
+      },
+      {
+        title: "Halftone (xoihazard)",
+        href: "https://halftone.xoihazard.com",
+        description:
+          "Another browser-based halftone generator for turning images into dot-pattern graphics.",
+      },
     ],
   },
   {
-    title: "Typography and fonts",
+    title: "Typography tools",
     links: [
       {
         title: "Fontshare pairs",
@@ -1038,29 +1779,82 @@ export const inspirationGroups: InspirationGroup[] = [
           "Font pairing tool from Fontshare (Indian Type Foundry's free font platform), suggesting complementary heading/body combinations from its free catalog.",
       },
       {
-        title: "Departure Mono",
-        href: "https://departuremono.com/",
-        description:
-          "Free pixel-grid monospace typeface with a distinct retro-terminal look, popular for code blocks and developer-tool branding.",
-      },
-      {
-        title: "Random Grotesque",
-        href: "https://randommaerks.github.io/random-grotesque",
-        description:
-          "Multifunctional grotesque sans-serif with an inktrap detail, inspired by Helvetica; 36 styles across three widths and six weights.",
-      },
-      {
-        title: "Overused Grotesk",
-        href: "https://randommaerks.github.io/overused-grotesk",
-        description:
-          "Free, open-source sans-serif that started as a satirical Helvetica copycat and evolved into a genuinely practical, multilingual workhorse supporting 200+ languages across 16 styles.",
-      },
-      {
         title: "vibe.type",
         href: "https://typevibe.vercel.app/",
         description:
           "Typography exploration tool for browsing or generating type-driven visual styles.",
       },
+      {
+        title: "Precise Type",
+        href: "https://precise-type.com",
+        description:
+          "Web tool for building harmonious type scales from musical-interval ratios like Major Third or Perfect Fifth. Exports implementation-ready CSS and CSV, and its 'Line Grid' constraint rounds line heights to pixel multiples for pixel-perfect alignment.",
+      },
+      {
+        title: "Typograph Studio",
+        href: "https://typograph.studio",
+        description:
+          "AI-powered custom typeface generator. Pick a style template like Neo Grotesk or Geometric, or describe the look you want, then fine-tune weight, width and contrast to produce a bespoke font.",
+      },
+      {
+        title: "Fontastic",
+        href: "https://fontastic.space",
+        description:
+          "Tool that finds mathematically complementary font pairings, taking the guesswork out of choosing a heading and body typeface that actually work together.",
+      },
+      {
+        title: "Fluid Type Scale",
+        href: "https://www.fluid-type-scale.com",
+        description:
+          "Generates a responsive fluid type scale using CSS clamp(), so font sizes scale smoothly between a minimum and maximum viewport instead of jumping at breakpoints.",
+      },
+      {
+        title: "Letterbox",
+        href: "https://www.letterbox.sh",
+        description:
+          "Generates 'letters made of letters', text-based typographic art with controls for font, weight, fill pattern, color and column layout.",
+      },
+      {
+        title: "Font Trio pairs",
+        href: "https://www.fonttrio.xyz/pairs",
+        description:
+          "Curated three-font pairing suggestions for heading, subheading and body text, aimed at designers who don't want to hand-pick every combination.",
+      },
+      {
+        title: "Space Type Generator",
+        href: "https://spacetypegenerator.com",
+        description:
+          "Kinetic type generator with over 20 animation modes (Cylinder, Field, Stripes, Coil and more) for rendering moving, space-themed typography in real time.",
+      },
+      {
+        title: "Colors and Fonts",
+        href: "https://www.colorsandfonts.com",
+        description:
+          "Curated feed of color palette and font pairing inspiration for designers.",
+      },
+      {
+        title: "Font Radar",
+        href: "https://www.fontradar.com",
+        description:
+          "Service that scans millions of sites and apps daily to detect unlicensed font usage, helping foundries enforce licensing and recover lost revenue.",
+      },
+      {
+        title: "Font name checker",
+        href: "https://namecheck.fontdata.com",
+        description:
+          "Checks whether a proposed font or product name collides with an existing typeface name, useful before shipping a new font or brand.",
+      },
+      {
+        title: "Type scale (hihayk)",
+        href: "https://hihayk.github.io/scale",
+        description:
+          "Classic visual type-scale generator by Hayk Ohanian: pick a base size and ratio and it lays out the resulting modular scale live.",
+      },
+    ],
+  },
+  {
+    title: "Type foundries and directories",
+    links: [
       {
         title: "Collletttivo",
         href: "http://collletttivo.it",
@@ -1110,12 +1904,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "Curated collection of typefaces available under free licenses somewhere on the web, organized by category (cursive, display, monospace, sans, serif, slab) by designer Simon Foster.",
       },
       {
-        title: "Base Neue Font",
-        href: "https://befonts.com/base-neue-font.html",
-        description:
-          "Large type family (108 styles, thin to black, super-condensed to super-expanded) supporting 95 languages with InkTrap detailing, positioned as a modern reworking of basic grotesque typography.",
-      },
-      {
         title: "Best Free Fonts",
         href: "http://bestfreefonts.com",
         description:
@@ -1132,6 +1920,281 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "http://typotheque.luuse.fun",
         description:
           "Independent type foundry/specimen site publishing original typefaces.",
+      },
+      {
+        title: "Republish font foundry",
+        href: "https://republi.sh",
+        description:
+          "Self-initiated project by Behalf Studio that turns Vietnamese vernacular lettering (hand-painted shop signs, concrete building numerals, archival ephemera) into free, open-source digital typefaces, returned to the community they came from.",
+      },
+      {
+        title: "MyFFFonts",
+        href: "https://myfffonts.accentgrave.net",
+        description:
+          "Curated library of free, open-source typefaces spanning sans, monospace, display and variable fonts, with designer credit and licensing info attached to each.",
+      },
+      {
+        title: "Maxibestof typefaces",
+        href: "https://maxibestof.one/typefaces",
+        description:
+          "Hand-picked directory of free, high-quality independent typefaces, filtered down from the flood of free-font sites to ones actually worth using.",
+      },
+      {
+        title: "Fonts in Movies",
+        href: "https://fontsinmovies.com",
+        description:
+          "Catalog identifying the typefaces used in film posters, title cards and on-screen graphics, spanning movies from 1968 to 2023.",
+      },
+      {
+        title: "Are.na: Type Type Type",
+        href: "https://www.are.na/edwin-beauchamp/type-type-type-xvogvyjgxkq",
+        description:
+          "Curated Are.na channel collecting typography inspiration images, from signage to specimen sheets.",
+      },
+      {
+        title: "Quarantine fonts",
+        href: "https://github.com/jenskutilek/quarantine-fonts",
+        description:
+          "Grab-bag of unfinished typeface projects by type designer Jens Kutilek, released as raw Glyphs source files for other designers to pick up and refine, ranging from coding fonts to display faces.",
+      },
+    ],
+  },
+  {
+    title: "Free typefaces",
+    links: [
+      {
+        title: "Departure Mono",
+        href: "https://departuremono.com/",
+        description:
+          "Free pixel-grid monospace typeface with a distinct retro-terminal look, popular for code blocks and developer-tool branding.",
+      },
+      {
+        title: "Random Grotesque",
+        href: "https://randommaerks.github.io/random-grotesque",
+        description:
+          "Multifunctional grotesque sans-serif with an inktrap detail, inspired by Helvetica; 36 styles across three widths and six weights.",
+      },
+      {
+        title: "Overused Grotesk",
+        href: "https://randommaerks.github.io/overused-grotesk",
+        description:
+          "Free, open-source sans-serif that started as a satirical Helvetica copycat and evolved into a genuinely practical, multilingual workhorse supporting 200+ languages across 16 styles.",
+      },
+      {
+        title: "Base Neue Font",
+        href: "https://befonts.com/base-neue-font.html",
+        description:
+          "Large type family (108 styles, thin to black, super-condensed to super-expanded) supporting 95 languages with InkTrap detailing, positioned as a modern reworking of basic grotesque typography.",
+      },
+      {
+        title: "Fixelpont (Klotter)",
+        href: "https://klotter.supply/fixelpont",
+        description:
+          "Playful pixel font by type designer falk, originally built for a comics project. Ships in two styles, regular and rounded, that align perfectly on top of each other, with post-binary ligatures for French.",
+      },
+      {
+        title: "A Mono (Klotter)",
+        href: "https://klotter.supply/a-mono",
+        description:
+          "Free variable monospace typeface by falk, inspired by Emil Gunnarsson. Deliberately drops the serifs around narrow letters like 'i' for a bit of structured irregularity, and includes weight and 'rotalic' axes plus full IPA support.",
+      },
+      {
+        title: "Thestral (xCicero)",
+        href: "https://xcicero.esad-gv.net/page/thestral/index.php",
+        description:
+          "Contemporary display typeface by student designer Pauline Maréchal, reviving a character from the historic Jacoby & Fils foundry. Bridges vintage type craft with a modernist redraw.",
+      },
+      {
+        title: "Bonbance (xCicero)",
+        href: "https://xcicero.esad-gv.net/page/bonbance",
+        description:
+          "Playful display typeface by student designer Louna Bourdon, also rooted in a Jacoby & Fils original character. Part of the xCicero student type foundry's archive-revival series.",
+      },
+      {
+        title: "Caramel (xCicero)",
+        href: "https://xcicero.esad-gv.net/page/caramel/index.php",
+        description:
+          "Display typeface by student designer Hugo Lopez, drawn from a wooden character cut by Turin's Augusta foundry. The whole specimen is presented as a caramel recipe, a visual pun between typography and confectionery.",
+      },
+      {
+        title: "Terminal Grotesque (Velvetyne)",
+        href: "https://velvetyne.fr/fonts/terminal-grotesque",
+        description:
+          "Free pixel font by Raphaël Bastide, inspired by Paul Renner's Futura and Radim Peško's grotesque drawings. Open source under the SIL license since 2010, with a distinctly punk, technical feel.",
+      },
+      {
+        title: "Ghouls pixel blackletter font",
+        href: "https://pixelsurplus.com/products/ghouls-pixel-blackletter-display-font",
+        description:
+          "Free pixel blackletter display font inspired by retro arcade type and modular design. Doubles as a layering font: stack copies of it and it produces a psychedelic dot effect.",
+      },
+      {
+        title: "Acrata (Tortilla)",
+        href: "https://tortilla.studio/fonts/acrata",
+        description:
+          "Free display typeface from Tortilla Studio's type collection.",
+      },
+      {
+        title: "Arbutus Slab",
+        href: "https://fonts.google.com/specimen/Arbutus+Slab",
+        description:
+          "Free decorative slab serif on Google Fonts, with heavy, rounded serifs that give it a friendly, vintage-poster feel.",
+      },
+      {
+        title: "Trueno",
+        href: "https://fontlibrary.org/en/font/trueno",
+        description:
+          "Free geometric sans-serif released on Font Library, popular as a lightweight alternative to paid grotesques like Century Gothic.",
+      },
+      {
+        title: "Inclusive Sans",
+        href: "https://www.oliviaking.com/inclusivesans/feature",
+        description:
+          "Free typeface engineered for accessibility: non-mirroring letterforms, wider counters and generous spacing for low-vision and neurodiverse readers, plus 48 extra glyphs supporting Aboriginal and Torres Strait Islander languages.",
+      },
+      {
+        title: "Santello",
+        href: "https://www.dafont.com/santello.font",
+        description:
+          "Free modern sans-serif display font on dafont, aimed at clean, professional branding and editorial use without decorative flourishes.",
+      },
+      {
+        title: "Edge Cutting",
+        href: "https://www.dafont.com/edgecutting.font",
+        description:
+          "Free geometric sans-serif on dafont inspired by the Aventa family, with the sharp, angular forms typical of the geometric-sans category.",
+      },
+      {
+        title: "Hoky30",
+        href: "https://zelowtype.gumroad.com/l/zthoky/Hoky30",
+        description:
+          "Retro-styled display font pack from independent foundry ZeLow Type, sold on Gumroad.",
+      },
+      {
+        title: "Ta Fabricans",
+        href: "https://www.dafont.com/ta-fabricans.font",
+        description:
+          "Free modern sans-serif on dafont with nine weights and multiple widths, built to flex across branding, editorial and interface work.",
+      },
+      {
+        title: "Monoblock (Pixel Surplus)",
+        href: "https://pixelsurplus.com/collections/free-fonts/products/monoblock",
+        description:
+          "Free blocky pixel monospace typeface from Pixel Surplus's free-fonts collection.",
+      },
+      {
+        title: "GC Arbiter Mono Logic",
+        href: "https://pixelsurplus.com/products/gc-arbiter-mono-logic-typeface",
+        description:
+          "Free monospace typeface that blends the technical feel of a coding font with a more refined, balanced letterform structure.",
+      },
+      {
+        title: "WT Karsa Mono",
+        href: "https://pixelsurplus.com/products/wt-karsa-mono-free-font",
+        description:
+          "Free monospace typeface with rigid, fixed-width structure softened by rounded corners and 45-degree diagonal cuts.",
+      },
+      {
+        title: "TRT Interval Mono",
+        href: "https://pixelsurplus.com/collections/free-fonts/products/trt-interval-mono-font",
+        description:
+          "Free monospace display font from Pixel Surplus's collection.",
+      },
+      {
+        title: "Acro Mono Display",
+        href: "https://pixelsurplus.com/collections/free-fonts/products/acro-mono-free-display-font",
+        description:
+          "Free monospace display font from Pixel Surplus's collection.",
+      },
+      {
+        title: "Open Sauce Fonts",
+        href: "https://github.com/marcologous/Open-Sauce-Fonts",
+        description:
+          "Free, open-source grotesque sans family originally commissioned by Sourcegraph, released with full variable-font support and a friendly, slightly rounded character.",
+      },
+      {
+        title: "Plus Jakarta Sans",
+        href: "https://github.com/tokotype/PlusJakartaSans",
+        description:
+          "Free geometric sans typeface family, a widely used default for SaaS marketing sites and dashboards.",
+      },
+      {
+        title: "Onest",
+        href: "https://github.com/simpals/onest",
+        description:
+          "Free modern grotesque sans typeface with strong Cyrillic support, designed to feel neutral and interface-friendly across scripts.",
+      },
+      {
+        title: "Aspekta",
+        href: "https://github.com/ivodolenc/aspekta",
+        description:
+          "Free variable grotesque sans typeface built as a single variable-font file spanning the whole weight range.",
+      },
+      {
+        title: "Urbanist",
+        href: "https://github.com/coreyhu/Urbanist",
+        description:
+          "Free low-contrast geometric sans typeface by Corey Hu, popular for clean, minimal UI type.",
+      },
+      {
+        title: "Albert Sans",
+        href: "https://github.com/usted/Albert-Sans",
+        description:
+          "Free grotesque sans typeface family with a wide weight range, built as a variable font.",
+      },
+      {
+        title: "Inter",
+        href: "https://github.com/rsms/inter",
+        description:
+          "The default UI sans-serif, used almost everywhere. Designed by Rasmus Andersson specifically for screens, with tall x-height and neutral letterforms tuned for small UI text.",
+      },
+      {
+        title: "Geist Font",
+        href: "https://github.com/vercel/geist-font",
+        description:
+          "Vercel's official sans and mono typeface family, designed in-house for their product UI and documentation, and free to use in any project.",
+      },
+      {
+        title: "Hubot Sans",
+        href: "https://github.com/github/hubot-sans",
+        description:
+          "GitHub's open-source display typeface, part of its in-house type system alongside Mona Sans.",
+      },
+      {
+        title: "Mona Sans",
+        href: "https://github.com/github/mona-sans",
+        description:
+          "GitHub's open-source variable sans typeface, used across github.com, with a wide axis range for weight and width.",
+      },
+      {
+        title: "Rethink Sans",
+        href: "https://github.com/hans-thiessen/Rethink-Sans",
+        description:
+          "Free grotesque sans typeface with a clean, contemporary character, released as a variable font.",
+      },
+      {
+        title: "JetBrains Mono",
+        href: "https://github.com/JetBrains/JetBrainsMono",
+        description:
+          "Popular monospace font built specifically for reading code: increased letter height for readability, distinct glyphs for easily confused characters, and built-in ligatures.",
+      },
+      {
+        title: "Source Code Pro",
+        href: "https://github.com/adobe-fonts/source-code-pro",
+        description:
+          "Adobe's open-source monospace coding font, designed as the monospaced companion to Source Sans.",
+      },
+      {
+        title: "Roboto",
+        href: "https://github.com/googlefonts/roboto",
+        description:
+          "Google's default Android and Material Design typeface, engineered to feel natural on both screen and print at any size.",
+      },
+      {
+        title: "Monaspace",
+        href: "https://github.com/githubnext/monaspace",
+        description:
+          "GitHub Next's monospace superfamily for code: five harmonized styles that share metrics so they can be mixed on one screen, plus opt-in texture healing and code-aware ligatures.",
       },
     ],
   },
@@ -1226,6 +2289,24 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.cypherpunkbooks.com/",
         description:
           "Curated collection of texts from cypherpunk and cryptography culture, the writing and manifestos behind the movement that shaped modern encryption and privacy tech.",
+      },
+      {
+        title: "Design Research: By Womxn",
+        href: "https://www.design-research.be/by-womxn",
+        description:
+          "Design research project centering women's perspectives and experiences in how design research gets done.",
+      },
+      {
+        title: "Playlists.design",
+        href: "https://playlists.design",
+        description:
+          "Curated music playlists for designers to work to, mood-matched to focused design sessions.",
+      },
+      {
+        title: "Hey Designer",
+        href: "https://heydesigner.com",
+        description:
+          "Daily-curated design newsletter running since 2012, hand-picking the week's best design links for over 10,000 subscribers covering design systems, UI/UX principles and new tools.",
       },
     ],
   },
@@ -1328,6 +2409,18 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Marketplace for premium animation and interactive UI components specifically for React Native and Expo apps, from common free effects to paid, more elaborate ones.",
       },
+      {
+        title: "Reactiive demos",
+        href: "https://reactiive.io/demos",
+        description:
+          "Gallery of creative React animation demos for interaction and motion inspiration.",
+      },
+      {
+        title: "ssgoi",
+        href: "https://ssgoi.dev",
+        description:
+          "Page transition library for single-page apps, for animating between routes instead of hard page cuts.",
+      },
     ],
   },
   {
@@ -1405,6 +2498,18 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Awwwards Academy course on building lively, interactive 3D scenes for the web from start to finish.",
       },
+      {
+        title: "FluidCAD",
+        href: "https://fluidcad.io",
+        description:
+          "Parametric CAD tool where you write JavaScript and see 3D geometry update live. Supports sketching, extrusions and fillets, STEP import/export, and keeps a parametric history so earlier steps stay editable.",
+      },
+      {
+        title: "Pascal Editor",
+        href: "https://editor.pascal.app",
+        description:
+          "Free, open-source, browser-based 3D building editor for turning physical spaces into digital twins, aimed at architects, developers and homeowners alike.",
+      },
     ],
   },
   {
@@ -1475,6 +2580,18 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://blog.logrocket.com/webrtc-video-streaming/",
         description:
           "LogRocket guide to building real-time video streaming with WebRTC, covering the core APIs and common gotchas.",
+      },
+      {
+        title: "Palmier",
+        href: "https://www.palmier.io",
+        description:
+          "AI-native video editor: multi-track timeline editing plus the ability to generate images, video and audio inline via MCP-connected models like Claude, so AI generation and traditional editing live in one interface.",
+      },
+      {
+        title: "Freesound",
+        href: "https://freesound.org",
+        description:
+          "Large, long-running library of Creative Commons-licensed sound effects and field recordings, searchable and free to use with attribution.",
       },
     ],
   },
@@ -1618,6 +2735,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Resource site for learning the mathematics (algebra and beyond) underpinning machine learning and computer science.",
       },
+      {
+        title: "Label Studio",
+        href: "https://labelstud.io",
+        description:
+          "Open-source data labeling tool for machine learning, supporting text, image, audio and video annotation for building training datasets.",
+      },
     ],
   },
   {
@@ -1722,6 +2845,161 @@ export const inspirationGroups: InspirationGroup[] = [
     ],
   },
   {
+    title: "AI agent platforms and infrastructure",
+    links: [
+      {
+        title: "VibeUI",
+        href: "https://vibeui.online",
+        description:
+          "Library of 92 layout prompts across 15 categories (auth forms, pricing pages, hero sections, dashboards) meant to be copy-pasted into an AI coding tool like Claude or GPT to scaffold a UI.",
+      },
+      {
+        title: "String",
+        href: "https://string.com",
+        description:
+          "Platform for building and deploying AI agents that can operate autonomously.",
+      },
+      {
+        title: "Ship Studio",
+        href: "https://www.ship.studio",
+        description:
+          "Free, open-source desktop app that unifies AI coding agents (like Claude Code), GitHub and hosting platforms (like Vercel) into one workspace, so code and deploys stay in your own accounts with no vendor lock-in.",
+      },
+      {
+        title: "opencli",
+        href: "https://opencli.info",
+        description:
+          "Gives a command-line interface or AI agent control of an already-logged-in browser session, so an agent can act on sites you're authenticated into instead of needing separate credentials.",
+      },
+      {
+        title: "Flue Framework",
+        href: "https://flueframework.com",
+        description:
+          "Open-source TypeScript framework for building autonomous AI agents with built-in durability and recovery, aiming to write once, deploy anywhere, and work with any LLM.",
+      },
+      {
+        title: "Vercel Eve",
+        href: "https://vercel.com/eve",
+        description:
+          "Vercel's framework for building AI agents, positioned as 'Next.js for agents': markdown for instructions and skills, TypeScript for tools, deployable to Slack, Discord and the web.",
+      },
+      {
+        title: "Conductor",
+        href: "https://www.conductor.build",
+        description:
+          "Runs multiple parallel coding agents (Claude Code, Codex, Cursor) on your Mac in isolated workspaces, so you can monitor several at once and merge the results together.",
+      },
+      {
+        title: "Hyperframes",
+        href: "https://github.com/heygen-com/hyperframes",
+        description:
+          "Open-source framework by HeyGen that converts HTML, CSS, media and animation into deterministic MP4 video, built for AI coding agents: write HTML, render video, with skills that automate the video-production workflow.",
+      },
+      {
+        title: "Blueberry",
+        href: "https://www.meetblueberry.com",
+        description:
+          "AI-native product development platform that unifies a code editor, terminal, browser preview and canvas into one workspace, with Claude wired in to see your code, browser output and running app at once.",
+      },
+      {
+        title: "Lil Agents",
+        href: "https://lilagents.xyz",
+        description:
+          "macOS app with two AI companions, Bruce and Jazz, that live above your dock with their own Claude sessions for chatting and coding, each with themes and visible thinking-status indicators.",
+      },
+      {
+        title: "Feynman",
+        href: "https://www.feynman.is",
+        description:
+          "Open-source AI research agent that reads papers, searches the web, writes research drafts, plans experiments and cites sources, with both a CLI and a local workbench app for notebooks and chat.",
+      },
+      {
+        title: "Rivet Agent OS",
+        href: "https://rivet.dev/agent-os",
+        description:
+          "Runtime and infrastructure platform for deploying AI agents, now published as agentos-sdk.dev, an SDK for giving agents durable, production-grade execution environments.",
+      },
+      {
+        title: "Agentation",
+        href: "https://www.agentation.com",
+        description:
+          "Desktop tool that turns UI feedback into structured data for AI coding agents: click an element, add a note, and it packages the CSS selector and source path so an agent like Claude Code can make a targeted fix.",
+      },
+      {
+        title: "aitmpl",
+        href: "https://www.aitmpl.com",
+        description:
+          "Marketplace of ready-to-use Claude Code configurations, 1000+ agents, commands, skills and MCP integrations, with a Stack Builder for assembling a custom setup.",
+      },
+      {
+        title: "pi.dev",
+        href: "https://pi.dev",
+        description:
+          "Minimal agent harness for building customizable AI coding workflows via extensions and skills, working across 15+ model providers instead of locking you into one.",
+      },
+      {
+        title: "Baudbot",
+        href: "https://baudbot.ai",
+        description:
+          "Coding agent that lives in Slack and works your Linux server directly: message it a task and it creates branches, writes code and opens pull requests, running persistently and learning your codebase over time.",
+      },
+      {
+        title: "Promptfoo",
+        href: "https://www.promptfoo.dev",
+        description:
+          "Open-source tool for testing and evaluating LLM prompts, running them against test cases and models to catch regressions before shipping a prompt change.",
+      },
+      {
+        title: "Design Prompts",
+        href: "https://www.designprompts.dev",
+        description:
+          "AI-powered design style explorer with curated prompts for generating different visual directions and creative styles.",
+      },
+      {
+        title: "Actors.dev",
+        href: "https://actors.dev",
+        description:
+          "Communication platform giving AI agents their own email addresses, mailboxes, phone calls and webhook forwarding. Note: shutting down permanently on August 11, 2026, with all API access ending that date.",
+      },
+      {
+        title: "AgentCard",
+        href: "https://agentcard.sh",
+        description:
+          "Issues single-use virtual Visa cards to AI agents with fixed, scoped budgets so they can make real purchases online, integrating natively with Claude and other MCP clients.",
+      },
+      {
+        title: "iocaihost",
+        href: "https://iocaihost.com",
+        description:
+          "No-account static site hosting built for AI agents: a simple REST API lets an agent claim a slug and deploy HTML from templates like portfolios or storefronts, with restrictions against scripts and malicious content.",
+      },
+      {
+        title: "entire.io",
+        href: "https://entire.io",
+        description:
+          "Developer platform that logs every agent session, prompt and tool call alongside your git commits as searchable checkpoints, plus a distributed Git network with regional mirrors so agents can clone repos fast without rate limits.",
+      },
+      {
+        title: "Cloudflare Sandbox",
+        href: "https://sandbox.cloudflare.com",
+        description:
+          "Runs untrusted code in isolated Cloudflare Workers sandboxes, useful for safely executing AI-generated or user-submitted code.",
+      },
+      {
+        title: "Agents View",
+        href: "https://www.agentsview.io",
+        description:
+          "Dashboard for monitoring AI agent activity across a fleet of running agents.",
+      },
+      {
+        title: "Sparkbites",
+        href: "https://sparkbites.dev",
+        description:
+          "Curated design inspiration directory covering 270+ sites, decoding each one's fonts, colors and tech stack specifically for AI agents to reference, with an MCP server for pulling the data into Claude or Cursor.",
+      },
+    ],
+  },
+  {
     title: "Backend engineering",
     links: [
       {
@@ -1814,6 +3092,36 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Supabase-compatible backend that fits in a tin: a lightweight, open-source local dev stack running as a single process with real Postgres, works unchanged with the official supabase-js SDK, and can even run inside a browser tab.",
       },
+      {
+        title: "Arcjet",
+        href: "https://arcjet.com",
+        description:
+          "Security-as-code SDK you drop into your app's own code: rate limiting, bot detection, and a WAF, configured in application logic instead of a separate infrastructure layer.",
+      },
+      {
+        title: "Cap.js",
+        href: "https://capjs.js.org",
+        description:
+          "Lightweight, privacy-friendly CAPTCHA alternative that avoids the tracking and heavy scripts of reCAPTCHA-style widgets.",
+      },
+      {
+        title: "Trigger.dev",
+        href: "https://trigger.dev",
+        description:
+          "Open-source background jobs and workflow platform for running long-running or scheduled tasks reliably outside the request/response cycle, with built-in retries and observability.",
+      },
+      {
+        title: "Autumn",
+        href: "https://useautumn.com",
+        description:
+          "Open-source billing platform that sits alongside Stripe rather than replacing it, managing subscriptions, usage tracking, credits and feature entitlements through a simple API, aimed at AI startups with usage-based pricing.",
+      },
+      {
+        title: "MSW",
+        href: "https://mswjs.io",
+        description:
+          "Mock Service Worker: intercepts real network requests at the browser/Node level for API mocking in tests and dev environments, so components hit realistic mocked responses instead of a mocked fetch function.",
+      },
     ],
   },
   {
@@ -1903,6 +3211,36 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Interview with TigerBeetle's CEO on the 'hot key' problem, the roughly-100-TPS-per-account ceiling most databases hit, and how TigerBeetle's design (built for financial transactions, NASA-grade safety standards) avoids it while keeping predictable latency.",
       },
+      {
+        title: "airpipe",
+        href: "https://github.com/sanyam-g/airpipe",
+        description:
+          "Lightweight data pipeline tool for moving and transforming data between sources without a heavyweight ETL platform.",
+      },
+      {
+        title: "Azimutt",
+        href: "https://azimutt.app",
+        description:
+          "Tool for exploring and documenting large, complex database schemas visually, built for schemas too big to reason about from raw SQL alone.",
+      },
+      {
+        title: "Typesense",
+        href: "https://typesense.org",
+        description:
+          "Fast, open-source, typo-tolerant search engine built as a simpler self-hostable alternative to Algolia or Elasticsearch for site and app search.",
+      },
+      {
+        title: "Chroma",
+        href: "https://www.trychroma.com",
+        description:
+          "Open-source embedding database for AI apps, the default vector store many RAG projects reach for when storing and querying embeddings.",
+      },
+      {
+        title: "Convex",
+        href: "https://www.convex.dev",
+        description:
+          "Reactive backend platform with a built-in database: write server functions in TypeScript and get automatic real-time sync to the client, no separate API layer to hand-wire.",
+      },
     ],
   },
   {
@@ -1979,6 +3317,36 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.akamai.com/blog",
         description:
           "Akamai's engineering and industry blog, covering CDN, security and infrastructure topics from one of the largest edge networks in the world.",
+      },
+      {
+        title: "here.now",
+        href: "https://here.now",
+        description:
+          "Instant hosting for static sites, apps and files, built so an AI agent or a person can publish to a live URL with no account required. Offers temporary anonymous hosting or API-key-based permanent sites with access controls and analytics.",
+      },
+      {
+        title: "Supabase docs over SSH",
+        href: "https://supabase.com/blog/supabase-docs-over-ssh",
+        description:
+          "Supabase engineering blog post on serving their documentation through an SSH terminal session, a novel way to browse docs without a browser.",
+      },
+      {
+        title: "LowEndBox",
+        href: "https://lowendbox.com",
+        description:
+          "Long-running blog of deals and reviews for cheap VPS hosting, a go-to for finding low-cost virtual servers.",
+      },
+      {
+        title: "OpenPanel",
+        href: "https://openpanel.dev",
+        description:
+          "Open-source, privacy-friendly web analytics platform, a self-hostable alternative to Google Analytics or Mixpanel.",
+      },
+      {
+        title: "tunnl.gg",
+        href: "https://tunnl.gg",
+        description:
+          "Exposes a local development server to the internet via a public URL, similar to ngrok, for testing webhooks or sharing a local build.",
       },
     ],
   },
@@ -2133,6 +3501,30 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-yo9kK-BKrq11ykNKkVEpd",
         description:
           "Recorded livestream playlist of a Digital Design and Computer Architecture course, covering hardware fundamentals from logic gates up to processor design.",
+      },
+      {
+        title: "Learn X in Y Minutes",
+        href: "https://learnxinyminutes.com",
+        description:
+          "Learn a programming language's core syntax in minutes via heavily commented, runnable example code instead of a full tutorial.",
+      },
+      {
+        title: "Flukeout: CSS Diner",
+        href: "https://flukeout.github.io",
+        description:
+          "Game for learning CSS selectors: each level gives you a target element to select and you write the selector that hits it.",
+      },
+      {
+        title: "Frontend Practice",
+        href: "https://www.frontendpractice.com",
+        description:
+          "Practice site for building real UI from real designs, closing the gap between tutorials and actually implementing a design handoff.",
+      },
+      {
+        title: "ui.dev",
+        href: "https://ui.dev",
+        description:
+          "Frontend courses and tutorials, especially React, from the team behind the React Router and TanStack Query educational content.",
       },
     ],
   },
@@ -2360,6 +3752,386 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Visual comparison tool that checks whether two rendered UIs are truly identical across three independent checks: DOM structure, computed styles and pixel-level diff, all three must pass for a match, catching what any single check alone would miss.",
       },
+      {
+        title: "Playbit",
+        href: "https://playbit.app",
+        description:
+          "Platform for building 'joyful personal-scale software' once and running it across desktop, web and mobile without a full rebuild. Its runtime acts like a minimal OS kernel, adding sandboxing and collaborative features that don't fit well in a plain browser tab.",
+      },
+      {
+        title: "TUI Studio",
+        href: "https://tui.studio",
+        description:
+          "Figma-like visual editor for designing terminal UIs with drag-and-drop components, targeting code export to frameworks like Ink, BubbleTea, Blessed and Textual (in alpha).",
+      },
+      {
+        title: "Graphify",
+        href: "https://graphifylabs.ai",
+        description:
+          "Open-source tool that converts a codebase into a knowledge graph AI coding assistants can query, returning explicit graph paths with real file:line citations instead of vague embedding matches. Runs entirely on-device, no account or API key needed.",
+      },
+      {
+        title: "Pencil",
+        href: "https://www.pencil.dev",
+        description:
+          "Design tool built around the pitch 'design on canvas, land in code': designs made on a visual canvas translate directly into working code rather than static mockups.",
+      },
+      {
+        title: "Paper",
+        href: "https://paper.design",
+        description:
+          "Infinite canvas design tool for teams, positioned between a whiteboard and a full design app for collaborative visual work.",
+      },
+      {
+        title: "design.dev",
+        href: "https://design.dev",
+        description:
+          "Resource hub of code generators, cheat sheets and AI-powered tools for generating design systems and config files, plus a weekly front-end tools newsletter.",
+      },
+      {
+        title: "nubjs",
+        href: "https://nubjs.com",
+        description:
+          "All-in-one Node.js toolkit shipped as a single Rust binary: runs TypeScript directly, manages packages and Node versions, replacing tsx, npm, pnpm and nvm with faster equivalents while staying compatible with the existing ecosystem.",
+      },
+      {
+        title: "OpenTUI",
+        href: "https://github.com/anomalyco/opentui",
+        description:
+          "Framework for building rich terminal UIs, giving terminal apps a component model closer to what web frameworks offer.",
+      },
+      {
+        title: "Fallow Tools docs",
+        href: "https://docs.fallow.tools",
+        description:
+          "Documentation site for the Fallow developer tools suite, covering setup, integrations and usage.",
+      },
+      {
+        title: "SurveyJS library",
+        href: "https://github.com/surveyjs/survey-library",
+        description:
+          "Open-source JavaScript survey and form builder, for embedding complex, logic-driven forms directly in your own app.",
+      },
+      {
+        title: "ties (raffomania)",
+        href: "https://github.com/raffomania/ties",
+        description:
+          "CLI tool for managing symlinked dotfiles, keeping your config files in one repo and symlinked into place across machines.",
+      },
+      {
+        title: "html2rss",
+        href: "https://github.com/html2rss/html2rss",
+        description:
+          "Turns any webpage into an RSS feed by scraping its structure, useful for sites that don't publish a feed of their own.",
+      },
+      {
+        title: "ToolmateX",
+        href: "https://toolmatex.com",
+        description:
+          "Collection of free, ad-free browser utilities for developers, designers and data people: code formatting, color conversion, text manipulation and security tools, most working fully offline.",
+      },
+      {
+        title: "JSON for You",
+        href: "https://json4u.com",
+        description:
+          "JSON formatter, viewer and validator for cleaning up and inspecting JSON payloads.",
+      },
+      {
+        title: "GitInspect",
+        href: "https://www.gitinspect.com",
+        description:
+          "Visualizes and inspects Git repository history for understanding how a codebase evolved over time.",
+      },
+      {
+        title: "opensrc (Vercel Labs)",
+        href: "https://github.com/vercel-labs/opensrc",
+        description:
+          "Vercel Labs experiment for open-source contribution tooling, exploring ways to make it easier to find and ship OSS contributions.",
+      },
+      {
+        title: "almostnode",
+        href: "https://almostnode.dev",
+        description:
+          "Runs Node.js, Next.js, Vite and Express entirely in the browser with no backend server, using a virtual filesystem and shimmed Node modules, useful for interactive demos and playgrounds.",
+      },
+      {
+        title: "Ultracite",
+        href: "https://www.ultracite.ai",
+        description:
+          "Zero-config Biome preset for linting and formatting, drop it in and get a sensible, opinionated ruleset without hand-tuning config.",
+      },
+      {
+        title: "gists.sh",
+        href: "https://gists.sh",
+        description:
+          "Cleaner viewer for GitHub Gists: swap 'gist.github.com' for 'gists.sh' in any Gist URL to get a minimal, formatted view with dark mode and display options.",
+      },
+      {
+        title: "itty.dev",
+        href: "https://itty.dev",
+        description:
+          "Family of ultra-small web dev libraries (itty-router, itty-fetcher, itty-time) optimized to run in a few hundred bytes each, built for serverless and edge environments where bundle size directly affects cost.",
+      },
+      {
+        title: "Diffs",
+        href: "https://diffs.com",
+        description:
+          "Tool for comparing and sharing text and code diffs via a link.",
+      },
+      {
+        title: "RSSHub docs",
+        href: "https://docs.rsshub.app",
+        description:
+          "Documentation for RSSHub, the open-source project that generates RSS feeds from almost any site, even ones that don't publish one natively.",
+      },
+      {
+        title: "Web Check",
+        href: "https://web-check.xyz",
+        description:
+          "Runs a full OSINT and security check on any website: DNS records, headers, certificates, hosting and more, in one report.",
+      },
+    ],
+  },
+  {
+    title: "Productivity and business tools",
+    links: [
+      {
+        title: "getprojekt",
+        href: "https://www.getprojekt.com",
+        description:
+          "Design-engineered project management tool ('Design Engineered' is its own tagline), aimed at freelancers and small teams.",
+      },
+      {
+        title: "Galaxybrain",
+        href: "https://galaxybrain.com",
+        description:
+          "Local-first information management tool combining document writing with spreadsheet-style calculations, a 'digital brain' for organizing files entirely on your desktop with no account or cloud storage required.",
+      },
+      {
+        title: "Invoice Builder",
+        href: "https://github.com/piratuks/invoice-builder",
+        description:
+          "Open-source invoice generator for creating and exporting invoices without a paid SaaS subscription.",
+      },
+      {
+        title: "Gmail Cleaner",
+        href: "https://gururagavendra.github.io/gmail-cleaner",
+        description:
+          "Browser tool for bulk-cleaning a Gmail inbox, finding and clearing out clutter faster than Gmail's own search-and-delete flow.",
+      },
+      {
+        title: "Kanba",
+        href: "https://www.kanba.co",
+        description:
+          "Free, open-source Kanban-style project management app for teams tracking and collaborating on work transparently.",
+      },
+      {
+        title: "RxResume",
+        href: "https://rxresu.me",
+        description:
+          "Free, open-source resume builder with a live preview editor and multiple export formats, an alternative to paid resume-builder SaaS.",
+      },
+      {
+        title: "Invoicely",
+        href: "https://invoicely.gg",
+        description:
+          "Simple online invoicing tool for creating and sending invoices without heavier accounting software.",
+      },
+      {
+        title: "Remote Storage",
+        href: "https://remote.storage",
+        description:
+          "Open protocol (remoteStorage) for per-user, per-app data storage that the user controls, letting apps read and write to a storage location the person owns rather than the app vendor.",
+      },
+      {
+        title: "Domain Locker",
+        href: "https://domain-locker.com",
+        description:
+          "Dashboard for tracking every domain you own across registrars in one place, with monitoring, renewal alerts, and security and performance insights.",
+      },
+      {
+        title: "Domain SDK",
+        href: "https://www.domain-sdk.dev",
+        description:
+          "TypeScript library for managing custom domains in a SaaS app: one API to add, verify, monitor and remove customer domains across hosting platforms like Vercel, Cloudflare and Railway, with honest status reporting on DNS routing, ownership and TLS certificates.",
+      },
+      {
+        title: "Resume Matcher",
+        href: "https://resumematcher.fyi",
+        description:
+          "Matches your resume against a specific job description using AI, highlighting gaps and keyword mismatches before you apply.",
+      },
+    ],
+  },
+  {
+    title: "File sharing and conversion tools",
+    links: [
+      {
+        title: "FileMock",
+        href: "https://filemock.com",
+        description:
+          "Free, browser-based tool for generating test files (video, audio, image, document) in multiple formats with precise size control, for testing uploads, APIs, storage and media pipelines. Generation happens entirely client-side, nothing leaves the browser.",
+      },
+      {
+        title: "convert (p2r3)",
+        href: "https://github.com/p2r3/convert",
+        description:
+          "Simple command-line file conversion tool for quickly switching between common file formats.",
+      },
+      {
+        title: "Transfer.zip",
+        href: "https://transfer.zip",
+        description:
+          "Send large files via a link without creating an account, an alternative to WeTransfer for quick one-off transfers.",
+      },
+      {
+        title: "PNG to ICO",
+        href: "https://png-to-ico.com",
+        description:
+          "Converts PNG images into ICO favicons directly in the browser.",
+      },
+      {
+        title: "Image Compress",
+        href: "https://imgcompress.karimzouine.com",
+        description:
+          "Free browser-based image compressor for shrinking file size before upload.",
+      },
+      {
+        title: "One Time Secret",
+        href: "https://onetimesecret.com",
+        description:
+          "Share a password or secret via a link that self-destructs after being viewed once, so it never sits readable in chat history.",
+      },
+      {
+        title: "Oneshot.zip",
+        href: "https://oneshot.zip",
+        description:
+          "One-off file sharing tool for sending a file via a single-use link.",
+      },
+      {
+        title: "Table Format Converter",
+        href: "https://www.tableformatconverter.com",
+        description:
+          "Free tool for converting tabular data between CSV, HTML, JSON, Markdown and more, running fully client-side so data never leaves your browser.",
+      },
+      {
+        title: "Bento PDF",
+        href: "https://bentopdf.com",
+        description:
+          "Free set of browser-based PDF editing tools: merge, split, compress and edit PDFs without uploading to a paid service.",
+      },
+      {
+        title: "8mb",
+        href: "https://8mb.campuscal.tech",
+        description:
+          "File compressor built specifically for squeezing files under Discord's 8MB upload limit.",
+      },
+      {
+        title: "Online-Convert",
+        href: "https://www.online-convert.com",
+        description:
+          "Free online file format converter supporting a wide range of document, image, audio and video formats.",
+      },
+    ],
+  },
+  {
+    title: "ASCII art and diagram tools",
+    links: [
+      {
+        title: "Text Paint",
+        href: "https://textpaint.com",
+        description:
+          "Draw pixel art directly using text characters, exportable as plain text or copy-pasted ASCII art.",
+      },
+      {
+        title: "Video to ASCII (ezascii)",
+        href: "https://ezascii.com/video-to-ascii",
+        description:
+          "Converts an uploaded video into playable ASCII art, frame by frame.",
+      },
+      {
+        title: "ASCII Art Club",
+        href: "https://asciiart.club",
+        description:
+          "Community gallery of user-submitted ASCII art for browsing and sharing.",
+      },
+      {
+        title: "Video to ASCII (Melobytes)",
+        href: "https://melobytes.com/en/app/video2ascii",
+        description:
+          "Another video-to-ASCII converter, turning uploaded clips into ASCII animation.",
+      },
+      {
+        title: "Text Diagram",
+        href: "https://weidagang.github.io/text-diagram",
+        description:
+          "Draws boxes-and-arrows diagrams from plain text descriptions, ASCII-art style output for docs and READMEs.",
+      },
+      {
+        title: "Graph::Easy online",
+        href: "https://graph-easy.online",
+        description:
+          "Browser version of the Perl Graph::Easy tool: describe a graph in simple text syntax and render it as an ASCII or boxed diagram.",
+      },
+      {
+        title: "Wiretext",
+        href: "https://wiretext.app",
+        description:
+          "Text-based wireframing tool: sketch the simplest possible wireframe using Unicode UI shapes and keyboard shortcuts, then export it as plain text or markdown for sharing.",
+      },
+      {
+        title: "nomnoml",
+        href: "https://nomnoml.com",
+        description:
+          "Draws UML diagrams from a simple text syntax, type a description and get a rendered class/sequence diagram.",
+      },
+      {
+        title: "Monosketch",
+        href: "https://monosketch.io",
+        description:
+          "Draw ASCII and box diagrams directly in the browser with a proper drag-and-drop editor instead of hand-typing characters.",
+      },
+    ],
+  },
+  {
+    title: "Marketing and growth tools",
+    links: [
+      {
+        title: "Seolo blog",
+        href: "https://www.seolo.live/blogs",
+        description:
+          "SEO blog covering technical SEO, JavaScript SEO, crawling and indexing, and AI-driven search strategy, practical tutorials over generic advice.",
+      },
+      {
+        title: "WinWinKit",
+        href: "https://winwinkit.com",
+        description:
+          "Marketing platform for app developers to run affiliate campaigns, referral programs and promo codes, handling tracking, rewards and payouts across iOS, Android and desktop.",
+      },
+      {
+        title: "EmailMD",
+        href: "https://www.emailmd.dev",
+        description:
+          "Write responsive HTML emails using Markdown syntax instead of hand-coding table-based HTML, with an AI-assisted MCP integration for writing, linting and previewing emails live.",
+      },
+      {
+        title: "Autosend",
+        href: "https://autosend.com",
+        description:
+          "Automated email sending platform for scheduling and delivering transactional or campaign email.",
+      },
+      {
+        title: "Unosend",
+        href: "https://www.unosend.co",
+        description:
+          "Transactional email sending service for delivering app-generated emails like receipts and password resets.",
+      },
+      {
+        title: "Typefully",
+        href: "https://typefully.com",
+        description:
+          "Twitter/X thread writing and scheduling tool with a distraction-free composer built specifically for threads rather than single posts.",
+      },
     ],
   },
   {
@@ -2429,6 +4201,30 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://sli.dev/",
         description:
           "Developer-focused slide deck framework built on markdown and Vue, write slides in a text file, get syntax highlighting, live coding blocks and full styling control.",
+      },
+      {
+        title: "Quarkdown",
+        href: "https://quarkdown.com",
+        description:
+          "Markdown superset that compiles into fully styled documents, books and slide decks, adding layout and theming on top of plain markdown syntax.",
+      },
+      {
+        title: "getdesign.md",
+        href: "https://getdesign.md",
+        description:
+          "Turns a markdown file into a polished, styled design document, useful for spec docs and design write-ups that shouldn't look like plain markdown.",
+      },
+      {
+        title: "docmd",
+        href: "https://docmd.io",
+        description:
+          "Turns a markdown source into a full documentation site, similar in spirit to Docusaurus but lighter weight.",
+      },
+      {
+        title: "Accept Markdown",
+        href: "https://acceptmarkdown.com",
+        description:
+          "Renders a markdown document as a clean, shareable web page without needing a full static site setup.",
       },
     ],
   },
@@ -2514,6 +4310,23 @@ export const inspirationGroups: InspirationGroup[] = [
           "Blog of Zoltán Kochan, creator and lead maintainer of pnpm, writing about package management internals and JavaScript tooling.",
       },
       {
+        title: "Site Mini thoughts",
+        href: "https://site-mini.vercel.app/thoughts",
+        description:
+          "Personal essay collection by Aiden Bai (creator of million.js/Million Lint), short pieces on research experiences and web dev technologies.",
+      },
+      {
+        title: "Eli Rousso",
+        href: "https://www.elirousso.com/",
+        description:
+          "Portfolio of Eli Rousso, a NYC-based product designer and developer offering one-week sprints, zero-to-one product builds, and ongoing design partnerships for founders.",
+      },
+    ],
+  },
+  {
+    title: "Developer profiles and socials",
+    links: [
+      {
         title: "Cassidoo",
         href: "https://github.com/cassidoo",
         description:
@@ -2532,12 +4345,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "GitHub of a self-taught developer and AI researcher from India focused on C++ and Python machine learning work.",
       },
       {
-        title: "Site Mini thoughts",
-        href: "https://site-mini.vercel.app/thoughts",
-        description:
-          "Personal essay collection by Aiden Bai (creator of million.js/Million Lint), short pieces on research experiences and web dev technologies.",
-      },
-      {
         title: "Abhi on X",
         href: "https://x.com/abh1a0/status/1993033150323392720",
         description:
@@ -2548,12 +4355,6 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://x.com/iximiuz",
         description:
           "X account of Ivan Velichko (iximiuz), a well-known educator on containers, Linux internals and how the container runtime stack actually works under the hood.",
-      },
-      {
-        title: "Eli Rousso",
-        href: "https://www.elirousso.com/",
-        description:
-          "Portfolio of Eli Rousso, a NYC-based product designer and developer offering one-week sprints, zero-to-one product builds, and ongoing design partnerships for founders.",
       },
     ],
   },
@@ -2608,10 +4409,16 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "The well-known story of Margaret Hamilton, who led the software team for the Apollo program's guidance computer and whose error-handling code saved the Apollo 11 landing.",
       },
+      {
+        title: "Bytes newsletter",
+        href: "https://bytes.dev",
+        description:
+          "Twice-weekly JavaScript news newsletter from the Syntax.fm crew, summarizing what happened in the JS ecosystem with a conversational, funny tone.",
+      },
     ],
   },
   {
-    title: "Talks, videos and channels",
+    title: "YouTube channels",
     links: [
       {
         title: "CodeTV",
@@ -2692,12 +4499,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "One of the most popular DevOps and Kubernetes education channels, known for clear diagrams and practical, no-fluff explanations.",
       },
       {
-        title: "AWS re:Invent",
-        href: "https://www.youtube.com/playlist?list=PL2yQDdvlhXf_NqSnDKx7Hbb9FrNQKmxg7",
-        description:
-          "Playlist of official session recordings from AWS re:Invent, AWS's flagship annual conference.",
-      },
-      {
         title: "Luke Barousse",
         href: "https://www.youtube.com/@LukeBarousse",
         description:
@@ -2739,6 +4540,17 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Grant Sanderson's iconic math visualization channel, famous for making linear algebra, calculus and neural networks intuitive through animated explanation.",
       },
+    ],
+  },
+  {
+    title: "Talks and individual videos",
+    links: [
+      {
+        title: "AWS re:Invent",
+        href: "https://www.youtube.com/playlist?list=PL2yQDdvlhXf_NqSnDKx7Hbb9FrNQKmxg7",
+        description:
+          "Playlist of official session recordings from AWS re:Invent, AWS's flagship annual conference.",
+      },
       {
         title: "The DevOps roadmap that got me hired",
         href: "https://youtu.be/8s0DWeHuEaw",
@@ -2772,1150 +4584,13 @@ export const inspirationGroups: InspirationGroup[] = [
     ],
   },
   {
-    title: "SEO",
+    title: "Self-hosted software",
     links: [
-      {
-        title: "Seolo blog",
-        href: "https://www.seolo.live/blogs",
-        description:
-          "SEO blog covering technical SEO, JavaScript SEO, crawling and indexing, and AI-driven search strategy, practical tutorials over generic advice.",
-      },
-    ],
-  },
-  {
-    title: "Design tools and components",
-    links: [
-      {
-        title: "Rams",
-        href: "https://www.rams.ai/",
-        description:
-          "Automated design-review platform that scores every UI change in a pull request against 194 design-system and accessibility rules (color, typography, spacing, motion, components, UX, craft), giving a senior design review on every PR with inline fix suggestions.",
-      },
-      {
-        title: "Shoogle",
-        href: "https://shoogle.dev",
-        description:
-          "Search engine for the shadcn ecosystem: search blocks and components across many different shadcn registries at once, browse what's new, and bookmark favorites.",
-      },
-      {
-        title: "Cascade (Design Surface)",
-        href: "https://designsurface.dev/cascade",
-        description:
-          "Set of visual icons representing individual CSS properties, giving styling attributes a graphical reference instead of plain text names.",
-      },
-      {
-        title: "FluidCAD",
-        href: "https://fluidcad.io",
-        description:
-          "Parametric CAD tool where you write JavaScript and see 3D geometry update live. Supports sketching, extrusions and fillets, STEP import/export, and keeps a parametric history so earlier steps stay editable.",
-      },
-      {
-        title: "VibeUI",
-        href: "https://vibeui.online",
-        description:
-          "Library of 92 layout prompts across 15 categories (auth forms, pricing pages, hero sections, dashboards) meant to be copy-pasted into an AI coding tool like Claude or GPT to scaffold a UI.",
-      },
-      {
-        title: "Playbit",
-        href: "https://playbit.app",
-        description:
-          "Platform for building 'joyful personal-scale software' once and running it across desktop, web and mobile without a full rebuild. Its runtime acts like a minimal OS kernel, adding sandboxing and collaborative features that don't fit well in a plain browser tab.",
-      },
-      {
-        title: "Pascal Editor",
-        href: "https://editor.pascal.app",
-        description:
-          "Free, open-source, browser-based 3D building editor for turning physical spaces into digital twins, aimed at architects, developers and homeowners alike.",
-      },
-      {
-        title: "String",
-        href: "https://string.com",
-        description:
-          "Platform for building and deploying AI agents that can operate autonomously.",
-      },
-      {
-        title: "iPhone 15 Pro in-hand mockups",
-        href: "https://pixelsurplus.com/collections/free-mockups/products/15-iphone-15-pro-in-hand-mockups",
-        description:
-          "Free pack of in-hand iPhone 15 Pro mockup shots for presenting app screens in a realistic, held-in-hand context.",
-      },
-      {
-        title: "Ship Studio",
-        href: "https://www.ship.studio",
-        description:
-          "Free, open-source desktop app that unifies AI coding agents (like Claude Code), GitHub and hosting platforms (like Vercel) into one workspace, so code and deploys stay in your own accounts with no vendor lock-in.",
-      },
-      {
-        title: "Palmier",
-        href: "https://www.palmier.io",
-        description:
-          "AI-native video editor: multi-track timeline editing plus the ability to generate images, video and audio inline via MCP-connected models like Claude, so AI generation and traditional editing live in one interface.",
-      },
-      {
-        title: "Line nav (chanhdai)",
-        href: "https://chanhdai.com/components/line-nav",
-        description:
-          "Animated underline nav bar component from chanhdai's component collection, where the underline slides and morphs between tabs.",
-      },
-      {
-        title: "10 principles for fluid UI",
-        href: "https://karlkoch.me/writing/10-principles-for-fluid-ui",
-        description:
-          "Essay laying out ten concrete principles for building interfaces that feel fluid and responsive to touch and motion, not just visually animated.",
-      },
-      {
-        title: "Good Microcopy",
-        href: "https://goodmicrocopy.com",
-        description:
-          "Collection of real, well-written UX copy examples from shipped products, organized by use case (empty states, errors, confirmations) for writers to reference.",
-      },
-      {
-        title: "State of AI Design",
-        href: "https://stateofaidesign.com",
-        description:
-          "Annual report surveying how AI tools are changing design workflows, roles and output, with data from working designers.",
-      },
-      {
-        title: "Colorflow",
-        href: "https://colorflow.ls.graphics",
-        description:
-          "Interactive tool from LS.GRAPHICS for generating and animating smooth, flowing gradient combinations for use in design work.",
-      },
       {
         title: "Replacements.fyi",
         href: "https://replacements.fyi",
         description:
           "Directory pairing popular paid SaaS products with open-source, self-hostable alternatives that do roughly the same job.",
-      },
-      {
-        title: "Quarkdown",
-        href: "https://quarkdown.com",
-        description:
-          "Markdown superset that compiles into fully styled documents, books and slide decks, adding layout and theming on top of plain markdown syntax.",
-      },
-      {
-        title: "termcn",
-        href: "https://www.termcn.dev",
-        description:
-          "shadcn, but for terminal-themed UI components, copy-paste pieces styled to look like a terminal window.",
-      },
-      {
-        title: "Torph (lochie)",
-        href: "https://torph.lochie.me",
-        description:
-          "Dependency-free animated text transition component, framework-agnostic with ports for React, TypeScript, Vue and Svelte, installable via npm for morphing text effects.",
-      },
-      {
-        title: "Fluid Functionalism",
-        href: "https://www.fluidfunctionalism.com",
-        description:
-          "Animated component library with a tactile, fluid feel to its interactions, one of the sources this registry ports components from.",
-      },
-      {
-        title: "Trophy UI",
-        href: "https://ui.trophy.so",
-        description:
-          "Open-source React gamification kit built on shadcn/ui and Tailwind: production-ready streak trackers, achievement badges, leaderboards and points displays as copy-paste components.",
-      },
-      {
-        title: "Grainrad",
-        href: "https://grainrad.com",
-        description:
-          "Grain and noise texture generator for adding film-grain-style texture to designs.",
-      },
-      {
-        title: "formscn",
-        href: "https://formscn.space",
-        description:
-          "shadcn, but for form components, copy-paste form fields and layouts styled to match shadcn/ui.",
-      },
-      {
-        title: "servercn",
-        href: "https://servercn.vercel.app",
-        description:
-          "shadcn, but for server and infrastructure status components, uptime badges and status displays styled to match shadcn/ui.",
-      },
-      {
-        title: "Viewport UI",
-        href: "https://viewport-ui.design",
-        description:
-          "Curated gallery of UI design work organized by platform (web, mobile, iOS, Android), with links back to the designers who made it.",
-      },
-      {
-        title: "ui.live",
-        href: "https://ui.live",
-        description:
-          "Social platform for designers to post their work, rank up on trending leaderboards, and get discovered, a competitive spin on design inspiration feeds.",
-      },
-      {
-        title: "UIBits",
-        href: "https://uibits.co",
-        description:
-          "Curated feed of small UI component snippets for quick reference and reuse.",
-      },
-      {
-        title: "Details Matter",
-        href: "https://detailsmatter.framer.website",
-        description:
-          "Showcase collecting small, easy-to-miss UI details from real products, the kind of polish that separates good interfaces from great ones.",
-      },
-      {
-        title: "Coverflow",
-        href: "https://coverflow.ashishgogula.in",
-        description:
-          "Recreation of Apple's classic Coverflow browsing interaction in CSS and JS, a reference for building similar carousel-style pickers.",
-      },
-      {
-        title: "Shaders.com presets",
-        href: "https://shaders.com/presets",
-        description:
-          "Library of ready-made WebGL shader presets to drop into a project instead of writing GLSL from scratch.",
-      },
-      {
-        title: "Blobsketch",
-        href: "https://cpreid2.github.io/blobsketch",
-        description:
-          "Browser tool for drawing organic blob shapes by hand and exporting them as SVG for use in designs.",
-      },
-      {
-        title: "Tekdetek",
-        href: "https://vikmil.com/tekdetek",
-        description:
-          "Browser-based VJ tool by Vik Mil for live, real-time manipulation of ASCII-style video during visual performances.",
-      },
-      {
-        title: "Meshic",
-        href: "https://meshic.app",
-        description:
-          "Procedural pattern generator for creating mesh-style visual patterns for design work.",
-      },
-      {
-        title: "TUI Studio",
-        href: "https://tui.studio",
-        description:
-          "Figma-like visual editor for designing terminal UIs with drag-and-drop components, targeting code export to frameworks like Ink, BubbleTea, Blessed and Textual (in alpha).",
-      },
-      {
-        title: "The UX of AI",
-        href: "https://www.shapeof.ai",
-        description:
-          "Reference library of interaction patterns and case studies specifically for designing AI product features, from chat to agentic flows.",
-      },
-      {
-        title: "LiveKit Agents UI",
-        href: "https://livekit.com/products/agents-ui",
-        description:
-          "Prebuilt UI components from LiveKit for building voice AI agent interfaces: waveforms, transcripts and call controls out of the box.",
-      },
-      {
-        title: "Graphite.art",
-        href: "https://graphite.art",
-        description:
-          "Free, open-source vector and raster graphics editor that runs in the browser, aiming to be a serious Illustrator/Photoshop-style alternative.",
-      },
-      {
-        title: "Smallbits",
-        href: "https://smallbits.design",
-        description:
-          "Set of 290+ pixel icons constrained to an 8x8 grid, by Minor Adventures, minimalist icon design where every pixel counts.",
-      },
-      {
-        title: "Flowkit UI",
-        href: "https://flowkit-ui.vzkiss.com",
-        description:
-          "Component library that fills in UI patterns shadcn/ui doesn't ship, following shadcn conventions, including a Creatable Combobox that combines multiselect, autocomplete and inline item creation.",
-      },
-      {
-        title: "Satis UI",
-        href: "https://satisui.xyz",
-        description:
-          "React component library on top of shadcn/ui with Awwwards-inspired, GSAP-powered animated components, built with Next.js, TypeScript and Tailwind for copy-paste use.",
-      },
-      {
-        title: "getdesign.md",
-        href: "https://getdesign.md",
-        description:
-          "Turns a markdown file into a polished, styled design document, useful for spec docs and design write-ups that shouldn't look like plain markdown.",
-      },
-      {
-        title: "Graphify",
-        href: "https://graphifylabs.ai",
-        description:
-          "Open-source tool that converts a codebase into a knowledge graph AI coding assistants can query, returning explicit graph paths with real file:line citations instead of vague embedding matches. Runs entirely on-device, no account or API key needed.",
-      },
-      {
-        title: "Design Research: By Womxn",
-        href: "https://www.design-research.be/by-womxn",
-        description:
-          "Design research project centering women's perspectives and experiences in how design research gets done.",
-      },
-      {
-        title: "Sileo",
-        href: "https://sileo.aaryan.design",
-        description:
-          "React toast notification library with SVG morphing, spring physics and a minimal API, described as 'beautiful by default'; available via npm with a docs playground.",
-      },
-      {
-        title: "ReUI patterns",
-        href: "https://reui.io/patterns",
-        description:
-          "Full-page UI pattern examples (not just single components) built with shadcn/ui, useful as reference for assembling whole screens.",
-      },
-      {
-        title: "bundui",
-        href: "https://bundui.io",
-        description:
-          "shadcn/ui-based component and block library for quickly assembling marketing and app pages from copy-paste pieces.",
-      },
-      {
-        title: "shadcnstore",
-        href: "https://shadcnstore.com",
-        description:
-          "Marketplace of shadcn/ui blocks and page templates, both free and paid, for faster page assembly.",
-      },
-      {
-        title: "Another Graphic",
-        href: "https://anothergraphic.org",
-        description:
-          "Archive of graphic design focused on typographic treatment, curating editorial, identity and poster work from international designers, browsable by designer, year, medium or country.",
-      },
-      {
-        title: "Pageflows: iOS",
-        href: "https://pageflows.com/ios",
-        description:
-          "Library of recorded UX flows captured from real iOS apps, useful for studying how shipped products actually handle onboarding, checkout and other common flows.",
-      },
-      {
-        title: "Screens Design",
-        href: "https://screensdesign.com",
-        description:
-          "Gallery of mobile app screen designs organized by pattern and category, for browsing how real apps solve specific UI problems.",
-      },
-      {
-        title: "User Inyerface",
-        href: "https://userinyerface.com",
-        description:
-          "Game that makes you fight the worst dark-pattern UI ever built: fake buttons, hostile forms and deliberately confusing flows, a memorable way to feel why good UX matters.",
-      },
-      {
-        title: "Nicely Done",
-        href: "https://nicelydone.club",
-        description:
-          "Teardown reviews of well-designed products, breaking down the specific decisions that make them work.",
-      },
-      {
-        title: "Hoverstat.es",
-        href: "https://www.hoverstat.es",
-        description:
-          "Curated gallery of standout personal and studio portfolio sites, organized around featured designers.",
-      },
-      {
-        title: "shadcnthemer",
-        href: "https://shadcnthemer.com",
-        description:
-          "Visual theme editor for shadcn/ui: tweak colors, radius and spacing live and export the resulting theme config.",
-      },
-      {
-        title: "Joly UI",
-        href: "https://www.jolyui.dev/docs/components",
-        description:
-          "50+ free shadcn/ui components for React and Next.js, copy-paste ready, combining accessibility with Framer Motion and WebGL-driven animation across buttons, text effects, inputs and navigation.",
-      },
-      {
-        title: "Goey Toast",
-        href: "https://goey-toast.vercel.app",
-        description:
-          "Squishy, gooey toast notification component with a blob-like morph animation instead of a plain slide-in.",
-      },
-      {
-        title: "React Table Craft",
-        href: "https://react-table-craft.vercel.app",
-        description:
-          "Drag-and-drop table builder for React, for visually assembling a data table instead of hand-coding columns and rows.",
-      },
-      {
-        title: "Pencil",
-        href: "https://www.pencil.dev",
-        description:
-          "Design tool built around the pitch 'design on canvas, land in code': designs made on a visual canvas translate directly into working code rather than static mockups.",
-      },
-      {
-        title: "Paper",
-        href: "https://paper.design",
-        description:
-          "Infinite canvas design tool for teams, positioned between a whiteboard and a full design app for collaborative visual work.",
-      },
-      {
-        title: "Easemaster",
-        href: "https://easemaster.satisui.xyz",
-        description:
-          "Visual easing curve editor for animation, for dialing in a custom cubic-bezier by eye instead of guessing numbers.",
-      },
-      {
-        title: "design.dev",
-        href: "https://design.dev",
-        description:
-          "Resource hub of code generators, cheat sheets and AI-powered tools for generating design systems and config files, plus a weekly front-end tools newsletter.",
-      },
-      {
-        title: "Styleframe",
-        href: "https://www.styleframe.dev",
-        description:
-          "TypeScript library for writing type-safe, composable CSS for design systems. Generates CSS at build time for performance, with optional runtime styling, and works with React, Vue or Astro.",
-      },
-      {
-        title: "0xdesign design-plugin",
-        href: "https://github.com/0xdesign/design-plugin",
-        description:
-          "Claude Code plugin that iterates on UI design: generates multiple distinct component variations, lets you compare them side by side in the browser, and refines based on feedback, producing production-ready code (not mockups) for Next.js, Vite or Remix with Tailwind or Material UI.",
-      },
-      {
-        title: "Assistant UI",
-        href: "https://www.assistant-ui.com",
-        description:
-          "React component library specifically for building AI chat interfaces: message streams, tool-call rendering and input handling out of the box.",
-      },
-      {
-        title: "Ali Imam blocks",
-        href: "https://aliimam.in/blocks",
-        description:
-          "Collection of copy-paste Tailwind CSS UI blocks for quickly assembling common page sections.",
-      },
-      {
-        title: "itshover",
-        href: "https://www.itshover.com",
-        description:
-          "Open-source library of animated React icon components built to work with Next.js, described as 'icons that move with intent', browsable and customizable, with community contributions.",
-      },
-      {
-        title: "Button (lakshb)",
-        href: "https://button.lakshb.dev",
-        description:
-          "Collection of animated button styles and micro-interactions to copy into a project.",
-      },
-      {
-        title: "Colorize",
-        href: "https://colorize.design",
-        description:
-          "Color palette generator aimed at designers picking cohesive color sets for a project.",
-      },
-      {
-        title: "9ui",
-        href: "https://www.9ui.dev",
-        description:
-          "Minimal shadcn-style component library with a pared-back visual style.",
-      },
-      {
-        title: "Cult UI: dynamic island",
-        href: "https://www.cult-ui.com/docs/components/dynamic-island",
-        description:
-          "Recreation of iOS's Dynamic Island as a React component, for pill-shaped expanding notification UI on the web.",
-      },
-      {
-        title: "Codepen: simeydotme",
-        href: "https://codepen.io/simeydotme/pen/myVddQ0",
-        description:
-          "CodePen demo by simeydotme, a well-known CSS/SVG animator, showing a creative UI interaction technique.",
-      },
-      {
-        title: "Cult UI: family button",
-        href: "https://www.cult-ui.com/docs/components/family-button",
-        description:
-          "Expanding action button group component from Cult UI, a single button that fans out into related actions.",
-      },
-      {
-        title: "Cult UI: mock browser window",
-        href: "https://www.cult-ui.com/docs/components/mock-browser-window",
-        description:
-          "Fake browser chrome component from Cult UI for framing screenshots and demos inside a realistic browser window.",
-      },
-      {
-        title: "Codepen: jh3y",
-        href: "https://codepen.io/jh3y/pen/QwyYoVr",
-        description:
-          "CodePen demo by jh3y, a prolific CSS animator known for physics-driven and generative interaction experiments.",
-      },
-      {
-        title: "Clip Paths editor (ui-layouts)",
-        href: "https://tools.ui-layouts.com/clip-paths#editor",
-        description:
-          "Visual editor for building CSS clip-path shapes by dragging points, then copying out the generated clip-path value.",
-      },
-      {
-        title: "Monoco",
-        href: "https://glass3d.dev",
-        description:
-          "Tiny JavaScript library that adds squircles and other smooth-corner types to HTML elements, generating dynamic SVG applied as a background image or clip-path. Available for vanilla JS, Svelte and React.",
-      },
-      {
-        title: "Monoco (mirror)",
-        href: "https://somonoco.com",
-        description:
-          "Alternate domain hosting Monoco, the smooth-corner (squircle) JavaScript library.",
-      },
-      {
-        title: "ui-layouts",
-        href: "https://www.ui-layouts.com",
-        description:
-          "Copy-paste library of animated Tailwind layout components for building page sections quickly.",
-      },
-      {
-        title: "hookcn",
-        href: "https://hookcn.ouassim.tech",
-        description:
-          "shadcn, but for React hooks: copy-paste, well-typed hooks distributed the same way shadcn/ui distributes components.",
-      },
-      {
-        title: "Colormoods",
-        href: "https://colormoods.co",
-        description:
-          "Generates pairs of colors along a 0-100 'stimulation' scale, weighing intensity, contrast, hue separation and vibration to suggest combinations that read as calm or energetic.",
-      },
-      {
-        title: "buttonyui",
-        href: "https://buttonyui.com",
-        description:
-          "Library of animated button components ready to copy into a project.",
-      },
-      {
-        title: "Wigggle UI widgets",
-        href: "https://wigggle-ui.vercel.app/widgets",
-        description:
-          "Wobbly, spring-physics widget component kit with a deliberately playful, jiggly feel.",
-      },
-      {
-        title: "shadcnui-blocks",
-        href: "https://www.shadcnui-blocks.com/blocks",
-        description:
-          "Free shadcn/ui page section blocks for assembling landing pages without building every section from scratch.",
-      },
-      {
-        title: "Typed.js demo",
-        href: "https://mattboldt.com/demos/typed-js",
-        description:
-          "Live demo of Typed.js, the long-running classic library for typewriter-style text animation on the web.",
-      },
-      {
-        title: "Craftwork: onfire",
-        href: "https://onfire.craftwork.design",
-        description:
-          "Trending premium design assets currently popular on Craftwork's marketplace.",
-      },
-      {
-        title: "Playlists.design",
-        href: "https://playlists.design",
-        description:
-          "Curated music playlists for designers to work to, mood-matched to focused design sessions.",
-      },
-      {
-        title: "Hey Designer",
-        href: "https://heydesigner.com",
-        description:
-          "Daily-curated design newsletter running since 2012, hand-picking the week's best design links for over 10,000 subscribers covering design systems, UI/UX principles and new tools.",
-      },
-      {
-        title: "UI Guideline components",
-        href: "https://www.uiguideline.com/components",
-        description:
-          "Database compiling best practices from the top 20 design systems and UI libraries into one component-by-component reference, from buttons to data tables, with Figma kits included.",
-      },
-      {
-        title: "Reactiive demos",
-        href: "https://reactiive.io/demos",
-        description:
-          "Gallery of creative React animation demos for interaction and motion inspiration.",
-      },
-      {
-        title: "SpoilerJS",
-        href: "https://spoilerjs.sh4jid.me",
-        description:
-          "Discord-style spoiler text component that blurs text until clicked or hovered to reveal it.",
-      },
-      {
-        title: "Color Palette Pro",
-        href: "https://colorpalette.pro",
-        description:
-          "Color palette generator and export tool for building and downloading cohesive color sets.",
-      },
-      {
-        title: "shadcnexamples: authentication",
-        href: "https://shadcnexamples.com/authentication",
-        description:
-          "Full, ready-to-copy shadcn/ui authentication page example, not just an isolated form component.",
-      },
-      {
-        title: "21st.dev: location tag",
-        href: "https://21st.dev/community/components/jatin-yadav05/location-tag/default",
-        description:
-          "Community-submitted location tag component on 21st.dev, a small pill-style UI element for showing a place name.",
-      },
-      {
-        title: "21st.dev: 3D folder",
-        href: "https://21st.dev/community/components/jatin-yadav05/3d-folder/default",
-        description:
-          "Community-submitted 3D folder hover component on 21st.dev, a folder icon that opens with a 3D tilt on hover.",
-      },
-      {
-        title: "21st.dev: AI chat",
-        href: "https://21st.dev/community/components/s/ai-chat",
-        description:
-          "Community-submitted AI chat interface component on 21st.dev, a ready-made message thread UI for chatbot products.",
-      },
-      {
-        title: "kokonutui: AI voice",
-        href: "https://kokonutui.com/docs/components/ai-voice",
-        description:
-          "Voice AI waveform component from kokonutui's component library, for visualizing live audio input or playback in a voice assistant UI.",
-      },
-      {
-        title: "21st.dev: agenticfleet",
-        href: "https://21st.dev/community/agenticfleet",
-        description:
-          "Community components on 21st.dev built for AI agent fleet dashboards, monitoring multiple running agents at once.",
-      },
-      {
-        title: "shadcnexamples: blog detail page",
-        href: "https://shadcnexamples.com/blog-detail-page",
-        description:
-          "Full, ready-to-copy shadcn/ui blog post detail page example.",
-      },
-      {
-        title: "ElevenLabs UI",
-        href: "https://ui.elevenlabs.io",
-        description:
-          "Official component library from ElevenLabs for building voice AI interfaces, matching the components they use in their own products.",
-      },
-      {
-        title: "aethercss",
-        href: "https://aethercss.lovable.app",
-        description:
-          "Free generator for Liquid Glass, Glassmorphism and Neumorphism CSS effects with a live preview: adjust sliders and colors and copy the generated code. Works best in Chromium browsers.",
-      },
-      {
-        title: "Harmonizer (Evil Martians)",
-        href: "https://harmonizer.evilmartians.com",
-        description:
-          "Tool from Evil Martians that generates a harmonious color palette from a single base color, useful for quickly extending a brand color into a full UI palette.",
-      },
-      {
-        title: "Trending Design",
-        href: "https://trending.design",
-        description:
-          "Curated marketplace recommending products for creative professionals across three categories: design tech (devices and tools), design books and design documentaries, each with independent reviews.",
-      },
-      {
-        title: "Design Beyond Barriers",
-        href: "https://designbeyondbarriers.com",
-        description:
-          "Accessibility guide written by designers for designers: 30 articles covering typography, color, form design and testing, arguing accessibility is a design decision, not just a developer checklist.",
-      },
-      {
-        title: "Plate",
-        href: "https://platejs.org",
-        description:
-          "Rich text editor framework for React, the kind of building blocks behind Notion-style editors, with a plugin system for extending it rather than building a WYSIWYG editor from scratch.",
-      },
-      {
-        title: "buouui",
-        href: "https://buouui.com/docs",
-        description:
-          "Minimal shadcn-style component library with a pared-back visual style.",
-      },
-      {
-        title: "MynaUI",
-        href: "https://mynaui.com",
-        description:
-          "Free, beautifully designed UI component library aimed at giving indie projects a polished look without a design team.",
-      },
-      {
-        title: "21st.dev: moon chat",
-        href: "https://21st.dev/community/components/ruixenui/ruixen-moon-chat/default",
-        description:
-          "Community-submitted AI chat widget on 21st.dev with a moon-themed visual style.",
-      },
-      {
-        title: "Skiper UI: skiper87",
-        href: "https://skiper-ui.com/v1/skiper87",
-        description:
-          "Drag-and-scroll interaction component from Skiper UI's numbered component series.",
-      },
-      {
-        title: "21st.dev: blog cards",
-        href: "https://21st.dev/community/components/sumonadotwork/blog-cards/default",
-        description:
-          "Community-submitted blog card component on 21st.dev for displaying post previews in a grid.",
-      },
-      {
-        title: "21st.dev: reading text reveal",
-        href: "https://21st.dev/community/components/wisedev/reading-text-reveal/default",
-        description:
-          "Community-submitted scroll-triggered text reveal component on 21st.dev, text that fades or highlights in as you scroll past it.",
-      },
-      {
-        title: "Stack and Justify",
-        href: "https://max-esnee.com/stack-and-justify",
-        description:
-          "Interactive cheatsheet for CSS flexbox stacking and justification, showing how justify-content and align-items combinations actually lay elements out.",
-      },
-      {
-        title: "The Good Line Height",
-        href: "https://thegoodlineheight.com",
-        description:
-          "Short interactive guide to picking a good line-height value for body text, showing the readability difference live.",
-      },
-      {
-        title: "Radix Colors",
-        href: "https://www.radix-ui.com/colors",
-        description:
-          "Accessible, systematic 12-step color scale system for UI design from the Radix team, designed so each step has a defined semantic role (backgrounds, borders, text) across light and dark mode.",
-      },
-      {
-        title: "Background generator (ibelick)",
-        href: "https://bg.ibelick.com",
-        description:
-          "Generates CSS gradient and pattern backgrounds you can copy straight out as CSS, no image export needed.",
-      },
-      {
-        title: "Interfaces (rauno)",
-        href: "https://interfaces.rauno.me",
-        description:
-          "Rauno Freiberg's curated collection of great interface details, screenshots of specific, well-executed UI moments from real products.",
-      },
-      {
-        title: "HyperUI",
-        href: "https://www.hyperui.dev",
-        description:
-          "Free, open-source Tailwind CSS component library with a large catalog of marketing and application UI sections to copy and paste.",
-      },
-      {
-        title: "21st.dev: retro button",
-        href: "https://21st.dev/serafimcloud/button-retro/default",
-        description:
-          "Community-submitted retro-styled button component on 21st.dev with a chunky, skeuomorphic look.",
-      },
-      {
-        title: "Magic UI: highlighter",
-        href: "https://magicui.design/docs/components/highlighter",
-        description:
-          "Animated text highlighter component from Magic UI that draws a marker-style highlight stroke behind text on scroll or load.",
-      },
-      {
-        title: "Lisse",
-        href: "https://corne.rs",
-        description:
-          "Small JavaScript library that draws squircle corners, the same continuous curve Figma and iOS use. Ships bindings for React, Vue and Svelte plus a framework-agnostic core, with per-corner control, borders, and shadows included.",
-      },
-    ],
-  },
-  {
-    title: "Fonts and type foundries",
-    links: [
-      {
-        title: "Precise Type",
-        href: "https://precise-type.com",
-        description:
-          "Web tool for building harmonious type scales from musical-interval ratios like Major Third or Perfect Fifth. Exports implementation-ready CSS and CSV, and its 'Line Grid' constraint rounds line heights to pixel multiples for pixel-perfect alignment.",
-      },
-      {
-        title: "Fixelpont (Klotter)",
-        href: "https://klotter.supply/fixelpont",
-        description:
-          "Playful pixel font by type designer falk, originally built for a comics project. Ships in two styles, regular and rounded, that align perfectly on top of each other, with post-binary ligatures for French.",
-      },
-      {
-        title: "A Mono (Klotter)",
-        href: "https://klotter.supply/a-mono",
-        description:
-          "Free variable monospace typeface by falk, inspired by Emil Gunnarsson. Deliberately drops the serifs around narrow letters like 'i' for a bit of structured irregularity, and includes weight and 'rotalic' axes plus full IPA support.",
-      },
-      {
-        title: "Thestral (xCicero)",
-        href: "https://xcicero.esad-gv.net/page/thestral/index.php",
-        description:
-          "Contemporary display typeface by student designer Pauline Maréchal, reviving a character from the historic Jacoby & Fils foundry. Bridges vintage type craft with a modernist redraw.",
-      },
-      {
-        title: "Bonbance (xCicero)",
-        href: "https://xcicero.esad-gv.net/page/bonbance",
-        description:
-          "Playful display typeface by student designer Louna Bourdon, also rooted in a Jacoby & Fils original character. Part of the xCicero student type foundry's archive-revival series.",
-      },
-      {
-        title: "Caramel (xCicero)",
-        href: "https://xcicero.esad-gv.net/page/caramel/index.php",
-        description:
-          "Display typeface by student designer Hugo Lopez, drawn from a wooden character cut by Turin's Augusta foundry. The whole specimen is presented as a caramel recipe, a visual pun between typography and confectionery.",
-      },
-      {
-        title: "Typograph Studio",
-        href: "https://typograph.studio",
-        description:
-          "AI-powered custom typeface generator. Pick a style template like Neo Grotesk or Geometric, or describe the look you want, then fine-tune weight, width and contrast to produce a bespoke font.",
-      },
-      {
-        title: "Fontastic",
-        href: "https://fontastic.space",
-        description:
-          "Tool that finds mathematically complementary font pairings, taking the guesswork out of choosing a heading and body typeface that actually work together.",
-      },
-      {
-        title: "Republish font foundry",
-        href: "https://republi.sh",
-        description:
-          "Self-initiated project by Behalf Studio that turns Vietnamese vernacular lettering (hand-painted shop signs, concrete building numerals, archival ephemera) into free, open-source digital typefaces, returned to the community they came from.",
-      },
-      {
-        title: "Fluid Type Scale",
-        href: "https://www.fluid-type-scale.com",
-        description:
-          "Generates a responsive fluid type scale using CSS clamp(), so font sizes scale smoothly between a minimum and maximum viewport instead of jumping at breakpoints.",
-      },
-      {
-        title: "MyFFFonts",
-        href: "https://myfffonts.accentgrave.net",
-        description:
-          "Curated library of free, open-source typefaces spanning sans, monospace, display and variable fonts, with designer credit and licensing info attached to each.",
-      },
-      {
-        title: "Letterbox",
-        href: "https://www.letterbox.sh",
-        description:
-          "Generates 'letters made of letters', text-based typographic art with controls for font, weight, fill pattern, color and column layout.",
-      },
-      {
-        title: "Font Trio pairs",
-        href: "https://www.fonttrio.xyz/pairs",
-        description:
-          "Curated three-font pairing suggestions for heading, subheading and body text, aimed at designers who don't want to hand-pick every combination.",
-      },
-      {
-        title: "Maxibestof typefaces",
-        href: "https://maxibestof.one/typefaces",
-        description:
-          "Hand-picked directory of free, high-quality independent typefaces, filtered down from the flood of free-font sites to ones actually worth using.",
-      },
-      {
-        title: "Fonts in Movies",
-        href: "https://fontsinmovies.com",
-        description:
-          "Catalog identifying the typefaces used in film posters, title cards and on-screen graphics, spanning movies from 1968 to 2023.",
-      },
-      {
-        title: "Are.na: Type Type Type",
-        href: "https://www.are.na/edwin-beauchamp/type-type-type-xvogvyjgxkq",
-        description:
-          "Curated Are.na channel collecting typography inspiration images, from signage to specimen sheets.",
-      },
-      {
-        title: "Quarantine fonts",
-        href: "https://github.com/jenskutilek/quarantine-fonts",
-        description:
-          "Grab-bag of unfinished typeface projects by type designer Jens Kutilek, released as raw Glyphs source files for other designers to pick up and refine, ranging from coding fonts to display faces.",
-      },
-      {
-        title: "Terminal Grotesque (Velvetyne)",
-        href: "https://velvetyne.fr/fonts/terminal-grotesque",
-        description:
-          "Free pixel font by Raphaël Bastide, inspired by Paul Renner's Futura and Radim Peško's grotesque drawings. Open source under the SIL license since 2010, with a distinctly punk, technical feel.",
-      },
-      {
-        title: "Ghouls pixel blackletter font",
-        href: "https://pixelsurplus.com/products/ghouls-pixel-blackletter-display-font",
-        description:
-          "Free pixel blackletter display font inspired by retro arcade type and modular design. Doubles as a layering font: stack copies of it and it produces a psychedelic dot effect.",
-      },
-      {
-        title: "Acrata (Tortilla)",
-        href: "https://tortilla.studio/fonts/acrata",
-        description:
-          "Free display typeface from Tortilla Studio's type collection.",
-      },
-      {
-        title: "Arbutus Slab",
-        href: "https://fonts.google.com/specimen/Arbutus+Slab",
-        description:
-          "Free decorative slab serif on Google Fonts, with heavy, rounded serifs that give it a friendly, vintage-poster feel.",
-      },
-      {
-        title: "Trueno",
-        href: "https://fontlibrary.org/en/font/trueno",
-        description:
-          "Free geometric sans-serif released on Font Library, popular as a lightweight alternative to paid grotesques like Century Gothic.",
-      },
-      {
-        title: "Inclusive Sans",
-        href: "https://www.oliviaking.com/inclusivesans/feature",
-        description:
-          "Free typeface engineered for accessibility: non-mirroring letterforms, wider counters and generous spacing for low-vision and neurodiverse readers, plus 48 extra glyphs supporting Aboriginal and Torres Strait Islander languages.",
-      },
-      {
-        title: "Santello",
-        href: "https://www.dafont.com/santello.font",
-        description:
-          "Free modern sans-serif display font on dafont, aimed at clean, professional branding and editorial use without decorative flourishes.",
-      },
-      {
-        title: "Edge Cutting",
-        href: "https://www.dafont.com/edgecutting.font",
-        description:
-          "Free geometric sans-serif on dafont inspired by the Aventa family, with the sharp, angular forms typical of the geometric-sans category.",
-      },
-      {
-        title: "Hoky30",
-        href: "https://zelowtype.gumroad.com/l/zthoky/Hoky30",
-        description:
-          "Retro-styled display font pack from independent foundry ZeLow Type, sold on Gumroad.",
-      },
-      {
-        title: "Ta Fabricans",
-        href: "https://www.dafont.com/ta-fabricans.font",
-        description:
-          "Free modern sans-serif on dafont with nine weights and multiple widths, built to flex across branding, editorial and interface work.",
-      },
-      {
-        title: "Monoblock (Pixel Surplus)",
-        href: "https://pixelsurplus.com/collections/free-fonts/products/monoblock",
-        description:
-          "Free blocky pixel monospace typeface from Pixel Surplus's free-fonts collection.",
-      },
-      {
-        title: "GC Arbiter Mono Logic",
-        href: "https://pixelsurplus.com/products/gc-arbiter-mono-logic-typeface",
-        description:
-          "Free monospace typeface that blends the technical feel of a coding font with a more refined, balanced letterform structure.",
-      },
-      {
-        title: "WT Karsa Mono",
-        href: "https://pixelsurplus.com/products/wt-karsa-mono-free-font",
-        description:
-          "Free monospace typeface with rigid, fixed-width structure softened by rounded corners and 45-degree diagonal cuts.",
-      },
-      {
-        title: "TRT Interval Mono",
-        href: "https://pixelsurplus.com/collections/free-fonts/products/trt-interval-mono-font",
-        description:
-          "Free monospace display font from Pixel Surplus's collection.",
-      },
-      {
-        title: "Acro Mono Display",
-        href: "https://pixelsurplus.com/collections/free-fonts/products/acro-mono-free-display-font",
-        description:
-          "Free monospace display font from Pixel Surplus's collection.",
-      },
-      {
-        title: "Space Type Generator",
-        href: "https://spacetypegenerator.com",
-        description:
-          "Kinetic type generator with over 20 animation modes (Cylinder, Field, Stripes, Coil and more) for rendering moving, space-themed typography in real time.",
-      },
-      {
-        title: "Open Sauce Fonts",
-        href: "https://github.com/marcologous/Open-Sauce-Fonts",
-        description:
-          "Free, open-source grotesque sans family originally commissioned by Sourcegraph, released with full variable-font support and a friendly, slightly rounded character.",
-      },
-      {
-        title: "Plus Jakarta Sans",
-        href: "https://github.com/tokotype/PlusJakartaSans",
-        description:
-          "Free geometric sans typeface family, a widely used default for SaaS marketing sites and dashboards.",
-      },
-      {
-        title: "Onest",
-        href: "https://github.com/simpals/onest",
-        description:
-          "Free modern grotesque sans typeface with strong Cyrillic support, designed to feel neutral and interface-friendly across scripts.",
-      },
-      {
-        title: "Aspekta",
-        href: "https://github.com/ivodolenc/aspekta",
-        description:
-          "Free variable grotesque sans typeface built as a single variable-font file spanning the whole weight range.",
-      },
-      {
-        title: "Urbanist",
-        href: "https://github.com/coreyhu/Urbanist",
-        description:
-          "Free low-contrast geometric sans typeface by Corey Hu, popular for clean, minimal UI type.",
-      },
-      {
-        title: "Albert Sans",
-        href: "https://github.com/usted/Albert-Sans",
-        description:
-          "Free grotesque sans typeface family with a wide weight range, built as a variable font.",
-      },
-      {
-        title: "Inter",
-        href: "https://github.com/rsms/inter",
-        description:
-          "The default UI sans-serif, used almost everywhere. Designed by Rasmus Andersson specifically for screens, with tall x-height and neutral letterforms tuned for small UI text.",
-      },
-      {
-        title: "Geist Font",
-        href: "https://github.com/vercel/geist-font",
-        description:
-          "Vercel's official sans and mono typeface family, designed in-house for their product UI and documentation, and free to use in any project.",
-      },
-      {
-        title: "Hubot Sans",
-        href: "https://github.com/github/hubot-sans",
-        description:
-          "GitHub's open-source display typeface, part of its in-house type system alongside Mona Sans.",
-      },
-      {
-        title: "Mona Sans",
-        href: "https://github.com/github/mona-sans",
-        description:
-          "GitHub's open-source variable sans typeface, used across github.com, with a wide axis range for weight and width.",
-      },
-      {
-        title: "Rethink Sans",
-        href: "https://github.com/hans-thiessen/Rethink-Sans",
-        description:
-          "Free grotesque sans typeface with a clean, contemporary character, released as a variable font.",
-      },
-      {
-        title: "JetBrains Mono",
-        href: "https://github.com/JetBrains/JetBrainsMono",
-        description:
-          "Popular monospace font built specifically for reading code: increased letter height for readability, distinct glyphs for easily confused characters, and built-in ligatures.",
-      },
-      {
-        title: "Source Code Pro",
-        href: "https://github.com/adobe-fonts/source-code-pro",
-        description:
-          "Adobe's open-source monospace coding font, designed as the monospaced companion to Source Sans.",
-      },
-      {
-        title: "Roboto",
-        href: "https://github.com/googlefonts/roboto",
-        description:
-          "Google's default Android and Material Design typeface, engineered to feel natural on both screen and print at any size.",
-      },
-      {
-        title: "Monaspace",
-        href: "https://github.com/githubnext/monaspace",
-        description:
-          "GitHub Next's monospace superfamily for code: five harmonized styles that share metrics so they can be mixed on one screen, plus opt-in texture healing and code-aware ligatures.",
-      },
-      {
-        title: "Colors and Fonts",
-        href: "https://www.colorsandfonts.com",
-        description:
-          "Curated feed of color palette and font pairing inspiration for designers.",
-      },
-      {
-        title: "Font Radar",
-        href: "https://www.fontradar.com",
-        description:
-          "Service that scans millions of sites and apps daily to detect unlicensed font usage, helping foundries enforce licensing and recover lost revenue.",
-      },
-      {
-        title: "Font name checker",
-        href: "https://namecheck.fontdata.com",
-        description:
-          "Checks whether a proposed font or product name collides with an existing typeface name, useful before shipping a new font or brand.",
-      },
-      {
-        title: "Type scale (hihayk)",
-        href: "https://hihayk.github.io/scale",
-        description:
-          "Classic visual type-scale generator by Hayk Ohanian: pick a base size and ratio and it lays out the resulting modular scale live.",
-      },
-    ],
-  },
-  {
-    title: "Indie tools and utilities",
-    links: [
-      {
-        title: "FileMock",
-        href: "https://filemock.com",
-        description:
-          "Free, browser-based tool for generating test files (video, audio, image, document) in multiple formats with precise size control, for testing uploads, APIs, storage and media pipelines. Generation happens entirely client-side, nothing leaves the browser.",
-      },
-      {
-        title: "opencli",
-        href: "https://opencli.info",
-        description:
-          "Gives a command-line interface or AI agent control of an already-logged-in browser session, so an agent can act on sites you're authenticated into instead of needing separate credentials.",
-      },
-      {
-        title: "nubjs",
-        href: "https://nubjs.com",
-        description:
-          "All-in-one Node.js toolkit shipped as a single Rust binary: runs TypeScript directly, manages packages and Node versions, replacing tsx, npm, pnpm and nvm with faster equivalents while staying compatible with the existing ecosystem.",
-      },
-      {
-        title: "devl.dev",
-        href: "https://www.devl.dev",
-        description:
-          "Collection of 158 production-ready UI experiments built with React, Tailwind and Base UI, spanning layouts, forms, dashboards, tables and charts, meant to be copied and adapted directly.",
-      },
-      {
-        title: "Flue Framework",
-        href: "https://flueframework.com",
-        description:
-          "Open-source TypeScript framework for building autonomous AI agents with built-in durability and recovery, aiming to write once, deploy anywhere, and work with any LLM.",
-      },
-      {
-        title: "Vercel Eve",
-        href: "https://vercel.com/eve",
-        description:
-          "Vercel's framework for building AI agents, positioned as 'Next.js for agents': markdown for instructions and skills, TypeScript for tools, deployable to Slack, Discord and the web.",
-      },
-      {
-        title: "Bytes newsletter",
-        href: "https://bytes.dev",
-        description:
-          "Twice-weekly JavaScript news newsletter from the Syntax.fm crew, summarizing what happened in the JS ecosystem with a conversational, funny tone.",
-      },
-      {
-        title: "ssgoi",
-        href: "https://ssgoi.dev",
-        description:
-          "Page transition library for single-page apps, for animating between routes instead of hard page cuts.",
-      },
-      {
-        title: "Text Paint",
-        href: "https://textpaint.com",
-        description:
-          "Draw pixel art directly using text characters, exportable as plain text or copy-pasted ASCII art.",
-      },
-      {
-        title: "Video to ASCII (ezascii)",
-        href: "https://ezascii.com/video-to-ascii",
-        description:
-          "Converts an uploaded video into playable ASCII art, frame by frame.",
-      },
-      {
-        title: "ASCII Art Club",
-        href: "https://asciiart.club",
-        description:
-          "Community gallery of user-submitted ASCII art for browsing and sharing.",
-      },
-      {
-        title: "Video to ASCII (Melobytes)",
-        href: "https://melobytes.com/en/app/video2ascii",
-        description:
-          "Another video-to-ASCII converter, turning uploaded clips into ASCII animation.",
-      },
-      {
-        title: "Text Diagram",
-        href: "https://weidagang.github.io/text-diagram",
-        description:
-          "Draws boxes-and-arrows diagrams from plain text descriptions, ASCII-art style output for docs and READMEs.",
-      },
-      {
-        title: "Graph::Easy online",
-        href: "https://graph-easy.online",
-        description:
-          "Browser version of the Perl Graph::Easy tool: describe a graph in simple text syntax and render it as an ASCII or boxed diagram.",
-      },
-      {
-        title: "Gravity UI icons",
-        href: "https://github.com/gravity-ui/icons",
-        description:
-          "Open-source icon set from Yandex's Gravity UI design system, consistent, interface-focused SVG icons free to use in any project.",
       },
       {
         title: "Spacebar Chat",
@@ -3924,262 +4599,10 @@ export const inspirationGroups: InspirationGroup[] = [
           "Open-source, Discord-API-compatible chat client and server, for running your own Discord-like chat platform.",
       },
       {
-        title: "OpenTUI",
-        href: "https://github.com/anomalyco/opentui",
-        description:
-          "Framework for building rich terminal UIs, giving terminal apps a component model closer to what web frameworks offer.",
-      },
-      {
-        title: "convert (p2r3)",
-        href: "https://github.com/p2r3/convert",
-        description:
-          "Simple command-line file conversion tool for quickly switching between common file formats.",
-      },
-      {
-        title: "Fallow Tools docs",
-        href: "https://docs.fallow.tools",
-        description:
-          "Documentation site for the Fallow developer tools suite, covering setup, integrations and usage.",
-      },
-      {
-        title: "Arcjet",
-        href: "https://arcjet.com",
-        description:
-          "Security-as-code SDK you drop into your app's own code: rate limiting, bot detection, and a WAF, configured in application logic instead of a separate infrastructure layer.",
-      },
-      {
-        title: "tocn",
-        href: "https://tocn.vercel.app",
-        description:
-          "shadcn, but for terminal-themed components: copy-paste UI pieces styled to look like a terminal window.",
-      },
-      {
-        title: "here.now",
-        href: "https://here.now",
-        description:
-          "Instant hosting for static sites, apps and files, built so an AI agent or a person can publish to a live URL with no account required. Offers temporary anonymous hosting or API-key-based permanent sites with access controls and analytics.",
-      },
-      {
-        title: "Wiretext",
-        href: "https://wiretext.app",
-        description:
-          "Text-based wireframing tool: sketch the simplest possible wireframe using Unicode UI shapes and keyboard shortcuts, then export it as plain text or markdown for sharing.",
-      },
-      {
-        title: "Transfer.zip",
-        href: "https://transfer.zip",
-        description:
-          "Send large files via a link without creating an account, an alternative to WeTransfer for quick one-off transfers.",
-      },
-      {
-        title: "WinWinKit",
-        href: "https://winwinkit.com",
-        description:
-          "Marketing platform for app developers to run affiliate campaigns, referral programs and promo codes, handling tracking, rewards and payouts across iOS, Android and desktop.",
-      },
-      {
-        title: "theSVG",
-        href: "https://thesvg.org",
-        description:
-          "Library of 6,400+ free brand SVG icons for developers and designers to download and drop into projects.",
-      },
-      {
-        title: "SVG Studio",
-        href: "https://svgstudio.org",
-        description:
-          "Browser-based animation editor for turning static vector art into smooth keyframe animations, exported as self-contained animated SVGs with embedded CSS, no software or account needed.",
-      },
-      {
-        title: "SurveyJS library",
-        href: "https://github.com/surveyjs/survey-library",
-        description:
-          "Open-source JavaScript survey and form builder, for embedding complex, logic-driven forms directly in your own app.",
-      },
-      {
-        title: "Conductor",
-        href: "https://www.conductor.build",
-        description:
-          "Runs multiple parallel coding agents (Claude Code, Codex, Cursor) on your Mac in isolated workspaces, so you can monitor several at once and merge the results together.",
-      },
-      {
-        title: "ties (raffomania)",
-        href: "https://github.com/raffomania/ties",
-        description:
-          "CLI tool for managing symlinked dotfiles, keeping your config files in one repo and symlinked into place across machines.",
-      },
-      {
-        title: "airpipe",
-        href: "https://github.com/sanyam-g/airpipe",
-        description:
-          "Lightweight data pipeline tool for moving and transforming data between sources without a heavyweight ETL platform.",
-      },
-      {
-        title: "html2rss",
-        href: "https://github.com/html2rss/html2rss",
-        description:
-          "Turns any webpage into an RSS feed by scraping its structure, useful for sites that don't publish a feed of their own.",
-      },
-      {
-        title: "getprojekt",
-        href: "https://www.getprojekt.com",
-        description:
-          "Design-engineered project management tool ('Design Engineered' is its own tagline), aimed at freelancers and small teams.",
-      },
-      {
-        title: "docmd",
-        href: "https://docmd.io",
-        description:
-          "Turns a markdown source into a full documentation site, similar in spirit to Docusaurus but lighter weight.",
-      },
-      {
-        title: "ToolmateX",
-        href: "https://toolmatex.com",
-        description:
-          "Collection of free, ad-free browser utilities for developers, designers and data people: code formatting, color conversion, text manipulation and security tools, most working fully offline.",
-      },
-      {
-        title: "EmailMD",
-        href: "https://www.emailmd.dev",
-        description:
-          "Write responsive HTML emails using Markdown syntax instead of hand-coding table-based HTML, with an AI-assisted MCP integration for writing, linting and previewing emails live.",
-      },
-      {
-        title: "PNG to ICO",
-        href: "https://png-to-ico.com",
-        description:
-          "Converts PNG images into ICO favicons directly in the browser.",
-      },
-      {
-        title: "JSON for You",
-        href: "https://json4u.com",
-        description:
-          "JSON formatter, viewer and validator for cleaning up and inspecting JSON payloads.",
-      },
-      {
-        title: "SVG Path Editor",
-        href: "https://yqnn.github.io/svg-path-editor",
-        description:
-          "Visual editor for SVG path data: drag control points and see the `d` attribute update live, instead of hand-editing path commands.",
-      },
-      {
-        title: "nomnoml",
-        href: "https://nomnoml.com",
-        description:
-          "Draws UML diagrams from a simple text syntax, type a description and get a rendered class/sequence diagram.",
-      },
-      {
-        title: "Azimutt",
-        href: "https://azimutt.app",
-        description:
-          "Tool for exploring and documenting large, complex database schemas visually, built for schemas too big to reason about from raw SQL alone.",
-      },
-      {
-        title: "Image Compress",
-        href: "https://imgcompress.karimzouine.com",
-        description:
-          "Free browser-based image compressor for shrinking file size before upload.",
-      },
-      {
-        title: "One Time Secret",
-        href: "https://onetimesecret.com",
-        description:
-          "Share a password or secret via a link that self-destructs after being viewed once, so it never sits readable in chat history.",
-      },
-      {
-        title: "Accept Markdown",
-        href: "https://acceptmarkdown.com",
-        description:
-          "Renders a markdown document as a clean, shareable web page without needing a full static site setup.",
-      },
-      {
-        title: "Galaxybrain",
-        href: "https://galaxybrain.com",
-        description:
-          "Local-first information management tool combining document writing with spreadsheet-style calculations, a 'digital brain' for organizing files entirely on your desktop with no account or cloud storage required.",
-      },
-      {
-        title: "GitInspect",
-        href: "https://www.gitinspect.com",
-        description:
-          "Visualizes and inspects Git repository history for understanding how a codebase evolved over time.",
-      },
-      {
         title: "Plunk",
         href: "https://www.useplunk.com",
         description:
           "Open-source email platform positioned as an alternative to SendGrid, for sending transactional and marketing email from your own infrastructure.",
-      },
-      {
-        title: "opensrc (Vercel Labs)",
-        href: "https://github.com/vercel-labs/opensrc",
-        description:
-          "Vercel Labs experiment for open-source contribution tooling, exploring ways to make it easier to find and ship OSS contributions.",
-      },
-      {
-        title: "Hyperframes",
-        href: "https://github.com/heygen-com/hyperframes",
-        description:
-          "Open-source framework by HeyGen that converts HTML, CSS, media and animation into deterministic MP4 video, built for AI coding agents: write HTML, render video, with skills that automate the video-production workflow.",
-      },
-      {
-        title: "Monosketch",
-        href: "https://monosketch.io",
-        description:
-          "Draw ASCII and box diagrams directly in the browser with a proper drag-and-drop editor instead of hand-typing characters.",
-      },
-      {
-        title: "almostnode",
-        href: "https://almostnode.dev",
-        description:
-          "Runs Node.js, Next.js, Vite and Express entirely in the browser with no backend server, using a virtual filesystem and shimmed Node modules, useful for interactive demos and playgrounds.",
-      },
-      {
-        title: "Blueberry",
-        href: "https://www.meetblueberry.com",
-        description:
-          "AI-native product development platform that unifies a code editor, terminal, browser preview and canvas into one workspace, with Claude wired in to see your code, browser output and running app at once.",
-      },
-      {
-        title: "Ultracite",
-        href: "https://www.ultracite.ai",
-        description:
-          "Zero-config Biome preset for linting and formatting, drop it in and get a sensible, opinionated ruleset without hand-tuning config.",
-      },
-      {
-        title: "Typesense",
-        href: "https://typesense.org",
-        description:
-          "Fast, open-source, typo-tolerant search engine built as a simpler self-hostable alternative to Algolia or Elasticsearch for site and app search.",
-      },
-      {
-        title: "Oneshot.zip",
-        href: "https://oneshot.zip",
-        description:
-          "One-off file sharing tool for sending a file via a single-use link.",
-      },
-      {
-        title: "Lil Agents",
-        href: "https://lilagents.xyz",
-        description:
-          "macOS app with two AI companions, Bruce and Jazz, that live above your dock with their own Claude sessions for chatting and coding, each with themes and visible thinking-status indicators.",
-      },
-      {
-        title: "Feynman",
-        href: "https://www.feynman.is",
-        description:
-          "Open-source AI research agent that reads papers, searches the web, writes research drafts, plans experiments and cites sources, with both a CLI and a local workbench app for notebooks and chat.",
-      },
-      {
-        title: "Rivet Agent OS",
-        href: "https://rivet.dev/agent-os",
-        description:
-          "Runtime and infrastructure platform for deploying AI agents, now published as agentos-sdk.dev, an SDK for giving agents durable, production-grade execution environments.",
-      },
-      {
-        title: "Supabase docs over SSH",
-        href: "https://supabase.com/blog/supabase-docs-over-ssh",
-        description:
-          "Supabase engineering blog post on serving their documentation through an SSH terminal session, a novel way to browse docs without a browser.",
       },
       {
         title: "OpenStatus registry",
@@ -4188,370 +4611,11 @@ export const inspirationGroups: InspirationGroup[] = [
           "Open-source registry of self-hosted status page projects, cataloging tools like the ones in this list's self-hosted-software group.",
       },
       {
-        title: "LowEndBox",
-        href: "https://lowendbox.com",
-        description:
-          "Long-running blog of deals and reviews for cheap VPS hosting, a go-to for finding low-cost virtual servers.",
-      },
-      {
-        title: "Agentation",
-        href: "https://www.agentation.com",
-        description:
-          "Desktop tool that turns UI feedback into structured data for AI coding agents: click an element, add a note, and it packages the CSS selector and source path so an agent like Claude Code can make a targeted fix.",
-      },
-      {
-        title: "aitmpl",
-        href: "https://www.aitmpl.com",
-        description:
-          "Marketplace of ready-to-use Claude Code configurations, 1000+ agents, commands, skills and MCP integrations, with a Stack Builder for assembling a custom setup.",
-      },
-      {
-        title: "pi.dev",
-        href: "https://pi.dev",
-        description:
-          "Minimal agent harness for building customizable AI coding workflows via extensions and skills, working across 15+ model providers instead of locking you into one.",
-      },
-      {
-        title: "gists.sh",
-        href: "https://gists.sh",
-        description:
-          "Cleaner viewer for GitHub Gists: swap 'gist.github.com' for 'gists.sh' in any Gist URL to get a minimal, formatted view with dark mode and display options.",
-      },
-      {
-        title: "Baudbot",
-        href: "https://baudbot.ai",
-        description:
-          "Coding agent that lives in Slack and works your Linux server directly: message it a task and it creates branches, writes code and opens pull requests, running persistently and learning your codebase over time.",
-      },
-      {
-        title: "Promptfoo",
-        href: "https://www.promptfoo.dev",
-        description:
-          "Open-source tool for testing and evaluating LLM prompts, running them against test cases and models to catch regressions before shipping a prompt change.",
-      },
-      {
-        title: "Design Prompts",
-        href: "https://www.designprompts.dev",
-        description:
-          "AI-powered design style explorer with curated prompts for generating different visual directions and creative styles.",
-      },
-      {
-        title: "itty.dev",
-        href: "https://itty.dev",
-        description:
-          "Family of ultra-small web dev libraries (itty-router, itty-fetcher, itty-time) optimized to run in a few hundred bytes each, built for serverless and edge environments where bundle size directly affects cost.",
-      },
-      {
-        title: "JustGage",
-        href: "https://toorshia.github.io/justgage",
-        description:
-          "Lightweight JavaScript library for drawing animated gauge and dial charts with no dependencies beyond Raphael/SVG.",
-      },
-      {
-        title: "Actors.dev",
-        href: "https://actors.dev",
-        description:
-          "Communication platform giving AI agents their own email addresses, mailboxes, phone calls and webhook forwarding. Note: shutting down permanently on August 11, 2026, with all API access ending that date.",
-      },
-      {
-        title: "AgentCard",
-        href: "https://agentcard.sh",
-        description:
-          "Issues single-use virtual Visa cards to AI agents with fixed, scoped budgets so they can make real purchases online, integrating natively with Claude and other MCP clients.",
-      },
-      {
-        title: "iocaihost",
-        href: "https://iocaihost.com",
-        description:
-          "No-account static site hosting built for AI agents: a simple REST API lets an agent claim a slug and deploy HTML from templates like portfolios or storefronts, with restrictions against scripts and malicious content.",
-      },
-      {
-        title: "entire.io",
-        href: "https://entire.io",
-        description:
-          "Developer platform that logs every agent session, prompt and tool call alongside your git commits as searchable checkpoints, plus a distributed Git network with regional mirrors so agents can clone repos fast without rate limits.",
-      },
-      {
-        title: "Cloudflare Sandbox",
-        href: "https://sandbox.cloudflare.com",
-        description:
-          "Runs untrusted code in isolated Cloudflare Workers sandboxes, useful for safely executing AI-generated or user-submitted code.",
-      },
-      {
-        title: "Agents View",
-        href: "https://www.agentsview.io",
-        description:
-          "Dashboard for monitoring AI agent activity across a fleet of running agents.",
-      },
-      {
-        title: "Sub-Agents Directory",
-        href: "https://sub-agents.directory",
-        description:
-          "Directory of 200+ ready-to-copy Claude Code sub-agent prompts across React, Python, TypeScript and more, plus a collection of MCP servers for Slack, Postgres, Figma and Vercel.",
-      },
-      {
-        title: "Table Format Converter",
-        href: "https://www.tableformatconverter.com",
-        description:
-          "Free tool for converting tabular data between CSV, HTML, JSON, Markdown and more, running fully client-side so data never leaves your browser.",
-      },
-      {
-        title: "Chroma",
-        href: "https://www.trychroma.com",
-        description:
-          "Open-source embedding database for AI apps, the default vector store many RAG projects reach for when storing and querying embeddings.",
-      },
-      {
-        title: "Convex",
-        href: "https://www.convex.dev",
-        description:
-          "Reactive backend platform with a built-in database: write server functions in TypeScript and get automatic real-time sync to the client, no separate API layer to hand-wire.",
-      },
-      {
-        title: "Label Studio",
-        href: "https://labelstud.io",
-        description:
-          "Open-source data labeling tool for machine learning, supporting text, image, audio and video annotation for building training datasets.",
-      },
-      {
-        title: "OpenPanel",
-        href: "https://openpanel.dev",
-        description:
-          "Open-source, privacy-friendly web analytics platform, a self-hostable alternative to Google Analytics or Mixpanel.",
-      },
-      {
-        title: "tunnl.gg",
-        href: "https://tunnl.gg",
-        description:
-          "Exposes a local development server to the internet via a public URL, similar to ngrok, for testing webhooks or sharing a local build.",
-      },
-      {
-        title: "types.kitlangton.com",
-        href: "https://types.kitlangton.com",
-        description:
-          "Visualizer for TypeScript type structures, for seeing how a complex generic or conditional type actually resolves.",
-      },
-      {
-        title: "Diffs",
-        href: "https://diffs.com",
-        description:
-          "Tool for comparing and sharing text and code diffs via a link.",
-      },
-      {
-        title: "Sparkbites",
-        href: "https://sparkbites.dev",
-        description:
-          "Curated design inspiration directory covering 270+ sites, decoding each one's fonts, colors and tech stack specifically for AI agents to reference, with an MCP server for pulling the data into Claude or Cursor.",
-      },
-      {
-        title: "Autosend",
-        href: "https://autosend.com",
-        description:
-          "Automated email sending platform for scheduling and delivering transactional or campaign email.",
-      },
-      {
-        title: "Cap.js",
-        href: "https://capjs.js.org",
-        description:
-          "Lightweight, privacy-friendly CAPTCHA alternative that avoids the tracking and heavy scripts of reCAPTCHA-style widgets.",
-      },
-      {
-        title: "Invoice Builder",
-        href: "https://github.com/piratuks/invoice-builder",
-        description:
-          "Open-source invoice generator for creating and exporting invoices without a paid SaaS subscription.",
-      },
-      {
-        title: "Gmail Cleaner",
-        href: "https://gururagavendra.github.io/gmail-cleaner",
-        description:
-          "Browser tool for bulk-cleaning a Gmail inbox, finding and clearing out clutter faster than Gmail's own search-and-delete flow.",
-      },
-      {
-        title: "Kanba",
-        href: "https://www.kanba.co",
-        description:
-          "Free, open-source Kanban-style project management app for teams tracking and collaborating on work transparently.",
-      },
-      {
-        title: "Halftone Maker",
-        href: "https://halftonemaker.com",
-        description:
-          "Turns an uploaded image into a halftone dot pattern, the classic newsprint-style effect, adjustable in the browser.",
-      },
-      {
-        title: "SVG Converter",
-        href: "https://svgconverter.online",
-        description:
-          "Converts images to and from SVG format directly in the browser.",
-      },
-      {
-        title: "Halftone (xoihazard)",
-        href: "https://halftone.xoihazard.com",
-        description:
-          "Another browser-based halftone generator for turning images into dot-pattern graphics.",
-      },
-      {
-        title: "Oklch.fyi",
-        href: "https://oklch.fyi",
-        description:
-          "OKLCH color picker and converter, for working in the perceptually uniform OKLCH color space instead of RGB or HSL.",
-      },
-      {
-        title: "RSSHub docs",
-        href: "https://docs.rsshub.app",
-        description:
-          "Documentation for RSSHub, the open-source project that generates RSS feeds from almost any site, even ones that don't publish one natively.",
-      },
-      {
-        title: "RxResume",
-        href: "https://rxresu.me",
-        description:
-          "Free, open-source resume builder with a live preview editor and multiple export formats, an alternative to paid resume-builder SaaS.",
-      },
-      {
-        title: "Invoicely",
-        href: "https://invoicely.gg",
-        description:
-          "Simple online invoicing tool for creating and sending invoices without heavier accounting software.",
-      },
-      {
         title: "Documenso",
         href: "https://documenso.com",
         description:
           "Open-source alternative to DocuSign for collecting legally binding e-signatures on your own infrastructure.",
       },
-      {
-        title: "Trigger.dev",
-        href: "https://trigger.dev",
-        description:
-          "Open-source background jobs and workflow platform for running long-running or scheduled tasks reliably outside the request/response cycle, with built-in retries and observability.",
-      },
-      {
-        title: "Unosend",
-        href: "https://www.unosend.co",
-        description:
-          "Transactional email sending service for delivering app-generated emails like receipts and password resets.",
-      },
-      {
-        title: "Remote Storage",
-        href: "https://remote.storage",
-        description:
-          "Open protocol (remoteStorage) for per-user, per-app data storage that the user controls, letting apps read and write to a storage location the person owns rather than the app vendor.",
-      },
-      {
-        title: "Domain Locker",
-        href: "https://domain-locker.com",
-        description:
-          "Dashboard for tracking every domain you own across registrars in one place, with monitoring, renewal alerts, and security and performance insights.",
-      },
-      {
-        title: "Domain SDK",
-        href: "https://www.domain-sdk.dev",
-        description:
-          "TypeScript library for managing custom domains in a SaaS app: one API to add, verify, monitor and remove customer domains across hosting platforms like Vercel, Cloudflare and Railway, with honest status reporting on DNS routing, ownership and TLS certificates.",
-      },
-      {
-        title: "Typefully",
-        href: "https://typefully.com",
-        description:
-          "Twitter/X thread writing and scheduling tool with a distraction-free composer built specifically for threads rather than single posts.",
-      },
-      {
-        title: "Bento PDF",
-        href: "https://bentopdf.com",
-        description:
-          "Free set of browser-based PDF editing tools: merge, split, compress and edit PDFs without uploading to a paid service.",
-      },
-      {
-        title: "8mb",
-        href: "https://8mb.campuscal.tech",
-        description:
-          "File compressor built specifically for squeezing files under Discord's 8MB upload limit.",
-      },
-      {
-        title: "Resume Matcher",
-        href: "https://resumematcher.fyi",
-        description:
-          "Matches your resume against a specific job description using AI, highlighting gaps and keyword mismatches before you apply.",
-      },
-      {
-        title: "Autumn",
-        href: "https://useautumn.com",
-        description:
-          "Open-source billing platform that sits alongside Stripe rather than replacing it, managing subscriptions, usage tracking, credits and feature entitlements through a simple API, aimed at AI startups with usage-based pricing.",
-      },
-      {
-        title: "Liquid Glass (shuding)",
-        href: "https://github.com/shuding/liquid-glass",
-        description:
-          "CSS/JS recreation of Apple's Liquid Glass visual effect by Shu Ding (creator of SWR/Next.js contributor), for bringing the effect to the web.",
-      },
-      {
-        title: "Web Check",
-        href: "https://web-check.xyz",
-        description:
-          "Runs a full OSINT and security check on any website: DNS records, headers, certificates, hosting and more, in one report.",
-      },
-      {
-        title: "Freesound",
-        href: "https://freesound.org",
-        description:
-          "Large, long-running library of Creative Commons-licensed sound effects and field recordings, searchable and free to use with attribution.",
-      },
-      {
-        title: "Online-Convert",
-        href: "https://www.online-convert.com",
-        description:
-          "Free online file format converter supporting a wide range of document, image, audio and video formats.",
-      },
-      {
-        title: "MSW",
-        href: "https://mswjs.io",
-        description:
-          "Mock Service Worker: intercepts real network requests at the browser/Node level for API mocking in tests and dev environments, so components hit realistic mocked responses instead of a mocked fetch function.",
-      },
-      {
-        title: "Media Cheatsheet",
-        href: "https://mediacheatsheet.com",
-        description:
-          "Quick reference for common CSS media query breakpoints, saving a trip to check exact device widths.",
-      },
-      {
-        title: "NativeWind",
-        href: "https://www.nativewind.dev",
-        description:
-          "Brings Tailwind CSS's utility classes to React Native, so styling mobile components uses the same className syntax as a Tailwind web project.",
-      },
-      {
-        title: "Learn X in Y Minutes",
-        href: "https://learnxinyminutes.com",
-        description:
-          "Learn a programming language's core syntax in minutes via heavily commented, runnable example code instead of a full tutorial.",
-      },
-      {
-        title: "Flukeout: CSS Diner",
-        href: "https://flukeout.github.io",
-        description:
-          "Game for learning CSS selectors: each level gives you a target element to select and you write the selector that hits it.",
-      },
-      {
-        title: "Frontend Practice",
-        href: "https://www.frontendpractice.com",
-        description:
-          "Practice site for building real UI from real designs, closing the gap between tutorials and actually implementing a design handoff.",
-      },
-      {
-        title: "ui.dev",
-        href: "https://ui.dev",
-        description:
-          "Frontend courses and tutorials, especially React, from the team behind the React Router and TanStack Query educational content.",
-      },
-    ],
-  },
-  {
-    title: "Self-hosted software",
-    links: [
       {
         title: "HeyForm",
         href: "https://github.com/heyform/heyform",
@@ -4714,6 +4778,12 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Mockups, textures and patterns",
     links: [
       {
+        title: "iPhone 15 Pro in-hand mockups",
+        href: "https://pixelsurplus.com/collections/free-mockups/products/15-iphone-15-pro-in-hand-mockups",
+        description:
+          "Free pack of in-hand iPhone 15 Pro mockup shots for presenting app screens in a realistic, held-in-hand context.",
+      },
+      {
         title: "MacBook mockup on wooden chair",
         href: "https://mockups-design.com/macbook-mockup-on-wooden-chair",
         description:
@@ -4815,6 +4885,18 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Agent skills directories",
     links: [
       {
+        title: "0xdesign design-plugin",
+        href: "https://github.com/0xdesign/design-plugin",
+        description:
+          "Claude Code plugin that iterates on UI design: generates multiple distinct component variations, lets you compare them side by side in the browser, and refines based on feedback, producing production-ready code (not mockups) for Next.js, Vite or Remix with Tailwind or Material UI.",
+      },
+      {
+        title: "Sub-Agents Directory",
+        href: "https://sub-agents.directory",
+        description:
+          "Directory of 200+ ready-to-copy Claude Code sub-agent prompts across React, Python, TypeScript and more, plus a collection of MCP servers for Slack, Postgres, Figma and Vercel.",
+      },
+      {
         title: "ui-skills.com",
         href: "https://www.ui-skills.com",
         description:
@@ -4868,52 +4950,11 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Official Vercel Labs agent skill that packages web design best practices for a coding agent to apply automatically.",
       },
-    ],
-  },
-  {
-    title: "Animated icon libraries",
-    links: [
       {
-        title: "Lucide Animated",
-        href: "https://lucide-animated.com",
+        title: "SwiftUI Microinteractions",
+        href: "https://github.com/iamvishal16/swiftui-microinteractions",
         description:
-          "Free, open-source collection of 435+ animated React icons built on Lucide and Motion. Copy-paste ready, installable via the shadcn CLI, MIT licensed, with ports for Svelte, Vue, Angular and Flutter.",
-      },
-      {
-        title: "Eva Icons",
-        href: "https://akveo.github.io/eva-icons",
-        description:
-          "Open-source pack of carefully designed UI icons covering common interface actions and items, free to use in any project.",
-      },
-      {
-        title: "Moving Icons",
-        href: "https://www.movingicons.dev",
-        description:
-          "500+ hand-crafted, interaction-ready animated Lucide icons for Svelte 5. Tree-shakeable, zero dependencies, installable via npm or the shadcn-svelte registry, with animations controllable through props and hover states.",
-      },
-      {
-        title: "useAnimations",
-        href: "https://useanimations.com",
-        description:
-          "Free library of 90+ handcrafted animated icons built on the Lottie framework, working across React, iOS and Android, with both looping and click-triggered playback.",
-      },
-      {
-        title: "Blendy",
-        href: "https://blendy.tahazsh.com",
-        description:
-          "Library for morphing shapes smoothly from one icon or SVG into another, useful for animated icon-swap transitions instead of a hard cut.",
-      },
-      {
-        title: "Animate Icons",
-        href: "https://animateicons.vercel.app",
-        description:
-          "Collection of animated icon components for React, ready to drop into a project for hover and state-change micro-interactions.",
-      },
-      {
-        title: "Lineicons",
-        href: "https://lineicons.com",
-        description:
-          "Free line-style icon pack with a large, consistent set of outline icons for interfaces and marketing sites.",
+          "Claude Code / Cursor / Codex agent skill that generates production-ready SwiftUI micro-interactions from plain-English prompts, encoding spring physics presets, haptic feedback grammar and glass-morphism aesthetics drawn from the author's Animo animation library.",
       },
     ],
   },
@@ -4949,17 +4990,6 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.youtube.com/watch?v=FZRBw-_s8i0",
         description:
           "YouTube video comparing VPS providers on price-to-performance to find the best value option.",
-      },
-    ],
-  },
-  {
-    title: "SwiftUI",
-    links: [
-      {
-        title: "SwiftUI Microinteractions",
-        href: "https://github.com/iamvishal16/swiftui-microinteractions",
-        description:
-          "Claude Code / Cursor / Codex agent skill that generates production-ready SwiftUI micro-interactions from plain-English prompts, encoding spring physics presets, haptic feedback grammar and glass-morphism aesthetics drawn from the author's Animo animation library.",
       },
     ],
   },
