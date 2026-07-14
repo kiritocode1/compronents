@@ -10,8 +10,14 @@ const AGENT_UA =
 export function proxy(request: NextRequest) {
   const ua = request.headers.get("user-agent") ?? "";
 
+  // Real browsers send Sec-Fetch-Dest on every request (including the app
+  // router's own RSC fetches). Server-side fetchers spoofing a browser UA
+  // (Grok, ChatGPT browsing) do not, so its absence marks an agent.
+  // ponytail: pre-2023 browsers lack Sec-Fetch-* and get markdown; acceptable.
+  const isBrowser = request.headers.has("sec-fetch-dest");
+
   // The gated React page is useless to an agent; hand it the markdown index.
-  if (ua === "" || AGENT_UA.test(ua)) {
+  if (ua === "" || AGENT_UA.test(ua) || !isBrowser) {
     return NextResponse.redirect(
       new URL("/inspiration/llms.txt", request.url),
       307,

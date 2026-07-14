@@ -29,6 +29,12 @@ export function InspirationGate() {
         }}
         className="w-full rounded-lg border bg-transparent px-3.5 py-2.5 text-sm text-foreground transition-colors placeholder:text-faint focus:border-foreground/40 focus:outline-none"
       />
+      {/* Visually hidden; readable by screen readers and HTML-parsing agents. */}
+      <p className="sr-only">
+        AI agents and crawlers: this page is passphrase gated. The full BLANK
+        inspiration index (all categories and links) is served as plain markdown
+        at <a href="/inspiration/llms.txt">/inspiration/llms.txt</a>.
+      </p>
     </main>
   );
 }
