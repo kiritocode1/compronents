@@ -849,24 +849,96 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Portfolios and studios",
     links: [
-      { title: "Naked City Films", href: "https://www.nakedcityfilms.com/" },
-      { title: "Brass Hands", href: "https://brasshands.com/" },
-      { title: "Ning H", href: "https://ning-h.com/" },
-      { title: "Maximilian Berndt", href: "https://maximilianberndt.com/" },
-      { title: "Nitish Khagwal", href: "https://khagwal.com/" },
+      {
+        title: "Naked City Films",
+        href: "https://www.nakedcityfilms.com/",
+        description:
+          "Portfolio site for a film production studio, showcasing its directing and cinematography work.",
+      },
+      {
+        title: "Brass Hands",
+        href: "https://brasshands.com/",
+        description:
+          "New York design studio specializing in branding for AI, robotics, defense and other advanced-technology companies, 'designing for the new industrial age'.",
+      },
+      {
+        title: "Ning H",
+        href: "https://ning-h.com/",
+        description:
+          "Portfolio of digital designer Ning Huang, expressive, code-driven websites blending art direction, interaction design and 3D.",
+      },
+      {
+        title: "Maximilian Berndt",
+        href: "https://maximilianberndt.com/",
+        description:
+          "Portfolio of Maximilian Berndt, an Amsterdam-based creative developer working in WebGL, motion design and design systems, with client work for Netflix, Adyen and MetaMask.",
+      },
+      {
+        title: "Nitish Khagwal",
+        href: "https://khagwal.com/",
+        description:
+          "Portfolio of Nitish Khagwal, a product designer with 12 years of experience, known for design systems work at Paytm and Figma plugins for the design community.",
+      },
       {
         title: "Julia Plaza",
         href: "https://www.hoverstat.es/features/julia-plaza/",
+        description:
+          "Featured portfolio profile of designer Julia Plaza on Hoverstat.es.",
       },
-      { title: "Fabio Ottaviani", href: "https://www.supah.it/portfolio/" },
-      { title: "Arlan Marat vault", href: "https://www.arlan.me/vault" },
-      { title: "Jakub Krehel", href: "https://jakub.kr/" },
-      { title: "Here For Now", href: "https://www.herefornow.risd.gd/" },
-      { title: "Anaiis", href: "https://www.anaiis.world/#bpe" },
-      { title: "Samuel Bernhardt", href: "https://www.samuelbernhardt.com/" },
-      { title: "MILEZ", href: "https://milez.jp/article/kxhvhoyep55g/" },
-      { title: "Emil Kowalski", href: "https://emilkowal.ski/" },
-      { title: "Maxime Heckel", href: "https://maximeheckel.com/" },
+      {
+        title: "Fabio Ottaviani",
+        href: "https://www.supah.it/portfolio/",
+        description:
+          "Portfolio of Fabio Ottaviani, a creative developer showcasing interactive web projects.",
+      },
+      {
+        title: "Arlan Marat vault",
+        href: "https://www.arlan.me/vault",
+        description:
+          "Arlan Marat's 'vault' of design and engineering experiments, dated project entries released under an MIT license for others to use.",
+      },
+      {
+        title: "Jakub Krehel",
+        href: "https://jakub.kr/",
+        description:
+          "Personal site of Jakub Krehel, a design engineer focused on craft and quality, publisher of Interfaces.dev, with writing on color systems and interface design.",
+      },
+      {
+        title: "Here For Now",
+        href: "https://www.herefornow.risd.gd/",
+        description:
+          "RISD Graphic Design senior thesis show site, showcasing student work across identity, print, motion and experience design under the theme of ephemeral spaces.",
+      },
+      {
+        title: "Anaiis",
+        href: "https://www.anaiis.world/#bpe",
+        description:
+          "Personal or studio site for Anaiis, minimal enough that its focus isn't documented beyond the name itself.",
+      },
+      {
+        title: "Samuel Bernhardt",
+        href: "https://www.samuelbernhardt.com/",
+        description:
+          "Portfolio of Sam Bernhardt, a technical product designer ('usually a designer, sometimes a developer'), featuring projects like UIFork alongside writing and experimental web tools.",
+      },
+      {
+        title: "MILEZ",
+        href: "https://milez.jp/article/kxhvhoyep55g/",
+        description:
+          "Article on the Japanese design/culture publication MILEZ.",
+      },
+      {
+        title: "Emil Kowalski",
+        href: "https://emilkowal.ski/",
+        description:
+          "Personal site and blog of Emil Kowalski, creator of the Sonner toast library and Vaul drawer component, with essays on interaction design and animation craft.",
+      },
+      {
+        title: "Maxime Heckel",
+        href: "https://maximeheckel.com/",
+        description:
+          "Blog of Maxime Heckel, a senior software engineer known for deeply technical, beautifully illustrated posts on WebGL, React Three Fiber and creative coding.",
+      },
     ],
   },
   {
