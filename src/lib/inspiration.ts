@@ -2180,53 +2180,203 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
-      { title: "Firecrawl", href: "https://www.firecrawl.dev/" },
-      { title: "asccli", href: "https://asccli.sh/" },
+      {
+        title: "Firecrawl",
+        href: "https://www.firecrawl.dev/",
+        description:
+          "Popular API for turning any website into clean, LLM-ready markdown or structured data, crawling and scraping handled for you instead of hand-rolling a scraper.",
+      },
+      {
+        title: "asccli",
+        href: "https://asccli.sh/",
+        description:
+          "CLI tool, name suggests an App Store Connect command-line interface for automating app release tasks.",
+      },
       {
         title: "Better-T Stack",
         href: "https://better-t-stack.dev/new?fe-w=next&rt=node&pm=pnpm&ex=todo",
+        description:
+          "Interactive scaffolding tool for a type-safe full-stack TypeScript project (frontend, backend, package manager, example app all configurable), this link opens a preconfigured Next.js/Node/pnpm/todo-app starter.",
       },
-      { title: "Comark", href: "https://comark.dev/" },
-      { title: "DevTool Lab", href: "https://devtoollab.com/tools" },
-      { title: "Digger", href: "https://digger.tools/" },
+      {
+        title: "Comark",
+        href: "https://comark.dev/",
+        description:
+          "Markdown engine for the modern web: write markdown with embedded components and render it across React, Vue, Svelte or Angular from one unified parser, with plugins and streaming support built in.",
+      },
+      {
+        title: "DevTool Lab",
+        href: "https://devtoollab.com/tools",
+        description:
+          "Free browser-based developer utility site with 500+ tools: converters, formatters, PDF splitters, webhook testing and more, all running client-side for privacy.",
+      },
+      {
+        title: "Digger",
+        href: "https://digger.tools/",
+        description:
+          "Open-source CI/CD orchestrator for Terraform and OpenTofu, running plan/apply directly in your existing CI pipeline instead of a separate hosted service.",
+      },
       {
         title: "Dev Resources API building",
         href: "https://devresourc.es/category/api-building",
+        description:
+          "Curated list of the top tools for API development, design and testing clients like Postman and Insomnia alongside backend frameworks like Appwrite and Encore.",
       },
-      { title: "DrawDB", href: "https://www.drawdb.app/editor" },
-      { title: "Emulate", href: "https://emulate.dev/" },
-      { title: "Electrobun", href: "https://blackboard.sh/blog/electrobun-v1" },
+      {
+        title: "DrawDB",
+        href: "https://www.drawdb.app/editor",
+        description:
+          "Free, open-source, browser-based entity-relationship diagram editor for designing database schemas visually and exporting to SQL.",
+      },
+      {
+        title: "Emulate",
+        href: "https://emulate.dev/",
+        description:
+          "Local API emulation tool providing stateful, production-fidelity stand-ins for Stripe, GitHub, Google, AWS and other services, so integrations can be tested offline without real API keys.",
+      },
+      {
+        title: "Electrobun",
+        href: "https://blackboard.sh/blog/electrobun-v1",
+        description:
+          "Lightweight alternative to Electron for building native desktop apps, using the OS's built-in webview instead of bundling a full Chromium runtime, for much smaller app sizes.",
+      },
       {
         title: "Graphite changelog",
         href: "https://graphite.dev/blog?category=changelog",
+        description:
+          "Changelog feed for Graphite, the stacked-PR code review tool, tracking new features as they ship.",
       },
-      { title: "IT Tools", href: "https://it-tools.tech/" },
-      { title: "Namae", href: "https://namae.dev/s/Blankershot" },
-      { title: "nuqs", href: "https://www.npmjs.com/package/nuqs" },
-      { title: "Timezones Digital", href: "https://www.timezones.digital/" },
-      { title: "TypeDoc", href: "https://github.com/TypeStrong/typedoc" },
-      { title: "wterm", href: "https://wterm.dev/" },
-      { title: "WTF terminal dashboard", href: "https://wtfutil.com/" },
-      { title: "xmcp", href: "https://xmcp.dev/docs" },
-      { title: "yt-dlp", href: "https://github.com/yt-dlp/yt-dlp" },
-      { title: "Mafs", href: "https://mafs.dev/" },
-      { title: "Affine", href: "https://affine.pro/" },
-      { title: "useSend", href: "https://usesend.com/" },
-      { title: "Documenso docs", href: "https://docs.documenso.com/" },
-      { title: "listmonk", href: "https://listmonk.app/" },
-      { title: "AffiliateOtter", href: "https://www.affiliateotter.com/" },
-      { title: "OSINT4ALL", href: "https://start.me/p/L1rEYQ/osint4all" },
-      { title: "Vercel Community", href: "https://community.vercel.com/" },
+      {
+        title: "IT Tools",
+        href: "https://it-tools.tech/",
+        description:
+          "Well-known, large collection of free online developer utilities (encoders, converters, generators, formatters) in one consistent, ad-free interface.",
+      },
+      {
+        title: "Namae",
+        href: "https://namae.dev/s/Blankershot",
+        description:
+          "Name-availability checker for developers, checking whether a project or product name is free across domains, npm, GitHub and social handles at once.",
+      },
+      {
+        title: "nuqs",
+        href: "https://www.npmjs.com/package/nuqs",
+        description:
+          "Type-safe search params state manager for React and Next.js: store UI state in the URL query string with a useState-like API instead of hand-parsing search params.",
+      },
+      {
+        title: "Timezones Digital",
+        href: "https://www.timezones.digital/",
+        description:
+          "Time zone conversion tool for figuring out what time it is elsewhere and coordinating schedules across regions.",
+      },
+      {
+        title: "TypeDoc",
+        href: "https://github.com/TypeStrong/typedoc",
+        description:
+          "Documentation generator that builds a full API reference site directly from TypeScript source and its type annotations, no separate doc-comment format to maintain.",
+      },
+      {
+        title: "wterm",
+        href: "https://wterm.dev/",
+        description:
+          "Web-based terminal emulator that renders to the real DOM, so native text selection, copy/paste, find-in-page and accessibility work for free; built on a Zig/WASM core for performance.",
+      },
+      {
+        title: "WTF terminal dashboard",
+        href: "https://wtfutil.com/",
+        description:
+          "Personal terminal dashboard for developers: configurable widgets (git status, todos, weather, calendars) all visible in one terminal window.",
+      },
+      {
+        title: "xmcp",
+        href: "https://xmcp.dev/docs",
+        description:
+          "Framework that simplifies building MCP servers, auto-registering tools, prompts and resources with no extra config, usable standalone or dropped into an existing Next.js or Express app.",
+      },
+      {
+        title: "yt-dlp",
+        href: "https://github.com/yt-dlp/yt-dlp",
+        description:
+          "The de facto standard command-line tool for downloading video and audio from YouTube and thousands of other sites, the actively maintained fork of youtube-dl.",
+      },
+      {
+        title: "Mafs",
+        href: "https://mafs.dev/",
+        description:
+          "React library for building interactive math visualizations: coordinate planes, functions and geometry that respond to user input, used for educational and explainer content.",
+      },
+      {
+        title: "Affine",
+        href: "https://affine.pro/",
+        description:
+          "Open-source, local-first workspace combining docs, whiteboards and databases, positioned as a privacy-respecting alternative to Notion.",
+      },
+      {
+        title: "useSend",
+        href: "https://usesend.com/",
+        description:
+          "Open-source transactional and marketing email platform, a self-hostable alternative to Resend or SendGrid.",
+      },
+      {
+        title: "Documenso docs",
+        href: "https://docs.documenso.com/",
+        description:
+          "Documentation for Documenso, the open-source DocuSign alternative, covering setup, self-hosting and API usage.",
+      },
+      {
+        title: "listmonk",
+        href: "https://listmonk.app/",
+        description:
+          "Self-hosted, high-performance newsletter and mailing list manager, a free alternative to Mailchimp with no subscriber-count pricing.",
+      },
+      {
+        title: "AffiliateOtter",
+        href: "https://www.affiliateotter.com/",
+        description:
+          "Directory of SaaS and software affiliate programs, aggregating commission rates and program details across thousands of products for people building affiliate income.",
+      },
+      {
+        title: "OSINT4ALL",
+        href: "https://start.me/p/L1rEYQ/osint4all",
+        description:
+          "Large curated start.me page of open-source intelligence (OSINT) tools and resources, organized by category for investigation and research work.",
+      },
+      {
+        title: "Vercel Community",
+        href: "https://community.vercel.com/",
+        description:
+          "Official Vercel community forum for questions, discussion and troubleshooting around Vercel and Next.js deployments.",
+      },
       {
         title: "Hucre spreadsheet",
         href: "https://github.com/productdevbook/hucre",
+        description:
+          "Zero-dependency TypeScript spreadsheet engine reading and writing XLSX, CSV, ODS, JSON, NDJSON and XML with schema validation, streaming and round-trip preservation, works in any JS runtime including the browser and Cloudflare Workers.",
       },
-      { title: "Unlighthouse", href: "https://unlighthouse.dev/" },
-      { title: "OSS Perks", href: "https://www.ossperks.com/" },
-      { title: "Vercel Doctor", href: "https://www.vercel-doctor.com/" },
+      {
+        title: "Unlighthouse",
+        href: "https://unlighthouse.dev/",
+        description:
+          "Runs Google Lighthouse across an entire site automatically (not just one page), crawling every route and generating a site-wide performance/SEO/accessibility report.",
+      },
+      {
+        title: "OSS Perks",
+        href: "https://www.ossperks.com/",
+        description:
+          "Curated directory consolidating free credits, tools and infrastructure sponsorships available to open-source maintainers, 53 programs and 158 perks in one place.",
+      },
+      {
+        title: "Vercel Doctor",
+        href: "https://www.vercel-doctor.com/",
+        description:
+          "Scans a Next.js codebase for costly patterns (caching, dead code, function duration, images, invocations) and generates a health score aimed at reducing your Vercel bill.",
+      },
       {
         title: "visual-diff",
         href: "https://github.com/acoyfellow/visual-diff",
+        description:
+          "Visual comparison tool that checks whether two rendered UIs are truly identical across three independent checks: DOM structure, computed styles and pixel-level diff, all three must pass for a match, catching what any single check alone would miss.",
       },
     ],
   },
@@ -2236,33 +2386,68 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Visual Effect playground",
         href: "https://effect.kitlangton.com/",
+        description:
+          "Kit Langton's interactive visual playground for the Effect TypeScript library, watch effects, fibers and concurrency execute step by step instead of reading about it abstractly.",
       },
-      { title: "Effect", href: "https://effect-ts.github.io/effect/" },
+      {
+        title: "Effect",
+        href: "https://effect-ts.github.io/effect/",
+        description:
+          "Official docs for Effect, the TypeScript library for building robust, type-safe applications with structured concurrency, error handling and dependency injection built into the type system.",
+      },
       {
         title: "Effect runtime visualizer",
         href: "https://effect-viz.vercel.app/",
+        description:
+          "Visualizer for how Effect's runtime schedules and executes fibers, for building intuition about Effect's concurrency model.",
       },
-      { title: "Effect Solutions", href: "https://www.effect.solutions/" },
+      {
+        title: "Effect Solutions",
+        href: "https://www.effect.solutions/",
+        description:
+          "Consulting/resource site focused on helping teams adopt and use the Effect TypeScript library well.",
+      },
       {
         title: "Effect to JS examples",
         href: "https://github.com/bmdavis419/effect-to-js-ex",
+        description:
+          "Repository of side-by-side examples translating Effect code to plain JavaScript/TypeScript equivalents, for understanding what Effect is actually doing under its abstractions.",
       },
       {
         title: "Effect API example",
         href: "https://github.com/TeamWarp/effect-api-example/blob/main/packages/typescript-config/base.json",
+        description:
+          "Example repository showing how to structure an API built with Effect, this link points at its shared TypeScript config.",
       },
       {
         title: "Effect client wrapper skill",
         href: "https://skills.sh/rhyssullivan/effect-client-wrapper-skill/effect-client-wrapper",
+        description:
+          "Claude Code agent skill for generating Effect-based API client wrappers following established Effect patterns.",
       },
     ],
   },
   {
     title: "Docs, slides and content tools",
     links: [
-      { title: "Tahta for Slidev", href: "https://tahta.cagdas.io/" },
-      { title: "Reveal.js", href: "https://revealjs.com/#/20" },
-      { title: "Slidev", href: "https://sli.dev/" },
+      {
+        title: "Tahta for Slidev",
+        href: "https://tahta.cagdas.io/",
+        description:
+          "Theme/toolkit for Slidev (the developer-focused, markdown-based slide framework), for building more polished presentation decks.",
+      },
+      {
+        title: "Reveal.js",
+        href: "https://revealjs.com/#/20",
+        description:
+          "Long-running, widely used open-source HTML presentation framework, build slide decks in markdown/HTML with built-in transitions, themes and speaker notes.",
+      },
+      {
+        title: "Slidev",
+        href: "https://sli.dev/",
+        description:
+          "Developer-focused slide deck framework built on markdown and Vue, write slides in a text file, get syntax highlighting, live coding blocks and full styling control.",
+      },
     ],
   },
   {
