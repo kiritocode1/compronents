@@ -2786,6 +2786,18 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design tools and components",
     links: [
       {
+        title: "Rams",
+        href: "https://www.rams.ai/",
+        description:
+          "Automated design-review platform that scores every UI change in a pull request against 194 design-system and accessibility rules (color, typography, spacing, motion, components, UX, craft), giving a senior design review on every PR with inline fix suggestions.",
+      },
+      {
+        title: "Shoogle",
+        href: "https://shoogle.dev",
+        description:
+          "Search engine for the shadcn ecosystem: search blocks and components across many different shadcn registries at once, browse what's new, and bookmark favorites.",
+      },
+      {
         title: "Cascade (Design Surface)",
         href: "https://designsurface.dev/cascade",
         description:
@@ -3815,6 +3827,12 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Indie tools and utilities",
     links: [
+      {
+        title: "FileMock",
+        href: "https://filemock.com",
+        description:
+          "Free, browser-based tool for generating test files (video, audio, image, document) in multiple formats with precise size control, for testing uploads, APIs, storage and media pipelines. Generation happens entirely client-side, nothing leaves the browser.",
+      },
       {
         title: "opencli",
         href: "https://opencli.info",
