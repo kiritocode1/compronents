@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { InspirationGate } from "@/components/site/inspiration-gate";
 import { InspirationIndex } from "@/components/site/inspiration-index";
 import { inspirationGroups } from "@/lib/inspiration";
+
+export const metadata: Metadata = {
+  alternates: {
+    types: { "text/markdown": "/inspiration/llms.txt" },
+  },
+};
 
 export default async function InspirationPage() {
   const unlocked =
