@@ -139,7 +139,7 @@ export const inspirationGroups: InspirationGroup[] = [
       },
       {
         title: "Exploring JS",
-        href: "https://exploringjs.com/js/book/index.html",
+        href: "https://exploringjs.com/",
         description:
           "Axel Rauschmayer's free, deeply detailed online book covering modern JavaScript language features from the ground up, often used as a language reference rather than a beginner tutorial.",
       },
@@ -505,12 +505,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "shadcn/ui-compatible collection of video components built on Editframe, for embedding polished, customizable video UI pieces.",
       },
       {
-        title: "shadcn minimal Tiptap",
-        href: "https://shadcn-minimal-tiptap.vercel.app",
-        description:
-          "Minimal rich text editor built on Tiptap and styled to match shadcn/ui, a lighter starting point than a full editor framework.",
-      },
-      {
         title: "tweakcn",
         href: "https://tweakcn.com/editor/theme",
         description:
@@ -688,12 +682,6 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.interfaces.new/",
         description:
           "Platform and event series showcasing experimental digital interfaces and creative coding projects from independent artists and designers.",
-      },
-      {
-        title: "Design Engineers",
-        href: "http://designengineers.net",
-        description:
-          "Community/resource site for the design engineer discipline, the hybrid role that sits between design and frontend engineering.",
       },
       {
         title: "Industrial Empathy",
@@ -1267,12 +1255,6 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://motion-core.dev/",
         description:
           "Svelte-native motion component library powered by GSAP and WebGL, from subtle text effects to full 3D canvas systems.",
-      },
-      {
-        title: "Variant Vault",
-        href: "https://variantvault.chrisabdo.dev/text-variants",
-        description:
-          "Library of ready-made Framer Motion animation variants for text, copy-paste presets instead of hand-tuning motion values.",
       },
       {
         title: "Tailwind CSS Animations",
@@ -2787,12 +2769,6 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Talk '1000x: The Power of an Interface for Performance' by TigerBeetle's Joran Dirk Greef, on how the shape of an interface itself can unlock or block order-of-magnitude performance gains.",
       },
-      {
-        title: "Interactive 3D on the web",
-        href: "https://www.youtube.com/watch?v=6omuUOZcWL0&list=PPSV",
-        description:
-          "Note: this video's content has since changed to an unrelated Next.js/Bun/Stripe/Prisma SaaS-builder tutorial; the original 'Interactive 3D on the web' talk no longer lives at this link.",
-      },
     ],
   },
   {
@@ -2844,12 +2820,6 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://string.com",
         description:
           "Platform for building and deploying AI agents that can operate autonomously.",
-      },
-      {
-        title: "Rams.al",
-        href: "https://www.rams.al",
-        description:
-          "Personal design site named for Dieter Rams; didn't resolve on the last check, likely a minimalist portfolio judging by the name.",
       },
       {
         title: "iPhone 15 Pro in-hand mockups",
@@ -3984,18 +3954,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "Send large files via a link without creating an account, an alternative to WeTransfer for quick one-off transfers.",
       },
       {
-        title: "Sho0gle",
-        href: "https://sho0gle.dev",
-        description:
-          "Quick file and text sharing tool for one-off transfers via a link.",
-      },
-      {
-        title: "Best Alternatives",
-        href: "https://bestalternatives.dev/en/alternatives",
-        description:
-          "Directory pairing popular paid SaaS tools with open-source alternatives you can self-host instead.",
-      },
-      {
         title: "WinWinKit",
         href: "https://winwinkit.com",
         description:
@@ -4814,12 +4772,6 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.are.na/t-hanks/cool-characters",
         description:
           "Curated Are.na channel collecting character design references under the name 'cool characters', useful for illustration and mascot inspiration.",
-      },
-      {
-        title: "f1lemock",
-        href: "https://f1lemock.com",
-        description:
-          "Free file and device mockup generator for presenting screenshots and app UI in realistic frames.",
       },
       {
         title: "Paliotta mockup",
