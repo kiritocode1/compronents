@@ -944,147 +944,407 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Color, gradients and palettes",
     links: [
-      { title: "Super Color Palette", href: "https://supercolorpalette.com/" },
-      { title: "Pattern Craft", href: "https://patterncraft.fun/" },
-      { title: "Gradient SCSS", href: "https://gradientscss.vercel.app/" },
-      { title: "WebGradients", href: "https://webgradients.com/" },
+      {
+        title: "Super Color Palette",
+        href: "https://supercolorpalette.com/",
+        description:
+          "Color palette generator and browser for exploring and exporting cohesive color sets.",
+      },
+      {
+        title: "Pattern Craft",
+        href: "https://patterncraft.fun/",
+        description:
+          "Tool for generating and customizing CSS background patterns to copy into a project.",
+      },
+      {
+        title: "Gradient SCSS",
+        href: "https://gradientscss.vercel.app/",
+        description:
+          "Library of ready-made CSS/SCSS gradient definitions to copy and drop into a stylesheet.",
+      },
+      {
+        title: "WebGradients",
+        href: "https://webgradients.com/",
+        description:
+          "Free collection of 180 linear gradients ready to use as CSS backgrounds, a long-running go-to gradient reference.",
+      },
       {
         title: "MyColor Space",
         href: "https://mycolor.space/gradient?ori=to+right+top&hex=%23A1C4FD&hex2=%23C2E9FB&sub=1",
+        description:
+          "Color and gradient tool for exploring palettes and gradients built from a chosen base color, this link opens a specific two-color gradient.",
       },
       {
         title: "Understanding Gradients",
         href: "https://jakub.kr/work/gradients",
+        description:
+          "Guide to how CSS gradients actually work: linear, radial and conic types, how color space affects interpolation, plus color hints, layering and performance tradeoffs for more sophisticated effects.",
       },
-      { title: "Poline", href: "https://meodai.github.io/poline" },
+      {
+        title: "Poline",
+        href: "https://meodai.github.io/poline",
+        description:
+          "Color palette generation library by Mikael Ainalem (meodai) that builds palettes by walking points around a color wheel in polar coordinates, producing smoother, more intentional palettes than random sampling.",
+      },
     ],
   },
   {
     title: "Illustration and visual assets",
     links: [
-      { title: "Popsy illustrations", href: "https://popsy.co/illustrations" },
+      {
+        title: "Popsy illustrations",
+        href: "https://popsy.co/illustrations",
+        description:
+          "Free, customizable illustration pack (recolorable SVGs) for landing pages and product marketing.",
+      },
       {
         title: "Grafik Stash",
         href: "https://grafikstash.com/class/freebies/",
+        description:
+          "Design resource shop offering device mockups, icons and illustrations, both free and premium, sold via Gumroad.",
       },
       {
         title: "Dither Garden",
         href: "https://www.dithergarden.com/editor.html",
+        description:
+          "Browser-based image dithering tool: upload a photo, apply different dithering algorithms and color modes, and export a stylized, retro-textured version.",
       },
       {
         title: "Custom text highlight",
         href: "https://custom-text-highlight.vercel.app/",
+        description:
+          "CSS tool/demo for building custom text highlight effects (marker-style or background-based) beyond the default text-selection highlight.",
       },
       {
         title: "Toolfolio OG Image Gallery",
         href: "https://toolfolio.io/og-image-gallery",
+        description:
+          "Gallery of Open Graph (social share) image designs from real products, for reference when designing your own OG images.",
       },
-      { title: "SVG Logos", href: "https://svgl.app/" },
-      { title: "Tiny Design Shop", href: "https://tinydesignshop.com/" },
+      {
+        title: "SVG Logos",
+        href: "https://svgl.app/",
+        description:
+          "Large, well-known library of brand and product SVG logos, searchable and copy-paste ready, with light/dark variants for many entries.",
+      },
+      {
+        title: "Tiny Design Shop",
+        href: "https://tinydesignshop.com/",
+        description:
+          "Shop selling tiny Carrd templates and free browser tools, lightweight, no-frills solutions for quick sites and small tasks.",
+      },
       {
         title: "Image generation by Jakub",
         href: "https://image.jakubantalik.com/",
+        description: "Jakub Antalik's image generation tool/experiment.",
       },
     ],
   },
   {
     title: "Typography and fonts",
     links: [
-      { title: "Fontshare pairs", href: "https://fontshare.com/pairs" },
-      { title: "Departure Mono", href: "https://departuremono.com/" },
+      {
+        title: "Fontshare pairs",
+        href: "https://fontshare.com/pairs",
+        description:
+          "Font pairing tool from Fontshare (Indian Type Foundry's free font platform), suggesting complementary heading/body combinations from its free catalog.",
+      },
+      {
+        title: "Departure Mono",
+        href: "https://departuremono.com/",
+        description:
+          "Free pixel-grid monospace typeface with a distinct retro-terminal look, popular for code blocks and developer-tool branding.",
+      },
       {
         title: "Random Grotesque",
         href: "https://randommaerks.github.io/random-grotesque",
+        description:
+          "Multifunctional grotesque sans-serif with an inktrap detail, inspired by Helvetica; 36 styles across three widths and six weights.",
       },
       {
         title: "Overused Grotesk",
         href: "https://randommaerks.github.io/overused-grotesk",
+        description:
+          "Free, open-source sans-serif that started as a satirical Helvetica copycat and evolved into a genuinely practical, multilingual workhorse supporting 200+ languages across 16 styles.",
       },
-      { title: "vibe.type", href: "https://typevibe.vercel.app/" },
-      { title: "Collletttivo", href: "http://collletttivo.it" },
-      { title: "Open Foundry", href: "http://open-foundry.com" },
+      {
+        title: "vibe.type",
+        href: "https://typevibe.vercel.app/",
+        description:
+          "Typography exploration tool for browsing or generating type-driven visual styles.",
+      },
+      {
+        title: "Collletttivo",
+        href: "http://collletttivo.it",
+        description:
+          "Italian independent type foundry known for expressive, humanist typefaces and a distinctive, design-forward brand voice.",
+      },
+      {
+        title: "Open Foundry",
+        href: "http://open-foundry.com",
+        description:
+          "Directory of free and open-source typefaces, curating quality open fonts in one place instead of digging through scattered repos.",
+      },
       {
         title: "League of Moveable Type",
         href: "http://theleagueofmoveabletype.com",
+        description:
+          "One of the original free, open-source font foundries, publishing high-quality typefaces under open licenses since the early web-fonts era.",
       },
-      { title: "Use & Modify", href: "http://usemodify.com" },
-      { title: "Indestructible Type", href: "http://indestructibletype.com" },
-      { title: "Velvetyne", href: "http://velvetyne.fr" },
-      { title: "Uncut", href: "http://uncut.wtf" },
-      { title: "Free Faces", href: "http://freefaces.gallery" },
+      {
+        title: "Use & Modify",
+        href: "http://usemodify.com",
+        description:
+          "Curated directory of free and open-source fonts, filterable by style, for finding quality typefaces without licensing friction.",
+      },
+      {
+        title: "Indestructible Type",
+        href: "http://indestructibletype.com",
+        description:
+          "Independent type foundry publishing distinctive display and text typefaces, running since the early 2000s.",
+      },
+      {
+        title: "Velvetyne",
+        href: "http://velvetyne.fr",
+        description:
+          "French type foundry collective publishing free, open-source, often experimental typefaces (including Terminal Grotesque), a well-known source for distinctive free fonts.",
+      },
+      {
+        title: "Uncut",
+        href: "http://uncut.wtf",
+        description:
+          "Type or design resource site, didn't resolve on the last check.",
+      },
+      {
+        title: "Free Faces",
+        href: "http://freefaces.gallery",
+        description:
+          "Curated collection of typefaces available under free licenses somewhere on the web, organized by category (cursive, display, monospace, sans, serif, slab) by designer Simon Foster.",
+      },
       {
         title: "Base Neue Font",
         href: "https://befonts.com/base-neue-font.html",
+        description:
+          "Large type family (108 styles, thin to black, super-condensed to super-expanded) supporting 95 languages with InkTrap detailing, positioned as a modern reworking of basic grotesque typography.",
       },
-      { title: "Best Free Fonts", href: "http://bestfreefonts.com" },
-      { title: "Tunera", href: "http://tunera.xyz" },
-      { title: "Typotheque Luuse", href: "http://typotheque.luuse.fun" },
+      {
+        title: "Best Free Fonts",
+        href: "http://bestfreefonts.com",
+        description:
+          "Directory aggregating free fonts from across the web into one searchable, browsable collection.",
+      },
+      {
+        title: "Tunera",
+        href: "http://tunera.xyz",
+        description:
+          "Type-related site or foundry, didn't resolve on the last check.",
+      },
+      {
+        title: "Typotheque Luuse",
+        href: "http://typotheque.luuse.fun",
+        description:
+          "Independent type foundry/specimen site publishing original typefaces.",
+      },
     ],
   },
   {
     title: "Branding and logo archives",
     links: [
-      { title: "Logo System", href: "http://logosystem.co" },
-      { title: "Logggos Club", href: "http://logggos.club" },
-      { title: "Brand Archive", href: "http://brandarchive.xyz" },
-      { title: "Rebrand Gallery", href: "http://rebrand.gallery" },
-      { title: "Logo Archive", href: "http://logo-archive.org" },
-      { title: "Brand New", href: "http://underconsideration.com/brandnew" },
-      { title: "Cosmos", href: "http://cosmos.so" },
-      { title: "Are.na", href: "http://are.na" },
-      { title: "Logobook", href: "http://logobook.com" },
+      {
+        title: "Logo System",
+        href: "http://logosystem.co",
+        description:
+          "Free logo inspiration library of 1,200+ curated logos, wordmarks, symbols and animated logos by top designers, browsable by type, industry, style, shape, color and mood.",
+      },
+      {
+        title: "Logggos Club",
+        href: "http://logggos.club",
+        description:
+          "Curated catalog of well-designed logos sorted by industry, theme, typography style and brand color, with logo submission and custom design request options.",
+      },
+      {
+        title: "Brand Archive",
+        href: "http://brandarchive.xyz",
+        description:
+          "Archive of brand identity work, logos and visual systems collected for reference.",
+      },
+      {
+        title: "Rebrand Gallery",
+        href: "http://rebrand.gallery",
+        description:
+          "Curated reference library specifically for brand designers, showcasing rebrands, identity launches and reveal videos from notable companies.",
+      },
+      {
+        title: "Logo Archive",
+        href: "http://logo-archive.org",
+        description:
+          "Positioned as the world's largest historical logo book, an extensive archive of logo design across eras and industries.",
+      },
+      {
+        title: "Brand New",
+        href: "http://underconsideration.com/brandnew",
+        description:
+          "Long-running, well-known branding criticism blog from UnderConsideration, publishing sharp, opinionated reviews of new corporate identities and rebrands as they launch.",
+      },
+      {
+        title: "Cosmos",
+        href: "http://cosmos.so",
+        description:
+          "Visual bookmarking and moodboarding tool for collecting and organizing images and references into shareable spaces.",
+      },
+      {
+        title: "Are.na",
+        href: "http://are.na",
+        description:
+          "Platform for collaborative research and visual bookmarking, organizing links, images and text into 'channels' that can be connected across users, widely used by designers for building reference libraries.",
+      },
+      {
+        title: "Logobook",
+        href: "http://logobook.com",
+        description:
+          "Online archive cataloging the world's logos, symbols and trademarks, browsable by letters/numbers, shapes, objects, nature imagery and business sector.",
+      },
     ],
   },
   {
     title: "Design essays and culture",
     links: [
-      { title: "Path to Design", href: "https://www.pathtodesign.com/" },
+      {
+        title: "Path to Design",
+        href: "https://www.pathtodesign.com/",
+        description:
+          "Platform of real designer career stories across product, UI/UX and graphic design, with 57+ interviews, a career-path quiz, and curated tool/book recommendations.",
+      },
       {
         title: "The World According to Umbra",
         href: "https://arenamag.com/articles/the-world-according-to-umbra",
+        description:
+          "Essay from Arena, a magazine covering technology, capitalism and civilization, examining its subject through that lens.",
       },
-      { title: "Byrne's Euclid", href: "https://c82.net/euclid/" },
-      { title: "Bret Victor references", href: "https://worrydream.com/refs/" },
+      {
+        title: "Byrne's Euclid",
+        href: "https://c82.net/euclid/",
+        description:
+          "Interactive digital reproduction by Nicholas Rougeux of Oliver Byrne's 1847 edition of Euclid's Elements, which replaced algebraic labels with bold colored diagrams, a landmark of information design centuries before the term existed.",
+      },
+      {
+        title: "Bret Victor references",
+        href: "https://worrydream.com/refs/",
+        description:
+          "Reference/bibliography page from Bret Victor's site (Worrydream), the influential essayist behind 'Up and Down the Ladder of Abstraction' and 'The Future of Programming', linking the sources behind his thinking.",
+      },
       {
         title: "The Cypherpunk Library",
         href: "https://www.cypherpunkbooks.com/",
+        description:
+          "Curated collection of texts from cypherpunk and cryptography culture, the writing and manifestos behind the movement that shaped modern encryption and privacy tech.",
       },
     ],
   },
   {
     title: "Animation and motion",
     links: [
-      { title: "Animations on the Web", href: "https://animations.dev/demo" },
-      { title: "Transitions.dev", href: "https://transitions.dev/" },
-      { title: "Ripplix", href: "https://www.ripplix.com/" },
-      { title: "Motion Core", href: "https://motion-core.dev/" },
+      {
+        title: "Animations on the Web",
+        href: "https://animations.dev/demo",
+        description:
+          "Course by Emil Kowalski (creator of Sonner and Vaul) on web animation fundamentals: easing, spring physics, and building interactions that feel right rather than just moving.",
+      },
+      {
+        title: "Transitions.dev",
+        href: "https://transitions.dev/",
+        description:
+          "Reference and demo site for view transitions on the web, showing what's possible with the View Transitions API and shared-element route animations.",
+      },
+      {
+        title: "Ripplix",
+        href: "https://www.ripplix.com/",
+        description:
+          "Collection of ripple and wave-style interaction effects for web interfaces.",
+      },
+      {
+        title: "Motion Core",
+        href: "https://motion-core.dev/",
+        description:
+          "Svelte-native motion component library powered by GSAP and WebGL, from subtle text effects to full 3D canvas systems.",
+      },
       {
         title: "Variant Vault",
         href: "https://variantvault.chrisabdo.dev/text-variants",
+        description:
+          "Library of ready-made Framer Motion animation variants for text, copy-paste presets instead of hand-tuning motion values.",
       },
       {
         title: "Tailwind CSS Animations",
         href: "https://tailwindcss-animations.vercel.app/",
+        description:
+          "Collection of ready-made CSS animations built to work as Tailwind utility classes, drop-in motion without writing custom keyframes.",
       },
       {
         title: "Animista",
         href: "https://animista.net/play/basic/flip/flip-diagonal-2-tl",
+        description:
+          "Long-running CSS animation playground: pick an effect, tune its parameters visually, and copy out the generated keyframes and classes.",
       },
-      { title: "Fliiipbook", href: "https://www.fliiipbook.com/animate" },
-      { title: "Text Motion", href: "https://textmotion.dev/" },
+      {
+        title: "Fliiipbook",
+        href: "https://www.fliiipbook.com/animate",
+        description:
+          "Simple web app for creating frame-by-frame GIF animations, with onion-skinning support and GIF export.",
+      },
+      {
+        title: "Text Motion",
+        href: "https://textmotion.dev/",
+        description:
+          "Lightweight, dependency-free library (slot-text) for character-by-character rolling text animation, built for tiny, tactile UI labels using pure CSS transforms.",
+      },
       {
         title: "Spring Physics in CSS",
         href: "https://www.carmenansio.com/articles/spring-physics-css",
+        description:
+          "Article explaining how to implement realistic spring-physics motion using plain CSS, without reaching for a JS animation library.",
       },
-      { title: "Anime.js", href: "https://animejs.com/" },
-      { title: "glimm", href: "https://glimm.dev/" },
-      { title: "Satteri", href: "https://satteri.bruits.org/" },
-      { title: "Lina scroll area", href: "https://lina.sameer.sh/" },
-      { title: "aMicro", href: "https://amicro.vercel.app/" },
-      { title: "Kexsio animations", href: "https://www.kexsio.com/animations" },
+      {
+        title: "Anime.js",
+        href: "https://animejs.com/",
+        description:
+          "Long-standing, widely used lightweight JavaScript animation engine, works across CSS properties, SVG, DOM attributes and JS objects with one consistent API.",
+      },
+      {
+        title: "glimm",
+        href: "https://glimm.dev/",
+        description:
+          "Lightweight (under 10KB) React/Next.js library for GPU-powered, shader-driven page transitions, a WebGL band sweeps across the screen on route change for meaningful moments rather than every navigation.",
+      },
+      {
+        title: "Satteri",
+        href: "https://satteri.bruits.org/",
+        description:
+          "Rust-based markdown processing pipeline for the JavaScript world, combining a fast Rust markdown engine with flexible JS plugins for processing Markdown and MDX.",
+      },
+      {
+        title: "Lina scroll area",
+        href: "https://lina.sameer.sh/",
+        description:
+          "Responsive scroll area component that feels native on touch devices: native scrollbars on mobile, custom-styled ones on desktop, with edge masking and polished micro-interactions.",
+      },
+      {
+        title: "aMicro",
+        href: "https://amicro.vercel.app/",
+        description:
+          "Micro-transitions tool/framework for small-scale UI state-change animations.",
+      },
+      {
+        title: "Kexsio animations",
+        href: "https://www.kexsio.com/animations",
+        description:
+          "Gallery of production-ready web components and animation templates with a copy-paste-build workflow, browsable by category with AI prompts or source code for each.",
+      },
       {
         title: "Motionary",
         href: "https://motionary.dev/creators/6949b8263085772eb831634a",
+        description:
+          "Marketplace for premium animation and interactive UI components specifically for React Native and Expo apps, from common free effects to paid, more elaborate ones.",
       },
     ],
   },
