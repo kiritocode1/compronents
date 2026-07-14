@@ -379,7 +379,10 @@ const brutalistPortfolioPageAssetDocs = pageAssets(
 const nullStudioPageAssetDocs = pageAssets("null-studio-page-", 5);
 const isochromePageAssetDocs = pageAssets("isochrome-page-", 5);
 const landingImageRevealAssetDocs = pageAssets("landing-image-reveal-", 5);
-const spotlightGalleryScrollAssetDocs = pageAssets("spotlight-gallery-scroll-", 5);
+const spotlightGalleryScrollAssetDocs = pageAssets(
+  "spotlight-gallery-scroll-",
+  5,
+);
 
 export const componentMeta: Record<string, ComponentMeta> = {
   "march-2025-template": {
@@ -946,7 +949,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "initialPath",
         control: "text",
-        description: "Which source route opens first: /, /case-studies, or /about.",
+        description:
+          "Which source route opens first: /, /case-studies, or /about.",
       },
       {
         name: "assetBase",
@@ -1078,8 +1082,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "assetBase",
         type: "string",
         default: '"https://ui.aryank.space/assets/neoteric-page"',
-        description:
-          "Base URL prefixed to every image the template renders.",
+        description: "Base URL prefixed to every image the template renders.",
       },
       {
         name: "initialPath",
@@ -1136,8 +1139,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "assetBase",
         type: "string",
         default: '"https://ui.aryank.space/assets/soren-page"',
-        description:
-          "Base URL prefixed to every image the template renders.",
+        description: "Base URL prefixed to every image the template renders.",
       },
       {
         name: "initialPath",
@@ -5158,7 +5160,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "cards",
         type: "FlipCardItem[]",
         default: "Four BLANK cards",
-        description: "Back-card title, body, and icon (lock-open/layers/prism/infinite).",
+        description:
+          "Back-card title, body, and icon (lock-open/layers/prism/infinite).",
       },
       {
         name: "heroHeading / frontTitle / frontLabel / frontBody / outroHeading",
@@ -5170,7 +5173,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "embedded",
         type: "boolean",
         default: "true",
-        description: "Own the scroll container; set false to ride the window scroll.",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
       },
     ],
   },
@@ -5192,7 +5196,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "foreground / background",
         control: "text",
-        description: "The top-layer word and the hidden message revealed underneath.",
+        description:
+          "The top-layer word and the hidden message revealed underneath.",
       },
     ],
     assets: [],
@@ -5267,7 +5272,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "heading / buttonLabel / footer / studioHeading / connectHeading",
         control: "text",
-        description: "Hero headline, CTA, footer, and the two section headings.",
+        description:
+          "Hero headline, CTA, footer, and the two section headings.",
       },
       {
         name: "images / logo",
@@ -5295,7 +5301,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "embedded",
         type: "boolean",
         default: "true",
-        description: "Own the scroll container; set false to ride the window scroll.",
+        description:
+          "Own the scroll container; set false to ride the window scroll.",
       },
     ],
   },
@@ -6389,6 +6396,42 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "boolean",
         default: "true",
         description: "Owns the scroll container so it fits a bounded box.",
+      },
+    ],
+  },
+  "pixelgrid-studio-page": {
+    demoPath: "src/components/demos/pixelgrid-studio-page.tsx",
+    studioPath: "src/components/studios/pixelgrid-studio-page.tsx",
+    nuance: [
+      {
+        label: "Generative hero, not a hero image",
+        description:
+          "The hero backdrop is a canvas particle field, not a static asset: it charges and detonates on click/hold, wanders as a Pac-Man when idle, decodes the headline into real text, and reacts to the smiley faces and the origin story below it. Typing 'blank' or 'pixel', or the classic Konami sequence, triggers a stamped-pixel easter egg.",
+      },
+      {
+        label: "No stock media",
+        description:
+          "Every case-study tile renders one of four generative canvas modes (thermal, dots, fluid, reveal) instead of client video, so the port never re-hosts another studio's real client work.",
+      },
+      {
+        label: "A playable footer",
+        description:
+          "The footer's ambient auto-building skyline is clickable: it expands to a full-width Tetris board with score, on-screen controls, and a game-over panel, recreated 1:1 from the source's footer-tetris.js.",
+      },
+      {
+        label: "Renders correctly bounded or full-bleed",
+        description:
+          "The source pinned its backdrop with `position: fixed` to the real browser viewport, which only works full-bleed. This port uses a CSS-grid sticky overlay and a small scroll-container adapter instead, so the same hero, reveal-on-scroll, and Tetris scroll-to-bottom all work correctly inside this bounded studio panel too.",
+      },
+    ],
+    editable: [],
+    assets: [],
+    api: [
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
       },
     ],
   },

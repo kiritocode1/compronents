@@ -7,6 +7,7 @@ import ArchiveCommercePageStudio from "./archive-commerce-page";
 import AsciiImageRevealStudio from "./ascii-image-reveal";
 import AsciiLogoStudio from "./ascii-logo";
 import AwardListStudio from "./award-list";
+import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
@@ -21,22 +22,22 @@ import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
+import IsochromePageStudio from "./isochrome-page";
 import LemonBureauPageStudio from "./lemon-bureau-page";
 import March2025TemplateStudio from "./march-2025-template";
 import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
+import NeotericPageStudio from "./neoteric-page";
+import NullStudioPageStudio from "./null-studio-page";
 import OtisValenPageStudio from "./otis-valen-page";
 import OverlayMenuStudio from "./overlay-menu";
+import PixelgridStudioPageStudio from "./pixelgrid-studio-page";
 import PortfolioPageStudio from "./portfolio-page";
 import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
-import SpiralGalleryStudio from "./spiral-gallery";
-import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
-import IsochromePageStudio from "./isochrome-page";
-import NullStudioPageStudio from "./null-studio-page";
-import NeotericPageStudio from "./neoteric-page";
 import SorenPageStudio from "./soren-page";
+import SpiralGalleryStudio from "./spiral-gallery";
 import UnusualStudioPageStudio from "./unusual-studio-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
 import WuWeiPageStudio from "./wu-wei-page";
@@ -87,4 +88,5 @@ export const studios: Record<string, StudioComponent> = {
   "soren-page": SorenPageStudio,
   "unusual-studio-page": UnusualStudioPageStudio,
   "velasco-solari-page": VelascoSolariPageStudio,
+  "pixelgrid-studio-page": PixelgridStudioPageStudio,
 };

@@ -10,6 +10,7 @@ import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
 import AwardListDemo from "./award-list";
 import BlockRevealTextDemo from "./block-reveal-text";
+import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ClientHoverPreviewDemo from "./client-hover-preview";
@@ -46,6 +47,7 @@ import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
+import IsochromePageDemo from "./isochrome-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
 import LemonBureauPageDemo from "./lemon-bureau-page";
@@ -59,9 +61,12 @@ import ModelMenu3DDemo from "./model-menu-3d";
 import MontageRevealHeroDemo from "./montage-reveal-hero";
 import MosaicFlipDemo from "./mosaic-flip";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
+import NeotericPageDemo from "./neoteric-page";
+import NullStudioPageDemo from "./null-studio-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
+import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
@@ -75,12 +80,13 @@ import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
+import SorenPageDemo from "./soren-page";
 import SpiralGalleryDemo from "./spiral-gallery";
-import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
-import StickyFlipCardsDemo from "./sticky-flip-cards";
 import SplitCardScrollDemo from "./split-card-scroll";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
+import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
+import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
@@ -88,18 +94,13 @@ import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
 import TiltCardStackDemo from "./tilt-card-stack";
+import UnusualStudioPageDemo from "./unusual-studio-page";
+import VelascoSolariPageDemo from "./velasco-solari-page";
 import VideoCardStackDemo from "./video-card-stack";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
-import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
-import IsochromePageDemo from "./isochrome-page";
-import NullStudioPageDemo from "./null-studio-page";
-import NeotericPageDemo from "./neoteric-page";
-import SorenPageDemo from "./soren-page";
-import UnusualStudioPageDemo from "./unusual-studio-page";
-import VelascoSolariPageDemo from "./velasco-solari-page";
 import WuWeiPageDemo from "./wu-wei-page";
 
 /**
@@ -209,4 +210,5 @@ export const demos: Record<string, ComponentType> = {
   "velasco-solari-page": VelascoSolariPageDemo,
   "wu-wei-page": WuWeiPageDemo,
   "lemon-bureau-page": LemonBureauPageDemo,
+  "pixelgrid-studio-page": PixelgridStudioPageDemo,
 };

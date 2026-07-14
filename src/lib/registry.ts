@@ -2018,6 +2018,81 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "pixelgrid-studio-page",
+    title: "Pixelgrid Studio Page",
+    description:
+      "A source-backed design-studio marketing page built entirely on a 9px pixel grid: a generative cursor-reactive hero field with a decode-to-text headline and keyboard easter eggs, springy drag carousels with generative case-study art, cursor-tracking smiley faces, a diamond-tessellation protocol visualization, a double-helix process flow, and a fully playable Tetris game hidden in the footer.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pixelgrid-studio-page/index.tsx",
+        target: "components/ui/pixelgrid-studio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/styles.ts",
+        target: "components/ui/pixelgrid-studio-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/scroll-adapter.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/scroll-adapter.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/hero-field.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/hero-field.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/reveals.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/reveals.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/carousel.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/carousel.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/preview-fx.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/preview-fx.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/hover-crumble.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/hover-crumble.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/process-viz.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/process-viz.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/flow-canvases.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/flow-canvases.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/footer-tetris.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/footer-tetris.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pixelgrid-studio-page/scripts/misc-ui.ts",
+        target: "components/ui/pixelgrid-studio-page/scripts/misc-ui.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "sticky-flip-cards",
     title: "Sticky Flip Cards",
     description:
