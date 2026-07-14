@@ -2453,32 +2453,126 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Personal blogs and sites",
     links: [
-      { title: "Joel on Software", href: "https://www.joelonsoftware.com/" },
-      { title: "Making Software", href: "https://www.makingsoftware.com/" },
-      { title: "Effective Software", href: "https://www.effective.software/" },
-      { title: "I Hate Reading", href: "https://ihatereading.in/" },
-      { title: "Evan Bacon", href: "https://evanbacon.dev/" },
-      { title: "TK", href: "https://www.iamtk.co/" },
-      { title: "Jacob Paris", href: "https://www.jacobparis.com/content" },
-      { title: "Marvin Hagemeister", href: "https://marvinh.dev/" },
-      { title: "mcyoung", href: "https://mcyoung.xyz/" },
-      { title: "Chris Lattner", href: "https://nondot.org/sabre/" },
-      { title: "Jordan Scales", href: "https://notes.jordanscales.com/" },
-      { title: "pixperk", href: "https://www.pixperk.tech/blog" },
-      { title: "Zoltan Kochan", href: "https://www.kochan.io/" },
-      { title: "Cassidoo", href: "https://github.com/cassidoo" },
-      { title: "mrncstt", href: "https://github.com/mrncstt" },
-      { title: "cosmeratech", href: "https://github.com/cosmeratech" },
+      {
+        title: "Joel on Software",
+        href: "https://www.joelonsoftware.com/",
+        description:
+          "Joel Spolsky's legendary software engineering blog (Fog Creek/Trello/Stack Overflow co-founder), essays like 'The Joel Test' and 'Leaky Abstractions' that shaped a generation of engineering management thinking.",
+      },
+      {
+        title: "Making Software",
+        href: "https://www.makingsoftware.com/",
+        description:
+          "Site/blog exploring how software actually gets made, the craft and process behind building it.",
+      },
+      {
+        title: "Effective Software",
+        href: "https://www.effective.software/",
+        description:
+          "Site publishing essays and courses on writing effective, maintainable software.",
+      },
+      {
+        title: "I Hate Reading",
+        href: "https://ihatereading.in/",
+        description:
+          "Developer blog distilling technical topics into short, digestible reads for people who'd rather skim than study a whole book.",
+      },
+      {
+        title: "Evan Bacon",
+        href: "https://evanbacon.dev/",
+        description:
+          "Blog of Evan Bacon, a core Expo/React Native engineer, writing about React Native internals, Expo Router and the mobile web platform.",
+      },
+      {
+        title: "TK",
+        href: "https://www.iamtk.co/",
+        description:
+          "Site of TK Kinoshita, a software engineer and researcher writing on mathematics, machine learning and software engineering, with deep technical pieces on deep learning, web performance and programming language theory.",
+      },
+      {
+        title: "Jacob Paris",
+        href: "https://www.jacobparis.com/content",
+        description:
+          "Blog of web developer Jacob Paris, tutorials and guides on React, Remix and TypeScript for building performant full-stack apps.",
+      },
+      {
+        title: "Marvin Hagemeister",
+        href: "https://marvinh.dev/",
+        description:
+          "Blog of Marvin Hagemeister, a core contributor to Preact (the 3kB React alternative used at Shopify and others), writing on JS tooling and frontend performance.",
+      },
+      {
+        title: "mcyoung",
+        href: "https://mcyoung.xyz/",
+        description:
+          "Blog covering low-level systems topics: compilers, language design and the kind of deep technical writing that goes past the surface of how languages actually work.",
+      },
+      {
+        title: "Chris Lattner",
+        href: "https://nondot.org/sabre/",
+        description:
+          "Personal site of Chris Lattner, creator of LLVM, Clang, Swift and Mojo, one of the most influential compiler engineers working today.",
+      },
+      {
+        title: "Jordan Scales",
+        href: "https://notes.jordanscales.com/",
+        description:
+          "Personal notes site with posts spanning programming concepts, career reflections and creative projects, drawn from notes the author keeps in Notion.",
+      },
+      {
+        title: "pixperk",
+        href: "https://www.pixperk.tech/blog",
+        description:
+          "Blog focused on deep technical explanations of backend systems: distributed databases, storage optimization, concurrency and system design, explained in plain language for practitioners.",
+      },
+      {
+        title: "Zoltan Kochan",
+        href: "https://www.kochan.io/",
+        description:
+          "Blog of Zoltán Kochan, creator and lead maintainer of pnpm, writing about package management internals and JavaScript tooling.",
+      },
+      {
+        title: "Cassidoo",
+        href: "https://github.com/cassidoo",
+        description:
+          "GitHub of Cassidy Williams, a well-known developer educator and newsletter writer (previously at Netlify and GitHub) with a large following for practical, funny dev content.",
+      },
+      {
+        title: "mrncstt",
+        href: "https://github.com/mrncstt",
+        description:
+          "GitHub of Mariana Costa, a data engineer specializing in PySpark, Databricks and cloud infrastructure, sharing data-literacy learning resources.",
+      },
+      {
+        title: "cosmeratech",
+        href: "https://github.com/cosmeratech",
+        description:
+          "GitHub of a self-taught developer and AI researcher from India focused on C++ and Python machine learning work.",
+      },
       {
         title: "Site Mini thoughts",
         href: "https://site-mini.vercel.app/thoughts",
+        description:
+          "Personal essay collection by Aiden Bai (creator of million.js/Million Lint), short pieces on research experiences and web dev technologies.",
       },
       {
         title: "Abhi on X",
         href: "https://x.com/abh1a0/status/1993033150323392720",
+        description:
+          "A specific X (Twitter) post from developer Abhi worth referencing.",
       },
-      { title: "iximiuz on X", href: "https://x.com/iximiuz" },
-      { title: "Eli Rousso", href: "https://www.elirousso.com/" },
+      {
+        title: "iximiuz on X",
+        href: "https://x.com/iximiuz",
+        description:
+          "X account of Ivan Velichko (iximiuz), a well-known educator on containers, Linux internals and how the container runtime stack actually works under the hood.",
+      },
+      {
+        title: "Eli Rousso",
+        href: "https://www.elirousso.com/",
+        description:
+          "Portfolio of Eli Rousso, a NYC-based product designer and developer offering one-week sprints, zero-to-one product builds, and ongoing design partnerships for founders.",
+      },
     ],
   },
   {
@@ -2487,126 +2581,230 @@ export const inspirationGroups: InspirationGroup[] = [
       {
         title: "Three ways to solve problems",
         href: "https://andreasfragner.com/writing/three-ways-to-solve-problems",
+        description:
+          "Argues every problem has three possible responses: push toward the outcome you want, reinterpret the situation, or change what you want, and that the latter two are underused, especially in resource-constrained environments like startups.",
       },
       {
         title: "The campfire no agent can replicate",
         href: "https://connect.mux.com/the-campfire-no-agent-can-replicate",
+        description:
+          "Argues that despite AI automating more of the work itself, in-person developer gatherings remain irreplaceable, the spontaneous conversation and community that only happens when people actually show up together.",
       },
       {
         title: "Dark Matter Developers",
         href: "https://www.hanselman.com/blog/dark-matter-developers-the-unseen-99",
+        description:
+          "Scott Hanselman's well-known essay on 'dark matter developers', the vast majority who never blog, tweet or speak at conferences, and why the loud minority isn't representative of the field.",
       },
       {
         title: "Building another blog engine",
         href: "https://jt.lol/posts/building-another-blog-engine",
+        description:
+          "Jamie Turner's writeup on building a blog engine with Convex and TanStack, generating the UI with v0, wiring the backend with Cursor, and building a markdown editor for drafting posts.",
       },
       {
         title: "The end of productivity theater",
         href: "https://muratbuffalo.blogspot.com/2026/02/end-of-productivity-theater.html",
+        description:
+          "Murat Demirbas's essay on 'productivity theater', looking busy versus actually shipping, and how AI tooling is exposing the difference more starkly.",
       },
       {
         title: "How to be 10x more productive",
         href: "https://newsletter.techworld-with-milan.com/p/how-to-be-10x-more-productive",
+        description:
+          "Newsletter piece on practical habits and systems for meaningfully increasing engineering output, not just working longer hours.",
       },
       {
         title: "The making of a JPEG",
         href: "https://www.sophielwang.com/blog/jpeg",
+        description:
+          "Explainer on how JPEG compression actually works: color space conversion, discrete cosine transform and quantization, the pipeline that turns a photo into a small file.",
       },
       {
         title: "How Margaret Hamilton landed NASA on the moon",
         href: "https://allthatsinteresting.com/margaret-hamilton",
+        description:
+          "The well-known story of Margaret Hamilton, who led the software team for the Apollo program's guidance computer and whose error-handling code saved the Apollo 11 landing.",
       },
     ],
   },
   {
     title: "Talks, videos and channels",
     links: [
-      { title: "CodeTV", href: "https://www.youtube.com/@codetv-dev/videos" },
+      {
+        title: "CodeTV",
+        href: "https://www.youtube.com/@codetv-dev/videos",
+        description:
+          "Developer-focused video channel/network (from the founders of egghead.io) publishing interviews, talks and shows about the craft and culture of software engineering.",
+      },
       {
         title: "Deep Learning with Yacine",
         href: "https://www.youtube.com/@deeplearningexplained",
+        description:
+          "YouTube channel explaining deep learning and AI concepts in an accessible way.",
       },
       {
         title: "Developer Voices",
         href: "https://www.youtube.com/@DeveloperVoices",
+        description:
+          "Kris Jenkins's long-form interview podcast/channel talking to engineers about programming languages, databases and systems, known for going deep rather than staying surface-level.",
       },
       {
         title: "Learn That Stack",
         href: "https://www.youtube.com/@LearnThatStack",
+        description:
+          "YouTube channel teaching specific tech stacks end to end, tutorial-style walkthroughs of building real projects.",
       },
       {
         title: "Performance Observer",
         href: "https://www.youtube.com/@PerformanceObserver/videos",
+        description:
+          "YouTube channel focused on web performance: profiling, Core Web Vitals and optimization techniques.",
       },
-      { title: "Lydia Hallie", href: "https://www.youtube.com/@theavocoder" },
+      {
+        title: "Lydia Hallie",
+        href: "https://www.youtube.com/@theavocoder",
+        description:
+          "Channel of Lydia Hallie ('theavocoder'), known for beautifully animated deep-dive explainers on JavaScript internals, Git and how dev tools actually work under the hood.",
+      },
       {
         title: "Handmade Network podcast",
         href: "https://handmade.network/podcast",
+        description:
+          "Podcast from the Handmade Network, a community focused on building software from scratch with a deep understanding of the underlying systems, rather than stacking abstractions.",
       },
       {
         title: "John Hammond",
         href: "https://www.youtube.com/@_JohnHammond",
+        description:
+          "Well-known cybersecurity YouTuber covering CTF walkthroughs, malware analysis and offensive security techniques.",
       },
       {
         title: "Andrej Karpathy",
         href: "https://www.youtube.com/@AndrejKarpathy",
+        description:
+          "Channel of Andrej Karpathy (former Tesla AI director, OpenAI founding member), known for exceptionally clear, from-scratch explanations of neural networks and LLMs, including the 'zero to hero' series.",
       },
       {
         title: "Yannic Kilcher",
         href: "https://www.youtube.com/@YannicKilcher",
+        description:
+          "Channel dedicated to detailed, critical paper-review breakdowns of new machine learning research as it's published.",
       },
-      { title: "The Net Ninja", href: "https://www.youtube.com/@NetNinja" },
-      { title: "Corey Schafer", href: "https://www.youtube.com/@coreyms" },
+      {
+        title: "The Net Ninja",
+        href: "https://www.youtube.com/@NetNinja",
+        description:
+          "Long-running, widely used channel of concise, practical web development tutorials across frameworks and tools.",
+      },
+      {
+        title: "Corey Schafer",
+        href: "https://www.youtube.com/@coreyms",
+        description:
+          "Well-known channel of clear, thorough Python and general programming tutorials, a common recommendation for learning Python properly.",
+      },
       {
         title: "TechWorld with Nana",
         href: "https://www.youtube.com/@TechWorldwithNana",
+        description:
+          "One of the most popular DevOps and Kubernetes education channels, known for clear diagrams and practical, no-fluff explanations.",
       },
       {
         title: "AWS re:Invent",
         href: "https://www.youtube.com/playlist?list=PL2yQDdvlhXf_NqSnDKx7Hbb9FrNQKmxg7",
+        description:
+          "Playlist of official session recordings from AWS re:Invent, AWS's flagship annual conference.",
       },
       {
         title: "Luke Barousse",
         href: "https://www.youtube.com/@LukeBarousse",
+        description:
+          "Channel focused on data analytics careers and skills, portfolio projects, job market insights and practical data tooling.",
       },
-      { title: "Gaurav Sen", href: "https://www.youtube.com/@gkcs" },
-      { title: "Hussein Nasser", href: "https://www.youtube.com/@hnasr" },
-      { title: "The Cherno", href: "https://www.youtube.com/@TheCherno" },
+      {
+        title: "Gaurav Sen",
+        href: "https://www.youtube.com/@gkcs",
+        description:
+          "Well-known system design education channel, walking through how to design scalable systems for both interviews and real architecture.",
+      },
+      {
+        title: "Hussein Nasser",
+        href: "https://www.youtube.com/@hnasr",
+        description:
+          "Prolific backend engineering channel covering databases, networking protocols and systems design in practical, code-adjacent detail.",
+      },
+      {
+        title: "The Cherno",
+        href: "https://www.youtube.com/@TheCherno",
+        description:
+          "Well-known C++ and game engine development channel, including the long-running Hazel game engine series built live on stream.",
+      },
       {
         title: "Learn Linux TV",
         href: "https://www.youtube.com/@LearnLinuxTV",
+        description:
+          "Channel teaching Linux system administration, self-hosting and open-source tooling from the ground up.",
       },
-      { title: "David Bombal", href: "https://www.youtube.com/@davidbombal" },
-      { title: "3Blue1Brown", href: "https://www.youtube.com/@3blue1brown" },
+      {
+        title: "David Bombal",
+        href: "https://www.youtube.com/@davidbombal",
+        description:
+          "Well-known networking and cybersecurity channel, covering CCNA content, ethical hacking and interviews with security researchers.",
+      },
+      {
+        title: "3Blue1Brown",
+        href: "https://www.youtube.com/@3blue1brown",
+        description:
+          "Grant Sanderson's iconic math visualization channel, famous for making linear algebra, calculus and neural networks intuitive through animated explanation.",
+      },
       {
         title: "The DevOps roadmap that got me hired",
         href: "https://youtu.be/8s0DWeHuEaw",
+        description:
+          "Video: 'The DevOps Roadmap That Got Me Hired (No CS Degree, No Certs)', a personal account of the path into a DevOps role without a traditional CS background.",
       },
       {
         title: "The co-creator of Kubernetes",
         href: "https://youtu.be/FKijpCEH9D8",
+        description:
+          "Interview 'The Co-Creator of Kubernetes: Engineering-Led Direction and Convincing Management' with Brendan Burns, on how Kubernetes's technical direction actually got decided and sold internally at Google.",
       },
       {
         title: "React for Two Computers, Dan Abramov",
         href: "https://youtu.be/ozI4V_29fj4",
+        description:
+          "Dan Abramov talk exploring how React's model changes when you think about it as coordinating two computers (server and client) instead of one, relevant to Server Components and modern React architecture.",
       },
       {
         title: "Live streaming at world record scale",
         href: "https://youtu.be/qXJ3S3T3xJY",
+        description:
+          "Talk 'Live streaming at world-record scale' with Ashutosh Agrawal (ex-Jio/Disney+ Hotstar), on the infrastructure behind streaming live video to record-breaking concurrent audiences.",
       },
       {
         title: "The power of an interface for performance",
         href: "https://www.youtube.com/watch?v=yKgfk8lTQuE&t=2929s",
+        description:
+          "Talk '1000x: The Power of an Interface for Performance' by TigerBeetle's Joran Dirk Greef, on how the shape of an interface itself can unlock or block order-of-magnitude performance gains.",
       },
       {
         title: "Interactive 3D on the web",
         href: "https://www.youtube.com/watch?v=6omuUOZcWL0&list=PPSV",
+        description:
+          "Note: this video's content has since changed to an unrelated Next.js/Bun/Stripe/Prisma SaaS-builder tutorial; the original 'Interactive 3D on the web' talk no longer lives at this link.",
       },
     ],
   },
   {
     title: "SEO",
-    links: [{ title: "Seolo blog", href: "https://www.seolo.live/blogs" }],
+    links: [
+      {
+        title: "Seolo blog",
+        href: "https://www.seolo.live/blogs",
+        description:
+          "SEO blog covering technical SEO, JavaScript SEO, crawling and indexing, and AI-driven search strategy, practical tutorials over generic advice.",
+      },
+    ],
   },
   {
     title: "Design tools and components",
