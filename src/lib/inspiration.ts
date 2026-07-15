@@ -660,6 +660,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "Large, well-known collection of copy-paste components built on shadcn/ui and Tailwind, hundreds of ready-made pieces from form fields to complex widgets, one of the most popular shadcn extensions.",
       },
       {
+        title: "OriginKit",
+        href: "https://originkit.dev",
+        description:
+          "Free library of animated interface components for adding polished motion and interactions to web projects.",
+      },
+      {
         title: "Fancy Components",
         href: "https://www.fancycomponents.dev/",
         description:
@@ -1704,6 +1710,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "OKLCH color picker and converter, for working in the perceptually uniform OKLCH color space instead of RGB or HSL.",
       },
+      {
+        title: "ShapeFactory",
+        href: "https://shapefactory.co",
+        description:
+          "Collection of browser-based logo, color and gradient tools for quickly exploring visual identity directions and exporting usable assets.",
+      },
     ],
   },
   {
@@ -2434,6 +2446,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "MotionSites",
+        href: "https://motionsites.ai",
+        description:
+          "Collection of AI prompts for creating animated websites and motion-led interface experiences.",
+      },
+      {
+        title: "Text Effects by Colorion",
+        href: "https://text-effects.colorion.co",
+        description:
+          "Gallery of pure CSS text animations that can be studied and adapted without a JavaScript animation library.",
+      },
+      {
+        title: "Kinetics by Colorion",
+        href: "https://kinetics.colorion.co",
+        description:
+          "Interactive collection of spring-physics UI motion for exploring natural-feeling interface animation.",
+      },
+      {
         title: "Animations on the Web",
         href: "https://animations.dev/demo",
         description:
@@ -2552,6 +2582,12 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "Valessa",
+        href: "https://valessa.riotters.com",
+        description:
+          "Browser-based 3D product visualizer for exploring interactive product presentation and real-time rendering.",
+      },
       {
         title: "The Book of Shaders",
         href: "https://thebookofshaders.com/06/",
@@ -4197,10 +4233,16 @@ export const inspirationGroups: InspirationGroup[] = [
           "All-in-one Node.js toolkit shipped as a single Rust binary: runs TypeScript directly, manages packages and Node versions, replacing tsx, npm, pnpm and nvm with faster equivalents while staying compatible with the existing ecosystem.",
       },
       {
-        title: "OpenTUI",
-        href: "https://github.com/anomalyco/opentui",
+        title: "Name That UI",
+        href: "https://namethatui.com",
         description:
-          "Framework for building rich terminal UIs, giving terminal apps a component model closer to what web frameworks offer.",
+          "Visual reference for identifying the standard name of an interface element so it is easier to search for, discuss and implement.",
+      },
+      {
+        title: "OpenTUI",
+        href: "https://opentui.com",
+        description:
+          "Framework for building rich terminal interfaces with TypeScript, giving terminal apps a component model closer to modern web frameworks.",
       },
       {
         title: "Fallow Tools docs",
@@ -5514,6 +5556,12 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "Meng To Skills",
+        href: "https://github.com/MengTo/Skills",
+        description:
+          "Collection of Claude skills for web design, packaging reusable visual design guidance and workflows for coding agents.",
+      },
       {
         title: "0xdesign design-plugin",
         href: "https://github.com/0xdesign/design-plugin",
