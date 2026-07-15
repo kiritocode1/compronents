@@ -702,7 +702,7 @@ const styles = `
 @media (max-width: 640px) {
   .cg-header { padding: 0.9rem; }
   .cg-label { display: none; }
-  .cg-paths { bottom: 0.85rem; left: 0.85rem; }
+  .cg-paths { top: 3.25rem; bottom: auto; left: 0.85rem; }
   .cg-path { min-width: 3rem; padding: 0.48rem 0.56rem; }
   .cg-toggle { right: 0.85rem; bottom: 0.85rem; left: auto; transform: none; }
 }
