@@ -4920,7 +4920,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "headline",
         type: "[string, string]",
-        default: '["BLANK", "interfaces"]',
+        default: '["blank", "interfaces"]',
         description: "The two lines sampled into the halftone field.",
       },
       {
@@ -4938,7 +4938,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "brand",
         type: "[string, string]",
-        default: '["BLANK", "interfaces"]',
+        default: '["blank", "interfaces"]',
         description: "Compact two-line identity at the top left.",
       },
       {

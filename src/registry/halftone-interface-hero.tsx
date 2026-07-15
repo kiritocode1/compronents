@@ -3,14 +3,13 @@
 /**
  * Halftone Interface Hero
  *
- * A full-screen navigation shell built around a canvas-rendered wordmark. The
- * lettering is sampled into a tight field of rounded pixels, then relit and
- * split into RGB channels around the pointer. A second, short-lived square
- * trail makes fast movement feel like the image is shedding digital ink.
+ * A full-screen identity field with a WebGL halftone wordmark and a separate
+ * RGB particle trail. The shader treats the wordmark as a height map: ordered
+ * dithering, directional lighting, cursor-steered normals, and offset color
+ * samples give each grid cell its dimensional, chromatic response.
  *
- * The component owns no assets or animation dependencies. It renders its text
- * into an offscreen canvas, so labels can be changed without rebuilding an
- * image or uploading a font file.
+ * The wordmark texture is generated at runtime, so the component has no image,
+ * font, or animation-library dependency.
  *
  * BLANK, aryank.space
  */
@@ -23,42 +22,26 @@ export interface HalftoneHeroLink {
 }
 
 export interface HalftoneInterfaceHeroProps {
-  /** Two lines sampled into the halftone field. */
   headline?: [string, string];
-  /** Centered primary navigation. */
   navigation?: HalftoneHeroLink[];
-  /** Right-aligned utility links. */
   utilityLinks?: HalftoneHeroLink[];
-  /** Small stacked wordmark shown at the top left. */
   brand?: [string, string];
-  /** Footer copyright or studio label. */
   footerLabel?: string;
-  /** Short label printed before the clock. */
   locationLabel?: string;
-  /** IANA time zone used by the live footer clock. */
   timeZone?: string;
   background?: string;
   foreground?: string;
-  /** Three cursor-fringe colors: warm, green, and blue. */
   accentColors?: [string, string, string];
   className?: string;
 }
 
-type Dot = {
-  x: number;
-  y: number;
-  coverage: number;
-  tone: number;
-};
-
 type TrailParticle = {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
+  velocityX: number;
+  velocityY: number;
   life: number;
   size: number;
-  color: number;
 };
 
 const DEFAULT_NAVIGATION: HalftoneHeroLink[] = [
@@ -73,46 +56,184 @@ const DEFAULT_UTILITY_LINKS: HalftoneHeroLink[] = [
   { label: "subscribe", href: "#subscribe" },
 ];
 
-const DEFAULT_HEADLINE: [string, string] = ["BLANK", "interfaces"];
-const DEFAULT_BRAND: [string, string] = ["BLANK", "interfaces"];
+const DEFAULT_HEADLINE: [string, string] = ["blank", "interfaces"];
+const DEFAULT_BRAND: [string, string] = ["blank", "interfaces"];
 const DEFAULT_ACCENTS: [string, string, string] = [
   "#ff266c",
   "#1cffaf",
   "#5848ff",
 ];
 
-function roundedPixel(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  size: number,
-) {
-  const half = size / 2;
-  const radius = Math.min(2.4, size * 0.28);
-  ctx.beginPath();
-  ctx.roundRect(x - half, y - half, size, size, radius);
-  ctx.fill();
+const VERTEX_SHADER = `#version 300 es
+in vec2 position;
+
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+const FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+
+out vec4 color;
+
+uniform vec2 resolution;
+uniform vec2 pointer;
+uniform float hover;
+uniform float pixelRatio;
+uniform sampler2D wordmark;
+uniform float wordmarkAspect;
+uniform vec3 inkColor;
+uniform float compact;
+
+vec2 fittedWordmarkSize() {
+  float horizontalFill = mix(0.82, 0.92, compact);
+  float verticalFill = mix(0.66, 0.58, compact);
+  float fittedWidth = min(
+    resolution.x * horizontalFill,
+    resolution.y * verticalFill * wordmarkAspect
+  );
+  return vec2(fittedWidth, fittedWidth / wordmarkAspect);
 }
 
-function buildMask(
-  width: number,
-  height: number,
-  pitch: number,
-  headline: [string, string],
-) {
-  const mask = document.createElement("canvas");
-  mask.width = width;
-  mask.height = height;
-  const ctx = mask.getContext("2d", { willReadFrequently: true });
-  if (!ctx) return [];
+float sampleWordmark(vec2 pixel) {
+  vec2 center = vec2(resolution.x * 0.5, resolution.y * 0.47);
+  vec2 uv = (pixel - center) / fittedWordmarkSize() + 0.5;
+  if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+    return 0.0;
+  }
+  vec4 sampleColor = texture(wordmark, uv);
+  return sampleColor.a * max(max(sampleColor.r, sampleColor.g), sampleColor.b);
+}
 
-  const logoAspect = 2.52;
-  const logoWidth = Math.min(width * 0.82, height * 0.66 * logoAspect);
-  const logoHeight = logoWidth / logoAspect;
-  const left = (width - logoWidth) / 2;
-  const top = height * 0.47 - logoHeight / 2;
+float orderedDither(ivec2 cell) {
+  int x = cell.x & 3;
+  int y = cell.y & 3;
+  int index = y * 4 + x;
+  float matrix[16] = float[16](
+    0.0, 8.0, 2.0, 10.0,
+    12.0, 4.0, 14.0, 6.0,
+    3.0, 11.0, 1.0, 9.0,
+    15.0, 7.0, 13.0, 5.0
+  );
+  return (matrix[index] + 0.5) / 16.0;
+}
 
-  ctx.clearRect(0, 0, width, height);
+void main() {
+  vec2 pixel = gl_FragCoord.xy;
+  float pointerDistance = distance(pixel, pointer);
+
+  float lightRadius = max(resolution.x, resolution.y) * mix(0.50, 0.26, compact);
+  float proximity = 1.0 - smoothstep(0.0, lightRadius, pointerDistance);
+  proximity = pow(proximity, mix(0.55, 0.85, compact));
+  float idleRelief = mix(0.55, 0.18, compact);
+  float relief = proximity * (idleRelief + 0.65 * hover);
+
+  float colorRadius = min(resolution.x, resolution.y) * mix(0.22, 0.14, compact);
+  float colorInfluence = (1.0 - smoothstep(0.0, colorRadius, pointerDistance)) * hover;
+
+  float cellSize = mix(10.0, 3.75, compact) * pixelRatio;
+  vec2 cellIndex = floor(pixel / cellSize);
+  vec2 cellCenter = (cellIndex + 0.5) * cellSize;
+
+  vec2 radialDirection = normalize(pixel - pointer + vec2(0.0001));
+  float colorOffset = colorInfluence * mix(11.0, 5.0, compact) * pixelRatio;
+
+  float centerHeight = sampleWordmark(cellCenter);
+  float warmHeight = sampleWordmark(cellCenter + radialDirection * colorOffset);
+  float coolHeight = sampleWordmark(cellCenter - radialDirection * colorOffset);
+  float heightX = sampleWordmark(cellCenter + vec2(cellSize, 0.0));
+  float heightY = sampleWordmark(cellCenter + vec2(0.0, cellSize));
+
+  float raisedHeight = centerHeight * relief;
+  vec3 surfaceNormal = normalize(vec3(
+    centerHeight - heightX,
+    centerHeight - heightY,
+    0.55 - raisedHeight * 0.45
+  ));
+
+  vec3 restingLight = normalize(vec3(-0.35, 0.4, 0.85));
+  vec3 cursorLight = normalize(vec3(normalize(pointer - cellCenter + vec2(0.0001)), 0.8));
+  vec3 lightDirection = normalize(mix(restingLight, cursorLight, relief));
+  float diffuse = max(dot(surfaceNormal, lightDirection), 0.0);
+  float highlight = pow(diffuse, 18.0) * relief;
+  float lighting = clamp(0.45 + 0.65 * diffuse + highlight, 0.0, 1.4);
+
+  float threshold = orderedDither(ivec2(cellIndex));
+  float binaryTone = step(threshold, lighting);
+  float tone = mix(
+    lighting,
+    binaryTone * (0.55 + 0.45 * lighting),
+    mix(0.5, 0.1, compact)
+  );
+
+  // A circle larger than half a grid cell is clipped by that cell. The result
+  // is the rounded-square tile visible in the reference rather than a circle.
+  float distanceFromCellCenter = distance(pixel, cellCenter);
+  float antialias = 1.2 * pixelRatio;
+  float warmRadius = sqrt(warmHeight) * cellSize * mix(0.64, 0.72, compact);
+  float centerRadius = sqrt(centerHeight) * cellSize * mix(0.64, 0.72, compact);
+  float coolRadius = sqrt(coolHeight) * cellSize * mix(0.64, 0.72, compact);
+
+  float warmInk = 1.0 - smoothstep(
+    warmRadius - antialias,
+    warmRadius + antialias,
+    distanceFromCellCenter
+  );
+  float centerInk = 1.0 - smoothstep(
+    centerRadius - antialias,
+    centerRadius + antialias,
+    distanceFromCellCenter
+  );
+  float coolInk = 1.0 - smoothstep(
+    coolRadius - antialias,
+    coolRadius + antialias,
+    distanceFromCellCenter
+  );
+
+  float coverage = max(centerHeight, max(warmHeight, coolHeight));
+  float coverageGate = smoothstep(0.015, 0.12, coverage);
+  vec3 channels = vec3(warmInk, centerInk, coolInk) * tone;
+
+  vec3 finalInk = inkColor * channels.g;
+  vec3 fringe = (channels - vec3(channels.g)) * colorInfluence * 2.2;
+  fringe = vec3(
+    fringe.r + fringe.g * 0.04 + fringe.b * 0.09,
+    fringe.r * 0.02 + fringe.g + fringe.b * 0.05,
+    fringe.r * 0.07 + fringe.g * 0.03 + fringe.b
+  );
+  finalInk = clamp(finalInk + fringe, 0.0, 1.0);
+
+  float alpha = max(max(channels.r, channels.g), channels.b) * coverageGate;
+  color = vec4(finalInk, clamp(alpha, 0.0, 1.0));
+}
+`;
+
+function hexToRgb(color: string): [number, number, number] {
+  const value = color.trim().replace(/^#/, "");
+  const expanded =
+    value.length === 3
+      ? value
+          .split("")
+          .map((character) => character + character)
+          .join("")
+      : value;
+  if (!/^[\da-f]{6}$/i.test(expanded)) return [1, 1, 1];
+  return [
+    Number.parseInt(expanded.slice(0, 2), 16) / 255,
+    Number.parseInt(expanded.slice(2, 4), 16) / 255,
+    Number.parseInt(expanded.slice(4, 6), 16) / 255,
+  ];
+}
+
+function createWordmarkTexture(headline: [string, string]) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1912;
+  canvas.height = 758;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#fff";
   ctx.textBaseline = "alphabetic";
   ctx.fontKerning = "normal";
@@ -127,51 +248,387 @@ function buildMask(
   ) => {
     ctx.save();
     ctx.font = `${weight} ${fontSize}px Helvetica Neue, Helvetica, Arial, sans-serif`;
-    const measured = Math.max(1, ctx.measureText(text).width);
+    const measuredWidth = Math.max(1, ctx.measureText(text).width);
     ctx.translate(x, 0);
-    ctx.scale(targetWidth / measured, 1);
+    ctx.scale(targetWidth / measuredWidth, 1);
     ctx.fillText(text, 0, baseline);
     ctx.restore();
   };
 
-  drawFittedLine(
-    headline[0],
-    left + logoWidth * 0.035,
-    top + logoHeight * 0.42,
-    logoWidth * 0.48,
-    logoHeight * 0.43,
-    500,
-  );
-  drawFittedLine(
-    headline[1],
-    left + logoWidth * 0.02,
-    top + logoHeight * 0.94,
-    logoWidth * 0.96,
-    logoHeight * 0.49,
-    400,
-  );
+  drawFittedLine(headline[0], 15, 306, 960, 383, 500);
+  drawFittedLine(headline[1], 20, 690, 1870, 504, 400);
+  return canvas;
+}
 
-  const pixels = ctx.getImageData(0, 0, width, height).data;
-  const dots: Dot[] = [];
-  const offset = pitch / 2;
-
-  for (let y = offset; y < height; y += pitch) {
-    for (let x = offset; x < width; x += pitch) {
-      const px = Math.min(width - 1, Math.round(x));
-      const py = Math.min(height - 1, Math.round(y));
-      const alpha = pixels[(py * width + px) * 4 + 3] / 255;
-      if (alpha < 0.08) continue;
-      const hash = Math.sin(px * 12.9898 + py * 78.233) * 43758.5453;
-      dots.push({
-        x,
-        y,
-        coverage: alpha,
-        tone: hash - Math.floor(hash),
-      });
-    }
+function compileShader(
+  gl: WebGL2RenderingContext,
+  kind: number,
+  source: string,
+) {
+  const shader = gl.createShader(kind);
+  if (!shader) return null;
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error(gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
   }
+  return shader;
+}
 
-  return dots;
+function HalftoneCanvas({
+  headline,
+  foreground,
+}: {
+  headline: [string, string];
+  foreground: string;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const parent = canvas?.parentElement;
+    if (!canvas || !parent) return;
+
+    const gl = canvas.getContext("webgl2", {
+      alpha: true,
+      antialias: true,
+      premultipliedAlpha: false,
+    });
+    if (!gl) return;
+
+    const vertexShader = compileShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
+    const fragmentShader = compileShader(
+      gl,
+      gl.FRAGMENT_SHADER,
+      FRAGMENT_SHADER,
+    );
+    if (!vertexShader || !fragmentShader) return;
+
+    const program = gl.createProgram();
+    if (!program) return;
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(program));
+      return;
+    }
+    // biome-ignore lint/correctness/useHookAtTopLevel: WebGL API method, not a React Hook.
+    gl.useProgram(program);
+
+    const triangle = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangle);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 3, -1, -1, 3]),
+      gl.STATIC_DRAW,
+    );
+    const position = gl.getAttribLocation(program, "position");
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+
+    const uniforms = {
+      resolution: gl.getUniformLocation(program, "resolution"),
+      pointer: gl.getUniformLocation(program, "pointer"),
+      hover: gl.getUniformLocation(program, "hover"),
+      pixelRatio: gl.getUniformLocation(program, "pixelRatio"),
+      wordmark: gl.getUniformLocation(program, "wordmark"),
+      wordmarkAspect: gl.getUniformLocation(program, "wordmarkAspect"),
+      inkColor: gl.getUniformLocation(program, "inkColor"),
+      compact: gl.getUniformLocation(program, "compact"),
+    };
+
+    const textureSource = createWordmarkTexture(headline);
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      textureSource,
+    );
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+    const inkColor = hexToRgb(foreground);
+    const pointer = {
+      currentX: 0,
+      currentY: 0,
+      targetX: 0,
+      targetY: 0,
+      hover: 0,
+      targetHover: 0,
+    };
+    let ratio = 1;
+    let compact = 0;
+    let frame = 0;
+    let running = false;
+
+    const requestDraw = () => {
+      if (running) return;
+      running = true;
+      frame = window.requestAnimationFrame(draw);
+    };
+
+    const resize = () => {
+      const width = parent.clientWidth;
+      const height = parent.clientHeight;
+      if (!width || !height) return;
+      compact = Number(width < 768);
+      ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      if (pointer.currentX === 0 && pointer.currentY === 0) {
+        pointer.currentX = canvas.width / 2;
+        pointer.currentY = canvas.height / 2;
+        pointer.targetX = pointer.currentX;
+        pointer.targetY = pointer.currentY;
+      }
+      requestDraw();
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (compact) return;
+      const rect = parent.getBoundingClientRect();
+      pointer.targetX = (event.clientX - rect.left) * ratio;
+      pointer.targetY = (rect.height - (event.clientY - rect.top)) * ratio;
+      pointer.targetHover = 1;
+      requestDraw();
+    };
+
+    const onPointerLeave = () => {
+      pointer.targetHover = 0;
+      requestDraw();
+    };
+
+    const renderContext: WebGL2RenderingContext = gl;
+    const renderCanvas: HTMLCanvasElement = canvas;
+
+    function draw() {
+      pointer.currentX += (pointer.targetX - pointer.currentX) * 0.18;
+      pointer.currentY += (pointer.targetY - pointer.currentY) * 0.18;
+      pointer.hover += (pointer.targetHover - pointer.hover) * 0.08;
+
+      renderContext.uniform2f(
+        uniforms.resolution,
+        renderCanvas.width,
+        renderCanvas.height,
+      );
+      renderContext.uniform2f(
+        uniforms.pointer,
+        pointer.currentX,
+        pointer.currentY,
+      );
+      renderContext.uniform1f(uniforms.hover, pointer.hover);
+      renderContext.uniform1f(uniforms.pixelRatio, ratio);
+      renderContext.uniform1i(uniforms.wordmark, 0);
+      renderContext.uniform1f(
+        uniforms.wordmarkAspect,
+        textureSource.width / textureSource.height,
+      );
+      renderContext.uniform3fv(uniforms.inkColor, inkColor);
+      renderContext.uniform1f(uniforms.compact, compact);
+      renderContext.clearColor(0, 0, 0, 0);
+      renderContext.clear(renderContext.COLOR_BUFFER_BIT);
+      renderContext.activeTexture(renderContext.TEXTURE0);
+      renderContext.bindTexture(renderContext.TEXTURE_2D, texture);
+      renderContext.drawArrays(renderContext.TRIANGLES, 0, 3);
+
+      const settled =
+        Math.abs(pointer.targetX - pointer.currentX) < 0.25 &&
+        Math.abs(pointer.targetY - pointer.currentY) < 0.25 &&
+        Math.abs(pointer.targetHover - pointer.hover) < 0.0015;
+      if (settled) {
+        pointer.currentX = pointer.targetX;
+        pointer.currentY = pointer.targetY;
+        pointer.hover = pointer.targetHover;
+        running = false;
+        frame = 0;
+        return;
+      }
+      frame = window.requestAnimationFrame(draw);
+    }
+
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(parent);
+    window.addEventListener("resize", resize);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerleave", onPointerLeave);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerleave", onPointerLeave);
+      gl.deleteProgram(program);
+      gl.deleteShader(vertexShader);
+      gl.deleteShader(fragmentShader);
+      gl.deleteBuffer(triangle);
+      gl.deleteTexture(texture);
+    };
+  }, [foreground, headline]);
+
+  return <canvas ref={canvasRef} className="hih-halftone" />;
+}
+
+function PointerTrail({
+  accentColors,
+}: {
+  accentColors: [string, string, string];
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const parent = canvas?.parentElement;
+    if (!canvas || !parent) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const particles: TrailParticle[] = [];
+    let pointerX = window.innerWidth / 2;
+    let pointerY = window.innerHeight / 2;
+    let previousX = pointerX;
+    let previousY = pointerY;
+    let pointerVisible = false;
+    let frame = 0;
+    let running = false;
+
+    const resize = () => {
+      const width = parent.clientWidth;
+      const height = parent.clientHeight;
+      if (!width || !height) return;
+      ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+    };
+
+    const requestDraw = () => {
+      if (running) return;
+      running = true;
+      frame = window.requestAnimationFrame(draw);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      const rect = parent.getBoundingClientRect();
+      pointerX = event.clientX - rect.left;
+      pointerY = event.clientY - rect.top;
+      pointerVisible = true;
+
+      const deltaX = pointerX - previousX;
+      const deltaY = pointerY - previousY;
+      const count =
+        1 + Math.floor(Math.min(Math.hypot(deltaX, deltaY), 60) / 12);
+      for (let index = 0; index < count; index += 1) {
+        particles.push({
+          x: pointerX + (Math.random() - 0.5) * 4,
+          y: pointerY + (Math.random() - 0.5) * 4,
+          velocityX: -deltaX * 0.04 + (Math.random() - 0.5) * 0.6,
+          velocityY: -deltaY * 0.04 + (Math.random() - 0.5) * 0.6,
+          life: 1,
+          size: 3 + Math.random() * 3,
+        });
+      }
+      previousX = pointerX;
+      previousY = pointerY;
+      requestDraw();
+    };
+
+    const onPointerLeave = () => {
+      pointerVisible = false;
+      requestDraw();
+    };
+
+    const snap = (value: number) => Math.round(value / 3) * 3;
+    const drawingContext: CanvasRenderingContext2D = ctx;
+    const drawingCanvas: HTMLCanvasElement = canvas;
+
+    function draw() {
+      drawingContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+      drawingContext.globalCompositeOperation = "lighter";
+
+      for (let index = particles.length - 1; index >= 0; index -= 1) {
+        const particle = particles[index];
+        particle.x += particle.velocityX;
+        particle.y += particle.velocityY;
+        particle.velocityX *= 0.92;
+        particle.velocityY *= 0.92;
+        particle.life -= 0.03;
+        if (particle.life <= 0) {
+          particles.splice(index, 1);
+          continue;
+        }
+
+        const alpha = particle.life * 0.55;
+        const separation = (1 - particle.life) * 5 + 1.5;
+        const size = particle.size * particle.life;
+        const x = snap(particle.x);
+        const y = snap(particle.y);
+        drawingContext.globalAlpha = alpha;
+        drawingContext.fillStyle = accentColors[0];
+        drawingContext.fillRect(x - separation, y, size, size);
+        drawingContext.fillStyle = accentColors[1];
+        drawingContext.fillRect(x, y, size, size);
+        drawingContext.fillStyle = accentColors[2];
+        drawingContext.fillRect(x + separation, y, size, size);
+      }
+
+      if (pointerVisible) {
+        const x = snap(pointerX);
+        const y = snap(pointerY);
+        drawingContext.globalAlpha = 0.9;
+        drawingContext.fillStyle = accentColors[0];
+        drawingContext.fillRect(x - 2, y - 3, 6, 6);
+        drawingContext.fillStyle = accentColors[1];
+        drawingContext.fillRect(x, y - 3, 6, 6);
+        drawingContext.fillStyle = accentColors[2];
+        drawingContext.fillRect(x + 2, y - 3, 6, 6);
+      }
+
+      drawingContext.globalAlpha = 1;
+      drawingContext.globalCompositeOperation = "source-over";
+      if (particles.length === 0 && !pointerVisible) {
+        running = false;
+        frame = 0;
+        return;
+      }
+      frame = window.requestAnimationFrame(draw);
+    }
+
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(parent);
+    window.addEventListener("resize", resize);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerleave", onPointerLeave);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerleave", onPointerLeave);
+    };
+  }, [accentColors]);
+
+  return <canvas ref={canvasRef} className="hih-trail" />;
 }
 
 function formatTime(timeZone: string) {
@@ -202,8 +659,6 @@ export default function HalftoneInterfaceHero({
   accentColors = DEFAULT_ACCENTS,
   className = "",
 }: HalftoneInterfaceHeroProps) {
-  const rootRef = useRef<HTMLElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [clock, setClock] = useState(() => formatTime(timeZone));
 
   useEffect(() => {
@@ -215,227 +670,17 @@ export default function HalftoneInterfaceHero({
     return () => window.clearInterval(timer);
   }, [timeZone]);
 
-  useEffect(() => {
-    const root = rootRef.current;
-    const canvas = canvasRef.current;
-    if (!root || !canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const pointer = {
-      x: 0,
-      y: 0,
-      easedX: 0,
-      easedY: 0,
-      lastX: 0,
-      lastY: 0,
-      hover: 0,
-      targetHover: 0,
-    };
-    let width = 0;
-    let height = 0;
-    let pitch = 10;
-    let dots: Dot[] = [];
-    let particles: TrailParticle[] = [];
-    let frame = 0;
-    let visible = true;
-    let dirty = true;
-
-    const resize = () => {
-      const rect = root.getBoundingClientRect();
-      width = Math.max(1, Math.floor(rect.width));
-      height = Math.max(1, Math.floor(rect.height));
-      pitch = width < 768 ? 7 : 10;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      dots = buildMask(width, height, pitch, headline);
-      pointer.x ||= width / 2;
-      pointer.y ||= height * 0.47;
-      pointer.easedX ||= pointer.x;
-      pointer.easedY ||= pointer.y;
-      pointer.lastX = pointer.x;
-      pointer.lastY = pointer.y;
-      dirty = true;
-      requestDraw();
-    };
-
-    const addTrail = (x: number, y: number, dx: number, dy: number) => {
-      if (reducedMotion) return;
-      const speed = Math.hypot(dx, dy);
-      const amount = Math.max(1, Math.min(7, Math.round(speed / 7)));
-      for (let index = 0; index < amount; index += 1) {
-        const spread = Math.random() - 0.5;
-        particles.push({
-          x: x - dx * (index / amount) + spread * 5,
-          y: y - dy * (index / amount) + (Math.random() - 0.5) * 5,
-          vx: -dx * 0.018 + spread * 1.25,
-          vy: -dy * 0.018 + (Math.random() - 0.5) * 1.25,
-          life: 1,
-          size: 3 + Math.random() * 4,
-          color: index % accentColors.length,
-        });
-      }
-      if (particles.length > 180) particles = particles.slice(-180);
-    };
-
-    const drawDots = () => {
-      const influenceRadius = Math.max(width, height) * 0.34;
-      const fringeRadius = Math.min(width, height) * 0.17;
-      const lightX = pointer.easedX;
-      const lightY = pointer.easedY;
-
-      for (const dot of dots) {
-        const dx = dot.x - lightX;
-        const dy = dot.y - lightY;
-        const distance = Math.hypot(dx, dy);
-        const proximity = Math.max(0, 1 - distance / influenceRadius);
-        const fringe =
-          pointer.hover * Math.max(0, 1 - distance / fringeRadius) ** 2;
-        const directional = (dx - dy) / Math.max(1, influenceRadius);
-        const shade = Math.max(
-          0.28,
-          Math.min(
-            1,
-            0.52 + dot.coverage * 0.28 + dot.tone * 0.22 + directional * 0.24,
-          ),
-        );
-        const size =
-          pitch *
-          (0.62 +
-            dot.coverage * 0.2 +
-            proximity * (0.06 + pointer.hover * 0.1));
-
-        if (fringe > 0.01) {
-          const angle = Math.atan2(dy, dx);
-          const split = fringe * pitch * 0.72;
-          for (let channel = 0; channel < accentColors.length; channel += 1) {
-            const channelOffset = (channel - 1) * split;
-            ctx.fillStyle = accentColors[channel];
-            ctx.globalAlpha = fringe * (0.46 + dot.coverage * 0.28);
-            roundedPixel(
-              ctx,
-              dot.x + Math.cos(angle) * channelOffset,
-              dot.y + Math.sin(angle) * channelOffset,
-              size,
-            );
-          }
-        }
-
-        ctx.fillStyle = foreground;
-        ctx.globalAlpha = shade * (0.7 + dot.coverage * 0.3);
-        roundedPixel(ctx, dot.x, dot.y, size);
-      }
-    };
-
-    const drawTrail = () => {
-      ctx.globalCompositeOperation = "lighter";
-      for (let index = particles.length - 1; index >= 0; index -= 1) {
-        const particle = particles[index];
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        particle.vx *= 0.92;
-        particle.vy *= 0.92;
-        particle.life -= 0.026;
-        if (particle.life <= 0) {
-          particles.splice(index, 1);
-          continue;
-        }
-        const x = Math.round(particle.x / 3) * 3;
-        const y = Math.round(particle.y / 3) * 3;
-        const size = particle.size * particle.life;
-        ctx.globalAlpha = particle.life * 0.74;
-        ctx.fillStyle = accentColors[particle.color];
-        ctx.fillRect(x - size / 2, y - size / 2, size, size);
-      }
-      ctx.globalCompositeOperation = "source-over";
-    };
-
-    const draw = () => {
-      frame = 0;
-      if (!visible) return;
-      ctx.clearRect(0, 0, width, height);
-      pointer.easedX += (pointer.x - pointer.easedX) * 0.16;
-      pointer.easedY += (pointer.y - pointer.easedY) * 0.16;
-      pointer.hover += (pointer.targetHover - pointer.hover) * 0.09;
-      drawDots();
-      drawTrail();
-      ctx.globalAlpha = 1;
-
-      const moving =
-        Math.abs(pointer.x - pointer.easedX) > 0.2 ||
-        Math.abs(pointer.y - pointer.easedY) > 0.2 ||
-        Math.abs(pointer.targetHover - pointer.hover) > 0.002 ||
-        particles.length > 0;
-      dirty = moving;
-      if (moving) frame = window.requestAnimationFrame(draw);
-    };
-
-    function requestDraw() {
-      dirty = true;
-      if (!frame && visible) frame = window.requestAnimationFrame(draw);
-    }
-
-    const onPointerMove = (event: PointerEvent) => {
-      const rect = root.getBoundingClientRect();
-      const nextX = event.clientX - rect.left;
-      const nextY = event.clientY - rect.top;
-      const dx = nextX - pointer.lastX;
-      const dy = nextY - pointer.lastY;
-      pointer.x = nextX;
-      pointer.y = nextY;
-      pointer.targetHover = 1;
-      addTrail(nextX, nextY, dx, dy);
-      pointer.lastX = nextX;
-      pointer.lastY = nextY;
-      requestDraw();
-    };
-
-    const onPointerLeave = () => {
-      pointer.targetHover = 0;
-      requestDraw();
-    };
-
-    const resizeObserver = new ResizeObserver(resize);
-    const intersectionObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      if (visible && dirty) requestDraw();
-      if (!visible && frame) {
-        window.cancelAnimationFrame(frame);
-        frame = 0;
-      }
-    });
-
-    resizeObserver.observe(root);
-    intersectionObserver.observe(root);
-    root.addEventListener("pointermove", onPointerMove, { passive: true });
-    root.addEventListener("pointerleave", onPointerLeave);
-    resize();
-
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      resizeObserver.disconnect();
-      intersectionObserver.disconnect();
-      root.removeEventListener("pointermove", onPointerMove);
-      root.removeEventListener("pointerleave", onPointerLeave);
-    };
-  }, [accentColors, foreground, headline]);
-
   return (
     <section
-      ref={rootRef}
       className={`hih-root ${className}`}
       style={{ background, color: foreground }}
     >
       <style>{styles}</style>
-      <canvas ref={canvasRef} className="hih-canvas" />
+
+      <div className="hih-field">
+        <HalftoneCanvas headline={headline} foreground={foreground} />
+        <PointerTrail accentColors={accentColors} />
+      </div>
 
       <header className="hih-header">
         <a className="hih-brand" href="#top" aria-label={brand.join(" ")}>
@@ -477,31 +722,45 @@ const styles = `
   position: relative;
   isolation: isolate;
   width: 100%;
-  min-height: 38rem;
   height: 100%;
   overflow: hidden;
-  cursor: none;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1;
   letter-spacing: -0.035em;
 }
 
-.hih-canvas {
+.hih-field {
+  position: absolute;
+  inset: 0 0 5rem;
+  overflow: hidden;
+  cursor: none;
+}
+
+.hih-halftone,
+.hih-trail {
   position: absolute;
   inset: 0;
-  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.hih-halftone {
+  z-index: 1;
   touch-action: pan-y;
+}
+
+.hih-trail {
+  z-index: 10;
+  pointer-events: none;
 }
 
 .hih-header,
 .hih-footer {
   position: absolute;
   inset-inline: 0;
-  z-index: 2;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -538,6 +797,8 @@ const styles = `
   line-height: 0.78;
   letter-spacing: -0.075em;
   text-transform: lowercase;
+  transform: scaleX(0.92);
+  transform-origin: left center;
 }
 
 .hih-brand span:first-child::before {
@@ -552,20 +813,23 @@ const styles = `
   position: absolute;
   left: 50%;
   display: flex;
-  gap: 2.9rem;
+  gap: 2rem;
+  line-height: 1.55;
   transform: translateX(-50%);
 }
 
 .hih-utilities {
   display: flex;
-  gap: 1.9rem;
+  gap: 1.25rem;
   margin-left: auto;
+  line-height: 1.55;
 }
 
 .hih-footer {
   bottom: 0;
   align-items: flex-end;
-  padding-block: 1.45rem;
+  padding-block: 1.25rem;
+  line-height: 1.55;
 }
 
 .hih-footer p {
@@ -588,9 +852,12 @@ const styles = `
 
 @media (max-width: 767px) {
   .hih-root {
-    min-height: 32rem;
-    cursor: auto;
     font-size: 15px;
+  }
+
+  .hih-field {
+    bottom: 4rem;
+    cursor: auto;
   }
 
   .hih-header,
@@ -623,11 +890,19 @@ const styles = `
   .hih-footer {
     padding-block: 1rem;
   }
+
+  .hih-trail {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hih-header a {
     transition: none;
+  }
+
+  .hih-trail {
+    display: none;
   }
 }
 `;
