@@ -1970,6 +1970,12 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Type foundries and directories",
     links: [
       {
+        title: "Nouveau Grande by DDOTT",
+        href: "https://ddott.net/font/nouveau-grande/",
+        description:
+          "High-contrast display typeface that combines an early grotesque skeleton with Art Nouveau swashes, whiplash ornaments and calligraphic alternates. Its broad OpenType set and chunky Black weight make it especially useful for expressive branding and editorial headlines.",
+      },
+      {
         title: "Collletttivo",
         href: "http://collletttivo.it",
         description:
