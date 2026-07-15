@@ -8,6 +8,7 @@ import ArcSpotlightScrollDemo from "./arc-spotlight-scroll";
 import ArchiveCommercePageDemo from "./archive-commerce-page";
 import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
+import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
@@ -123,6 +124,7 @@ export const demos: Record<string, ComponentType> = {
   "overlay-menu": OverlayMenuDemo,
   "mosaic-flip": MosaicFlipDemo,
   "image-reveal": ImageRevealDemo,
+  "ascii-tv-hero": AsciiTvHeroDemo,
   "award-list": AwardListDemo,
   "inversa-scroll": InversaScrollDemo,
   "material-spotlight": MaterialSpotlightDemo,

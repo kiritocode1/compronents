@@ -4955,6 +4955,88 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "ascii-tv-hero": {
+    demoPath: "src/components/demos/ascii-tv-hero.tsx",
+    nuance: [
+      {
+        label: "Glyphs, not pixels",
+        description:
+          "Every cell samples the video once, maps its brightness to a character in a runtime-drawn atlas strip (dense ink for shadows, space for highlights), and tints the glyph with the sampled color, so the picture stays legible as type.",
+      },
+      {
+        label: "A tube that scrolls away",
+        description:
+          "The screen silhouette is a signed-distance TV shape with bulged edges plus fisheye distortion, both driven by a single tvness value. Scroll progress lerps the element from its base size to the full viewport while tvness falls to zero, flattening the CRT into a plain wall.",
+      },
+      {
+        label: "Pointer static",
+        description:
+          "Recent pointer positions form a decaying trail; cells near it get cell-quantized drag, chunkier re-pixelation, RGB channel separation, a scanline tear, and luma noise, which reads as a magnet held to the tube.",
+      },
+    ],
+    editable: [
+      {
+        name: "videoSrc",
+        control: "asset-url",
+        description: "The video the glyph wall samples. Must be CORS-readable.",
+      },
+      {
+        name: "headline",
+        control: "textarea",
+        description: "Two lines pinned bottom left that fade as the TV grows.",
+      },
+      {
+        name: "cellSize / glyphRamp",
+        control: "text",
+        description:
+          "Cell size in CSS pixels and the character ramp from densest to empty.",
+      },
+    ],
+    assets: [
+      {
+        id: "ascii-tv-hero-footage",
+        label: "ASCII TV hero footage",
+        provider: "vercel-blob",
+        pathname: "film-studio-page/hero/hero-footage.mp4",
+        fallbackPath:
+          "https://ui.aryank.space/assets/film-studio-page/hero/hero-footage.mp4",
+        role: "Default demo footage sampled into the glyph wall, reused from the film studio page.",
+      },
+    ],
+    api: [
+      {
+        name: "videoSrc",
+        type: "string",
+        default: "BLANK hero footage",
+        description: "CORS-readable video sampled into the glyph wall.",
+      },
+      {
+        name: "headline",
+        type: "[string, string]",
+        default: '["Interfaces, motion and code.", "One integrated practice."]',
+        description: "Bottom-left copy that fades out during expansion.",
+      },
+      {
+        name: "scrollLength",
+        type: "number",
+        default: "3",
+        description:
+          "Scroll distance of the expansion, in multiples of the container height.",
+      },
+      {
+        name: "cellSize",
+        type: "number",
+        default: "6",
+        description: "Glyph cell size in CSS pixels.",
+      },
+      {
+        name: "glyphRamp",
+        type: "string",
+        default: '"@#W$9876543210?!abc;:+=-,._  "',
+        description: "Characters ordered from densest ink to empty space.",
+      },
+    ],
+  },
   "sandy-grain-background": {
     demoPath: "src/components/demos/sandy-grain-background.tsx",
     nuance: [

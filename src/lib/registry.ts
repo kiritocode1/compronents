@@ -1184,6 +1184,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "ascii-tv-hero",
+    title: "ASCII TV Hero",
+    description:
+      "A hero where a video plays as a wall of luminance-mapped ASCII glyphs inside a bulging CRT tube, with pointer movement smearing nearby cells along a chromatic trail, and scrolling expanding the set from a floating television to a flat fullscreen wall.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-15",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ascii-tv-hero.tsx",
+        target: "components/ui/ascii-tv-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "sandy-grain-background",
     title: "Sandy Grain Background",
     description:
