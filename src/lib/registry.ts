@@ -1164,6 +1164,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "halftone-interface-hero",
+    title: "Halftone Interface Hero",
+    description:
+      "A full-screen dark hero whose two-line wordmark is sampled into rounded halftone pixels, relit around the pointer with chromatic channel separation, and overlaid with a short RGB square-particle trail, complete with balanced navigation and a live location clock.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-15",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/halftone-interface-hero.tsx",
+        target: "components/ui/halftone-interface-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "aperture-zoom-hero",
     title: "Aperture Zoom Hero",
     description:

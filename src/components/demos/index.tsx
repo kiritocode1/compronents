@@ -41,6 +41,7 @@ import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
+import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
@@ -130,6 +131,7 @@ export const demos: Record<string, ComponentType> = {
   "crt-display": CrtDisplayDemo,
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
+  "halftone-interface-hero": HalftoneInterfaceHeroDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
   "slit-reveal-hero": SlitRevealHeroDemo,
   "spiral-gallery": SpiralGalleryDemo,

@@ -4877,6 +4877,84 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "halftone-interface-hero": {
+    demoPath: "src/components/demos/halftone-interface-hero.tsx",
+    nuance: [
+      {
+        label: "Sampled, not typeset",
+        description:
+          "The two headline lines are rendered to an offscreen canvas, fitted to a 2.52:1 lockup, and sampled on a 10px desktop grid. Every visible tile comes from the text mask rather than an image asset.",
+      },
+      {
+        label: "Two-layer pointer response",
+        description:
+          "Nearby dots split into three color channels while fast pointer movement sheds snapped square particles. Both effects settle independently, which keeps slow movement precise and fast movement messy.",
+      },
+      {
+        label: "Idle-aware rendering",
+        description:
+          "The animation loop stops once easing and trail particles have settled, pauses outside the viewport, and leaves the typography static when reduced motion is requested.",
+      },
+    ],
+    editable: [
+      {
+        name: "headline / brand / footerLabel",
+        control: "textarea",
+        description:
+          "The canvas wordmark and the surrounding identity copy. No source image is required.",
+      },
+      {
+        name: "background / foreground / accentColors",
+        control: "color",
+        description:
+          "The dark frame, halftone ink, and three-channel pointer palette.",
+      },
+      {
+        name: "navigation / utilityLinks",
+        control: "links",
+        description: "The centered and right-aligned header destinations.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "headline",
+        type: "[string, string]",
+        default: '["BLANK", "interfaces"]',
+        description: "The two lines sampled into the halftone field.",
+      },
+      {
+        name: "navigation",
+        type: "{ label: string; href: string }[]",
+        default: "Four section links",
+        description: "Centered primary navigation links.",
+      },
+      {
+        name: "utilityLinks",
+        type: "{ label: string; href: string }[]",
+        default: "Follow and subscribe links",
+        description: "Right-aligned utility navigation links.",
+      },
+      {
+        name: "brand",
+        type: "[string, string]",
+        default: '["BLANK", "interfaces"]',
+        description: "Compact two-line identity at the top left.",
+      },
+      {
+        name: "timeZone",
+        type: "string",
+        default: '"America/New_York"',
+        description: "IANA time zone used by the live footer clock.",
+      },
+      {
+        name: "accentColors",
+        type: "[string, string, string]",
+        default: "Pink, green, and blue",
+        description: "Three colors used for cursor splitting and particles.",
+      },
+    ],
+  },
   "infinite-contact-scroll": {
     demoPath: "src/components/demos/infinite-contact-scroll.tsx",
     nuance: [

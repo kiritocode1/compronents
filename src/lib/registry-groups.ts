@@ -38,6 +38,7 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Hero sections",
     names: [
+      "halftone-interface-hero",
       "aperture-zoom-hero",
       "curtain-reveal-hero",
       "slit-reveal-hero",
