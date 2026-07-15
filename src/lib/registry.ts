@@ -2574,6 +2574,45 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "effect-cloudflare-event-api",
+    title: "Effect Cloudflare Event API",
+    description:
+      "A production-shaped Effect 4 beta API for Cloudflare Workers. It includes schema-validated HTTP boundaries, branded identifiers, tagged domain and infrastructure errors, Context.Service modules, explicit Layer composition, KV persistence, traced service functions, structured logs, waitUntil background work, and an Alchemy stack with local development and observability.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-15",
+    type: "registry:lib",
+    dependencies: [
+      "@cloudflare/workers-types@5.20260715.1",
+      "alchemy@0.93.12",
+      "effect@4.0.0-beta.98",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-cloudflare-event-api/domain.ts",
+        target: "src/event-api/domain.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-cloudflare-event-api/services.ts",
+        target: "src/event-api/services.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-cloudflare-event-api/worker.ts",
+        target: "src/event-api/worker.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-cloudflare-event-api/alchemy.run.ts",
+        target: "alchemy.run.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "websocket-route-handler",
     title: "WebSocket Route Handler",
     description:
