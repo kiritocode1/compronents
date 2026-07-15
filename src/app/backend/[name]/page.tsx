@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { CodeTabs } from "@/components/site/code-tabs";
+import { CopyMarkdownButton } from "@/components/site/copy-markdown-button";
 import { RegistryFiles } from "@/components/site/registry-files";
 import {
   getRegistryItem,
@@ -71,9 +72,12 @@ export default async function BackendItemPage({
           <span className="text-faint">/</span>
           <span className="text-foreground">{item.title}</span>
         </nav>
-        <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
-          {item.title}
-        </h1>
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
+            {item.title}
+          </h1>
+          <CopyMarkdownButton href={`/r/${item.name}.md`} />
+        </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {item.description}
         </p>
@@ -84,8 +88,7 @@ export default async function BackendItemPage({
           <CodeTabs tabs={installTabs} />
           <p className="text-xs text-faint">
             Installs from ui.aryank.space. To add it by hand, copy the files in
-            Files below, or register the {REGISTRY_NAMESPACE} namespace via
-            the{" "}
+            Files below, or register the {REGISTRY_NAMESPACE} namespace via the{" "}
             <Link href="/docs" className="underline hover:text-foreground">
               docs
             </Link>

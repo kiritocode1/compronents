@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { CodeTabs } from "@/components/site/code-tabs";
+import { CopyMarkdownButton } from "@/components/site/copy-markdown-button";
 import { PageIframePreview } from "@/components/site/page-iframe-preview";
 import { RegistryFiles } from "@/components/site/registry-files";
 import { getComponentMeta } from "@/lib/component-meta";
@@ -80,9 +81,12 @@ export default async function PageRegistryItemPage({
           <span className="text-faint">/</span>
           <span className="text-foreground">{item.title}</span>
         </nav>
-        <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
-          {item.title}
-        </h1>
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
+            {item.title}
+          </h1>
+          <CopyMarkdownButton href={`/r/${item.name}.md`} />
+        </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {item.description}
         </p>
