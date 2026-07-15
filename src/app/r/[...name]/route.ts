@@ -1,10 +1,12 @@
+import { buildRegistryItemMarkdown } from "@/lib/registry-markdown";
 import {
   buildRegistryItem,
   RegistryItemNotFoundError,
 } from "@/lib/registry-server";
 
 /**
- * Serves individual registry items at `/r/{name}.json`.
+ * Serves individual registry items at `/r/{name}.json` and complete handoff
+ * documents at `/r/{name}.md`.
  *
  * Implemented as a catch-all because Turbopack does not route a dynamic
  * segment with a literal suffix (`[name].json`). The catalog at
@@ -15,9 +17,21 @@ export async function GET(
   context: { params: Promise<{ name: string[] }> },
 ) {
   const { name } = await context.params;
-  const slug = (name?.join("/") ?? "").replace(/\.json$/, "");
+  const requestedPath = name?.join("/") ?? "";
+  const wantsMarkdown = requestedPath.endsWith(".md");
+  const slug = requestedPath.replace(/\.(?:json|md)$/, "");
 
   try {
+    if (wantsMarkdown) {
+      const markdown = await buildRegistryItemMarkdown(slug);
+      return new Response(markdown, {
+        headers: {
+          "Cache-Control": "public, max-age=0, s-maxage=300",
+          "Content-Type": "text/markdown; charset=utf-8",
+        },
+      });
+    }
+
     const item = await buildRegistryItem(slug);
     return Response.json(item);
   } catch (error) {
