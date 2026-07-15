@@ -1184,6 +1184,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "sandy-grain-background",
+    title: "Sandy Grain Background",
+    description:
+      "A near-black sandy backdrop where the pointer paints a warm amber glow that slowly burns off under a live film-grain overlay, while a small square cursor dot eases after the pointer and swells over links and buttons.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-15",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sandy-grain-background.tsx",
+        target: "components/ui/sandy-grain-background.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "aperture-zoom-hero",
     title: "Aperture Zoom Hero",
     description:

@@ -4955,6 +4955,78 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "sandy-grain-background": {
+    demoPath: "src/components/demos/sandy-grain-background.tsx",
+    nuance: [
+      {
+        label: "A real fluid, not a tracked blob",
+        description:
+          "The trail lives in a ping-pong WebGL buffer that stores velocity and heat per texel. Each frame the field advects along its own velocity, diffuses, and decays before the pointer splats new energy along its path, so the glow smears and drifts like smoke.",
+      },
+      {
+        label: "One canvas, three layers",
+        description:
+          "The composite pass draws the base color shaded by slow value noise, adds the amber heat additively, and overlay-blends per-pixel animated grain at 32 percent, all in a single fragment shader.",
+      },
+      {
+        label: "Cursor with etiquette",
+        description:
+          "The square dot eases after the pointer at a hard 0.85 lerp, swells to a translucent 20px over links, buttons, and [data-cursor] elements, and steps aside entirely on touch devices where the native cursor returns.",
+      },
+    ],
+    editable: [
+      {
+        name: "baseColor / cursorColor",
+        control: "color",
+        description: "The near-black backdrop and the square cursor dot.",
+      },
+      {
+        name: "glowColor",
+        control: "text",
+        description:
+          "The amber pointer glow as an [r, g, b] triple, blended additively over the backdrop.",
+      },
+      {
+        name: "grainOpacity",
+        control: "text",
+        description: "Strength of the film-grain overlay, 0 to 1.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "baseColor",
+        type: "string",
+        default: '"#090703"',
+        description: "Backdrop color under the glow and grain.",
+      },
+      {
+        name: "glowColor",
+        type: "[number, number, number]",
+        default: "[152, 99, 0]",
+        description: "Pointer-trail glow color as an RGB triple.",
+      },
+      {
+        name: "cursorColor",
+        type: "string",
+        default: '"#c8b89a"',
+        description: "Fill of the square cursor dot.",
+      },
+      {
+        name: "grainOpacity",
+        type: "number",
+        default: "0.32",
+        description: "Opacity of the animated grain overlay.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        default: "undefined",
+        description:
+          "Content layered above the backdrop; its links and buttons grow the cursor on hover.",
+      },
+    ],
+  },
   "infinite-contact-scroll": {
     demoPath: "src/components/demos/infinite-contact-scroll.tsx",
     nuance: [

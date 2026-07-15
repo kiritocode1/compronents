@@ -74,6 +74,7 @@ import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
+import SandyGrainBackgroundDemo from "./sandy-grain-background";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
@@ -134,6 +135,7 @@ export const demos: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "halftone-interface-hero": HalftoneInterfaceHeroDemo,
+  "sandy-grain-background": SandyGrainBackgroundDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
   "slit-reveal-hero": SlitRevealHeroDemo,
   "spiral-gallery": SpiralGalleryDemo,
