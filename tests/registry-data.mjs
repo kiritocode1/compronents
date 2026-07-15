@@ -49,9 +49,11 @@ const RESOLVE_EXTS = [
 
 /** npm package name for a bare import specifier (`gsap/ScrollTrigger` -> `gsap`). */
 export function packageOf(spec) {
-  return spec.startsWith("@")
-    ? spec.split("/").slice(0, 2).join("/")
-    : spec.split("/")[0];
+  if (spec.startsWith("@")) {
+    const [scope, name = ""] = spec.split("/");
+    return `${scope}/${name.split("@")[0]}`;
+  }
+  return spec.split("/")[0].split("@")[0];
 }
 
 /** Every module specifier imported/exported-from in a source string. */
@@ -76,7 +78,7 @@ export function importSpecifiers(src) {
 export function analyzeFile(filePath, src, shippedPaths, dependencies) {
   const problems = [];
   const dir = path.posix.dirname(filePath.replace(/\\/g, "/"));
-  const deps = new Set(dependencies ?? []);
+  const deps = new Set((dependencies ?? []).map(packageOf));
 
   for (const spec of importSpecifiers(src)) {
     if (spec.startsWith(".")) {

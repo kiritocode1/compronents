@@ -37,6 +37,8 @@ function conflicts(shown, actual) {
 }
 
 for (const item of registryItems) {
+  if (item.section === "backend") continue;
+
   test(`${item.name}: panels render what the demo shows`, () => {
     // What the shown demo renders: its explicit props over the component's
     // own defaults.

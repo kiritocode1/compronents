@@ -16,7 +16,11 @@ import {
   registryItems,
 } from "./registry-data.mjs";
 
-const ITEM_TYPES = new Set(["registry:ui", "registry:component"]);
+const ITEM_TYPES = new Set([
+  "registry:ui",
+  "registry:component",
+  "registry:lib",
+]);
 
 test("catalog is well-formed", () => {
   const names = new Set();
@@ -76,6 +80,8 @@ for (const item of registryItems) {
 // The demo shown in the site iframe imports the exact source that ships, so
 // "what you see" == "what installs". Enforce that binding for every item.
 for (const item of registryItems) {
+  if (item.section === "backend") continue;
+
   test(`${item.name}: demo renders the installed source`, () => {
     const demoPath = `src/components/demos/${item.name}.tsx`;
     assert.ok(exists(demoPath), `no demo at ${demoPath}`);
