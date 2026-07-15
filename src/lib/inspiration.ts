@@ -3709,6 +3709,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "V8-isolate-based edge compute platform officially supporting 18+ frameworks, one of the most widely deployed serverless runtimes.",
       },
       {
+        title: "Alchemy",
+        href: "https://alchemy.run/",
+        description:
+          "TypeScript-native infrastructure as code for defining and deploying Cloudflare and AWS resources as ordinary async functions. Particularly useful for colocating a Worker, KV, queues, bindings, local development and observability in one typed alchemy.run.ts file.",
+      },
+      {
         title: "Cloudflare Durable Objects",
         href: "https://developers.cloudflare.com/durable-objects/",
         description:
@@ -4778,6 +4784,48 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://effect-ts.github.io/effect/",
         description:
           "Official docs for Effect, the TypeScript library for building robust, type-safe applications with structured concurrency, error handling and dependency injection built into the type system.",
+      },
+      {
+        title: "Effect blog and v4 beta updates",
+        href: "https://effect.website/blog",
+        description:
+          "Official Effect release notes and weekly engineering updates. This is the primary source for the Effect 4 beta runtime rewrite, consolidated packages, new Context.Service model, unstable modules and ongoing breaking API changes.",
+      },
+      {
+        title: "Effect v3 to v4 migration guide",
+        href: "https://github.com/Effect-TS/effect-smol/blob/main/MIGRATION.md",
+        description:
+          "Official migration index for Effect 4 beta, covering renamed and removed APIs across services, errors, schemas, layers, HTTP, streams, schedules and the rest of the rewritten runtime.",
+      },
+      {
+        title: "use-effect-ts",
+        href: "https://github.com/pkishorez/use-effect-ts",
+        description:
+          "Kishore's React hooks for running Effect programs with component scopes, latest-run cancellation, queues and live refs. The repository predates Effect 4, so use it for React integration ideas and verify APIs against the v4 migration guide.",
+      },
+      {
+        title: "Dillon Mulroy's Effect guide",
+        href: "https://github.com/dmmulroy/effect.guide",
+        description:
+          "Large module-by-module collection of practical Effect guides, testing notes and examples. The author marks it as generated, work in progress and not yet type-checked, so treat it as a discovery index rather than a source of current v4 truth.",
+      },
+      {
+        title: "Dillon Mulroy's Effect Cloudflare experiment",
+        href: "https://github.com/dmmulroy/effect-cloudflare",
+        description:
+          "Experimental wrappers for Cloudflare KV, D1, R2 and Worker runtime bindings using Effect services. It currently targets Effect 3, but is useful prior art for keeping Cloudflare capabilities behind typed service boundaries.",
+      },
+      {
+        title: "alchemy-effect",
+        href: "https://github.com/dmmulroy/alchemy-effect",
+        description:
+          "Dillon Mulroy's experimental Infrastructure-as-Effects project for type-checked infrastructure bindings, deployment plans and testable business logic. The project explicitly warns that it is not production-ready yet.",
+      },
+      {
+        title: "better-result",
+        href: "https://github.com/dmmulroy/better-result",
+        description:
+          "Lightweight Result type for TypeScript with tagged errors, pattern matching and generator-based composition. A useful smaller alternative to compare when a full Effect runtime, services and structured concurrency would be unnecessary.",
       },
       {
         title: "Effect runtime visualizer",
