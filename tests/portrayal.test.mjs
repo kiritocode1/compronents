@@ -30,7 +30,9 @@ function conflicts(shown, actual) {
   for (const [key, value] of Object.entries(actual)) {
     if (PORTRAYAL_IGNORED_PROPS.has(key)) continue;
     if (shown[key] !== undefined && String(shown[key]) !== String(value)) {
-      out.push(`${key}: renders "${value}" but shown code uses "${shown[key]}"`);
+      out.push(
+        `${key}: renders "${value}" but shown code uses "${shown[key]}"`,
+      );
     }
   }
   return out;

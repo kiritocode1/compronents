@@ -132,7 +132,10 @@ function readItemFile(relPath) {
 
 /** Default scalar prop values from a registry component's destructured params. */
 export function registryDefaults(name) {
-  for (const rel of [`src/registry/${name}.tsx`, `src/registry/${name}/index.tsx`]) {
+  for (const rel of [
+    `src/registry/${name}.tsx`,
+    `src/registry/${name}/index.tsx`,
+  ]) {
     const src = readItemFile(rel);
     if (!src) continue;
     const out = {};
@@ -153,9 +156,7 @@ export function registryDefaults(name) {
 export function wrapperProps(relPath) {
   const src = readItemFile(relPath);
   if (src === null) return null;
-  const imported = src.match(
-    /import\s+(\w+)[^;]*?from\s*["']@\/registry\//,
-  );
+  const imported = src.match(/import\s+(\w+)[^;]*?from\s*["']@\/registry\//);
   if (!imported) return null;
   const tag = src.match(new RegExp(`<${imported[1]}\\b([\\s\\S]*?)\\/?>`));
   if (!tag) return {};
