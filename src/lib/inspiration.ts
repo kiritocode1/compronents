@@ -5593,6 +5593,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "Collection of 16 reusable Claude Code skills by iOS developer Dimillian, covering Apple platform release notes, iOS debugging, SwiftUI and React performance work, macOS packaging, and multi-agent code review and bug-hunt swarms.",
       },
       {
+        title: "Kit Langton skills",
+        href: "https://github.com/kitlangton/skills",
+        description:
+          "Kit Langton's agent skills collection, currently featuring an installable skill for writing production TypeScript with Effect v4.",
+      },
+      {
         title: "Fallow Tools: agent skills integration",
         href: "https://docs.fallow.tools/integrations/agent-skills",
         description:
