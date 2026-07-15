@@ -12,6 +12,7 @@ import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
 import DarkCatalogPagePreview from "./dark-catalog-page";
 import DeadspacePagePreview from "./deadspace-page";
+import DepoluxeSidewaysCarouselPreview from "./depoluxe-sideways-carousel";
 import DetroitParisSliderPreview from "./detroit-paris-slider";
 import DiningRoomPagePreview from "./dining-room-page";
 import FallingTagListPreview from "./falling-tag-list";
@@ -43,6 +44,7 @@ export const previews: Record<string, ComponentType> = {
   "accordion-frames": AccordionFramesPreview,
   "ascii-image-reveal": AsciiImageRevealPreview,
   "cappen-fluid-simulation": CappenFluidSimulationPreview,
+  "depoluxe-sideways-carousel": DepoluxeSidewaysCarouselPreview,
   "detroit-paris-slider": DetroitParisSliderPreview,
   "ascii-logo": AsciiLogoPreview,
   "overlay-menu": OverlayMenuPreview,

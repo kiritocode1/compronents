@@ -6422,6 +6422,80 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "depoluxe-sideways-carousel": {
+    demoPath: "src/components/demos/depoluxe-sideways-carousel.tsx",
+    nuance: [
+      {
+        label: "Two linked presentation states",
+        description:
+          "The idle state is a full-viewport film. Wheel, drag, and the triangular focus zone at the left open the same project data into the diagonal stack, then return it to the film when input settles.",
+      },
+      {
+        label: "Exponential diagonal geometry",
+        description:
+          "Each neighboring project is half the size of the one before it. Past projects collect along the lower edge while upcoming projects climb the left edge.",
+      },
+      {
+        label: "One inertial target",
+        description:
+          "Wheel, pointer drag, keyboard navigation, and the slow idle advance all feed one target value that is eased once per animation frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description:
+          "Project title, director, client, hosted video URL, and starting frame time.",
+      },
+      {
+        name: "brand / claim / nav",
+        control: "text",
+        description: "Centered masthead and portfolio navigation copy.",
+      },
+    ],
+    assets: assetsByIds([
+      "film-studio-page-hero-hero-footage",
+      "film-studio-page-contact-contact-hero",
+      ...Array.from(
+        { length: 8 },
+        (_, index) => `film-studio-page-spotlight-spotlight-${index + 1}`,
+      ),
+    ]),
+    api: [
+      {
+        name: "projects",
+        type: "SidewaysProject[]",
+        default: "Eight BLANK film projects",
+        description:
+          "Project metadata, video source, poster, and optional start time used by both carousel states.",
+      },
+      {
+        name: "brand",
+        type: "[string, string]",
+        default: '["BLANK", "FILMS"]',
+        description: "Two-part wordmark aligned across the masthead.",
+      },
+      {
+        name: "claim",
+        type: "string",
+        default: '"A cinematic practice for image, motion and culture"',
+        description: "Italic positioning line below the wordmark.",
+      },
+      {
+        name: "nav",
+        type: "Array<{ label: string; href: string }>",
+        default: "Five portfolio links",
+        description: "Masthead navigation items.",
+      },
+      {
+        name: "className",
+        type: "string",
+        default: '""',
+        description: "Additional class applied to the fullscreen root.",
+      },
+    ],
+  },
   "sticky-stack-cards": {
     demoPath: "src/components/demos/sticky-stack-cards.tsx",
     nuance: [

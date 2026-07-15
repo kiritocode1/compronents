@@ -2494,6 +2494,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "depoluxe-sideways-carousel",
+    title: "Depoluxe Sideways Carousel",
+    description:
+      "An infinite cinematic project reel that rests as a fullscreen film, then opens into a diagonal stack while the user wheels, drags, or enters the left focus zone. Neighboring videos halve in size along the track before the stack folds back into the active project.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-15",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/depoluxe-sideways-carousel.tsx",
+        target: "components/ui/depoluxe-sideways-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "websocket-route-handler",
     title: "WebSocket Route Handler",
     description:

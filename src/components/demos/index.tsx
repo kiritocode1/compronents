@@ -28,6 +28,7 @@ import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
+import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
@@ -115,6 +116,7 @@ export const demos: Record<string, ComponentType> = {
   "accordion-frames": AccordionFramesDemo,
   "ascii-image-reveal": AsciiImageRevealDemo,
   "cappen-fluid-simulation": CappenFluidSimulationDemo,
+  "depoluxe-sideways-carousel": DepoluxeSidewaysCarouselDemo,
   "detroit-paris-slider": DetroitParisSliderDemo,
   "ascii-logo": AsciiLogoDemo,
   "overlay-menu": OverlayMenuDemo,

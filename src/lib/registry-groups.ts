@@ -69,6 +69,7 @@ export const componentGroups: RegistryGroup[] = [
       "threejs-infinite-slider",
       "scroll-scrub-slider",
       "hour-timeline-slider",
+      "depoluxe-sideways-carousel",
       "detroit-paris-slider",
       "curved-plane-slider",
       "minimap-scrubber",
