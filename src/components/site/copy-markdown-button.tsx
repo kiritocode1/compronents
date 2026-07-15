@@ -88,11 +88,11 @@ export function CopyMarkdownButton({ href }: { href: string }) {
     resetTimer.current = setTimeout(() => setState("idle"), 2200);
   }
 
-  const copy = {
-    idle: { label: "Copy as Markdown", detail: "Code, API, fonts + setup" },
-    loading: { label: "Building handoff", detail: "Packaging source" },
-    copied: { label: "Handoff copied", detail: "Ready to paste" },
-    error: { label: "Try copy again", detail: "Clipboard was blocked" },
+  const label = {
+    idle: "Copy as Markdown",
+    loading: "Preparing Markdown",
+    copied: "Copied",
+    error: "Try again",
   }[state];
 
   const StatusIcon = {
@@ -107,43 +107,25 @@ export function CopyMarkdownButton({ href }: { href: string }) {
       type="button"
       onClick={copyMarkdown}
       disabled={state === "loading"}
-      aria-label={copy.label}
+      aria-label={label}
       title="Copy the complete code, API, setup, assets, typography, and implementation notes"
-      className="group inline-flex h-14 min-w-[224px] shrink-0 items-center gap-2.5 rounded-[14px] border border-black/20 bg-gradient-to-b from-[#f7f4ec] to-[#e9e4d9] p-1.5 pr-2 text-left text-[#151515] shadow-[0_0_0_0.5px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.95),0_1px_2px_rgba(0,0,0,0.3),0_4px_10px_rgba(0,0,0,0.22),4px_4px_0_rgba(249,172,0,0.9)] transition-[transform,border-color] duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-black/35 focus-visible:ring-2 focus-visible:ring-[#f9ac00] focus-visible:ring-offset-3 focus-visible:ring-offset-background focus-visible:outline-none active:translate-x-0.5 active:translate-y-0.5 active:scale-[0.98] disabled:cursor-wait disabled:active:scale-100"
+      className="group inline-flex h-9 shrink-0 items-center overflow-hidden rounded-md border border-border bg-background text-muted-foreground transition-[border-color,background-color,color] duration-150 hover:border-border-strong hover:bg-muted/40 hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/40 focus-visible:outline-none active:bg-muted/70 disabled:cursor-wait"
     >
-      <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#141414] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_1px_2px_rgba(0,0,0,0.3)]">
+      <span className="flex size-9 shrink-0 items-center justify-center border-r border-border bg-black text-white">
         <VscodeIconsFileTypeLightMdx
-          className="size-6 grayscale transition-[filter] duration-150 group-hover:grayscale-0"
+          className="size-[18px] opacity-60 grayscale transition-[filter,opacity] duration-150 group-hover:opacity-100 group-hover:grayscale-0"
           fill="currentColor"
         />
       </span>
-      <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span
-          className="text-[11px] leading-none font-semibold tracking-[0.08em] text-[#151515] uppercase"
-          aria-live="polite"
-        >
-          {copy.label}
-        </span>
-        <span
-          className="text-[9px] leading-none tracking-[0.025em] text-black/50"
-          aria-hidden="true"
-        >
-          {copy.detail}
-        </span>
-      </span>
       <span
-        className={`flex size-8 shrink-0 items-center justify-center rounded-[9px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_1px_2px_rgba(0,0,0,0.3)] transition-colors duration-150 ${
-          state === "copied"
-            ? "bg-emerald-500"
-            : state === "error"
-              ? "bg-red-500"
-              : state === "loading"
-                ? "bg-[#f9ac00] text-black"
-                : "bg-[#171717] group-hover:bg-black"
-        }`}
+        className="px-3 text-[10px] leading-none font-medium tracking-[0.1em] uppercase"
+        aria-live="polite"
       >
+        {label}
+      </span>
+      <span className="flex size-9 shrink-0 items-center justify-center border-l border-border">
         <StatusIcon
-          className={`size-3.5 ${state === "loading" ? "animate-spin" : ""}`}
+          className={`size-3.5 ${state === "loading" ? "animate-spin" : ""} ${state === "copied" ? "text-foreground" : ""}`}
           aria-hidden="true"
         />
       </span>
