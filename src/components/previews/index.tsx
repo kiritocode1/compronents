@@ -10,6 +10,7 @@ import AwardListPreview from "./award-list";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
 import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
+import CurveGalleryPreview from "./curve-gallery";
 import DarkCatalogPagePreview from "./dark-catalog-page";
 import DeadspacePagePreview from "./deadspace-page";
 import DepoluxeSidewaysCarouselPreview from "./depoluxe-sideways-carousel";
@@ -59,6 +60,7 @@ export const previews: Record<string, ComponentType> = {
   "preloader-reveal": PreloaderRevealPreview,
   "creative-clutter": CreativeClutterPreview,
   "crt-display": CrtDisplayPreview,
+  "curve-gallery": CurveGalleryPreview,
   "falling-tag-list": FallingTagListPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,

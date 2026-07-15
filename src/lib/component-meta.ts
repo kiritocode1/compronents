@@ -119,6 +119,14 @@ const scrollTunnel3dAssets = assetItems
         : asset.role,
   }));
 
+const curveGalleryAssets = scrollTunnel3dAssets.map((asset) => ({
+  ...asset,
+  role:
+    asset.id === "scroll-tunnel-3d-img-1"
+      ? "First of the reused 12-image set img-1.jpg ... img-12.jpg, scattered along each generated camera curve."
+      : "Existing Scroll Tunnel photograph reused as a plane along the curve.",
+}));
+
 const spiralGalleryAssets = assetItems
   .filter((asset) => asset.id.startsWith("spiral-gallery-"))
   .slice(0, 3)
@@ -6173,6 +6181,97 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "true",
         description:
           "Own the scroll container; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "curve-gallery": {
+    demoPath: "src/components/demos/curve-gallery.tsx",
+    studioPath: "src/components/studios/curve-gallery.tsx",
+    nuance: [
+      {
+        label: "The camera is the scroll",
+        description:
+          "Wheel, drag, arrow keys, and autoplay all move one eased progress value. That value samples the active Catmull-Rom curve, so input feels like moving a camera rather than translating a flat gallery.",
+      },
+      {
+        label: "Focus is spatial",
+        description:
+          "Every plane keeps its place on the curve. Frames near the camera in both curve progress and screen-space distance grow with a cubic falloff, allowing one image to bloom without hiding the field around it.",
+      },
+      {
+        label: "Five paths, one field",
+        description:
+          "Switching paths retargets the same plane set and eases every mesh into its new position. The curve definitions are generated in the component, so there are no external Blender JSON files to ship.",
+      },
+    ],
+    editable: [
+      {
+        name: "background / foreground",
+        control: "color",
+        description: "Canvas fog color and the minimal interface color.",
+      },
+      {
+        name: "focusDistance / maxScale",
+        control: "text",
+        description:
+          "Radius of the focus zone and the maximum scale of its nearest frame.",
+      },
+      {
+        name: "images",
+        control: "asset-url",
+        description:
+          "The existing 12-image Scroll Tunnel set, reused across the curve field.",
+      },
+      {
+        name: "pathLabels / brand / label",
+        control: "text",
+        description: "Curve selector labels and the two corner captions.",
+      },
+    ],
+    assets: curveGalleryAssets,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "Twelve existing BLANK-hosted photographs",
+        description: "Textures distributed repeatedly across the image field.",
+      },
+      {
+        name: "background / foreground",
+        type: "string / string",
+        default: '"#f2f0eb" / "#171715"',
+        description: "Scene fog and minimal interface colors.",
+      },
+      {
+        name: "planeCount",
+        type: "number",
+        default: "320",
+        description: "Number of image planes distributed along the curve.",
+      },
+      {
+        name: "focusDistance / maxScale / cameraOffset",
+        type: "number / number / number",
+        default: "4.8 / 11 / 9.5",
+        description:
+          "Focus radius, scale peak, and lens distance from the path.",
+      },
+      {
+        name: "autoplay / autoplayDuration",
+        type: "boolean / number",
+        default: "false / 12",
+        description: "Initial motion mode and seconds per complete path lap.",
+      },
+      {
+        name: "initialPath / pathLabels",
+        type: "number / string[]",
+        default: "0 / 01 through 05",
+        description: "Initial curve and the five selector labels.",
+      },
+      {
+        name: "brand / label",
+        type: "string / string",
+        default: '"BLANK" / "Curve archive"',
+        description: "Small fixed captions framing the gallery.",
       },
     ],
   },

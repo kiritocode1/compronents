@@ -11,6 +11,7 @@ import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
+import CurveGalleryStudio from "./curve-gallery";
 import DamienTsarantosPageStudio from "./damien-tsarantos-page";
 import DarkCatalogPageStudio from "./dark-catalog-page";
 import DeadspacePageStudio from "./deadspace-page";
@@ -67,6 +68,7 @@ export const studios: Record<string, StudioComponent> = {
   "preloader-reveal": PreloaderRevealStudio,
   "creative-clutter": CreativeClutterStudio,
   "crt-display": CrtDisplayStudio,
+  "curve-gallery": CurveGalleryStudio,
   "falling-tag-list": FallingTagListStudio,
   "frame-scroll": FrameScrollStudio,
   "spiral-gallery": SpiralGalleryStudio,

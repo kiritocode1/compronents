@@ -2374,6 +2374,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "curve-gallery",
+    title: "Curve Gallery",
+    description:
+      "A scroll-driven 3D image field inspired by gaspoorf's Curve Gallery. Hundreds of photographs sit along a closed Catmull-Rom path while the camera travels through them; nearby frames swell with a cubic focus falloff, five path controls reshape the same field, and wheel, drag, keyboard, or autoplay share one eased progress value. One self-contained Three.js component using existing hosted images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-15",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/curve-gallery.tsx",
+        target: "components/ui/curve-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "rotating-hand-scroll",
     title: "Rotating Hand Scroll",
     description:

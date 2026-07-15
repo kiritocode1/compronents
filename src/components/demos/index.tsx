@@ -25,6 +25,7 @@ import CrtDisplayDemo from "./crt-display";
 import CursorImageTrailDemo from "./cursor-image-trail";
 import CursorTrailScrollDemo from "./cursor-trail-scroll";
 import CurtainRevealHeroDemo from "./curtain-reveal-hero";
+import CurveGalleryDemo from "./curve-gallery";
 import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
@@ -134,6 +135,7 @@ export const demos: Record<string, ComponentType> = {
   "preloader-reveal": PreloaderRevealDemo,
   "creative-clutter": CreativeClutterDemo,
   "crt-display": CrtDisplayDemo,
+  "curve-gallery": CurveGalleryDemo,
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "halftone-interface-hero": HalftoneInterfaceHeroDemo,
