@@ -3250,6 +3250,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "TypeScript SDK unifying LLM provider APIs (OpenAI, Anthropic, Google and others) behind one streaming and tool-calling interface, one of the most widely used AI libraries in the JS ecosystem.",
       },
       {
+        title: "shadcn AI SDK helpers",
+        href: "https://ui.shadcn.com/docs/helpers/ai-sdk",
+        description:
+          "Helpers for creating AI SDK messages and streaming predefined useChat conversations without a model, API route, network request or API key, useful for UI demos and deterministic tests.",
+      },
+      {
         title: "Vercel Sandbox",
         href: "https://vercel.com/docs/sandbox",
         description:
