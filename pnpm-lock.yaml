@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@cloudflare/workers-types': 5.20260715.1
+
 importers:
 
   .:
@@ -394,9 +397,6 @@ packages:
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
-
-  '@cloudflare/workers-types@4.20260702.1':
-    resolution: {integrity: sha512-mOhf5TUEB1m2vPrxtqoIGfz0fUC9xyxRDx5gWHy5s+OCo6dcV+g7wI1R7gYCMFohhqF/2y2xeKVwMwCJjfn/WA==}
 
   '@cloudflare/workers-types@5.20260715.1':
     resolution: {integrity: sha512-saxo/nMqQJ1dKDUXp1a2y/+IjKENFVD9+QRefHg5EjJZY20OG3xcEge4PGljbqZiF3AiU4o5ZLS3Vm7cayQIxg==}
@@ -1646,7 +1646,7 @@ packages:
     resolution: {integrity: sha512-kY0BSaTNYWnoDMVoyY8uxmyHjpJW1geOmBMdSSicKo9CIIWkSxMIj2rkeSR51b8KAPB7m+qysjuHme5nKP+E5Q==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
-      '@cloudflare/workers-types': '>=4'
+      '@cloudflare/workers-types': 5.20260715.1
       '@electric-sql/pglite': '>=0.2.0'
       '@libsql/client': '>=0.10.0'
       '@libsql/client-wasm': '>=0.10.0'
@@ -2690,7 +2690,7 @@ packages:
     engines: {node: '>=22.0.0'}
     hasBin: true
     peerDependencies:
-      '@cloudflare/workers-types': ^5.20260708.1
+      '@cloudflare/workers-types': 5.20260715.1
     peerDependenciesMeta:
       '@cloudflare/workers-types':
         optional: true
@@ -3067,8 +3067,6 @@ snapshots:
 
   '@cloudflare/workerd-windows-64@1.20260708.1':
     optional: true
-
-  '@cloudflare/workers-types@4.20260702.1': {}
 
   '@cloudflare/workers-types@5.20260715.1': {}
 
@@ -3845,13 +3843,13 @@ snapshots:
     dependencies:
       '@aws-sdk/credential-providers': 3.1086.0
       '@cloudflare/unenv-preset': 2.7.7(unenv@2.0.0-rc.21)(workerd@1.20260708.1)
-      '@cloudflare/workers-types': 4.20260702.1
+      '@cloudflare/workers-types': 5.20260715.1
       '@iarna/toml': 2.2.5
       '@octokit/rest': 21.1.1
       '@smithy/node-config-provider': 4.5.8
       '@smithy/types': 4.16.1
       aws4fetch: 1.0.20
-      drizzle-orm: 0.45.2(@cloudflare/workers-types@4.20260702.1)
+      drizzle-orm: 0.45.2(@cloudflare/workers-types@5.20260715.1)
       env-paths: 3.0.0
       esbuild: 0.25.12
       execa: 9.6.1
@@ -3870,7 +3868,7 @@ snapshots:
       proper-lockfile: 4.1.2
       signal-exit: 4.1.0
       unenv: 2.0.0-rc.21
-      wrangler: 4.110.0(@cloudflare/workers-types@4.20260702.1)
+      wrangler: 4.110.0(@cloudflare/workers-types@5.20260715.1)
       ws: 8.21.1
       yaml: 2.9.0
     transitivePeerDependencies:
@@ -4066,9 +4064,9 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
-  drizzle-orm@0.45.2(@cloudflare/workers-types@4.20260702.1):
+  drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260715.1):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20260702.1
+      '@cloudflare/workers-types': 5.20260715.1
 
   eastasianwidth@0.2.0: {}
 
@@ -5059,7 +5057,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20260708.1
       '@cloudflare/workerd-windows-64': 1.20260708.1
 
-  wrangler@4.110.0(@cloudflare/workers-types@4.20260702.1):
+  wrangler@4.110.0(@cloudflare/workers-types@5.20260715.1):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260708.1)
@@ -5070,7 +5068,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20260708.1
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20260702.1
+      '@cloudflare/workers-types': 5.20260715.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - bufferutil

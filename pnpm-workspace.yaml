@@ -3,3 +3,7 @@ allowBuilds:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+minimumReleaseAgeExclude:
+  - '@cloudflare/workers-types@5.20260715.1'
+overrides:
+  '@cloudflare/workers-types': 5.20260715.1
