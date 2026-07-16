@@ -74,6 +74,7 @@ export function CopyMarkdownButton({ href }: { href: string }) {
 
     try {
       const response = await fetch(href, {
+        cache: "no-store",
         headers: { Accept: "text/markdown" },
       });
       if (!response.ok) throw new Error("Handoff could not be generated.");
@@ -88,11 +89,11 @@ export function CopyMarkdownButton({ href }: { href: string }) {
     resetTimer.current = setTimeout(() => setState("idle"), 2200);
   }
 
-  const label = {
-    idle: "Copy as Markdown",
-    loading: "Preparing Markdown",
-    copied: "Copied",
-    error: "Try again",
+  const copy = {
+    idle: { label: "Copy for agent", detail: "Exact source + setup" },
+    loading: { label: "Building handoff", detail: "Reading latest source" },
+    copied: { label: "Agent brief copied", detail: "Ready to paste" },
+    error: { label: "Copy failed", detail: "Try again" },
   }[state];
 
   const StatusIcon = {
@@ -107,25 +108,30 @@ export function CopyMarkdownButton({ href }: { href: string }) {
       type="button"
       onClick={copyMarkdown}
       disabled={state === "loading"}
-      aria-label={label}
-      title="Copy the complete code, API, setup, assets, typography, and implementation notes"
-      className="group inline-flex h-9 shrink-0 items-center overflow-hidden rounded-md border border-border bg-background text-muted-foreground transition-[border-color,background-color,color] duration-150 hover:border-border-strong hover:bg-muted/40 hover:text-foreground focus-visible:ring-1 focus-visible:ring-foreground/40 focus-visible:outline-none active:bg-muted/70 disabled:cursor-wait"
+      aria-label={copy.label}
+      title="Copy an agent-ready handoff with exact source, setup, assets, API notes, and file hashes"
+      className="group inline-flex h-12 min-w-[218px] shrink-0 items-center overflow-hidden rounded-xl border border-border bg-card text-left text-foreground shadow-sm transition-[transform,border-color,background-color,box-shadow] duration-150 hover:border-border-strong hover:bg-muted/35 hover:shadow-md focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none active:scale-[0.98] disabled:cursor-wait disabled:active:scale-100"
     >
-      <span className="flex size-9 shrink-0 items-center justify-center border-r border-border bg-black text-white">
+      <span className="flex h-full w-11 shrink-0 items-center justify-center border-r border-white/10 bg-black text-white">
         <VscodeIconsFileTypeLightMdx
-          className="size-[18px] opacity-60 grayscale transition-[filter,opacity] duration-150 group-hover:opacity-100 group-hover:grayscale-0"
+          className="size-5 opacity-80 grayscale transition-[filter,opacity] duration-150 group-hover:opacity-100 group-hover:grayscale-0"
           fill="currentColor"
         />
       </span>
-      <span
-        className="px-3 text-[10px] leading-none font-medium tracking-[0.1em] uppercase"
-        aria-live="polite"
-      >
-        {label}
+      <span className="flex min-w-0 flex-1 flex-col gap-1 px-3">
+        <span
+          className="text-[10px] leading-none font-semibold tracking-[0.09em] uppercase"
+          aria-live="polite"
+        >
+          {copy.label}
+        </span>
+        <span className="text-[10px] leading-none text-muted-foreground">
+          {copy.detail}
+        </span>
       </span>
-      <span className="flex size-9 shrink-0 items-center justify-center border-l border-border">
+      <span className="flex size-10 shrink-0 items-center justify-center">
         <StatusIcon
-          className={`size-3.5 ${state === "loading" ? "animate-spin" : ""} ${state === "copied" ? "text-foreground" : ""}`}
+          className={`size-3.5 ${state === "loading" ? "animate-spin" : ""} ${state === "copied" ? "text-emerald-600" : "text-muted-foreground"}`}
           aria-hidden="true"
         />
       </span>

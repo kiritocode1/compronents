@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { assetItems } from "@/lib/assets";
@@ -55,6 +56,10 @@ function codeFence(content: string, language = "") {
 function languageOf(filename: string) {
   const extension = filename.split(".").pop() ?? "";
   return LANGUAGE_BY_EXTENSION[extension] ?? "text";
+}
+
+function sha256(content: string) {
+  return createHash("sha256").update(content).digest("hex");
 }
 
 function normalizeFontFamily(value: string) {
@@ -176,6 +181,7 @@ export async function buildRegistryItemMarkdown(name: string) {
   const manualDependencies = item.dependencies.length
     ? `pnpm add ${item.dependencies.join(" ")}`
     : "# No additional runtime packages are required.";
+  const sourceRevision = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 12);
 
   const lines: string[] = [
     `# ${item.title}`,
@@ -187,6 +193,19 @@ export async function buildRegistryItemMarkdown(name: string) {
     `- Category: ${item.category}`,
     `- Registry JSON: [${REGISTRY_BASE_URL}/r/${item.name}.json](${REGISTRY_BASE_URL}/r/${item.name}.json)`,
     `- Live reference: [${REGISTRY_BASE_URL}/${item.section}/${item.name}](${REGISTRY_BASE_URL}/${item.section}/${item.name})`,
+    ...(sourceRevision ? [`- Source revision: \`${sourceRevision}\``] : []),
+    "",
+    "## Agent task",
+    "",
+    `Install or recreate \`${item.name}\` in the target project. Start from the shipped files in the Source section, not from the prose description. Copy every file exactly before adapting project-specific imports, copy, or tokens. Preserve the documented behavior, assets, and responsive states, then run the acceptance checklist.`,
+    "",
+    "The file hashes below verify that the copied source matches this registry response exactly.",
+    "",
+    "| File | SHA-256 |",
+    "| --- | --- |",
+    ...built.files.map(
+      (file) => `| \`${file.target}\` | \`${sha256(file.content)}\` |`,
+    ),
     "",
     "## Description",
     "",
