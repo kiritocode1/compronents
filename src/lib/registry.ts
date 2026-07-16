@@ -165,7 +165,58 @@ function isoDate(year: number, month: number, day: number) {
   return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+function isoFromDate(date: Date) {
+  return isoDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+}
+
+function exactDate(date: string | null, phrase: string) {
+  return { start: date, end: date, phrase };
+}
+
 function searchDate(query: string, now: Date) {
+  const ago = query.match(/\b(\d+)\s+(days?|weeks?)\s+ago\b/);
+  if (ago) {
+    const amount = Number(ago[1]);
+    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if (ago[2].startsWith("day")) {
+      date.setDate(date.getDate() - amount);
+      return exactDate(isoFromDate(date), ago[0]);
+    }
+
+    date.setDate(date.getDate() - ((date.getDay() + 6) % 7) - amount * 7);
+    const end = new Date(date);
+    end.setDate(end.getDate() + 6);
+    return { start: isoFromDate(date), end: isoFromDate(end), phrase: ago[0] };
+  }
+
+  const period = query.match(/\b(this|last)\s+(week|month)\b/);
+  if (period) {
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if (period[2] === "week") {
+      start.setDate(
+        start.getDate() -
+          ((start.getDay() + 6) % 7) -
+          (period[1] === "last" ? 7 : 0),
+      );
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      return {
+        start: isoFromDate(start),
+        end: isoFromDate(end),
+        phrase: period[0],
+      };
+    }
+
+    const month = now.getMonth() - (period[1] === "last" ? 1 : 0);
+    const monthStart = new Date(now.getFullYear(), month, 1);
+    const monthEnd = new Date(now.getFullYear(), month + 1, 0);
+    return {
+      start: isoFromDate(monthStart),
+      end: isoFromDate(monthEnd),
+      phrase: period[0],
+    };
+  }
+
   const relative = query.match(/\b(today|yesterday|(?:a )?day before)\b/);
   if (relative) {
     const date = new Date(
@@ -173,18 +224,15 @@ function searchDate(query: string, now: Date) {
       now.getMonth(),
       now.getDate() + (relative[1] === "today" ? 0 : -1),
     );
-    return {
-      date: isoDate(date.getFullYear(), date.getMonth() + 1, date.getDate()),
-      phrase: relative[0],
-    };
+    return exactDate(isoFromDate(date), relative[0]);
   }
 
   const iso = query.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
   if (iso)
-    return {
-      date: isoDate(Number(iso[1]), Number(iso[2]), Number(iso[3])),
-      phrase: iso[0],
-    };
+    return exactDate(
+      isoDate(Number(iso[1]), Number(iso[2]), Number(iso[3])),
+      iso[0],
+    );
 
   const numeric = query.match(/\b(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b/);
   if (numeric) {
@@ -192,37 +240,37 @@ function searchDate(query: string, now: Date) {
     const year = rawYear
       ? Number(rawYear.length === 2 ? `20${rawYear}` : rawYear)
       : now.getFullYear();
-    return {
-      date: isoDate(year, Number(numeric[1]), Number(numeric[2])),
-      phrase: numeric[0],
-    };
+    return exactDate(
+      isoDate(year, Number(numeric[1]), Number(numeric[2])),
+      numeric[0],
+    );
   }
 
   const monthFirst = query.match(
     /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s+(\d{4}))?\b/,
   );
   if (monthFirst)
-    return {
-      date: isoDate(
+    return exactDate(
+      isoDate(
         Number(monthFirst[3] ?? now.getFullYear()),
         SEARCH_MONTHS[monthFirst[1]],
         Number(monthFirst[2]),
       ),
-      phrase: monthFirst[0],
-    };
+      monthFirst[0],
+    );
 
   const dayFirst = query.match(
     /\b(\d{1,2})(?:st|nd|rd|th)?\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)(?:,?\s+(\d{4}))?\b/,
   );
   if (dayFirst)
-    return {
-      date: isoDate(
+    return exactDate(
+      isoDate(
         Number(dayFirst[3] ?? now.getFullYear()),
         SEARCH_MONTHS[dayFirst[2]],
         Number(dayFirst[1]),
       ),
-      phrase: dayFirst[0],
-    };
+      dayFirst[0],
+    );
 
   return null;
 }
@@ -236,7 +284,14 @@ export function matchesRegistrySearch(
   if (!query) return true;
 
   const parsedDate = searchDate(query, now);
-  if (parsedDate && item.date !== parsedDate.date) return false;
+  if (
+    parsedDate &&
+    (!parsedDate.start ||
+      !parsedDate.end ||
+      item.date < parsedDate.start ||
+      item.date > parsedDate.end)
+  )
+    return false;
 
   const words = (parsedDate ? query.replace(parsedDate.phrase, " ") : query)
     .split(/\s+/)
@@ -256,7 +311,7 @@ export function matchesRegistrySearch(
           "stuff",
         ].includes(word),
     );
-  if (words.length === 0) return Boolean(parsedDate?.date);
+  if (words.length === 0) return Boolean(parsedDate?.start && parsedDate.end);
 
   const [, month, day] = item.date.split("-");
   const haystack = [

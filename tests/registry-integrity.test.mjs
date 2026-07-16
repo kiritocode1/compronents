@@ -53,6 +53,34 @@ test("catalog search understands titles, sections, and natural dates", () => {
   );
   assert.ok(matching("yesterday").length > 0);
   assert.ok(matching("yesterday").every((item) => item.date === "2026-07-15"));
+  assert.ok(matching("2 days ago").length > 0);
+  assert.ok(matching("2 days ago").every((item) => item.date === "2026-07-14"));
+  assert.ok(matching("this week").length > 0);
+  assert.ok(
+    matching("this week").every(
+      (item) => item.date >= "2026-07-13" && item.date <= "2026-07-19",
+    ),
+  );
+  assert.ok(matching("last week").length > 0);
+  assert.ok(
+    matching("last week").every(
+      (item) => item.date >= "2026-07-06" && item.date <= "2026-07-12",
+    ),
+  );
+  assert.ok(matching("2 weeks ago").length > 0);
+  assert.ok(
+    matching("2 weeks ago").every(
+      (item) => item.date >= "2026-06-29" && item.date <= "2026-07-05",
+    ),
+  );
+  assert.ok(matching("this month").length > 0);
+  assert.ok(
+    matching("this month").every((item) => item.date.startsWith("2026-07")),
+  );
+  assert.ok(matching("last month").length > 0);
+  assert.ok(
+    matching("last month").every((item) => item.date.startsWith("2026-06")),
+  );
   assert.deepEqual(matching("2/30"), []);
 });
 
