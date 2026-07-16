@@ -377,6 +377,7 @@ const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 const houseOfEpochsPageAssetDocs = pageAssets("house-of-epochs-page-", 5);
 const politeChaosPageAssetDocs = pageAssets("polite-chaos-page-", 5);
+const orbitMatterPageAssetDocs = pageAssets("orbit-matter-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 const sorenPageAssetDocs = pageAssets("soren-page-", 5);
@@ -395,6 +396,36 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "orbit-matter-page": {
+    demoPath: "src/components/demos/orbit-matter-page.tsx",
+    nuance: [
+      {
+        label: "Vanilla source, scoped runtime",
+        description:
+          "The original HTML and CSS remain intact while its document-level Vite scripts are translated into a contained React effect runtime for safe registry use.",
+      },
+      {
+        label: "Signal system stays live",
+        description:
+          "The preloader grid, pointer highlights, menu, Toronto zone clock, SplitText reveals, introduction fill, mission pin, and CTA dispersion remain interactive.",
+      },
+      {
+        label: "Full editorial depth",
+        description:
+          "The install includes the complete hero, statistics, introduction, five mission records, six-card transmission sequence, and observatory footer.",
+      },
+    ],
+    editable: [],
+    assets: orbitMatterPageAssetDocs,
+    api: [
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the isolated full-page root wrapper.",
+      },
+    ],
+  },
   "polite-chaos-page": {
     demoPath: "src/components/demos/polite-chaos-page.tsx",
     nuance: [

@@ -1347,6 +1347,30 @@ const politeChaosPageAssets = politeChaosPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const orbitMatterPageAssetPaths = [
+  "index/hero.jpg",
+  ...Array.from(
+    { length: 5 },
+    (_, index) => `index/highlight_img_0${index + 1}.jpg`,
+  ),
+  "index/logo_cta.png",
+  ...Array.from({ length: 6 }, (_, index) => `index/cta_img_0${index + 1}.jpg`),
+] as readonly string[];
+
+const orbitMatterPageAssets = orbitMatterPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `orbit-matter-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Orbit Matter Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `orbit-matter-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/orbit-matter-page/${rel}`,
+      role: "Source hero, mission, logo, or CTA image used by Orbit Matter.",
+      notes:
+        "Uploaded to Vercel Blob at the original source pathname for this page.",
+    }) as const satisfies AssetItem,
+);
+
 const isochromePageAssets = isochromePageAssetPaths.map(
   (rel) =>
     ({
@@ -1745,6 +1769,7 @@ export const assetItems = [
   ...otisValenPageAssets,
   ...houseOfEpochsPageAssets,
   ...politeChaosPageAssets,
+  ...orbitMatterPageAssets,
   ...velascoSolariPageAssets,
   ...sorenPageAssets,
   ...neotericPageAssets,

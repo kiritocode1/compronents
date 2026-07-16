@@ -185,6 +185,7 @@ export const pageGroups: RegistryGroup[] = [
       "dark-catalog-page",
       "deadspace-page",
       "velasco-solari-page",
+      "orbit-matter-page",
     ],
   },
   {

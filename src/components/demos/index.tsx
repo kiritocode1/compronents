@@ -71,6 +71,7 @@ import MosaicFlipDemo from "./mosaic-flip";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
 import NullStudioPageDemo from "./null-studio-page";
+import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
@@ -163,6 +164,7 @@ export const demos: Record<string, ComponentType> = {
   "terminal-text-reveal": TerminalTextRevealDemo,
   "tilt-card-stack": TiltCardStackDemo,
   "orbit-text-preloader": OrbitTextPreloaderDemo,
+  "orbit-matter-page": OrbitMatterPageDemo,
   "scroll-flip-cards": ScrollFlipCardsDemo,
   "scroll-text-blocks": ScrollTextBlocksDemo,
   "video-card-stack": VideoCardStackDemo,

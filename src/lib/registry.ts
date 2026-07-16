@@ -414,6 +414,36 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "orbit-matter-page",
+    title: "Orbit Matter Page",
+    description:
+      "A source-backed interplanetary observatory page with a signal-grid preloader, pointer-reactive background grid, responsive navigation overlay, timed hero transmission, SplitText reveals, character-fill introduction, pinned mission archive, dispersing CTA image pairs, and a dense communications footer. Source imagery is served from Blob.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/orbit-matter-page/index.tsx",
+        target: "components/ui/orbit-matter-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/orbit-matter-page/fragment.ts",
+        target: "components/ui/orbit-matter-page/fragment.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/orbit-matter-page/styles.ts",
+        target: "components/ui/orbit-matter-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "polite-chaos-page",
     title: "Polite Chaos Page",
     description:
