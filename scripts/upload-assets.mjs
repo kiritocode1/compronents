@@ -26,6 +26,7 @@ const TYPES = {
   ".otf": "font/otf",
   ".ttf": "font/ttf",
   ".woff2": "font/woff2",
+  ".mp3": "audio/mpeg",
   ".mp4": "video/mp4",
 };
 
