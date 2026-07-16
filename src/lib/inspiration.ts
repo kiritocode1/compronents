@@ -422,6 +422,12 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animated icon libraries",
     links: [
       {
+        title: "Icon Animator",
+        href: "https://www.iconanimator.app/",
+        description:
+          "Web app for turning SVG icons into animated ones, adjusting motion, easing and timing in the browser, then exporting the result as code or Lottie for use in interfaces.",
+      },
+      {
         title: "Lucide Animated",
         href: "https://lucide-animated.com",
         description:
@@ -1526,6 +1532,12 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Mek Gallery",
+        href: "https://www.mek.gallery/design",
+        description:
+          "Portfolio of Michael Alexander spanning visual art, design, typography and development, presented as a browsable gallery of his work.",
+      },
+      {
         title: "Naked City Films",
         href: "https://www.nakedcityfilms.com/",
         description:
@@ -2446,6 +2458,12 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Fancy CSS Reveal Effects",
+        href: "https://expensive.toys/blog/fancy-css-reveal-effects",
+        description:
+          "Blog post breaking down fancy CSS reveal effects, walking through the techniques for animating text and content into view on scroll and interaction.",
+      },
+      {
         title: "MotionSites",
         href: "https://motionsites.ai",
         description:
@@ -2583,6 +2601,18 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Fleet",
+        href: "https://tol.is/fleet",
+        description:
+          "Interactive flock dynamics experiment by Tolis, simulating boids-style flocking behaviour in the browser where many agents steer, align and swarm in real time.",
+      },
+      {
+        title: "Keramos",
+        href: "https://keramos.vercel.app/",
+        description:
+          "Minimal browser-based creative coding experiment with a monospace control UI, worth a look for its restrained interface and interactive feel.",
+      },
+      {
         title: "Valessa",
         href: "https://valessa.riotters.com",
         description:
@@ -2702,6 +2732,12 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Cuelume",
+        href: "https://cuelume-site.pages.dev/",
+        description:
+          "Lightweight JavaScript library that synthesizes interactive sound effects for web interfaces using the Web Audio API, no audio files or external dependencies required.",
+      },
+      {
         title: "Audio by Raphael Salaja",
         href: "https://audio.raphaelsalaja.com/",
         description:
@@ -2784,6 +2820,12 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "LLMs and AI engineering",
     links: [
+      {
+        title: "llms.txt Directory",
+        href: "https://llmstxt.site/",
+        description:
+          "Directory of llms.txt file locations across the web with stats, tracking which sites publish the standard file that tells language models how to read and use their content.",
+      },
       {
         title: "Vibe coding is not AI-assisted engineering",
         href: "https://addyo.substack.com/p/vibe-coding-is-not-the-same-as-ai",
@@ -2932,6 +2974,12 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "ReactBench",
+        href: "https://www.reactbench.com/",
+        description:
+          "Evaluation platform that benchmarks coding agents on realistic React work, testing whether models can produce production-ready code that meets performance, accessibility and quality standards, not just pass basic functionality checks.",
+      },
       {
         title: "ai-cli",
         href: "https://ai-cli.dev/",
@@ -3600,6 +3648,12 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Infrastructure, observability and runtimes",
     links: [
+      {
+        title: "Domain SDK",
+        href: "https://www.domain-sdk.dev/",
+        description:
+          "TypeScript library that gives one unified API for managing customer custom domains across hosting platforms like Vercel, Cloudflare, Railway, Render and Netlify, so you add, verify, monitor and remove domains without learning each provider's own implementation.",
+      },
       {
         title: "Tracing a memory leak in an LRU cache",
         href: "https://blog.openresty.com/en/xray-casestudy-lua-lru/",
