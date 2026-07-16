@@ -1084,6 +1084,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "magnetic-spotlight-marquee",
+    title: "Magnetic Spotlight Marquee",
+    description:
+      "A continuously looping row of six images that follows the pointer vertically. As the strip travels down the frame, nearby text lines rise with its wake and settle independently, preserving the source motion model and responsive composition.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/magnetic-spotlight-marquee.tsx",
+        target: "components/ui/magnetic-spotlight-marquee.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "wordmark-spotlight-scroll",
     title: "Wordmark Spotlight Scroll",
     description:

@@ -58,6 +58,7 @@ import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LineRiseTextDemo from "./line-rise-text";
+import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
 import March2025TemplateDemo from "./march-2025-template";
 import MaskRevealPreloaderDemo from "./mask-reveal-preloader";
 import MaterialSpotlightDemo from "./material-spotlight";
@@ -120,6 +121,7 @@ import WuWeiPageDemo from "./wu-wei-page";
 export const demos: Record<string, ComponentType> = {
   "wordmark-spotlight-scroll": WordmarkSpotlightScrollDemo,
   "circle-preloader-hero": CirclePreloaderHeroDemo,
+  "magnetic-spotlight-marquee": MagneticSpotlightMarqueeDemo,
   "block-page-transition": BlockPageTransitionDemo,
   "animated-footer": AnimatedFooterDemo,
   "accordion-frames": AccordionFramesDemo,

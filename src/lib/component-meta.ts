@@ -4835,6 +4835,59 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "magnetic-spotlight-marquee": {
+    demoPath: "src/components/demos/magnetic-spotlight-marquee.tsx",
+    nuance: [
+      {
+        label: "Pointer-led strip",
+        description:
+          "The marquee loops at the source speed while its vertical center eases toward the pointer inside the original 175-pixel edge limits.",
+      },
+      {
+        label: "Velocity wake",
+        description:
+          "Every SplitText line reacts independently to the strip velocity and proximity, then settles toward the lifted content position using the original constants.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "Six photographs in the repeating marquee set.",
+      },
+      {
+        name: "title / tagline / copy / footer",
+        control: "text",
+        description: "Studio heading and supporting copy moved by the strip.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from(
+        { length: 6 },
+        (_, i) => `magnetic-spotlight-marquee-img-${i + 1}`,
+      ),
+    ),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "6 BLANK-hosted JPGs",
+        description: "Images cloned into the infinite horizontal track.",
+      },
+      {
+        name: "title / tagline / email / socialLinks",
+        type: "string",
+        default: "BLANK studio copy",
+        description: "Primary identity and navigation copy.",
+      },
+      {
+        name: "copy / footer",
+        type: "[string, string] / string",
+        default: "BLANK studio copy",
+        description: "Body columns and centered footer description.",
+      },
+    ],
+  },
   "circle-preloader-hero": {
     demoPath: "src/components/demos/circle-preloader-hero.tsx",
     nuance: [

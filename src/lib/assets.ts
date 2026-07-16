@@ -1568,6 +1568,18 @@ const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
 });
 
 export const assetItems = [
+  ...Array.from({ length: 6 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `magnetic-spotlight-marquee-img-${n}`,
+      label: `Magnetic Spotlight Marquee image ${n}`,
+      provider: "vercel-blob",
+      pathname: `magnetic-spotlight-marquee/marquee-img-${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/magnetic-spotlight-marquee/marquee-img-${n}.jpg`,
+      role: "Photograph in the continuously looping magnetic strip.",
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    } as const satisfies AssetItem;
+  }),
   {
     id: "wordmark-spotlight-scroll-header",
     label: "Wordmark Spotlight Scroll header",
