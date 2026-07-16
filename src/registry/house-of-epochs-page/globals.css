@@ -1,12 +1,13 @@
 @import url(./fonts.css);
 
-:root {
+.house-of-epochs-page {
   --base-100: #faf2e1;
   --base-200: #e6dfcf;
   --base-300: #ffae00;
   --base-400: #171717;
   --base-500: #0f0f0f;
-}
+  background-color: var(--base-100);
+  color: var(--base-500);
 
 * {
   margin: 0;
@@ -16,13 +17,9 @@
   user-select: none;
 }
 
+&::-webkit-scrollbar,
 ::-webkit-scrollbar {
   display: none;
-}
-
-body {
-  background-color: var(--base-100);
-  color: var(--base-500);
 }
 
 img {
@@ -162,4 +159,5 @@ p.mono.lg {
   .subheader {
     font-style: normal;
   }
+}
 }

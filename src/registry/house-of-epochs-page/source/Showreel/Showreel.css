@@ -1,3 +1,4 @@
+.house-of-epochs-page {
 .showreel {
   position: relative;
   width: 100%;
@@ -112,4 +113,5 @@
 .showreel-marquee-track p {
   flex-shrink: 0;
   white-space: nowrap;
+}
 }

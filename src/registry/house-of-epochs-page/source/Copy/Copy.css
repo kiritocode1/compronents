@@ -1,3 +1,4 @@
+.house-of-epochs-page {
 .copy-word {
   display: inline-block;
   position: relative;
@@ -23,4 +24,5 @@
   transform-style: preserve-3d;
   will-change: transform, opacity;
   backface-visibility: hidden;
+}
 }

@@ -1,3 +1,4 @@
+.house-of-epochs-page {
 .footer {
   position: relative;
   width: 100%;
@@ -205,4 +206,5 @@
   #footer-contact-email {
     display: none;
   }
+}
 }

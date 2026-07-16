@@ -1,3 +1,4 @@
+.house-of-epochs-page {
 .preloader {
   position: fixed;
   inset: 0;
@@ -61,4 +62,5 @@
   stroke: var(--base-300);
   stroke-width: 2;
   opacity: 0;
+}
 }

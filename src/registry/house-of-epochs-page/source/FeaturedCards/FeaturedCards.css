@@ -1,3 +1,4 @@
+.house-of-epochs-page {
 .featured-cards {
   position: relative;
   width: 100%;
@@ -161,4 +162,5 @@
   .featured-card-content h5 {
     font-size: clamp(3rem, 5vw, 5rem);
   }
+}
 }
