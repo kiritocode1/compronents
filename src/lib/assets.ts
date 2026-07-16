@@ -1301,6 +1301,52 @@ const houseOfEpochsPageAssets = houseOfEpochsPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const politeChaosPageAssetPaths = [
+  ...Array.from(
+    { length: 6 },
+    (_, index) => `featured-work/work-${index + 1}.jpg`,
+  ),
+  "fonts/big-shoulders-display/BigShouldersDisplay.ttf",
+  "fonts/geist-mono/geist-mono-variable.ttf",
+  ...["Thin", "Light", "Regular", "Book", "Medium", "Bold"].map(
+    (weight) => `fonts/neue-montral/PPNeueMontreal-${weight}.otf`,
+  ),
+  ...[
+    "Thin",
+    "Light",
+    "Regular",
+    "Medium",
+    "Semibold",
+    "Bold",
+    "Extrabold",
+  ].map((weight) => `fonts/pangram-sans/PPPangramSans-${weight}.otf`),
+  "logo.svg",
+  "menu/menu_img.jpg",
+  ...Array.from(
+    { length: 6 },
+    (_, index) => `showreel/showreel-frame-${index + 1}.jpg`,
+  ),
+  "showreel/showreel_music.mp3",
+  ...Array.from(
+    { length: 16 },
+    (_, index) => `spotlight/spotlight-${index + 1}.jpg`,
+  ),
+] as readonly string[];
+
+const politeChaosPageAssets = politeChaosPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `polite-chaos-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Polite Chaos Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `polite-chaos-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/polite-chaos-page/${rel}`,
+      role: "Source image, font, SVG, or audio used by the Polite Chaos page.",
+      notes:
+        "Uploaded to Vercel Blob at the original source pathname for this page.",
+    }) as const satisfies AssetItem,
+);
+
 const isochromePageAssets = isochromePageAssetPaths.map(
   (rel) =>
     ({
@@ -1698,6 +1744,7 @@ export const assetItems = [
   ...wuWeiPageAssets,
   ...otisValenPageAssets,
   ...houseOfEpochsPageAssets,
+  ...politeChaosPageAssets,
   ...velascoSolariPageAssets,
   ...sorenPageAssets,
   ...neotericPageAssets,

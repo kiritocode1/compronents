@@ -414,6 +414,50 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "polite-chaos-page",
+    title: "Polite Chaos Page",
+    description:
+      "A source-backed creative studio page with a cinematic image preloader, oversized editorial hero, frame-cycling showreel, staggered project rows, pinned client reviews, SplitType spotlight marquees, an animated contact card, full overlay menu, and production footer. All source imagery, fonts, and audio are served from Blob.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["@gsap/react", "gsap", "lenis", "react-icons", "split-type"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/polite-chaos-page/index.tsx",
+        target: "components/ui/polite-chaos-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/polite-chaos-page/styles.ts",
+        target: "components/ui/polite-chaos-page/styles.ts",
+        type: "registry:lib",
+      },
+      ...[
+        ["Button/Button.tsx", "registry:lib"],
+        ["ClientReviews/ClientReviews.tsx", "registry:lib"],
+        ["ClientReviews/clientReviewsData.ts", "registry:lib"],
+        ["Copy/Copy.tsx", "registry:lib"],
+        ["CTACard/CTACard.tsx", "registry:lib"],
+        ["FeaturedWork/FeaturedWork.tsx", "registry:lib"],
+        ["FeaturedWork/project.ts", "registry:lib"],
+        ["Footer/Footer.tsx", "registry:lib"],
+        ["Menu/Menu.tsx", "registry:lib"],
+        ["Preloader/Preloader.tsx", "registry:lib"],
+        ["Showreel/Showreel.tsx", "registry:lib"],
+        ["Spotlight/Spotlight.tsx", "registry:lib"],
+        ["useViewTransition.ts", "registry:lib"],
+      ].map(([file, type]) => ({
+        path: `src/registry/polite-chaos-page/source/${file}`,
+        target: `components/ui/polite-chaos-page/source/${file}`,
+        type: type as "registry:lib",
+      })),
+    ],
+  },
+  {
     name: "house-of-epochs-page",
     title: "House of Epochs Page",
     description:

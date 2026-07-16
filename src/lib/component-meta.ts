@@ -376,6 +376,7 @@ const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
 const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 const houseOfEpochsPageAssetDocs = pageAssets("house-of-epochs-page-", 5);
+const politeChaosPageAssetDocs = pageAssets("polite-chaos-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 const sorenPageAssetDocs = pageAssets("soren-page-", 5);
@@ -394,6 +395,36 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "polite-chaos-page": {
+    demoPath: "src/components/demos/polite-chaos-page.tsx",
+    nuance: [
+      {
+        label: "Complete homepage sequence",
+        description:
+          "The original hero, showreel, featured work, review stack, spotlight marquees, contact card, menu, and footer remain one continuous studio page.",
+      },
+      {
+        label: "Source motion retained",
+        description:
+          "The image preloader, SplitText copy, pinned showreel, project entrances, review pins, weight-shifting marquees, menu overlay, and footer interactions use the source GSAP logic.",
+      },
+      {
+        label: "Contained handoff",
+        description:
+          "Internal links stay inside the registry preview while the page keeps its full navigation and CTA presentation.",
+      },
+    ],
+    editable: [],
+    assets: politeChaosPageAssetDocs,
+    api: [
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the isolated full-page root wrapper.",
+      },
+    ],
+  },
   "house-of-epochs-page": {
     demoPath: "src/components/demos/house-of-epochs-page.tsx",
     nuance: [

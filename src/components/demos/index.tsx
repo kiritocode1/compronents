@@ -75,6 +75,7 @@ import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
+import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
@@ -233,4 +234,5 @@ export const demos: Record<string, ComponentType> = {
   "wu-wei-page": WuWeiPageDemo,
   "lemon-bureau-page": LemonBureauPageDemo,
   "pixelgrid-studio-page": PixelgridStudioPageDemo,
+  "polite-chaos-page": PoliteChaosPageDemo,
 };

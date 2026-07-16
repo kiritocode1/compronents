@@ -175,6 +175,7 @@ export const pageGroups: RegistryGroup[] = [
       "neoteric-page",
       "unusual-studio-page",
       "otis-valen-page",
+      "polite-chaos-page",
     ],
   },
   {
