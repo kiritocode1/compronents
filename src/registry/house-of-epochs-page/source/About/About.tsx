@@ -2,11 +2,13 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import Copy from "../Copy/Copy";
+
+import "./About.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,10 +76,7 @@ export default function About() {
 
               <div className="about-services-left-copy">
                 <div className="about-services-image">
-                  <img
-                    src="https://ui.aryank.space/assets/house-of-epochs-page/images/img4.jpg"
-                    alt=""
-                  />
+                  <img src="https://ui.aryank.space/assets/house-of-epochs-page/images/img4.jpg" alt="" />
                 </div>
 
                 <p className="about-services-copy">

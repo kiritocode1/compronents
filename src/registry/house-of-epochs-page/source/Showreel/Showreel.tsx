@@ -2,11 +2,13 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { Flip } from "gsap/Flip";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Flip } from "gsap/Flip";
+import { useGSAP } from "@gsap/react";
+
+import "./Showreel.css";
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
@@ -149,39 +151,24 @@ export default function Showreel() {
   return (
     <section className="showreel" ref={showreelRef}>
       <div className="showreel-header" id="showreel-header-1">
-        <img
-          src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg"
-          alt=""
-        />
+        <img src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg" alt="" />
       </div>
 
       <div className="showreel-header" id="showreel-header-2">
-        <img
-          src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg"
-          alt=""
-        />
+        <img src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg" alt="" />
       </div>
 
       <div className="showreel-header" id="showreel-header-3">
-        <img
-          src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg"
-          alt=""
-        />
+        <img src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg" alt="" />
       </div>
 
       <div className="showreel-header" id="showreel-header-4">
-        <img
-          src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg"
-          alt=""
-        />
+        <img src="https://ui.aryank.space/assets/house-of-epochs-page/assets/showreel-header.svg" alt="" />
       </div>
 
       <div className="container">
         <div className="showreel-visual">
-          <img
-            src="https://ui.aryank.space/assets/house-of-epochs-page/images/img8.jpg"
-            alt=""
-          />
+          <img src="https://ui.aryank.space/assets/house-of-epochs-page/images/img8.jpg" alt="" />
 
           <div className="showreel-marquee-container">
             <div className="showreel-marquee">

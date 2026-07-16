@@ -2,8 +2,10 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
+
+import "./MusicToggle.css";
 
 const WAVE_CONFIG = {
   points: 80,
@@ -108,11 +110,7 @@ export default function MusicToggle() {
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src="https://ui.aryank.space/assets/house-of-epochs-page/music/bg.mp3"
-        loop
-      />
+      <audio ref={audioRef} src="https://ui.aryank.space/assets/house-of-epochs-page/music/bg.mp3" loop />
       <div className="music-toggle-container">
         <button
           type="button"

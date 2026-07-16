@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 
+import "./Buttons.css";
+
 export default function Button({
   href = "/",
   children,

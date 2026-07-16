@@ -83,6 +83,14 @@
           }
         }
       }
+    },
+    {
+      "includes": [
+        "src/registry/house-of-epochs-page/source/**",
+        "src/registry/house-of-epochs-page/*.css"
+      ],
+      "formatter": { "enabled": false },
+      "linter": { "enabled": false }
     }
   ]
 }

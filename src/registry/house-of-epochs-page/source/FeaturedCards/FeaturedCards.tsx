@@ -2,12 +2,14 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import Button from "../Button/Button";
 import Copy from "../Copy/Copy";
+
+import "./FeaturedCards.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,32 +17,27 @@ const FEATURED_CARDS_DATA = [
   {
     subtitle: "The Fallen",
     title: "Arches of Vorn",
-    image:
-      "https://ui.aryank.space/assets/house-of-epochs-page/images/img1.jpg",
+    image: "https://ui.aryank.space/assets/house-of-epochs-page/images/img1.jpg",
   },
   {
     subtitle: "The Silent",
     title: "Monolith Drenn",
-    image:
-      "https://ui.aryank.space/assets/house-of-epochs-page/images/img2.jpg",
+    image: "https://ui.aryank.space/assets/house-of-epochs-page/images/img2.jpg",
   },
   {
     subtitle: "The Suspended",
     title: "Orbs of Thessyn",
-    image:
-      "https://ui.aryank.space/assets/house-of-epochs-page/images/img3.jpg",
+    image: "https://ui.aryank.space/assets/house-of-epochs-page/images/img3.jpg",
   },
   {
     subtitle: "The Tethered Moon",
     title: "Fields of Aruun",
-    image:
-      "https://ui.aryank.space/assets/house-of-epochs-page/images/img4.jpg",
+    image: "https://ui.aryank.space/assets/house-of-epochs-page/images/img4.jpg",
   },
   {
     subtitle: "The Flooded",
     title: "Passage of Kael",
-    image:
-      "https://ui.aryank.space/assets/house-of-epochs-page/images/img5.jpg",
+    image: "https://ui.aryank.space/assets/house-of-epochs-page/images/img5.jpg",
   },
 ];
 

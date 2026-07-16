@@ -1,0 +1,64 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.preloader-blocks {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  display: grid;
+  width: max-content;
+  height: max-content;
+  grid-template-columns: repeat(
+    var(--preloader-columns, 12),
+    var(--preloader-block-size, 80px)
+  );
+  grid-auto-rows: var(--preloader-block-size, 80px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.preloader-cell {
+  aspect-ratio: 1;
+  background-color: var(--base-500);
+}
+
+.preloader-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-svg {
+  width: 100%;
+  height: auto;
+  min-height: 50vh;
+  overflow: visible;
+  visibility: hidden;
+}
+
+.preloader-path-base,
+.preloader-path-fill {
+  stroke-linecap: butt;
+}
+
+.preloader-path-base {
+  stroke: #242424;
+  stroke-width: 1.5;
+}
+
+.preloader-path-fill {
+  stroke: var(--base-300);
+  stroke-width: 2;
+  opacity: 0;
+}

@@ -16,7 +16,9 @@ import Menu from "./source/Menu/Menu";
 import MusicToggle from "./source/MusicToggle/MusicToggle";
 import Preloader, { isInitialLoad } from "./source/Preloader/Preloader";
 import Showreel from "./source/Showreel/Showreel";
-import { getHouseOfEpochsPageStyles } from "./styles";
+
+import "./globals.css";
+import "./home.css";
 
 export const DEFAULT_ASSET_BASE =
   "https://ui.aryank.space/assets/house-of-epochs-page";
@@ -79,56 +81,51 @@ export default function HouseOfEpochsPage({
       onClickCapture={containInternalNavigation}
       style={style}
     >
-      <style
-        dangerouslySetInnerHTML={{ __html: getHouseOfEpochsPageStyles() }}
-      />
-
       <Menu />
       <MusicToggle />
 
       <div className="page">
-        <Preloader />
+        <div className="page-wrapper">
+          <Preloader />
 
-        <section className="hero">
-          <div className="hero-img">
-            <img
-              src={`${DEFAULT_ASSET_BASE}/images/img2.jpg`}
-              alt="Ancient rock formation"
-            />
-          </div>
-
-          <div className="container">
-            <div className="hero-header">
-              <Copy animateOnScroll={false} delay={heroDelay}>
-                <h1 className="subheader">House of</h1>
-                <h1>Epochs</h1>
-              </Copy>
+          <section className="hero">
+            <div className="hero-img">
+              <img src={`${DEFAULT_ASSET_BASE}/images/img2.jpg`} alt="" />
             </div>
 
-            <div className="hero-footer">
-              <Copy
-                variant="flicker"
-                delay={footerDelay}
-                animateOnScroll={false}
-              >
-                <p className="mono sm">Preserving What Remains</p>
-              </Copy>
-              <Copy
-                variant="flicker"
-                delay={footerDelay}
-                animateOnScroll={false}
-              >
-                <p className="mono sm">[ Since 1961 ]</p>
-              </Copy>
-            </div>
-          </div>
-        </section>
+            <div className="container">
+              <div className="hero-header">
+                <Copy animateOnScroll={false} delay={heroDelay}>
+                  <h1 className="subheader">House of</h1>
+                  <h1>Epochs</h1>
+                </Copy>
+              </div>
 
-        <About />
-        <Showreel />
-        <CTA />
-        <FeaturedCards />
-        <Footer />
+              <div className="hero-footer">
+                <Copy
+                  variant="flicker"
+                  delay={footerDelay}
+                  animateOnScroll={false}
+                >
+                  <p className="mono sm">Preserving What Remains</p>
+                </Copy>
+                <Copy
+                  variant="flicker"
+                  delay={footerDelay}
+                  animateOnScroll={false}
+                >
+                  <p className="mono sm">[ Since 1961 ]</p>
+                </Copy>
+              </div>
+            </div>
+          </section>
+
+          <About />
+          <Showreel />
+          <CTA />
+          <FeaturedCards />
+          <Footer />
+        </div>
       </div>
     </div>
   );

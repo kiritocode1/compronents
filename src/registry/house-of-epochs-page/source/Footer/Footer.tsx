@@ -2,11 +2,13 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
-import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+
+import "./Footer.css";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -16,6 +16,7 @@ import { getRegistryItem } from "@/lib/registry";
 export function FullscreenPreview({ name }: { name: string }) {
   const Preview = previews[name] ?? demos[name];
   const section = getRegistryItem(name)?.section ?? "components";
+  const usesDocumentScroll = name === "house-of-epochs-page";
   // The detail page embeds this route in an iframe; the close affordance only
   // makes sense when the preview owns the whole tab.
   const [framed, setFramed] = useState(true);
@@ -24,7 +25,13 @@ export function FullscreenPreview({ name }: { name: string }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black">
+    <div
+      className={
+        usesDocumentScroll
+          ? "relative z-50 min-h-screen bg-black"
+          : "fixed inset-0 z-50 overflow-y-auto bg-black"
+      }
+    >
       {framed ? null : (
         <Link
           href={`/${section}/${name}`}

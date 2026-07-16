@@ -2,12 +2,14 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useLenis } from "lenis/react";
-import Link from "next/link";
+import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { useLenis } from "lenis/react";
+
+import "./Menu.css";
 
 gsap.registerPlugin(useGSAP);
 
@@ -157,10 +159,7 @@ export default function Menu() {
             className="menu-box menu-logo"
             onClick={() => handleLinkClick("/")}
           >
-            <img
-              src="https://ui.aryank.space/assets/house-of-epochs-page/logo.svg"
-              alt="Home"
-            />
+            <img src="https://ui.aryank.space/assets/house-of-epochs-page/logo.svg" alt="Home" />
           </Link>
 
           <button
