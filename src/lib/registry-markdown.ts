@@ -50,7 +50,7 @@ function codeFence(content: string, language = "") {
     ...Array.from(content.matchAll(/`+/g), (match) => match[0].length),
   );
   const fence = "`".repeat(Math.max(3, longestRun + 1));
-  return `${fence}${language}\n${content.trimEnd()}\n${fence}`;
+  return `${fence}${language}\n${content}${content.endsWith("\n") ? "" : "\n"}${fence}`;
 }
 
 function languageOf(filename: string) {
