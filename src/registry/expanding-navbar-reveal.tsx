@@ -61,12 +61,24 @@ export default function ExpandingNavbarReveal({
 
     gsap.registerPlugin(ScrollTrigger, Flip);
 
+    const scroller = root.querySelector<HTMLElement>(".encr-scroller");
     const content = root.querySelector<HTMLElement>(".encr-content");
+    const spacer = root.querySelector<HTMLElement>(".encr-spacer");
+    const about = root.querySelector<HTMLElement>(".encr-about");
     const backdrop = root.querySelector<HTMLElement>(".encr-backdrop");
     const navbarBg = root.querySelector<HTMLElement>(".encr-background");
     const navbarItems = root.querySelector<HTMLElement>(".encr-items");
     const navbarLogo = root.querySelector<HTMLElement>(".encr-logo");
-    if (!content || !backdrop || !navbarBg || !navbarItems || !navbarLogo)
+    if (
+      !scroller ||
+      !content ||
+      !spacer ||
+      !about ||
+      !backdrop ||
+      !navbarBg ||
+      !navbarItems ||
+      !navbarLogo
+    )
       return;
 
     const navbarLinks = Array.from(
@@ -74,10 +86,22 @@ export default function ExpandingNavbarReveal({
     );
 
     // Capture the guarded elements so their non-null types carry into init().
-    const els = { root, backdrop, navbarBg, navbarItems, navbarLogo };
+    const els = {
+      root,
+      scroller,
+      content,
+      spacer,
+      about,
+      backdrop,
+      navbarBg,
+      navbarItems,
+      navbarLogo,
+    };
 
+    // Fixed layers live outside the scroller so they pin to the stage. Lenis
+    // only smooths the scrollable column, matching the pure JS body layout.
     const lenis = embedded
-      ? new Lenis({ wrapper: root, content })
+      ? new Lenis({ wrapper: els.scroller, content: els.content })
       : new Lenis();
     lenis.on("scroll", ScrollTrigger.update);
     const tickerFn = (time: number) => {
@@ -87,15 +111,28 @@ export default function ExpandingNavbarReveal({
     gsap.ticker.lagSmoothing(0);
 
     let trigger: ScrollTrigger | null = null;
+    let flipTween: gsap.core.Timeline | null = null;
 
-    function init() {
-      const viewportWidth = embedded
-        ? els.root.clientWidth
-        : window.innerWidth;
+    function measureViewport() {
+      const viewportWidth = embedded ? els.root.clientWidth : window.innerWidth;
       const viewportHeight = embedded
         ? els.root.clientHeight
         : window.innerHeight;
+      return { viewportWidth, viewportHeight };
+    }
+
+    function init() {
+      trigger?.kill();
+      flipTween?.kill();
+      trigger = null;
+      flipTween = null;
+
+      const { viewportWidth, viewportHeight } = measureViewport();
       const isDesktop = viewportWidth >= 720;
+
+      // Two viewports of lead-in scroll (expand + hold), sized to the stage.
+      els.spacer.style.height = `${viewportHeight * 2}px`;
+      els.about.style.minHeight = `${viewportHeight}px`;
 
       if (!isDesktop) {
         els.navbarLogo.classList.add("encr-logo-pinned");
@@ -103,26 +140,49 @@ export default function ExpandingNavbarReveal({
         gsap.set([els.navbarBg, els.navbarItems], {
           width: "100%",
           height: "100%",
+          top: 0,
+          left: 0,
+          xPercent: 0,
+          yPercent: 0,
+          x: 0,
+          y: 0,
+          transform: "none",
         });
         return;
       }
+
+      // Reset to the centered 16:9 card before measuring Flip.
+      gsap.set([els.navbarBg, els.navbarItems], { clearProps: "all" });
+      els.navbarLogo.classList.remove("encr-logo-pinned");
+      gsap.set(els.navbarLogo, { clearProps: "all" });
+      for (const link of navbarLinks) gsap.set(link, { clearProps: "all" });
+
+      // Force layout so offsetWidth reflects the card, not a stale inline size.
+      void els.navbarBg.offsetWidth;
 
       const initialWidth = els.navbarBg.offsetWidth;
       const initialHeight = els.navbarBg.offsetHeight;
       const initialLinksWidths = navbarLinks.map((link) => link.offsetWidth);
 
+      // Hold link columns at their card-width so they do not stretch with the frame.
+      for (const [i, link] of navbarLinks.entries()) {
+        gsap.set(link, { width: initialLinksWidths[i] });
+      }
+
       const state = Flip.getState(els.navbarLogo);
       els.navbarLogo.classList.add("encr-logo-pinned");
       gsap.set(els.navbarLogo, { width: 250 });
-      const flip = Flip.from(state, {
+      flipTween = Flip.from(state, {
         duration: 1,
         ease: "none",
         paused: true,
       });
 
+      // Drive progress off the scroll column (not the fixed backdrop). Fixed
+      // triggers report a constant rect and never accumulate scroll distance.
       trigger = ScrollTrigger.create({
-        trigger: els.backdrop,
-        scroller: embedded ? els.root : undefined,
+        trigger: els.content,
+        scroller: embedded ? els.scroller : undefined,
         start: "top top",
         end: `+=${viewportHeight}px`,
         scrub: 1,
@@ -134,17 +194,7 @@ export default function ExpandingNavbarReveal({
             height: gsap.utils.interpolate(initialHeight, viewportHeight, p),
           });
 
-          navbarLinks.forEach((link, i) => {
-            gsap.set(link, {
-              width: gsap.utils.interpolate(
-                link.offsetWidth,
-                initialLinksWidths[i],
-                p,
-              ),
-            });
-          });
-
-          flip.progress(p);
+          flipTween?.progress(p);
         },
       });
     }
@@ -155,21 +205,34 @@ export default function ExpandingNavbarReveal({
     const onResize = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        trigger?.kill();
         gsap.set(
           [els.navbarBg, els.navbarItems, els.navbarLogo, ...navbarLinks],
           { clearProps: "all" },
         );
         els.navbarLogo.classList.remove("encr-logo-pinned");
         init();
+        ScrollTrigger.refresh();
       }, 250);
     };
     window.addEventListener("resize", onResize);
 
+    // Layout can settle after mount (fonts, images); remeasure once.
+    const raf = requestAnimationFrame(() => {
+      gsap.set(
+        [els.navbarBg, els.navbarItems, els.navbarLogo, ...navbarLinks],
+        { clearProps: "all" },
+      );
+      els.navbarLogo.classList.remove("encr-logo-pinned");
+      init();
+      ScrollTrigger.refresh();
+    });
+
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       clearTimeout(timer);
       trigger?.kill();
+      flipTween?.kill();
       gsap.ticker.remove(tickerFn);
       lenis.destroy();
     };
@@ -181,44 +244,53 @@ export default function ExpandingNavbarReveal({
       ref={rootRef}
     >
       <style>{styles}</style>
-      <div className="encr-content">
-        <div className="encr-backdrop">
-          <div className="encr-img">
-            <img alt="" draggable={false} src={backdropImage} />
-          </div>
-          <div className="encr-background" />
+
+      {/*
+        Viewport-pinned layers sit outside the scroller so position:fixed /
+        absolute never rides the Lenis content. Matches pure JS where backdrop
+        + items are body-level siblings of the sections.
+      */}
+      <div className="encr-backdrop">
+        <div className="encr-img">
+          <img alt="" draggable={false} src={backdropImage} />
         </div>
+        <div className="encr-background" />
+      </div>
 
-        <div className="encr-items">
-          <div className="encr-links">
-            {leftLinks.map((link) => (
-              <a href={link.href} key={link.label}>
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <div className="encr-links">
-            {rightLinks.map((link) => (
-              <a href={link.href} key={link.label}>
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          <div className="encr-logo">
-            <a href="#">
-              <img alt="" draggable={false} src={logoImage} />
+      <div className="encr-items">
+        <div className="encr-links">
+          {leftLinks.map((link) => (
+            <a href={link.href} key={link.label}>
+              {link.label}
             </a>
-          </div>
+          ))}
+        </div>
+        <div className="encr-links">
+          {rightLinks.map((link) => (
+            <a href={link.href} key={link.label}>
+              {link.label}
+            </a>
+          ))}
         </div>
 
-        <section className="encr-hero">
-          <h1>{heroText}</h1>
-        </section>
+        <div className="encr-logo">
+          <a href="#">
+            <img alt="" draggable={false} src={logoImage} />
+          </a>
+        </div>
+      </div>
 
-        <section className="encr-about">
-          <h1>{aboutText}</h1>
-        </section>
+      <div className="encr-scroller">
+        <div className="encr-content">
+          <div aria-hidden="true" className="encr-spacer" />
+          <section className="encr-hero">
+            <h1>{heroText}</h1>
+          </section>
+
+          <section className="encr-about">
+            <h1>{aboutText}</h1>
+          </section>
+        </div>
       </div>
     </div>
   );
@@ -232,18 +304,40 @@ const styles = `
   width: 100%;
   height: 100%;
   min-height: 100svh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: #f9f4eb;
   color: #141414;
 }
 
-/* Contain the fixed navbar to this box when embedded in a bounded stage. */
+/* Stage-scoped pin: absolute layers stick to this box, scroller owns the wheel. */
 .encr-embedded {
-  transform: translateZ(0);
+  height: 100%;
+  min-height: 0;
 }
 
-.encr-root::-webkit-scrollbar {
+.encr-root:not(.encr-embedded) {
+  height: auto;
+  min-height: 100svh;
+  overflow: visible;
+}
+
+.encr-scroller {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 1;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.encr-root:not(.encr-embedded) .encr-scroller {
+  height: auto;
+  overflow: visible;
+}
+
+.encr-scroller::-webkit-scrollbar {
   display: none;
 }
 
@@ -270,9 +364,13 @@ const styles = `
   line-height: 0.9;
 }
 
+/*
+ * Embedded: absolute against the stage so the card never leaves the top of the
+ * demo box. Full-page: fixed against the viewport like the pure JS source.
+ */
 .encr-backdrop,
 .encr-img {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -281,16 +379,28 @@ const styles = `
   overflow: hidden;
 }
 
+.encr-root:not(.encr-embedded) .encr-backdrop,
+.encr-root:not(.encr-embedded) .encr-img {
+  position: fixed;
+  height: 100svh;
+}
+
 .encr-background,
 .encr-items {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  min-width: 720px;
-  aspect-ratio: 16/9;
+  min-width: min(720px, 100%);
+  aspect-ratio: 16 / 9;
   will-change: width, height;
+}
+
+.encr-root:not(.encr-embedded) .encr-background,
+.encr-root:not(.encr-embedded) .encr-items {
+  position: fixed;
+  min-width: 720px;
 }
 
 .encr-background {
@@ -304,6 +414,11 @@ const styles = `
   justify-content: space-between;
   align-items: flex-start;
   z-index: 2;
+  pointer-events: none;
+}
+
+.encr-items a {
+  pointer-events: all;
 }
 
 .encr-logo {
@@ -341,6 +456,11 @@ const styles = `
   padding: 2.5rem 2.5rem 0 5rem;
 }
 
+.encr-spacer {
+  width: 100%;
+  pointer-events: none;
+}
+
 .encr-root section {
   position: relative;
   width: 100%;
@@ -354,11 +474,10 @@ const styles = `
 
 .encr-hero {
   padding: 2.5rem 0;
-  margin-top: 200svh;
 }
 
 .encr-about {
-  height: 100svh;
+  display: flex;
 }
 
 .encr-hero h1,
@@ -395,9 +514,12 @@ const styles = `
     transform: translateX(0);
   }
 
+  .encr-spacer {
+    display: none;
+  }
+
   .encr-hero {
-    height: 100svh;
-    margin-top: 0;
+    min-height: 100vh;
   }
 
   .encr-hero h1,
