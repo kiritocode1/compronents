@@ -4,6 +4,7 @@ import path from "node:path";
 import { assetItems } from "@/lib/assets";
 import { type ComponentAssetDoc, getComponentMeta } from "@/lib/component-meta";
 import {
+  getRegistryDesignGuidance,
   getRegistryItem,
   installCommands,
   REGISTRY_BASE_URL,
@@ -182,6 +183,8 @@ export async function buildRegistryItemMarkdown(name: string) {
     ? `pnpm add ${item.dependencies.join(" ")}`
     : "# No additional runtime packages are required.";
   const sourceRevision = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 12);
+  const guidance = getRegistryDesignGuidance(item);
+  const styleTraits = meta?.nuance.map((note) => note.label).join(", ");
 
   const lines: string[] = [
     `# ${item.title}`,
@@ -207,9 +210,13 @@ export async function buildRegistryItemMarkdown(name: string) {
       (file) => `| \`${file.target}\` | \`${sha256(file.content)}\` |`,
     ),
     "",
-    "## Description",
+    "## Design guidance",
     "",
-    item.description,
+    `- **What it is:** ${item.description}`,
+    `- **Style:** ${guidance.style}${styleTraits ? ` Defining traits: ${styleTraits}.` : ""}`,
+    `- **Where to use it:** ${guidance.use}`,
+    `- **How to pair it:** ${guidance.pair}`,
+    `- **Avoid it when:** ${guidance.avoid}`,
     "",
     "## Implementation contract",
     "",

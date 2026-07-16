@@ -127,6 +127,13 @@ export interface RegistryItem {
   files: RegistryFile[];
 }
 
+export interface RegistryDesignGuidance {
+  style: string;
+  use: string;
+  pair: string;
+  avoid: string;
+}
+
 const SEARCH_MONTHS: Record<string, number> = {
   jan: 1,
   january: 1,
@@ -3143,6 +3150,179 @@ export const registryItems: RegistryItem[] = [
     ],
   },
 ];
+
+export function getRegistryDesignGuidance(
+  item: RegistryItem,
+): RegistryDesignGuidance {
+  if (item.section === "pages" && item.name !== "expanding-rows-gallery") {
+    const subject = /commerce|cart|shop/i.test(item.description)
+      ? "an editorial store or product archive"
+      : /portfolio|agency|studio|bureau/i.test(item.description)
+        ? "a portfolio or creative studio site"
+        : /archive|observatory|institution|film/i.test(item.description)
+          ? "a cultural, archival, or editorial site"
+          : "a campaign, launch, or editorial site";
+    return {
+      style:
+        "A full-page, motion-led composition whose typography, media, and transitions work as one visual system.",
+      use: `Use ${item.title} as the main foundation for ${subject} that can support its complete page rhythm.`,
+      pair: "Pair it with project-specific copy and media, restrained brand tokens, and only the forms, analytics, or backend features the finished site needs.",
+      avoid:
+        "Avoid combining it with another full-page template or a competing global animation system. Use a smaller component when you only need one interaction.",
+    };
+  }
+
+  if (item.name === "effect-cloudflare-event-api") {
+    return {
+      style:
+        "Typed, explicit, and operations-minded backend architecture built around Effect services, layers, schemas, and tagged errors.",
+      use: `Use ${item.title} for a Cloudflare Worker API that needs validated boundaries, KV persistence, tracing, and background work without a large framework shell.`,
+      pair: "Pair it with authentication at the HTTP boundary, a durable store when KV consistency is insufficient, and the target project's existing telemetry exporter.",
+      avoid:
+        "Avoid it for a tiny stateless endpoint or a project that does not use Effect, because the service and layer model would add ceremony without leverage.",
+    };
+  }
+
+  if (item.name === "websocket-route-handler") {
+    return {
+      style:
+        "A minimal, native Next.js realtime transport that keeps the WebSocket upgrade inside a route handler.",
+      use: `Use ${item.title} for Node.js deployments that need direct bidirectional updates such as presence, live dashboards, collaborative state, or streaming events.`,
+      pair: "Pair it with client reconnect and heartbeat handling, authentication during upgrade, and shared state or pub-sub when more than one server instance participates.",
+      avoid:
+        "Avoid it on Edge, static export, or Vercel Functions, and prefer SSE when the browser only needs one-way server updates.",
+    };
+  }
+
+  const style =
+    item.category === "Text"
+      ? "An editorial, typography-led treatment in which motion controls reading order and emphasis."
+      : item.category === "Overlays"
+        ? "A viewport-owning, transition-led layer designed to temporarily take focus from the underlying page."
+        : item.category === "Layout" || item.section === "pages"
+          ? "An image-led composition with strong spatial rhythm and a controlled interactive state change."
+          : "A motion-led, interaction-first effect designed to act as the focal behavior of its section.";
+  const component = (use: string, pair: string, avoid: string) => ({
+    style,
+    use: `Use ${item.title} ${use}`,
+    pair: `Pair it with ${pair}`,
+    avoid: `Avoid it ${avoid}`,
+  });
+  const name = item.name;
+
+  if (/preloader|loader/.test(name)) {
+    return component(
+      "for a deliberate first-load or route-entry handoff into a high-impact hero.",
+      "the real loading state, the first hero composition, and a direct transition into usable content.",
+      "when the page is already fast enough to appear immediately, and never add a fake delay just to show it.",
+    );
+  }
+  if (/transition/.test(name)) {
+    return component(
+      "between meaningful route or view changes where continuity matters more than instant replacement.",
+      "the router lifecycle, stable page backgrounds, and short labels that identify the incoming view.",
+      "for small state changes, repeated filters, or navigation where the transition would slow the user's task.",
+    );
+  }
+  if (/footer|contact/.test(name)) {
+    return component(
+      "as the final brand or conversion moment on a portfolio, studio, campaign, or product page.",
+      "a concise CTA, essential contact details, and quieter sections above it so the ending feels earned.",
+      "as a generic utility footer or when legal, sitemap, and support links need dense conventional navigation.",
+    );
+  }
+  if (/menu|navbar/.test(name) || item.category === "Overlays") {
+    return component(
+      "for navigation or focused selection that benefits from temporarily owning the screen.",
+      "one clear trigger, an obvious close action, a stable page underneath, and a short navigation set.",
+      "for permanent navigation, dense workflows, nested overlays, or flows that must keep the underlying context visible.",
+    );
+  }
+  if (/hero|landing|montage|curtain|slit|aperture/.test(name)) {
+    return component(
+      "at the top of a campaign, portfolio, launch, or editorial page where the opening reveal sets the visual language.",
+      "one strong headline, intentional media, and a simple next action immediately after the reveal.",
+      "below the fold, inside dense application screens, or beside another dominant hero animation.",
+    );
+  }
+  if (
+    /gallery|slider|carousel|frames|stack|catalog|portfolio|award|mosaic/.test(
+      name,
+    )
+  ) {
+    return component(
+      "for portfolios, project collections, case studies, or campaign media where browsing the set is part of the experience.",
+      "consistent image art direction, concise labels, and simple navigation outside the interactive media area.",
+      "for dense data, long copy, or inside another carousel, stack, or interaction-heavy layout.",
+    );
+  }
+  if (
+    /scroll|scrub|minimap|timeline|parallax|wave|tunnel|sticky|rotating/.test(
+      name,
+    )
+  ) {
+    return component(
+      "as a narrative section in a campaign, case study, or editorial page where scroll progress should reveal meaning.",
+      "a clear before-and-after section, concise copy, and enough page height for the interaction to breathe.",
+      "inside nested scrollers, short utility pages, or flows where users need to jump directly to information.",
+    );
+  }
+  if (/cursor|hover|spotlight|trail|lens|magnetic|material/.test(name)) {
+    return component(
+      "as a desktop enhancement for project links, media, products, or brand marks that benefit from pointer-led discovery.",
+      "a useful default state, a generous pointer target, and equivalent information that remains visible on touch devices.",
+      "as the only way to reveal essential content or on touch-first screens where hover has no reliable equivalent.",
+    );
+  }
+  if (/background|fluid|grain|crt|ascii-tv|corridor|shader/.test(name)) {
+    return component(
+      "as atmosphere behind a focused hero, installation, music, gaming, or experimental editorial section.",
+      "minimal foreground copy, strong contrast, and a static fallback that preserves legibility and performance.",
+      "behind dense interfaces, long reading surfaces, or when the visual effect competes with the primary task.",
+    );
+  }
+  if (/logo|wordmark|icon/.test(name)) {
+    return component(
+      "for a brand reveal, campaign signature, or section marker where the identity deserves a brief focal moment.",
+      "clear surrounding space, a restrained palette, and static brand usage elsewhere on the page.",
+      "for repeated decoration or when the animation makes the mark harder to recognize.",
+    );
+  }
+  if (name === "line-rise-text") {
+    return component(
+      "for a long-form editorial story whose paragraph rhythm and portrait reveal should unfold with the reader.",
+      "generous line spacing, narrow readable measures, one restrained portrait, and static navigation.",
+      "for dense documentation or copy that must remain fully scannable without scrolling through the reveal.",
+    );
+  }
+  if (name === "terminal-text-reveal") {
+    return component(
+      "for technical, archival, or terminal-inspired copy that should resolve progressively as the reader scrolls.",
+      "monospaced typography, short lines, high contrast, and a plain-text state that remains readable.",
+      "for long prose or when the terminal treatment would weaken the product's visual language.",
+    );
+  }
+  if (item.category === "Text") {
+    return component(
+      "for a short headline, campaign statement, section introduction, or narrative beat that deserves focused reading.",
+      "calm spacing, a restrained image or CTA, and supporting body copy that stays static and easy to scan.",
+      "for dense documentation or any context where the message becomes unclear without animation.",
+    );
+  }
+  if (name === "falling-tag-list") {
+    return component(
+      "for a playful skills, services, topics, or filter list where physical movement adds character without hiding meaning.",
+      "short labels, a bounded container, and a static heading that explains what the tags represent.",
+      "for primary navigation, required filters, or large taxonomies that need predictable scanning.",
+    );
+  }
+
+  return component(
+    "for a focused campaign or editorial moment where its interaction can own the user's attention.",
+    "restrained typography, simple controls, and static sections before and after it so the behavior has room to read.",
+    "beside another dominant animation or where essential information would become inaccessible without motion.",
+  );
+}
 
 export function getRegistryItem(name: string): RegistryItem | undefined {
   return registryItems.find((item) => item.name === name);

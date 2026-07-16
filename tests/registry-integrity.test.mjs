@@ -8,7 +8,10 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { matchesRegistrySearch } from "../src/lib/registry.ts";
+import {
+  getRegistryDesignGuidance,
+  matchesRegistrySearch,
+} from "../src/lib/registry.ts";
 import {
   analyzeFile,
   exists,
@@ -36,6 +39,19 @@ test("catalog is well-formed", () => {
       `${item.name}: invalid type "${item.type}"`,
     );
     assert.ok(item.files?.length, `${item.name}: ships no files`);
+  }
+});
+
+test("every item has complete design guidance", () => {
+  for (const item of registryItems) {
+    const guidance = getRegistryDesignGuidance(item);
+    for (const field of ["style", "use", "pair", "avoid"]) {
+      assert.ok(guidance[field], `${item.name}: missing ${field} guidance`);
+    }
+    assert.ok(
+      guidance.use.includes(item.title),
+      `${item.name}: use guidance is not item-specific`,
+    );
   }
 });
 
