@@ -1084,6 +1084,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "block-page-transition",
+    title: "Block Page Transition",
+    description:
+      "A four-row page transition that wipes across the viewport, reveals a centered wordmark, swaps the full-screen scene, then retracts from the opposite edge. It includes three navigable image scenes and the original GSAP stagger and easing cadence.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/block-page-transition.tsx",
+        target: "components/ui/block-page-transition.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "landing-counter-reveal",
     title: "Landing Counter Reveal",
     description:

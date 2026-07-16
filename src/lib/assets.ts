@@ -1568,6 +1568,18 @@ const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
 });
 
 export const assetItems = [
+  ...Array.from({ length: 3 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `block-page-transition-img-${n}`,
+      label: `Block Page Transition scene ${n}`,
+      provider: "vercel-blob",
+      pathname: `block-page-transition/img${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/block-page-transition/img${n}.jpg`,
+      role: "Full-screen scene shown before or after the transition wipe.",
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    } as const satisfies AssetItem;
+  }),
   ...stretchTextScrollAssets,
   ...arcSpotlightScrollAssets,
   ...stickyStackCardsAssets,

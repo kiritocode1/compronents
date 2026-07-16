@@ -4789,6 +4789,52 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "block-page-transition": {
+    demoPath: "src/components/demos/block-page-transition.tsx",
+    nuance: [
+      {
+        label: "Two-sided row wipe",
+        description:
+          "Four rows scale from the left with a 75ms stagger, hold while the scene swaps, then collapse toward the right with the same cadence.",
+      },
+      {
+        label: "Masked wordmark",
+        description:
+          "GSAP SplitText masks the transition wordmark by word and overlaps its rise with the incoming rows, matching the source timing.",
+      },
+    ],
+    editable: [
+      {
+        name: "scenes",
+        control: "links",
+        description: "Navigation label and Blob image for each scene.",
+      },
+      {
+        name: "brand / transitionText",
+        control: "text",
+        description: "Top-left brand and the wordmark shown during each wipe.",
+      },
+    ],
+    assets: assetsByIds([
+      "block-page-transition-img-1",
+      "block-page-transition-img-2",
+      "block-page-transition-img-3",
+    ]),
+    api: [
+      {
+        name: "scenes",
+        type: "BlockPageTransitionScene[]",
+        default: "Genesis, Threshold, Sanctum",
+        description: "Full-screen scenes switched by the navigation.",
+      },
+      {
+        name: "brand / transitionText",
+        type: "string",
+        default: '"Emberfall" / "BLANK Studio"',
+        description: "Persistent navigation brand and transition overlay copy.",
+      },
+    ],
+  },
   "spotlight-index-scroll": {
     demoPath: "src/components/demos/spotlight-index-scroll.tsx",
     nuance: [

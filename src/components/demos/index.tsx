@@ -10,6 +10,7 @@ import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
 import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
+import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
@@ -115,6 +116,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "block-page-transition": BlockPageTransitionDemo,
   "animated-footer": AnimatedFooterDemo,
   "accordion-frames": AccordionFramesDemo,
   "ascii-image-reveal": AsciiImageRevealDemo,
