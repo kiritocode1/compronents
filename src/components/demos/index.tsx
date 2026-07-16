@@ -48,6 +48,7 @@ import FrameScrollDemo from "./frame-scroll";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
+import HouseOfEpochsPageDemo from "./house-of-epochs-page";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InteriorStudioPageDemo from "./interior-studio-page";
@@ -219,6 +220,7 @@ export const demos: Record<string, ComponentType> = {
   "dark-catalog-page": DarkCatalogPageDemo,
   "damien-tsarantos-page": DamienTsarantosPageDemo,
   "deadspace-page": DeadspacePageDemo,
+  "house-of-epochs-page": HouseOfEpochsPageDemo,
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
   "brutalist-portfolio-page": BrutalistPortfolioPageDemo,

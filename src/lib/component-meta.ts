@@ -375,6 +375,7 @@ const deadspacePageAssetDocs = pageAssets("deadspace-page-", 5);
 const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
 const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
+const houseOfEpochsPageAssetDocs = pageAssets("house-of-epochs-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
 const velascoSolariPageAssetDocs = pageAssets("velasco-solari-page-", 5);
 const sorenPageAssetDocs = pageAssets("soren-page-", 5);
@@ -393,6 +394,36 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "house-of-epochs-page": {
+    demoPath: "src/components/demos/house-of-epochs-page.tsx",
+    nuance: [
+      {
+        label: "Original page composition",
+        description:
+          "The port keeps the archive hero, institution section, discipline cards, showreel, compass CTA, survey stack, menu, music control, and footer as one continuous page.",
+      },
+      {
+        label: "Source GSAP timelines",
+        description:
+          "The preloader, SplitText reveals, Flip showreel, pinned card stack, compass rotation, menu clip, and footer arc motion remain in the source-authored React sections.",
+      },
+      {
+        label: "Blob media tree",
+        description:
+          "The original Palace, Bellefair, and DM Mono fonts plus photographs, SVG artwork, and soundtrack resolve from stable Blob paths.",
+      },
+    ],
+    editable: [],
+    assets: houseOfEpochsPageAssetDocs,
+    api: [
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the isolated full-page root wrapper.",
+      },
+    ],
+  },
   "march-2025-template": {
     demoPath: "src/components/demos/march-2025-template.tsx",
     studioPath: "src/components/studios/march-2025-template.tsx",

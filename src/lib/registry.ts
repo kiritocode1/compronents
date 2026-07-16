@@ -414,6 +414,47 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "house-of-epochs-page",
+    title: "House of Epochs Page",
+    description:
+      "A source-backed preservation archive page with a plotted-path grid preloader, layered monument hero, animated institutional copy, sticky discipline cards, a Flip-powered showreel reveal, scroll-driven compass, stacked survey cards, audio control, archival navigation, and a curved-text footer. All source images, fonts, SVGs, and audio are served from Blob.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["@gsap/react", "gsap", "lenis", "react-icons"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/house-of-epochs-page/index.tsx",
+        target: "components/ui/house-of-epochs-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/house-of-epochs-page/styles.ts",
+        target: "components/ui/house-of-epochs-page/styles.ts",
+        type: "registry:lib",
+      },
+      ...[
+        "About/About",
+        "Button/Button",
+        "Copy/Copy",
+        "CTA/CTA",
+        "FeaturedCards/FeaturedCards",
+        "Footer/Footer",
+        "Menu/Menu",
+        "MusicToggle/MusicToggle",
+        "Preloader/Preloader",
+        "Showreel/Showreel",
+      ].map((file) => ({
+        path: `src/registry/house-of-epochs-page/source/${file}.tsx`,
+        target: `components/ui/house-of-epochs-page/source/${file}.tsx`,
+        type: "registry:lib" as const,
+      })),
+    ],
+  },
+  {
     name: "march-2025-template",
     title: "March 2025 Template",
     description:

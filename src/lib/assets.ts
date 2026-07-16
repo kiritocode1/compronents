@@ -1254,15 +1254,52 @@ const isochromePageAssetPaths = [
   "about/expertise-img-1.jpg",
   "about/expertise-img-2.jpg",
   "contact/banner.jpg",
-  ...Array.from({ length: 7 }, (_, i) => `projects/project-banner-${i + 1}.jpg`),
+  ...Array.from(
+    { length: 7 },
+    (_, i) => `projects/project-banner-${i + 1}.jpg`,
+  ),
   ...[1, 2, 3].map((i) => `project/project-img-${i}.jpg`),
-  ..."ABCDEFGH".split("").flatMap((c) => [`client-logos/${c}1.png`, `client-logos/${c}2.png`]),
+  ..."ABCDEFGH"
+    .split("")
+    .flatMap((c) => [`client-logos/${c}1.png`, `client-logos/${c}2.png`]),
   "fonts/akkuratmono.ttf",
   "fonts/druk-bold.otf",
   "fonts/druk-heavy.otf",
   "fonts/druk-medium.otf",
   "fonts/druk-super.otf",
 ] as readonly string[];
+
+const houseOfEpochsPageAssetPaths = [
+  "assets/showreel-header.svg",
+  ...Array.from({ length: 10 }, (_, index) => `catalog/img${index + 1}.jpg`),
+  "fonts/bellefair/bellefair-regular.ttf",
+  "fonts/dm-mono/dm-mono-light.ttf",
+  "fonts/dm-mono/dm-mono-medium.ttf",
+  "fonts/dm-mono/dm-mono-regular.ttf",
+  "fonts/palace/palace-italic.ttf",
+  "fonts/palace/palace-regular.ttf",
+  ...Array.from({ length: 10 }, (_, index) => `images/img${index + 1}.jpg`),
+  "logo.svg",
+  "music/bg.mp3",
+  ...Array.from(
+    { length: 3 },
+    (_, index) => `transmit/transmit-card-${index + 1}.jpg`,
+  ),
+] as readonly string[];
+
+const houseOfEpochsPageAssets = houseOfEpochsPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `house-of-epochs-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `House of Epochs Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `house-of-epochs-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/house-of-epochs-page/${rel}`,
+      role: "Source image, font, SVG, or audio used by the House of Epochs page.",
+      notes:
+        "Uploaded to Vercel Blob at the original source pathname for this page.",
+    }) as const satisfies AssetItem,
+);
 
 const isochromePageAssets = isochromePageAssetPaths.map(
   (rel) =>
@@ -1278,7 +1315,10 @@ const isochromePageAssets = isochromePageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
-const landingImageRevealAssets = Array.from({ length: 5 }, (_, i) => `img-${i + 1}.jpg`).map(
+const landingImageRevealAssets = Array.from(
+  { length: 5 },
+  (_, i) => `img-${i + 1}.jpg`,
+).map(
   (rel) =>
     ({
       id: `landing-image-reveal-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
@@ -1657,6 +1697,7 @@ export const assetItems = [
   ...damienTsarantosPageAssets,
   ...wuWeiPageAssets,
   ...otisValenPageAssets,
+  ...houseOfEpochsPageAssets,
   ...velascoSolariPageAssets,
   ...sorenPageAssets,
   ...neotericPageAssets,

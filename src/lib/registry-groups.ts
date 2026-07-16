@@ -161,6 +161,7 @@ export const pageGroups: RegistryGroup[] = [
     names: [
       "march-2025-template",
       "archive-commerce-page",
+      "house-of-epochs-page",
       "dining-room-page",
       "expanding-rows-gallery",
     ],
