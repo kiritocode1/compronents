@@ -1568,6 +1568,25 @@ const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
 });
 
 export const assetItems = [
+  ...[
+    ["item-1", "item1.png", "First floating cutout in the preloader."],
+    ["item-2", "item2.png", "Second floating cutout in the preloader."],
+    ["item-3", "item3.png", "Third floating cutout in the preloader."],
+    ["item-4", "item4.png", "Fourth floating cutout in the preloader."],
+    ["item-6", "item6.png", "Centerpiece image revealed over the hero circle."],
+    ["logo", "logo.png", "Brand mark shared by the preloader and navigation."],
+  ].map(
+    ([id, filename, role]) =>
+      ({
+        id: `circle-preloader-hero-${id}`,
+        label: `Circle Preloader Hero ${id}`,
+        provider: "vercel-blob",
+        pathname: `circle-preloader-hero/${filename}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/circle-preloader-hero/${filename}`,
+        role,
+        notes: "Served from Vercel Blob at the stable registry pathname.",
+      }) as const satisfies AssetItem,
+  ),
   ...Array.from({ length: 3 }, (_, i) => {
     const n = i + 1;
     return {

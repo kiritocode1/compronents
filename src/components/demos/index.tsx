@@ -15,6 +15,7 @@ import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
+import CirclePreloaderHeroDemo from "./circle-preloader-hero";
 import ClientHoverPreviewDemo from "./client-hover-preview";
 import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
@@ -116,6 +117,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "circle-preloader-hero": CirclePreloaderHeroDemo,
   "block-page-transition": BlockPageTransitionDemo,
   "animated-footer": AnimatedFooterDemo,
   "accordion-frames": AccordionFramesDemo,

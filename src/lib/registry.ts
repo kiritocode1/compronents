@@ -1084,6 +1084,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "circle-preloader-hero",
+    title: "Circle Preloader Hero",
+    description:
+      "A layered circular preloader that expands through four brand colors, throws four floating cutout images across the frame, then sends them outward while the restaurant hero, navigation, footer copy, and plated centerpiece animate into place.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/circle-preloader-hero.tsx",
+        target: "components/ui/circle-preloader-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "block-page-transition",
     title: "Block Page Transition",
     description:

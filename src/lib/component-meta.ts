@@ -4835,6 +4835,61 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "circle-preloader-hero": {
+    demoPath: "src/components/demos/circle-preloader-hero.tsx",
+    nuance: [
+      {
+        label: "Four-circle reveal",
+        description:
+          "Four full-screen circles expand with a 250ms stagger, reproducing the source color cadence before the floating item sequence begins.",
+      },
+      {
+        label: "Layered handoff",
+        description:
+          "The item exits overlap the logo, navigation, elastic headline characters, footer lines, orange plate, and hero image so the preloader resolves into the final composition without a blank frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "itemImages / logoImage / heroImage",
+        control: "asset-url",
+        description: "Floating cutouts, logo, and plated hero image.",
+      },
+      {
+        name: "navLinks / heading / footer",
+        control: "text",
+        description: "Restaurant navigation and hero copy.",
+      },
+    ],
+    assets: assetsByIds([
+      "circle-preloader-hero-item-1",
+      "circle-preloader-hero-item-2",
+      "circle-preloader-hero-item-3",
+      "circle-preloader-hero-item-4",
+      "circle-preloader-hero-item-6",
+      "circle-preloader-hero-logo",
+    ]),
+    api: [
+      {
+        name: "itemImages",
+        type: "string[]",
+        default: "4 BLANK-hosted PNGs",
+        description: "Cutout images thrown across the preloader.",
+      },
+      {
+        name: "logoImage / heroImage",
+        type: "string",
+        default: "BLANK-hosted PNGs",
+        description: "Centered brand mark and final plated centerpiece.",
+      },
+      {
+        name: "navLinks / heading / footer",
+        type: "string[] / string / [string, string]",
+        default: "Restaurant copy",
+        description: "Text revealed after the preloader exits.",
+      },
+    ],
+  },
   "spotlight-index-scroll": {
     demoPath: "src/components/demos/spotlight-index-scroll.tsx",
     nuance: [
