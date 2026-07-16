@@ -51,7 +51,6 @@ export const componentGroups: RegistryGroup[] = [
     title: "Galleries and grids",
     names: [
       "spiral-gallery",
-      "expanding-rows-gallery",
       "scroll-wave-gallery",
       "shader-grid-gallery",
       "catalog-swap-gallery",
@@ -159,7 +158,12 @@ export const pageGroups: RegistryGroup[] = [
   },
   {
     title: "Editorial and typographic",
-    names: ["march-2025-template", "archive-commerce-page", "dining-room-page"],
+    names: [
+      "march-2025-template",
+      "archive-commerce-page",
+      "dining-room-page",
+      "expanding-rows-gallery",
+    ],
   },
   {
     title: "Creative studio and experimental",

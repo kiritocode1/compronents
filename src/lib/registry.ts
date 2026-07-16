@@ -1385,10 +1385,10 @@ export const registryItems: RegistryItem[] = [
   },
   {
     name: "expanding-rows-gallery",
-    title: "Expanding Rows Gallery",
+    title: "Ingamana Projects Page",
     description:
-      "Rows of project cards wider than the viewport stretch from a tight 125% strip to 500% width as they scroll through view, so the whole grid feels like it zooms past the camera.",
-    section: "components",
+      "A full project-index page where ten rows of image cards stretch from a tight 125% strip to 500% width as they scroll through view, so the entire archive feels like it zooms past the camera.",
+    section: "pages",
     category: "Animations",
     pro: false,
     date: "2026-07-11",
