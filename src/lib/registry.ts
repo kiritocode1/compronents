@@ -154,6 +154,71 @@ const SEARCH_MONTHS: Record<string, number> = {
   december: 12,
 };
 
+const SEARCH_WEEKDAYS: Record<string, number> = {
+  monday: 0,
+  tuesday: 1,
+  wednesday: 2,
+  thursday: 3,
+  friday: 4,
+  saturday: 5,
+  sunday: 6,
+};
+
+const DATE_WORDS = [
+  ...Object.keys(SEARCH_MONTHS),
+  ...Object.keys(SEARCH_WEEKDAYS),
+  "this",
+  "last",
+  "today",
+  "yesterday",
+  "day",
+  "days",
+  "week",
+  "weeks",
+  "month",
+  "months",
+  "ago",
+];
+
+function editDistance(left: string, right: string) {
+  const row = Array.from({ length: right.length + 1 }, (_, index) => index);
+  for (let i = 1; i <= left.length; i++) {
+    let diagonal = row[0];
+    row[0] = i;
+    for (let j = 1; j <= right.length; j++) {
+      const previous = row[j];
+      row[j] = Math.min(
+        row[j] + 1,
+        row[j - 1] + 1,
+        diagonal + (left[i - 1] === right[j - 1] ? 0 : 1),
+      );
+      diagonal = previous;
+    }
+  }
+  return row[right.length];
+}
+
+function fuzzyThreshold(word: string) {
+  return word.length >= 8 ? 2 : word.length >= 4 ? 1 : 0;
+}
+
+function closestWord(word: string, candidates: string[]) {
+  let closest = word;
+  let distance = fuzzyThreshold(word) + 1;
+  for (const candidate of candidates) {
+    const next = editDistance(word, candidate);
+    if (next < distance) {
+      closest = candidate;
+      distance = next;
+    }
+  }
+  return closest;
+}
+
+function fuzzyDateQuery(query: string) {
+  return query.replace(/[a-z]+/g, (word) => closestWord(word, DATE_WORDS));
+}
+
 function isoDate(year: number, month: number, day: number) {
   const date = new Date(year, month - 1, day);
   if (
@@ -215,6 +280,20 @@ function searchDate(query: string, now: Date) {
       end: isoFromDate(monthEnd),
       phrase: period[0],
     };
+  }
+
+  const weekday = query.match(
+    /\b(this|last)\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/,
+  );
+  if (weekday) {
+    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    date.setDate(
+      date.getDate() -
+        ((date.getDay() + 6) % 7) +
+        SEARCH_WEEKDAYS[weekday[2]] -
+        (weekday[1] === "last" ? 7 : 0),
+    );
+    return exactDate(isoFromDate(date), weekday[0]);
   }
 
   const relative = query.match(/\b(today|yesterday|(?:a )?day before)\b/);
@@ -283,7 +362,8 @@ export function matchesRegistrySearch(
   const query = rawQuery.trim().toLowerCase().replace(/\s+/g, " ");
   if (!query) return true;
 
-  const parsedDate = searchDate(query, now);
+  const fuzzyDate = fuzzyDateQuery(query);
+  const parsedDate = searchDate(query, now) ?? searchDate(fuzzyDate, now);
   if (
     parsedDate &&
     (!parsedDate.start ||
@@ -293,7 +373,7 @@ export function matchesRegistrySearch(
   )
     return false;
 
-  const words = (parsedDate ? query.replace(parsedDate.phrase, " ") : query)
+  const words = (parsedDate ? fuzzyDate.replace(parsedDate.phrase, " ") : query)
     .split(/\s+/)
     .filter(Boolean)
     .filter(
@@ -325,7 +405,11 @@ export function matchesRegistrySearch(
   ]
     .join(" ")
     .toLowerCase();
-  return words.every((word) => haystack.includes(word));
+  const haystackWords = haystack.split(/[^a-z0-9]+/).filter(Boolean);
+  return words.every(
+    (word) =>
+      haystack.includes(word) || closestWord(word, haystackWords) !== word,
+  );
 }
 
 export const registryItems: RegistryItem[] = [
