@@ -97,6 +97,7 @@ import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
+import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
@@ -172,6 +173,7 @@ export const demos: Record<string, ComponentType> = {
   "landing-image-reveal": LandingImageRevealDemo,
   "spotlight-gallery-scroll": SpotlightGalleryScrollDemo,
   "stretch-text-scroll": StretchTextScrollDemo,
+  "stroke-wipe-spotlight": StrokeWipeSpotlightDemo,
   "arc-spotlight-scroll": ArcSpotlightScrollDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,
   "minimap-parallax-scroll": MinimapParallaxScrollDemo,

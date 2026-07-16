@@ -1084,6 +1084,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "stroke-wipe-spotlight",
+    title: "Stroke Wipe Spotlight",
+    description:
+      "A pinned scroll reveal where thirteen outlined pink-to-yellow strokes draw across the frame in a staggered order, swap the centered message, then erase in reverse while three bordered sparkles pop through the handoff.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/stroke-wipe-spotlight.tsx",
+        target: "components/ui/stroke-wipe-spotlight.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "magnetic-spotlight-marquee",
     title: "Magnetic Spotlight Marquee",
     description:

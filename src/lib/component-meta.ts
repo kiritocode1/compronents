@@ -4888,6 +4888,55 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "stroke-wipe-spotlight": {
+    demoPath: "src/components/demos/stroke-wipe-spotlight.tsx",
+    nuance: [
+      {
+        label: "Outlined draw order",
+        description:
+          "Each source stroke is cloned into a dark outline, then both layers draw in the original alternating order with the same stagger, timing wobble, and duration cycle.",
+      },
+      {
+        label: "Covered-frame handoff",
+        description:
+          "The centered copy swaps only when the longest stroke fully covers the stage; the reverse erase and three sparkle pops share that exact timeline position.",
+      },
+    ],
+    editable: [
+      {
+        name: "intro / beforeTitle / beforeCopy",
+        control: "text",
+        description: "Opening panel and first pinned message.",
+      },
+      {
+        name: "afterTitle / afterCopy / outro",
+        control: "text",
+        description: "Covered-frame message and closing panel.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "intro / beforeTitle / beforeCopy",
+        type: "string",
+        default: "Source copy",
+        description: "Opening panel and message visible before the wipe.",
+      },
+      {
+        name: "afterTitle / afterCopy / outro",
+        type: "string",
+        default: "Source copy",
+        description: "Message revealed beneath the strokes and closing panel.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to use the window scroll.",
+      },
+    ],
+  },
   "circle-preloader-hero": {
     demoPath: "src/components/demos/circle-preloader-hero.tsx",
     nuance: [
