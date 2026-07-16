@@ -5,7 +5,7 @@ import { Calligraph } from "calligraph";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { type ReactNode, useState } from "react";
-import type { RegistryItem } from "@/lib/registry";
+import { matchesRegistrySearch, type RegistryItem } from "@/lib/registry";
 import type { RegistryGroup } from "@/lib/registry-groups";
 import { uiHover } from "@/lib/sounds";
 
@@ -24,7 +24,7 @@ export function RegistryIndex({
   const playHover = useSound(uiHover);
   const q = query.trim().toLowerCase();
   const visible = q
-    ? items.filter((item) => item.title.toLowerCase().includes(q))
+    ? items.filter((item) => matchesRegistrySearch(item, q))
     : items;
 
   // Bucket the visible items into their group, preserving the incoming order
@@ -83,7 +83,7 @@ export function RegistryIndex({
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search…"
+          placeholder="Search titles or dates…"
           aria-label="Search the registry"
           className="w-full bg-transparent py-1 text-sm text-foreground placeholder:text-faint focus:outline-none"
         />

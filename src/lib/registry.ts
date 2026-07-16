@@ -127,6 +127,152 @@ export interface RegistryItem {
   files: RegistryFile[];
 }
 
+const SEARCH_MONTHS: Record<string, number> = {
+  jan: 1,
+  january: 1,
+  feb: 2,
+  february: 2,
+  mar: 3,
+  march: 3,
+  apr: 4,
+  april: 4,
+  may: 5,
+  jun: 6,
+  june: 6,
+  jul: 7,
+  july: 7,
+  aug: 8,
+  august: 8,
+  sep: 9,
+  sept: 9,
+  september: 9,
+  oct: 10,
+  october: 10,
+  nov: 11,
+  november: 11,
+  dec: 12,
+  december: 12,
+};
+
+function isoDate(year: number, month: number, day: number) {
+  const date = new Date(year, month - 1, day);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  )
+    return null;
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+function searchDate(query: string, now: Date) {
+  const relative = query.match(/\b(today|yesterday|(?:a )?day before)\b/);
+  if (relative) {
+    const date = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + (relative[1] === "today" ? 0 : -1),
+    );
+    return {
+      date: isoDate(date.getFullYear(), date.getMonth() + 1, date.getDate()),
+      phrase: relative[0],
+    };
+  }
+
+  const iso = query.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+  if (iso)
+    return {
+      date: isoDate(Number(iso[1]), Number(iso[2]), Number(iso[3])),
+      phrase: iso[0],
+    };
+
+  const numeric = query.match(/\b(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b/);
+  if (numeric) {
+    const rawYear = numeric[3];
+    const year = rawYear
+      ? Number(rawYear.length === 2 ? `20${rawYear}` : rawYear)
+      : now.getFullYear();
+    return {
+      date: isoDate(year, Number(numeric[1]), Number(numeric[2])),
+      phrase: numeric[0],
+    };
+  }
+
+  const monthFirst = query.match(
+    /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s+(\d{4}))?\b/,
+  );
+  if (monthFirst)
+    return {
+      date: isoDate(
+        Number(monthFirst[3] ?? now.getFullYear()),
+        SEARCH_MONTHS[monthFirst[1]],
+        Number(monthFirst[2]),
+      ),
+      phrase: monthFirst[0],
+    };
+
+  const dayFirst = query.match(
+    /\b(\d{1,2})(?:st|nd|rd|th)?\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)(?:,?\s+(\d{4}))?\b/,
+  );
+  if (dayFirst)
+    return {
+      date: isoDate(
+        Number(dayFirst[3] ?? now.getFullYear()),
+        SEARCH_MONTHS[dayFirst[2]],
+        Number(dayFirst[1]),
+      ),
+      phrase: dayFirst[0],
+    };
+
+  return null;
+}
+
+export function matchesRegistrySearch(
+  item: RegistryItem,
+  rawQuery: string,
+  now = new Date(),
+) {
+  const query = rawQuery.trim().toLowerCase().replace(/\s+/g, " ");
+  if (!query) return true;
+
+  const parsedDate = searchDate(query, now);
+  if (parsedDate && item.date !== parsedDate.date) return false;
+
+  const words = (parsedDate ? query.replace(parsedDate.phrase, " ") : query)
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter(
+      (word) =>
+        !parsedDate ||
+        ![
+          "added",
+          "add",
+          "on",
+          "from",
+          "in",
+          "show",
+          "me",
+          "things",
+          "stuff",
+        ].includes(word),
+    );
+  if (words.length === 0) return Boolean(parsedDate?.date);
+
+  const [, month, day] = item.date.split("-");
+  const haystack = [
+    item.title,
+    item.name,
+    item.description,
+    item.category,
+    item.section,
+    item.date,
+    `${Number(month)}/${Number(day)}`,
+  ]
+    .join(" ")
+    .toLowerCase();
+  return words.every((word) => haystack.includes(word));
+}
+
 export const registryItems: RegistryItem[] = [
   {
     name: "march-2025-template",

@@ -8,6 +8,7 @@
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { matchesRegistrySearch } from "../src/lib/registry.ts";
 import {
   analyzeFile,
   exists,
@@ -36,6 +37,23 @@ test("catalog is well-formed", () => {
     );
     assert.ok(item.files?.length, `${item.name}: ships no files`);
   }
+});
+
+test("catalog search understands titles, sections, and natural dates", () => {
+  const now = new Date(2026, 6, 16, 12);
+  const matching = (query) =>
+    registryItems.filter((item) => matchesRegistrySearch(item, query, now));
+
+  assert.ok(matching("pixelgrid").some((item) => item.date === "2026-07-14"));
+  assert.ok(matching("7/14").length > 0);
+  assert.ok(matching("7/14").every((item) => item.date === "2026-07-14"));
+  assert.ok(matching("pages July 14").length > 0);
+  assert.ok(
+    matching("pages July 14").every((item) => item.section === "pages"),
+  );
+  assert.ok(matching("yesterday").length > 0);
+  assert.ok(matching("yesterday").every((item) => item.date === "2026-07-15"));
+  assert.deepEqual(matching("2/30"), []);
 });
 
 for (const item of registryItems) {
