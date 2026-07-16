@@ -1568,6 +1568,39 @@ const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
 });
 
 export const assetItems = [
+  {
+    id: "wordmark-spotlight-scroll-header",
+    label: "Wordmark Spotlight Scroll header",
+    provider: "vercel-blob",
+    pathname: "wordmark-spotlight-scroll/header.svg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/wordmark-spotlight-scroll/header.svg`,
+    role: "Opening full-width SVG wordmark.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+  ...Array.from({ length: 6 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `wordmark-spotlight-scroll-name-${n}`,
+      label: `Wordmark Spotlight Scroll name ${n}`,
+      provider: "vercel-blob",
+      pathname: `wordmark-spotlight-scroll/project_name_${n}.svg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/wordmark-spotlight-scroll/project_name_${n}.svg`,
+      role: "Project wordmark stretched into the next scroll step.",
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    } as const satisfies AssetItem;
+  }),
+  ...Array.from({ length: 6 }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `wordmark-spotlight-scroll-image-${n}`,
+      label: `Wordmark Spotlight Scroll image ${n}`,
+      provider: "vercel-blob",
+      pathname: `wordmark-spotlight-scroll/project_img_${n}.jpg`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/wordmark-spotlight-scroll/project_img_${n}.jpg`,
+      role: "Square project still scaled in beneath its wordmark.",
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    } as const satisfies AssetItem;
+  }),
   ...[
     ["item-1", "item1.png", "First floating cutout in the preloader."],
     ["item-2", "item2.png", "Second floating cutout in the preloader."],

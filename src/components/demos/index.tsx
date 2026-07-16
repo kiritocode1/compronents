@@ -108,6 +108,7 @@ import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
+import WordmarkSpotlightScrollDemo from "./wordmark-spotlight-scroll";
 import WuWeiPageDemo from "./wu-wei-page";
 
 /**
@@ -117,6 +118,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "wordmark-spotlight-scroll": WordmarkSpotlightScrollDemo,
   "circle-preloader-hero": CirclePreloaderHeroDemo,
   "block-page-transition": BlockPageTransitionDemo,
   "animated-footer": AnimatedFooterDemo,

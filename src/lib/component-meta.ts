@@ -4890,6 +4890,65 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "wordmark-spotlight-scroll": {
+    demoPath: "src/components/demos/wordmark-spotlight-scroll.tsx",
+    nuance: [
+      {
+        label: "Source SVG geometry",
+        description:
+          "The seven source SVGs are fetched from Blob, inlined, and stretched with preserveAspectRatio set to none, matching the original wordmark distortion exactly.",
+      },
+      {
+        label: "Paired project motion",
+        description:
+          "Each image scales from zero during its wordmark step, then scales back to zero while drifting upward by 300 percent during the following step.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "asset-url",
+        description: "Six project images paired with the source wordmarks.",
+      },
+      {
+        name: "driftAmount",
+        control: "text",
+        description: "Vertical exit travel in percent for each project image.",
+      },
+    ],
+    assets: assetsByIds([
+      "wordmark-spotlight-scroll-header",
+      ...Array.from(
+        { length: 6 },
+        (_, i) => `wordmark-spotlight-scroll-name-${i + 1}`,
+      ),
+      ...Array.from(
+        { length: 6 },
+        (_, i) => `wordmark-spotlight-scroll-image-${i + 1}`,
+      ),
+    ]),
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "6 BLANK-hosted JPGs",
+        description: "Project stills shown in sequence.",
+      },
+      {
+        name: "driftAmount",
+        type: "number",
+        default: "300",
+        description: "Image exit distance as yPercent.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container; set false to use window scroll.",
+      },
+    ],
+  },
   "spotlight-index-scroll": {
     demoPath: "src/components/demos/spotlight-index-scroll.tsx",
     nuance: [

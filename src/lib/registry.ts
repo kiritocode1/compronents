@@ -1084,6 +1084,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "wordmark-spotlight-scroll",
+    title: "Wordmark Spotlight Scroll",
+    description:
+      "A fixed dark stage where giant SVG wordmarks stretch vertically into one another across six scroll steps. Each project transition grows a square image from the lower-left corner, then shrinks and drifts it upward as the next wordmark takes over.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-16",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wordmark-spotlight-scroll.tsx",
+        target: "components/ui/wordmark-spotlight-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "circle-preloader-hero",
     title: "Circle Preloader Hero",
     description:
