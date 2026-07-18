@@ -2301,6 +2301,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "motion-tracking",
+    title: "Motion Tracking",
+    description:
+      "A WebGPU motion-detection effect: a looping video is frame-differenced in a compute shader to build a decaying trail of movement, then rendered as tinted ASCII glyphs over the darkened footage with a bloom pass on top.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-18",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/motion-tracking.tsx",
+        target: "components/ui/motion-tracking.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "cursor-trail-scroll",
     title: "Cursor Trail Scroll",
     description:

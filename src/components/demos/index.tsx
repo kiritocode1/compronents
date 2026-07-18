@@ -68,6 +68,7 @@ import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
 import ModelMenu3DDemo from "./model-menu-3d";
 import MontageRevealHeroDemo from "./montage-reveal-hero";
+import MotionTrackingDemo from "./motion-tracking";
 import MosaicFlipDemo from "./mosaic-flip";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
@@ -137,6 +138,7 @@ export const demos: Record<string, ComponentType> = {
   "ascii-logo": AsciiLogoDemo,
   "overlay-menu": OverlayMenuDemo,
   "mosaic-flip": MosaicFlipDemo,
+  "motion-tracking": MotionTrackingDemo,
   "image-reveal": ImageRevealDemo,
   "ink-core-layout": InkCoreLayoutDemo,
   "ascii-tv-hero": AsciiTvHeroDemo,

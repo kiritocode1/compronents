@@ -5732,6 +5732,60 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "motion-tracking": {
+    demoPath: "src/components/demos/motion-tracking.tsx",
+    nuance: [
+      {
+        label: "Compute-shader frame differencing",
+        description:
+          "A WGSL compute pass diffs successive grayscale frames at quarter resolution and accumulates a decaying trail, so movement leaves a fading mask instead of a single-frame flicker.",
+      },
+      {
+        label: "ASCII from motion",
+        description:
+          "The trail value picks a glyph from a rendered ASCII atlas per screen cell, tints it, and composites it over the darkened video, with a bloom pass lifting the brightest strokes.",
+      },
+    ],
+    editable: [
+      {
+        name: "videoSrc",
+        control: "asset-url",
+        description: "CORS-enabled looping video the motion is detected from.",
+      },
+      {
+        name: "color / debug",
+        control: "text",
+        description: "Glyph tint (blue, red, green) and the raw motion-mask toggle.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "videoSrc",
+        type: "string",
+        default: "river footage (rehost on Blob)",
+        description: "CORS-enabled looping video source.",
+      },
+      {
+        name: "color",
+        type: '"blue" | "red" | "green"',
+        default: '"blue"',
+        description: "Tint applied to the ASCII glyphs.",
+      },
+      {
+        name: "debug",
+        type: "boolean",
+        default: "false",
+        description: "Show the raw grayscale motion mask instead of the effect.",
+      },
+      {
+        name: "videoBrightness",
+        type: "number",
+        default: "0.55",
+        description: "Brightness of the footage behind the glyphs, 0 (black) to 1 (full).",
+      },
+    ],
+  },
   "cursor-trail-scroll": {
     demoPath: "src/components/demos/cursor-trail-scroll.tsx",
     nuance: [
