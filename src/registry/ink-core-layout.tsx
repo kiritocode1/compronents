@@ -85,6 +85,7 @@ export default function InkCoreLayout({
 }: InkCoreLayoutProps) {
   const rootRef = useRef<HTMLElement>(null);
   const panRef = useRef(0);
+  const inkScrollRef = useRef(0);
   const [loading, setLoading] = useState(true);
   const [inkVisible, setInkVisible] = useState(true);
   const [still, setStill] = useState(false);
@@ -135,6 +136,7 @@ export default function InkCoreLayout({
         Math.min(0, startPan + event.clientX - startX),
       );
       panRef.current = nextPan;
+      inkScrollRef.current = -nextPan;
       setPanX(nextPan);
     };
     const up = (event: PointerEvent) => {
@@ -166,7 +168,9 @@ export default function InkCoreLayout({
       }
     >
       <style>{styles}</style>
-      <InkCursor enabled={inkVisible} still={still} rootRef={rootRef} />
+      {inkVisible ? (
+        <InkCursor rootRef={rootRef} scrollX={inkScrollRef} />
+      ) : null}
 
       <a className="icl-retrace" href="#start">
         ‹‹ RETRACE STEPS
@@ -252,97 +256,470 @@ export default function InkCoreLayout({
   );
 }
 
+const INK_VERTEX_SHADER = `
+  attribute vec2 aPos;
+  varying vec2 vUv;
+  void main(){ vUv = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }
+`;
+
+const INK_SIMULATION_SHADER = `
+  precision highp float;
+  varying vec2 vUv;
+  uniform sampler2D uPrev;
+  uniform vec2 uTexel;
+  uniform vec2 uCursor;
+  uniform vec2 uPrevCursor;
+  uniform float uDeposit;
+  uniform float uDissipate;
+  uniform float uTime;
+  uniform float uAspect;
+  uniform float uShift;
+
+  float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float noise(vec2 p){
+    vec2 i = floor(p), f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+               mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+  }
+  float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++){ v += a * noise(p); p *= 2.0; a *= 0.5; } return v; }
+  vec2 curl(vec2 p){
+    float e = 0.1;
+    float a = fbm(p + vec2(0.0, e)); float b = fbm(p - vec2(0.0, e));
+    float c = fbm(p + vec2(e, 0.0)); float d = fbm(p - vec2(e, 0.0));
+    return vec2(a - b, d - c) / (2.0 * e);
+  }
+  vec4 samp4(vec2 uv){
+    vec2 s = uv + vec2(uShift, 0.0);
+    float inb = step(0.0, s.x) * step(s.x, 1.0) * step(0.0, s.y) * step(s.y, 1.0);
+    return texture2D(uPrev, s) * inb;
+  }
+  float segDist(vec2 uv, vec2 a, vec2 b){
+    vec2 pa = (uv - a) * vec2(uAspect, 1.0), ba = (b - a) * vec2(uAspect, 1.0);
+    float h = clamp(dot(pa, ba) / max(1e-5, dot(ba, ba)), 0.0, 1.0);
+    return length(pa - ba * h);
+  }
+
+  void main(){
+    vec2 uv = vUv;
+    float wet = samp4(uv).g;
+    vec2 vel = curl(vec2(uv.x * uAspect, uv.y) * 2.4 + uTime * 0.05) * 0.1;
+    vec4 c = samp4(uv - vel * 0.003 * wet);
+    vec2 e = uTexel * 0.75;
+    vec4 bl = (samp4(uv + vec2(e.x, 0.0)) + samp4(uv - vec2(e.x, 0.0))
+             + samp4(uv + vec2(0.0, e.y)) + samp4(uv - vec2(0.0, e.y))
+             + samp4(uv + e) + samp4(uv - e)
+             + samp4(uv + vec2(e.x, -e.y)) + samp4(uv + vec2(-e.x, e.y))) * 0.125;
+    float bleed = 0.3 * wet;
+    float dens = mix(c.r, bl.r, bleed);
+    float wetN = mix(c.g, bl.g, bleed);
+    float d = segDist(uv, uPrevCursor, uCursor);
+    float dep = uDeposit * (smoothstep(0.006, 0.0, d) + 0.25 * smoothstep(0.016, 0.0, d));
+    dens += dep;
+    wetN = max(wetN * 0.972, min(1.0, dep * 3.0));
+    float dith = step(0.93, hash(uv * 613.7 + vec2(fract(uTime * 0.711) * 100.0))) * 0.0047;
+    dens = dens * uDissipate - dith;
+    gl_FragColor = vec4(clamp(dens, 0.0, 1.0), clamp(wetN, 0.0, 1.0), 0.0, 1.0);
+  }
+`;
+
+const INK_DISPLAY_SHADER = `
+  precision highp float;
+  varying vec2 vUv;
+  uniform sampler2D uTex;
+  uniform float uWindow;
+  float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float vnoise(vec2 p){
+    vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+               mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+  }
+  void main(){
+    vec2 suv = vec2((vUv.x + (uWindow - 1.0) * 0.5) / uWindow, vUv.y);
+    float dens = texture2D(uTex, suv).r;
+    vec3 ink = vec3(0.016, 0.043, 0.020);
+    float grain = 0.88 + 0.12 * vnoise(vUv * 220.0);
+    float a = smoothstep(0.05, 0.8, dens) * grain * 0.85;
+    if (a < 0.004) discard;
+    gl_FragColor = vec4(ink, a);
+  }
+`;
+
+const INK_IDLE_CLEAR_MS = 10_000;
+
+function compileShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  source: string,
+) {
+  const shader = gl.createShader(type);
+  if (!shader) return null;
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+  console.warn("InkTrail shader:", gl.getShaderInfoLog(shader));
+  return null;
+}
+
+function createInkProgram(gl: WebGLRenderingContext, fragment: string) {
+  const vertexShader = compileShader(gl, gl.VERTEX_SHADER, INK_VERTEX_SHADER);
+  const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragment);
+  if (!vertexShader || !fragmentShader) return null;
+  const program = gl.createProgram();
+  if (!program) return null;
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  return program;
+}
+
+function activateInkProgram(gl: WebGLRenderingContext, program: WebGLProgram) {
+  // biome-ignore lint/correctness/useHookAtTopLevel: WebGL's useProgram is not a React hook.
+  gl.useProgram(program);
+}
+
 function InkCursor({
-  enabled,
-  still,
   rootRef,
+  scrollX,
 }: {
-  enabled: boolean;
-  still: boolean;
   rootRef: React.RefObject<HTMLElement | null>;
+  scrollX: React.RefObject<number>;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!root || !canvas || !context || !enabled) return;
+    if (
+      !root ||
+      !canvas ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    )
+      return;
 
-    let frame = 0;
-    let previous: { x: number; y: number } | null = null;
-    let ratio = 1;
-    const resize = () => {
-      const bounds = root.getBoundingClientRect();
-      ratio = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.ceil(bounds.width * ratio);
-      canvas.height = Math.ceil(bounds.height * ratio);
-      canvas.style.width = `${bounds.width}px`;
-      canvas.style.height = `${bounds.height}px`;
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    };
-    const draw = (event: PointerEvent) => {
-      const bounds = root.getBoundingClientRect();
-      const point = {
-        x: event.clientX - bounds.left,
-        y: event.clientY - bounds.top,
+    try {
+      const gl = canvas.getContext("webgl", {
+        alpha: true,
+        premultipliedAlpha: false,
+      });
+      if (!gl) return;
+
+      const simulationProgram = createInkProgram(gl, INK_SIMULATION_SHADER);
+      const displayProgram = createInkProgram(gl, INK_DISPLAY_SHADER);
+      if (!simulationProgram || !displayProgram) return;
+
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 3, -1, -1, 3]),
+        gl.STATIC_DRAW,
+      );
+      const bindPosition = (program: WebGLProgram) => {
+        const location = gl.getAttribLocation(program, "aPos");
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.enableVertexAttribArray(location);
+        gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
       };
-      if (!previous) {
-        previous = point;
-        return;
-      }
-      const distance = Math.hypot(point.x - previous.x, point.y - previous.y);
-      const width = Math.min(5.5, 1.8 + distance * 0.025);
-      const path = new Path2D();
-      path.moveTo(previous.x, previous.y);
-      path.lineTo(point.x, point.y);
+      const createTarget = (width: number, height: number) => {
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          width,
+          height,
+          0,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          null,
+        );
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        const framebuffer = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+        gl.framebufferTexture2D(
+          gl.FRAMEBUFFER,
+          gl.COLOR_ATTACHMENT0,
+          gl.TEXTURE_2D,
+          texture,
+          0,
+        );
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        return { texture, framebuffer };
+      };
 
-      context.save();
-      context.lineCap = "round";
-      context.lineJoin = "round";
+      let simulationWidth = 2;
+      let simulationHeight = 2;
+      let viewportWidth = 1;
+      let viewportHeight = 1;
+      let targets = [createTarget(2, 2), createTarget(2, 2)];
+      const resize = () => {
+        viewportWidth = Math.max(1, root.clientWidth);
+        viewportHeight = Math.max(1, root.clientHeight);
+        simulationWidth = 3072;
+        simulationHeight = Math.max(
+          2,
+          Math.round((1024 * viewportHeight) / viewportWidth),
+        );
+        canvas.width = viewportWidth;
+        canvas.height = viewportHeight;
+        targets = [
+          createTarget(simulationWidth, simulationHeight),
+          createTarget(simulationWidth, simulationHeight),
+        ];
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      };
+      resize();
+      window.addEventListener("resize", resize);
 
-      context.strokeStyle = "rgba(5, 5, 5, .07)";
-      context.lineWidth = width * 3.2;
-      context.shadowColor = "rgba(5, 5, 5, .12)";
-      context.shadowBlur = width * 1.8;
-      context.stroke(path);
+      const inkAwareTarget = createTarget(192, 108);
+      const pixels = new Uint8Array(192 * 108 * 4);
+      const changedInkAwareElements = new Set<HTMLElement>();
+      const inkAwareSteps = new WeakMap<HTMLElement, number>();
+      const originalColors = new WeakMap<
+        HTMLElement,
+        [number, number, number]
+      >();
+      const clearInkAwareColors = () => {
+        for (const element of changedInkAwareElements) {
+          element.style.color = "";
+          inkAwareSteps.delete(element);
+        }
+        changedInkAwareElements.clear();
+      };
 
-      context.strokeStyle = "rgba(5, 5, 5, .88)";
-      context.lineWidth = width;
-      context.shadowColor = "rgba(5, 5, 5, .3)";
-      context.shadowBlur = width * 0.65;
-      context.stroke(path);
-      context.restore();
-      previous = point;
-    };
-    const fade = () => {
-      if (!still) {
+      const uniforms = {
+        previous: gl.getUniformLocation(simulationProgram, "uPrev"),
+        texel: gl.getUniformLocation(simulationProgram, "uTexel"),
+        cursor: gl.getUniformLocation(simulationProgram, "uCursor"),
+        previousCursor: gl.getUniformLocation(simulationProgram, "uPrevCursor"),
+        deposit: gl.getUniformLocation(simulationProgram, "uDeposit"),
+        dissipate: gl.getUniformLocation(simulationProgram, "uDissipate"),
+        time: gl.getUniformLocation(simulationProgram, "uTime"),
+        aspect: gl.getUniformLocation(simulationProgram, "uAspect"),
+        shift: gl.getUniformLocation(simulationProgram, "uShift"),
+      };
+      const displayTexture = gl.getUniformLocation(displayProgram, "uTex");
+      const displayWindow = gl.getUniformLocation(displayProgram, "uWindow");
+
+      let cursorX = 0.5;
+      let cursorY = 0.5;
+      let previousCursorX = 0.5;
+      let previousCursorY = 0.5;
+      let deposit = 0;
+      let lastPointerTime = 0;
+      let readbackTick = 0;
+      let elapsed = 0;
+      let running = false;
+      let animationFrame = 0;
+      let previousScroll = 0;
+      let previousFrameTime = performance.now();
+      let targetIndex = 0;
+
+      const updateInkAwareColors = () => {
+        const updates: Array<[HTMLElement, number, number]> = [];
+        root
+          .querySelectorAll<HTMLElement>("[data-inkaware]")
+          .forEach((element) => {
+            const bounds = element.getBoundingClientRect();
+            if (!bounds.width || !bounds.height) return;
+            let maximumAlpha = 0;
+            for (let sample = 0; sample < 2; sample += 1) {
+              const x = bounds.left + bounds.width * 0.5;
+              const y = bounds.top + ((sample + 0.5) / 2) * bounds.height;
+              if (x < 0 || y < 0 || x >= viewportWidth || y >= viewportHeight)
+                continue;
+              const pixelX = Math.min(
+                191,
+                Math.floor((x / viewportWidth) * 192),
+              );
+              const pixelY = Math.min(
+                107,
+                Math.floor((1 - y / viewportHeight) * 108),
+              );
+              maximumAlpha = Math.max(
+                maximumAlpha,
+                pixels[(192 * pixelY + pixelX) * 4 + 3] ?? 0,
+              );
+            }
+            const amount = Math.min(1, Math.max(0, (maximumAlpha - 28) / 122));
+            const eased = amount * amount * (3 - 2 * amount);
+            const step = Math.round(24 * eased);
+            if ((inkAwareSteps.get(element) ?? 0) === step) return;
+            if (step > 0 && !originalColors.has(element)) {
+              const channels = getComputedStyle(element).color.match(/\d+/g);
+              originalColors.set(
+                element,
+                channels
+                  ? [+channels[0], +channels[1], +channels[2]]
+                  : [4, 11, 5],
+              );
+            }
+            updates.push([element, step, eased]);
+          });
+        for (const [element, step, amount] of updates) {
+          if (step === 0) {
+            element.style.color = "";
+            inkAwareSteps.delete(element);
+            changedInkAwareElements.delete(element);
+            continue;
+          }
+          const [red, green, blue] = originalColors.get(element) ?? [4, 11, 5];
+          element.style.color = `rgb(${Math.round(red + (255 - red) * amount)}, ${Math.round(green + (255 - green) * amount)}, ${Math.round(blue + (255 - blue) * amount)})`;
+          inkAwareSteps.set(element, step);
+          changedInkAwareElements.add(element);
+        }
+      };
+
+      const render = () => {
+        animationFrame = window.requestAnimationFrame(render);
+        try {
+          const now = performance.now();
+          const delta = Math.min(0.05, (now - previousFrameTime) / 1000);
+          previousFrameTime = now;
+          if (now - lastPointerTime > INK_IDLE_CLEAR_MS) {
+            clearInkAwareColors();
+            for (const target of targets) {
+              gl.bindFramebuffer(gl.FRAMEBUFFER, target.framebuffer);
+              gl.clearColor(0, 0, 0, 0);
+              gl.clear(gl.COLOR_BUFFER_BIT);
+            }
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            window.cancelAnimationFrame(animationFrame);
+            running = false;
+            return;
+          }
+
+          elapsed += delta;
+          deposit *= 0.82;
+          const currentScroll = scrollX.current;
+          const shift = (currentScroll - previousScroll) / (3 * viewportWidth);
+          previousScroll = currentScroll;
+          const nextTargetIndex = 1 - targetIndex;
+
+          gl.bindFramebuffer(
+            gl.FRAMEBUFFER,
+            targets[nextTargetIndex].framebuffer,
+          );
+          gl.viewport(0, 0, simulationWidth, simulationHeight);
+          activateInkProgram(gl, simulationProgram);
+          bindPosition(simulationProgram);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, targets[targetIndex].texture);
+          gl.uniform1i(uniforms.previous, 0);
+          gl.uniform2f(
+            uniforms.texel,
+            1 / simulationWidth,
+            1 / simulationHeight,
+          );
+          gl.uniform2f(uniforms.cursor, cursorX, cursorY);
+          gl.uniform2f(
+            uniforms.previousCursor,
+            previousCursorX,
+            previousCursorY,
+          );
+          gl.uniform1f(uniforms.deposit, deposit);
+          gl.uniform1f(uniforms.dissipate, 0.9993);
+          gl.uniform1f(uniforms.time, elapsed);
+          gl.uniform1f(uniforms.aspect, (3 * viewportWidth) / viewportHeight);
+          gl.uniform1f(uniforms.shift, shift);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          activateInkProgram(gl, displayProgram);
+          bindPosition(displayProgram);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, targets[nextTargetIndex].texture);
+          gl.uniform1i(displayTexture, 0);
+          gl.uniform1f(displayWindow, 3);
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+          readbackTick += 1;
+          if (readbackTick % 3 === 0) {
+            gl.bindFramebuffer(gl.FRAMEBUFFER, inkAwareTarget.framebuffer);
+            gl.viewport(0, 0, 192, 108);
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+            gl.readPixels(0, 0, 192, 108, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            updateInkAwareColors();
+          }
+
+          targetIndex = nextTargetIndex;
+          previousCursorX = cursorX;
+          previousCursorY = cursorY;
+        } catch {
+          window.cancelAnimationFrame(animationFrame);
+          running = false;
+        }
+      };
+
+      const pointerMove = (event: PointerEvent) => {
         const bounds = root.getBoundingClientRect();
-        context.save();
-        context.globalCompositeOperation = "destination-out";
-        context.fillStyle = "rgba(0, 0, 0, .012)";
-        context.fillRect(0, 0, bounds.width, bounds.height);
-        context.restore();
-      }
-      frame = window.requestAnimationFrame(fade);
-    };
-    const leave = () => {
-      previous = null;
-    };
+        if (
+          event.clientX < bounds.left ||
+          event.clientX > bounds.right ||
+          event.clientY < bounds.top ||
+          event.clientY > bounds.bottom
+        )
+          return;
+        const nextX = ((event.clientX - bounds.left) / viewportWidth + 1) / 3;
+        const nextY = 1 - (event.clientY - bounds.top) / viewportHeight;
+        const now = performance.now();
+        const speed =
+          (Math.hypot(
+            (nextX - cursorX) * viewportWidth,
+            (nextY - cursorY) * viewportHeight,
+          ) /
+            Math.max(1, now - lastPointerTime)) *
+          1000;
+        lastPointerTime = now;
+        cursorX = nextX;
+        cursorY = nextY;
+        deposit = Math.min(1, 0.22 + 0.6 * Math.exp(-speed / 1100));
+        if (!running) {
+          running = true;
+          previousCursorX = cursorX;
+          previousCursorY = cursorY;
+          previousScroll = scrollX.current;
+          previousFrameTime = performance.now();
+          animationFrame = window.requestAnimationFrame(render);
+        }
+      };
+      const pointerOut = (event: PointerEvent) => {
+        if (!event.relatedTarget) {
+          previousCursorX = cursorX;
+          previousCursorY = cursorY;
+          deposit = 0;
+        }
+      };
 
-    resize();
-    const observer = new ResizeObserver(resize);
-    observer.observe(root);
-    root.addEventListener("pointermove", draw);
-    root.addEventListener("pointerleave", leave);
-    frame = window.requestAnimationFrame(fade);
-    return () => {
-      observer.disconnect();
-      root.removeEventListener("pointermove", draw);
-      root.removeEventListener("pointerleave", leave);
-      window.cancelAnimationFrame(frame);
-    };
-  }, [enabled, rootRef, still]);
+      window.addEventListener("pointermove", pointerMove);
+      window.addEventListener("pointerout", pointerOut);
+      return () => {
+        window.cancelAnimationFrame(animationFrame);
+        clearInkAwareColors();
+        window.removeEventListener("resize", resize);
+        window.removeEventListener("pointermove", pointerMove);
+        window.removeEventListener("pointerout", pointerOut);
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+      };
+    } catch {
+      return;
+    }
+  }, [rootRef, scrollX]);
 
   return (
     <div className="icl-cursor-ink" aria-hidden="true">
@@ -460,7 +837,7 @@ const styles = `
 .icl-controls { position: absolute; z-index: 4; right: 7vw; bottom: 22px; display: flex; align-items: center; gap: 6px; }
 .icl-controls button { position: static; padding: 8px 11px; cursor: pointer; }
 .icl-controls button:last-child { padding-inline: 12px; }
-.icl-cursor-ink, .icl-cursor-ink canvas { position: absolute; z-index: 1; inset: 0; pointer-events: none; mix-blend-mode: multiply; }
+.icl-cursor-ink, .icl-cursor-ink canvas { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .icl-loader { position: absolute; z-index: 90; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; overflow: hidden; pointer-events: none; background: #fff; color: #040b05; animation: icl-loader-out 600ms cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--icl-loading-duration) - 600ms); }
 .icl-loader-media { position: relative; width: min(92vw, 1420px); aspect-ratio: 1680 / 800; max-height: 44vh; }
 .icl-loader-media video { display: block; width: 100%; height: 100%; object-fit: contain; filter: grayscale(1) contrast(1.02); }
