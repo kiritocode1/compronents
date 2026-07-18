@@ -9,6 +9,65 @@ export interface InspirationGroup {
   links: InspirationLink[];
 }
 
+/**
+ * One-line "how to use this category" note per group, keyed by group title.
+ * Surfaced in llms.txt so an agent reading the feed knows whether to install,
+ * use, read, or just browse a given category before acting on it.
+ */
+const GROUP_USAGE: Record<string, string> = {
+  React: "Mix of libraries and deep-dive articles: install the libraries, read the articles for patterns.",
+  "React Native and mobile": "Libraries and tooling for React Native: install what your app needs.",
+  "JavaScript and TypeScript": "Reference material and libraries: read for fundamentals, install the small libraries.",
+  "Web platform, CSS and performance": "Guides on browser internals and performance: read before optimizing.",
+  "Frontend architecture and patterns": "Architecture guides and tools: read for patterns, try the tools on real projects.",
+  Icons: "Icon libraries: install the one that matches your icon style.",
+  "Animated icon libraries": "Animated icon libraries: install for motion-ready icons out of the box.",
+  "UI kit directories": "Directories of UI kits: browse, then install the kit that fits your stack.",
+  "Component libraries and blocks": "Component libraries: install and copy the blocks you need.",
+  "Component demos and micro-interactions": "Live demos and one-off interactions: study the source, adapt the technique.",
+  "Interface design guidelines and craft": "Design guidelines and craft essays: read before shipping a UI.",
+  "Design inspiration galleries": "Inspiration galleries: browse for visual reference, not code.",
+  "Portfolios and studios": "Studio and portfolio sites: browse for craft and visual direction.",
+  "Color, gradients and palettes": "Color and gradient tools: use them to generate palettes.",
+  "CSS and shape generators": "CSS generators: use them to produce ready-to-paste styles.",
+  "Illustration and visual assets": "Illustration assets: download and drop into a project.",
+  "Typography tools": "Typography tools: use them to pair and tune type.",
+  "Type foundries and directories": "Type foundries: browse and license the typefaces you like.",
+  "Free typefaces": "Free typefaces: download and self-host.",
+  "Branding and logo archives": "Logo and branding archives: browse for reference, not reuse.",
+  "Design essays and culture": "Essays on design culture: read for perspective.",
+  "Animation and motion": "Animation libraries and guides: install the libraries, read the guides for technique.",
+  "WebGL, shaders and creative coding": "WebGL and shader tooling: install the libraries, read the write-ups for technique.",
+  "Audio, video and media": "Audio and video libraries: install what your media pipeline needs.",
+  "LLMs and AI engineering": "LLM engineering references: read before building with a model.",
+  "Machine learning and deep learning": "ML and deep learning references: read for fundamentals.",
+  "AI tools, agents and search": "AI tools and agents: use them directly in your workflow.",
+  "AI agent platforms and infrastructure": "Agent platforms and infra: evaluate and use the ones that fit your stack.",
+  "Backend engineering": "Backend engineering references: read before architecting a service.",
+  "Databases and storage": "Databases and storage tools: use them directly, or read for tradeoffs.",
+  "Infrastructure, observability and runtimes": "Infra and observability tools: use them to run and monitor services.",
+  "Distributed systems and computer science": "Systems and CS references: read for fundamentals.",
+  "Books and fundamentals": "Books: read them.",
+  "Courses and learning paths": "Courses: work through them.",
+  "Coding challenges and practice": "Practice problems: work through them.",
+  "Developer tools and utilities": "Developer tools: install and use them directly.",
+  "Productivity and business tools": "Productivity tools: use them directly.",
+  "File sharing and conversion tools": "File tools: use them directly.",
+  "ASCII art and diagram tools": "Diagram tools: use them to generate diagrams.",
+  "Marketing and growth tools": "Marketing tools: use them directly.",
+  "Effect ecosystem": "Effect libraries: install and use in place of hand-rolled abstractions.",
+  "Docs, slides and content tools": "Content tools: use them directly.",
+  "Personal blogs and sites": "Personal blogs: read for perspective.",
+  "Developer profiles and socials": "Developer profiles: follow for updates.",
+  "Engineering essays and culture": "Essays on engineering culture: read for perspective.",
+  "YouTube channels": "YouTube channels: subscribe and watch.",
+  "Talks and individual videos": "Talks: watch them.",
+  "Self-hosted software": "Self-hosted software: deploy your own instance.",
+  "Mockups, textures and patterns": "Mockups and textures: download and drop into a design file.",
+  "Agent skills directories": "Agent skills: install them directly into your coding agent.",
+  "VPS and hosting videos": "Hosting comparison videos: watch before picking a provider.",
+};
+
 export const inspirationGroups: InspirationGroup[] = [
   {
     title: "React",
@@ -5895,6 +5954,10 @@ export function inspirationGroupsToMarkdown(
 
   for (const group of groups) {
     lines.push(`## ${group.title}`, "");
+    const usage = GROUP_USAGE[group.title];
+    if (usage) {
+      lines.push(`_${usage}_`, "");
+    }
     for (const link of group.links) {
       const suffix = link.description ? `: ${link.description}` : "";
       lines.push(`- [${link.title}](${link.href})${suffix}`);
