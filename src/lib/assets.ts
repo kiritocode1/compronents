@@ -79,6 +79,7 @@ const inkCoreLayoutAssets = [
   ["07", "7-r2.png", "Wide ink field used by the loader and studio tile."],
   ["08", "8.png", "Shogi-board monochrome tile."],
   ["motion", "8.mp4", "Looping final editorial tile."],
+  ["intro", "intro.mp4", "Monochrome intro film behind the loading status."],
   ["font", "switzer.ttf", "Variable display and UI font."],
 ].map(
   ([id, filename, role]) =>

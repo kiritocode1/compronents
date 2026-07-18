@@ -79,7 +79,7 @@ export interface InkCoreLayoutProps {
  * BLANK - aryank.space
  */
 export default function InkCoreLayout({
-  loadingDuration = 1400,
+  loadingDuration = 5667,
   assetBase = DEFAULT_ASSET_BASE,
   className = "",
 }: InkCoreLayoutProps) {
@@ -242,7 +242,12 @@ export default function InkCoreLayout({
         </button>
       </div>
 
-      {loading ? <LoadingScreen assetBase={assetBase} /> : null}
+      {loading ? (
+        <LoadingScreen
+          assetBase={assetBase}
+          loadingDuration={loadingDuration}
+        />
+      ) : null}
     </section>
   );
 }
@@ -287,40 +292,37 @@ function InkCursor({
         return;
       }
       const distance = Math.hypot(point.x - previous.x, point.y - previous.y);
-      const width = Math.min(18, 4 + distance * 0.22);
+      const width = Math.min(5.5, 1.8 + distance * 0.025);
+      const path = new Path2D();
+      path.moveTo(previous.x, previous.y);
+      path.lineTo(point.x, point.y);
+
+      context.save();
       context.lineCap = "round";
       context.lineJoin = "round";
-      context.strokeStyle = "rgba(5, 5, 5, .84)";
+
+      context.strokeStyle = "rgba(5, 5, 5, .07)";
+      context.lineWidth = width * 3.2;
+      context.shadowColor = "rgba(5, 5, 5, .12)";
+      context.shadowBlur = width * 1.8;
+      context.stroke(path);
+
+      context.strokeStyle = "rgba(5, 5, 5, .88)";
       context.lineWidth = width;
-      context.beginPath();
-      context.moveTo(previous.x, previous.y);
-      context.lineTo(point.x, point.y);
-      context.stroke();
-      context.fillStyle = "rgba(5, 5, 5, .34)";
-      for (
-        let index = 0;
-        index < Math.min(7, Math.ceil(distance / 5));
-        index++
-      ) {
-        const angle = Math.random() * Math.PI * 2;
-        const spread = Math.random() * width * 1.5;
-        context.beginPath();
-        context.arc(
-          point.x + Math.cos(angle) * spread,
-          point.y + Math.sin(angle) * spread,
-          Math.max(0.6, Math.random() * width * 0.18),
-          0,
-          Math.PI * 2,
-        );
-        context.fill();
-      }
+      context.shadowColor = "rgba(5, 5, 5, .3)";
+      context.shadowBlur = width * 0.65;
+      context.stroke(path);
+      context.restore();
       previous = point;
     };
     const fade = () => {
       if (!still) {
         const bounds = root.getBoundingClientRect();
-        context.fillStyle = "rgba(255, 255, 255, .008)";
+        context.save();
+        context.globalCompositeOperation = "destination-out";
+        context.fillStyle = "rgba(0, 0, 0, .012)";
         context.fillRect(0, 0, bounds.width, bounds.height);
+        context.restore();
       }
       frame = window.requestAnimationFrame(fade);
     };
@@ -349,16 +351,43 @@ function InkCursor({
   );
 }
 
-function LoadingScreen({ assetBase }: { assetBase: string }) {
+function LoadingScreen({
+  assetBase,
+  loadingDuration,
+}: {
+  assetBase: string;
+  loadingDuration: number;
+}) {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const startedAt = performance.now();
+    const interval = window.setInterval(() => {
+      const elapsed = performance.now() - startedAt;
+      setProgress(Math.min(99, Math.floor((elapsed / loadingDuration) * 100)));
+    }, 50);
+    return () => window.clearInterval(interval);
+  }, [loadingDuration]);
+
   return (
-    <output className="icl-loader" aria-live="polite" aria-label="Loading">
-      <div className="icl-loader-ink" aria-hidden="true">
-        <img src={`${assetBase}/7-r2.png`} alt="" />
+    <div className="icl-loader" aria-hidden="true">
+      <div className="icl-loader-media">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          src={`${assetBase}/intro.mp4`}
+        />
+        <div className="icl-loader-label">
+          <span>/LOADING</span>
+        </div>
       </div>
-      <p>LOADING ·</p>
-      <p>LOADING ·</p>
-      <p>LOADING ·</p>
-    </output>
+      <span className="icl-loader-progress">
+        /loading ▸ {String(progress).padStart(3, "0")}
+      </span>
+    </div>
   );
 }
 
@@ -432,16 +461,14 @@ const styles = `
 .icl-controls button { position: static; padding: 8px 11px; cursor: pointer; }
 .icl-controls button:last-child { padding-inline: 12px; }
 .icl-cursor-ink, .icl-cursor-ink canvas { position: absolute; z-index: 1; inset: 0; pointer-events: none; mix-blend-mode: multiply; }
-.icl-loader { position: absolute; z-index: 10; inset: 0; display: grid; place-items: center; overflow: hidden; background: rgba(255,255,255,.72); color: rgba(20,20,20,.23); animation: icl-loader-out 340ms ease-in forwards; animation-delay: calc(var(--icl-loading-duration) - 340ms); }
-.icl-loader-ink { position: absolute; width: min(500px, 52vw); height: min(260px, 42vh); overflow: hidden; opacity: .09; mix-blend-mode: multiply; }
-.icl-loader-ink img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(170%); }
-.icl-loader p { position: absolute; margin: 0; font-size: 10px; letter-spacing: -.07em; animation: icl-loader-flicker 680ms steps(2,end) infinite; }
-.icl-loader p:nth-of-type(1) { transform: translate(-20px, -17px); }
-.icl-loader p:nth-of-type(2) { transform: translate(23px, 11px); animation-delay: -180ms; }
-.icl-loader p:nth-of-type(3) { transform: translate(-10px, 38px); animation-delay: -410ms; }
-@keyframes icl-loader-flicker { 50% { opacity: .18; transform: translate(5px, 5px); } }
+.icl-loader { position: absolute; z-index: 90; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; overflow: hidden; pointer-events: none; background: #fff; color: #040b05; animation: icl-loader-out 600ms cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--icl-loading-duration) - 600ms); }
+.icl-loader-media { position: relative; width: min(92vw, 1420px); aspect-ratio: 1680 / 800; max-height: 44vh; }
+.icl-loader-media video { display: block; width: 100%; height: 100%; object-fit: contain; filter: grayscale(1) contrast(1.02); }
+.icl-loader-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.icl-loader-label span { font-size: 14px; letter-spacing: -.04em; }
+.icl-loader-progress { font-size: 11px; letter-spacing: -.04em; text-transform: uppercase; opacity: .62; font-variant-numeric: tabular-nums; }
 @keyframes icl-loader-out { to { opacity: 0; visibility: hidden; } }
-@media (prefers-reduced-motion: reduce) { .icl-loader, .icl-loader p { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .icl-loader { animation-duration: 1ms; } }
 @media (max-width: 700px) {
   .ink-core-layout { --unit: max(34px, calc((100svh - 170px) / 10)); min-height: 520px; }
   .icl-retrace { left: 16px; top: 18px; } .icl-explore { right: 16px; top: 18px; }

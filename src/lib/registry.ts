@@ -2474,7 +2474,7 @@ export const registryItems: RegistryItem[] = [
     name: "ink-core-layout",
     title: "Ink Core Layout",
     description:
-      "A source-backed horizontal editorial layout: segmented monochrome tiles, display controls, a cursor-drawn black ink field, and a pale ink loader.",
+      "A source-backed horizontal editorial layout: segmented monochrome tiles, display controls, a cursor-drawn black ink field, and the original monochrome intro-film loader.",
     section: "pages",
     category: "Animations",
     pro: false,

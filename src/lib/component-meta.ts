@@ -1043,7 +1043,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         label: "Live cursor ink",
         description:
-          "A scoped canvas stamps, splatters, and gradually fades black ink directly under the cursor. The display control clears the field by unmounting it.",
+          "A scoped canvas lays down a narrow two-layer ink ribbon and gradually fades it directly under the cursor. The display control clears the field by unmounting it.",
       },
       {
         label: "Horizontal editorial field",
@@ -1064,7 +1064,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "loadingDuration",
         type: "number",
-        default: "1400",
+        default: "5667",
         description:
           "Duration of the initial ink loading screen in milliseconds.",
       },
@@ -1073,7 +1073,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string",
         default: '"https://ui.aryank.space/assets/ink-core-layout"',
         description:
-          "Blob base URL for the seven tiles, looping video, and Switzer font.",
+          "Blob base URL for the tiles, intro and looping videos, and Switzer font.",
       },
       {
         name: "className",
