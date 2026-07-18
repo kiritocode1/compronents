@@ -1365,6 +1365,18 @@ export const inspirationGroups: InspirationGroup[] = [
           "Curated directory of tools specifically for the design engineer workflow, bridging design and frontend implementation.",
       },
       {
+        title: "Toolfolio design tools",
+        href: "https://toolfolio.com/design",
+        description:
+          "Browsable directory of design tools, with filters for platform, pricing and integrations alongside tool-specific collections and articles.",
+      },
+      {
+        title: "Search System",
+        href: "https://searchsystem.co/",
+        description:
+          "A protected web reference retained for its search-focused experience and visual direction.",
+      },
+      {
         title: "Items Design",
         href: "https://items.design/",
         description:
@@ -2359,7 +2371,7 @@ export const inspirationGroups: InspirationGroup[] = [
     links: [
       {
         title: "Logo System",
-        href: "http://logosystem.co",
+        href: "https://logosystem.co/",
         description:
           "Free logo inspiration library of 1,200+ curated logos, wordmarks, symbols and animated logos by top designers, browsable by type, industry, style, shape, color and mood.",
       },
@@ -2619,6 +2631,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "Interactive flock dynamics experiment by Tolis, simulating boids-style flocking behaviour in the browser where many agents steer, align and swarm in real time.",
       },
       {
+        title: "Matter.js",
+        href: "https://brm.io/matter-js/",
+        description:
+          "Open-source 2D rigid-body physics engine for the web, with browser demos and guides for simulations, games and interaction experiments.",
+      },
+      {
         title: "Keramos",
         href: "https://keramos.vercel.app/",
         description:
@@ -2832,6 +2850,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://pixelpoint.io/aval/",
         description:
           "Pixel Point's open-source web video player for interactive, state-driven video experiences that respond to hover, focus and application state.",
+      },
+      {
+        title: "RTMP streaming guide",
+        href: "https://restream.io/blog/rtmp-streaming/",
+        description:
+          "Restream's practical guide to the RTMP live-streaming protocol, covering encoders, streaming-platform support, setup and how RTMP differs from HTTP streaming.",
       },
     ],
   },
@@ -3852,6 +3876,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "Free online edition of Peterson and Davie's well-known networking textbook, teaching networks from a systems-design perspective rather than pure protocol trivia.",
       },
       {
+        title: "RFC 791: Internet Protocol",
+        href: "https://datatracker.ietf.org/doc/html/rfc791#section-1.2",
+        description:
+          "The IETF specification for Internet Protocol version 4, including its purpose, addressing model and packet format, the primary source for IP's original design.",
+      },
+      {
         title: "Putting the You in CPU",
         href: "https://cpu.land/",
         description:
@@ -3903,6 +3933,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://third-bit.com/sdxjs/",
         description:
           "Greg Wilson's free book teaching software design by building small tools (a testing framework, a template engine, a version control system) from scratch in JavaScript, learning architecture by rebuilding it.",
+      },
+      {
+        title: "Beej's Guide to Network Programming",
+        href: "https://beej.us/guide/bgnet/pdf/bgnet_a4_c_1.pdf",
+        description:
+          "Classic, practical C guide to socket programming for TCP/IP networks, covering clients, servers, address resolution and multiplexing.",
       },
       {
         title: "Designing Data-Intensive Applications",
@@ -5111,6 +5147,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://x.com/abh1a0/status/1993033150323392720",
         description:
           "A specific X (Twitter) post from developer Abhi worth referencing.",
+      },
+      {
+        title: "Srajan on X",
+        href: "https://x.com/_Creation22/status/2027378310779752857",
+        description:
+          "Specific X post by Srajan (@_Creation22), retained as a focused design and technical reference.",
       },
       {
         title: "iximiuz on X",
