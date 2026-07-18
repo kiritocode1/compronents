@@ -2301,6 +2301,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "drone-fleet",
+    title: "Drone Fleet",
+    description:
+      "A flock of crosshair drones steering by the boids rules (separation, alignment, cohesion) plus wander. The pointer attracts the flock; clicking queues waypoints it flies to in order before returning to free roam, with dashed mesh links and live HUD telemetry.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-18",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drone-fleet.tsx",
+        target: "components/ui/drone-fleet.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "motion-tracking",
     title: "Motion Tracking",
     description:

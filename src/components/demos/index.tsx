@@ -36,6 +36,7 @@ import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
+import DroneFleetDemo from "./drone-fleet";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
 import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
@@ -175,6 +176,7 @@ export const demos: Record<string, ComponentType> = {
   "client-hover-preview": ClientHoverPreviewDemo,
   "filter-scrub-gallery": FilterScrubGalleryDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
+  "drone-fleet": DroneFleetDemo,
   "sticky-stack-cards": StickyStackCardsDemo,
   "sticky-flip-cards": StickyFlipCardsDemo,
   "smudge-cursor-reveal": SmudgeCursorRevealDemo,

@@ -5732,6 +5732,38 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "drone-fleet": {
+    demoPath: "src/components/demos/drone-fleet.tsx",
+    nuance: [
+      {
+        label: "Boids steering",
+        description:
+          "Each drone sums separation, alignment, cohesion, and a wander term, then a turn-rate limit and speed easing keep the motion smooth so the flock reads as a coordinated fleet rather than jittering points.",
+      },
+      {
+        label: "Pointer and waypoints",
+        description:
+          "The smoothed pointer is a weak attractor for free roam; clicking queues waypoints the flock chases in order, advancing once its centroid arrives, then returning to pointer-follow once the queue is cleared.",
+      },
+    ],
+    editable: [
+      {
+        name: "count",
+        control: "text",
+        description:
+          "Drone count. Defaults to 12, or 6 on narrow screens.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "count",
+        type: "number",
+        default: "12 (6 under 768px)",
+        description: "Number of drones in the flock.",
+      },
+    ],
+  },
   "motion-tracking": {
     demoPath: "src/components/demos/motion-tracking.tsx",
     nuance: [
