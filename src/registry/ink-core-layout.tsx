@@ -84,10 +84,12 @@ export default function InkCoreLayout({
   className = "",
 }: InkCoreLayoutProps) {
   const rootRef = useRef<HTMLElement>(null);
+  const panRef = useRef(0);
   const [loading, setLoading] = useState(true);
   const [inkVisible, setInkVisible] = useState(true);
   const [still, setStill] = useState(false);
   const [largeType, setLargeType] = useState(false);
+  const [panX, setPanX] = useState(0);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => setLoading(false), loadingDuration);
@@ -104,6 +106,53 @@ export default function InkCoreLayout({
       document.fonts.delete(font);
     };
   }, [assetBase]);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    let startX = 0;
+    let startPan = 0;
+    let dragging = false;
+    const maxPan = () => {
+      const unit = Math.max(32, (root.clientHeight - 190) / 10);
+      return Math.min(
+        0,
+        root.clientWidth - (root.clientWidth * 0.14 + unit * 38),
+      );
+    };
+    const down = (event: PointerEvent) => {
+      if ((event.target as HTMLElement).closest("a, button")) return;
+      startX = event.clientX;
+      startPan = panRef.current;
+      dragging = true;
+      root.setPointerCapture(event.pointerId);
+    };
+    const move = (event: PointerEvent) => {
+      if (!dragging) return;
+      const nextPan = Math.max(
+        maxPan(),
+        Math.min(0, startPan + event.clientX - startX),
+      );
+      panRef.current = nextPan;
+      setPanX(nextPan);
+    };
+    const up = (event: PointerEvent) => {
+      dragging = false;
+      root.releasePointerCapture(event.pointerId);
+    };
+
+    root.addEventListener("pointerdown", down);
+    root.addEventListener("pointermove", move);
+    root.addEventListener("pointerup", up);
+    root.addEventListener("pointercancel", up);
+    return () => {
+      root.removeEventListener("pointerdown", down);
+      root.removeEventListener("pointermove", move);
+      root.removeEventListener("pointerup", up);
+      root.removeEventListener("pointercancel", up);
+    };
+  }, []);
 
   return (
     <section
@@ -126,7 +175,11 @@ export default function InkCoreLayout({
         EXPLORE STUDIO »
       </a>
 
-      <div className="icl-rail" id="start">
+      <div
+        className="icl-rail"
+        id="start"
+        style={{ transform: `translate3d(${panX}px, 0, 0)` }}
+      >
         {CARDS.map((card, index) => (
           <article
             className="icl-card"
@@ -318,6 +371,7 @@ const styles = `
   height: 100svh;
   min-height: 540px;
   overflow: hidden;
+  touch-action: none;
   background: #fff;
   color: #090909;
   font-family: "Ink Core Switzer", Arial, sans-serif;
@@ -345,6 +399,7 @@ const styles = `
   inset: 96px 0 0;
   width: calc(14vw + var(--unit) * 38);
   height: calc(100% - 96px);
+  will-change: transform;
 }
 .icl-card {
   position: absolute;
