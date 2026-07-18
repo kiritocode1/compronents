@@ -1627,6 +1627,18 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Blog of Maxime Heckel, a senior software engineer known for deeply technical, beautifully illustrated posts on WebGL, React Three Fiber and creative coding.",
       },
+      {
+        title: "Gustavo Fior",
+        href: "https://www.gustavofior.com/",
+        description:
+          "Portfolio and writing site of Gustavo Fior, featuring projects including Foglamp, an open-source tool for improving AI agents.",
+      },
+      {
+        title: "Igochi Studio",
+        href: "https://www.igochi.studio/",
+        description:
+          "Object and experience design studio with a quiet, editorial presentation across stories, software, editions and archival work.",
+      },
     ],
   },
   {
@@ -2815,6 +2827,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Large, long-running library of Creative Commons-licensed sound effects and field recordings, searchable and free to use with attribution.",
       },
+      {
+        title: "AVAL",
+        href: "https://pixelpoint.io/aval/",
+        description:
+          "Pixel Point's open-source web video player for interactive, state-driven video experiences that respond to hover, focus and application state.",
+      },
     ],
   },
   {
@@ -2825,6 +2843,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://llmstxt.site/",
         description:
           "Directory of llms.txt file locations across the web with stats, tracking which sites publish the standard file that tells language models how to read and use their content.",
+      },
+      {
+        title: "tokenmaxxing.sh",
+        href: "https://tokenmaxxing.sh/#leaderboard",
+        description:
+          "Usage tracker and public leaderboard for AI coding-agent token consumption, spend and active days across supported tools.",
       },
       {
         title: "Vibe coding is not AI-assisted engineering",
@@ -4119,6 +4143,12 @@ export const inspirationGroups: InspirationGroup[] = [
           "Lightweight alternative to Electron for building native desktop apps, using the OS's built-in webview instead of bundling a full Chromium runtime, for much smaller app sizes.",
       },
       {
+        title: "Native SDK",
+        href: "https://native-sdk.dev/introduction",
+        description:
+          "Framework for native desktop apps with TypeScript cores, customizable native UI, platform APIs, embedded web content and an automation-ready workflow.",
+      },
+      {
         title: "Graphite changelog",
         href: "https://graphite.dev/blog?category=changelog",
         description:
@@ -5099,6 +5129,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://roe.dev",
         description:
           "Site of Daniel Roe, Nuxt core team member and maintainer of fontaine, beasties, magic-regexp and page-speed.dev.",
+      },
+      {
+        title: "Aiden Bai on X: CN search",
+        href: "https://x.com/search?q=from%3Aaidenybai%20cn&src=typed_query",
+        description:
+          "Saved X search for posts by Aiden Bai matching “cn”, useful for revisiting that focused thread of his work and commentary.",
       },
       {
         title: "Sebastien Chopin",
