@@ -3369,6 +3369,12 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "JavaScript framework for building persistent, stateful AI agents on Cloudflare Workers, used as the runtime other agent frameworks build on top of.",
       },
+      {
+        title: "Polylane",
+        href: "https://polylane.com/",
+        description:
+          "AI agents that read your code and watch your infrastructure to investigate production incidents and open pull requests with fixes, aimed at cutting down on-call load.",
+      },
     ],
   },
   {
@@ -5825,6 +5831,12 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://github.com/iamvishal16/swiftui-microinteractions",
         description:
           "Claude Code / Cursor / Codex agent skill that generates production-ready SwiftUI micro-interactions from plain-English prompts, encoding spring physics presets, haptic feedback grammar and glass-morphism aesthetics drawn from the author's Animo animation library.",
+      },
+      {
+        title: "Jakub Krehel skills",
+        href: "https://jakub.kr/skills",
+        description:
+          "Jakub Krehel's directory of agent skills for product design and development, including /better-ui, /better-typography and /better-colors.",
       },
     ],
   },
