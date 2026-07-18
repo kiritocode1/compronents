@@ -51,6 +51,7 @@ import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
+import InkCoreLayoutDemo from "./ink-core-layout";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
@@ -137,6 +138,7 @@ export const demos: Record<string, ComponentType> = {
   "overlay-menu": OverlayMenuDemo,
   "mosaic-flip": MosaicFlipDemo,
   "image-reveal": ImageRevealDemo,
+  "ink-core-layout": InkCoreLayoutDemo,
   "ascii-tv-hero": AsciiTvHeroDemo,
   "award-list": AwardListDemo,
   "inversa-scroll": InversaScrollDemo,

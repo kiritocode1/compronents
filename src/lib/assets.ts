@@ -70,6 +70,29 @@ const splitRevealPreloaderAssets = [
   } as const satisfies AssetItem,
 ];
 
+const inkCoreLayoutAssets = [
+  ["01", "1.png", "Tall monochrome editorial tile."],
+  ["02", "2.png", "Vertical abstract ink tile."],
+  ["03", "3.png", "Calligraphic monochrome tile."],
+  ["04", "4.png", "Floral monochrome tile."],
+  ["05", "5.png", "Opening monochrome tile."],
+  ["07", "7-r2.png", "Wide ink field used by the loader and studio tile."],
+  ["08", "8.png", "Shogi-board monochrome tile."],
+  ["motion", "8.mp4", "Looping final editorial tile."],
+  ["font", "switzer.ttf", "Variable display and UI font."],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `ink-core-layout-${id}`,
+      label: `Ink Core Layout ${id}`,
+      provider: "vercel-blob",
+      pathname: `ink-core-layout/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/ink-core-layout/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
 const convergingIconsTextAssets = Array.from({ length: 5 }, (_, i) => {
   const n = i + 1;
   return {
@@ -1802,6 +1825,7 @@ export const assetItems = [
   ...curtainRevealHeroAssets,
   ...convergingIconsTextAssets,
   ...splitRevealPreloaderAssets,
+  ...inkCoreLayoutAssets,
   ...scrollWaveGalleryAssets,
   {
     id: "preloader-reveal-logo",

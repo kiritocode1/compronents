@@ -2471,6 +2471,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "ink-core-layout",
+    title: "Ink Core Layout",
+    description:
+      "A source-backed horizontal editorial layout: segmented monochrome tiles, display controls, a cursor-drawn black ink field, and a pale ink loader.",
+    section: "pages",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-18",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ink-core-layout.tsx",
+        target: "components/ui/ink-core-layout.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "brutalist-portfolio-page",
     title: "Brutalist Portfolio Page",
     description:

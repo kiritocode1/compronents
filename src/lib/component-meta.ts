@@ -221,6 +221,17 @@ const preloaderRevealAssets = assetItems
     role: asset.role,
   }));
 
+const inkCoreLayoutAssetDocs = assetItems
+  .filter((asset) => asset.id.startsWith("ink-core-layout-"))
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role: asset.role,
+  }));
+
 const scrollWaveGalleryAssets = assetItems
   .filter((asset) => asset.id.startsWith("scroll-wave-gallery-"))
   .slice(0, 3)
@@ -1023,6 +1034,52 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string / CSSProperties",
         default: "undefined",
         description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "ink-core-layout": {
+    demoPath: "src/components/demos/ink-core-layout.tsx",
+    nuance: [
+      {
+        label: "Live cursor ink",
+        description:
+          "A scoped canvas stamps, splatters, and gradually fades black ink directly under the cursor. The display control clears the field by unmounting it.",
+      },
+      {
+        label: "Horizontal editorial field",
+        description:
+          "The tiles use viewport-derived units rather than fixed coordinates, preserving the sparse, wide composition across screen heights.",
+      },
+    ],
+    editable: [
+      {
+        name: "loadingDuration",
+        control: "text",
+        description:
+          "Milliseconds the opening ink screen remains visible after mount.",
+      },
+    ],
+    assets: inkCoreLayoutAssetDocs,
+    api: [
+      {
+        name: "loadingDuration",
+        type: "number",
+        default: "1400",
+        description:
+          "Duration of the initial ink loading screen in milliseconds.",
+      },
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/ink-core-layout"',
+        description:
+          "Blob base URL for the seven tiles, looping video, and Switzer font.",
+      },
+      {
+        name: "className",
+        type: "string",
+        default: "undefined",
+        description: "Optional class applied to the page root.",
       },
     ],
   },

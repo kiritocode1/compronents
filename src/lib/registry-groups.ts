@@ -172,6 +172,7 @@ export const pageGroups: RegistryGroup[] = [
       "wu-wei-page",
       "lemon-bureau-page",
       "null-studio-page",
+      "ink-core-layout",
       "neoteric-page",
       "unusual-studio-page",
       "otis-valen-page",
