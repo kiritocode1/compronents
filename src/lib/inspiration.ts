@@ -5856,6 +5856,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Effect ecosystem",
     links: [
       {
+        title: "Minimal Kyo-style effect system (kitlangton)",
+        href: "https://gist.github.com/kitlangton/f45697b1f711bcb600ad8f6432b1f75b",
+        dateAdded: "2026-07-19",
+        description:
+          "Kit Langton's single-file TypeScript gist implementing a minimal algebraic effect system in the style of Scala's Kyo: a phantom-row Fx<A, E> type, Suspend objects that capture delimited continuations, a tail-recursive stack-safe interpreter, and Abort, Env and State effects as concrete handler examples. A compact reference for how effect-system internals actually work.",
+      },
+      {
         title: "Visual Effect playground",
         href: "https://effect.kitlangton.com/",
         dateAdded: "2026-07-14",
