@@ -2,28 +2,60 @@
 
 import { useSound } from "@web-kits/audio/react";
 import { Calligraph } from "calligraph";
+import Fuse from "fuse.js";
 import { ArrowUpRight, Search } from "lucide-react";
-import { useState } from "react";
-import type { InspirationGroup } from "@/lib/inspiration";
+import { useMemo, useState } from "react";
+import type { InspirationGroup, InspirationLink } from "@/lib/inspiration";
+import { matchesDateRange, parseTimeQuery } from "@/lib/search-time";
 import { uiHover } from "@/lib/sounds";
+
+interface SearchEntry {
+  groupTitle: string;
+  link: InspirationLink;
+}
 
 export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
   const [query, setQuery] = useState("");
   const playHover = useSound(uiHover);
-  const q = query.trim().toLowerCase();
-  const visible = groups
-    .map((group) => ({
-      ...group,
-      links:
-        q && !group.title.toLowerCase().includes(q)
-          ? group.links.filter(
-              (link) =>
-                link.title.toLowerCase().includes(q) ||
-                link.description?.toLowerCase().includes(q),
-            )
-          : group.links,
-    }))
-    .filter((group) => group.links.length > 0);
+
+  const fuse = useMemo(() => {
+    const entries: SearchEntry[] = groups.flatMap((group) =>
+      group.links.map((link) => ({ groupTitle: group.title, link })),
+    );
+    return new Fuse(entries, {
+      keys: [
+        { name: "link.title", weight: 0.5 },
+        { name: "link.description", weight: 0.3 },
+        { name: "groupTitle", weight: 0.2 },
+      ],
+      threshold: 0.2,
+      ignoreLocation: true,
+      minMatchCharLength: 2,
+    });
+  }, [groups]);
+
+  const visible = useMemo(() => {
+    const { query: q, date, words } = parseTimeQuery(query);
+    if (!q) return groups;
+
+    const wordsQuery = words.join(" ");
+    const textMatchedHrefs = wordsQuery
+      ? new Set(fuse.search(wordsQuery).map((result) => result.item.link.href))
+      : null;
+
+    return groups
+      .map((group) => ({
+        ...group,
+        links: group.links.filter((link) => {
+          if (!matchesDateRange(link.dateAdded, date)) return false;
+          if (!textMatchedHrefs) return true;
+          if (group.title.toLowerCase().includes(wordsQuery.toLowerCase()))
+            return true;
+          return textMatchedHrefs.has(link.href);
+        }),
+      }))
+      .filter((group) => group.links.length > 0);
+  }, [groups, fuse, query]);
 
   return (
     <main className="mx-auto w-full max-w-[40rem] pb-32">
@@ -41,7 +73,7 @@ export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search…"
+          placeholder="Search titles or dates…"
           aria-label="Search inspiration"
           className="w-full bg-transparent py-1 text-sm text-foreground placeholder:text-faint focus:outline-none"
         />

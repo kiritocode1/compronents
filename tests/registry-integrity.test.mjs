@@ -12,6 +12,7 @@ import {
   getRegistryDesignGuidance,
   matchesRegistrySearch,
 } from "../src/lib/registry.ts";
+import { searchDate } from "../src/lib/search-time.ts";
 import {
   analyzeFile,
   exists,
@@ -105,11 +106,102 @@ test("catalog search understands titles, sections, and natural dates", () => {
   assert.ok(
     matching("last Thursday").every((item) => item.date === "2026-07-09"),
   );
+  assert.deepEqual(matching("monday"), matching("this monday"));
+  assert.ok(matching("tomorrow").length === 0);
+  assert.ok(matching("between yesterday and last monday").length > 0);
+  assert.ok(
+    matching("between yesterday and last monday").every(
+      (item) => item.date >= "2026-07-06" && item.date <= "2026-07-15",
+    ),
+  );
+  assert.deepEqual(
+    matching("between last monday and yesterday"),
+    matching("between yesterday and last monday"),
+  );
   assert.deepEqual(matching("last thurstday"), matching("last Thursday"));
   assert.deepEqual(matching("2 weks ago"), matching("2 weeks ago"));
   assert.deepEqual(matching("yestarday"), matching("yesterday"));
+  assert.deepEqual(
+    matching("betwen yestrday and last mnday"),
+    matching("between yesterday and last monday"),
+  );
   assert.deepEqual(matching("pixlgrid"), matching("pixelgrid"));
   assert.deepEqual(matching("2/30"), []);
+});
+
+test("time query parser: tomorrow and between-range resolve to correct ISO bounds", () => {
+  const now = new Date(2026, 6, 16, 12);
+  const tomorrow = searchDate("tomorrow", now);
+  assert.deepEqual(tomorrow, {
+    start: "2026-07-17",
+    end: "2026-07-17",
+    phrase: "tomorrow",
+  });
+
+  const between = searchDate("between yesterday and last monday", now);
+  assert.equal(between.start, "2026-07-06");
+  assert.equal(between.end, "2026-07-15");
+
+  const reversed = searchDate("between last monday and yesterday", now);
+  assert.equal(reversed.start, between.start);
+  assert.equal(reversed.end, between.end);
+});
+
+test("time query parser: bare 'X and Y' / 'X to Y' ranges without the word 'between'", () => {
+  const now = new Date(2026, 6, 16, 12);
+
+  const andRange = searchDate("today and yesterday", now);
+  assert.deepEqual(andRange, {
+    start: "2026-07-15",
+    end: "2026-07-16",
+    phrase: "today and yesterday",
+  });
+
+  const toRange = searchDate("today to last monday", now);
+  assert.deepEqual(toRange, {
+    start: "2026-07-06",
+    end: "2026-07-16",
+    phrase: "today to last monday",
+  });
+  const equivalentBetween = searchDate("between last monday and today", now);
+  assert.equal(toRange.start, equivalentBetween.start);
+  assert.equal(toRange.end, equivalentBetween.end);
+
+  // Plain text containing "and"/"to" must not be misread as a range.
+  assert.equal(searchDate("how to use gsap", now), null);
+  assert.equal(searchDate("component library and tailwind", now), null);
+});
+
+test("time query parser: bare weekday names resolve to the most recent occurrence", () => {
+  const now = new Date(2026, 6, 16, 12); // Thursday, July 16 2026
+
+  assert.deepEqual(searchDate("monday", now), {
+    start: "2026-07-13",
+    end: "2026-07-13",
+    phrase: "monday",
+  });
+  assert.deepEqual(searchDate("thursday", now), {
+    start: "2026-07-16",
+    end: "2026-07-16",
+    phrase: "thursday",
+  });
+  assert.deepEqual(searchDate("friday", now), {
+    start: "2026-07-10",
+    end: "2026-07-10",
+    phrase: "friday",
+  });
+
+  // "this"/"last" qualifiers still take priority over the bare-weekday fallback.
+  assert.deepEqual(searchDate("this monday", now), {
+    start: "2026-07-13",
+    end: "2026-07-13",
+    phrase: "this monday",
+  });
+  assert.deepEqual(searchDate("last monday", now), {
+    start: "2026-07-06",
+    end: "2026-07-06",
+    phrase: "last monday",
+  });
 });
 
 for (const item of registryItems) {

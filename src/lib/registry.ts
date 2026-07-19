@@ -18,6 +18,12 @@
  * shadcn CLI drops the file in a consumer project.
  */
 
+import {
+  closestWord,
+  matchesDateRange,
+  parseTimeQuery,
+} from "./search-time.ts";
+
 export const REGISTRY_NAME = "Compronents";
 export const REGISTRY_NAMESPACE = "@compronents";
 export const REGISTRY_HOMEPAGE = "https://ui.aryank.space";
@@ -134,271 +140,15 @@ export interface RegistryDesignGuidance {
   avoid: string;
 }
 
-const SEARCH_MONTHS: Record<string, number> = {
-  jan: 1,
-  january: 1,
-  feb: 2,
-  february: 2,
-  mar: 3,
-  march: 3,
-  apr: 4,
-  april: 4,
-  may: 5,
-  jun: 6,
-  june: 6,
-  jul: 7,
-  july: 7,
-  aug: 8,
-  august: 8,
-  sep: 9,
-  sept: 9,
-  september: 9,
-  oct: 10,
-  october: 10,
-  nov: 11,
-  november: 11,
-  dec: 12,
-  december: 12,
-};
-
-const SEARCH_WEEKDAYS: Record<string, number> = {
-  monday: 0,
-  tuesday: 1,
-  wednesday: 2,
-  thursday: 3,
-  friday: 4,
-  saturday: 5,
-  sunday: 6,
-};
-
-const DATE_WORDS = [
-  ...Object.keys(SEARCH_MONTHS),
-  ...Object.keys(SEARCH_WEEKDAYS),
-  "this",
-  "last",
-  "today",
-  "yesterday",
-  "day",
-  "days",
-  "week",
-  "weeks",
-  "month",
-  "months",
-  "ago",
-];
-
-function editDistance(left: string, right: string) {
-  const row = Array.from({ length: right.length + 1 }, (_, index) => index);
-  for (let i = 1; i <= left.length; i++) {
-    let diagonal = row[0];
-    row[0] = i;
-    for (let j = 1; j <= right.length; j++) {
-      const previous = row[j];
-      row[j] = Math.min(
-        row[j] + 1,
-        row[j - 1] + 1,
-        diagonal + (left[i - 1] === right[j - 1] ? 0 : 1),
-      );
-      diagonal = previous;
-    }
-  }
-  return row[right.length];
-}
-
-function fuzzyThreshold(word: string) {
-  return word.length >= 8 ? 2 : word.length >= 4 ? 1 : 0;
-}
-
-function closestWord(word: string, candidates: string[]) {
-  let closest = word;
-  let distance = fuzzyThreshold(word) + 1;
-  for (const candidate of candidates) {
-    const next = editDistance(word, candidate);
-    if (next < distance) {
-      closest = candidate;
-      distance = next;
-    }
-  }
-  return closest;
-}
-
-function fuzzyDateQuery(query: string) {
-  return query.replace(/[a-z]+/g, (word) => closestWord(word, DATE_WORDS));
-}
-
-function isoDate(year: number, month: number, day: number) {
-  const date = new Date(year, month - 1, day);
-  if (
-    date.getFullYear() !== year ||
-    date.getMonth() !== month - 1 ||
-    date.getDate() !== day
-  )
-    return null;
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-}
-
-function isoFromDate(date: Date) {
-  return isoDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
-}
-
-function exactDate(date: string | null, phrase: string) {
-  return { start: date, end: date, phrase };
-}
-
-function searchDate(query: string, now: Date) {
-  const ago = query.match(/\b(\d+)\s+(days?|weeks?)\s+ago\b/);
-  if (ago) {
-    const amount = Number(ago[1]);
-    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    if (ago[2].startsWith("day")) {
-      date.setDate(date.getDate() - amount);
-      return exactDate(isoFromDate(date), ago[0]);
-    }
-
-    date.setDate(date.getDate() - ((date.getDay() + 6) % 7) - amount * 7);
-    const end = new Date(date);
-    end.setDate(end.getDate() + 6);
-    return { start: isoFromDate(date), end: isoFromDate(end), phrase: ago[0] };
-  }
-
-  const period = query.match(/\b(this|last)\s+(week|month)\b/);
-  if (period) {
-    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    if (period[2] === "week") {
-      start.setDate(
-        start.getDate() -
-          ((start.getDay() + 6) % 7) -
-          (period[1] === "last" ? 7 : 0),
-      );
-      const end = new Date(start);
-      end.setDate(end.getDate() + 6);
-      return {
-        start: isoFromDate(start),
-        end: isoFromDate(end),
-        phrase: period[0],
-      };
-    }
-
-    const month = now.getMonth() - (period[1] === "last" ? 1 : 0);
-    const monthStart = new Date(now.getFullYear(), month, 1);
-    const monthEnd = new Date(now.getFullYear(), month + 1, 0);
-    return {
-      start: isoFromDate(monthStart),
-      end: isoFromDate(monthEnd),
-      phrase: period[0],
-    };
-  }
-
-  const weekday = query.match(
-    /\b(this|last)\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/,
-  );
-  if (weekday) {
-    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    date.setDate(
-      date.getDate() -
-        ((date.getDay() + 6) % 7) +
-        SEARCH_WEEKDAYS[weekday[2]] -
-        (weekday[1] === "last" ? 7 : 0),
-    );
-    return exactDate(isoFromDate(date), weekday[0]);
-  }
-
-  const relative = query.match(/\b(today|yesterday|(?:a )?day before)\b/);
-  if (relative) {
-    const date = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + (relative[1] === "today" ? 0 : -1),
-    );
-    return exactDate(isoFromDate(date), relative[0]);
-  }
-
-  const iso = query.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
-  if (iso)
-    return exactDate(
-      isoDate(Number(iso[1]), Number(iso[2]), Number(iso[3])),
-      iso[0],
-    );
-
-  const numeric = query.match(/\b(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b/);
-  if (numeric) {
-    const rawYear = numeric[3];
-    const year = rawYear
-      ? Number(rawYear.length === 2 ? `20${rawYear}` : rawYear)
-      : now.getFullYear();
-    return exactDate(
-      isoDate(year, Number(numeric[1]), Number(numeric[2])),
-      numeric[0],
-    );
-  }
-
-  const monthFirst = query.match(
-    /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s+(\d{4}))?\b/,
-  );
-  if (monthFirst)
-    return exactDate(
-      isoDate(
-        Number(monthFirst[3] ?? now.getFullYear()),
-        SEARCH_MONTHS[monthFirst[1]],
-        Number(monthFirst[2]),
-      ),
-      monthFirst[0],
-    );
-
-  const dayFirst = query.match(
-    /\b(\d{1,2})(?:st|nd|rd|th)?\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)(?:,?\s+(\d{4}))?\b/,
-  );
-  if (dayFirst)
-    return exactDate(
-      isoDate(
-        Number(dayFirst[3] ?? now.getFullYear()),
-        SEARCH_MONTHS[dayFirst[2]],
-        Number(dayFirst[1]),
-      ),
-      dayFirst[0],
-    );
-
-  return null;
-}
-
 export function matchesRegistrySearch(
   item: RegistryItem,
   rawQuery: string,
   now = new Date(),
 ) {
-  const query = rawQuery.trim().toLowerCase().replace(/\s+/g, " ");
+  const { query, date, words } = parseTimeQuery(rawQuery, now);
   if (!query) return true;
-
-  const fuzzyDate = fuzzyDateQuery(query);
-  const parsedDate = searchDate(query, now) ?? searchDate(fuzzyDate, now);
-  if (
-    parsedDate &&
-    (!parsedDate.start ||
-      !parsedDate.end ||
-      item.date < parsedDate.start ||
-      item.date > parsedDate.end)
-  )
-    return false;
-
-  const words = (parsedDate ? fuzzyDate.replace(parsedDate.phrase, " ") : query)
-    .split(/\s+/)
-    .filter(Boolean)
-    .filter(
-      (word) =>
-        !parsedDate ||
-        ![
-          "added",
-          "add",
-          "on",
-          "from",
-          "in",
-          "show",
-          "me",
-          "things",
-          "stuff",
-        ].includes(word),
-    );
-  if (words.length === 0) return Boolean(parsedDate?.start && parsedDate.end);
+  if (!matchesDateRange(item.date, date)) return false;
+  if (words.length === 0) return Boolean(date?.start && date.end);
 
   const [, month, day] = item.date.split("-");
   const haystack = [
