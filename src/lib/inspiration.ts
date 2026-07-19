@@ -439,6 +439,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Frontend architecture and patterns",
     links: [
       {
+        title: "Editable Website",
+        href: "https://editable.website/",
+        dateAdded: "2026-07-19",
+        description:
+          "Open source SvelteKit template by Michael Aufreiter for websites you edit in place: press Cmd+E on the live page to edit text, add blocks, paste images and video, and reorder content, with no admin panel or CMS. Built on Svedit, his open source rich text editor, with SQLite persistence and full design freedom in plain HTML and CSS.",
+      },
+      {
         title: "Patterns.dev",
         href: "https://www.patterns.dev/",
         dateAdded: "2026-07-14",
