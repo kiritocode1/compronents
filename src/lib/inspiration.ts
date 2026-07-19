@@ -872,6 +872,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "mcpcn",
+        href: "https://www.mcpcn.dev/docs",
+        dateAdded: "2026-07-19",
+        description:
+          "Anthropic's shadcn-style component library for MCP (Model Context Protocol) apps: copy-paste React components built on Base UI, installed as source files through the shadcn CLI. Ships complete composable patterns (messages, forms, payments, events, lists, maps, social content) with context-backed child components, typed data and action contracts, and theme-aware semantic color tokens.",
+      },
+      {
         title: "Awesome shadcn/ui",
         href: "https://awesome-shadcn-ui.vercel.app/",
         dateAdded: "2026-07-13",
