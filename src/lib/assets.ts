@@ -2607,6 +2607,15 @@ export const assetItems = [
           "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
       }) as const satisfies AssetItem,
   ),
+  {
+    id: "starry-night-flow-painting",
+    label: "Starry Night Flow painting",
+    provider: "vercel-blob",
+    pathname: "starry-night-flow/starry-night.webp",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/starry-night-flow/starry-night.webp`,
+    role: "Van Gogh's The Starry Night, sampled into the dithered particle field.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

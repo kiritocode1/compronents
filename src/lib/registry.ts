@@ -2921,6 +2921,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "starry-night-flow",
+    title: "Starry Night Flow",
+    description:
+      "Van Gogh's Starry Night rendered as a living particle field. The painting is Floyd-Steinberg dithered into a WebGL point cloud, a structure tensor recovers brushstroke direction and coherence from the pixels, and coherent particles drift along their strokes in staggered lifecycles under traveling wind gusts. Moving the pointer bends nearby strokes toward the cursor. Works with any painterly image; inspired by Joshua Garcia's Still Night.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-19",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/starry-night-flow.tsx",
+        target: "components/ui/starry-night-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:

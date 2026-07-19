@@ -7425,6 +7425,115 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "starry-night-flow": {
+    demoPath: "src/components/demos/starry-night-flow.tsx",
+    nuance: [
+      {
+        label: "The flow field comes from the pixels",
+        description:
+          "The original Still Night ships a hand-baked flow texture for one painting. This port computes brushstroke direction and coherence at load time with a structure tensor over the luminance field, so any painterly image produces its own flow.",
+      },
+      {
+        label: "Dither decides who exists",
+        description:
+          "Floyd-Steinberg error diffusion in linear light picks which pixels become particles, so particle density is proportional to brightness: the moon and stars are dense, the night sky is sparse. Each particle keeps its original canvas color.",
+      },
+      {
+        label: "Only coherent strokes move",
+        description:
+          "Particles below the coherence threshold hold still at full opacity, anchoring the painting. Strong strokes cycle through staggered drift lifecycles (fade in, S-curve drift along the stroke, fade out), with wind gust noise traveling along the flow direction.",
+      },
+      {
+        label: "The cursor is a wind source",
+        description:
+          "While the pointer moves, painted flow near it bends toward the cursor's direction of travel and particles take shorter, denser trips. Influence eases in and decays when the pointer rests.",
+      },
+    ],
+    editable: [
+      {
+        name: "src",
+        control: "asset-url",
+        description: "The painting sampled into the particle field.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Canvas clear color behind the particles.",
+      },
+      {
+        name: "cyclePeriod / maxDrift / gustAmplitude",
+        control: "text",
+        description:
+          "Motion energy: lifecycle length, drift distance, wind surge strength.",
+      },
+    ],
+    assets: [
+      {
+        id: "starry-night-flow-painting",
+        label: "Starry Night Flow painting",
+        provider: "vercel-blob",
+        pathname: "starry-night-flow/starry-night.webp",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/starry-night-flow/starry-night.webp",
+        role: "Van Gogh's The Starry Night, sampled into the dithered particle field.",
+      },
+    ],
+    api: [
+      {
+        name: "src",
+        type: "string",
+        default: "hosted Starry Night webp",
+        description: "CORS-readable image URL sampled into the particle field.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#0b0b0d"',
+        description: "Canvas clear color.",
+      },
+      {
+        name: "resolution / density",
+        type: "number",
+        default: "640 / 1",
+        description:
+          "Sampling width in pixels and the fraction of dithered points kept.",
+      },
+      {
+        name: "cyclePeriod / driftFrac / maxDrift",
+        type: "number",
+        default: "6 / 0.9 / 0.02",
+        description:
+          "Drift lifecycle: seconds per cycle, drifting fraction of the cycle, and max UV displacement.",
+      },
+      {
+        name: "flowThreshold",
+        type: "number",
+        default: "0.25",
+        description:
+          "Minimum stroke coherence required for a particle to join the flow.",
+      },
+      {
+        name: "gustAmplitude / gustPeriod",
+        type: "number",
+        default: "0.75 / 10",
+        description: "Wind surge intensity and cycle length in seconds.",
+      },
+      {
+        name: "colorBoost / pointScale",
+        type: "number",
+        default: "0.35 / 1",
+        description:
+          "Blend toward peak-normalized luminous color, and particle size multiplier.",
+      },
+      {
+        name: "cursorRadius / interactive",
+        type: "number / boolean",
+        default: "0.14 / true",
+        description:
+          "Pointer steering radius in UV units, and whether steering is enabled.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

@@ -101,6 +101,7 @@ import SplitCardScrollDemo from "./split-card-scroll";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
+import StarryNightFlowDemo from "./starry-night-flow";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
@@ -179,6 +180,7 @@ export const demos: Record<string, ComponentType> = {
   "filter-scrub-gallery": FilterScrubGalleryDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
   "drone-fleet": DroneFleetDemo,
+  "starry-night-flow": StarryNightFlowDemo,
   "sticky-stack-cards": StickyStackCardsDemo,
   "sticky-flip-cards": StickyFlipCardsDemo,
   "smudge-cursor-reveal": SmudgeCursorRevealDemo,
