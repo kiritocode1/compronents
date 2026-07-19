@@ -4942,6 +4942,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer tools and utilities",
     links: [
       {
+        title: "joyful",
+        href: "https://www.npmjs.com/package/joyful",
+        dateAdded: "2026-07-19",
+        description:
+          "Kaylee Williams' zero-dependency npm package that generates friendly, safe-for-work word combinations like amber-fox for project names, usernames, labels, demo data, and unique-looking identifiers. Supports segment counts, custom separators, category patterns (adjective, color, animal, city, nature, space), maxLength filtering, custom word lists, omit lists, and a CLI.",
+      },
+      {
         title: "Firecrawl",
         href: "https://www.firecrawl.dev/",
         dateAdded: "2026-07-14",
