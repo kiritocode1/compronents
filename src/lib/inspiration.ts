@@ -1949,6 +1949,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "AndAgain",
+        href: "https://andagain.uk/",
+        dateAdded: "2026-07-20",
+        description:
+          "London and Liverpool digital agency working across strategy, creative and technology for luxury and entertainment brands including adidas, Harrods, Disney, Google and Valentino. Work spans websites, apps, virtual events and experiential campaigns. The site itself is a study in restraint: numbered project index, generous whitespace, clean type and large full bleed imagery carrying the weight.",
+      },
+      {
         title: "Gurbinder",
         href: "https://gurbinder.dev/",
         dateAdded: "2026-07-19",
@@ -3217,6 +3224,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "WebGPU.com",
+        href: "https://www.webgpu.com/",
+        dateAdded: "2026-07-20",
+        description:
+          "Independent community hub for WebGL and WebGPU, unaffiliated with Khronos or the W3C. Runs a curated showcase of browser GPU work (particle cursors that turn images into shader fields, distributed browser inference clusters, physics accurate snooker sims, drivable F1 model kits) alongside a news feed tracking Chrome WebGPU releases and web platform graphics milestones. Community submissions are open.",
+      },
+      {
         title: "Redraw: chromatic aberration",
         href: "https://wcandillon.github.io/redraw/examples/example/chromatic-aberration",
         dateAdded: "2026-07-19",
@@ -3698,6 +3712,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Zodex",
+        href: "https://zodex.dev/",
+        dateAdded: "2026-07-20",
+        description:
+          "Native macOS coding environment written in Rust that folds AI chat, a Design Studio and a terminal into one lightweight app. Ships several models (GPT 5.3 Codex, Kimi K2.7 Code, Grok 4.3) with bring your own key support, sandboxes UI generation so experiments stay out of the codebase, dispatches agents onto Linear issues, and adds iOS and Android companions plus a voice assistant that reads the local repo.",
+      },
       {
         title: "ReactBench",
         href: "https://www.reactbench.com/",
