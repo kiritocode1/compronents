@@ -2281,6 +2281,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "ascii-monogram-hero",
+    title: "ASCII Monogram Hero",
+    description:
+      "A load-in and hero sequence where a 50 by 14 grid of solid cells dissolves in a random stagger behind a stepped glyph progress bar, revealing a giant blackletter monogram zooming from 10x scale, lit by a pointer-following light in a fogged Three.js scene and rendered entirely as monospace ASCII characters.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-19",
+    type: "registry:ui",
+    dependencies: ["gsap", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ascii-monogram-hero.tsx",
+        target: "components/ui/ascii-monogram-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "brutalist-portfolio-page",
     title: "Brutalist Portfolio Page",
     description:

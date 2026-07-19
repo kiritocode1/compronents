@@ -5375,6 +5375,91 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "ascii-monogram-hero": {
+    demoPath: "src/components/demos/ascii-monogram-hero.tsx",
+    nuance: [
+      {
+        label: "A loader that dissolves, not wipes",
+        description:
+          "The cover is 700 individual grid cells. When the stepped progress bar lands, each cell fades over 0.1s in a random grid stagger spread across two seconds, so the hero is revealed as scattered pixels rather than a curtain.",
+      },
+      {
+        label: "The zoom starts under the cover",
+        description:
+          "The monogram begins its 6 second power3 zoom from 10x scale the moment the progress bar starts, roughly a second before the cells dissolve, so the reveal always catches it mid-flight.",
+      },
+      {
+        label: "Text as the render target",
+        description:
+          "Each frame the WebGL scene is downsampled to one sample per glyph cell and redrawn as monospace characters from a density ramp. The fog, the pointer light, and the noise backdrop all arrive on screen as flickering type.",
+      },
+    ],
+    editable: [
+      {
+        name: "name / role",
+        control: "text",
+        description: "Corner copy shared by the loader and the sticky hero.",
+      },
+      {
+        name: "monogram",
+        control: "text",
+        description:
+          "Characters drawn as the giant blackletter shape at runtime.",
+      },
+      {
+        name: "theme",
+        control: "text",
+        description: 'Page scheme: "white" (ink on paper) or "black".',
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "name",
+        type: "string",
+        default: '"BLANK"',
+        description: "Name shown top left in the loader and the hero.",
+      },
+      {
+        name: "role",
+        type: "string",
+        default: '"Component Registry"',
+        description: "Role or tagline shown top right.",
+      },
+      {
+        name: "monogram",
+        type: "string",
+        default: '"Bk"',
+        description: "One or two characters drawn as the blackletter monogram.",
+      },
+      {
+        name: "monogramImage",
+        type: "string",
+        default: "undefined",
+        description:
+          "Optional white-on-black silhouette image used instead of the drawn monogram.",
+      },
+      {
+        name: "theme",
+        type: '"white" | "black"',
+        default: '"white"',
+        description: "Ink on paper, or paper on ink.",
+      },
+      {
+        name: "scrollLength",
+        type: "number",
+        default: "2.75",
+        description:
+          "Total scroll length in multiples of the container height.",
+      },
+      {
+        name: "className / style",
+        type: "string / React.CSSProperties",
+        default: "undefined",
+        description: "Passed through to the scroll container root.",
+      },
+    ],
+  },
   "ascii-tv-hero": {
     demoPath: "src/components/demos/ascii-tv-hero.tsx",
     nuance: [
@@ -5750,8 +5835,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "count",
         control: "text",
-        description:
-          "Drone count. Defaults to 12, or 6 on narrow screens.",
+        description: "Drone count. Defaults to 12, or 6 on narrow screens.",
       },
     ],
     assets: [],
@@ -5787,7 +5871,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "color / debug",
         control: "text",
-        description: "Glyph tint (blue, red, green) and the raw motion-mask toggle.",
+        description:
+          "Glyph tint (blue, red, green) and the raw motion-mask toggle.",
       },
     ],
     assets: [],
@@ -5808,13 +5893,15 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "debug",
         type: "boolean",
         default: "false",
-        description: "Show the raw grayscale motion mask instead of the effect.",
+        description:
+          "Show the raw grayscale motion mask instead of the effect.",
       },
       {
         name: "videoBrightness",
         type: "number",
         default: "0.55",
-        description: "Brightness of the footage behind the glyphs, 0 (black) to 1 (full).",
+        description:
+          "Brightness of the footage behind the glyphs, 0 (black) to 1 (full).",
       },
     ],
   },

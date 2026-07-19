@@ -8,6 +8,7 @@ import ArcSpotlightScrollDemo from "./arc-spotlight-scroll";
 import ArchiveCommercePageDemo from "./archive-commerce-page";
 import AsciiImageRevealDemo from "./ascii-image-reveal";
 import AsciiLogoDemo from "./ascii-logo";
+import AsciiMonogramHeroDemo from "./ascii-monogram-hero";
 import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
 import BlockPageTransitionDemo from "./block-page-transition";
@@ -69,8 +70,8 @@ import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
 import ModelMenu3DDemo from "./model-menu-3d";
 import MontageRevealHeroDemo from "./montage-reveal-hero";
-import MotionTrackingDemo from "./motion-tracking";
 import MosaicFlipDemo from "./mosaic-flip";
+import MotionTrackingDemo from "./motion-tracking";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
 import NullStudioPageDemo from "./null-studio-page";
@@ -142,6 +143,7 @@ export const demos: Record<string, ComponentType> = {
   "motion-tracking": MotionTrackingDemo,
   "image-reveal": ImageRevealDemo,
   "ink-core-layout": InkCoreLayoutDemo,
+  "ascii-monogram-hero": AsciiMonogramHeroDemo,
   "ascii-tv-hero": AsciiTvHeroDemo,
   "award-list": AwardListDemo,
   "inversa-scroll": InversaScrollDemo,
