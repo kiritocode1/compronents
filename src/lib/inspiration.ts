@@ -1470,6 +1470,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "How to make your app look and feel 10x better",
+        href: "https://x.com/heysatya_/status/2078444307418345639",
+        dateAdded: "2026-07-19",
+        description:
+          "Satya's mobile app design cheatsheet: a copy-and-apply list of small, concrete moves (spacing, hierarchy, motion, tap feedback, empty states) that take a mobile UI from functional to polished. Aimed at app builders who want fast, tactical wins rather than theory.",
+      },
+      {
         title: "userinterface.wiki",
         href: "https://www.userinterface.wiki/",
         dateAdded: "2026-07-14",
