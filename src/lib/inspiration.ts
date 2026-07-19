@@ -1248,6 +1248,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Super Hover",
+        href: "https://super-hover.danielpetho.com/",
+        dateAdded: "2026-07-19",
+        description:
+          "A super tiny library by Daniel Petho that hit-tests hover every frame. Unlike native :hover, it keeps tracking whatever sits under your pointer while you scroll or when things move on screen: each frame it calls elementFromPoint against [data-super-hover] targets, toggles a data-super-hover-active attribute, and fires superhoverenter/leave/move events, with a useSuperHoverRef React hook and an optional swept hit test so fast pointer moves never skip elements.",
+      },
+      {
         title: "Line nav (chanhdai)",
         href: "https://chanhdai.com/components/line-nav",
         dateAdded: "2026-07-14",
