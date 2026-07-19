@@ -1269,6 +1269,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "ASCII Waves (DS01 Interface Lab)",
+        href: "https://myuiweb.vercel.app/asciiwaves",
+        dateAdded: "2026-07-19",
+        description:
+          "Interactive ASCII wave effect from the DS01 Interface Lab component collection: a WebGL fluid surface with mathematical displacement mapping that swells and ripples as reactive air under the cursor. Ships live controls for swell speed, wave frequency, fluid radius and repel force, so you can tune the feel before lifting the technique.",
+      },
+      {
         title: "Super Hover",
         href: "https://super-hover.danielpetho.com/",
         dateAdded: "2026-07-19",
