@@ -3547,6 +3547,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Machine learning and deep learning",
     links: [
       {
+        title: "Max Fu's essays",
+        href: "https://maxxfuu.com/essays",
+        dateAdded: "2026-07-19",
+        description:
+          "Max Fu's technical essays on machine learning systems and inference performance. Start with the Roofline Model guide for a clear way to reason about whether an inference workload is limited by compute throughput or memory bandwidth before tuning it.",
+      },
+      {
         title: "Maths, CS and AI compendium",
         href: "https://github.com/HenryNdubuaku/maths-cs-ai-compendium",
         dateAdded: "2026-07-14",
