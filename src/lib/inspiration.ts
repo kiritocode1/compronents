@@ -1692,6 +1692,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Collect UI",
+        href: "https://collectui.com/",
+        dateAdded: "2026-07-19",
+        description:
+          "Long-running gallery of daily UI shots and hand-picked interfaces, browsable by topic-based categories (login pages, dashboards, pricing, and many more), designer profiles, and a trending feed, with personal favorites collections. A quick way to survey many takes on one specific UI pattern at once.",
+      },
+      {
+        title: "Best Designs On X",
+        href: "https://bestdesignsonx.com/",
+        dateAdded: "2026-07-19",
+        description:
+          "Curated collection of standout interface and visual design work shared on X, gathered into one browsable site so the best posts are not lost to the timeline. Useful for catching the current design zeitgeist among design engineers and indie makers posting there.",
+      },
+      {
         title: "Details Inspo",
         href: "https://www.details.so/inspo",
         dateAdded: "2026-07-14",
@@ -1920,6 +1934,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Portfolios and studios",
     links: [
+      {
+        title: "Gurbinder",
+        href: "https://gurbinder.dev/",
+        dateAdded: "2026-07-19",
+        description:
+          "Portfolio of Gurbinder (@LegionWebDev), a design engineer and full-stack developer at Axiom. A clean minimalist site with a lifetime GitHub contribution tracker rendered as a monthly calendar, a chronological career timeline, and showcases of his open source projects Invoicely and EvilCharts.",
+      },
       {
         title: "Mek Gallery",
         href: "https://www.mek.gallery/design",
@@ -5569,6 +5590,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Productivity and business tools",
     links: [
+      {
+        title: "Invoicely",
+        href: "https://invoicely.gg/",
+        dateAdded: "2026-07-19",
+        description:
+          "Free open source invoice generator by Gurbinder (Legions Developer) for creating professional, well-designed invoices with no fees or usage limits. Lets you choose local or server-side storage, does no tracking or data selling, and is sponsored through the open source programs of Vercel, NeonDB and Cloudflare.",
+      },
       {
         title: "getprojekt",
         href: "https://www.getprojekt.com",
