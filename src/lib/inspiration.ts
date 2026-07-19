@@ -200,6 +200,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "React Native and mobile",
     links: [
       {
+        title: "The real cost of React Native animations",
+        href: "https://expo.dev/blog/the-real-cost-of-react-native-animations-benchmarking-every-approach",
+        dateAdded: "2026-07-19",
+        description:
+          "Expo's benchmark of what a React Native animation library actually costs per frame, measuring Ease, Reanimated, and the built-in Animated API on real iOS and Android devices. A reference for picking an animation approach from measured frame budgets instead of folklore.",
+      },
+      {
+        title: "Card Expand (rselmi)",
+        href: "https://rselmi.com/lab/card-expand",
+        dateAdded: "2026-07-19",
+        description:
+          "Rayan Selmi's open source App Store style card expansion for React Native: tap a card and it fluidly grows from its grid slot to fullscreen, then drags down to dismiss while the background list scales and fades. Built with Expo, Reanimated 4 and Gesture Handler; it measures the card's rect, animates a clone between rect and fullscreen, and drives every movement from one shared progress value so nothing desynchronizes.",
+      },
+      {
         title: "React Native Reusables",
         href: "https://reactnativereusables.com/",
         dateAdded: "2026-07-13",
@@ -3161,6 +3175,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Redraw: chromatic aberration",
+        href: "https://wcandillon.github.io/redraw/examples/example/chromatic-aberration",
+        dateAdded: "2026-07-19",
+        description:
+          "Chromatic aberration example from Redraw, William Candillon's GPU accelerated vector graphics system built on WebGPU. Stroke widths, colors and effects are plain TypeScript functions compiled to run on the GPU, enabling geometry aware strokes, color along a path, vector feathering without rasterization, and shape operators that rasterize as a single shape.",
+      },
+      {
         title: "Fleet",
         href: "https://tol.is/fleet",
         dateAdded: "2026-07-16",
@@ -5698,6 +5719,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "ASCII art and diagram tools",
     links: [
+      {
+        title: "ASCII Magic",
+        href: "https://www.ascii-magic.com/",
+        dateAdded: "2026-07-19",
+        description:
+          "Free in-browser image and video stylizer by Kailash that turns any photo or video into ASCII art, pixel art, voxel, mosaic, halftone, glitch or LEGO. Thirteen styles with real time preview, post effects like bloom, CRT, scanlines and vignette, 19 one-click recipe deep links, and export at up to 4x resolution, all without uploads or an account.",
+      },
       {
         title: "Text Paint",
         href: "https://textpaint.com",
