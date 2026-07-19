@@ -2237,6 +2237,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "Transhumans",
+        href: "https://www.transhumans.xyz/",
+        dateAdded: "2026-07-19",
+        description:
+          "Pablo Stanley's CC0 collection of open-source punk sci-fi character illustrations, made for remixing into posters, products and playful interface art. Includes a downloadable set plus individual character scenes, with matching Figma and coloring resources for adapting the visual language quickly.",
+      },
+      {
         title: "Popsy illustrations",
         href: "https://popsy.co/illustrations",
         dateAdded: "2026-07-14",
