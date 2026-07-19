@@ -3430,6 +3430,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "LLMs and AI engineering",
     links: [
       {
+        title: "Inside vLLM: Anatomy of a High-Throughput LLM Inference System",
+        href: "https://vllm.ai/blog/2025-09-05-anatomy-of-vllm",
+        dateAdded: "2026-07-19",
+        description:
+          "vLLM's architectural walkthrough of high-throughput serving, from the engine core and scheduler to chunked prefill, prefix caching, speculative decoding and distributed multi-GPU deployment. It also gives concrete latency and throughput metrics, plus the benchmark commands needed to tune a real serving workload.",
+      },
+      {
         title: "llms.txt Directory",
         href: "https://llmstxt.site/",
         dateAdded: "2026-07-16",
