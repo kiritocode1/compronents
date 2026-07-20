@@ -83,9 +83,14 @@ function Lottie({
         rendererSettings: { progressiveLoad: true },
       });
       if (animRef) animRef.current = anim;
-      // The intro timeline can reach this animation's cue before the player has
-      // loaded, in which case its play() call was a no-op; honour it here.
-      if (playWhenReady?.current) anim.play();
+      // loadAnimation({ path }) fetches the JSON asynchronously, so play() does
+      // nothing until the data has parsed. Wait for DOMLoaded before honouring a
+      // cue the intro timeline may already have fired.
+      const startIfCued = () => {
+        if (playWhenReady?.current) anim?.goToAndPlay(0, true);
+      };
+      anim.addEventListener("DOMLoaded", startIfCued);
+      startIfCued();
     });
 
     return () => {
@@ -193,7 +198,6 @@ export default function JuanMoraPage({
   const navIconRef = useRef<AnimationItem | null>(null);
   const mobileIconRef = useRef<AnimationItem | null>(null);
   const nameMouseRef = useRef<AnimationItem | null>(null);
-  const nameMouseCued = useRef(false);
   const scrollLottieRef = useRef<AnimationItem | null>(null);
   const scrollLottieCued = useRef(false);
 
@@ -289,11 +293,50 @@ export default function JuanMoraPage({
             stagger: { amount: 0.3 },
           },
           1.54,
-        )
-        .add(() => {
-          nameMouseCued.current = true;
-          nameMouseRef.current?.play();
-        }, 1.54);
+        );
+
+      /* ---------- hero wordmark scrubbed by horizontal mouse position ----------
+       * The source drives this Lottie from a continuous MOUSE_MOVE interaction on
+       * the hero container: the X axis maps linearly to playback (0% -> frame 0,
+       * 100% -> last frame), heavily smoothed, resting at the midpoint when the
+       * pointer is away. It never autoplays. The Y axis group is empty.
+       */
+      const heroBox = one(".wrapper-hero-home");
+      let scrubTick: (() => void) | undefined;
+      let onHeroMove: ((e: PointerEvent) => void) | undefined;
+      let onHeroLeave: (() => void) | undefined;
+      if (heroBox) {
+        const RESTING = 50;
+        // Webflow smoothing 93 -> only 7% of the gap is closed each frame
+        const EASE = 0.07;
+        let target = RESTING;
+        let current = RESTING;
+
+        onHeroMove = (e: PointerEvent) => {
+          const r = heroBox.getBoundingClientRect();
+          if (!r.width) return;
+          target = gsap.utils.clamp(
+            0,
+            100,
+            ((e.clientX - r.left) / r.width) * 100,
+          );
+        };
+        onHeroLeave = () => {
+          target = RESTING;
+        };
+        heroBox.addEventListener("pointermove", onHeroMove);
+        heroBox.addEventListener("pointerleave", onHeroLeave);
+
+        scrubTick = () => {
+          const anim = nameMouseRef.current;
+          if (!anim) return;
+          const frames = anim.totalFrames;
+          if (!frames) return;
+          current += (target - current) * EASE;
+          anim.goToAndStop((current / 100) * frames, true);
+        };
+        gsap.ticker.add(scrubTick);
+      }
 
       /* ---------- hero: parallax fade on scroll ---------- */
       scrollTl(one(".wrapper-hero"), "top bottom", "bottom top").fromTo(
@@ -984,6 +1027,11 @@ export default function JuanMoraPage({
       return () => {
         if (onMove) root.removeEventListener("mousemove", onMove);
         if (tick) gsap.ticker.remove(tick);
+        if (scrubTick) gsap.ticker.remove(scrubTick);
+        if (heroBox && onHeroMove)
+          heroBox.removeEventListener("pointermove", onHeroMove);
+        if (heroBox && onHeroLeave)
+          heroBox.removeEventListener("pointerleave", onHeroLeave);
         window.removeEventListener("load", onLoad);
         window.clearTimeout(refreshTimer);
         observer.disconnect();
@@ -1124,7 +1172,6 @@ export default function JuanMoraPage({
                   className="name-mouse-lottie"
                   src={doc("juan-name-mouse.json")}
                   animRef={nameMouseRef}
-                  playWhenReady={nameMouseCued}
                 />
                 <p className="heading right">Freelance Design Director </p>
               </div>
@@ -1135,9 +1182,14 @@ export default function JuanMoraPage({
         <section data-nav="grey" className="section">
           <div className="click-scroll-height">
             <div className="wrapper-cont-50">
+              {/* The non-breaking space is load-bearing: `.scroll` and `.cont-click`
+                  are absolutely positioned overlays that must land exactly on the
+                  words beneath them. Collapse it to a single space and the headline
+                  shifts ~31px left, smearing "scroll" against its overlay. */}
               <h1 className="click-scroll-text">
-                16 years making users click and{" "}
-                <span className="text-span">scroll</span> my designs
+                {"16 years  making users  click   and "}
+                <span className="text-span">scroll</span>
+                {" my designs"}
               </h1>
               <div className="cont-click">
                 <div className="cont-hover-click" />
