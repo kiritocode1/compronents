@@ -1031,6 +1031,130 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "liquid-stat-grid": {
+    demoPath: "src/components/demos/liquid-stat-grid.tsx",
+    studioPath: "src/components/studios/liquid-stat-grid.tsx",
+    nuance: [
+      {
+        label: "Six-stage shader chain",
+        description:
+          "A flat plate, a mouse-tracked colour blob, a domain warp with chromatic aberration, two noise-blur passes and a second faster warp. Each stage renders into its own framebuffer at its own resolution scale and samples the previous stage, so the blur passes run at a quarter resolution while the warps run full size.",
+      },
+      {
+        label: "Hover reveal, inverted copy",
+        description:
+          "Cells sit flat and quiet until hovered, then the gradient fades up behind the copy and the text switches to white. Set reveal to always to leave every cell running.",
+      },
+      {
+        label: "Procedural, no assets",
+        description:
+          "Nothing is fetched at runtime and no textures ship with the component. The gradients exist only as shader output, so a cell costs one canvas and no network requests.",
+      },
+      {
+        label: "Paused when off screen",
+        description:
+          "Each canvas holds an IntersectionObserver and skips its render loop while scrolled out of view, so three simultaneous shader chains do not burn GPU on a long page.",
+      },
+    ],
+    editable: [
+      {
+        name: "reveal",
+        control: "text",
+        description:
+          "Either hover, so a cell only animates while pointed at, or always.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "stats",
+        type: "LiquidStat[]",
+        default: "DEFAULT_STATS",
+        description:
+          "Cells to render: value, optional suffix, description, and which colour variant backs it.",
+      },
+      {
+        name: "reveal",
+        type: '"hover" | "always"',
+        default: '"hover"',
+        description: "Whether the gradient waits for hover or runs constantly.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "dither-studio-page": {
+    demoPath: "src/components/demos/dither-studio-page.tsx",
+    studioPath: "src/components/studios/dither-studio-page.tsx",
+    nuance: [
+      {
+        label: "Dissolving dither plate",
+        description:
+          "The loading plate is one WebGL2 pass: an fbm blob field quantised into cells and thresholded through a 4x4 Bayer matrix, then eaten away from its thinnest areas outward as progress runs 0 to 1. Cursor movement warps the field while the plate is still up.",
+      },
+      {
+        label: "Scrambled eyebrow",
+        description:
+          "The bracketed eyebrow settles out of random glyphs one character at a time while the plate dissolves, so the type and the reveal resolve together.",
+      },
+      {
+        label: "Bring your own media",
+        description:
+          "Nothing is bundled. The hero falls back to a layered radial gradient when no video is passed, so the component installs with zero assets and zero dependencies.",
+      },
+      {
+        label: "Chrome that floats over the plate",
+        description:
+          "A pill nav with a rotating greeting, a contact pill and collapsible showreel panel on the right rail, and a bottom status rail with a live tabular-numeral clock and language toggle.",
+      },
+    ],
+    editable: [
+      {
+        name: "heroVideoSrc",
+        control: "text",
+        description:
+          "Looping video used as the hero plate. Omit it for the gradient fallback.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "heroVideoSrc",
+        type: "string",
+        default: "undefined",
+        description:
+          "Looping video for the hero plate; falls back to a gradient ground when absent.",
+      },
+      {
+        name: "heroPoster",
+        type: "string",
+        default: "undefined",
+        description: "Poster frame shown before the hero video plays.",
+      },
+      {
+        name: "reelPoster",
+        type: "string",
+        default: "undefined",
+        description: "Thumbnail for the collapsible showreel panel.",
+      },
+      {
+        name: "avatarSrc",
+        type: "string",
+        default: "undefined",
+        description: "Avatar shown inside the contact pill.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
   "null-studio-page": {
     demoPath: "src/components/demos/null-studio-page.tsx",
     studioPath: "src/components/studios/null-studio-page.tsx",

@@ -36,6 +36,7 @@ import DeadspacePageDemo from "./deadspace-page";
 import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
+import DitherStudioPageDemo from "./dither-studio-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
 import DroneFleetDemo from "./drone-fleet";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
@@ -63,6 +64,7 @@ import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LineRiseTextDemo from "./line-rise-text";
+import LiquidStatGridDemo from "./liquid-stat-grid";
 import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
 import March2025TemplateDemo from "./march-2025-template";
 import MaskRevealPreloaderDemo from "./mask-reveal-preloader";
@@ -240,6 +242,8 @@ export const demos: Record<string, ComponentType> = {
   "brutalist-portfolio-page": BrutalistPortfolioPageDemo,
   "isochrome-page": IsochromePageDemo,
   "juan-mora-page": JuanMoraPageDemo,
+  "dither-studio-page": DitherStudioPageDemo,
+  "liquid-stat-grid": LiquidStatGridDemo,
   "null-studio-page": NullStudioPageDemo,
   "neoteric-page": NeotericPageDemo,
   "soren-page": SorenPageDemo,

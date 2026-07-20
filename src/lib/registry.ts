@@ -1431,6 +1431,36 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "liquid-stat-grid",
+    title: "Liquid Stat Grid",
+    description:
+      "Three statistic cells split by dashed rules, each hiding a liquid gradient backdrop that fades up on hover while the copy inverts to white. The backdrop is a six-stage WebGL2 chain: a flat plate, a mouse-tracked colour blob, a domain warp with chromatic aberration, two noise-blur passes and a second faster warp, each stage rendering into its own framebuffer at its own resolution scale and sampling the previous one. Fully procedural, so it ships no textures and no runtime dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/liquid-stat-grid/index.tsx",
+        target: "components/ui/liquid-stat-grid/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/liquid-stat-grid/liquid-canvas.tsx",
+        target: "components/ui/liquid-stat-grid/liquid-canvas.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/liquid-stat-grid/shaders.ts",
+        target: "components/ui/liquid-stat-grid/shaders.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "halftone-interface-hero",
     title: "Halftone Interface Hero",
     description:
@@ -2257,6 +2287,31 @@ export const registryItems: RegistryItem[] = [
         path: "src/registry/juan-mora-page/styles.ts",
         target: "components/ui/juan-mora-page/styles.ts",
         type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "dither-studio-page",
+    title: "Dither Studio Page",
+    description:
+      "A full-bleed agency homepage: a video hero plate with the headline set bottom-left at a 0.8 line-height, a floating pill nav carrying a rotating greeting, a contact pill and collapsible showreel panel on the right rail, and a status rail pinned to the bottom with a live clock and language toggle. On load a dissolving pixel-dither plate covers the page and is eaten away from its thinnest areas outward while the eyebrow scrambles into place, driven by a single WebGL2 pass over an fbm blob field with a 4x4 Bayer threshold and cursor warping. No media is bundled and there are no runtime dependencies; pass your own footage through props.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-21",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dither-studio-page/index.tsx",
+        target: "components/ui/dither-studio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/dither-studio-page/transition-overlay.tsx",
+        target: "components/ui/dither-studio-page/transition-overlay.tsx",
+        type: "registry:ui",
       },
     ],
   },

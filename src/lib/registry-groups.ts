@@ -60,6 +60,7 @@ export const componentGroups: RegistryGroup[] = [
       "mosaic-flip",
       "ascii-image-reveal",
       "image-reveal",
+      "liquid-stat-grid",
     ],
   },
   {
@@ -159,6 +160,7 @@ export const pageGroups: RegistryGroup[] = [
       "isochrome-page",
       "damien-tsarantos-page",
       "juan-mora-page",
+      "dither-studio-page",
     ],
   },
   {
