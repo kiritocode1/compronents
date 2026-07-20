@@ -3715,6 +3715,110 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "durable-object-sql-tenant-db",
+    title: "Durable Object SQL Tenant Database",
+    description:
+      "One SQLite database per tenant, living inside the Durable Object that serves that tenant, so the compute sits on top of the storage instead of a connection away from it. Serverless could only express this as a WHERE clause on one shared database, where every read pays a round trip and isolation is a code review promise; here a query is a synchronous call into storage that is physically part of the object, joins and aggregates cost microseconds, and there is no pool, no connection ceiling, and no way for one tenant's query to reach another's rows. The tenant file runs its migrations inside blockConcurrencyWhile, which is the only place that holds every inbound event including alarms and RPC, wraps each migration and its version row in transactionSync, and documents the cursor rule that bites everyone once: sql.exec returns a lazy cursor that the next exec invalidates, so toArray comes before the next query and raw() streams an export without materializing the table. It states the platform limits in place rather than in a runbook: 10 GB per object, 100 columns per table, 2 MB per row, 100 KB per statement, 100 bound parameters. The recovery file is the operation a shared Postgres cannot perform at all, restoring a single tenant to a point in time with getBookmarkForTime and onNextSessionRestoreBookmark, including the part everyone misses, that arming a restore does nothing until the object restarts and ctx.abort is what causes that, and the undo bookmark that has to be captured and stored outside the object before the rollback runs.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/durable-object-sql-tenant-db/tenant.ts",
+        target: "src/tenant/tenant.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/durable-object-sql-tenant-db/recovery.ts",
+        target: "src/tenant/recovery.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "worker-rpc-promise-pipelining",
+    title: "Worker RPC Promise Pipelining",
+    description:
+      "A service that exposes objects rather than endpoints, built on Workers RPC, where a call between two Workers is not an HTTP request and therefore does not pay for JSON, a socket, or a round trip. That tax is why service APIs drift coarse: nobody ships getCart then cart.items then item.product across a network, so someone writes getCartWithItemsAndProducts and six months later there are four near-identical aggregate endpoints. The catalog file returns live objects instead, classes extending RpcTarget that the caller receives as stubs backed by state still resident on the service side, including a session that resolves locale and currency once and a cart reachable through it, plus a Map return value that structured clone carries intact and a disposer that runs when the caller releases the stub. It documents the two rules the runtime enforces quietly: only prototype methods are exposed, so a class property arrow function deploys fine and then fails at every call site, and a stub is scoped to the I/O context that created it and cannot be cached across requests. The gateway file is the calling half, where `using` ties stub disposal to the block rather than to the end of the request, and where pipelining is spelled out against the two versions that look identical and cost twice and four times as much, because invoking a method on an unawaited promise sends both hops together and makes the fine-grained API the cheap one.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/worker-rpc-promise-pipelining/catalog-service.ts",
+        target: "src/catalog/catalog-service.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/worker-rpc-promise-pipelining/gateway.ts",
+        target: "src/gateway/gateway.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "durable-object-alarm-scheduler",
+    title: "Durable Object Alarm Scheduler",
+    description:
+      "Per-entity durable timers, where the schedule lives with the thing being scheduled instead of in a table that a cron job sweeps. The serverless answer to send this in 36 hours has been a trigger every minute plus a due-at query, which runs 1,440 times a day whether or not anything is due, floors granularity at a minute, turns its LIMIT into a throughput ceiling under a spike, needs a lock so two overlapping sweeps do not double-send, and concentrates every tenant on one hot row range. An alarm is a timer the platform holds per object, so ten million pending reminders are ten million sleeping objects and zero running queries. The scheduler file is built around the constraint that there is exactly one alarm per object and setAlarm overwrites rather than enqueues: tasks live in the object's own SQLite table, every mutation routes through a single sync step that re-points the alarm at the earliest due row and deletes it when the queue empties, because a stale alarm bills a wake on every entity that ever had a task. The handler drains everything due rather than one row, counts the attempt before running it so a poison task gives up deliberately instead of exhausting the platform's retry budget and disappearing, uses alarmInfo.retryCount to reschedule rather than burn the last retry, anchors recurrence to now so a late wake does not fire every occurrence it slept through, and treats the caller-supplied task id as the idempotency key because a retry re-runs the side effect. The worker file makes the naming decision explicit, since getByName is the address and the grain chosen there is the one thing nothing downstream can fix, and it deliberately ships no cron trigger.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/durable-object-alarm-scheduler/scheduler.ts",
+        target: "src/scheduler/scheduler.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/durable-object-alarm-scheduler/worker.ts",
+        target: "src/scheduler/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "fluid-stream-lifecycle",
+    title: "Fluid Stream Lifecycle",
+    description:
+      "A long-lived server-sent events endpoint on Vercel Fluid compute, written around the two things Fluid changes: how long a function may stay open, and who else is sharing the instance while it does. On classic serverless one invocation owned one instance and was billed for every wall-clock second, which priced streaming out of existence and made polling the standard advice; Fluid serves concurrent invocations from one instance and weights billing towards active CPU, so a handler that spends nine of its ten minutes awaiting an upstream token is no longer being charged as if it were alone. The route file is mostly lifecycle because that is where the new failure modes are: request.signal is threaded into the upstream fetch so a closed tab cancels the model request instead of streaming tokens nobody will read, an aborted stream is not logged as an error since otherwise the dashboard shows a large error rate that is entirely users closing tabs, the partial transcript is persisted from finally through waitUntil with a note that waitUntil shares the function timeout and is for cleanup rather than work that must not be lost, and the reader lock is released so the abort actually tears the socket down. The stream file holds the plumbing with the sharp edges: controller.enqueue accepts everything and buffers in memory regardless of whether the client is reading, which on a shared instance means filling memory for a client in a tunnel, so writes await desiredSize and give up on a deadline; close is guarded because the runtime may already have closed the stream after a disconnect and the throw would mask the real error; and the heartbeat returns its own stop function because an interval that outlives its stream now keeps a real invocation alive.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@vercel/functions@3.7.5"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fluid-stream-lifecycle/route.ts",
+        target: "src/app/api/chat/route.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/fluid-stream-lifecycle/stream.ts",
+        target: "src/app/api/chat/stream.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -3988,6 +4092,50 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with the Cloudflare Worker Test Harness entry, whose evictDurableObject() is the only cheap way to prove the broadcast path survives a wake, since the bug it prevents is invisible until an eviction happens.",
       avoid:
         "Avoid it when every connection is short and busy, where hibernation never triggers and ws.accept() is simpler. Avoid attaching anything large or growing: attachments cap at 16,384 bytes and are lost when the connection closes, so message history belongs in storage. Avoid planning to retag a connection, since tags are fixed at acceptWebSocket() and only readable afterwards.",
+    };
+  }
+
+  if (item.name === "durable-object-sql-tenant-db") {
+    return {
+      style:
+        "A database and the code that owns it in the same object, where the schema, the migration state, and the recovery procedure are all things this one file can see.",
+      use: `Use ${item.title} for per-tenant, per-room, or per-document data on Durable Objects, where the working set is bounded, reads are frequent, and isolation should be structural rather than a WHERE clause everyone has to remember.`,
+      pair: "Pair it with Durable Object WebSocket Hibernation when the same object also serves live connections, and with Cloudflare Worker Test Harness, whose eviction helper is how you prove the migration path is correct on a cold start.",
+      avoid:
+        "Avoid it for data that must be queried across tenants, since there is no join that reaches another object and a fan out is not a reporting engine. Avoid holding a cursor across another sql.exec, which invalidates it. Avoid expecting to test point-in-time recovery locally, where there is no durable change log to restore from.",
+    };
+  }
+
+  if (item.name === "worker-rpc-promise-pipelining") {
+    return {
+      style:
+        "An object-shaped service boundary, where a call returns something you keep talking to rather than a payload you reassemble.",
+      use: `Use ${item.title} for Worker-to-Worker calls behind a service binding, especially where an aggregate endpoint exists only because three round trips were too expensive to make.`,
+      pair: "Pair it with Durable Object SQL Tenant Database, whose objects are reached through the same RPC surface, and with authentication at the outermost Worker, since a service binding is trusted by construction.",
+      avoid:
+        "Avoid defining an exposed method as a class property arrow function, which is not on the prototype and is therefore not callable over RPC. Avoid awaiting each intermediate stub, which spends a round trip per hop and gives back exactly what pipelining removed. Avoid stashing a stub in module scope, since it dies with the request that created it.",
+    };
+  }
+
+  if (item.name === "durable-object-alarm-scheduler") {
+    return {
+      style:
+        "A queue and its timer in the same object, where the single-alarm constraint is designed around rather than worked around.",
+      use: `Use ${item.title} for per-user or per-entity scheduled work such as trial reminders, dunning retries, digests, and session expiry, where the schedule is naturally addressed by an id.`,
+      pair: "Pair it with Durable Object SQL Tenant Database when the entity already has an object holding its state, and with an idempotency key the receiving endpoint honours, since alarm handlers retry.",
+      avoid:
+        "Avoid calling setAlarm for a second task and expecting both to fire, because it overwrites. Avoid a non-idempotent side effect in the handler. Avoid one object for a whole tenant's schedule when that tenant is hot, since a single object is a single writer and the sharding decision has to be made at naming time.",
+    };
+  }
+
+  if (item.name === "fluid-stream-lifecycle") {
+    return {
+      style:
+        "A streaming handler that is mostly lifecycle, because on a shared instance the disconnect path and the backpressure path are the parts that fail.",
+      use: `Use ${item.title} for long-running server-sent events on Vercel Fluid, such as model output, build logs, or progress for a job that takes minutes.`,
+      pair: "Pair it with Fluid Compute Instance Safety, whose request-scoping rules apply to every concurrent stream on the instance, and with Vercel Queue Consumer Groups for any post-stream work that must not be lost, which waitUntil cannot promise.",
+      avoid:
+        "Avoid running CPU-bound work inside the handler, which now stalls every other request sharing the event loop rather than only this one. Avoid enqueueing without checking desiredSize, which buffers unboundedly for a client that stopped reading. Avoid counting client aborts as errors, and avoid setting maxDuration higher than the longest legitimate stream.",
     };
   }
 

@@ -47,6 +47,7 @@
     "src/registry/elysia-*",
     "src/registry/rivet-*",
     "src/registry/vercel-*",
-    "src/registry/sveltekit-*"
+    "src/registry/sveltekit-*",
+    "src/registry/worker-rpc-*"
   ]
 }
