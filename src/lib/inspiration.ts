@@ -1713,6 +1713,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Same Energy",
+        href: "https://same.energy/",
+        dateAdded: "2026-07-20",
+        description:
+          "Visual search engine that finds images matching the style and mood of one you give it, rather than the objects in it. Built by Jacob Jackson and launched in 2021, it runs on a CLIP-style deep learning model that works from pixels alone, so no tags or metadata are needed. Search by text, or drop and paste any image anywhere on the page to pivot the feed; results lean on CC-BY licensed images and right-click shows license and creator. Free, ad-free, with collections for saving boards of references.",
+      },
+      {
         title: "Collect UI",
         href: "https://collectui.com/",
         dateAdded: "2026-07-19",
