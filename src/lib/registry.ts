@@ -3438,6 +3438,283 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "prisma-driver-adapter-runtime",
+    title: "Prisma Driver Adapter Runtime",
+    description:
+      "The two-runtime client setup Prisma ORM 7 forces once the Rust query engine is gone and every database needs an explicit driver adapter. Its reason to exist is the upgrade guide's warning that adapters now inherit the underlying Node driver's pool defaults, which may differ significantly from v6: pg ships no connection timeout at all (0) where v6 used 5 seconds, so pool exhaustion stops surfacing as a database error and starts presenting as a hung service. The Node client pins max, connectionTimeoutMillis, idleTimeoutMillis, maxLifetimeSeconds and allowExitOnIdle explicitly, attaches the onPoolError and onConnectionError handlers that keep an idle-client error from taking the process down, and survives hot reload on globalThis so watch mode cannot leak a pool per save. The edge client uses PrismaPostgresAdapter over the Prisma Postgres serverless driver, where a single connectionString is the whole surface and there is no pool to inherit anything from. A prisma.config.ts rounds it out with the dotenv import that v7 no longer does for you and the direct, unpooled migration URL that replaces the removed directUrl.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: [
+      "prisma@7.8.0",
+      "@prisma/client@7.8.0",
+      "@prisma/adapter-pg@7.8.0",
+      "@prisma/adapter-ppg@7.8.0",
+      "@prisma/ppg@1.0.1",
+      "pg@8.22.0",
+      "dotenv@17.4.2",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/prisma-driver-adapter-runtime/prisma.config.ts",
+        target: "prisma.config.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/prisma-driver-adapter-runtime/client.ts",
+        target: "src/db/client.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/prisma-driver-adapter-runtime/edge-client.ts",
+        target: "src/db/edge-client.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "prisma-client-extension-audit",
+    title: "Prisma Client Extension Audit Trail",
+    description:
+      "A soft delete and audit trail extension for Prisma 7, which removed the $use client middleware API in 7.0.0 and left client extensions as the only interception point. It splits the work across two components because neither can do both jobs: query.$allModels.$allOperations injects deletedAt: null into the filtered read operations and records writes to an audit sink, while model.$allModels rewrites delete and deleteMany into an update through Prisma.getExtensionContext(this), preserving the row and count return shapes. The actor is bound per request rather than globally, since $extends returns a new proxy client instead of mutating the receiver, so a module-scoped extended client would attribute every write in the process to whoever was in scope at import time. Audit rows are written through the unextended base client, which removes the recursion class of bug rather than policing it with a model name guard. The caveats that actually bite migrators are documented inline: query extensions never fire for nested reads or writes, so a nested create is invisible and an include of a soft-delete model is unfiltered, and $connect is not guaranteed to exist on an extended client.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["prisma@7.8.0", "@prisma/client@7.8.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/prisma-client-extension-audit/soft-delete-audit.ts",
+        target: "src/db/soft-delete-audit.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/prisma-client-extension-audit/request-client.ts",
+        target: "src/db/request-client.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "drizzle-cache-tag-invalidation",
+    title: "Drizzle Cache Tag Invalidation",
+    description:
+      "A cached Postgres read layer on drizzle-orm 1.0 rc.4 built around the opt-in query cache and the upstashCache provider from drizzle-orm/cache/upstash. It keeps the default global: false so the cache strategy stays explicit and every cached read is visible at its call site, uses .$withCache tags for the reads that a raw SQL write has to reach by name, reserves autoInvalidate: false for one aggregate that trades bounded staleness for a stable hit rate, and pairs db.$cache.invalidate by tag and by table with the writes the ORM cannot see. Most of the file confronts the eligibility list directly: raw SQL fails open and leaves stale entries, relational queries have no $withCache method at all so a hot read must be rewritten as an explicit join select, and a cached view read is indexed under zero tables so no write will ever drop it.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: [
+      "drizzle-orm@1.0.0-rc.4",
+      "@upstash/redis@1.38.0",
+      "pg@8.22.0",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drizzle-cache-tag-invalidation/cache.ts",
+        target: "src/db/cache.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/drizzle-cache-tag-invalidation/cached-queries.ts",
+        target: "src/db/cached-queries.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "neon-http-composable-sql",
+    title: "Neon HTTP Composable SQL",
+    description:
+      "A query module for edge handlers built on the composable HTTP query path that @neondatabase/serverless shipped in 1.0.0. Compilation to SQL-with-placeholders moved to query time, so a sql fragment is inert until an outer query consumes it and its parameters get renumbered in traversal order; this snippet uses that to turn optional status, search, date, and service filters into fragments folded pairwise into one WHERE clause, replacing the string concatenation or the one-query-per-filter-combination that 0.x forced. It documents the traps the release notes skip: an interpolated array of fragments binds as a single parameter instead of composing, and a parameterized sql.query() result throws a not-composable error, which makes it a whole-query escape hatch rather than a fragment. The client pins down what one-shot HTTP cannot do, covering non-interactive sql.transaction, no surviving session state, and the WebSocket Pool path for anything needing BEGIN, and explains why sql(...) with parentheses now throws so a 0.x migration knows what broke.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@neondatabase/serverless@1.1.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/neon-http-composable-sql/client.ts",
+        target: "src/db/neon/client.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/neon-http-composable-sql/queries.ts",
+        target: "src/db/neon/queries.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "pg-advisory-lock-keyset-scan",
+    title: "Postgres Advisory Lock and Keyset Scan",
+    description:
+      "Two plain-Postgres patterns on the node-postgres driver with no ORM and no lock table. Job locks are transaction-level only, because the manual states that session-level locks survive a rolled-back transaction and need matched unlock pairs, so a worker that dies mid-job strands a lock on a pooled connection; pg_advisory_xact_lock releases on COMMIT, ROLLBACK, and a dropped socket alike, and pg_try_advisory_xact_lock gives a cron worker the skip signal instead of a queue. String keys hash through SHA-256 into the full signed int64 space, and the manual's own LIMIT footgun is documented in place so nobody reintroduces a locking function in the target list of a paginated query. The scan half replaces OFFSET with the seek method, using the row-value predicate that Postgres can turn into an index access predicate rather than the OR expansion that it cannot. Cursors are opaque base64url tuples validated on decode against length, charset, arity, field types, timestamp parseability, and UUID shape, since a cursor arrives off a query string and is a trust boundary.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["pg@8.22.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pg-advisory-lock-keyset-scan/advisory-lock.ts",
+        target: "src/db/advisory-lock.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/pg-advisory-lock-keyset-scan/keyset-page.ts",
+        target: "src/db/keyset-page.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "indexeddb-sync-outbox",
+    title: "IndexedDB Sync Outbox",
+    description:
+      "A durable client-side write outbox on IndexedDB, built on idb 8.0.3, that survives reload and drains to a server API. Reads are paged with getAllFromIndex over an exclusive-lower-bound IDBKeyRange rather than stepping a cursor, the mistake Nolan Lawson measured at 1194.2ms versus 702.8ms for 50,000 records in Chrome and 11ms versus 1ms for 100 records in Safari. The drain loop is split across two transactions because an IndexedDB transaction auto-commits the moment it yields to the event loop, so it reads a batch, lets that transaction close, POSTs, then opens a fresh readwrite transaction to delete or mark-failed. Retries are counted per record with a dead-letter status, transport failures stop the loop instead of burning attempts on every record behind them, and 4xx responses are treated as permanent. Delivery is at-least-once by construction, so every record carries an Idempotency-Key the server dedupes on.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["idb@8.0.3"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/indexeddb-sync-outbox/outbox-db.ts",
+        target: "src/sync-outbox/outbox-db.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/indexeddb-sync-outbox/drain.ts",
+        target: "src/sync-outbox/drain.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "d1-session-read-replica",
+    title: "D1 Session Read Replica",
+    description:
+      "Cloudflare D1 read replication done so the write-then-redirect-then-read flow stays correct. Sequential consistency is scoped to one D1DatabaseSession, which dies with the Worker invocation, so a POST that INSERTs and answers 303 hands the follow-up GET a fresh unconstrained session that can read a replica behind the write. This carries session.getBookmark() across the redirect in a Set-Cookie, since a browser drops the redirect's custom headers and replays only cookies. Includes the constraint policy per route type (first-primary on writes to protect the read half of a read-modify-write, the incoming bookmark on the owner's dashboard, an explicit anonymous opt-out on the public cached feed), a commit that no-ops on a null bookmark and still fires on the 429 path, rejection of client-supplied constraint literals in the bookmark slot, and D1Meta served_by_primary logging.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/d1-session-read-replica/session.ts",
+        target: "src/notes/session.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/d1-session-read-replica/worker.ts",
+        target: "src/notes/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "durable-object-websocket-hibernation",
+    title: "Durable Object WebSocket Hibernation",
+    description:
+      'A chat room Durable Object that holds open WebSockets without being pinned to memory, using ctx.acceptWebSocket() instead of ws.accept() so the runtime owns the sockets and the object can be evicted while every connection stays open. Built around the constraint that eviction erases all instance state: per-connection identity and subscriptions live in ws.serializeAttachment() under the 16,384 byte limit, never in a Map on the class, and the connection set is recovered from ctx.getWebSockets() on the first call after a wake. Covers tag-scoped fan out via acceptWebSocket(ws, tags) and getWebSockets(tag), the webSocketMessage, webSocketClose, and webSocketError class handlers that replace addEventListener, and a broadcast path that is correct on a cold instance. Heartbeats go through ctx.setWebSocketAutoResponse(new WebSocketRequestResponsePair("ping", "pong")), which answers without waking the object, and getWebSocketAutoResponseTimestamp() reaps stale connections off that signal for free.',
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/durable-object-websocket-hibernation/room.ts",
+        target: "src/chat/room.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/durable-object-websocket-hibernation/worker.ts",
+        target: "src/chat/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "vercel-queue-consumer-groups",
+    title: "Vercel Queue Consumer Groups",
+    description:
+      "A @vercel/queue producer and consumer built around the fact that Vercel Queues inverts the publish/consume race: the docs state the publish acknowledgment and consumer notification happen simultaneously, so a consumer may begin processing a message before send() returns and the near-universal send-then-write idiom is a guaranteed intermittent 404. The producer commits first, then publishes with an idempotencyKey and a deliberately short retentionSeconds, and documents the hazard at the exact line where it bites. The consumer is one handler in one consumer group, because multiple route files on the same topic create separate groups that each receive a copy of every message, which is fan-out dressed up as scaling. Since there is no dead-letter queue, it implements a real poison-message policy: permanent versus transient classification, a deliveryCount cap, and acknowledge-with-record inside the handler where the write can be awaited. Also covers deployment-ID topic partitioning, the 300s SDK versus 60s raw API visibility timeout split, and the absence of FIFO ordering.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@vercel/queue@0.4.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vercel-queue-consumer-groups/producer.ts",
+        target: "src/queue/producer.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/vercel-queue-consumer-groups/consumer.ts",
+        target: "src/queue/consumer.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "fluid-compute-instance-safety",
+    title: "Fluid Compute Instance Safety",
+    description:
+      "Fluid compute lets multiple invocations share the same physical instance concurrently, which turns any module-scope mutable request state into a cross-user data leak rather than the merely wasteful pattern it was on classic serverless, and it does so silently on projects that never opted in because Fluid has been default-on for new projects since April 23 2025. The request-context file shows the broken shape, a module-level current user clobbered by a neighbouring request across an await, explains why it passes every local test and every preview deployment, and replaces it with an AsyncLocalStorage store plus a tenant accessor that throws instead of quietly querying unscoped. The lifecycle file draws the background-work boundary that waitUntil does not draw for you: promises passed to it share the function's timeout and are cancelled if the function times out, so webhooks, audit rows, and billing meters silently vanish after a 200 and belong in a durable queue instead. It also wires attachDatabasePool, which exists because Fluid suspends instances and keeps the instance alive long enough for idle clients to be evicted, and documents the uncaught-exception change where the platform now drains in-flight requests before stopping the process.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@vercel/functions@3.7.5", "pg@8.22.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fluid-compute-instance-safety/request-context.ts",
+        target: "src/lib/request-context.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/fluid-compute-instance-safety/lifecycle.ts",
+        target: "src/lib/lifecycle.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -3689,6 +3966,116 @@ export function getRegistryDesignGuidance(
       pair: "Pair with SvelteKit Live Query Stream when part of the same data is server-pushed, and with SvelteKit Explicit Env Vars for the database URL.",
       avoid:
         "Avoid the in-memory Map stand-in in production, it is there so the file runs; replace both helpers with real queries. Avoid raising the requested() limit to cover a page that renders hundreds of instances, cap the page instead.",
+    };
+  }
+
+  if (item.name === "d1-session-read-replica") {
+    return {
+      style:
+        "One string threaded through a redirect. The consistency decision lives in a single session module with a commit step, so no handler is left choosing a constraint on its own.",
+      use: `Use ${item.title} on a Cloudflare Worker with D1 read replication enabled, where a user writes and is then shown a page that must include what they just wrote.`,
+      pair: "Pair it with the Cloudflare Worker Test Harness entry, whose D1 access can assert the bookmark actually round-trips, and keep it clear of the Cache Tags entry, since a bookmarked response carries Set-Cookie and is not shareable.",
+      avoid:
+        "Avoid it on databases without read replication turned on, where every query already runs on the primary and this only adds a cookie, and avoid anchoring a public or cacheable route to a visitor's bookmark, which pins a shared page to one user's write.",
+    };
+  }
+
+  if (item.name === "durable-object-websocket-hibernation") {
+    return {
+      style:
+        "The socket is the storage. Nothing per-connection lives on the instance, so the code reads the same on a warm object and on one that was reconstructed a millisecond ago.",
+      use: `Use ${item.title} for chat, presence, collaborative cursors, or live dashboards on Durable Objects, where connections are long-lived and mostly idle and duration billing, not message volume, is the cost.`,
+      pair: "Pair it with the Cloudflare Worker Test Harness entry, whose evictDurableObject() is the only cheap way to prove the broadcast path survives a wake, since the bug it prevents is invisible until an eviction happens.",
+      avoid:
+        "Avoid it when every connection is short and busy, where hibernation never triggers and ws.accept() is simpler. Avoid attaching anything large or growing: attachments cap at 16,384 bytes and are lost when the connection closes, so message history belongs in storage. Avoid planning to retag a connection, since tags are fixed at acceptWebSocket() and only readable afterwards.",
+    };
+  }
+
+  if (item.name === "vercel-queue-consumer-groups") {
+    return {
+      style:
+        "Two files that argue with the obvious way to write them. The publish ordering and the consumer group count are both load-bearing, so both are documented where they break rather than in a README nobody opens.",
+      use: `Use ${item.title} for push mode Vercel Queues consumers where a message references a row your handler has to read back, or where a failing message must stop rather than retry for its full retention window.`,
+      pair: "Pair it with a reconciliation sweep over rows whose publish failed after commit, and with Fluid Compute Instance Safety, which routes here everything that waitUntil cannot be trusted to finish.",
+      avoid:
+        "Avoid it where you need strict ordering, since there is no FIFO guarantee even at max concurrency 1 and retried messages are deprioritized below new ones. Avoid adding a second trigger on the same topic to increase throughput, which fans out instead of load balancing. Avoid treating queue/v2beta as stable: Queues is public beta, not GA.",
+    };
+  }
+
+  if (item.name === "fluid-compute-instance-safety") {
+    return {
+      style:
+        "Two small files carrying a large amount of verified execution-model detail, where the broken pattern is written out in full next to the fix because the bug is invisible in code review otherwise.",
+      use: `Use ${item.title} for any Node.js Vercel Function on Fluid compute, especially a codebase written before April 2025 that was never audited for module-scope request state after Fluid became the default.`,
+      pair: "Pair it with Vercel Queue Consumer Groups, which is where every piece of background work that must not be lost belongs once waitUntil is off the table.",
+      avoid:
+        "Avoid reaching for AsyncLocalStorage where an explicit parameter would do, since the type checker enforces a parameter and enforces nothing here, and avoid keeping a process.exit() in an uncaughtException handler, which now kills other users' in-flight requests instead of just its own.",
+    };
+  }
+
+  if (item.name === "prisma-driver-adapter-runtime") {
+    return {
+      style:
+        "Two clients and one config, where every pool setting is written down rather than inherited, because the defaults changed underneath you and nothing announces it at runtime.",
+      use: `Use ${item.title} for any Prisma 7 upgrade, and for services that run a long-lived Node process and an edge handler against the same schema.`,
+      pair: "Pair it with Prisma Client Extension Audit Trail, which extends the client this file constructs, and with Postgres Advisory Lock and Keyset Scan when a job needs the raw pg connection underneath.",
+      avoid:
+        "Avoid leaving connectionTimeoutMillis unset on the pg adapter: the driver default of 0 turns pool exhaustion into a hang rather than an error. Avoid the pooled Node client in a serverless handler, where each invocation would build a pool it never drains.",
+    };
+  }
+
+  if (item.name === "prisma-client-extension-audit") {
+    return {
+      style:
+        "Two extension components with a documented blind spot, where the limits of the interception point are stated as plainly as the behavior.",
+      use: `Use ${item.title} for soft deletes and write attribution on Prisma 7, where the $use middleware you would have reached for no longer exists.`,
+      pair: "Pair it with Prisma Driver Adapter Runtime, whose base client this extends, and with a database trigger for the nested writes the query component cannot see.",
+      avoid:
+        "Avoid extending at module scope and binding the actor globally: $extends returns a new client, so a shared one attributes every write to whoever imported it. Avoid trusting it to filter an include of a soft-delete model, which is exactly the nested case that does not fire.",
+    };
+  }
+
+  if (item.name === "drizzle-cache-tag-invalidation") {
+    return {
+      style:
+        "An explicit cache seam where the eligibility list drives the design, so the queries that cannot be cached are rewritten rather than quietly left stale.",
+      use: `Use ${item.title} for read-heavy Drizzle endpoints whose invalidation moments are known, such as a catalog, a leaderboard, or a settings read.`,
+      pair: "Pair it with Drizzle Postgres JIT Query Layer for the uncached hot paths, and with Drizzle Kit Migration Gate so a schema change and its cache tags land together.",
+      avoid:
+        "Avoid caching a view read: it is indexed under zero tables, so no write will ever invalidate it and only the TTL will save you. Avoid assuming a raw db.execute write invalidates anything, since it is neither cached nor treated as a mutation.",
+    };
+  }
+
+  if (item.name === "neon-http-composable-sql") {
+    return {
+      style:
+        "Conditional filters as lazy sql fragments folded pairwise into one predicate, so every filter combination is one query function and no branch ever touches a SQL string.",
+      use: `Use ${item.title} for edge and serverless handlers reading Postgres over the Neon HTTP driver, where list endpoints take optional filters and there is no connection to pool.`,
+      pair: "Pair it with the WebSocket Pool export from the same package for anything needing an interactive transaction, and with Postgres Advisory Lock and Keyset Scan for the cursor pagination these list endpoints want.",
+      avoid:
+        "Avoid interpolating an array of fragments: it binds as a single parameter and fails at the database rather than the call site. Avoid nesting a parameterized sql.query() result, which throws, since it is a whole-query escape hatch and not a fragment.",
+    };
+  }
+
+  if (item.name === "pg-advisory-lock-keyset-scan") {
+    return {
+      style:
+        "Two plain-SQL primitives with their footguns documented in place, on the driver rather than on an ORM, so nothing here expires with a framework.",
+      use: `Use ${item.title} for cron workers that must not run twice concurrently, and for list endpoints whose pagination has to stay correct while rows are being inserted.`,
+      pair: "Pair it with Prisma Driver Adapter Runtime or Drizzle Postgres JIT Query Layer, both of which sit on a pg pool this can borrow a client from.",
+      avoid:
+        "Avoid session-level pg_advisory_lock on a pooled connection, where a dropped worker strands the lock until the session ends. Avoid putting a locking function in the target list of a query with LIMIT, which takes locks on rows the LIMIT never returns.",
+    };
+  }
+
+  if (item.name === "indexeddb-sync-outbox") {
+    return {
+      style:
+        "A drain loop built around the transaction lifetime rather than against it, splitting read, network, and write into separate transactions because the runtime gives no choice.",
+      use: `Use ${item.title} for offline-capable clients whose writes must survive a reload and reconcile with a server later.`,
+      pair: "Pair it with an idempotency key the server dedupes on, since delivery here is at-least-once, and with a Web Lock if more than one tab may drain concurrently.",
+      avoid:
+        "Avoid awaiting a fetch inside an IndexedDB transaction: it auto-commits the moment it yields, and the transaction is dead when the request resolves. Avoid stepping a cursor per record where getAll over a key range does the same work in roughly half the time.",
     };
   }
 

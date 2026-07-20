@@ -199,7 +199,72 @@ export const pageGroups: RegistryGroup[] = [
   },
 ];
 
+export const backendGroups: RegistryGroup[] = [
+  {
+    title: "Auth and access control",
+    names: [
+      "better-auth-jwks-cookie-cache",
+      "better-auth-provisioning-gate",
+      "better-auth-atomic-rate-limit",
+    ],
+  },
+  {
+    title: "Databases and queries",
+    names: [
+      "prisma-driver-adapter-runtime",
+      "prisma-client-extension-audit",
+      "drizzle-pg-jit-query-layer",
+      "drizzle-cache-tag-invalidation",
+      "drizzle-kit-migration-gate",
+      "drizzle-effect-pg-repository",
+      "neon-http-composable-sql",
+      "d1-session-read-replica",
+      "pg-advisory-lock-keyset-scan",
+      "indexeddb-sync-outbox",
+    ],
+  },
+  {
+    title: "Durable workflows and jobs",
+    names: [
+      "effect-durable-workflow-queue",
+      "effect-workflow-v4-migration",
+      "cloudflare-workflow-saga-rollback",
+      "rivet-durable-workflow-actor",
+      "rivet-dynamic-actor-registry",
+      "vercel-queue-consumer-groups",
+    ],
+  },
+  {
+    title: "Edge runtimes and caching",
+    names: [
+      "effect-cloudflare-event-api",
+      "cloudflare-worker-cache-tags",
+      "cloudflare-worker-test-harness",
+      "durable-object-websocket-hibernation",
+      "fluid-compute-instance-safety",
+    ],
+  },
+  {
+    title: "API servers and routing",
+    names: [
+      "elysia-plugin-scope-model",
+      "elysia-aot-build-manifest",
+      "elysia-standard-schema-guard",
+      "websocket-route-handler",
+    ],
+  },
+  {
+    title: "Framework data loading",
+    names: [
+      "sveltekit-live-query-stream",
+      "sveltekit-batched-query-refresh",
+      "sveltekit-explicit-env-vars",
+    ],
+  },
+];
+
 export const registryGroupsBySection: Record<string, RegistryGroup[]> = {
   components: componentGroups,
   pages: pageGroups,
+  backend: backendGroups,
 };

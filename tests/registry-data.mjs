@@ -112,7 +112,13 @@ export function analyzeFile(filePath, src, shippedPaths, dependencies) {
       // installed component copies a broken import.
       const base = path.posix.normalize(path.posix.join(dir, spec));
       const resolved = RESOLVE_EXTS.some((ext) => shippedPaths.has(base + ext));
-      if (!resolved) {
+      // A code-generating dependency writes its client into the consumer's
+      // project at install time, so the item cannot ship that file and the
+      // path is still correct after install. Prisma 7 is the case that forces
+      // this: the generated client replaced `@prisma/client` as the import
+      // site, and its output path is set by the item's own prisma.config.ts.
+      const generated = /(^|\/)generated\//.test(base) && deps.has("prisma");
+      if (!resolved && !generated) {
         problems.push(
           `imports "${spec}" which is not shipped by this item (resolved ${base})`,
         );

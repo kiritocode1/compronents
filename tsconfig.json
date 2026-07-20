@@ -36,9 +36,17 @@
     "src/registry/better-auth-*",
     "src/registry/cloudflare-*",
     "src/registry/drizzle-*",
+    "src/registry/d1-*",
+    "src/registry/durable-object-*",
     "src/registry/effect-*",
+    "src/registry/fluid-*",
+    "src/registry/indexeddb-*",
+    "src/registry/neon-*",
+    "src/registry/pg-*",
+    "src/registry/prisma-*",
     "src/registry/elysia-*",
     "src/registry/rivet-*",
+    "src/registry/vercel-*",
     "src/registry/sveltekit-*"
   ]
 }

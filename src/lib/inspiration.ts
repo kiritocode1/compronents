@@ -1727,13 +1727,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "Long-running gallery of daily UI shots and hand-picked interfaces, browsable by topic-based categories (login pages, dashboards, pricing, and many more), designer profiles, and a trending feed, with personal favorites collections. A quick way to survey many takes on one specific UI pattern at once.",
       },
       {
-        title: "Best Designs On X",
-        href: "https://bestdesignsonx.com/",
-        dateAdded: "2026-07-19",
-        description:
-          "Curated collection of standout interface and visual design work shared on X, gathered into one browsable site so the best posts are not lost to the timeline. Useful for catching the current design zeitgeist among design engineers and indie makers posting there.",
-      },
-      {
         title: "Details Inspo",
         href: "https://www.details.so/inspo",
         dateAdded: "2026-07-14",
