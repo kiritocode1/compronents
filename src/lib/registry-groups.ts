@@ -154,7 +154,12 @@ export const componentGroups: RegistryGroup[] = [
 export const pageGroups: RegistryGroup[] = [
   {
     title: "Minimal and refined",
-    names: ["interior-studio-page", "isochrome-page", "damien-tsarantos-page"],
+    names: [
+      "interior-studio-page",
+      "isochrome-page",
+      "damien-tsarantos-page",
+      "juan-mora-page",
+    ],
   },
   {
     title: "Editorial and typographic",

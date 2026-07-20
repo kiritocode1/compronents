@@ -24,6 +24,7 @@ import ImageRevealStudio from "./image-reveal";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
 import IsochromePageStudio from "./isochrome-page";
+import JuanMoraPageStudio from "./juan-mora-page";
 import LemonBureauPageStudio from "./lemon-bureau-page";
 import March2025TemplateStudio from "./march-2025-template";
 import MaterialSpotlightStudio from "./material-spotlight";
@@ -85,6 +86,7 @@ export const studios: Record<string, StudioComponent> = {
   "lemon-bureau-page": LemonBureauPageStudio,
   "brutalist-portfolio-page": BrutalistPortfolioPageStudio,
   "isochrome-page": IsochromePageStudio,
+  "juan-mora-page": JuanMoraPageStudio,
   "null-studio-page": NullStudioPageStudio,
   "neoteric-page": NeotericPageStudio,
   "soren-page": SorenPageStudio,
