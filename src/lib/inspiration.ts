@@ -1276,6 +1276,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Pretext Demos",
+        href: "https://chenglou.me/pretext/",
+        dateAdded: "2026-07-20",
+        description:
+          "Nine live demos for Pretext, Cheng Lou's zero-dependency TypeScript text layout library that measures and wraps multiline text in pure arithmetic instead of DOM reads, skipping the reflow that getBoundingClientRect and offsetHeight force. The demos cover the layouts that measurement usually blocks: accordions and message bubbles sized before paint, editorial text routed around obstacles, CSS versus greedy versus Knuth-Plass justification side by side, masonry grids, virtualized markdown chat and particle-driven ASCII art in proportional glyphs. By the author of react-motion and ReScript, formerly on the React core team.",
+      },
+      {
         title: "ASCII Waves (DS01 Interface Lab)",
         href: "https://myuiweb.vercel.app/asciiwaves",
         dateAdded: "2026-07-19",
