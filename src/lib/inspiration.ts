@@ -3231,6 +3231,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "No Code-Shader",
+        href: "https://the-nocodeshader.hardikbhansali.com/library",
+        dateAdded: "2026-07-20",
+        description:
+          "Library of WebGL shader templates built by Hardik Bhansali entirely in Unicorn Studio, so every effect is remixable without writing GLSL. Browse by animation and visual style tags, bookmark templates, then click through to remix one in the Unicorn Studio community dashboard and drop it into a project. Desktop only, with a request form for commissioned effects. Picked up an Awwwards Honorable Mention.",
+      },
+      {
         title: "WebGPU.com",
         href: "https://www.webgpu.com/",
         dateAdded: "2026-07-20",
