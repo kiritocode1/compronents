@@ -5933,6 +5933,34 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Effect ecosystem",
     links: [
       {
+        title: "effect-rpc-workers",
+        href: "https://github.com/ksamirdev/effect-rpc-workers",
+        dateAdded: "2026-07-20",
+        description:
+          "Reference project by ksamirdev showing how to run @effect/rpc on Cloudflare Workers with end to end type safety and no framework glue. Treats RPC as the typed API boundary, Effect as the execution model for structured concurrency and error handling, and Workers as the runtime, wiring dependency injection and service composition at the edge. Pure TypeScript, pnpm plus Wrangler, ISC licensed, 7 stars at time of adding.",
+      },
+      {
+        title: "learn-effect-stuff",
+        href: "https://github.com/jjhiggz/learn-effect-stuff",
+        dateAdded: "2026-07-20",
+        description:
+          "jjhiggz's executable Effect course: you run the lessons rather than read them, since every practice checkpoint is also a Bun test, so the expected behavior is stated in code. Two courses so far, Optics for immutable data manipulation and Fiber Olympics for racing, joining, interrupting and supervising concurrent effects. Challenges run individually, for example `bun run course --course=optics --challenge=6`. Very new (single commit, 1 star), so treat it as a work in progress.",
+      },
+      {
+        title: "Effective Modules",
+        href: "https://alexleung.net/tech/effective-modules/",
+        dateAdded: "2026-07-20",
+        description:
+          "Alexander Leung's May 2026 essay on why Effect's own service ergonomics hurt at scale, plus the tool he built to fix them (ozyman42/effective-modules). Names four concrete headaches: Effect.Service coupling implementation to interface (which he calls an anti-pattern), the repetitive Context.Tag syntax it exists to avoid, error noise where one changed signature lights up an entire Layer in the IDE, and verbose dependency passing through layer closures or hand-built Contexts. Written against Effect v3 and v4 with Twoslash-rendered type output, so you can read the inferred types inline. Assumes you already know TypeScript, Effect and SOLID.",
+      },
+      {
+        title: "SER (Svelte Effect Runtime)",
+        href: "https://barekey.dev/docs/ser/introduction",
+        dateAdded: "2026-07-20",
+        description:
+          "Vite plugin from Barekey that lets you write Effect code natively inside SvelteKit components, on both client and server. Adds an `effect` script directive so a component can yield services directly in markup, with live queries that update reactively and remote functions covering queries, commands and forms. BSD 3-Clause. Useful if Effect already runs on your backend and you want the same effect system in the UI layer rather than a bridge at the boundary.",
+      },
+      {
         title: "Minimal Kyo-style effect system (kitlangton)",
         href: "https://gist.github.com/kitlangton/f45697b1f711bcb600ad8f6432b1f75b",
         dateAdded: "2026-07-19",
