@@ -664,6 +664,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "UI kit directories",
     links: [
       {
+        title: "UI8",
+        href: "https://ui8.net/",
+        dateAdded: "2026-07-20",
+        description:
+          "Paid marketplace for design assets contributed by independent authors, useful when you want a finished Figma kit or template rather than a code library. Catalog runs to roughly 5,900 UI kits plus 1,430 illustrations, 1,364 icon sets, 1,137 themes, 908 mockups, 853 fonts, 644 presentations, 576 no-code assets and 346 coded templates. Products are sold individually with frequent site-wide sales, so check the current discount before buying a single item.",
+      },
+      {
         title: "DesEngs",
         href: "https://desengs.com/",
         dateAdded: "2026-07-20",
@@ -1724,7 +1731,7 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://headinger.com/",
         dateAdded: "2026-07-20",
         description:
-          "Searchable database of website headings and taglines, for when you are stuck writing the one line at the top of a landing page. Curated by Maze Heart (remvze), it holds 42 entries at the time of writing, each tagged (AI, Website, Data, Security) and marked H-One or H-Two so you can see whether it is the hero line or the section below it. Examples run to Vercel's \"Build agents on infrastructure that thinks like them\" and Polar's \"Payment infrastructure for the 21st century\". Free.",
+          'Searchable database of website headings and taglines, for when you are stuck writing the one line at the top of a landing page. Curated by Maze Heart (remvze), it holds 42 entries at the time of writing, each tagged (AI, Website, Data, Security) and marked H-One or H-Two so you can see whether it is the hero line or the section below it. Examples run to Vercel\'s "Build agents on infrastructure that thinks like them" and Polar\'s "Payment infrastructure for the 21st century". Free.',
       },
       {
         title: "OGPedia",
@@ -1983,6 +1990,20 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Portfolios and studios",
     links: [
+      {
+        title: "Romain Avalle",
+        href: "https://romainavalle.dev/",
+        dateAdded: "2026-07-20",
+        description:
+          "Portfolio of Romain Avalle, lead interactive developer at LG2 in Montreal, with 20 years behind him: Flash work in London from 2006, five years leading a team in Paris, freelance, then Wonderland in Amsterdam. Lists 37 projects spanning 2011 to 2025 and 57 awards, including 21 Awwwards, 18 CSSDesignAwards and 16 FWA. The site is the opposite of what that record suggests: ASCII art header, monospace type and a numbered project index, no imagery doing the selling. Design by Bastien Allard.",
+      },
+      {
+        title: "Saurabh Sharma",
+        href: "https://www.srbh.site/",
+        dateAdded: "2026-07-20",
+        description:
+          "Portfolio of Saurabh Sharma, a design engineer and full stack developer based in Jaipur, India. Projects include Ping, a chat app, and Creation Gallery, an art showcase site, alongside posts on Telegram bot automation, 3D UI with Tailwind CSS, and juggling multiple GitHub accounts. Unusual touch: a public 'Grind Log' tracking LeetCode problems and component work next to a GitHub contribution count, so the site reads as a working journal rather than a finished case study reel.",
+      },
       {
         title: "AndAgain",
         href: "https://andagain.uk/",
@@ -3438,6 +3459,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Audio, video and media",
     links: [
+      {
+        title: "Cutting Live Broadcast Latency With Fishjam",
+        href: "https://fishjam.swmansion.com/blog/cutting-live-broadcast-latency-with-fishjam",
+        dateAdded: "2026-07-20",
+        description:
+          "Case study on getting live broadcast latency down from over 7 seconds to around 2, worth reading before you pick a streaming architecture. Written by Maciej Rys (July 2026) about ChatBCC, a community app for celebrities and athletes. Both candidate stacks, LiveKit plus MUX and Fishjam plus MUX, landed at roughly 7 seconds; the win came from dropping the HLS delivery layer and serving viewers over WebRTC end to end, using WHIP, WHEP, an SFU and GPU compositing. Includes a cost table for a 60 minute session with 3 hosts and 500 viewers at 720p: about $20 on Fishjam alone versus $33.50 and $34 for the MUX-backed options.",
+      },
       {
         title: "Cuelume",
         href: "https://cuelume-site.pages.dev/",
@@ -6099,6 +6127,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Docs, slides and content tools",
     links: [
       {
+        title: "EventCatalog",
+        href: "https://www.eventcatalog.dev/",
+        dateAdded: "2026-07-20",
+        description:
+          "Open source, self-hostable documentation platform for event-driven architecture: it models domains, services, events, schemas, data stores, flows and ADRs as one connected graph instead of scattered pages. Docs stay in sync with the source specs through OpenAPI and AsyncAPI, Kafka, and the Confluent, AWS Glue and Azure schema registries, with GitHub and GitLab CI wiring and an MCP server so an agent can answer ownership and impact questions. Roughly 2,700 GitHub stars, 40+ contributors, and 33,000+ catalogs created; listed users include AWS, Nike, GOV.UK, Eurostar, NHS and Costco.",
+      },
+      {
         title: "Tahta for Slidev",
         href: "https://tahta.cagdas.io/",
         dateAdded: "2026-07-14",
@@ -6152,6 +6187,27 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Personal blogs and sites",
     links: [
+      {
+        title: "Tim Smart",
+        href: "https://timsmart.co/",
+        dateAdded: "2026-07-20",
+        description:
+          "Personal site of Tim Smart (tim-smart), a founding engineer at Effect and one of the most prolific authors in that ecosystem. Worth following for what he ships rather than what he writes: effect-atom (formerly effect-rx), effect-http, and effect-mcp, an MCP server that pulls the Effect reference docs into your editor. Also writes release posts on effect.website covering @effect/cluster, the HashRing module and Effect.fn.",
+      },
+      {
+        title: "Lucas Barake",
+        href: "https://lucasbarake.com/",
+        dateAdded: "2026-07-20",
+        description:
+          "Personal site of Lucas Barake, a software engineer who teaches Effect and TypeScript across a blog, a YouTube channel and Udemy courses. Posts and videos work through concrete problems rather than concepts: Effect Schema over the browser's IndexedDB, RBAC and ABAC permission modelling in TypeScript, and the difference between Effect.Service, Effect.Tag and Context.Tag. Useful when the official Effect docs leave you unsure which construct to reach for.",
+      },
+      {
+        title: "Sunil Pai",
+        href: "https://sunilpai.dev/",
+        dateAdded: "2026-07-20",
+        description:
+          "Personal site of Sunil Pai (@threepointone), a systems engineer in London who has worked on React, Cloudflare Workers and PartyKit and now builds durable infrastructure for AI agents. The writing sits between infrastructure detail and essay: 'never waste a token' (June 2026) on resumable streams and crash recovery for LLM requests, 'the context is the work' (January 2026) on remote teams and coding agents, 'developer relations after the cheat code machine' on building judgment around AI systems. Read it for perspective on where agent tooling is heading, not for reference material.",
+      },
       {
         title: "Joel on Software",
         href: "https://www.joelonsoftware.com/",
