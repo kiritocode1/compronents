@@ -31,5 +31,14 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "src/registry/effect-cloudflare-event-api"]
+  "exclude": [
+    "node_modules",
+    "src/registry/better-auth-*",
+    "src/registry/cloudflare-*",
+    "src/registry/drizzle-*",
+    "src/registry/effect-*",
+    "src/registry/elysia-*",
+    "src/registry/rivet-*",
+    "src/registry/sveltekit-*"
+  ]
 }

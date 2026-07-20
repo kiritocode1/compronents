@@ -2999,6 +2999,445 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "better-auth-jwks-cookie-cache",
+    title: "Better Auth JWKS Cookie Cache",
+    description:
+      'Better Auth 1.7 session cookie cache signed with the jwt() plugin\'s asymmetric keyring instead of the server secret, so an edge worker or a separate service can verify a session from the public JWKS with no database round trip and no ability to mint sessions. Includes the betterAuth() config (strategy "jwt", signingKey "jwt-plugin", secure cookie prefix, boot-time secret check) and an edge reader that fetches and TTL-caches the JWKS, pins the issuer and audience claims, serves a stale keyring through auth-server blips, and documents the revocation lag the cookie cache carries.',
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["better-auth@1.7.0-rc.1", "jose@6.2.3"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/better-auth-jwks-cookie-cache/auth.ts",
+        target: "src/better-auth-jwks-cookie-cache/auth.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/better-auth-jwks-cookie-cache/edge-session.ts",
+        target: "src/better-auth-jwks-cookie-cache/edge-session.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "better-auth-provisioning-gate",
+    title: "Better Auth Provisioning Gate",
+    description:
+      "A tenant admission gate built on Better Auth 1.7's user.validateUserInfo hook, which runs across every authentication method at create-user, link-account, and OAuth or SSO sign-in. Enforces an email domain allowlist, narrows each SSO provider to the domains it is authoritative for, rejects anonymous sessions, and refuses to admit a new identity whose provider does not assert a verified address. Re-checks the fresh provider email on sign-in, so an account whose IdP identity moved out of the tenant is caught rather than grandfathered.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["better-auth@1.7.0-rc.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/better-auth-provisioning-gate/validate-user-info.ts",
+        target: "src/better-auth-provisioning-gate/validate-user-info.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "better-auth-atomic-rate-limit",
+    title: "Better Auth Atomic Rate Limit",
+    description:
+      "A Redis-backed rateLimit.customStorage for Better Auth 1.7, which replaced the old get/set storage pair with a single required atomic consume call. INCR and PEXPIRE run inside one Lua invocation so concurrent sign-in attempts cannot all pass the same stale count, repairs a counter key left without an expiry, rounds Retry-After up, fails closed by default when Redis is unreachable, and keeps the client identifier out of the error path. Typed against the published storage interface and shaped for the Upstash eval signature with an ioredis adapter note.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["better-auth@1.7.0-rc.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/better-auth-atomic-rate-limit/rate-limit-storage.ts",
+        target: "src/better-auth-atomic-rate-limit/rate-limit-storage.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "cloudflare-workflow-saga-rollback",
+    title: "Cloudflare Workflow Saga Rollback",
+    description:
+      "A Cloudflare Workflow that compensates instead of unwinding by hand. Each side-effecting step.do registers a WorkflowStepRollbackOptions handler with its own rollbackConfig retry budget, so a terminal failure refunds the charge and revokes the seats in reverse step-start order. Includes a dynamic retries.delay function that reads the provider's Retry-After out of the error, NonRetryableError fail-fast on 402/409, sensitive step output, cron-versus-user detection through WorkflowEvent.schedule, and a control-plane Worker doing terminate({ rollback: true }) and restart({ from }).",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cloudflare-workflow-saga-rollback/workflow.ts",
+        target: "src/subscription-saga/workflow.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/cloudflare-workflow-saga-rollback/worker.ts",
+        target: "src/subscription-saga/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "cloudflare-worker-test-harness",
+    title: "Cloudflare Worker Test Harness",
+    description:
+      "Integration tests for a real Cloudflare Worker build using wrangler's createTestHarness(), which runs your production output in a local preview server and is driven from an ordinary Node test process. Covers getDurableObjectStorage().exec() to seed and assert SQLite rows, evictDurableObject() to prove state survives a teardown, listDurableObjectIds(), getEnv() for direct Durable Object RPC, plus getLogs, clearLogs, reset, and debug. Ships with the Worker under test: a SQLite-backed rate limit Durable Object with an alarm sweep and a declarative exports config.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: [
+      "@cloudflare/workers-types@5.20260719.1",
+      "wrangler@4.112.0",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cloudflare-worker-test-harness/worker.ts",
+        target: "src/quota/worker.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/cloudflare-worker-test-harness/quota.test.ts",
+        target: "src/quota/quota.test.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "cloudflare-worker-cache-tags",
+    title: "Cloudflare Worker Cache Tags",
+    description:
+      "Workers HTTP Cache used the way it is meant to be used: cache: { enabled: true } puts a cache in front of the fetch handler so a hit never invokes the Worker, and the Worker's only job becomes emitting Cache-Control plus Cache-Tag and purging tags on write. Includes a derived tag vocabulary, tagged negative caching for 404s, stale-while-revalidate, ctx.cache.purge({ tags }) from a WorkerEntrypoint, the module-level cache import from cloudflare:workers for a queue consumer that has no ctx, pathPrefixes purge, and a per-export cache override so the admin entrypoint stays uncached.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cloudflare-worker-cache-tags/worker.ts",
+        target: "src/catalog/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "drizzle-pg-jit-query-layer",
+    title: "Drizzle Postgres JIT Query Layer",
+    description:
+      "A Postgres schema and typed query layer on the Drizzle 1.0 release candidate. It uses the rc.1 casing API (snakeCase.table replaces the removed drizzle({ casing }) option), a defineRelations graph with a filtered relation and a non-optional one-to-one, opt-in JIT row mappers, module-scope prepared statements bound with sql.placeholder, rc.4 nullability-preserving sql aggregates via .mapWith() and .nullable(), and an insert().select() backfill that skips defaulted columns.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["drizzle-orm@1.0.0-rc.4", "pg@8.22.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drizzle-pg-jit-query-layer/schema.ts",
+        target: "src/db/schema.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/drizzle-pg-jit-query-layer/relations.ts",
+        target: "src/db/relations.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/drizzle-pg-jit-query-layer/queries.ts",
+        target: "src/db/queries.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "drizzle-kit-migration-gate",
+    title: "Drizzle Kit Migration Gate",
+    description:
+      "A non-interactive migration gate built on the drizzle-kit 1.0 rc.4 programmatic SDK at the drizzle-kit/cli subpath. It keeps rename-versus-create and confirm-data-loss decisions in a reviewed Hint array in the repository, asserts in CI that the schema and the committed migration folder agree by treating a no_changes result as the pass condition, rejects any unapproved destructive change by name with the reason drizzle-kit reported, and applies the same ledger on preview databases through push without ever reaching for force.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["drizzle-kit@1.0.0-rc.4"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drizzle-kit-migration-gate/migration-gate.ts",
+        target: "src/db/migration-gate.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "drizzle-effect-pg-repository",
+    title: "Drizzle Effect Postgres Repository",
+    description:
+      "A repository layer over the native Effect v4 Postgres support that Drizzle shipped in 1.0.0-rc.1. Drizzle query builders extend Effect.Effect directly, so there is no tryPromise wrapper and no execute call; this snippet uses that to place the seam at the repository, catching EffectDrizzleQueryError by tag and re-raising tagged domain errors, building the database with makeWithDefaults so only PgClient stays in the requirement channel, and composing a single Live layer whose connection string is the only place Postgres is named.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: [
+      "drizzle-orm@1.0.0-rc.4",
+      "effect@4.0.0-beta.98",
+      "@effect/sql-pg@4.0.0-beta.98",
+      "pg@8.22.0",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drizzle-effect-pg-repository/schema.ts",
+        target: "src/registry-db/schema.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/drizzle-effect-pg-repository/repository.ts",
+        target: "src/registry-db/repository.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-durable-workflow-queue",
+    title: "Effect Durable Workflow Queue",
+    description:
+      "A durable payout settlement workflow built on the Effect 4 execution engine that now ships inside core as effect/unstable/workflow. It includes tag-first Workflow.make with a subclassed workflow, replay-safe Activity checkpoints with attempt tracking, a DurableQueue that persists an item and suspends the workflow until a worker settles it, schema-encoded tagged failures on both the workflow and the queue, and the full layer stack of WorkflowEngine, PersistedQueueFactory, and PersistedQueueStore with fire-and-forget execution, polling, and interruption helpers.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-durable-workflow-queue/workflow.ts",
+        target: "src/durable-workflow/workflow.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-durable-workflow-queue/runtime.ts",
+        target: "src/durable-workflow/runtime.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-workflow-v4-migration",
+    title: "Effect Workflow v4 Migration",
+    description:
+      "A working Effect 4 workflow annotated line by line with the Effect 3 spelling it replaces, covering the six verified breaks between @effect/workflow 0.19.0 and effect/unstable/workflow: the package move into core, tag-first Workflow.make with a subclassable result and an exposed _tag, the Schema.Schema.Any to Schema.Top generic bound change that only bites user-written helpers, TaggedError to TaggedErrorClass, variadic Schema.Literal to array Schema.Literals, and the Context.Service Type to Service rename on WorkflowEngine.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-workflow-v4-migration/migration.ts",
+        target: "src/workflow-migration/migration.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "elysia-plugin-scope-model",
+    title: "Elysia 2 Plugin Scope Model",
+    description:
+      "A working Elysia 2.0 auth plugin that encodes the four renames stale code trips over: route arguments are now (path, hook, handler) rather than (path, handler, hook), every lifecycle method dropped its on prefix (onAfterResponse became afterResponse, onStart became setup, onStop became cleanup), resolve and mapResolve were removed in favour of derive and mapDerive, and the third scope is 'plugin' with the type renamed from LifeCycleType to EventScope. Shows local, plugin, and global scope side by side, as('global') promotion on an ambient timing plugin, a v2 macro using the renamed derive key, and the derive-phase ordering rule that stops a macro derive from reading a mounted plugin's context.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["elysia@2.0.0-exp.46", "typebox@1.3.6"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/elysia-plugin-scope-model/scope.ts",
+        target: "src/elysia-plugin-scope-model/scope.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "elysia-aot-build-manifest",
+    title: "Elysia 2 AOT Build Manifest",
+    description:
+      "A Bun.build script that runs Elysia's Sucrose JIT at build time instead of on boot, using the elysia/plugin/aot bundler plugins introduced in the 2.0 experimental line. Covers every ElysiaAotOptions field with the reasoning behind each: strip to stub the handler codegen so the bundler can drop it, lazy for grouped validator thunks, treeShake to rewrite the t import so unused TypeBox constructors disappear, production to bake isProduction, and a second cross-target build using target workerd plus registerFrom and reconstructFrom to emit a Cloudflare Workers valid manifest from a Bun toolchain. Measured at 392,129 bytes down to 133,671 bytes minified with validation intact.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["elysia@2.0.0-exp.46"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/elysia-aot-build-manifest/aot-build.ts",
+        target: "src/elysia-aot-build-manifest/aot-build.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "elysia-standard-schema-guard",
+    title: "Elysia 2 Standard Schema Guard",
+    description:
+      "A deployments API that validates with Zod on the way in and TypeBox on the way out, on the same route, documenting the TypeBox v1 dependency swap that Elysia 2.0 forces: the peer moved from @sinclair/typebox at 0.34 to the renamed typebox package at 1.3, and leaving the old one installed yields two TypeBox copies whose validators reject valid input. Also covers when to reach for which validator (TypeBox for responses so the exact-mirror encoder can compile them, TypeBox for params so path coercion applies, Standard Schema for anything shared with a client), and replaces the removed schema.static with Elysia's UnwrapSchema.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["elysia@2.0.0-exp.46", "typebox@1.3.6", "zod@4.1.5"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/elysia-standard-schema-guard/schema.ts",
+        target: "src/elysia-standard-schema-guard/schema.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "rivet-durable-workflow-actor",
+    title: "Rivet Durable Workflow Actor",
+    description:
+      "A Rivet actor whose run handler is a durable, replayable workflow, written against the rivetkit 2.3.x split context. Covers the 2.3.1 breaking change that moved actor state, vars, db, client and broadcast off the workflow context onto the step context, plus the 2.3.3 getVersion primitive for shipping new workflow code without corrupting in-flight replay histories. Shows persisted steps, tryStep with retry and rollback config, a durable queue-driven loop with Loop.break and Loop.continue, a durable sleep that survives process death, and typed event and queue tokens that need no runtime schema library.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["rivetkit@2.3.4"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/rivet-durable-workflow-actor/shipment-workflow.ts",
+        target: "src/rivet-durable-workflow-actor/shipment-workflow.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "rivet-dynamic-actor-registry",
+    title: "Rivet Dynamic Actor Registry",
+    description:
+      "Per-tenant untrusted code running as isolated Rivet actors, using the dynamicActor loader added in rivetkit 2.3.0. One dynamic definition backs every workspace: the load hook resolves actor source as a string per actor key, from a sibling actor, object storage or an HTTP fetch, and the runtime evaluates it in a Node process capped by memoryLimit and cpuTimeLimitMs. Includes an editable source actor with revision tracking, registry setup, a typed client, and the untyped action() escape hatch that dynamic actors require because they have no compile time action map.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["rivetkit@2.3.4"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/rivet-dynamic-actor-registry/dynamic-runner.ts",
+        target: "src/rivet-dynamic-actor-registry/dynamic-runner.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "sveltekit-live-query-stream",
+    title: "SvelteKit Live Query Stream",
+    description:
+      "Server-push status streaming with SvelteKit's experimental query.live remote function, pinned to @sveltejs/kit 2.70.1. A *.remote.ts module exposes a live query backed by a plain async generator that SvelteKit drives as an SSE stream, with a per-process pub/sub hub, first-yield SSR seeding, and a finally block that unregisters listeners when a subscriber disconnects. A paired command records a phase transition and, in the same response, walks requested(fn, limit) to reconnect only the live subscriptions whose argument actually changed, using the { arg, query } entry shape introduced in 2.58.0. Includes locals-based auth, hand validation of the 'unchecked' argument, and comments pinning the 2.59.0, 2.63.1 and 2.66.0 behaviour changes.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@sveltejs/kit@2.70.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sveltekit-live-query-stream/deploy-status.remote.ts",
+        target: "src/lib/deploy-status.remote.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "sveltekit-explicit-env-vars",
+    title: "SvelteKit Explicit Env Vars",
+    description:
+      "A src/env.ts manifest using defineEnvVars from @sveltejs/kit/env, the import path introduced in 2.70.0 (the older @sveltejs/kit export is now deprecated). Replaces prefix-based $env/static and $env/dynamic with one declared table where every variable states its visibility, whether it is inlined at build time, a description that becomes editor hover documentation, and a Standard Schema validator that runs once at startup so a bad value fails the boot rather than the first request that needs it. Ships dependency-free Standard Schema validators for https origins, bounded integers and Postgres URLs, so env values arrive typed as number or string rather than as raw strings. Covers all four visibility and staticness combinations.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@sveltejs/kit@2.70.1", "@standard-schema/spec@1.0.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sveltekit-explicit-env-vars/env.ts",
+        target: "src/env.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "sveltekit-batched-query-refresh",
+    title: "SvelteKit Batched Query Refresh",
+    description:
+      "N+1 elimination and single-flight mutations for SvelteKit remote functions, pinned to @sveltejs/kit 2.70.1. A query.batch collects the calls twenty components make in one macrotask into a single server invocation that returns a lookup callback, so ordering and duplicate arguments are handled for you. A remote form then publishes a record and calls requested(query, limit).refreshAll(), sending refreshed values back on the mutation response instead of paying a second round trip, and because the query is batched those refreshes collapse into one call. A command shows the manual alternative, iterating { arg, query } entries and using set() to write straight into the client cache with no refetch. Comments pin the 2.58.0 requested() reshape and the 2.61.0 removal of query.run().",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-20",
+    type: "registry:lib",
+    dependencies: ["@sveltejs/kit@2.70.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sveltekit-batched-query-refresh/component-stats.remote.ts",
+        target: "src/lib/component-stats.remote.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -3041,6 +3480,215 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with client reconnect and heartbeat handling, authentication during upgrade, and shared state or pub-sub when more than one server instance participates.",
       avoid:
         "Avoid it on Edge, static export, or Vercel Functions, and prefer SSE when the browser only needs one-way server updates.",
+    };
+  }
+
+  if (item.name === "better-auth-jwks-cookie-cache") {
+    return {
+      style:
+        "Two small server files, heavy on comments that name the exact 1.7.0 API and the failure mode each guard prevents. No demo scaffolding, no console output.",
+      use: `Use ${item.title} for verifying a Better Auth session at the edge or in a second service without handing it the signing secret.`,
+      pair: "Pairs with the Drizzle adapter entry for the database side, and with Better Auth Provisioning Gate on the same auth instance.",
+      avoid:
+        "Avoid treating the cached read as proof the session is still live: sign-out, ban, and revocation lag by cookieCache.maxAge, so re-read through auth.api.getSession before anything destructive. Avoid it entirely on better-auth 1.6.x, where getCookieCache has no jwt config.",
+    };
+  }
+
+  if (item.name === "better-auth-provisioning-gate") {
+    return {
+      style:
+        "One pure function factory returning the validateUserInfo hook. Machine-readable rejection codes, fail-closed branches, no I/O so it stays trivially testable.",
+      use: `Use ${item.title} for restricting which identities a B2B or workspace deployment will admit, across every sign-in method at once.`,
+      pair: "Pairs with the organization plugin for tenant membership, and with Better Auth JWKS Cookie Cache on the same auth instance.",
+      avoid:
+        "Avoid relying on it to block already-provisioned users on non-provider sign-ins: those are not re-validated, so use the admin plugin's ban controls or a session-create hook. Avoid putting internal detail in errorDescription, it is surfaced to the client.",
+    };
+  }
+
+  if (item.name === "better-auth-atomic-rate-limit") {
+    return {
+      style:
+        "One factory returning the storage object, with the Lua script inline so the atomicity claim is readable at the call site. Structural Redis type, no client dependency pinned.",
+      use: `Use ${item.title} for enforcing Better Auth rate limits across multiple instances, where an in-memory counter cannot see the other processes.`,
+      pair: "Pairs with rateLimit.customRules tightened on the credential endpoints, and with the Better Auth Provisioning Gate for the admission side.",
+      avoid:
+        'Avoid setting onError to "open" on credential endpoints: a Redis outage then becomes an unthrottled window. Avoid it on better-auth 1.6.x, where the storage interface still requires get and set.',
+    };
+  }
+
+  if (item.name === "cloudflare-workflow-saga-rollback") {
+    return {
+      style:
+        "Durable execution shaped like a ledger. Each step declares its own undo next to its do, so the failure path is readable in the same place as the happy path.",
+      use: `Use ${item.title} for multi-step provisioning, billing, or fulfilment flows on Cloudflare Workflows where a partial failure must leave no orphaned side effects.`,
+      pair: "Pair it with the Cloudflare Worker Test Harness entry, whose introspectWorkflow() can disable sleeps and force step errors so the rollback chain is actually exercised in CI.",
+      avoid:
+        "Avoid it for read-only pipelines, for steps whose side effects are already idempotent writes to your own storage, and for anything that needs cron-triggered instances today, since the Workflow binding schedule field is config-only groundwork.",
+    };
+  }
+
+  if (item.name === "cloudflare-worker-test-harness") {
+    return {
+      style:
+        "Black-box tests against the real build. No test seams in the Worker, no injected clock, no debug endpoints, with storage reached from outside when an assertion needs it.",
+      use: `Use ${item.title} for integration-testing a Cloudflare Worker with Durable Objects, D1, or Workflows from an ordinary Node, Vitest, or Jest process.`,
+      pair: "Pair it with MSW or any globalThis.fetch interceptor, which works here because the test process is a normal Node process, and with the Cloudflare Workflow Saga Rollback entry as the system under test.",
+      avoid:
+        "Avoid it for unit tests of pure functions, where it is far too heavy, and for pinning to a Wrangler older than 4.112.0, since the Durable Object methods used here arrived across 4.99.0 through 4.112.0.",
+    };
+  }
+
+  if (item.name === "cloudflare-worker-cache-tags") {
+    return {
+      style:
+        "Cache as configuration plus two headers. The Worker emits Cache-Control and Cache-Tag on the read path and purges tags on the write path, and nothing else.",
+      use: `Use ${item.title} for read-heavy Cloudflare Worker APIs backed by content that changes on a known event, such as a catalog, a CMS, or a pricing feed.`,
+      pair: "Pair it with a Queue consumer for batched invalidation and with KV or R2 as the origin store, since both give you a clear write moment to hang the purge on.",
+      avoid:
+        "Avoid it for per-user or authenticated responses, which bypass the cache anyway, for anything needing read-after-write consistency, since tag purge is eventually consistent, and for the old caches.default Cache API pattern, which this replaces rather than extends.",
+    };
+  }
+
+  if (item.name === "drizzle-pg-jit-query-layer") {
+    return {
+      style:
+        "Three files that separate table shape, relation graph, and read paths, so a query module never redefines a join that belongs in the schema.",
+      use: `Use Drizzle Postgres JIT Query Layer for a Postgres data layer on drizzle-orm 1.0 rc where hot reads should be prepared once at module scope and relation filters should live in one place.`,
+      pair: "Pair it with Drizzle Kit Migration Gate so the schema in these files and the committed migrations cannot drift.",
+      avoid:
+        "Avoid jit: true in short-lived processes such as migration scripts, serverless one-shot handlers, and tests, where the first-prepare compile cost is never amortised.",
+    };
+  }
+
+  if (item.name === "drizzle-kit-migration-gate") {
+    return {
+      style:
+        "An approval ledger plus two exhaustive switches over the drizzle-kit JSON envelope, so every status the SDK can return is handled explicitly rather than falling through.",
+      use: `Use Drizzle Kit Migration Gate for CI and deploy pipelines that must run drizzle-kit without a TTY and must refuse destructive schema changes that no human approved in a pull request.`,
+      pair: "Pair it with Drizzle Postgres JIT Query Layer, whose schema file is the input this gate diffs against.",
+      avoid:
+        "Avoid passing force: true to push alongside this gate; force approves every destructive change in the diff and defeats the entire ledger.",
+    };
+  }
+
+  if (item.name === "drizzle-effect-pg-repository") {
+    return {
+      style:
+        "A Context.Service interface with a Layer.effect implementation, where every method's error channel is closed to tagged domain errors before it leaves the file.",
+      use: `Use Drizzle Effect Postgres Repository for an Effect v4 application that needs typed Postgres access without wrapping every query in tryPromise and without leaking driver errors into business logic.`,
+      pair: "Pair it with Effect Cloudflare Event API, which uses the same Context.Service and tagged-error conventions at the HTTP boundary.",
+      avoid:
+        "Avoid returning the raw builder from a repository method; the EffectDrizzleQueryError then escapes into every caller's error union and the seam stops being a seam.",
+    };
+  }
+
+  if (item.name === "effect-durable-workflow-queue") {
+    return {
+      style:
+        "Replay-aware backend architecture where every side effect sits behind an activity checkpoint and long waits are expressed as durable suspensions rather than held connections.",
+      use: `Use ${item.title} for a multi-step backend process that must survive restarts, deduplicate retried requests by idempotency key, and park for minutes or days while an external system settles.`,
+      pair: "Pair it with PersistedQueue.layerStoreSql or layerStoreRedis instead of the memory store, a cluster-backed WorkflowEngine once more than one process runs workflows, and an HTTP boundary that returns the execution id and polls it.",
+      avoid:
+        "Avoid it for a request that completes inside one handler, because the engine, persistence, and worker layers add real operational surface for no durability benefit.",
+    };
+  }
+
+  if (item.name === "effect-workflow-v4-migration") {
+    return {
+      style:
+        "Annotated before-and-after reference code that keeps the old spelling next to the new one at each call site instead of in a separate prose guide.",
+      use: `Use ${item.title} for porting an existing Effect 3 durable workflow onto Effect 4, or for reading the exact shape of the breaks before committing to the upgrade.`,
+      pair: "Pair it with the effect CHANGELOG entries it cites, a typecheck run against the target beta, and a staged rollout that ports one workflow before the rest of the service.",
+      avoid:
+        "Avoid it as a starting point for a new Effect 4 project, since the v3 annotations are dead weight when there is nothing to migrate from.",
+    };
+  }
+
+  if (item.name === "elysia-plugin-scope-model") {
+    return {
+      style:
+        "Migration-shaped reference code. Every breaking rename is stated as a before and after pair in a comment directly above the line that demonstrates it, so the file doubles as a diff you can read top to bottom.",
+      use: `Use ${item.title} for porting an Elysia 1.4 app to the 2.0 line, or for getting plugin auth, lifecycle scope, and v2 macros right the first time on a new 2.0 service.`,
+      pair: "Pair with Elysia 2 Standard Schema Guard for the validation half of the same migration, and with Elysia 2 AOT Build Manifest once the app compiles and you want it to boot fast.",
+      avoid:
+        "Avoid on Elysia 1.4 and earlier: every method name here is the renamed 2.0 spelling and none of it compiles against 1.4. Avoid reaching for 'global' scope by default, it promotes hooks into every ancestor instance and is rarely what an auth plugin wants.",
+    };
+  }
+
+  if (item.name === "elysia-aot-build-manifest") {
+    return {
+      style:
+        "A build script, not an app. Dense option-by-option commentary with the measured bundle numbers stated inline rather than claimed in the abstract.",
+      use: `Use ${item.title} for cutting Elysia cold start and bundle size by moving route compilation into the bundler, and for producing a Cloudflare Workers manifest from a Bun build.`,
+      pair: "Pair with Elysia 2 Plugin Scope Model, which is the kind of app this build script consumes as its entry.",
+      avoid:
+        "Avoid in dev: keep runtime JIT while iterating, the Vite plugin already gates itself to build only. Avoid strip true until the app is route-complete, since a route still reaching handler JIT turns the build into a hard failure by design.",
+    };
+  }
+
+  if (item.name === "elysia-standard-schema-guard") {
+    return {
+      style:
+        "Two validator libraries deliberately side by side in one route table, with the choice between them justified per channel rather than left to taste.",
+      use: `Use ${item.title} for wiring Zod, Valibot, or ArkType schemas into Elysia 2.0 without an adapter, and for surviving the @sinclair/typebox to typebox v1 dependency swap.`,
+      pair: "Pair with Elysia 2 Plugin Scope Model for the lifecycle half of a 2.0 migration.",
+      avoid:
+        "Avoid putting a Standard Schema on params or query when you want Elysia's numeric and boolean path coercion, since it only applies to TypeBox. Avoid keeping @sinclair/typebox in package.json after upgrading, two resident copies produce validators that reject valid input.",
+    };
+  }
+
+  if (item.name === "rivet-durable-workflow-actor") {
+    return {
+      style:
+        "Terse orchestration code: a deterministic outer workflow that reads as a list of named checkpoints, with every mutation pushed down into a step callback. Comments explain only the version-sensitive lines.",
+      use: `Use Rivet Durable Workflow Actor for long-running, restart-safe processes that own their own state: order fulfilment, onboarding sequences, payment retries, anything that must survive a deploy mid-flight.`,
+      pair: "Pair with a Hono route that mounts registry.handler, and with rivetkit/db or rivetkit/db/drizzle when a step needs per-actor SQLite rather than plain actor state.",
+      avoid:
+        "Avoid on rivetkit below 2.3.3: the split context landed in 2.3.1 and getVersion in 2.3.3, so neither compiles on 2.2.x. Avoid reaching for state, db or client from the outer workflow context; that is exactly what 2.3.1 made illegal, and it is illegal because replay would diverge.",
+    };
+  }
+
+  if (item.name === "rivet-dynamic-actor-registry") {
+    return {
+      style:
+        "Two-layer registry: a plain actor that stores editable source with a revision counter, and a bodyless dynamic actor that loads that source per key. Resource limits are stated inline, not buried in config.",
+      use: `Use Rivet Dynamic Actor Registry for multi-tenant platforms where each customer supplies their own automation, plugin or agent code and it must run isolated from every other tenant.`,
+      pair: "Pair with a Hono server that mounts registry.handler, and with an editor surface that posts new source through the source actor so the next actor start picks it up.",
+      avoid:
+        "Avoid on rivetkit below 2.3.0: rivetkit/dynamic did not exist. Avoid treating the action() generics as validation; they are an assertion about source you did not write, so keep memoryLimit and cpuTimeLimitMs set and treat every return value as untrusted.",
+    };
+  }
+
+  if (item.name === "sveltekit-live-query-stream") {
+    return {
+      style:
+        "Server-side streaming module. No markup, no styling surface: the whole artifact is one *.remote.ts file whose shape is a generator plus a command.",
+      use: `Use SvelteKit Live Query Stream for pushing server state to connected clients without hand-rolling an SSE endpoint: build progress, job queues, presence, log tails, anything where the server knows first.`,
+      pair: "Pair with SvelteKit Batched Query Refresh for the request-response half of the same app, and with SvelteKit Explicit Env Vars to validate the broker URL you swap the in-process Map for.",
+      avoid:
+        "Avoid on serverless platforms that cap response duration, and avoid the in-process hub across more than one instance: it does not fan out. Avoid entirely if you cannot accept an experimental flag, remote functions are not covered by semver at 2.70.1.",
+    };
+  }
+
+  if (item.name === "sveltekit-explicit-env-vars") {
+    return {
+      style:
+        "Declarative configuration manifest. Reads as one table of variables, each with visibility, staticness, a description and a validator.",
+      use: `Use SvelteKit Explicit Env Vars for making configuration a typed, validated, boot-time contract instead of a scatter of prefixed strings read at the point of use.`,
+      pair: "Pair with either SvelteKit remote function entry, both of which read secrets that belong in this manifest rather than in process.env.",
+      avoid:
+        "Avoid mixing it with $env/static and $env/dynamic imports in the same app, pick one system. Avoid static: true for anything that differs between build and run, the value is inlined into the bundle.",
+    };
+  }
+
+  if (item.name === "sveltekit-batched-query-refresh") {
+    return {
+      style:
+        "Data-access module. Three exports (batched query, remote form, command) that together show the full read, mutate, refresh cycle.",
+      use: `Use SvelteKit Batched Query Refresh for killing N+1 query storms on list and grid pages, and for making mutations return their own refreshed data in one round trip.`,
+      pair: "Pair with SvelteKit Live Query Stream when part of the same data is server-pushed, and with SvelteKit Explicit Env Vars for the database URL.",
+      avoid:
+        "Avoid the in-memory Map stand-in in production, it is there so the file runs; replace both helpers with real queries. Avoid raising the requested() limit to cover a page that renders hundreds of instances, cap the page instead.",
     };
   }
 

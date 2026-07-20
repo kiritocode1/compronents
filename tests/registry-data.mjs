@@ -25,6 +25,23 @@ export const PEER_DEPS = new Set([
   "next",
 ]);
 
+/**
+ * Prefixes the runtime provides directly, with no npm package to declare.
+ * `node:` is always present; `cloudflare:` and `bun:` come from those runtimes,
+ * which a backend item targets via its own config rather than a dependency.
+ */
+const RUNTIME_PREFIXES = ["node:", "cloudflare:", "bun:"];
+
+/**
+ * Virtual modules a framework synthesises at build time. They are not packages,
+ * but they only resolve when the owning package is installed, so they still have
+ * to satisfy the dependency check through that owner.
+ */
+const VIRTUAL_MODULE_OWNERS = [
+  ["$app/", "@sveltejs/kit"],
+  ["$env/", "@sveltejs/kit"],
+];
+
 /** File types the shadcn registry-item schema accepts. */
 export const FILE_TYPES = new Set([
   "registry:ui",
@@ -56,9 +73,18 @@ export function packageOf(spec) {
   return spec.split("/")[0].split("@")[0];
 }
 
+/** Source with comments blanked out, so a quoted import inside prose or a
+ * migration note is not mistaken for a real one. */
+function stripComments(src) {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:])\/\/[^\n]*/g, "$1");
+}
+
 /** Every module specifier imported/exported-from in a source string. */
 export function importSpecifiers(src) {
   const out = [];
+  src = stripComments(src);
   for (const m of src.matchAll(
     /(?:import|export)[^;]*?from\s*["']([^"']+)["']/g,
   )) {
@@ -97,8 +123,11 @@ export function analyzeFile(filePath, src, shippedPaths, dependencies) {
       problems.push(
         `imports alias "${spec}" which will not resolve after install`,
       );
+    } else if (RUNTIME_PREFIXES.some((p) => spec.startsWith(p))) {
+      // Runtime builtin: nothing to install, nothing to declare.
     } else {
-      const pkg = packageOf(spec);
+      const owner = VIRTUAL_MODULE_OWNERS.find(([p]) => spec.startsWith(p));
+      const pkg = owner ? owner[1] : packageOf(spec);
       if (!PEER_DEPS.has(pkg) && !deps.has(pkg)) {
         problems.push(
           `imports "${spec}" but package "${pkg}" is missing from dependencies`,
