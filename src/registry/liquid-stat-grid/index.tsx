@@ -84,7 +84,7 @@ export default function LiquidStatGrid({
               onPointerEnter={() => setHovered(index)}
               onPointerLeave={() => setHovered((c) => (c === index ? null : c))}
             >
-              <div className="lsg-backdrop">
+              <div className="lsg-backdrop" aria-hidden="true">
                 <LiquidCanvas variant={stat.variant} className="lsg-canvas" />
               </div>
               <div className="lsg-content">

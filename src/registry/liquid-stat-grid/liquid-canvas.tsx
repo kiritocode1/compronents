@@ -268,6 +268,7 @@ export default function LiquidCanvas({
         const target = targets[i];
         const prev = i > 0 ? targets[i - 1] : null;
 
+        // biome-ignore lint/correctness/useHookAtTopLevel: WebGL API, not a React hook
         gl.useProgram(program);
         gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fbo : null);
         const vw = target ? target.w : width;
@@ -301,5 +302,5 @@ export default function LiquidCanvas({
     };
   }, [variant]);
 
-  return <canvas ref={canvasRef} className={className} aria-hidden="true" />;
+  return <canvas ref={canvasRef} className={className} />;
 }
