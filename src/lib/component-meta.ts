@@ -1092,24 +1092,24 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/dither-studio-page.tsx",
     nuance: [
       {
-        label: "Dissolving dither plate",
+        label: "The page sits on a live dither field",
         description:
-          "The loading plate is one WebGL2 pass: an fbm blob field quantised into cells and thresholded through a 4x4 Bayer matrix, then eaten away from its thinnest areas outward as progress runs 0 to 1. Cursor movement warps the field while the plate is still up.",
+          "A fixed WebGL2 pass renders an fbm field quantised through a 4x4 Bayer matrix into drifting specks behind every section, and the field warps toward a lerped cursor. The hero blends over it with mix-blend exclusion.",
       },
       {
-        label: "Scrambled eyebrow",
+        label: "Load choreography",
         description:
-          "The bracketed eyebrow settles out of random glyphs one character at a time while the plate dissolves, so the type and the reveal resolve together.",
+          "A counter runs 0 to 100% on a black plate, then a second dither pass eats the plate away from its thinnest areas outward while the bracketed eyebrow settles out of random scramble glyphs.",
       },
       {
-        label: "Bring your own media",
+        label: "Mouse animations across every image",
         description:
-          "Nothing is bundled. The hero falls back to a layered radial gradient when no video is passed, so the component installs with zero assets and zero dependencies.",
+          "Each media slot draws through a canvas; moving the pointer across one smears a decaying trail of coarse pixelation behind the cursor. A label pill also chases the pointer across case rows and media, summoned by data-cursor attributes.",
       },
       {
-        label: "Chrome that floats over the plate",
+        label: "Chrome that follows the scroll",
         description:
-          "A pill nav with a rotating greeting, a contact pill and collapsible showreel panel on the right rail, and a bottom status rail with a live tabular-numeral clock and language toggle.",
+          "The pill nav's 4x4 pixel mark morphs and its message rolls over per section, the right-rail panels open to match the section in view, and a bottom status rail keeps a live tabular-numeral clock. Case rows expand in place; videos passed via props are requantised to duotone dither every frame.",
       },
     ],
     editable: [
@@ -1117,7 +1117,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "heroVideoSrc",
         control: "text",
         description:
-          "Looping video used as the hero plate. Omit it for the gradient fallback.",
+          "Looping footage dithered into the hero plate. Omit it to let the field show through.",
       },
     ],
     assets: [],
@@ -1127,25 +1127,33 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string",
         default: "undefined",
         description:
-          "Looping video for the hero plate; falls back to a gradient ground when absent.",
+          "Looping footage for the hero plate, requantised to duotone dither per frame; the field shows through when absent.",
       },
       {
         name: "heroPoster",
         type: "string",
         default: "undefined",
-        description: "Poster frame shown before the hero video plays.",
+        description:
+          "Still image used as the hero plate when no video is passed.",
+      },
+      {
+        name: "reelVideoSrc",
+        type: "string",
+        default: "undefined",
+        description:
+          "Footage for the This is us rail panel, rendered as dither.",
       },
       {
         name: "reelPoster",
         type: "string",
         default: "undefined",
-        description: "Thumbnail for the collapsible showreel panel.",
+        description: "Still fallback for the rail panel.",
       },
       {
         name: "avatarSrc",
         type: "string",
         default: "undefined",
-        description: "Avatar shown inside the contact pill.",
+        description: "Avatar shown inside the contact cards.",
       },
       {
         name: "className / style",

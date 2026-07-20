@@ -2294,7 +2294,7 @@ export const registryItems: RegistryItem[] = [
     name: "dither-studio-page",
     title: "Dither Studio Page",
     description:
-      "A full-bleed agency homepage: a video hero plate with the headline set bottom-left at a 0.8 line-height, a floating pill nav carrying a rotating greeting, a contact pill and collapsible showreel panel on the right rail, and a status rail pinned to the bottom with a live clock and language toggle. On load a dissolving pixel-dither plate covers the page and is eaten away from its thinnest areas outward while the eyebrow scrambles into place, driven by a single WebGL2 pass over an fbm blob field with a 4x4 Bayer threshold and cursor warping. No media is bundled and there are no runtime dependencies; pass your own footage through props.",
+      "A full-bleed agency homepage built on dither. The whole page sits on a fixed WebGL fbm field quantised through a Bayer matrix that drifts and warps toward the cursor. A floating pill nav carries a morphing pixel mark and a per-section message, and unfolds into a full menu behind a page-wide blur. A right rail stacks a contact card and collapsible panels that follow the section in view, case rows expand in place with seeded procedural dither plates, every image slot smears into coarse pixels under the cursor, a label chases the pointer across hoverables, and a status rail pins to the bottom with a live clock. On load a counter runs to 100% before the plate dissolves from its thinnest areas outward. No media bundled, no runtime dependencies; pass footage through props.",
     section: "pages",
     category: "Animations",
     pro: true,
@@ -2309,8 +2309,13 @@ export const registryItems: RegistryItem[] = [
         type: "registry:ui",
       },
       {
-        path: "src/registry/dither-studio-page/transition-overlay.tsx",
-        target: "components/ui/dither-studio-page/transition-overlay.tsx",
+        path: "src/registry/dither-studio-page/dither-canvas.tsx",
+        target: "components/ui/dither-studio-page/dither-canvas.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/dither-studio-page/reveals.tsx",
+        target: "components/ui/dither-studio-page/reveals.tsx",
         type: "registry:ui",
       },
     ],

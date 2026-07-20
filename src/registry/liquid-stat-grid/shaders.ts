@@ -1,10 +1,18 @@
-// Generated from the source scene definitions (Unicorn Studio "Layered Distortion" remix).
-// Every shader below is the compiled GLSL taken verbatim from the source scenes; the
-// only per-variant difference is the circle layer's colour and centre. Rendered by
-// our own multi-pass WebGL2 renderer so the component ships no third-party runtime.
+// Six-stage liquid gradient chain.
+//
+//   1 plate     flat #F5F5F5 ground, half resolution
+//   2 blob      pointer-tracked colour disc, rotated and squashed, luma-displaced
+//   3 warp A    five-octave domain warp, wide amplitude, strong colour fringing
+//   4 blur A    noise-steered directional blur, half resolution
+//   5 blur B    the same blur again at quarter resolution
+//   6 warp B    a tighter, faster warp that re-curls the softened result
+//
+// Each stage renders into its own framebuffer at its own scale and samples the
+// previous stage as uTexture. The constants are named rather than inlined so the
+// effect can actually be tuned; the warp and blob stages are generated from one
+// parameterised source since they differ only by numbers.
 
-/** Fullscreen-quad vertex shader. The source used curtains.js matrices; for a quad
- *  they are identity, so the position passes straight through. */
+/** Fullscreen-quad vertex stage. */
 export const VERTEX_SHADER = `#version 300 es
 precision mediump float;
 in vec3 aVertexPosition;
@@ -17,63 +25,281 @@ void main() {
   vVertexPosition = aVertexPosition;
 }`;
 
-export const GRADIENT_FRAG =
-  "#version 300 es\nprecision highp float;in vec2 vTextureCoord;uniform vec2 uMousePos;vec3 getColor(int index) {\nswitch(index) {\ncase 0: return vec3(0.9607843137254902, 0.9607843137254902, 0.9607843137254902);\ncase 1: return vec3(0, 0, 0);\ncase 2: return vec3(0, 0, 0);\ncase 3: return vec3(0, 0, 0);\ncase 4: return vec3(0, 0, 0);\ncase 5: return vec3(0, 0, 0);\ncase 6: return vec3(0, 0, 0);\ncase 7: return vec3(0, 0, 0);\ncase 8: return vec3(0, 0, 0);\ncase 9: return vec3(0, 0, 0);\ncase 10: return vec3(0, 0, 0);\ncase 11: return vec3(0, 0, 0);\ncase 12: return vec3(0, 0, 0);\ncase 13: return vec3(0, 0, 0);\ncase 14: return vec3(0, 0, 0);\ncase 15: return vec3(0, 0, 0);\ndefault: return vec3(0.0);\n}\n}const float PI = 3.14159265;vec2 rotate(vec2 coord, float angle) {\nfloat s = sin(angle);\nfloat c = cos(angle);\nreturn vec2(\ncoord.x * c - coord.y * s,\ncoord.x * s + coord.y * c\n);\n}out vec4 fragColor;vec3 getColor(vec2 uv) {return vec3(0.9607843137254902, 0.9607843137254902, 0.9607843137254902);\n}void main() {vec2 uv = vTextureCoord;\nvec2 pos = vec2(0.5, 0.5) + mix(vec2(0), (uMousePos-0.5), 0.0000);\nuv -= pos;\nuv /= max(0.5000*2., 1e-5);\nuv = rotate(uv, (0.0000 - 0.5) * 2. * PI);\nvec4 color = vec4(getColor(uv), 1.0000);\nfragColor = color;\n}";
+const COMMON = `
+const float TWO_PI = 6.28318530718;
+mat2 rot(float a) { return mat2(cos(a), -sin(a), sin(a), cos(a)); }
+float luma(vec3 c) { return dot(c, vec3(0.299, 0.587, 0.114)); }
 
-export const LIQUIFY_FRAG =
-  "#version 300 es\nprecision mediump float;in vec3 vVertexPosition;\nin vec2 vTextureCoord;uniform float uTime;\nuniform sampler2D uTexture;uniform vec2 uMousePos;\nuniform vec2 uResolution;float ease (int easingFunc, float t) {\nreturn t;\n}const float PI = 3.14159265;mat2 rot(float a) {\nreturn mat2(cos(a), -sin(a), sin(a), cos(a));\n}vec2 liquify(vec2 st, float dist) {\nfloat aspectRatio = uResolution.x / uResolution.y;\nvec2 pos = vec2(0.5, 0.5) + mix(vec2(0), (uMousePos - 0.5), 0.0000);\nvec2 drift = vec2(0, 0.0000 * uTime * 0.0125) * rot(0.3915 * -2. * PI);pos += drift;\nvec2 skew = mix(vec2(1), vec2(1, 0), 0.0000);\nst -= pos;\nst.x *= aspectRatio;\nst = st * rot(0.3915 * 2. * PI);\nst *= skew;\nfloat freq = (5.0 * (0.6800 + 0.1));\nfloat t = uTime * 0.025;float amplitude = 0.6100 * mix(0.2, 0.2/(0.6800 + 0.05), 0.25) * dist;for (float i = 1.0; i <= 5.0; i++) {\nst = st * rot(i / 5. * PI * 2.);\nfloat ff = i * freq;\nst.x += amplitude * cos(ff * st.y + t);\nst.y += amplitude * sin(ff * st.x + t);\n}st /= skew;st = st * rot(0.3915 * -2. * PI);\nst.x /= aspectRatio;\nst += pos;return st;\n}out vec4 fragColor;void main() {\nvec2 uv = vTextureCoord;\nfloat aspectRatio = uResolution.x/uResolution.y;\nvec2 mPos = vec2(0.5, 0.5) + mix(vec2(0), (uMousePos-0.5), 0.0000);\nfloat dist = ease(0, max(0.,1. - distance(uv * vec2(aspectRatio, 1), mPos * vec2(aspectRatio, 1)) * 4. * (1. - 1.0000)));if(dist <= 0.001) {\nfragColor = texture(uTexture, uv);\nreturn;\n}vec2 liquifiedUV = liquify(uv, dist);\nvec2 normalizedUv = normalize(liquifiedUV - uv);\nfloat distanceUv = length(liquifiedUV - uv);\nfloat chromAbb = 0.4700 * 0.5;vec2 offsetR = liquifiedUV + chromAbb * normalizedUv * distanceUv;\nvec2 offsetG = liquifiedUV;\nvec2 offsetB = liquifiedUV - chromAbb * normalizedUv * distanceUv;vec4 colorR = texture(uTexture, mix(uv, offsetR, 0.5000));\nvec4 colorG = texture(uTexture, mix(uv, offsetG, 0.5000));\nvec4 colorB = texture(uTexture, mix(uv, offsetB, 0.5000));vec4 color = vec4(colorR.r, colorG.g, colorB.b, colorR.a * colorG.a * colorB.a);\nfragColor = color;}";
+float hash13(vec3 p) {
+  p = fract(p * 0.1031);
+  p += dot(p, p.zyx + 31.32);
+  return fract((p.x + p.y) * p.z);
+}
 
-export const NOISE_BLUR_PASS_1 =
-  "#version 300 es\nprecision highp float;in vec2 vTextureCoord;uniform sampler2D uTexture;uniform float uTime;uniform vec2 uResolution;vec4 permute(vec4 t) {\nreturn t * (t * 34.0 + 133.0);\n}vec3 grad(float hash) {\nvec3 cube = mod(floor(hash / vec3(1.0, 2.0, 4.0)), 2.0) * 2.0 - 1.0;\nvec3 cuboct = cube;float index0 = step(0.0, 1.0 - floor(hash / 16.0));\nfloat index1 = step(0.0, floor(hash / 16.0) - 1.0);cuboct.x *= 1.0 - index0;\ncuboct.y *= 1.0 - index1;\ncuboct.z *= 1.0 - (1.0 - index0 - index1);float type = mod(floor(hash / 8.0), 2.0);\nvec3 rhomb = (1.0 - type) * cube + type * (cuboct + cross(cube, cuboct));vec3 grad = cuboct * 1.22474487139 + rhomb;grad *= (1.0 - 0.042942436724648037 * type) * 3.5946317686139184;return grad;\n}\nvec4 bccNoiseDerivativesPart(vec3 X) {\nvec3 b = floor(X);\nvec4 i4 = vec4(X - b, 2.5);\nvec3 v1 = b + floor(dot(i4, vec4(.25)));\nvec3 v2 = b + vec3(1, 0, 0) + vec3(-1, 1, 1) * floor(dot(i4, vec4(-.25, .25, .25, .35)));\nvec3 v3 = b + vec3(0, 1, 0) + vec3(1, -1, 1) * floor(dot(i4, vec4(.25, -.25, .25, .35)));\nvec3 v4 = b + vec3(0, 0, 1) + vec3(1, 1, -1) * floor(dot(i4, vec4(.25, .25, -.25, .35)));\nvec4 hashes = permute(mod(vec4(v1.x, v2.x, v3.x, v4.x), 289.0));\nhashes = permute(mod(hashes + vec4(v1.y, v2.y, v3.y, v4.y), 289.0));\nhashes = mod(permute(mod(hashes + vec4(v1.z, v2.z, v3.z, v4.z), 289.0)), 48.0);\nvec3 d1 = X - v1; vec3 d2 = X - v2; vec3 d3 = X - v3; vec3 d4 = X - v4;\nvec4 a = max(0.75 - vec4(dot(d1, d1), dot(d2, d2), dot(d3, d3), dot(d4, d4)), 0.0);\nvec4 aa = a * a; vec4 aaaa = aa * aa;\nvec3 g1 = grad(hashes.x); vec3 g2 = grad(hashes.y);\nvec3 g3 = grad(hashes.z); vec3 g4 = grad(hashes.w);\nvec4 extrapolations = vec4(dot(d1, g1), dot(d2, g2), dot(d3, g3), dot(d4, g4));\nvec3 derivative = -8.0 * mat4x3(d1, d2, d3, d4) * (aa * a * extrapolations)\n+ mat4x3(g1, g2, g3, g4) * aaaa;\nreturn vec4(derivative, dot(aaaa, extrapolations));\n}\nvec4 bccNoiseDerivatives_XYBeforeZ(vec3 X) {\nmat3 orthonormalMap = mat3(\n0.788675134594813, -0.211324865405187, -0.577350269189626,\n-0.211324865405187, 0.788675134594813, -0.577350269189626,\n0.577350269189626, 0.577350269189626, 0.577350269189626);\nX = orthonormalMap * X;\nvec4 result = bccNoiseDerivativesPart(X) + bccNoiseDerivativesPart(X + 144.5);\nreturn vec4(result.xyz * orthonormalMap, result.w);\n}const int MAX_ITERATIONS = 32;\nconst float MAX_ITERATIONS_F = 32.0;\nconst float HALF_ITERATIONS = 16.0;out vec4 fragColor;const float PI = 3.14159265;mat2 rot(float a) {\nreturn mat2(cos(a), -sin(a), sin(a), cos(a));\n}void main() {\nvec2 uv = vTextureCoord;\nfloat aspectRatio = uResolution.x/uResolution.y;\nvec2 noiseUv = rot(0.2538 * -1. * 2.0 * PI) *\n(uv * vec2(aspectRatio, 1.) - vec2(0.5, 0.5) * vec2(aspectRatio, 1.)) *\nvec2(0.5400, 1.-0.5400) * 5. * 0.8240;\nvec4 noise = bccNoiseDerivatives_XYBeforeZ(vec3(noiseUv, uTime * 0.025 + 0.0000 * 2.));\nvec2 noiseOffset = (noise.xy - 0.5) * (0.5800 + 0.01) * 0.25;\nvec4 color = vec4(0.0);\nfor (int i = 0; i < MAX_ITERATIONS; i++) {\nfloat offset = float(i) - HALF_ITERATIONS;\nvec2 st = uv + noiseOffset * (offset / MAX_ITERATIONS_F);\ncolor += texture(uTexture, st);\n}\ncolor /= MAX_ITERATIONS_F;\nfragColor = color;}";
+// value noise in 3d, used as an animated steering field
+float vnoise(vec3 p) {
+  vec3 i = floor(p);
+  vec3 f = fract(p);
+  vec3 u = f * f * (3.0 - 2.0 * f);
+  float n000 = hash13(i + vec3(0.0, 0.0, 0.0));
+  float n100 = hash13(i + vec3(1.0, 0.0, 0.0));
+  float n010 = hash13(i + vec3(0.0, 1.0, 0.0));
+  float n110 = hash13(i + vec3(1.0, 1.0, 0.0));
+  float n001 = hash13(i + vec3(0.0, 0.0, 1.0));
+  float n101 = hash13(i + vec3(1.0, 0.0, 1.0));
+  float n011 = hash13(i + vec3(0.0, 1.0, 1.0));
+  float n111 = hash13(i + vec3(1.0, 1.0, 1.0));
+  return mix(
+    mix(mix(n000, n100, u.x), mix(n010, n110, u.x), u.y),
+    mix(mix(n001, n101, u.x), mix(n011, n111, u.x), u.y),
+    u.z
+  );
+}
+`;
 
-export const NOISE_BLUR_PASS_2 =
-  "#version 300 es\nprecision highp float;in vec2 vTextureCoord;uniform sampler2D uTexture;uniform float uTime;uniform vec2 uResolution;vec4 permute(vec4 t) {\nreturn t * (t * 34.0 + 133.0);\n}vec3 grad(float hash) {\nvec3 cube = mod(floor(hash / vec3(1.0, 2.0, 4.0)), 2.0) * 2.0 - 1.0;\nvec3 cuboct = cube;float index0 = step(0.0, 1.0 - floor(hash / 16.0));\nfloat index1 = step(0.0, floor(hash / 16.0) - 1.0);cuboct.x *= 1.0 - index0;\ncuboct.y *= 1.0 - index1;\ncuboct.z *= 1.0 - (1.0 - index0 - index1);float type = mod(floor(hash / 8.0), 2.0);\nvec3 rhomb = (1.0 - type) * cube + type * (cuboct + cross(cube, cuboct));vec3 grad = cuboct * 1.22474487139 + rhomb;grad *= (1.0 - 0.042942436724648037 * type) * 3.5946317686139184;return grad;\n}\nvec4 bccNoiseDerivativesPart(vec3 X) {\nvec3 b = floor(X);\nvec4 i4 = vec4(X - b, 2.5);\nvec3 v1 = b + floor(dot(i4, vec4(.25)));\nvec3 v2 = b + vec3(1, 0, 0) + vec3(-1, 1, 1) * floor(dot(i4, vec4(-.25, .25, .25, .35)));\nvec3 v3 = b + vec3(0, 1, 0) + vec3(1, -1, 1) * floor(dot(i4, vec4(.25, -.25, .25, .35)));\nvec3 v4 = b + vec3(0, 0, 1) + vec3(1, 1, -1) * floor(dot(i4, vec4(.25, .25, -.25, .35)));\nvec4 hashes = permute(mod(vec4(v1.x, v2.x, v3.x, v4.x), 289.0));\nhashes = permute(mod(hashes + vec4(v1.y, v2.y, v3.y, v4.y), 289.0));\nhashes = mod(permute(mod(hashes + vec4(v1.z, v2.z, v3.z, v4.z), 289.0)), 48.0);\nvec3 d1 = X - v1; vec3 d2 = X - v2; vec3 d3 = X - v3; vec3 d4 = X - v4;\nvec4 a = max(0.75 - vec4(dot(d1, d1), dot(d2, d2), dot(d3, d3), dot(d4, d4)), 0.0);\nvec4 aa = a * a; vec4 aaaa = aa * aa;\nvec3 g1 = grad(hashes.x); vec3 g2 = grad(hashes.y);\nvec3 g3 = grad(hashes.z); vec3 g4 = grad(hashes.w);\nvec4 extrapolations = vec4(dot(d1, g1), dot(d2, g2), dot(d3, g3), dot(d4, g4));\nvec3 derivative = -8.0 * mat4x3(d1, d2, d3, d4) * (aa * a * extrapolations)\n+ mat4x3(g1, g2, g3, g4) * aaaa;\nreturn vec4(derivative, dot(aaaa, extrapolations));\n}\nvec4 bccNoiseDerivatives_XYBeforeZ(vec3 X) {\nmat3 orthonormalMap = mat3(\n0.788675134594813, -0.211324865405187, -0.577350269189626,\n-0.211324865405187, 0.788675134594813, -0.577350269189626,\n0.577350269189626, 0.577350269189626, 0.577350269189626);\nX = orthonormalMap * X;\nvec4 result = bccNoiseDerivativesPart(X) + bccNoiseDerivativesPart(X + 144.5);\nreturn vec4(result.xyz * orthonormalMap, result.w);\n}const int MAX_ITERATIONS = 32;\nconst float MAX_ITERATIONS_F = 32.0;\nconst float HALF_ITERATIONS = 16.0;out vec4 fragColor;const float PI = 3.14159265;mat2 rot(float a) {\nreturn mat2(cos(a), -sin(a), sin(a), cos(a));\n}void main() {\nvec2 uv = vTextureCoord;\nfloat aspectRatio = uResolution.x/uResolution.y;\nvec2 noiseUv = rot(0.2538 * -1. * 2.0 * PI) *\n(uv * vec2(aspectRatio, 1.) - vec2(0.5, 0.5) * vec2(aspectRatio, 1.)) *\nvec2(0.5400, 1.-0.5400) * 5. * 0.8240;\nvec4 noise = bccNoiseDerivatives_XYBeforeZ(vec3(noiseUv, uTime * 0.025 + 0.0000 * 2.));\nvec2 noiseOffset = (noise.xy - 0.5) * (0.5800 + 0.01) * 0.25;\nvec4 color = vec4(0.0);\nfor (int i = 0; i < MAX_ITERATIONS; i++) {\nfloat offset = float(i) - HALF_ITERATIONS;\nvec2 st = uv + noiseOffset * (offset / MAX_ITERATIONS_F);\ncolor += texture(uTexture, st);\n}\ncolor /= MAX_ITERATIONS_F;\nfragColor = color;}";
+/** Stage 1: the flat ground everything else is layered onto. */
+export const GRADIENT_FRAG = `#version 300 es
+precision highp float;
+in vec2 vTextureCoord;
+out vec4 fragColor;
+const vec3 PLATE = vec3(0.9607843137254902);
+void main() {
+  fragColor = vec4(PLATE, 1.0);
+}`;
 
-export const LIQUIFY_2_FRAG =
-  "#version 300 es\nprecision mediump float;in vec3 vVertexPosition;\nin vec2 vTextureCoord;uniform float uTime;\nuniform sampler2D uTexture;uniform vec2 uMousePos;\nuniform vec2 uResolution;float ease (int easingFunc, float t) {\nreturn t;\n}const float PI = 3.14159265;mat2 rot(float a) {\nreturn mat2(cos(a), -sin(a), sin(a), cos(a));\n}vec2 liquify(vec2 st, float dist) {\nfloat aspectRatio = uResolution.x / uResolution.y;\nvec2 pos = vec2(0.5, 0.5) + mix(vec2(0), (uMousePos - 0.5), 0.0000);\nvec2 drift = vec2(0, 0.0000 * uTime * 0.0125) * rot(0.6021 * -2. * PI);pos += drift;\nvec2 skew = mix(vec2(1), vec2(1, 0), 0.0000);\nst -= pos;\nst.x *= aspectRatio;\nst = st * rot(0.6021 * 2. * PI);\nst *= skew;\nfloat freq = (5.0 * (0.7200 + 0.1));\nfloat t = uTime * 0.025;float amplitude = 0.1700 * mix(0.2, 0.2/(0.7200 + 0.05), 0.25) * dist;for (float i = 1.0; i <= 5.0; i++) {\nst = st * rot(i / 5. * PI * 2.);\nfloat ff = i * freq;\nst.x += amplitude * cos(ff * st.y + t);\nst.y += amplitude * sin(ff * st.x + t);\n}st /= skew;st = st * rot(0.6021 * -2. * PI);\nst.x /= aspectRatio;\nst += pos;return st;\n}out vec4 fragColor;void main() {\nvec2 uv = vTextureCoord;\nfloat aspectRatio = uResolution.x/uResolution.y;\nvec2 mPos = vec2(0.5, 0.5) + mix(vec2(0), (uMousePos-0.5), 0.0000);\nfloat dist = ease(0, max(0.,1. - distance(uv * vec2(aspectRatio, 1), mPos * vec2(aspectRatio, 1)) * 4. * (1. - 1.0000)));if(dist <= 0.001) {\nfragColor = texture(uTexture, uv);\nreturn;\n}vec2 liquifiedUV = liquify(uv, dist);\nvec2 normalizedUv = normalize(liquifiedUV - uv);\nfloat distanceUv = length(liquifiedUV - uv);\nfloat chromAbb = 0.0100 * 0.5;vec2 offsetR = liquifiedUV + chromAbb * normalizedUv * distanceUv;\nvec2 offsetG = liquifiedUV;\nvec2 offsetB = liquifiedUV - chromAbb * normalizedUv * distanceUv;vec4 colorR = texture(uTexture, mix(uv, offsetR, 0.1600));\nvec4 colorG = texture(uTexture, mix(uv, offsetG, 0.1600));\nvec4 colorB = texture(uTexture, mix(uv, offsetB, 0.1600));vec4 color = vec4(colorR.r, colorG.g, colorB.b, colorR.a * colorG.a * colorB.a);\nfragColor = color;}";
+/**
+ * Stage 2: the colour disc.
+ *
+ * Its centre drifts with the pointer. The edge is a smoothstep band whose radii
+ * are nudged by the luminance underneath, which gives the rim its wobble. The uv
+ * is aspect-corrected, rotated, then squashed on one axis so the disc reads as a
+ * leaning ellipse rather than a circle.
+ */
+const circleFrag = (tint: string) => `#version 300 es
+precision highp float;
+in vec2 vTextureCoord;
+uniform sampler2D uTexture;
+uniform vec2 uMousePos;
+uniform vec2 uResolution;
+out vec4 fragColor;
+${COMMON}
+const vec3  TINT        = ${tint};
+const vec2  CENTRE      = vec2(0.3318482130957141, 0.43976314236210257);
+const float MOUSE_PULL  = 0.38;
+const float ROTATION    = 0.7398;
+const float SKEW_X      = 0.41;
+const float HALF_RADIUS = 0.225;   // 0.45 across, halved
+const float FALLOFF     = 0.21;
+const float DISPLACE    = 0.045;   // 0.09 luma influence, halved
+const float STRENGTH    = 0.70;
 
+void main() {
+  vec2 uv = vTextureCoord;
+  vec4 bg = texture(uTexture, uv);
+
+  float displacement = (luma(bg.rgb) - 0.5) * DISPLACE;
+  vec2 aspect = vec2(uResolution.x / uResolution.y, 1.0);
+  vec2 skew = vec2(max(SKEW_X, 0.001), max(1.0 - SKEW_X, 0.001));
+
+  float innerEdge = HALF_RADIUS - FALLOFF * HALF_RADIUS * 0.5;
+  float outerEdge = HALF_RADIUS + FALLOFF * HALF_RADIUS * 0.5;
+
+  vec2 pos = CENTRE + (uMousePos - 0.5) * MOUSE_PULL;
+  mat2 m = rot(ROTATION * TWO_PI);
+  vec2 scaledUV  = uv  * aspect * m * skew;
+  vec2 scaledPos = pos * aspect * m * skew;
+
+  float falloff = smoothstep(
+    innerEdge + displacement,
+    outerEdge + displacement,
+    distance(scaledUV, scaledPos)
+  );
+  falloff = (1.0 - falloff) * STRENGTH;
+
+  fragColor = vec4(mix(bg.rgb, TINT, falloff), max(bg.a, falloff));
+}`;
+
+/**
+ * Stages 3 and 6: domain warp with chromatic aberration.
+ *
+ * Five octaves, each rotating the space a further fifth of a turn and displacing
+ * it along a sine of the opposite axis, so the distortion curls instead of
+ * shearing. The three channels then sample at slightly different distances along
+ * the warp vector, which is where the colour fringing comes from.
+ */
+const warpFrag = (o: {
+  rotation: number;
+  frequency: number;
+  amplitude: number;
+  chromatic: number;
+  blend: number;
+}) => `#version 300 es
+precision mediump float;
+in vec2 vTextureCoord;
+uniform float uTime;
+uniform sampler2D uTexture;
+uniform vec2 uResolution;
+out vec4 fragColor;
+${COMMON}
+const float ROTATION   = ${o.rotation};
+const float FREQUENCY  = ${o.frequency};
+const float AMPLITUDE  = ${o.amplitude};
+const float CHROMATIC  = ${o.chromatic};
+const float BLEND      = ${o.blend};
+const float TIME_SCALE = 0.025;
+const int   OCTAVES    = 5;
+
+vec2 warp(vec2 st) {
+  float aspect = uResolution.x / uResolution.y;
+  vec2 centre = vec2(0.5);
+  float t = uTime * TIME_SCALE;
+
+  st -= centre;
+  st.x *= aspect;
+  st = st * rot(ROTATION * TWO_PI);
+
+  for (int i = 1; i <= OCTAVES; i++) {
+    float fi = float(i);
+    st = st * rot(fi / float(OCTAVES) * TWO_PI);
+    float f = fi * FREQUENCY;
+    st.x += AMPLITUDE * cos(f * st.y + t);
+    st.y += AMPLITUDE * sin(f * st.x + t);
+  }
+
+  st = st * rot(-ROTATION * TWO_PI);
+  st.x /= aspect;
+  st += centre;
+  return st;
+}
+
+void main() {
+  vec2 uv = vTextureCoord;
+  vec2 warped = warp(uv);
+
+  vec2 delta = warped - uv;
+  float dist = length(delta);
+  vec2 dir = dist > 1e-6 ? delta / dist : vec2(0.0);
+
+  vec2 offR = warped + CHROMATIC * dir * dist;
+  vec2 offB = warped - CHROMATIC * dir * dist;
+
+  vec4 cR = texture(uTexture, mix(uv, offR,   BLEND));
+  vec4 cG = texture(uTexture, mix(uv, warped, BLEND));
+  vec4 cB = texture(uTexture, mix(uv, offB,   BLEND));
+
+  fragColor = vec4(cR.r, cG.g, cB.b, cR.a * cG.a * cB.a);
+}`;
+
+/**
+ * Stages 4 and 5: directional blur steered by a drifting noise field.
+ *
+ * The noise picks a smear direction per pixel; 32 taps are then walked along
+ * that direction and averaged. Because the direction varies smoothly, the result
+ * softens the disc into a cloud without the ringing a fixed-offset blur leaves.
+ */
+const noiseBlurFrag = () => `#version 300 es
+precision highp float;
+in vec2 vTextureCoord;
+uniform sampler2D uTexture;
+uniform float uTime;
+uniform vec2 uResolution;
+out vec4 fragColor;
+${COMMON}
+const float FIELD_ROTATION = 0.2538;
+const float FIELD_SQUASH   = 0.54;
+const float FIELD_SCALE    = 4.12;   // 5.0 * 0.824
+const float SMEAR          = 0.1475; // (0.58 + 0.01) * 0.25
+const int   TAPS           = 32;
+
+void main() {
+  vec2 uv = vTextureCoord;
+  float aspect = uResolution.x / uResolution.y;
+  vec2 aspectUv = uv * vec2(aspect, 1.0) - vec2(0.5) * vec2(aspect, 1.0);
+
+  vec2 fieldUv = rot(-FIELD_ROTATION * TWO_PI) * aspectUv
+               * vec2(FIELD_SQUASH, 1.0 - FIELD_SQUASH) * FIELD_SCALE;
+
+  float t = uTime * 0.025;
+  // two offset samples give a smoothly varying direction rather than a scalar
+  vec2 field = vec2(
+    vnoise(vec3(fieldUv, t)),
+    vnoise(vec3(fieldUv + 144.5, t))
+  );
+  vec2 smear = (field - 0.5) * SMEAR;
+
+  vec4 sum = vec4(0.0);
+  for (int i = 0; i < TAPS; i++) {
+    float offset = float(i) - float(TAPS) * 0.5;
+    sum += texture(uTexture, uv + smear * (offset / float(TAPS)));
+  }
+  fragColor = sum / float(TAPS);
+}`;
+
+/** Warp A: wide, slow, heavy fringing. */
+export const LIQUIFY_FRAG = warpFrag({
+  rotation: 0.3915,
+  frequency: 3.9, // 5.0 * (0.68 + 0.1)
+  amplitude: 0.133281, // 0.61 * mix(0.2, 0.2 / 0.73, 0.25)
+  chromatic: 0.235, // 0.47, halved
+  blend: 0.5,
+});
+
+/** Warp B: tighter, ~3x faster, barely any fringing. */
+export const LIQUIFY_2_FRAG = warpFrag({
+  rotation: 0.6021,
+  frequency: 4.1, // 5.0 * (0.72 + 0.1)
+  amplitude: 0.036539, // 0.17 * mix(0.2, 0.2 / 0.77, 0.25)
+  chromatic: 0.005, // 0.01, halved
+  blend: 0.16,
+});
+
+export const NOISE_BLUR_PASS_1 = noiseBlurFrag();
+export const NOISE_BLUR_PASS_2 = NOISE_BLUR_PASS_1;
+
+/** Disc tint per cell. Every other parameter is shared. */
 export const CIRCLE_FRAG = {
-  blue: "#version 300 es\nprecision highp float;\nin vec3 vVertexPosition;\nin vec2 vTextureCoord;\nuniform sampler2D uTexture;\nuniform vec2 uMousePos;\nuniform vec2 uResolution;out vec4 fragColor;mat2 rot(float a) {\nreturn mat2(cos(a),-sin(a),sin(a),cos(a));\n}float luma(vec3 color) {\nreturn dot(color, vec3(0.299, 0.587, 0.114));\n}\nvoid main() {\nvec2 uv = vTextureCoord;\nvec4 bg = texture(uTexture, uv);\nfloat lum = luma(bg.rgb);\nfloat displacement = (lum - 0.5) * 0.0900 * 0.5;\nvec2 aspectRatio = vec2(uResolution.x/uResolution.y, 1.0);\nvec2 skew = vec2(max(0.4100, 0.001), max(1.0 - 0.4100, 0.001));\nfloat halfRadius = 0.4500 * 0.5;\nfloat falloffAmount = max(0.2100, 0.001);\nfloat innerEdge = halfRadius - falloffAmount * halfRadius * 0.5;\nfloat outerEdge = halfRadius + falloffAmount * halfRadius * 0.5;\nvec2 pos = vec2(0.3318482130957141, 0.43976314236210257);pos += (uMousePos - 0.5) * 0.3800;\nconst float TWO_PI = 6.28318530718;\nvec2 scaledUV = uv * aspectRatio * rot(0.7398 * TWO_PI) * skew;\nvec2 scaledPos = pos * aspectRatio * rot(0.7398 * TWO_PI) * skew;\nfloat radius = distance(scaledUV, scaledPos);\nfloat falloff = smoothstep(innerEdge + displacement, outerEdge + displacement, radius);\nfalloff = (1.0 - falloff) * 0.7000;\nvec3 circle = vec3(0, 0.5058823529411764, 0.9686274509803922) * falloff;circle = mix(bg.rgb, vec3(0, 0.5058823529411764, 0.9686274509803922), falloff);\nvec4 color = vec4(circle, max(bg.a, falloff));\nfragColor = color;}",
-  pink: "#version 300 es\nprecision highp float;\nin vec3 vVertexPosition;\nin vec2 vTextureCoord;\nuniform sampler2D uTexture;\nuniform vec2 uMousePos;\nuniform vec2 uResolution;out vec4 fragColor;mat2 rot(float a) {\nreturn mat2(cos(a),-sin(a),sin(a),cos(a));\n}float luma(vec3 color) {\nreturn dot(color, vec3(0.299, 0.587, 0.114));\n}\nvoid main() {\nvec2 uv = vTextureCoord;\nvec4 bg = texture(uTexture, uv);\nfloat lum = luma(bg.rgb);\nfloat displacement = (lum - 0.5) * 0.0900 * 0.5;\nvec2 aspectRatio = vec2(uResolution.x/uResolution.y, 1.0);\nvec2 skew = vec2(max(0.4100, 0.001), max(1.0 - 0.4100, 0.001));\nfloat halfRadius = 0.4500 * 0.5;\nfloat falloffAmount = max(0.2100, 0.001);\nfloat innerEdge = halfRadius - falloffAmount * halfRadius * 0.5;\nfloat outerEdge = halfRadius + falloffAmount * halfRadius * 0.5;\nvec2 pos = vec2(0.3318482130957141, 0.43976314236210257);pos += (uMousePos - 0.5) * 0.3800;\nconst float TWO_PI = 6.28318530718;\nvec2 scaledUV = uv * aspectRatio * rot(0.7398 * TWO_PI) * skew;\nvec2 scaledPos = pos * aspectRatio * rot(0.7398 * TWO_PI) * skew;\nfloat radius = distance(scaledUV, scaledPos);\nfloat falloff = smoothstep(innerEdge + displacement, outerEdge + displacement, radius);\nfalloff = (1.0 - falloff) * 0.7000;\nvec3 circle = vec3(0.9607843137254902, 0, 0.19607843137254902) * falloff;circle = mix(bg.rgb, vec3(0.9607843137254902, 0, 0.19607843137254902), falloff);\nvec4 color = vec4(circle, max(bg.a, falloff));\nfragColor = color;}",
-  green:
-    "#version 300 es\nprecision highp float;\nin vec3 vVertexPosition;\nin vec2 vTextureCoord;\nuniform sampler2D uTexture;\nuniform vec2 uMousePos;\nuniform vec2 uResolution;out vec4 fragColor;mat2 rot(float a) {\nreturn mat2(cos(a),-sin(a),sin(a),cos(a));\n}float luma(vec3 color) {\nreturn dot(color, vec3(0.299, 0.587, 0.114));\n}\nvoid main() {\nvec2 uv = vTextureCoord;\nvec4 bg = texture(uTexture, uv);\nfloat lum = luma(bg.rgb);\nfloat displacement = (lum - 0.5) * 0.0900 * 0.5;\nvec2 aspectRatio = vec2(uResolution.x/uResolution.y, 1.0);\nvec2 skew = vec2(max(0.4100, 0.001), max(1.0 - 0.4100, 0.001));\nfloat halfRadius = 0.4500 * 0.5;\nfloat falloffAmount = max(0.2100, 0.001);\nfloat innerEdge = halfRadius - falloffAmount * halfRadius * 0.5;\nfloat outerEdge = halfRadius + falloffAmount * halfRadius * 0.5;\nvec2 pos = vec2(0.3318482130957141, 0.43976314236210257);pos += (uMousePos - 0.5) * 0.3800;\nconst float TWO_PI = 6.28318530718;\nvec2 scaledUV = uv * aspectRatio * rot(0.7398 * TWO_PI) * skew;\nvec2 scaledPos = pos * aspectRatio * rot(0.7398 * TWO_PI) * skew;\nfloat radius = distance(scaledUV, scaledPos);\nfloat falloff = smoothstep(innerEdge + displacement, outerEdge + displacement, radius);\nfalloff = (1.0 - falloff) * 0.7000;\nvec3 circle = vec3(0.4823529411764706, 0.7098039215686275, 0.023529411764705882) * falloff;circle = mix(bg.rgb, vec3(0.4823529411764706, 0.7098039215686275, 0.023529411764705882), falloff);\nvec4 color = vec4(circle, max(bg.a, falloff));\nfragColor = color;}",
+  blue: circleFrag("vec3(0.0, 0.5058823529411764, 0.9686274509803922)"),
+  pink: circleFrag("vec3(0.9607843137254902, 0.0, 0.19607843137254902)"),
+  green: circleFrag(
+    "vec3(0.4823529411764706, 0.7098039215686275, 0.023529411764705882)",
+  ),
 } as const;
 
 export type LiquidVariant = keyof typeof CIRCLE_FRAG;
 
-/** Per-layer timing and resolution scale, copied from the source scene config. */
+/** Per-stage time multiplier and framebuffer scale. */
 export const LAYERS = [
   {
-    id: "gradient",
+    id: "plate",
     frag: GRADIENT_FRAG,
     speed: 0.25,
     downSample: 0.5,
     background: true,
   },
-  { id: "circle", frag: null, speed: 0, downSample: 1, background: false },
+  { id: "blob", frag: null, speed: 0, downSample: 1, background: false },
   {
-    id: "liquify",
+    id: "warpA",
     frag: LIQUIFY_FRAG,
     speed: 0.25,
     downSample: 1,
     background: false,
   },
   {
-    id: "noiseBlur1",
+    id: "blurA",
     frag: NOISE_BLUR_PASS_1,
     speed: 0.16,
     downSample: 0.5,
     background: false,
   },
   {
-    id: "noiseBlur2",
+    id: "blurB",
     frag: NOISE_BLUR_PASS_2,
     speed: 0.16,
     downSample: 0.25,
     background: false,
   },
   {
-    id: "liquify2",
+    id: "warpB",
     frag: LIQUIFY_2_FRAG,
     speed: 0.77,
     downSample: 1,
@@ -81,6 +307,6 @@ export const LAYERS = [
   },
 ] as const;
 
-/** Mouse tracking on the circle layer, from the source config. */
+/** Pointer tracking on the blob stage. */
 export const CIRCLE_TRACK_MOUSE = 0.38;
 export const CIRCLE_MOUSE_MOMENTUM = 0.29;
