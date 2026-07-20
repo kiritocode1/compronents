@@ -664,6 +664,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "UI kit directories",
     links: [
       {
+        title: "DesEngs",
+        href: "https://desengs.com/",
+        dateAdded: "2026-07-20",
+        description:
+          "Directory of resources aimed at design engineers, sorted by what you would do with them rather than what they are: Read, Watch, Listen, Browse, Use, Build, Learn, Join. Curated by Maze Heart (remvze), 70+ entries added between March and July 2026, covering component libraries (Magic UI, Sonner, shadcn), color and typography tools, accessibility, and interaction design, alongside essays and job listings. Filterable by tag, open source on GitHub, with a random-resource button. Free.",
+      },
+      {
         title: "basecn",
         href: "http://basecn.dev",
         dateAdded: "2026-07-14",
@@ -1712,6 +1719,27 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Headinger",
+        href: "https://headinger.com/",
+        dateAdded: "2026-07-20",
+        description:
+          "Searchable database of website headings and taglines, for when you are stuck writing the one line at the top of a landing page. Curated by Maze Heart (remvze), it holds 42 entries at the time of writing, each tagged (AI, Website, Data, Security) and marked H-One or H-Two so you can see whether it is the hero line or the section below it. Examples run to Vercel's \"Build agents on infrastructure that thinks like them\" and Polar's \"Payment infrastructure for the 21st century\". Free.",
+      },
+      {
+        title: "OGPedia",
+        href: "https://ogpedia.xyz/",
+        dateAdded: "2026-07-20",
+        description:
+          "Gallery of Open Graph images collected from real sites, for designing the preview card your links show when shared. Curated by Maze Heart (remvze). It is a reference collection only, not a generator, so use it to decide layout, type scale and how much of the brand to show at thumbnail size. Free.",
+      },
+      {
+        title: "Noiced",
+        href: "https://noiced.com/",
+        dateAdded: "2026-07-20",
+        description:
+          "Daily web design inspiration: full-page screenshots of sites worth looking at, browsable by tag. Curated by Maze Heart (remvze), roughly four pages at 24 sites per page, and unusually heavy on pricing pages, which makes it a good place to survey how different products structure tiers. Entries range from AI products to museum sites. Free.",
+      },
       {
         title: "Same Energy",
         href: "https://same.energy/",
