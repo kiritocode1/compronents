@@ -410,6 +410,7 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 export const componentMeta: Record<string, ComponentMeta> = {
   "chrome-folio-page": {
     demoPath: "src/components/demos/chrome-folio-page.tsx",
+    assets: [],
     nuance: [
       {
         label: "Noise rotates the sampling frame",
@@ -513,6 +514,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
   },
   "fanned-card-deck": {
     demoPath: "src/components/demos/fanned-card-deck.tsx",
+    assets: [],
     nuance: [
       {
         label: "Two poses, one spring",

@@ -189,6 +189,7 @@ export const pageGroups: RegistryGroup[] = [
   {
     title: "Dark and cinematic",
     names: [
+      "chrome-folio-page",
       "film-studio-page",
       "dark-catalog-page",
       "deadspace-page",
