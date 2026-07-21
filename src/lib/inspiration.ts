@@ -893,6 +893,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Thinking Orbs",
+        href: "https://orbs.jakubantalik.com/",
+        dateAdded: "2026-07-22",
+        description:
+          "Animated thinking-orb component for AI and agent interfaces: a dotted orb loading indicator that signals a model is working, in place of a generic spinner. Ships six hand-tuned states and two sizes, with automatic light and dark theming. Built by designer Jakub Antalik as a standalone single-component site, like his Border Beam release.",
+      },
+      {
         title: "mcpcn",
         href: "https://www.mcpcn.dev/docs",
         dateAdded: "2026-07-19",
@@ -3908,6 +3915,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "pi-observational-memory",
+        href: "https://github.com/elpapi42/pi-observational-memory",
+        dateAdded: "2026-07-22",
+        description:
+          "Extension for the Pi coding agent that keeps long sessions coherent by recording observations and distilling reflections instead of repeatedly re-summarizing the transcript, which loses detail every cycle. Memory work runs in background workers during natural pauses, so compaction is fast when it fires, and a recall tool traces any stored fact back to its source evidence. Adds /om:status and /om:view commands, with default thresholds of 10K tokens for observations, 20K for reflections, and 81K for auto-compaction. Written in TypeScript by elpapi42, MIT licensed, around 372 stars, installed with `pi install npm:pi-observational-memory`.",
+      },
       {
         title: "Voicebox",
         href: "https://github.com/jamiepine/voicebox",
