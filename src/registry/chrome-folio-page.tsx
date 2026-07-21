@@ -447,16 +447,20 @@ export default function ChromeFolioPage({
     const scroller = embedded ? viewport : undefined;
     if (scroller) ScrollTrigger.defaults({ scroller });
 
+    /*
+     * Lenis runs its own rAF rather than riding gsap.ticker. The production
+     * bundle splits gsap across chunks, so the instance this module imports
+     * can hold a ticker that never starts; driving Lenis from it left
+     * lenis.scroll pinned at 0 and every scrub stuck at progress 0.
+     */
     const lenis = new Lenis({
+      autoRaf: true,
       wrapper: embedded ? viewport : undefined,
       content: embedded
         ? (viewport.firstElementChild as HTMLElement | undefined)
         : undefined,
     });
     lenis.on("scroll", ScrollTrigger.update);
-    const raf = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
       /* --- Masthead reveal --- */
@@ -687,7 +691,6 @@ export default function ChromeFolioPage({
     return () => {
       draggables.forEach((d) => d?.kill());
       ctx.revert();
-      gsap.ticker.remove(raf);
       lenis.destroy();
       if (scroller) ScrollTrigger.defaults({ scroller: undefined });
     };
