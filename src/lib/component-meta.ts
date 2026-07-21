@@ -408,6 +408,54 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "fanned-card-deck": {
+    demoPath: "src/components/demos/fanned-card-deck.tsx",
+    nuance: [
+      {
+        label: "Two poses, one spring",
+        description:
+          "Every card holds a resting fan pose and a cluster pose. With nothing selected the fan pose runs, with a card open that card centers and the rest drop into the cluster, so the whole set is one interpolation rather than a sequence of separate animations.",
+      },
+      {
+        label: "Fixed-resolution textures",
+        description:
+          "Each canvas always draws at 312 by 192 and is scaled into the card's current slot. The pattern keeps its line weight and density when a card grows, instead of regenerating coarser at the larger size.",
+      },
+      {
+        label: "Seeded and deterministic",
+        description:
+          "The textures use a mulberry32 generator seeded per card, so a card redraws the same pattern on every mount and there is no flicker between server and client render.",
+      },
+      {
+        label: "Fan offsets track viewport width",
+        description:
+          "The horizontal spread and the cluster scale are both interpolated between 400px and 1080px of viewport, so the hand tightens on small screens rather than pushing cards off the stage.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description:
+          "Title, description, background, foreground, body color, texture, and seed per card.",
+      },
+    ],
+    api: [
+      {
+        name: "cards",
+        type: "DeckCard[]",
+        default: "Five BLANK collection cards",
+        description:
+          "Each card's title (newlines split the lines), description, background, foreground, bodyColor, graphicType, and seed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        default: "undefined",
+        description: "Extra classes on the deck stage wrapper.",
+      },
+    ],
+  },
   "orbit-matter-page": {
     demoPath: "src/components/demos/orbit-matter-page.tsx",
     nuance: [

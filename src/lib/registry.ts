@@ -171,6 +171,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "fanned-card-deck",
+    title: "Fanned Card Deck",
+    description:
+      "Five collection cards laid out as a spread hand, each carrying its own generative canvas texture: waveform bars, an opacity mosaic, stacked ribbons, a flowing block grid, and a scrolling blueprint frame. Hovering lifts a card off the fan; clicking one grows it to full size, fades in its body copy, and sweeps the rest into a small overlapping cluster below. Textures are seeded, so a card always draws the same pattern, and they animate continuously on a canvas at a fixed resolution scaled into whichever slot the card holds. Motion for React.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-21",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fanned-card-deck.tsx",
+        target: "components/ui/fanned-card-deck.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "orbit-matter-page",
     title: "Orbit Matter Page",
     description:

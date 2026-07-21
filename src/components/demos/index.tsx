@@ -42,6 +42,7 @@ import DroneFleetDemo from "./drone-fleet";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
 import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
+import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
@@ -131,6 +132,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "fanned-card-deck": FannedCardDeckDemo,
   "wordmark-spotlight-scroll": WordmarkSpotlightScrollDemo,
   "circle-preloader-hero": CirclePreloaderHeroDemo,
   "magnetic-spotlight-marquee": MagneticSpotlightMarqueeDemo,
