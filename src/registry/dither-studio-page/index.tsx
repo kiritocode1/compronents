@@ -546,10 +546,11 @@ export default function DitherStudioPage({
 }: DitherStudioPageProps) {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  // load choreography lives in the engine: the counter mirrors its fill,
-  // `entered` flips when the dissolve starts (page reveals under the plate),
-  // `revealed` when the plate is fully gone (engine drops behind the DOM)
-  const [count, setCount] = useState(0);
+  // load choreography lives in the engine: the counter mirrors its fill
+  // (written imperatively, see onProgress), `entered` flips when the
+  // dissolve starts (page reveals under the plate), `revealed` when the
+  // plate is fully gone (engine drops behind the DOM)
+  const loaderRef = useRef<HTMLSpanElement>(null);
   const [entered, setEntered] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const active = useActiveSection(rootRef);
@@ -603,16 +604,23 @@ export default function DitherStudioPage({
       <DitherEngine
         className="dsp-engine"
         videoSrc={heroVideoSrc}
-        onProgress={(p) => setCount(Math.round(p * 100))}
+        onProgress={(p) => {
+          // written straight to the DOM: routing ~90 percent steps through
+          // React re-renders the whole page and stalls the load animation
+          const el = loaderRef.current;
+          if (!el) return;
+          const pct = Math.round(p * 100);
+          el.textContent = `${pct}%`;
+          if (pct >= 100) el.parentElement?.classList.add("dsp-loader--out");
+        }}
         onHandoff={() => setEntered(true)}
         onDone={() => setRevealed(true)}
       />
       {!revealed ? (
-        <div
-          className={`dsp-loader${count >= 100 ? " dsp-loader--out" : ""}`}
-          aria-hidden="true"
-        >
-          <span className="dsp-loader-count">{count}%</span>
+        <div className="dsp-loader" aria-hidden="true">
+          <span ref={loaderRef} className="dsp-loader-count">
+            0%
+          </span>
         </div>
       ) : null}
 

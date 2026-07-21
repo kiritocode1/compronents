@@ -182,38 +182,40 @@ void main() {
      holes through to the live layer at the FINE grid. The plate stays lit
      and opaque until each hole opens, so the screen never drops to black
      between the counter and the footage */
-  float shrink = u_reveal * u_reveal;
+  float shrink = u_reveal * u_reveal * u_reveal;
   float plateCellPx = mix(u_cell * 14.0, u_cell, shrink);
   vec2 plateId = floor(frag / plateCellPx);
   vec2 plateSub = mod(floor(frag / (plateCellPx / 4.0)), 4.0);
   vec2 plateUv = (plateId + 0.5) * plateCellPx / u_resolution;
 
   /* counter phase draws the sparse 7-block figure per cell; the reveal then
-     lights the remaining blocks through a noise wave, like the source's
-     full_progress pass */
+     lights the remaining blocks through a back-loaded noise wave, the
+     source's full_progress pass (power4.in from 13% of its timeline) */
   float fillNoise = 0.4 + 0.6 * hash(plateId + 7.0);
   float fillGlyph = glyph(plateSub, clamp(u_fill * 1.25 * fillNoise, 0.0, 1.0), 0.0);
 
-  float fullT = clamp(u_reveal / 0.6, 0.0, 1.0);
-  fullT = fullT * fullT;
+  float fullT = clamp((u_reveal - 0.13) / 0.87, 0.0, 1.0);
+  fullT = fullT * fullT * fullT * fullT;
   float pn = 0.5 * vnoise(plateUv * 8.0);
   float fullWave = 1.0 - smoothstep(0.0, 1.0, 1.0 - fullT + pn * (1.0 - fullT));
-  /* cap so a couple of blocks per cell stay dark and the wall keeps its
-     mosaic texture instead of going solid */
-  float plateGlyph = max(fillGlyph, glyph(plateSub, fullWave * 0.9, 1.0));
+  float plateGlyph = max(fillGlyph, glyph(plateSub, fullWave, 1.0));
 
-  float hideT = clamp((u_reveal - 0.35) / 0.65, 0.0, 1.0);
-  hideT = hideT * hideT * hideT;
+  float hideT = clamp((u_reveal - 0.62) / 0.38, 0.0, 1.0);
+  hideT = hideT * hideT * hideT * hideT;
   float hn = 0.5 * vnoise(cellUv * 8.0);
   float hideWave = 1.0 - smoothstep(0.0, 1.0, 1.0 - hideT + hn * (1.0 - hideT));
   float hide = glyph(sub, hideWave, 1.0);
 
   float cover = plate * (1.0 - hide);
-  /* loader ink starts paper and darkens into the backdrop grey BEFORE the
-     hide wave peaks (the source's u_color_progress pass): the greying is
-     the handoff, the punch lands tone-on-tone */
-  float colorT = smoothstep(0.05, 0.5, u_reveal);
-  vec3 plateInk = mix(u_cursor_color, u_content_color, colorT);
+  /* the greying IS the handoff: ink runs paper -> page ground with the
+     source's power4.inOut color_progress, so by the time the hide wave
+     punches, the plate has already become the page and the holes open
+     tone-on-tone */
+  float ct = u_reveal * 0.89;
+  float colorT = ct < 0.5
+    ? 8.0 * ct * ct * ct * ct
+    : 1.0 - 8.0 * pow(1.0 - ct, 4.0);
+  vec3 plateInk = mix(u_cursor_color, u_ground, colorT);
   vec3 plateColor = mix(u_ground * 0.4, plateInk, plateGlyph);
 
   vec3 color = mix(liveColor * liveAlpha, plateColor, cover);
