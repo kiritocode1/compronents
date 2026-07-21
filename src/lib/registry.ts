@@ -4053,6 +4053,32 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-durable-activity-workflow",
+    title: "Effect Durable Activity Workflow",
+    description:
+      "A subscription dunning sequence as a durable Effect 4 workflow: retry a failed payment on a schedule, wait real days between attempts, and cancel if every attempt fails, all surviving a deploy in the middle. The flow reads top to bottom like an ordinary function, but every Activity in it is journaled, so when the process dies and the workflow replays, a completed Activity is not run again; its recorded result is handed back and execution fast-forwards to the first Activity that never finished. A DurableClock.sleep of three days does not hold a fiber or a machine open, the workflow suspends and a timer wakes it, so the deploy that ships on day two interrupts nothing because on day two nothing is running. The guarantee is that each Activity's result is recorded once, not that its side effect happens exactly once: an Activity that charges a card and dies before the journal write runs again on replay, which is why the charge sends a provider-side idempotency key derived from the invoice and attempt rather than a fresh id each call. The control flow between Activities re-executes on every replay and so must be deterministic, which is why non-determinism (reading the clock, the attempt count) lives inside an Activity where its result is journaled, and a bare Date.now in the body would take a different branch on replay and desync the journal. The workflow's idempotency key is the invoice id, so a retried webhook or redelivered queue message joins the run the first delivery started instead of dunning the customer twice, and a hard decline short-circuits the schedule rather than paying for attempts that cannot succeed. The runtime file backs it with the in-memory WorkflowEngine and swaps to the cluster engine for cross-machine durability without touching the body. Verified against effect@4.0.0-beta.98, the engine largely Tim Smart's work.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-durable-activity-workflow/dunning-workflow.ts",
+        target: "src/dunning/dunning-workflow.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-durable-activity-workflow/dunning-runtime.ts",
+        target: "src/dunning/dunning-runtime.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

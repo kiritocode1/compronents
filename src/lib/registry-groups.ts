@@ -235,6 +235,7 @@ export const backendGroups: RegistryGroup[] = [
   {
     title: "Durable workflows and jobs",
     names: [
+      "effect-durable-activity-workflow",
       "effect-durable-workflow-queue",
       "effect-workflow-v4-migration",
       "cloudflare-workflow-saga-rollback",
