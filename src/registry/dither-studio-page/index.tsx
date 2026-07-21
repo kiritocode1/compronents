@@ -589,7 +589,7 @@ export default function DitherStudioPage({
   return (
     <div
       ref={rootRef}
-      className={`dither-studio-page${className ? ` ${className}` : ""}`}
+      className={`dither-studio-page${revealed ? "" : " is-loading"}${className ? ` ${className}` : ""}`}
       style={style}
     >
       <style
@@ -1161,20 +1161,22 @@ const STYLES = `
 .dither-studio-page ::selection { background: var(--dsp-paper); color: var(--dsp-ground); }
 .dither-studio-page .dsp-fill { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-/* fixed layers: the engine paints ABOVE the page like the source canvas */
+/* fixed layers: backdrop canvas lives UNDER the DOM; it only jumps above
+   everything while the load plate is up */
 .dither-studio-page .dsp-engine {
   position: fixed;
   inset: 0;
-  z-index: 8;
+  z-index: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
   pointer-events: none;
 }
+.dither-studio-page.is-loading .dsp-engine { z-index: 40; }
 .dither-studio-page .dsp-loader {
   position: fixed;
   inset: 0;
-  z-index: 9;
+  z-index: 41;
   display: flex;
   align-items: center;
   justify-content: center;

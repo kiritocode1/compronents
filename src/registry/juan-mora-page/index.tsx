@@ -332,6 +332,9 @@ export default function JuanMoraPage({
           if (!anim) return;
           const frames = anim.totalFrames;
           if (!frames) return;
+          // settle check: skip the SVG re-render entirely once the scrub is at
+          // rest, otherwise the Lottie repaints at full tick rate forever
+          if (Math.abs(target - current) < 0.05) return;
           current += (target - current) * EASE;
           anim.goToAndStop((current / 100) * frames, true);
         };

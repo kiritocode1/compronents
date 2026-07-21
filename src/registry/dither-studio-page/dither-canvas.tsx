@@ -1,23 +1,22 @@
 "use client";
 
 /**
- * The dither engine for the studio page.
+ * The dither engine, rebuilt against the source site's captured pipeline
+ * (.lamalama-analysis): a fixed backdrop canvas UNDER the DOM draws the
+ * section footage quantised into a pixel-glyph ramp, in muted grey, and a
+ * cursor velocity field lights paper glyphs along the pointer trail while
+ * smearing the sampling. Text sits on top in plain DOM. During load the same
+ * canvas jumps above the page: giant cells fill with the counter, then
+ * dissolve and hand the layer back to the backdrop.
  *
- * `DitherEngine` is one fixed full-viewport WebGL2 pass layered over the page
- * (pointer-events: none), the way the whole aesthetic works: every grid cell is
- * a 4x4 mini glyph whose sub-blocks light up in a fixed order as the input
- * intensity rises. The input is a drifting noise field, plus the hero footage
- * sampled from a hidden <video> (faded out as the hero scrolls away), plus a
- * decaying cursor velocity field that both smears the sampling and lights
- * glyphs along the pointer trail. The load choreography lives in the same
- * shader: a plate of giant cells fills up with the counter, then the cells
- * shrink to grid size while the plate dissolves.
+ * Glyph: each cell is a 4x4 block grid; block k lights when intensity
+ * crosses 1 - k/divider. The cursor ramp uses the 7-block figure, content
+ * uses all 16. Velocity: gaussian injection at the pointer (radius 0.04,
+ * strength 0.04) decaying by 1 - min(0.5, dt/250) per frame.
  *
- * `DitherMedia` renders the in-flow media slots (case thumbnails, culture
- * plates, rail panels) with the same glyph look on a 2D canvas: real images
- * and videos are requantised per cell, seeded procedural plates fill the slots
- * when nothing is passed, and moving the pointer across one injects local
- * velocity that smears the cells and lights the trail.
+ * `DitherMedia` is the in-flow media slot: real imagery drawn plain, with a
+ * glyph-mask reveal on first view and the same cursor trail on hover.
+ * Seeded procedural plates fill slots that get no media.
  *
  * BLANK - aryank.space
  */
@@ -26,16 +25,24 @@ import { useEffect, useRef } from "react";
 
 export const GROUND = "#1a1c1c";
 export const PAPER = "#f9f4eb";
+/** Muted glyph grey the backdrop content renders in. */
+export const CONTENT_GREY = "#464646";
 
-/** Order in which a cell's 16 sub-blocks light up as intensity rises. */
-const GLYPH_ORDER = [9, 3, 12, 6, 0, 14, 5, 11, 13, 1, 8, 4, 7, 10, 2, 15];
+/**
+ * k-index per 4x4 sub-block position (x + y*4). Blocks light from high k to
+ * low as intensity rises; k 0..6 form the compact cursor figure, 7..15 fill
+ * in the rest for content.
+ */
+const KMAP = [
+  // y = 0..3 rows, x = 0..3 in each row
+  0, 13, 6, 10, 5, 14, 2, 15, 1, 8, 12, 9, 7, 4, 11, 3,
+];
 
 const hexToRgb = (hex: string): [number, number, number] => {
   const n = Number.parseInt(hex.replace("#", ""), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 };
 
-/** Deterministic PRNG so every placeholder plate is stable per seed. */
 function mulberry(seed: number) {
   let a = seed >>> 0;
   return () => {
@@ -47,7 +54,6 @@ function mulberry(seed: number) {
   };
 }
 
-/** Seeded 2D value noise with two octaves, enough for plate art. */
 function makeNoise(seed: number) {
   const rand = mulberry(seed);
   const grid: number[] = [];
@@ -76,7 +82,6 @@ function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/** Nearest scrollable ancestor, because the registry preview scrolls a div. */
 function getScrollParent(el: HTMLElement): HTMLElement | Window {
   let node: HTMLElement | null = el.parentElement;
   while (node) {
@@ -99,10 +104,6 @@ void main() {
   gl_Position = vec4(a_position, 0.0, 1.0);
 }`;
 
-/**
- * One pass draws everything. Cells light their sub-blocks by intensity;
- * the intro plate reuses the same glyphs at a much larger cell size.
- */
 const FRAG = `#version 300 es
 precision highp float;
 in vec2 v_uv;
@@ -111,18 +112,19 @@ uniform float u_cell;
 uniform float u_time;
 uniform float u_fill;
 uniform float u_reveal;
-uniform vec3 u_speck;
-uniform vec3 u_bright;
+uniform vec3 u_content_color;
+uniform vec3 u_cursor_color;
+uniform vec3 u_ground;
 uniform sampler2D u_velocity;
 uniform sampler2D u_video;
 uniform float u_video_alpha;
-uniform float u_order[16];
+uniform float u_kmap[16];
 out vec4 fragColor;
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
 }
-float noise(vec2 p) {
+float vnoise(vec2 p) {
   vec2 i = floor(p);
   vec2 f = fract(p);
   vec2 u = f * f * (3.0 - 2.0 * f);
@@ -132,21 +134,13 @@ float noise(vec2 p) {
     u.y
   );
 }
-float fbm(vec2 p) {
-  float sum = 0.0;
-  float amp = 0.5;
-  for (int i = 0; i < 4; i++) {
-    sum += noise(p) * amp;
-    p *= 2.07;
-    amp *= 0.5;
-  }
-  return sum;
-}
 
-/* how many of the cell's 16 sub-blocks are lit at this intensity */
-float glyph(vec2 sub, float intensity) {
-  float idx = u_order[int(sub.y) * 4 + int(sub.x)];
-  return step(idx + 0.5, intensity * 16.0);
+/* block k for this sub-cell lights when intensity >= 1 - k/divider */
+float glyph(vec2 sub, float intensity, float full) {
+  float k = u_kmap[int(sub.y) * 4 + int(sub.x)];
+  float divider = mix(7.0, 16.0, full);
+  float inRamp = mix(step(k, 6.5), 1.0, full);
+  return step(1.0 - intensity, k / divider) * inRamp * ceil(clamp(intensity, 0.0, 1.0));
 }
 
 float luminance(vec3 c) {
@@ -156,50 +150,46 @@ float luminance(vec3 c) {
 void main() {
   vec2 frag = v_uv * u_resolution;
 
-  /* the intro plate runs on giant cells that shrink as it reveals */
-  float introEase = u_reveal * u_reveal * (3.0 - 2.0 * u_reveal);
-  float cellPx = mix(u_cell * 14.0, u_cell, introEase);
   float plate = 1.0 - step(1.0, u_reveal);
+  /* loading runs on giant cells, the live layer on the fine grid */
+  float cellPx = mix(u_cell * 14.0, u_cell, smoothstep(0.0, 0.55, u_reveal));
 
   vec2 cellId = floor(frag / cellPx);
   vec2 sub = mod(floor(frag / (cellPx / 4.0)), 4.0);
   vec2 cellUv = (cellId + 0.5) * cellPx / u_resolution;
 
-  /* cursor velocity: smears the sampling and lights the trail */
+  /* cursor velocity: lights the trail and drags the sampling */
   vec2 vel = texture(u_velocity, cellUv).rg * 2.0 - 1.0;
   float speed = length(vel);
-  vec2 sampleUv = cellUv - vel * 0.10;
+  vec2 sampleUv = cellUv - vel * 0.1;
 
-  /* content: drifting field, replaced by footage while the hero holds */
-  float aspect = u_resolution.x / u_resolution.y;
-  vec2 p = vec2(sampleUv.x * aspect, sampleUv.y);
-  float field = fbm(p * 2.3 + vec2(u_time * 0.016, u_time * -0.011));
-  float base = smoothstep(0.38, 0.95, field) * 0.34;
+  float cursor_f = glyph(sub, speed, 0.0);
 
-  float videoLum = luminance(texture(u_video, vec2(sampleUv.x, 1.0 - sampleUv.y)).rgb);
-  float intensity = mix(base, videoLum * 0.9, u_video_alpha);
+  vec3 videoRgb = texture(u_video, vec2(sampleUv.x, 1.0 - sampleUv.y)).rgb;
+  float lum = luminance(videoRgb);
+  float f = glyph(sub, lum * u_video_alpha, 1.0);
 
-  /* the trail lights glyphs everywhere it passes */
-  intensity += speed * 1.4;
+  float content_op = clamp(f - cursor_f, 0.0, 1.0);
+  float cursor_op = clamp(cursor_f, 0.0, 1.0);
 
-  /* intro plate: cells fill with the counter, then dissolve outward */
-  float fillNoise = 0.4 + 0.6 * hash(cellId + 7.0);
-  float plateIntensity = clamp(u_fill * 1.25 * fillNoise, 0.0, 1.0);
-  float alive = step(u_reveal * 1.1, fbm(cellUv * 3.1) + hash(cellId) * 0.12);
+  /* the load plate: an opaque ground where glyphs fill with the counter,
+     then cells die off through noise as the reveal runs */
+  float fillJitter = 0.55 + 0.45 * hash(cellId + 7.0);
+  float plateGlyph = glyph(sub, u_fill * fillJitter, 1.0);
+  float alive = step(u_reveal * 1.12, vnoise(cellUv * 3.1) + hash(cellId) * 0.14);
 
-  intensity = mix(intensity, plateIntensity, plate * alive);
-  float ground = plate * alive;
+  /* lit content blocks carry the footage's own colour, lifted toward paper
+     so the plate stays legible over the dark ground */
+  vec3 contentTint = mix(u_content_color, videoRgb * 1.35, u_video_alpha);
+  vec3 liveColor = contentTint * content_op + u_cursor_color * cursor_op;
+  float liveAlpha = max(content_op, cursor_op);
 
-  float lit = glyph(sub, clamp(intensity, 0.0, 1.0));
+  vec3 plateColor = mix(u_ground * 0.4, u_content_color, plateGlyph);
+  float plateAlpha = plate * alive;
 
-  /* small gap between sub-blocks keeps the grid readable */
-  vec2 inSub = fract(frag / (cellPx / 4.0));
-  float dot = lit * step(inSub.x, 0.72) * step(inSub.y, 0.72);
-
-  vec3 color = mix(u_speck, u_bright, clamp(speed * 1.8 + u_video_alpha * videoLum, 0.0, 1.0));
-  float alpha = max(dot, ground);
-  vec3 outColor = mix(vec3(0.0), color, dot);
-  fragColor = vec4(outColor * alpha, alpha);
+  vec3 color = mix(liveColor * liveAlpha, plateColor, plateAlpha);
+  float alpha = max(liveAlpha, plateAlpha);
+  fragColor = vec4(color, alpha);
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
@@ -214,22 +204,15 @@ function compile(gl: WebGL2RenderingContext, type: number, src: string) {
   return s;
 }
 
-/** CPU velocity field: gaussian injection at the pointer, exponential decay. */
-const VEL_W = 64;
-const VEL_H = 36;
+const VEL_W = 96;
+const VEL_H = 54;
 
 export interface DitherEngineProps {
-  /** Footage behind the hero, requantised to glyphs. */
+  /** Footage dithered into the backdrop while the hero holds the viewport. */
   videoSrc?: string;
-  /** Dither cell size in CSS px. */
+  /** Cell size in CSS px. */
   cellSize?: number;
-  /** Speck colour of the idle field. */
-  speck?: string;
-  /** Colour the glyphs shift toward under the cursor and footage. */
-  bright?: string;
-  /** Reports load progress 0..1 while the intro plate fills. */
   onProgress?: (p: number) => void;
-  /** Fires once the plate has dissolved. */
   onDone?: () => void;
   className?: string;
 }
@@ -237,8 +220,6 @@ export interface DitherEngineProps {
 export function DitherEngine({
   videoSrc,
   cellSize = 8,
-  speck = "#3a3e3e",
-  bright = "#f9f4eb",
   onProgress,
   onDone,
   className,
@@ -296,9 +277,8 @@ export function DitherEngine({
     // biome-ignore lint/correctness/useHookAtTopLevel: WebGL API, not a React hook
     gl.useProgram(program);
     const u = (name: string) => gl.getUniformLocation(program, name);
-    gl.uniform1fv(u("u_order"), new Float32Array(GLYPH_ORDER));
+    gl.uniform1fv(u("u_kmap"), new Float32Array(KMAP));
 
-    /* velocity texture */
     const velTex = gl.createTexture();
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, velTex);
@@ -308,7 +288,6 @@ export function DitherEngine({
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.uniform1i(u("u_velocity"), 0);
 
-    /* video texture */
     const videoTex = gl.createTexture();
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, videoTex);
@@ -340,41 +319,47 @@ export function DitherEngine({
       vid.play().catch(() => {});
     }
 
-    /* CPU fluid: velocity per coarse cell, decayed and re-injected */
+    /* velocity field on the CPU: gaussian injection at the pointer,
+       exponential decay of 1 - min(0.5, dt/250) */
     const vel = new Float32Array(VEL_W * VEL_H * 2);
     const velBytes = new Uint8Array(VEL_W * VEL_H * 2);
-    const pointer = { x: 0.5, y: 0.5, px: 0.5, py: 0.5, seen: false };
+    const pointer = { x: 0.5, y: 0.5, dx: 0, dy: 0, seen: false };
     const onPointerMove = (e: PointerEvent) => {
-      pointer.x = e.clientX / window.innerWidth;
-      pointer.y = e.clientY / window.innerHeight;
-      if (!pointer.seen) {
-        pointer.px = pointer.x;
-        pointer.py = pointer.y;
-        pointer.seen = true;
+      const nx = e.clientX / window.innerWidth;
+      const ny = e.clientY / window.innerHeight;
+      if (pointer.seen) {
+        pointer.dx += nx - pointer.x;
+        pointer.dy += ny - pointer.y;
       }
+      pointer.x = nx;
+      pointer.y = ny;
+      pointer.seen = true;
     };
     window.addEventListener("pointermove", onPointerMove, { passive: true });
 
-    const stepFluid = () => {
-      const dx = (pointer.x - pointer.px) * 18;
-      const dy = (pointer.y - pointer.py) * 18;
-      pointer.px += (pointer.x - pointer.px) * 0.55;
-      pointer.py += (pointer.y - pointer.py) * 0.55;
+    let lastStep = 0;
+    const stepFluid = (now: number) => {
+      const dt = lastStep ? now - lastStep : 16;
+      lastStep = now;
+      const decay = 1 - Math.min(0.5, dt / 250);
       const cx = pointer.x * VEL_W;
       const cy = (1 - pointer.y) * VEL_H;
-      const radius = 3.4;
-      const mag = Math.hypot(dx, dy);
+      // source injection radius: 0.04 of viewport height
+      const radius = 0.04 * VEL_H;
+      const mag = Math.hypot(pointer.dx, pointer.dy);
+      const injX = pointer.dx * 34;
+      const injY = -pointer.dy * 34;
       for (let y = 0; y < VEL_H; y++) {
         for (let x = 0; x < VEL_W; x++) {
           const i = (y * VEL_W + x) * 2;
-          let vx = vel[i] * 0.93;
-          let vy = vel[i + 1] * 0.93;
-          if (mag > 0.001) {
+          let vx = vel[i] * decay;
+          let vy = vel[i + 1] * decay;
+          if (mag > 0.0001) {
             const d2 =
               ((x - cx) * (x - cx) + (y - cy) * (y - cy)) / (radius * radius);
             const inf = Math.exp(-d2);
-            vx += inf * dx * 0.6;
-            vy -= inf * dy * 0.6;
+            vx += inf * injX;
+            vy += inf * injY;
           }
           vel[i] = Math.max(-1, Math.min(1, vx));
           vel[i + 1] = Math.max(-1, Math.min(1, vy));
@@ -382,6 +367,8 @@ export function DitherEngine({
           velBytes[i + 1] = (vel[i + 1] * 0.5 + 0.5) * 255;
         }
       }
+      pointer.dx = 0;
+      pointer.dy = 0;
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, velTex);
       gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
@@ -400,14 +387,14 @@ export function DitherEngine({
 
     let dpr = 1;
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // ponytail: 1.5 dpr cap, the chunky glyphs gain nothing from retina
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.max(1, Math.round(window.innerWidth * dpr));
       canvas.height = Math.max(1, Math.round(window.innerHeight * dpr));
     };
     resize();
     window.addEventListener("resize", resize);
 
-    /* hero footage fades out as the page scrolls past the first viewport */
     const scroller = getScrollParent(canvas);
     let scrollTop = 0;
     const readScroll = () => {
@@ -419,12 +406,13 @@ export function DitherEngine({
     readScroll();
     scroller.addEventListener("scroll", readScroll, { passive: true });
 
-    const speckRgb = hexToRgb(speck).map((v) => v / 255);
-    const brightRgb = hexToRgb(bright).map((v) => v / 255);
+    const contentRgb = hexToRgb(CONTENT_GREY).map((v) => v / 255);
+    const cursorRgb = hexToRgb(PAPER).map((v) => v / 255);
+    const groundRgb = hexToRgb(GROUND).map((v) => v / 255);
     const still = reducedMotion();
 
     const FILL_MS = still ? 0 : 1150;
-    const REVEAL_MS = still ? 0 : 900;
+    const REVEAL_MS = still ? 0 : 850;
     let raf = 0;
     let start = 0;
     let doneFired = false;
@@ -438,18 +426,22 @@ export function DitherEngine({
       const reveal =
         REVEAL_MS === 0
           ? 1
-          : Math.max(0, Math.min((elapsed - FILL_MS - 120) / REVEAL_MS, 1));
+          : Math.max(0, Math.min((elapsed - FILL_MS - 150) / REVEAL_MS, 1));
 
-      if (fill !== lastProgress) {
-        lastProgress = fill;
-        progressRef.current?.(fill);
+      // report whole percent steps only, so React is not re-rendered per frame
+      const pct = Math.round(fill * 100);
+      if (pct !== lastProgress) {
+        lastProgress = pct;
+        progressRef.current?.(pct / 100);
       }
       if (reveal >= 1 && !doneFired) {
         doneFired = true;
         doneRef.current?.();
       }
 
-      stepFluid();
+      // keep the fluid and video upload warm through the whole load, so the
+      // dissolve starts without a first-upload hitch
+      stepFluid(now);
 
       if (vid && vid.readyState >= 2) {
         gl.activeTexture(gl.TEXTURE1);
@@ -464,7 +456,7 @@ export function DitherEngine({
         );
       }
       const videoAlpha = vid
-        ? Math.max(0, 1 - scrollTop / (window.innerHeight * 0.85))
+        ? Math.max(0, 1 - scrollTop / (window.innerHeight * 0.9))
         : 0;
 
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -476,8 +468,19 @@ export function DitherEngine({
       gl.uniform1f(u("u_time"), still ? 0 : elapsed / 1000);
       gl.uniform1f(u("u_fill"), fill);
       gl.uniform1f(u("u_reveal"), reveal);
-      gl.uniform3f(u("u_speck"), speckRgb[0], speckRgb[1], speckRgb[2]);
-      gl.uniform3f(u("u_bright"), brightRgb[0], brightRgb[1], brightRgb[2]);
+      gl.uniform3f(
+        u("u_content_color"),
+        contentRgb[0],
+        contentRgb[1],
+        contentRgb[2],
+      );
+      gl.uniform3f(
+        u("u_cursor_color"),
+        cursorRgb[0],
+        cursorRgb[1],
+        cursorRgb[2],
+      );
+      gl.uniform3f(u("u_ground"), groundRgb[0], groundRgb[1], groundRgb[2]);
       gl.uniform1f(u("u_video_alpha"), videoAlpha);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
@@ -501,13 +504,13 @@ export function DitherEngine({
       gl.deleteTexture(velTex);
       gl.deleteTexture(videoTex);
     };
-  }, [videoSrc, cellSize, speck, bright]);
+  }, [videoSrc, cellSize]);
 
   return <canvas ref={canvasRef} className={className} />;
 }
 
 /* ------------------------------------------------------------------ */
-/* DitherMedia: in-flow media slots                                    */
+/* DitherMedia                                                         */
 /* ------------------------------------------------------------------ */
 
 interface Impulse {
@@ -518,14 +521,26 @@ interface Impulse {
   t: number;
 }
 
+/** Number of sub-blocks lit at this intensity, following the k ramp. */
+function litBlocks(intensity: number, full: boolean): boolean[] {
+  const divider = full ? 16 : 7;
+  const out = new Array(16).fill(false);
+  if (intensity <= 0) return out;
+  for (let i = 0; i < 16; i++) {
+    const k = KMAP[i];
+    if (!full && k > 6) continue;
+    out[i] = intensity >= 1 - k / divider;
+  }
+  return out;
+}
+
 export interface DitherMediaProps {
   /** Image or video URL. Omit for seeded procedural plate art. */
   src?: string;
   /** Set when `src` points at a video file. */
   video?: boolean;
-  /** Seed for the procedural plate when no src is given. */
   seed?: number;
-  /** Accent tint of the plate's mid tones. */
+  /** Accent tint of the procedural plate. */
   accent?: string;
   /** Cell size in CSS px. */
   cellSize?: number;
@@ -537,7 +552,7 @@ export function DitherMedia({
   video = false,
   seed = 1,
   accent = "#e75d60",
-  cellSize = 7,
+  cellSize = 8,
   className,
 }: DitherMediaProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -559,65 +574,185 @@ export function DitherMedia({
     let vid: HTMLVideoElement | null = null;
     const noise = makeNoise(seed * 7919 + 13);
     const accentRgb = hexToRgb(accent);
-    const paperRgb = hexToRgb(PAPER);
-    const speckRgb: [number, number, number] = [58, 62, 62];
-
-    /* luminance per cell, rebuilt on resize / per video frame */
-    let cols = 0;
-    let rows = 0;
-    let lum: Float32Array = new Float32Array(0);
-    let colorMode: Uint8Array = new Uint8Array(0); // 0 speck 1 accent 2 paper
-    const sampler = document.createElement("canvas");
-    const samplerCtx = sampler.getContext("2d", { willReadFrequently: true });
-    if (!samplerCtx) return;
-
-    const impulses: Impulse[] = [];
+    const paper = `rgb(${hexToRgb(PAPER).join(", ")})`;
+    const ground = `rgb(${hexToRgb(GROUND).join(", ")})`;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let cellPx = cellSize * dpr;
     let subPx = cellPx / 4;
+    let cols = 0;
+    let rows = 0;
+    const cellHash: number[] = [];
 
-    const sampleSource = () => {
+    // base = the clean frame the effects sample from
+    const base = document.createElement("canvas");
+    const baseCtx = base.getContext("2d");
+    if (!baseCtx) return;
+
+    const impulses: Impulse[] = [];
+    let reveal = still ? 1 : 0;
+    let revealStarted = false;
+
+    const paintBase = () => {
+      const w = base.width;
+      const h = base.height;
       if (img?.complete && img.naturalWidth) {
-        const scale = Math.max(
-          cols / img.naturalWidth,
-          rows / img.naturalHeight,
+        const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+        baseCtx.drawImage(
+          img,
+          (w - img.naturalWidth * scale) / 2,
+          (h - img.naturalHeight * scale) / 2,
+          img.naturalWidth * scale,
+          img.naturalHeight * scale,
         );
-        const dw = img.naturalWidth * scale;
-        const dh = img.naturalHeight * scale;
-        samplerCtx.drawImage(img, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
       } else if (vid && vid.readyState >= 2) {
-        const scale = Math.max(cols / vid.videoWidth, rows / vid.videoHeight);
-        const dw = vid.videoWidth * scale;
-        const dh = vid.videoHeight * scale;
-        samplerCtx.drawImage(vid, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
+        const scale = Math.max(w / vid.videoWidth, h / vid.videoHeight);
+        baseCtx.drawImage(
+          vid,
+          (w - vid.videoWidth * scale) / 2,
+          (h - vid.videoHeight * scale) / 2,
+          vid.videoWidth * scale,
+          vid.videoHeight * scale,
+        );
       } else {
-        return false;
+        /* seeded plate: banded noise in ground / accent / paper glyph art */
+        baseCtx.fillStyle = "#222525";
+        baseCtx.fillRect(0, 0, w, h);
+        const freq = 0.05;
+        for (let cy = 0; cy < rows; cy++) {
+          for (let cx = 0; cx < cols; cx++) {
+            const n = noise(cx * freq, cy * freq * 1.45);
+            const shaped = Math.min(1, Math.max(0, (n - 0.3) * 1.9));
+            if (shaped <= 0.1) continue;
+            const lit = litBlocks(shaped, true);
+            baseCtx.fillStyle =
+              shaped > 0.72
+                ? paper
+                : shaped > 0.4
+                  ? `rgb(${accentRgb.join(", ")})`
+                  : "#3a3e3e";
+            for (let s = 0; s < 16; s++) {
+              if (!lit[s]) continue;
+              baseCtx.fillRect(
+                cx * cellPx + (s % 4) * subPx,
+                cy * cellPx + ((s / 4) | 0) * subPx,
+                subPx * 0.8,
+                subPx * 0.8,
+              );
+            }
+          }
+        }
       }
-      const data = samplerCtx.getImageData(0, 0, cols, rows).data;
-      for (let i = 0; i < cols * rows; i++) {
-        const j = i * 4;
-        lum[i] =
-          (data[j] * 0.299 + data[j + 1] * 0.587 + data[j + 2] * 0.114) / 255;
-        colorMode[i] = 2;
-      }
-      return true;
     };
 
-    /** Seeded plate: layered noise banded into speck / accent / paper tones. */
-    const samplePlate = () => {
-      const rand = mulberry(seed * 104729 + 7);
-      const ox = rand() * 40;
-      const oy = rand() * 40;
-      const freq = 0.055 + rand() * 0.05;
-      for (let y = 0; y < rows; y++) {
-        for (let x = 0; x < cols; x++) {
-          const i = y * cols + x;
-          const n = noise(x * freq + ox, y * freq * 1.4 + oy);
-          const shaped = Math.min(1, Math.max(0, (n - 0.28) * 1.9));
-          lum[i] = 0.15 + shaped * 0.85;
-          colorMode[i] = shaped > 0.72 ? 2 : shaped > 0.38 ? 1 : 0;
+    const draw = () => {
+      if (disposed) return;
+      const now = performance.now();
+      if (vid && vid.readyState >= 2) paintBase();
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(base, 0, 0);
+
+      /* glyph-mask reveal: ground blocks cover the frame and die off */
+      if (reveal < 1) {
+        reveal = Math.min(1, reveal + 0.028);
+        ctx.fillStyle = ground;
+        for (let cy = 0; cy < rows; cy++) {
+          for (let cx = 0; cx < cols; cx++) {
+            const cover =
+              1 -
+              Math.min(
+                1,
+                Math.max(0, reveal * 1.25 - cellHash[cy * cols + cx] * 0.3),
+              );
+            if (cover <= 0) continue;
+            const lit = litBlocks(cover, true);
+            for (let s = 0; s < 16; s++) {
+              if (!lit[s]) continue;
+              ctx.fillRect(
+                cx * cellPx + (s % 4) * subPx,
+                cy * cellPx + ((s / 4) | 0) * subPx,
+                subPx,
+                subPx,
+              );
+            }
+          }
         }
+      }
+
+      /* cursor trail: displaced cell chunks + paper glyphs, decaying */
+      ctx.imageSmoothingEnabled = false;
+      for (let i = impulses.length - 1; i >= 0; i--) {
+        const p = impulses[i];
+        const age = (now - p.t) / 620;
+        if (age >= 1) {
+          impulses.splice(i, 1);
+          continue;
+        }
+        const fade = 1 - age;
+        const R = 4.5;
+        const c0x = Math.max(0, Math.floor(p.x - R));
+        const c1x = Math.min(cols - 1, Math.ceil(p.x + R));
+        const c0y = Math.max(0, Math.floor(p.y - R));
+        const c1y = Math.min(rows - 1, Math.ceil(p.y + R));
+        for (let cy = c0y; cy <= c1y; cy++) {
+          for (let cx = c0x; cx <= c1x; cx++) {
+            const dx = cx - p.x;
+            const dy = cy - p.y;
+            const inf = Math.exp(-(dx * dx + dy * dy) / 7.5) * fade;
+            if (inf < 0.05) continue;
+            /* shift the source cell against the motion */
+            const sx = Math.max(
+              0,
+              Math.min(cols - 1, Math.round(cx - p.vx * inf * 2)),
+            );
+            const sy = Math.max(
+              0,
+              Math.min(rows - 1, Math.round(cy - p.vy * inf * 2)),
+            );
+            if (sx !== cx || sy !== cy) {
+              ctx.drawImage(
+                base,
+                sx * cellPx,
+                sy * cellPx,
+                cellPx,
+                cellPx,
+                cx * cellPx,
+                cy * cellPx,
+                cellPx,
+                cellPx,
+              );
+            }
+            /* paper glyph ramp by local strength */
+            const lit = litBlocks(
+              Math.min(1, inf * Math.hypot(p.vx, p.vy) * 0.55),
+              false,
+            );
+            ctx.fillStyle = paper;
+            for (let s = 0; s < 16; s++) {
+              if (!lit[s]) continue;
+              ctx.fillRect(
+                cx * cellPx + (s % 4) * subPx,
+                cy * cellPx + ((s / 4) | 0) * subPx,
+                subPx * 0.8,
+                subPx * 0.8,
+              );
+            }
+          }
+        }
+      }
+
+      if (vid || impulses.length > 0 || reveal < 1) {
+        raf = requestAnimationFrame(draw);
+      } else {
+        running = false;
+      }
+    };
+
+    const wake = () => {
+      if (!running && !disposed) {
+        running = true;
+        raf = requestAnimationFrame(draw);
       }
     };
 
@@ -630,85 +765,13 @@ export function DitherMedia({
       subPx = cellPx / 4;
       cols = Math.max(1, Math.ceil(canvas.width / cellPx));
       rows = Math.max(1, Math.ceil(canvas.height / cellPx));
-      sampler.width = cols;
-      sampler.height = rows;
-      lum = new Float32Array(cols * rows);
-      colorMode = new Uint8Array(cols * rows);
-      if (!sampleSource()) samplePlate();
-      draw();
-    };
-
-    const draw = () => {
-      if (disposed) return;
-      const now = performance.now();
-      if (vid && vid.readyState >= 2) sampleSource();
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const gap = 0.74;
-
-      for (let cy = 0; cy < rows; cy++) {
-        for (let cx = 0; cx < cols; cx++) {
-          let intensity = lum[cy * cols + cx];
-          let shiftX = 0;
-          let shiftY = 0;
-          /* local cursor fluid */
-          for (const p of impulses) {
-            const age = (now - p.t) / 700;
-            if (age >= 1) continue;
-            const dx = cx - p.x;
-            const dy = cy - p.y;
-            const inf = Math.exp(-(dx * dx + dy * dy) / 22) * (1 - age);
-            shiftX += p.vx * inf;
-            shiftY += p.vy * inf;
-            intensity += inf * Math.hypot(p.vx, p.vy) * 0.35;
-          }
-          let sx = cx;
-          let sy = cy;
-          if (shiftX !== 0 || shiftY !== 0) {
-            sx = Math.max(0, Math.min(cols - 1, Math.round(cx - shiftX)));
-            sy = Math.max(0, Math.min(rows - 1, Math.round(cy - shiftY)));
-            intensity = Math.min(
-              1.3,
-              lum[sy * cols + sx] + intensity - lum[cy * cols + cx],
-            );
-          }
-          const mode = colorMode[sy * cols + sx];
-          const lit = Math.round(Math.min(1, intensity) * 16);
-          if (lit <= 0) continue;
-          const rgb = mode === 2 ? paperRgb : mode === 1 ? accentRgb : speckRgb;
-          ctx.fillStyle = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
-          const baseX = cx * cellPx;
-          const baseY = cy * cellPx;
-          for (let s = 0; s < 16; s++) {
-            if (GLYPH_ORDER[s] >= lit) continue;
-            const bx = s % 4;
-            const by = (s / 4) | 0;
-            ctx.fillRect(
-              baseX + bx * subPx,
-              baseY + by * subPx,
-              subPx * gap,
-              subPx * gap,
-            );
-          }
-        }
-      }
-
-      /* retire dead impulses */
-      for (let i = impulses.length - 1; i >= 0; i--) {
-        if (now - impulses[i].t > 700) impulses.splice(i, 1);
-      }
-      if (vid || impulses.length > 0) {
-        raf = requestAnimationFrame(draw);
-      } else {
-        running = false;
-      }
-    };
-
-    const wake = () => {
-      if (!running && !disposed) {
-        running = true;
-        raf = requestAnimationFrame(draw);
-      }
+      base.width = canvas.width;
+      base.height = canvas.height;
+      cellHash.length = 0;
+      const rand = mulberry(seed * 31 + 5);
+      for (let i = 0; i < cols * rows; i++) cellHash.push(rand());
+      paintBase();
+      wake();
     };
 
     let lastPX = 0;
@@ -723,15 +786,15 @@ export function DitherMedia({
       lastPX = x;
       lastPY = y;
       const mag = Math.hypot(vx, vy);
-      if (mag > 0.4 && mag < 40) {
+      if (mag > 0.3 && mag < 30) {
         impulses.push({
           x,
           y,
-          vx: Math.max(-4, Math.min(4, vx)),
-          vy: Math.max(-4, Math.min(4, vy)),
+          vx: Math.max(-5, Math.min(5, vx)),
+          vy: Math.max(-5, Math.min(5, vy)),
           t: performance.now(),
         });
-        if (impulses.length > 24) impulses.shift();
+        if (impulses.length > 26) impulses.shift();
       }
       wake();
     };
@@ -756,24 +819,28 @@ export function DitherMedia({
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
 
-    let io: IntersectionObserver | null = null;
-    if (src && video) {
-      io = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          vid?.play().catch(() => {});
+    /* reveal + video playback only while on screen */
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (!revealStarted) {
+          revealStarted = true;
           wake();
-        } else {
-          vid?.pause();
         }
-      });
-      io.observe(wrap);
-    }
+        if (vid) {
+          vid.play().catch(() => {});
+          wake();
+        }
+      } else {
+        vid?.pause();
+      }
+    });
+    io.observe(wrap);
 
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
       ro.disconnect();
-      io?.disconnect();
+      io.disconnect();
       wrap.removeEventListener("pointermove", onPointerMove);
       if (vid) {
         vid.pause();

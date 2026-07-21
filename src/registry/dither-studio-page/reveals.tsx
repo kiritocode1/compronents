@@ -40,6 +40,13 @@ function useInView<T extends HTMLElement>(rootMargin = "0px 0px -12% 0px") {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // deterministic first check: anything already on screen reveals now,
+    // without waiting on observer timing
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      const raf = requestAnimationFrame(() => setInView(true));
+      return () => cancelAnimationFrame(raf);
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
