@@ -2728,6 +2728,62 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Free typefaces",
     links: [
       {
+        title: "Brima",
+        href: "https://www.dafont.com/brima.font",
+        dateAdded: "2026-07-21",
+        description:
+          "A handwritten script face by Christopher Gonzalez, listed on DaFont in February 2026. Fully free (marked public domain / GPL / OFL), a single style shipped as a 145 KB OTF, so it is safe to use commercially without a separate license. Around 2,300 downloads at time of writing.",
+      },
+      {
+        title: "Backline",
+        href: "https://www.dafont.com/backline.font",
+        dateAdded: "2026-07-21",
+        description:
+          "A brush-style handwritten script by Subectype & Orenari, on DaFont since August 2022 with over 54,000 downloads. Free for personal use only, with a commercial license sold through the authors' site; the OTF carries 226 glyphs. The designers take PayPal donations and handle licensing over Instagram.",
+      },
+      {
+        title: "Handwash",
+        href: "https://www.dafont.com/handwash-2.font",
+        dateAdded: "2026-07-21",
+        description:
+          "A casual handwritten script by One Design, listed on DaFont in November 2025 with more than 21,000 downloads. Free for personal use, with commercial use requiring paid permission (contact 111triple.studio@gmail.com); a fuller version is sold on Creative Fabrica. Shipped as an OTF.",
+      },
+      {
+        title: "Dirtylane",
+        href: "https://www.dafont.com/dirtylane.font",
+        dateAdded: "2026-07-21",
+        description:
+          "A calligraphic script by Riyadh Rahman, one of DaFont's more popular recent scripts at over 343,000 downloads. The free download is a demo (375 glyphs) for personal use only; the commercial license is sold on the author's site or arranged via riyadhrahmanunir@gmail.com. Useful as a signature or display face.",
+      },
+      {
+        title: "Struggle (Klotter)",
+        href: "https://klotter.supply/struggle",
+        dateAdded: "2026-07-21",
+        description:
+          "A bold open-source display typeface made for grassroots activism, created as part of the designer's bachelor thesis on design and sustainability and distributed through Klotter. It ships in two styles, Regular and a set of reversed-slant italics the designer calls rotalics, with broad Latin coverage: accents and diacritics, numerals, fractions, currency, arrows, and punctuation. OFL-licensed and downloadable as a zip.",
+      },
+      {
+        title: "Rosette (xCicero)",
+        href: "https://xcicero.esad-gv.net/page/rosette",
+        dateAdded: "2026-07-21",
+        description:
+          "Experimental display capitals by designer Agathe Masa, part of the xCicero student type foundry's archive-revival series. It reconstructs a set of 22 incomplete capital letters of 18 ciceros whose forms follow the Series E of the Fonderie typographique francaise (Paris), so it is an intentionally partial alphabet rather than a full family. Released as version 1.0 in October 2021, distributed as a free downloadable zip.",
+      },
+      {
+        title: "Montagu Slab",
+        href: "https://fonts.floriankarsten.com/montagu-slab",
+        dateAdded: "2026-07-21",
+        description:
+          "A slab-serif display variable typeface drawing on 19th-century models, designed by Kvetoslav Bartos and published by Florian Karsten Typefaces in September 2021. It ships 14 styles from Thin to Bold across two axes: weight and an optical-size axis that shifts x-height, spacing, contrast, and aperture between low-contrast text and tight high-contrast display cuts. 687 glyphs with ligatures, case-sensitive forms, fractions, super/subscript and scientific numerals, and a slashed zero, covering Latin, Vietnamese, and Pinyin. SIL Open Font License, downloadable from GitHub.",
+      },
+      {
+        title: "Gidole",
+        href: "https://github.com/larsenwork/Gidole",
+        dateAdded: "2026-07-21",
+        description:
+          "An open-source geometric sans by Andreas Larsen (larsenwork), styled after modern DIN. Dual-licensed under the OFL and MIT, with source and specimen documentation in the repo. Around 1.9k stars and 68 forks; five releases, the latest switching to a direct zip download.",
+      },
+      {
         title: "Departure Mono",
         href: "https://departuremono.com/",
         dateAdded: "2026-07-14",
