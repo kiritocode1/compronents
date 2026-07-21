@@ -12,6 +12,8 @@
  */
 
 import gsap from "gsap";
+import { Draggable } from "gsap/Draggable";
+import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
@@ -21,7 +23,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
 
 /* ------------------------------------------------------------------ */
 /* Content                                                             */
@@ -56,6 +58,8 @@ export interface ChromeFolioPageProps {
   /** Mono links in the footer. */
   footerLinks?: string[];
   projects?: FolioProject[];
+  /** Fired when a folder is dropped onto the back-to-top square. */
+  onFolderDrop?: (label: string) => void;
   /** Ride the container's scroll instead of the window. */
   embedded?: boolean;
 }
@@ -171,7 +175,7 @@ function Folder({
   style?: React.CSSProperties;
 }) {
   return (
-    <div className="cfp-folder" style={style}>
+    <div className="cfp-folder" data-label={label} style={style}>
       <svg viewBox="0 0 40 32" width="40" height="32" aria-hidden="true">
         <path
           d="M0 4a4 4 0 0 1 4-4h10l4 5h18a4 4 0 0 1 4 4v19a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4Z"
@@ -410,6 +414,7 @@ export default function ChromeFolioPage({
     "studio@aryank.space",
   ],
   projects = DEFAULT_PROJECTS,
+  onFolderDrop,
   embedded = true,
 }: ChromeFolioPageProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -417,9 +422,18 @@ export default function ChromeFolioPage({
   const sphereRef = useRef<HTMLDivElement>(null);
   const outroSphereRef = useRef<HTMLDivElement>(null);
 
+  /* Snaps rather than eases: the reference sets scrollTop = 0 outright. */
+  const dropRef = useRef(onFolderDrop);
+  dropRef.current = onFolderDrop;
+
   const scrollTop = () => {
-    const target = embedded ? viewportRef.current : window;
-    target?.scrollTo({ top: 0, behavior: "smooth" });
+    const viewport = viewportRef.current;
+    if (embedded && viewport) {
+      viewport.scrollTop = 0;
+      return;
+    }
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   useChromeSphere(sphereRef);
@@ -608,9 +622,70 @@ export default function ChromeFolioPage({
         .to(".cfp-standfirst", { opacity: 0, ease: "power1.out" });
     }, root);
 
+    /*
+     * Draggable folders. Each remembers where it started, hit-tests the
+     * back-to-top square at 50% overlap while moving (which swells the square
+     * to 1.2 as feedback), and on a drop over it fires the callback and
+     * springs home. Inertia makes a flick coast instead of stopping dead.
+     */
+    const egg = root.querySelector<HTMLElement>(".cfp-egg");
+    const draggables = gsap.utils
+      .toArray<HTMLElement>(".cfp-outro-wrap .cfp-folder")
+      .map((folder) => {
+        let isOverEgg = false;
+        const swell = (over: boolean) => {
+          if (egg)
+            gsap.to(egg, {
+              scale: over ? 1.2 : 1,
+              duration: 0.2,
+              overwrite: true,
+            });
+        };
+
+        return Draggable.create(folder, {
+          type: "x,y",
+          bounds: ".cfp-outro-wrap",
+          edgeResistance: 0.4,
+          inertia: true,
+          onDrag() {
+            folder.classList.add("cfp-dragging");
+            if (!egg) return;
+            const over = this.hitTest(egg, "50%");
+            if (over !== isOverEgg) {
+              swell(over);
+              isOverEgg = over;
+            }
+          },
+          onDragEnd() {
+            folder.classList.remove("cfp-dragging");
+          },
+          onRelease() {
+            if (!egg) return;
+            const dropped = this.hitTest(egg, "50%");
+            swell(false);
+            isOverEgg = false;
+            if (!dropped) return;
+
+            this.disable();
+            dropRef.current?.(folder.dataset.label ?? "");
+            gsap.to(folder, {
+              x: 0,
+              y: 0,
+              duration: 0.4,
+              ease: "power2.out",
+              onComplete: () => {
+                this.enable();
+                this.update();
+              },
+            });
+          },
+        })[0];
+      });
+
     ScrollTrigger.refresh();
 
     return () => {
+      draggables.forEach((d) => d?.kill());
       ctx.revert();
       gsap.ticker.remove(raf);
       lenis.destroy();
@@ -740,21 +815,24 @@ export default function ChromeFolioPage({
 
               <button className="cfp-top" type="button" onClick={scrollTop}>
                 <span className="cfp-egg" aria-hidden="true">
+                  {/* Slender long-shafted arrow, near-full height of the box. */}
                   <svg
-                    viewBox="0 0 24 24"
-                    width="20"
-                    height="20"
+                    viewBox="0 0 18 19"
+                    width="18"
+                    height="19"
                     fill="none"
                     aria-hidden="true"
                   >
                     <path
-                      d="M12 19V5M12 5l-6 6M12 5l6 6"
+                      d="M9 18.4V1M9 1 1 9M9 1l8 8"
                       stroke="currentColor"
-                      strokeWidth="1.5"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </span>
-                Back to top
+                Back to Top
               </button>
 
               <Folder label="Playlist" style={{ right: "22%", top: "26%" }} />
@@ -1188,7 +1266,6 @@ const CSS = `
   cursor: pointer;
   font-family: var(--cfp-mono);
   font-size: 0.75rem;
-  text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
@@ -1223,6 +1300,9 @@ const CSS = `
 }
 
 .cfp-folder:hover { scale: 0.9; }
+.cfp-folder:active,
+.cfp-folder.cfp-dragging { cursor: grabbing; scale: 0.95; }
+.cfp-folder.cfp-dragging p { opacity: 1; }
 .cfp-folder:hover p { opacity: 1; }
 .cfp-folder svg { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 
