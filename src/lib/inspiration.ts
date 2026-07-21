@@ -3942,6 +3942,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "Monid",
+        href: "https://monid.ai/",
+        dateAdded: "2026-07-21",
+        description:
+          "Tool catalog for AI agents, meant for when you want an agent to reach 1,300+ third-party APIs without wiring each integration yourself. Connects three ways: a one-line chat skill, a remote MCP server, or a CLI. Billing is pay-per-call against a single balance instead of per-tool subscriptions, quoted around $0.0013 a call with $1 of free credit, and the agent can discover and compare candidate tools ranked by fit and price before running one. Listed tools include Apollo, Exa, OpenWeather, Browserbase, and LinkedIn and YouTube scrapers. Built by Monid Inc in San Francisco; the site is still marked v0.1.0.",
+      },
+      {
         title: "VibeUI",
         href: "https://vibeui.online",
         dateAdded: "2026-07-14",
