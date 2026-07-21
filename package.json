@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
+    "typecheck:registry": "tsc --noEmit -p tsconfig.check.json",
     "test": "node --test tests/registry-integrity.test.mjs tests/portrayal.test.mjs",
     "test:install": "node --test tests/shadcn-install.test.mjs"
   },

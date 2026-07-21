@@ -41,15 +41,11 @@
  *     at the edge (account-runtime.ts), not by this file.
  *   - Money is in minor units as integers. A balance in floating point is a
  *     rounding error waiting for a large enough number.
- *   - The runtime behaviour above is exact; the derived TYPES are looser than
- *     they look. In this beta, Context.Service infers this service's shape as
- *     `any` because the make returns SqlSchema-derived functions whose generics
- *     do not resolve to a clean interface, so a caller that yields the repository
- *     gets no method-level type safety and the transfer's error channel is not
- *     enforced at the call site. What is real is all runtime: the transaction
- *     boundary, the schema decode that rejects a bad row, and the tagged errors
- *     matched by tag. Add an explicit interface annotation on the service shape
- *     if you want the caller-side types back, and lean on a test for the surface.
+ *   - The types and the runtime agree. Context.Service infers this service's
+ *     shape from the make effect, so a caller that yields the repository gets its
+ *     methods typed and the transfer's declared errors in the error channel, and
+ *     the schema decode is the runtime guard on top. A row read through
+ *     SqlSchema.findOne is the decoded Account type, not an unchecked cast.
  *
  * Every API is from effect@4.0.0-beta.98:
  * node_modules/effect/src/unstable/sql/{SqlClient,SqlSchema,SqlError}.ts.

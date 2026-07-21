@@ -26,17 +26,18 @@
  *     way out. A params.id declared Schema.Int arrives at the handler as a number,
  *     because the string from the URL was decoded and a non-integer was rejected
  *     with a 400 before the handler saw it.
- *   - Status codes live on the schema, not the endpoint. An error schema annotated
- *     with HttpApiSchema.status(404) maps that error to a 404 wherever it is used,
- *     so the mapping is defined once with the error and not repeated per route.
- *     The prebuilt HttpApiError.NotFound and friends carry their status already.
+ *   - Status codes live on the schema, not the endpoint. An error carries an
+ *     httpApiStatus annotation (AlreadyPublished below sets 409 as its third
+ *     TaggedErrorClass argument), so the mapping is defined once with the error
+ *     and not repeated per route. The prebuilt HttpApiError.NotFound and friends
+ *     carry their status already.
  *   - The OpenAPI document is generated from the same schemas, so it is correct by
  *     construction rather than maintained. Regenerate it in CI and it never drifts
  *     from the server.
- *   - Types are derived but this is a beta: the handler and client method types
- *     are helpful but not a substitute for the schema. The runtime validation is
- *     the enforcement that always holds; treat the types as ergonomics and the
- *     schema plus a test as the guarantee.
+ *   - Enforcement is two layers. The handler and client types are derived from
+ *     this declaration, so a handler returning the wrong shape or a call with the
+ *     wrong params does not compile, and the schema validates the same shapes at
+ *     runtime as an independent guard against a non-typed caller.
  *
  * Every API is from effect@4.0.0-beta.98:
  * node_modules/effect/src/unstable/httpapi/. The HttpApi layer is largely Tim
@@ -49,7 +50,6 @@ import {
   HttpApiEndpoint,
   HttpApiError,
   HttpApiGroup,
-  HttpApiSchema,
   OpenApi,
 } from "effect/unstable/httpapi";
 
@@ -81,7 +81,8 @@ export class CreateArticle extends Schema.Class<CreateArticle>(
 export class AlreadyPublished extends Schema.TaggedErrorClass<AlreadyPublished>()(
   "AlreadyPublished",
   { articleId: Schema.Int },
-).pipe(HttpApiSchema.status(409)) {}
+  { httpApiStatus: 409 },
+) {}
 
 /**
  * The publishing group. Each endpoint names its path params, payload, success,

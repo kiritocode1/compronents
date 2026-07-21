@@ -6,10 +6,10 @@
  * service. Three things are assembled:
  *
  *   1. The handlers, via JobControl.toLayer. There is one handler per RPC in the
- *      group, named by tag, and each returns the declared success or a declared
- *      error. The schema validates these shapes at the boundary at runtime; the
- *      derived types in this beta are permissive, so treat the schema and a test,
- *      not the compiler, as the thing that catches a handler that drifts.
+ *      group, named by tag, each returning the declared success or a declared
+ *      error. The handler types are derived from the group, so a handler that
+ *      returns the wrong shape does not compile, and the schema validates the same
+ *      shapes at the boundary at runtime as a second, independent guard.
  *   2. The auth middleware implementation, via Layer.succeed(OperatorAuth)(...).
  *      The contract declared that OperatorAuth provides CurrentOperator; this is
  *      where that promise is kept, by reading a header and providing the
@@ -92,9 +92,7 @@ export const JobControlHandlers = JobControl.toLayer(
         kind: "export",
         state: "running",
         attempt: 1,
-        enqueuedAt: DateTime.unsafeMakeZoned("2026-07-21T09:00:00Z").pipe(
-          DateTime.toUtc,
-        ),
+        enqueuedAt: DateTime.makeUnsafe("2026-07-21T09:00:00Z"),
       }),
     );
 
@@ -131,23 +129,26 @@ export const JobControlHandlers = JobControl.toLayer(
         return cancelled;
       }),
 
-      // A streaming handler returns a Stream. The client consumes it as a Stream
-      // too, so a long-lived event feed is the same contract as a unary call,
-      // just with many replies. A JobNotFound here fails the stream before it
-      // starts.
-      StreamJobEvents: Effect.fnUntraced(function* (payload) {
-        if (!jobs.has(payload.jobId)) {
-          return yield* Effect.fail(new JobNotFound({ jobId: payload.jobId }));
-        }
-        const now = yield* DateTime.now;
-        return Stream.make(
-          new JobEvent({
-            jobId: payload.jobId,
-            at: now,
-            message: "attached to job event stream",
-          }),
-        );
-      }),
+      // A streaming handler returns a Stream directly, not an Effect, and the
+      // declared error rides in the STREAM's error channel rather than an Effect
+      // failure. The client consumes it as a Stream too, so a long-lived event
+      // feed is the same contract as a unary call, just with many replies. A
+      // JobNotFound fails the stream before it yields anything.
+      StreamJobEvents: (payload) =>
+        jobs.has(payload.jobId)
+          ? Stream.fromEffect(
+              DateTime.now.pipe(
+                Effect.map(
+                  (now) =>
+                    new JobEvent({
+                      jobId: payload.jobId,
+                      at: now,
+                      message: "attached to job event stream",
+                    }),
+                ),
+              ),
+            )
+          : Stream.fail(new JobNotFound({ jobId: payload.jobId })),
     });
   }),
 );
@@ -173,9 +174,9 @@ export const JobControlServer = RpcServer.layer(JobControl).pipe(
  * client whose methods are exactly the group's RPCs, named by tag, sending and
  * receiving through the same schemas the server uses. The transport is the
  * client-side protocol layer, chosen the same way the server's was, and provided
- * where this effect is run. (As with the handlers, this beta's derived client
- * method types are loose, so a payload is enforced by the schema at the boundary
- * rather than strictly by the caller's types.)
+ * where this effect is run. The client methods are typed from the group, so a
+ * call with the wrong payload does not compile and the declared errors show up in
+ * the call's error channel, matched by tag below.
  */
 export const makeJobControlClient = Effect.gen(function* () {
   const client = yield* RpcClient.make(JobControl);

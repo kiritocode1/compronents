@@ -13,7 +13,11 @@
 
 import { Effect, Layer } from "effect";
 import { PersistedQueue } from "effect/unstable/persistence";
-import { DurableQueue, Workflow, WorkflowEngine } from "effect/unstable/workflow";
+import {
+  DurableQueue,
+  type Workflow,
+  WorkflowEngine,
+} from "effect/unstable/workflow";
 import { LedgerPost, SettlePayout, SettlePayoutLayer } from "./workflow.ts";
 
 /**
@@ -67,10 +71,7 @@ export const startSettlement = (
   amountMinor: number,
   currency: "usd" | "eur",
 ) =>
-  SettlePayout.execute(
-    { payoutId, amountMinor, currency },
-    { discard: true },
-  );
+  SettlePayout.execute({ payoutId, amountMinor, currency }, { discard: true });
 
 /**
  * Poll returns `Option.none()` while the execution is unknown, and otherwise a

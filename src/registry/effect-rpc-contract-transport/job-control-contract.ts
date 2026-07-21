@@ -20,14 +20,13 @@
  *
  * What the contract guarantees, and what it does not:
  *
- *   - The boundary is validated by the schema at RUNTIME, on both sides. A
- *     request whose payload does not decode to the declared schema is rejected
- *     before a handler runs, and a reply is encoded through the success schema on
- *     the way out. This is the real enforcement: it is the schema, not the
- *     TypeScript types, that rejects a malformed message. (In this Effect 4 beta
- *     the derived handler and client method types are permissive enough that a
- *     wrong-shaped handler return or call is not always a compile error, so lean
- *     on the schema and on tests, not on the types alone, to catch drift.)
+ *   - Enforcement is two layers, and both hold. At compile time the handler and
+ *     client types are derived from the group, so a handler that returns the
+ *     wrong shape or a call with the wrong payload does not type-check. At runtime
+ *     the schema validates the boundary independently: a request whose payload
+ *     does not decode is rejected before a handler runs, and a reply is encoded
+ *     through the success schema on the way out, which also guards the wire
+ *     against a peer that is not this codebase.
  *   - Declared errors cross the wire as typed failures carrying their tag.
  *     JobNotFound below is a TaggedErrorClass, so it travels with its _tag intact
  *     and the client matches it with Effect.catchTag by name at runtime, rather

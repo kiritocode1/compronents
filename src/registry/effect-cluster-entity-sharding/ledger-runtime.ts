@@ -44,24 +44,27 @@ import {
 import { AccountLedger, AccountLedgerLayer } from "./ledger-entity.ts";
 
 /**
- * The single-node cluster. Sharding.layer sits on top; the five services below
- * it are provided in one Layer.provide so the whole stack resolves to just
- * Sharding for anything downstream.
+ * The single-node cluster. The dependency order is load-bearing and is why this
+ * is a chain of Layer.provide rather than one array: a single Layer.provide of an
+ * array merges its members side by side without feeding one into another, so
+ * MessageStorage (which Runners needs) and ShardingConfig (which almost everything
+ * needs) would leak back out as unmet requirements. Chaining feeds each provided
+ * layer to every requirement accumulated so far, so ShardingConfig, provided last,
+ * satisfies Sharding, Runners, and MessageStorage alike.
  *
- * MessageStorage.layerMemory is listed before Runners.layerNoop deliberately:
- * Runners.layerNoop itself needs MessageStorage, so the storage layer has to be
- * in scope when the runners layer is built. Layer.provide resolves that ordering
- * by type, but keeping the dependency visible here is the honest documentation.
+ * MessageStorage.layerMemory is given its ShardingConfig up front so it resolves
+ * to a plain MessageStorage with nothing left to provide.
  */
+const config = ShardingConfig.layerDefaults;
+const messageStorage = MessageStorage.layerMemory.pipe(Layer.provide(config));
+
 export const SingleNodeSharding: Layer.Layer<Sharding.Sharding> =
   Sharding.layer.pipe(
-    Layer.provide([
-      Runners.layerNoop,
-      RunnerHealth.layerNoop,
-      RunnerStorage.layerMemory,
-      MessageStorage.layerMemory,
-      ShardingConfig.layerDefaults,
-    ]),
+    Layer.provide(Runners.layerNoop),
+    Layer.provide(RunnerHealth.layerNoop),
+    Layer.provide(RunnerStorage.layerMemory),
+    Layer.provide(messageStorage),
+    Layer.provide(config),
   );
 
 /**

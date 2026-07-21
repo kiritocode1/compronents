@@ -158,19 +158,19 @@ export const DunningWorkflowLayer = DunningWorkflow.toLayer(
         // Transient provider errors get a short exponential retry inside the
         // attempt; a business decline is returned, not retried here.
         interruptRetryPolicy: Schedule.exponential("2 seconds", 2),
-      }).pipe(Effect.either);
+      }).pipe(Effect.result);
 
-      if (outcome._tag === "Right") {
+      if (outcome._tag === "Success") {
         return {
-          collectedMinor: outcome.right.collectedMinor,
+          collectedMinor: outcome.success.collectedMinor,
           onAttempt: attempt,
         };
       }
 
-      lastReason = outcome.left.reason;
+      lastReason = outcome.failure.reason;
       // A hard decline will never succeed on retry, so stop paying for attempts
       // and fail the whole sequence now rather than waiting out the schedule.
-      if (!outcome.left.retryable) {
+      if (!outcome.failure.retryable) {
         return yield* new DunningExhausted({
           invoiceId: payload.invoiceId,
           attempts: attempt + 1,

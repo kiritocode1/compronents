@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false, "plugins": [] },
+  "include": [
+    "src/registry/effect-cluster-entity-sharding/**/*.ts",
+    "src/registry/effect-durable-activity-workflow/**/*.ts",
+    "src/registry/effect-rpc-contract-transport/**/*.ts",
+    "src/registry/effect-httpapi-derived-client/**/*.ts",
+    "src/registry/effect-sql-transactional-repository/**/*.ts",
+    "src/registry/effect-service-lifecycle-runtime/**/*.ts",
+    "src/registry/artifacts-repo-provisioner/**/*.ts",
+    "src/registry/artifacts-agent-commit-notes/**/*.ts",
+    "src/registry/artifacts-fork-run-workflow/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

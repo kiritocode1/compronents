@@ -33,6 +33,7 @@
   ],
   "exclude": [
     "node_modules",
+    "src/registry/artifacts-*",
     "src/registry/better-auth-*",
     "src/registry/cloudflare-*",
     "src/registry/drizzle-*",
