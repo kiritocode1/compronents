@@ -4131,6 +4131,32 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-sql-transactional-repository",
+    title: "Effect SQL Transactional Repository",
+    description:
+      "A double-entry ledger repository on Effect 4's SQL layer, where the transaction boundary is a scope rather than a callback convention and a row is untrusted input until a schema decodes it. The usual repository gets two things wrong. Its transaction is db.transaction(async (tx) => ...), whose correctness rests on every query inside remembering to use tx rather than the pooled db, and a single missed one runs outside the transaction, commits on its own, and is not rolled back when the block throws. Here the boundary is sql.withTransaction wrapping an Effect: every query run inside is on the transaction's connection because the SqlClient service carries it, there is no second handle to forget, a failure anywhere in the wrapped Effect rolls the whole thing back because the rollback is tied to the Effect failing, and a nested withTransaction becomes a savepoint rather than a second physical transaction. The other mistake is treating a row as the type it was cast to: db.query(...) as Account[] is a lie the compiler believes, since the database can return a null in a non-null column or a shape a migration changed last week, and the cast waves it through to blow up three functions later. SqlSchema.findOne and findAll decode each row through a schema, so a row that does not match fails at the boundary with a typed SchemaError naming the column rather than becoming an undefined that surfaces far away, and because the decode runs inside the transaction a corrupt read aborts the write beside it. The transfer reads the source account FOR UPDATE, checks the balance, writes both balance updates and both postings, and commits or rolls back as one unit, with InsufficientFunds and AccountNotFound as tagged errors. The SqlClient is a service the repository depends on and never constructs, so the same code runs against Postgres in production and a test double, swapped by the driver layer at the edge. The component is candid that in this beta Context.Service infers the service shape loosely, so the runtime guarantees hold exactly while the caller-side types are ergonomic rather than strict. Verified against effect@4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-sql-transactional-repository/account-repository.ts",
+        target: "src/ledger/account-repository.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-sql-transactional-repository/account-runtime.ts",
+        target: "src/ledger/account-runtime.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

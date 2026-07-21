@@ -219,6 +219,7 @@ export const backendGroups: RegistryGroup[] = [
   {
     title: "Databases and queries",
     names: [
+      "effect-sql-transactional-repository",
       "prisma-driver-adapter-runtime",
       "prisma-client-extension-audit",
       "drizzle-pg-jit-query-layer",
