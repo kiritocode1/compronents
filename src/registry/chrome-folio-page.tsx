@@ -686,9 +686,27 @@ export default function ChromeFolioPage({
         })[0];
       });
 
-    ScrollTrigger.refresh();
+    /*
+     * Defer the first refresh past layout settling. A synchronous refresh here
+     * measured pre-layout positions in the production bundle, where module
+     * evaluation and first paint land in a different order than the dev server,
+     * so every ScrollTrigger started at scroll 0 and the masthead collapsed into
+     * the corner on load instead of on scroll. Two frames is enough for the
+     * scroller height, the pinned sections, and the WebGL canvases to settle;
+     * refreshing again on window load covers late layout shifts (fonts, images).
+     */
+    let raf1 = 0;
+    let raf2 = 0;
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
 
     return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      window.removeEventListener("load", onLoad);
       draggables.forEach((d) => d?.kill());
       ctx.revert();
       lenis.destroy();
