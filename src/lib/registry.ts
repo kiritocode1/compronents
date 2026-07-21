@@ -4105,6 +4105,32 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-httpapi-derived-client",
+    title: "Effect HttpApi Derived Client",
+    description:
+      "A content-publishing HTTP API declared once as an Effect 4 HttpApi, so the server, the client, and the OpenAPI document all come from a single source. The problem it replaces is the usual REST service with three artefacts that are supposed to agree and do not: the server routes, a client SDK, and an OpenAPI file that a generator produces from annotations nobody keeps current, the doc being the first to rot because nothing breaks when it is wrong. Here one declaration lists groups of endpoints, each naming its method, path, path params, query, payload, success, and errors as schemas, and from that one value three things are derived: the server implements handlers against it, a client is produced from it with no codegen step, and OpenApi.fromApi turns it into an OpenAPI document, so the doc cannot describe a route the API does not declare and the client cannot call a path the server does not expose. Everything crossing the boundary is validated by its schema at runtime before a handler runs and encoded on the way out, so a params.id declared Schema.Int arrives at the handler as a number because the URL string was decoded and a non-integer was rejected with a 400 first. Status codes live on the error schema rather than the route, so HttpApiSchema.status(409) maps an AlreadyPublished error to a conflict wherever it is raised, and the prebuilt HttpApiError.NotFound and Forbidden carry their statuses already. The derived handler and client method types in this beta are ergonomic rather than strict, so the enforcement that always holds is the schema at the boundary plus a test, which is also why the handler reads its decoded request under the params and query keys the framework actually passes rather than the shapes the types would loosely accept. The server file wires HttpApiBuilder.layer with the OpenAPI document mounted as a route, and the derived client calls endpoints by group and name from the same declaration. Verified against effect@4.0.0-beta.98, the HttpApi layer largely Tim Smart's work.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-httpapi-derived-client/publishing-api.ts",
+        target: "src/publishing/publishing-api.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-httpapi-derived-client/publishing-server.ts",
+        target: "src/publishing/publishing-server.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

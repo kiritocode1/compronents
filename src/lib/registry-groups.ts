@@ -265,6 +265,7 @@ export const backendGroups: RegistryGroup[] = [
   {
     title: "API servers and routing",
     names: [
+      "effect-httpapi-derived-client",
       "elysia-plugin-scope-model",
       "elysia-aot-build-manifest",
       "elysia-standard-schema-guard",
