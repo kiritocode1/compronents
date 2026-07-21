@@ -198,7 +198,15 @@ void main() {
   fullT = fullT * fullT * fullT * fullT;
   float pn = 0.5 * vnoise(plateUv * 8.0);
   float fullWave = 1.0 - smoothstep(0.0, 1.0, 1.0 - fullT + pn * (1.0 - fullT));
-  float plateGlyph = max(fillGlyph, glyph(plateSub, fullWave, 1.0));
+
+  /* the grey field BECOMES the footage: each plate cell's intensity
+     crossfades from the loader wave to the video luminance sampled at that
+     same cell, while the cells are still dividing, so the image emerges
+     from the giant pixels themselves instead of popping in behind them */
+  vec3 plateVideoRgb = texture(u_video, vec2(plateUv.x, 1.0 - plateUv.y)).rgb;
+  float toVideo = smoothstep(0.3, 0.75, u_reveal) * u_video_alpha;
+  float waveI = mix(fullWave, luminance(plateVideoRgb), toVideo);
+  float plateGlyph = max(fillGlyph * (1.0 - toVideo), glyph(plateSub, waveI, 1.0));
 
   float hideT = clamp((u_reveal - 0.62) / 0.38, 0.0, 1.0);
   hideT = hideT * hideT * hideT * hideT;
@@ -208,15 +216,16 @@ void main() {
 
   float cover = plate * (1.0 - hide);
   /* the greying IS the handoff: ink runs paper -> page ground with the
-     source's power4.inOut color_progress, so by the time the hide wave
-     punches, the plate has already become the page and the holes open
-     tone-on-tone */
+     source's power4.inOut color_progress, and the emerging video blocks
+     pick up the footage's own colour, so the plate has already become the
+     picture by the time the hide wave clears the residue */
   float ct = u_reveal * 0.89;
   float colorT = ct < 0.5
     ? 8.0 * ct * ct * ct * ct
     : 1.0 - 8.0 * pow(1.0 - ct, 4.0);
   vec3 plateInk = mix(u_cursor_color, u_ground, colorT);
-  vec3 plateColor = mix(u_ground * 0.4, plateInk, plateGlyph);
+  vec3 plateBlock = mix(plateInk, plateVideoRgb * 1.35, toVideo);
+  vec3 plateColor = mix(u_ground * 0.4, plateBlock, plateGlyph);
 
   vec3 color = mix(liveColor * liveAlpha, plateColor, cover);
   float alpha = max(liveAlpha, cover);
