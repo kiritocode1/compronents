@@ -3,6 +3,7 @@
 import { Maximize2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { getRegistryItem } from "@/lib/registry";
 
 interface PresetOption {
   id: string;
@@ -30,11 +31,15 @@ export function FullPageStudioShell({
   controls: ReactNode;
   note: ReactNode;
 }) {
+  // Section-correct fullscreen link: this shell is reused by component-section
+  // studios too, so hardcoding /pages/ 404s them. Default to pages for anything
+  // not in the registry (existing full-page studios keep working).
+  const section = getRegistryItem(name)?.section ?? "pages";
   return (
     <div className="flex w-full flex-col rounded-lg border bg-surface">
       <div className="relative h-[720px] w-full overflow-hidden rounded-t-lg bg-black xl:h-[820px]">
         <Link
-          href={`/pages/${name}/preview`}
+          href={`/${section}/${name}/preview`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open fullscreen"

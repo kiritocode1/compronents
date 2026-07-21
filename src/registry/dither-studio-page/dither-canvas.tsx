@@ -570,14 +570,6 @@ export function DitherEngine({
 /* DitherMedia                                                         */
 /* ------------------------------------------------------------------ */
 
-interface Impulse {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  t: number;
-}
-
 /** Number of sub-blocks lit at this intensity, following the k ramp. */
 function litBlocks(intensity: number, full: boolean): boolean[] {
   const divider = full ? 16 : 7;
@@ -646,7 +638,47 @@ export function DitherMedia({
     const baseCtx = base.getContext("2d");
     if (!baseCtx) return;
 
-    const impulses: Impulse[] = [];
+    /* per-cell velocity field: the same fluid the engine runs (gaussian
+       injection at the pointer, exponential decay), so images ripple like
+       the hero footage instead of shifting in discrete chunks */
+    let velX = new Float32Array(0);
+    let velY = new Float32Array(0);
+    const pointer = { x: 0, y: 0, dx: 0, dy: 0, seen: false };
+    let lastStep = 0;
+    let energy = 0;
+
+    const stepField = (now: number) => {
+      const dt = lastStep ? now - lastStep : 16;
+      lastStep = now;
+      const decay = 1 - Math.min(0.5, dt / 250);
+      const radius = Math.max(3, rows * 0.06);
+      const injX = (pointer.dx / Math.max(1, cols)) * 30;
+      const injY = (pointer.dy / Math.max(1, rows)) * 30;
+      const inject = Math.hypot(injX, injY) > 0.001;
+      energy = 0;
+      for (let cy = 0; cy < rows; cy++) {
+        for (let cx = 0; cx < cols; cx++) {
+          const i = cy * cols + cx;
+          let vx = velX[i] * decay;
+          let vy = velY[i] * decay;
+          if (inject) {
+            const dx = cx - pointer.x;
+            const dy = cy - pointer.y;
+            const g = Math.exp(-(dx * dx + dy * dy) / (radius * radius));
+            vx += injX * g;
+            vy += injY * g;
+          }
+          vx = Math.max(-1, Math.min(1, vx));
+          vy = Math.max(-1, Math.min(1, vy));
+          velX[i] = Math.abs(vx) < 0.004 ? 0 : vx;
+          velY[i] = Math.abs(vy) < 0.004 ? 0 : vy;
+          energy = Math.max(energy, Math.abs(velX[i]), Math.abs(velY[i]));
+        }
+      }
+      pointer.dx = 0;
+      pointer.dy = 0;
+    };
+
     let reveal = still ? 1 : 0;
     let revealStarted = false;
 
@@ -737,54 +769,35 @@ export function DitherMedia({
         }
       }
 
-      /* cursor trail: displaced cell chunks + paper glyphs, decaying */
-      ctx.imageSmoothingEnabled = false;
-      for (let i = impulses.length - 1; i >= 0; i--) {
-        const p = impulses[i];
-        const age = (now - p.t) / 620;
-        if (age >= 1) {
-          impulses.splice(i, 1);
-          continue;
-        }
-        const fade = 1 - age;
-        const R = 4.5;
-        const c0x = Math.max(0, Math.floor(p.x - R));
-        const c1x = Math.min(cols - 1, Math.ceil(p.x + R));
-        const c0y = Math.max(0, Math.floor(p.y - R));
-        const c1y = Math.min(rows - 1, Math.ceil(p.y + R));
-        for (let cy = c0y; cy <= c1y; cy++) {
-          for (let cx = c0x; cx <= c1x; cx++) {
-            const dx = cx - p.x;
-            const dy = cy - p.y;
-            const inf = Math.exp(-(dx * dx + dy * dy) / 7.5) * fade;
-            if (inf < 0.05) continue;
-            /* shift the source cell against the motion */
-            const sx = Math.max(
-              0,
-              Math.min(cols - 1, Math.round(cx - p.vx * inf * 2)),
+      /* water-surface distortion: every cell with flow re-samples the base
+         against the local velocity (fractional source, so the smear is
+         smooth), and the flow speed lights the 7-block figure, exactly
+         like the hero shader's advected sampling */
+      stepField(now);
+      if (energy > 0.01) {
+        ctx.imageSmoothingEnabled = false;
+        const drag = rows * 0.12;
+        for (let cy = 0; cy < rows; cy++) {
+          for (let cx = 0; cx < cols; cx++) {
+            const i = cy * cols + cx;
+            const vx = velX[i];
+            const vy = velY[i];
+            const speed = Math.hypot(vx, vy);
+            if (speed < 0.03) continue;
+            const sx = Math.max(0, Math.min(cols - 1, cx - vx * drag)) * cellPx;
+            const sy = Math.max(0, Math.min(rows - 1, cy - vy * drag)) * cellPx;
+            ctx.drawImage(
+              base,
+              sx,
+              sy,
+              cellPx,
+              cellPx,
+              cx * cellPx,
+              cy * cellPx,
+              cellPx,
+              cellPx,
             );
-            const sy = Math.max(
-              0,
-              Math.min(rows - 1, Math.round(cy - p.vy * inf * 2)),
-            );
-            if (sx !== cx || sy !== cy) {
-              ctx.drawImage(
-                base,
-                sx * cellPx,
-                sy * cellPx,
-                cellPx,
-                cellPx,
-                cx * cellPx,
-                cy * cellPx,
-                cellPx,
-                cellPx,
-              );
-            }
-            /* paper glyph ramp by local strength */
-            const lit = litBlocks(
-              Math.min(1, inf * Math.hypot(p.vx, p.vy) * 0.55),
-              false,
-            );
+            const lit = litBlocks(Math.min(1, speed * 1.4), false);
             ctx.fillStyle = paper;
             for (let s = 0; s < 16; s++) {
               if (!lit[s]) continue;
@@ -799,10 +812,11 @@ export function DitherMedia({
         }
       }
 
-      if (vid || impulses.length > 0 || reveal < 1) {
+      if (vid || energy > 0.01 || reveal < 1) {
         raf = requestAnimationFrame(draw);
       } else {
         running = false;
+        lastStep = 0;
       }
     };
 
@@ -827,32 +841,24 @@ export function DitherMedia({
       cellHash.length = 0;
       const rand = mulberry(seed * 31 + 5);
       for (let i = 0; i < cols * rows; i++) cellHash.push(rand());
+      velX = new Float32Array(cols * rows);
+      velY = new Float32Array(cols * rows);
       paintBase();
       wake();
     };
 
-    let lastPX = 0;
-    let lastPY = 0;
     const onPointerMove = (e: PointerEvent) => {
       if (still) return;
       const rect = canvas.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * cols;
       const y = ((e.clientY - rect.top) / rect.height) * rows;
-      const vx = x - lastPX;
-      const vy = y - lastPY;
-      lastPX = x;
-      lastPY = y;
-      const mag = Math.hypot(vx, vy);
-      if (mag > 0.3 && mag < 30) {
-        impulses.push({
-          x,
-          y,
-          vx: Math.max(-5, Math.min(5, vx)),
-          vy: Math.max(-5, Math.min(5, vy)),
-          t: performance.now(),
-        });
-        if (impulses.length > 26) impulses.shift();
+      if (pointer.seen) {
+        pointer.dx += x - pointer.x;
+        pointer.dy += y - pointer.y;
       }
+      pointer.x = x;
+      pointer.y = y;
+      pointer.seen = true;
       wake();
     };
     wrap.addEventListener("pointermove", onPointerMove, { passive: true });
