@@ -111,6 +111,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "React",
     links: [
       {
+        title: "TanStack",
+        href: "https://tanstack.com/",
+        dateAdded: "2026-07-22",
+        description:
+          "Home for the headless, type-safe TanStack libraries: Query, Router, Table, Form, Virtual and the Start full-stack framework, plus newer betas and alphas (DB, Store, AI, Pacer, Hotkeys, CLI, Intent). Every library ships a framework-agnostic core with adapters for React, Vue, Solid, Angular and vanilla JS, so the same mental model carries across stacks. Led by Tanner Linsley with maintainers including Dominik Dorfmeister and Corbin Crutchley; all MIT licensed with no paid tier, and the site reports 13.5B total npm downloads and roughly 126k GitHub stars.",
+      },
+      {
         title: "React Flow",
         href: "https://reactflow.dev/",
         dateAdded: "2026-07-14",
