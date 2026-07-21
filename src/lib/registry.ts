@@ -4079,6 +4079,32 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-rpc-contract-transport",
+    title: "Effect RPC Contract Transport",
+    description:
+      "An internal job-control API defined once as an Effect 4 RpcGroup that the server and the client both import, with the transport left swappable. The problem it replaces is the usual internal service: route handlers on one side, a hand-written fetch wrapper on the other, and a types package in the middle that drifts until a field is undefined in production and was a string in the caller's head. Here one file is the contract: each Rpc.make binds a tag to a payload schema, a success schema, and a typed error schema, so the wire shape has a single author and there is no second definition to fall out of sync. Validation happens at the boundary at runtime, on both sides: a request that does not decode to the declared schema is rejected before a handler runs, and a reply is encoded through the success schema on the way out, which is the real enforcement rather than the TypeScript types (this beta's derived handler and client method types are permissive, so the schema and tests catch drift, not the compiler alone). Declared errors cross the wire as tagged failures: JobNotFound is a TaggedErrorClass, so it travels with its _tag intact and the client matches it with catchTag by name at runtime, while a defect that is not in the schema stays a defect and pages someone rather than arriving as a typed error. The transport is deliberately unnamed in the contract, because HTTP with ndjson, WebSocket, and a Worker MessagePort are the same contract with a different protocol layer chosen in the service file, and the handlers do not move when it changes. Auth is RPC middleware that runs before every handler and provides the authenticated operator, so a handler reads who is calling without re-checking a token. Verified against effect@4.0.0-beta.98, the RPC layer largely Tim Smart's work.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-rpc-contract-transport/job-control-contract.ts",
+        target: "src/job-control/job-control-contract.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-rpc-contract-transport/job-control-service.ts",
+        target: "src/job-control/job-control-service.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

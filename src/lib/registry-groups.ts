@@ -255,6 +255,7 @@ export const backendGroups: RegistryGroup[] = [
       "cloudflare-worker-test-harness",
       "durable-object-websocket-hibernation",
       "worker-rpc-promise-pipelining",
+      "effect-rpc-contract-transport",
       "fluid-compute-instance-safety",
       "fluid-stream-lifecycle",
       "artifacts-repo-provisioner",
