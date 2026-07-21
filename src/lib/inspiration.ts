@@ -7086,6 +7086,63 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Mockups, textures and patterns",
     links: [
       {
+        title: "Free Newspaper Mockup (Brand New Mockup)",
+        href: "https://brandnewmockup.com/mockups/free-newspaper-mockup-2-editable-psd-bnm-np-001",
+        dateAdded: "2026-07-21",
+        description:
+          "A free two-scene newspaper mockup from Brand New Mockup: one folded cover and one open center spread, for showing editorial or ad layouts in print. Editable via smart objects, shipped as layered Photoshop 2025 PSDs plus InDesign 2024 files and JPG links, at 5504 x 8256 and 5225 x 7837 px. Free Standard license covers self-promotion by individuals and small businesses; Extended and Super Star tiers add commercial rights.",
+      },
+      {
+        title: "Stone Deboss Mockup (Pixelbuddha)",
+        href: "https://pixelbuddha.net/mockups/8275-stone-deboss-mockup",
+        dateAdded: "2026-07-21",
+        description:
+          "A Pixelbuddha mockup that renders your artwork as text debossed into a rough stone slab, with carved grooves, shadows, chipped edges, and cracks, aimed at heritage brands, architecture and construction branding, packaging stamps, and signage previews. Smart-object PSD for recent Creative Cloud, 4500 x 3000 px at 300 dpi. Premium (paid).",
+      },
+      {
+        title:
+          "Free Citylight Poster Mockup, London Bus Stop (Brand New Mockup)",
+        href: "https://brandnewmockup.com/mockups/free-citylight-poster-mockup-london-bus-stop-bnm-cl-014",
+        dateAdded: "2026-07-21",
+        description:
+          "A free out-of-home poster mockup from Brand New Mockup, set in a citylight panel at a London bus stop against a brick wall, for previewing street advertising. Smart-object PSD (Photoshop 2024) and INDD (InDesign 2024) plus a JPG link, 2000 x 3000 px, with InDesign crop support for social sizes. Free Standard license for self-promotion (2 editors); paid Extended and Super Star tiers widen commercial use.",
+      },
+      {
+        title: "A4 Poster Signage Mockup (Pixelbuddha)",
+        href: "https://pixelbuddha.net/mockups/5229-a4-poster-signage-mockup",
+        dateAdded: "2026-07-21",
+        description:
+          "A Pixelbuddha outdoor signage mockup showing an A4 poster in an urban setting framed by green trees, suited to eco campaigns, event and film-festival promos, and streetwear branding. Smart-object PSD with organized layers, built for the latest Creative Cloud. Premium (paid), commercial license available.",
+      },
+      {
+        title: "Large Shipping Box Mockup (Pixelbuddha)",
+        href: "https://pixelbuddha.net/mockups/11219-large-shipping-box-mockup",
+        dateAdded: "2026-07-21",
+        description:
+          "A Pixelbuddha mockup of a cardboard shipping box held by a worker in a warehouse, for e-commerce packaging, delivery branding, and subscription-box concepts. One smart object covers the front print face; PSD at 4500 x 3000 px, 300 dpi. Premium (paid), commercial license available.",
+      },
+      {
+        title: "Free MacBook Air and iPhone 13 Pro Mockup (Brand New Mockup)",
+        href: "https://brandnewmockup.com/mockups/free-macbook-air-laptop-iphone-13-pro-mockup-bnm-lt-001",
+        dateAdded: "2026-07-21",
+        description:
+          "A free device mockup from Brand New Mockup pairing a 15-inch MacBook Air M2 with an iPhone 13 Pro, in portrait and landscape scenes, for showing responsive or app work. Both screens are editable smart objects, and the wall, sofa, and floor recolor via Solid Color layers. PSD (Photoshop 2024) and INDD, at 5504 x 8256 and 7885 x 5257 px. Free Standard license for self-promotion; Extended and Super Star tiers add commercial rights.",
+      },
+      {
+        title: "Stage Screen Mockup (Pixelbuddha)",
+        href: "https://pixelbuddha.net/mockups/5356-stage-screen-mockup",
+        dateAdded: "2026-07-21",
+        description:
+          "A Pixelbuddha mockup of a darkened theater with empty seats and a glowing screen, for presenting posters, trailers, motion graphics, or branding on the big screen. Smart-object PSD for quick placement, built for the latest Creative Cloud. Premium (paid).",
+      },
+      {
+        title: "Free Tote Bag Mockup (Brand New Mockup)",
+        href: "https://brandnewmockup.com/mockups/bnm-tb-001-free-tote-bag-mockup",
+        dateAdded: "2026-07-21",
+        description:
+          "A free tote bag mockup from Brand New Mockup for showing branding or illustration on canvas, with colorable surfaces so individual elements recolor independently and Instagram crop presets via InDesign. Smart-object PSD (Photoshop 2024) plus INDD and a JPG link, 5504 x 8256 px. Free Standard license for self-promotion (2 editors); Extended and Super Star tiers add commercial rights.",
+      },
+      {
         title: "iPhone 15 Pro in-hand mockups",
         href: "https://pixelsurplus.com/collections/free-mockups/products/15-iphone-15-pro-in-hand-mockups",
         dateAdded: "2026-07-14",
