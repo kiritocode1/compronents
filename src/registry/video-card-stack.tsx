@@ -107,7 +107,7 @@ export default function VideoCardStack({
       ease: "power3.inOut",
       onStart: () => {
         setTimeout(() => {
-          slider.prepend(lastCard);
+          slider.insertBefore(lastCard, slider.firstChild);
           initializeCards();
           setTimeout(() => {
             setIsAnimating(false);

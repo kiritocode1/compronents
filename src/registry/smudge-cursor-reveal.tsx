@@ -87,7 +87,7 @@ export default function SmudgeCursorReveal({
       circle.setAttribute("cy", String(y));
       circle.setAttribute("r", String(radius));
       circle.setAttribute("fill", "#fff");
-      blobs.prepend(circle);
+      blobs.insertBefore(circle, blobs.firstChild);
       const animated = { current: radius };
       const tl = gsap.timeline({
         onUpdate() {

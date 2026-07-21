@@ -88,7 +88,7 @@ export default function StrokeWipeSpotlight({
       outline.classList.remove("sws-stroke");
       outline.setAttribute("stroke", "#141414");
       fill.setAttribute("stroke-width", `${fillWidth - OUTLINE_WIDTH}`);
-      fill.before(outline);
+      fill.parentNode?.insertBefore(outline, fill);
       outlines.push(outline);
 
       const length = fill.getTotalLength();

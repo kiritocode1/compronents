@@ -419,7 +419,9 @@ export function initMiscUi(root: HTMLElement): () => void {
     }
     const controller = new AbortController();
     fetch("https://ipwho.is/", { signal: controller.signal })
-      .then((r) => r.json())
+      .then(
+        (r) => r.json() as Promise<{ latitude?: number; longitude?: number }>,
+      )
       .then((j) => {
         if (
           j &&

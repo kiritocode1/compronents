@@ -233,7 +233,7 @@ export default function AsciiMonogramHero({
         link.rel = "stylesheet";
         link.href = BLACKLETTER_URL;
         link.dataset.amhBlackletter = "";
-        document.head.append(link);
+        document.head.appendChild(link);
       }
       document.fonts
         .load('400 100px "UnifrakturMaguntia"')
