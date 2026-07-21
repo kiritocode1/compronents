@@ -4,10 +4,10 @@
  *
  * This half runs wherever the agent ran (a container, a sandbox, a CI job), not
  * in a Worker, and that split is forced by the product rather than chosen. The
- * Artifacts Workers binding is a control plane plus a read surface: `create`,
- * `get`, `import`, `fork`, `delete`, `createToken`, `listTokens`, `revokeToken`,
- * `log`, `readCommit`, `readTree`. There is no method that writes a blob, a
- * tree, a commit, or a note. Every content write into an Artifacts repo goes
+ * Artifacts Workers binding is a control plane and nothing else: `create`,
+ * `get`, `import`, `fork`, `delete`, `createToken`, `listTokens`, `revokeToken`.
+ * It reads repo metadata and it manages tokens. There is no method that reads
+ * repo content, and none that writes a blob, a tree, a commit, or a note. Every content write into an Artifacts repo goes
  * over the Git smart HTTP remote with a `write`-scoped repo token, which means
  * the writer needs a real git binary and a real working tree.
  *

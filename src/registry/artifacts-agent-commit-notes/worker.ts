@@ -7,9 +7,11 @@
  * The division of labour is set by the binding surface rather than by taste. The
  * Artifacts Workers binding is a control plane (`create`, `get`, `import`,
  * `fork`, `delete`) plus token management (`createToken`, `listTokens`,
- * `revokeToken`) plus a read surface (`log`, `readCommit`, `readTree`). Nothing
- * on it writes content. So the Worker never commits; it hands out a scoped
- * credential and the agent's own container does the pushing (commit-run.ts).
+ * `revokeToken`), and that is the whole surface. It carries repo METADATA
+ * (defaultBranch, createdAt, lastPushAt, readOnly, source) and exposes no way to
+ * read or write repo CONTENT: no log, no readCommit, no readTree, no blob write.
+ * So the Worker never commits; it hands out a scoped credential and the agent's
+ * own container does the pushing (commit-run.ts).
  *
  * What that buys is worth the round trip: the write token exists for the length
  * of one run, it is scoped to one repo, and the Worker is the only thing holding
@@ -54,39 +56,15 @@ import {
 } from "./attribution.ts";
 
 /**
- * `npx wrangler types` generates the real `Artifacts` type into
- * `worker-configuration.d.ts`, and the docs say to treat that generated file as
- * the source of truth for the binding in your environment. This local
- * declaration covers only the members used below so the file type-checks before
- * that file exists; delete it once `wrangler types` has run.
+ * `Artifacts` and `ArtifactsRepo` are global ambient types from
+ * @cloudflare/workers-types, referenced at the top of this file. They are used
+ * directly rather than mirrored into a local structural type, because a local
+ * copy is checked against itself: it will happily accept a call to a method the
+ * runtime does not have, and `tsc` will pass. `npx wrangler types` regenerates
+ * these against your own compatibility date.
  */
-type ArtifactsRepoHandle = {
-  createToken(
-    scope?: "read" | "write",
-    ttl?: number,
-  ): Promise<{ plaintext: string; scope: string; expiresAt: string }>;
-  revokeToken(tokenOrId: string): Promise<boolean>;
-};
-
-type ArtifactsBinding = {
-  get(name: string): Promise<ArtifactsRepoHandle>;
-  create(
-    name: string,
-    opts?: {
-      description?: string;
-      readOnly?: boolean;
-      setDefaultBranch?: string;
-    },
-  ): Promise<{
-    name: string;
-    remote: string;
-    defaultBranch: string;
-    token: string;
-  }>;
-};
-
 export type ProvenanceEnv = {
-  ARTIFACTS: ArtifactsBinding;
+  ARTIFACTS: Artifacts;
   /** Cloudflare API token. REST control-plane routes only; repo tokens do not work there. */
   CLOUDFLARE_API_TOKEN: string;
   CLOUDFLARE_ACCOUNT_ID: string;
@@ -135,11 +113,11 @@ export default {
         const token = await handle.createToken("write", RUN_TOKEN_TTL_SECONDS);
 
         return Response.json({
-          // Returned verbatim from create()/import() at repo-provisioning time
-          // and stored alongside the repo name. The docs are explicit that the
-          // returned `remote` is the string to use rather than one assembled
-          // from the hostname pattern.
-          remote: `https://${env.CLOUDFLARE_ACCOUNT_ID}.artifacts.cloudflare.net/git/${env.ARTIFACTS_NAMESPACE}/${repo}.git`,
+          // Read off the handle, which carries `remote` as a field. The docs are
+          // explicit that the returned string is the one to use, and assembling
+          // a URL from the account id and namespace here would be a second
+          // source of truth that rots silently the day the git host changes.
+          remote: handle.remote,
           token: token.plaintext,
           expiresAt: token.expiresAt,
           noteRef: full,
@@ -222,9 +200,10 @@ export default {
  * The one thing not confirmed in the beta docs: the `ref` parameter is
  * documented as "a branch, tag, or commit hash", and a notes ref is none of
  * those three. If your namespace rejects `refs/notes/agents/<agent>` as a ref,
- * resolve the notes tip with `repo.log({ ref })` and walk `readCommit` and
- * `readTree` instead, or read the note from a checkout with `git notes show`
- * (blameLine in commit-run.ts does exactly that).
+ * there is no binding-side fallback to reach for, because the binding cannot
+ * read content at all. Read the note from a checkout with `git notes show`
+ * instead (blameLine in commit-run.ts does exactly that), which is the path that
+ * is guaranteed to work since it is plain Git over the same remote.
  */
 async function readAttribution(
   env: ProvenanceEnv,

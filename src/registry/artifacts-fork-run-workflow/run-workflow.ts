@@ -369,7 +369,8 @@ export class AgentRunWorkflow extends WorkflowEntrypoint<
             } catch (error) {
               // Already gone, most likely deleted by the sweeper. Converging on
               // absent is the whole point of an idempotent teardown.
-              if (isArtifactsError(error, "NOT_FOUND")) return { deleted: true };
+              if (isArtifactsError(error, "NOT_FOUND"))
+                return { deleted: true };
               throw error;
             }
           },

@@ -92,7 +92,7 @@ export type AgentTask = {
   importFrom?: string;
 };
 
-/** Documented Artifacts error codes, for the ones this file has to branch on. */
+// The Artifacts error codes this file branches on.
 // ArtifactsError carries a STRING `.code` for matching, plus a `.numericCode`
 // that mirrors the REST API. Match on the string; the numbers (10201, 10200,
 // 10302, 10303) only matter when correlating a binding failure with a REST
@@ -105,7 +105,7 @@ const FORK_IN_PROGRESS = "FORK_IN_PROGRESS" satisfies ArtifactsErrorCode;
 /** Agent sessions are hours, not days. A day-long write token is a day-long blast radius. */
 const WRITE_TOKEN_TTL_SECONDS = 3600;
 
-/** Delete a task repo this many days after the day encoded in its name. */
+/** Delete a task repo this many days after the server-side createdAt on it. */
 const RETENTION_DAYS = 14;
 
 /**
@@ -115,21 +115,24 @@ const RETENTION_DAYS = 14;
  * letter or digit and the rest to be letters, digits, `.`, `_`, or `-`. Names
  * must be unique within a namespace, so a bare `docs-site` collides the moment
  * two agents want their own copy. And nothing in the API sorts or filters by
- * anything except the name, so whatever the reaper needs to make a delete
- * decision has to be visible in the name itself.
+ * anything except the name, so the name has to carry enough for the reaper to
+ * tell this fleet's repos apart from everything else in the namespace.
  *
  * Hence `fleet-YYYYMMDD-taskId`:
  *
  *   fleet      which fleet owns it, so one namespace can host several
  *   YYYYMMDD   the task's own creation day, from task.createdAt and never from
  *              Date.now(), so a retry two hours later still computes the same
- *              name. This is the field the reaper reads.
+ *              name and lands on the same repo.
  *   taskId     the isolation boundary, one repo per unit of work
  *
- * The tempting alternative, `fleet-taskId` with the age looked up at reap time,
- * does not work: the binding's list() returns `name` and `status` and nothing
- * else, so there is no timestamp to look up without falling back to the REST
- * API, whose RepoInfo does carry created_at.
+ * The day stamp is for humans and for ownership, not for the reaper's clock:
+ * `list()` returns a real server-side `createdAt` per repo, and that is what
+ * reapAbandonedRepos() decides on. A timestamp baked into a name is supplied by
+ * whoever created the repo and is not evidence of when it was created, so it must
+ * never be the input to a delete decision. What the name IS good for is proving
+ * the repo belongs to this fleet at all, which is the check that keeps a reaper
+ * away from the baseline repo.
  */
 export function nameTaskRepo(task: AgentTask): string {
   const day = new Date(task.createdAt)
@@ -195,10 +198,10 @@ export async function provisionTaskRepo(
       remote: created.remote,
       defaultBranch: created.defaultBranch,
       writeToken: created.token,
-      // create(), import(), and fork() return a bare token string with no
-      // expiry alongside it, so the caller is told to treat it as short-lived
-      // and rotate rather than being handed a false expiry.
-      expiresAt: "unknown, rotate before relying on it",
+      // The initial token's expiry rides along on the create result as
+      // `tokenExpiresAt`. It is the only chance to record it: the plaintext is
+      // returned once and nothing serves it again.
+      expiresAt: created.tokenExpiresAt,
       reused: false,
       ops: task.importFrom ? 1 : 2,
     };
@@ -211,9 +214,13 @@ export async function provisionTaskRepo(
     const token = await repo.createToken("write", WRITE_TOKEN_TTL_SECONDS);
 
     return {
-      name,
-      remote: remoteFor(name),
-      defaultBranch: "main",
+      // Read the remote and the default branch off the handle rather than
+      // rebuilding a URL from an account id and a namespace. The handle carries
+      // both, and a URL template guessed here silently rots the day Cloudflare
+      // changes the git host.
+      name: repo.name,
+      remote: repo.remote,
+      defaultBranch: repo.defaultBranch,
       writeToken: token.plaintext,
       expiresAt: token.expiresAt,
       reused: true,
@@ -366,17 +373,29 @@ export async function reapAbandonedRepos(
     for (const entry of page.repos) {
       result.scanned += 1;
 
-      if (entry.status !== "ready") {
-        result.skipped.push({ name: entry.name, reason: entry.status });
-        continue;
-      }
-
+      // Ownership first, and it is the check that matters most in this loop.
+      // delete() takes a bare name and does not care who created the repo, so a
+      // reaper that filtered on age alone would delete the reviewed baseline
+      // every task repo forks from, which is by construction older than all of
+      // them. A name that does not parse as this fleet's is not ours to touch.
       const day = dayStampOf(entry.name);
       if (day === null) {
         result.skipped.push({ name: entry.name, reason: "not a task repo" });
         continue;
       }
-      if (day >= cutoff) continue;
+
+      // Age comes from the server's createdAt, not from the day baked into the
+      // name. The name is caller-supplied and proves nothing about when the repo
+      // was made, which is not a good enough basis for deleting data.
+      if (Date.parse(entry.createdAt) >= cutoff) continue;
+
+      // A repo someone is still pushing to is not abandoned, whatever its age.
+      // lastPushAt is null until the first push lands, so a repo provisioned and
+      // never used falls through to deletion, which is the intent.
+      if (entry.lastPushAt !== null && Date.parse(entry.lastPushAt) >= cutoff) {
+        result.skipped.push({ name: entry.name, reason: "pushed recently" });
+        continue;
+      }
 
       if (result.deleted.length >= maxDeletes) {
         result.skipped.push({ name: entry.name, reason: "run cap reached" });
@@ -385,9 +404,14 @@ export async function reapAbandonedRepos(
 
       if (!dryRun) {
         // delete() returns false rather than throwing when the repo is already
-        // gone, which happens when two cron ticks overlap. Not an error.
-        await env.ARTIFACTS.delete(entry.name);
+        // gone, which happens when two cron ticks overlap. Not an error, but it
+        // is not a deletion either, so it must not be counted as one.
+        const deleted = await env.ARTIFACTS.delete(entry.name);
         result.ops += 1;
+        if (!deleted) {
+          result.skipped.push({ name: entry.name, reason: "already gone" });
+          continue;
+        }
       }
       result.deleted.push(entry.name);
     }
@@ -462,5 +486,3 @@ export function codeOf(error: unknown): ArtifactsErrorCode | null {
 }
 
 export { NOT_FOUND, ALREADY_EXISTS, RETENTION_DAYS, TASK_REPO_PATTERN };
-
-
