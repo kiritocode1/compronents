@@ -151,12 +151,11 @@ void main() {
   vec2 frag = v_uv * u_resolution;
 
   float plate = 1.0 - step(1.0, u_reveal);
-  /* loading runs on giant cells, the live layer on the fine grid */
-  float cellPx = mix(u_cell * 14.0, u_cell, smoothstep(0.0, 0.55, u_reveal));
 
-  vec2 cellId = floor(frag / cellPx);
-  vec2 sub = mod(floor(frag / (cellPx / 4.0)), 4.0);
-  vec2 cellUv = (cellId + 0.5) * cellPx / u_resolution;
+  /* the live layer always runs on the fine grid */
+  vec2 cellId = floor(frag / u_cell);
+  vec2 sub = mod(floor(frag / (u_cell / 4.0)), 4.0);
+  vec2 cellUv = (cellId + 0.5) * u_cell / u_resolution;
 
   /* cursor velocity: lights the trail and drags the sampling */
   vec2 vel = texture(u_velocity, cellUv).rg * 2.0 - 1.0;
@@ -172,23 +171,53 @@ void main() {
   float content_op = clamp(f - cursor_f, 0.0, 1.0);
   float cursor_op = clamp(cursor_f, 0.0, 1.0);
 
-  /* the load plate: an opaque ground where glyphs fill with the counter,
-     then cells die off through noise as the reveal runs */
-  float fillJitter = 0.55 + 0.45 * hash(cellId + 7.0);
-  float plateGlyph = glyph(sub, u_fill * fillJitter, 1.0);
-  float alive = step(u_reveal * 1.12, vnoise(cellUv * 3.1) + hash(cellId) * 0.14);
-
-  /* lit content blocks carry the footage's own colour, lifted toward paper
-     so the plate stays legible over the dark ground */
+  /* lit content blocks carry the footage's own colour, lifted toward paper */
   vec3 contentTint = mix(u_content_color, videoRgb * 1.35, u_video_alpha);
   vec3 liveColor = contentTint * content_op + u_cursor_color * cursor_op;
   float liveAlpha = max(content_op, cursor_op);
 
-  vec3 plateColor = mix(u_ground * 0.4, u_content_color, plateGlyph);
-  float plateAlpha = plate * alive;
+  /* load plate, matching the source loader: giant cells shrink to grid size
+     (their 160 -> 16 pixel tween, power3.in) while their blocks keep
+     lighting toward full, and at the end a hide wave punches glyph-shaped
+     holes through to the live layer at the FINE grid. The plate stays lit
+     and opaque until each hole opens, so the screen never drops to black
+     between the counter and the footage */
+  float shrink = u_reveal * u_reveal;
+  float plateCellPx = mix(u_cell * 14.0, u_cell, shrink);
+  vec2 plateId = floor(frag / plateCellPx);
+  vec2 plateSub = mod(floor(frag / (plateCellPx / 4.0)), 4.0);
+  vec2 plateUv = (plateId + 0.5) * plateCellPx / u_resolution;
 
-  vec3 color = mix(liveColor * liveAlpha, plateColor, plateAlpha);
-  float alpha = max(liveAlpha, plateAlpha);
+  /* counter phase draws the sparse 7-block figure per cell; the reveal then
+     lights the remaining blocks through a noise wave, like the source's
+     full_progress pass */
+  float fillNoise = 0.4 + 0.6 * hash(plateId + 7.0);
+  float fillGlyph = glyph(plateSub, clamp(u_fill * 1.25 * fillNoise, 0.0, 1.0), 0.0);
+
+  float fullT = clamp(u_reveal / 0.6, 0.0, 1.0);
+  fullT = fullT * fullT;
+  float pn = 0.5 * vnoise(plateUv * 8.0);
+  float fullWave = 1.0 - smoothstep(0.0, 1.0, 1.0 - fullT + pn * (1.0 - fullT));
+  /* cap so a couple of blocks per cell stay dark and the wall keeps its
+     mosaic texture instead of going solid */
+  float plateGlyph = max(fillGlyph, glyph(plateSub, fullWave * 0.9, 1.0));
+
+  float hideT = clamp((u_reveal - 0.35) / 0.65, 0.0, 1.0);
+  hideT = hideT * hideT * hideT;
+  float hn = 0.5 * vnoise(cellUv * 8.0);
+  float hideWave = 1.0 - smoothstep(0.0, 1.0, 1.0 - hideT + hn * (1.0 - hideT));
+  float hide = glyph(sub, hideWave, 1.0);
+
+  float cover = plate * (1.0 - hide);
+  /* loader ink starts paper and darkens into the backdrop grey BEFORE the
+     hide wave peaks (the source's u_color_progress pass): the greying is
+     the handoff, the punch lands tone-on-tone */
+  float colorT = smoothstep(0.05, 0.5, u_reveal);
+  vec3 plateInk = mix(u_cursor_color, u_content_color, colorT);
+  vec3 plateColor = mix(u_ground * 0.4, plateInk, plateGlyph);
+
+  vec3 color = mix(liveColor * liveAlpha, plateColor, cover);
+  float alpha = max(liveAlpha, cover);
   fragColor = vec4(color, alpha);
 }`;
 
@@ -213,6 +242,8 @@ export interface DitherEngineProps {
   /** Cell size in CSS px. */
   cellSize?: number;
   onProgress?: (p: number) => void;
+  /** Fires when the dissolve starts: reveal the page under the plate now. */
+  onHandoff?: () => void;
   onDone?: () => void;
   className?: string;
 }
@@ -221,13 +252,16 @@ export function DitherEngine({
   videoSrc,
   cellSize = 8,
   onProgress,
+  onHandoff,
   onDone,
   className,
 }: DitherEngineProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const progressRef = useRef(onProgress);
+  const handoffRef = useRef(onHandoff);
   const doneRef = useRef(onDone);
   progressRef.current = onProgress;
+  handoffRef.current = onHandoff;
   doneRef.current = onDone;
 
   useEffect(() => {
@@ -412,9 +446,10 @@ export function DitherEngine({
     const still = reducedMotion();
 
     const FILL_MS = still ? 0 : 1150;
-    const REVEAL_MS = still ? 0 : 850;
+    const REVEAL_MS = still ? 0 : 1400;
     let raf = 0;
     let start = 0;
+    let revealStart = 0;
     let doneFired = false;
     let lastProgress = -1;
 
@@ -423,10 +458,21 @@ export function DitherEngine({
       const elapsed = now - start;
 
       const fill = FILL_MS === 0 ? 1 : Math.min(elapsed / FILL_MS, 1);
+      // the dissolve waits for the footage so its holes never open onto
+      // black; a 4s cap keeps a dead video URL from stalling the page
+      const vidReady = !vid || vid.readyState >= 2 || elapsed > FILL_MS + 4000;
+      if (fill >= 1 && vidReady && !revealStart) {
+        revealStart = now;
+        // the page starts revealing under the plate while it dissolves,
+        // like the source firing enterApp at the start of its timeline
+        handoffRef.current?.();
+      }
       const reveal =
         REVEAL_MS === 0
           ? 1
-          : Math.max(0, Math.min((elapsed - FILL_MS - 150) / REVEAL_MS, 1));
+          : !revealStart
+            ? 0
+            : Math.max(0, Math.min((now - revealStart - 120) / REVEAL_MS, 1));
 
       // report whole percent steps only, so React is not re-rendered per frame
       const pct = Math.round(fill * 100);

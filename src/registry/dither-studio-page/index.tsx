@@ -547,12 +547,14 @@ export default function DitherStudioPage({
   const rootRef = useRef<HTMLDivElement>(null);
 
   // load choreography lives in the engine: the counter mirrors its fill,
-  // then the plate dissolves and `revealed` flips
+  // `entered` flips when the dissolve starts (page reveals under the plate),
+  // `revealed` when the plate is fully gone (engine drops behind the DOM)
   const [count, setCount] = useState(0);
+  const [entered, setEntered] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const active = useActiveSection(rootRef);
   const clock = useClock();
-  const eyebrow = useScramble("[ WE ARE BLANK ]", revealed);
+  const eyebrow = useScramble("[ WE ARE BLANK ]", entered);
 
   // menu
   const [menuOpen, setMenuOpen] = useState(false);
@@ -602,10 +604,14 @@ export default function DitherStudioPage({
         className="dsp-engine"
         videoSrc={heroVideoSrc}
         onProgress={(p) => setCount(Math.round(p * 100))}
+        onHandoff={() => setEntered(true)}
         onDone={() => setRevealed(true)}
       />
       {!revealed ? (
-        <div className="dsp-loader" aria-hidden="true">
+        <div
+          className={`dsp-loader${count >= 100 ? " dsp-loader--out" : ""}`}
+          aria-hidden="true"
+        >
           <span className="dsp-loader-count">{count}%</span>
         </div>
       ) : null}
@@ -835,7 +841,7 @@ export default function DitherStudioPage({
           <div className="dsp-hero-body">
             <div className="dsp-hero-left">
               <p className="dsp-eyebrow">{eyebrow}</p>
-              {revealed ? (
+              {entered ? (
                 <TextReveal
                   as="h1"
                   className="dsp-hero-title"
@@ -1183,9 +1189,17 @@ const STYLES = `
   pointer-events: none;
 }
 .dither-studio-page .dsp-loader-count {
+  display: inline-block;
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
+  transition:
+    transform 0.45s cubic-bezier(0.5, 0, 0.75, 0),
+    clip-path 0.45s cubic-bezier(0.5, 0, 0.75, 0);
+}
+.dither-studio-page .dsp-loader--out .dsp-loader-count {
+  transform: translateY(-100%);
+  clip-path: inset(100% 0 0 0);
 }
 .dither-studio-page .dsp-blur {
   position: fixed;
