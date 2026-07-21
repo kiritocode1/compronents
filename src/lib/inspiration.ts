@@ -3942,6 +3942,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "Cloudflare Artifacts",
+        href: "https://blog.cloudflare.com/artifacts-git-for-agents-beta/",
+        dateAdded: "2026-07-21",
+        description:
+          "Cloudflare's launch post for Artifacts, a versioned file system that speaks Git, built for agents that need to create repos programmatically rather than through a human-facing forge. Repos are created over a REST API or a Workers binding, can be imported or read-only forked from GitHub, and carry agent attribution in git-notes. The Git server is roughly 100KB of Zig compiled to WebAssembly running on Durable Objects, with R2 for snapshots and KV for auth tokens, speaking Git protocol v1 and v2 with shallow clones and incremental fetch. It also open-sources ArtifactFS, a filesystem driver that mounts large repos and hydrates files on demand. Pricing at announcement was $0.15 per 1,000 operations and $0.50 per GB-month, with a free tier of 10,000 operations and 1GB. Posted April 16, 2026 by Matt Carey and Matt Silverlock.",
+      },
+      {
         title: "Monid",
         href: "https://monid.ai/",
         dateAdded: "2026-07-21",
@@ -7048,6 +7055,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "dmmulroy/skills",
+        href: "https://github.com/dmmulroy/skills",
+        dateAdded: "2026-07-21",
+        description:
+          "TypeScript engineering skills for coding agents, aimed at backend and architecture work rather than UI. Six skills by Dillon Mulroy: coding-standards (typed failures and domain modeling), bootstrap-prelude (building a prelude.ts foundation file), cloudflare-composition-root (Cloudflare bindings and runtime types), tech-spec (architecture handoff plus a TDD plan), herdr, and bro. It also vendors grilling, grill-me, grill-with-docs, domain-modeling, and tdd from mattpocock/skills. Each skill is a SKILL.md with colocated templates. MIT licensed, around 288 stars.",
+      },
       {
         title: "Meng To Skills",
         href: "https://github.com/MengTo/Skills",
