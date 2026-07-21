@@ -16,6 +16,7 @@ import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
+import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
 import ClientHoverPreviewDemo from "./client-hover-preview";
 import ConvergingIconsTextDemo from "./converging-icons-text";
@@ -132,6 +133,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "chrome-folio-page": ChromeFolioPageDemo,
   "fanned-card-deck": FannedCardDeckDemo,
   "wordmark-spotlight-scroll": WordmarkSpotlightScrollDemo,
   "circle-preloader-hero": CirclePreloaderHeroDemo,

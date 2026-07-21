@@ -171,6 +171,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "chrome-folio-page",
+    title: "Chrome Folio Page",
+    description:
+      "A dark portfolio homepage built from four scroll movements. The masthead sets a wordmark in mixed grotesque and italic serif over a liquid-chrome WebGL sphere, shaded with noise-rotated line bands under a screen-space grain pass and steered by the pointer. Scrolling grows the chrome band to full bleed while the masthead layers lift at three rates, then a cube warps in from deep Z as the mark blurs away, and a pinned fly-through sends project cards across an oversized word. Three.js, GSAP ScrollTrigger, SplitText, and Lenis.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-21",
+    type: "registry:ui",
+    dependencies: ["three", "gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/chrome-folio-page.tsx",
+        target: "components/ui/chrome-folio-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "fanned-card-deck",
     title: "Fanned Card Deck",
     description:

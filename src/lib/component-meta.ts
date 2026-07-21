@@ -408,6 +408,109 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "chrome-folio-page": {
+    demoPath: "src/components/demos/chrome-folio-page.tsx",
+    nuance: [
+      {
+        label: "Noise rotates the sampling frame",
+        description:
+          "The sphere's fragment shader runs 3D value noise over the vertex position and uses that value as a rotation angle for the UV before sampling two smoothstepped sine bands. Rotating the frame is what folds the bands into the liquid-metal read, rather than sliding them.",
+      },
+      {
+        label: "Linear output keeps the greys",
+        description:
+          "The renderer writes linear sRGB instead of the managed default. The shader already emits display-referred greys, so letting three convert them a second time would wash the chrome toward white.",
+      },
+      {
+        label: "The camera sits inside the sphere",
+        description:
+          "A 1.5 unit sphere with the camera at z=1 puts the near surface past the camera, so the mesh fills the frame as a surface rather than reading as a ball. The band scale is tuned for that distance.",
+      },
+      {
+        label: "Pointer rotation is lerped, not bound",
+        description:
+          "The pointer sets a target angle and each frame closes five percent of the remaining distance, so the chrome keeps drifting after the cursor stops instead of locking to it.",
+      },
+      {
+        label: "Cube arrives from deep Z",
+        description:
+          "The cube interpolates from a 180000px Z offset with full rotations on all three axes. The first half of the pinned scroll flies it in, the second half adds a 360 degree spin on top of the settled transform.",
+      },
+      {
+        label: "Cards run off one driver object",
+        description:
+          "All cards read a single tweened value rather than owning timelines. Each offsets that value by its index and clamps, then picks a segment out of a four-stop keyframe array, which is what lets them fan out and recombine without drifting apart.",
+      },
+    ],
+    editable: [
+      {
+        name: "wordmark / subline",
+        control: "text",
+        description:
+          "Braced runs render in italic serif, so BLAN{K} mixes both faces without markup.",
+      },
+      {
+        name: "projects",
+        control: "text",
+        description: "Title, blurb, and a two-color tint per project card.",
+      },
+    ],
+    api: [
+      {
+        name: "wordmark",
+        type: "string",
+        default: '"BLAN{K} \'{25}"',
+        description:
+          "Masthead wordmark. Characters inside braces are set in italic serif.",
+      },
+      {
+        name: "tagline",
+        type: "string",
+        default: "Studio one-liner",
+        description: "Small mono line centered in the masthead.",
+      },
+      {
+        name: "subline",
+        type: "string",
+        default: '"DESIGN - {FOLIO}"',
+        description:
+          "Secondary display line, same brace syntax as the wordmark.",
+      },
+      {
+        name: "standfirst",
+        type: "string[]",
+        default: "Two BLANK lines",
+        description: "Mono lines pinned to the bottom of the viewport.",
+      },
+      {
+        name: "worksIntro",
+        type: "string[]",
+        default: "Three BLANK lines",
+        description: "Mono intro above the project fly-through.",
+      },
+      {
+        name: "cubeWord / projectsWord",
+        type: "string",
+        default: '"FEEL" / "PROJECTS"',
+        description:
+          "Oversized words behind the cube (italic serif) and the cards (grotesque).",
+      },
+      {
+        name: "projects",
+        type: "FolioProject[]",
+        default: "Five BLANK projects",
+        description:
+          "Title, blurb, and a two-color tint that generates both the card media and a cube face.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container and point ScrollTrigger at it; set false to ride the window scroll.",
+      },
+    ],
+  },
   "fanned-card-deck": {
     demoPath: "src/components/demos/fanned-card-deck.tsx",
     nuance: [
