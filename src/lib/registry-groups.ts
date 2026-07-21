@@ -243,6 +243,7 @@ export const backendGroups: RegistryGroup[] = [
       "rivet-dynamic-actor-registry",
       "vercel-queue-consumer-groups",
       "artifacts-fork-run-workflow",
+      "effect-cluster-entity-sharding",
     ],
   },
   {

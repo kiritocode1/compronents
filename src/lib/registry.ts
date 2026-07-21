@@ -4027,6 +4027,32 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-cluster-entity-sharding",
+    title: "Effect Cluster Entity Sharding",
+    description:
+      "A per-account ledger built as an Effect 4 cluster entity, where the single-writer guarantee is the shape of the runtime rather than a lock the handler has to remember to take. The contention case this replaces is money moving between accounts: two withdrawals that interleave either double-spend or need a SELECT FOR UPDATE, an advisory lock, or a serializable retry, each of which makes the account row a point every worker fights over and rests correctness on nobody forgetting the guard. An entity is addressed by a string id, and the cluster runs exactly one copy of a given id at a time, so messages to that account land in one mailbox and are processed one at a time; ten million accounts are ten million addresses spread across the runners, and one account's balance is only ever touched by the one fiber draining its mailbox, which is why the in-memory balance needs no lock. Deposit and Withdraw are annotated Persisted so the cluster writes them to MessageStorage before acknowledging, which is what makes at-least-once redelivery real and therefore why every handler is idempotent against the payload requestId: a redelivered deposit is recognised and dropped instead of minting money from a retry. GetBalance is left unpersisted because persisting a read would write a storage row per balance check. The concurrency option is pinned to one, the single-writer guarantee stated as a number, and maxIdleTime evicts a silent entity to free memory with the next message rehydrating it, which is why durable balance must come from storage rather than the map idle eviction discards. The runtime file assembles a real single-node Sharding stack from ShardingConfig, MessageStorage, Runners, RunnerStorage, and RunnerHealth, and scaling out to real runners is a change to that file alone, since the entity never knew how many runners existed. Verified against effect@4.0.0-beta.98, much of the cluster layer being Tim Smart's work.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-cluster-entity-sharding/ledger-entity.ts",
+        target: "src/ledger/ledger-entity.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-cluster-entity-sharding/ledger-runtime.ts",
+        target: "src/ledger/ledger-runtime.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
