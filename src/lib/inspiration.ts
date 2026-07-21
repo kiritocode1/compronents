@@ -6127,6 +6127,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Docs, slides and content tools",
     links: [
       {
+        title: "Blume CLI",
+        href: "https://useblume.dev/cli",
+        dateAdded: "2026-07-21",
+        description:
+          "Open source command-line tool for building and running documentation sites, useful when you want docs scaffolding, a dev server, and production builds from one binary instead of wiring a docs framework yourself. Built by Hayden Bleasel, MIT licensed (version 1.1.2 at time of writing). Ships eleven commands covering init, dev server with hot reload, build, preview, adding components, content sync, ejecting to a standalone Astro app, type-checking pages, diagnostics, link and anchor validation, and a site audit. Comes with four project templates (docs, API, SDK, changelog), a JS performance budget flag, and is designed to work alongside coding agents like Claude Code and Codex.",
+      },
+      {
         title: "EventCatalog",
         href: "https://www.eventcatalog.dev/",
         dateAdded: "2026-07-20",
