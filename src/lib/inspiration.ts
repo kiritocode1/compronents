@@ -2164,6 +2164,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Color, gradients and palettes",
     links: [
       {
+        title: "Colir",
+        href: "https://colir.space",
+        dateAdded: "2026-07-21",
+        description:
+          "A gradient generator built around curve-based controls rather than plain linear or radial stops, so you steer the color flow along X/Y curves for results the defaults cannot reach. It adds 12 blend modes, effects like noise, glitter, feathering, and distortion, 9 built-in palettes, and GPU-accelerated real-time preview, exporting PNG or WebP at 1x to 4x. Freemium: 5 daily exports free for personal use, $7/month Pro, or a $49 perpetual license for unlimited commercial exports.",
+      },
+      {
         title: "Super Color Palette",
         href: "https://supercolorpalette.com/",
         dateAdded: "2026-07-14",
@@ -2376,6 +2383,27 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "BDFM",
+        href: "https://bitmap.designfamilymarket.com",
+        dateAdded: "2026-07-21",
+        description:
+          "A browser tool from DesignFamilyMarket that turns any image, even a tiny one, into a pixel-perfect vector with a retro 8-bit dithered texture, exporting to SVG, PNG, or JPG. It offers 11 dithering methods, including a Stretch mode that pulls the bitmap texture horizontally or vertically, and the SVGs are kept lightweight with no junk anchor points so they stay easy to edit. Unlimited free PNG downloads; SVG exports need a Google sign-in (5 free).",
+      },
+      {
+        title: "Simpedit Halftone Effect",
+        href: "https://simpedit.com/Photo-Effects/Halftone-Effect",
+        dateAdded: "2026-07-21",
+        description:
+          "A free, browser-based halftone generator inside Simpedit's photo-effects suite, for turning a photo into a dot pattern for pop-art or vintage-print looks. Processing stays on-device (nothing uploaded), with controls for dot size, spacing, opacity, and color mode, a live preview, brightness/saturation/sharpness adjustments, and high-resolution export. Handles JPG, PNG, and WebP; no account required. Ad-supported.",
+      },
+      {
+        title: "tooooools",
+        href: "https://www.tooooools.app",
+        dateAdded: "2026-07-21",
+        description:
+          "A free browser-based image and video effects app by Daniil Sukhovskoy: upload, tune an effect, export. It bundles a large set of stylizers, stippling, dots, patterns, edge detection, distortion, displacement, dithering, bevel, recolor, scatter, cellular automata, gradients, CRT, and ASCII, plus preprocessing (blur, grain, gamma, black/white point) and grid controls. Works on JPG, PNG, and MP4, with keyboard shortcuts and slide/stack animation. Free for personal and commercial use, attribution appreciated but not required.",
+      },
       {
         title: "Transhumans",
         href: "https://www.transhumans.xyz/",
@@ -5992,6 +6020,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "ASCII art and diagram tools",
     links: [
+      {
+        title: "Excalidraw",
+        href: "https://excalidraw.com",
+        dateAdded: "2026-07-21",
+        description:
+          "A virtual whiteboard for sketching hand-drawn-looking diagrams, wireframes, and charts in the browser with no account needed. Created in January 2020 by Christopher Chedeau (co-creator of React Native and Prettier) and now maintained by Excalidraw s.r.o. in Brno; MIT licensed and written in TypeScript and React. Supports real-time collaboration with client-side end-to-end encryption, pasting spreadsheet or CSV data to generate charts, and a growing asset library at libraries.excalidraw.com.",
+      },
       {
         title: "ASCII Magic",
         href: "https://www.ascii-magic.com/",
