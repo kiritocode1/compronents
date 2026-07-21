@@ -1297,6 +1297,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Toggle Supply",
+        href: "https://www.toggle.supply/",
+        dateAdded: "2026-07-21",
+        description:
+          "A growing collection of hand-coded, open-source components for modern web development by Jaret Peerson, sorted by New, Old, or alphabetically and grouped by category. Good for studying one self-contained interaction at a time and adapting the technique. Current entries include GitHub Contributions (a contribution graph), Scroll-Driven Card Reveal, an Expandable Directory dropdown, two hover effects (Expand Image on Hover, Circle Mask Reveal on Hover), and a Lightbox with Controls. Source lives on GitHub; no pricing or stated license.",
+      },
+      {
         title: "Pretext Demos",
         href: "https://chenglou.me/pretext/",
         dateAdded: "2026-07-20",
@@ -7111,6 +7118,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "SkillsMP",
+        href: "https://skillsmp.com/",
+        dateAdded: "2026-07-21",
+        description:
+          "A community marketplace that aggregates open-source AI coding agent skills and exposes them for Claude Code, Codex CLI, and ChatGPT. Useful when you want to search across a large pool of skills rather than a single GitHub repo. Claims 2,000,000+ skills spanning 12 domains and 50+ categories in 9 languages, with search, category and occupation filters, and a timeline of additions. Access is free through a REST API and an MCP server (OpenAPI spec provided): 50 requests per day anonymously, 500 per day with a free API key. Skills are described as open source; specific license terms are not stated.",
+      },
       {
         title: "dmmulroy/skills",
         href: "https://github.com/dmmulroy/skills",
