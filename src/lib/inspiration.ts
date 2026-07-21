@@ -893,6 +893,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Evil Buttons",
+        href: "https://www.evilbuttons.com/",
+        dateAdded: "2026-07-22",
+        description:
+          "Registry of 31 animated button components built on shadcn/ui and Motion, leaning toward the mischievous end of micro-interactions rather than plain hover states. Includes SlideToDetonate, DontPressButton, CaptchaButton, HoldConfirmButton, GlitchButton, and ConfettiButton alongside more conventional ones like CopyButton, PillButton, and MorphStatusButton. Ships live previews, a playground, and one-command CLI installs, published by Radium Coders.",
+      },
+      {
         title: "AIcss",
         href: "https://www.aicss.dev/",
         dateAdded: "2026-07-22",
@@ -3922,6 +3929,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Webclaw",
+        href: "https://webclaw.io/",
+        dateAdded: "2026-07-22",
+        description:
+          "Web extraction API that turns a URL into markdown, JSON, HTML, plain text, or an LLM-optimized format, aimed at feeding pages to agents without burning tokens on raw markup. Skips headless browsers in favour of HTTP with TLS fingerprint impersonation, returning static pages in roughly 118ms, and handles bot protection, CAPTCHAs, JavaScript rendering, and PDF/DOCX/XLSX detection. Reachable as an MCP server (12 tools for Claude, Cursor, and Codex), a REST API with 14 endpoints, or a CLI, with a Firecrawl compatibility layer on /v2 routes. Written in Rust, AGPL-3.0 and self-hostable, with paid cloud tiers from $19/month and a free tier of 3 daily runs.",
+      },
       {
         title: "pi-observational-memory",
         href: "https://github.com/elpapi42/pi-observational-memory",
