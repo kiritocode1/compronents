@@ -3944,6 +3944,89 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "artifacts-repo-provisioner",
+    title: "Artifacts Repo Provisioner",
+    description:
+      "The control plane for Cloudflare Artifacts, the versioned filesystem that speaks Git and is meant to have repos created programmatically at fleet scale, written around the fact that the documented advice (if you have 10,000 agents, create 10,000 repos) is correct and is also an invoice. The provisioner file starts where nothing downstream can recover from a mistake: the name, which is the address, is unique per namespace, and cannot be renamed, so it is computed as fleet-YYYYMMDD-taskId from the task's own createdAt rather than from the clock, which makes the name a pure function of the task and therefore makes retry idempotency free. Creation attempts a fork of a reviewed baseline with defaultBranchOnly set, since a fork that copies every stale branch multiplies storage across every task, and reads the ALREADY_EXISTS error as evidence that an earlier attempt won rather than as a failure, adopting that repo instead of inventing a second name. The reuse path mints a fresh short-lived write token because create, import, and fork return the initial token exactly once and nothing serves it again, and it tolerates IMPORT_IN_PROGRESS and FORK_IN_PROGRESS while polling, since a repo that exists but is not ready throws from get() and looks identical to a repo that is missing. Token rotation mints before revoking so a running agent never has a window with no credential, revokes by plaintext so it never has to reconcile against a token list, and clamps TTL above the 60 second floor. The day stamp in the name is what makes reaping decidable from list(), which returns only name and status, and the sweep skips anything whose name does not parse, skips anything not ready, caps deletions to stay under the 2,000 requests per 10 seconds namespace limit, and defaults to dry run. A cost estimator prices operations at $0.15 per 1,000 past the 10,000 monthly allowance and storage at $0.50 per GB-month past the first, prorated by retention, because storage is billed on daily peak and a repo reaped on day 14 bills for half a month rather than nothing.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/artifacts-repo-provisioner/provisioner.ts",
+        target: "src/provisioner/provisioner.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/artifacts-repo-provisioner/worker.ts",
+        target: "src/provisioner/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "artifacts-agent-commit-notes",
+    title: "Artifacts Agent Commit Notes",
+    description:
+      "Agent attribution carried in git-notes on a Cloudflare Artifacts repo, built around the reason the metadata does not go in the commit message: a message is an input to the commit SHA, so writing attribution at commit time means recording it before review has happened and before any eval score exists, and adding it later means rewriting history and invalidating every downstream reference. A note is a separate object pointing at a commit, mutable, attachable hours after the fact, replaceable when the reviewer signs off, and it never changes the SHA of the thing it describes. The cost is the two facts the three files are organised around. Notes live on their own refs under refs/notes, which are in neither the default fetch refspec nor the default push refspec, so a clone that does not ask for them gets complete history and zero provenance with no error and no empty directory to hint that anything was skipped; the clone helper adds the refspec to the config rather than passing it once, and sets notes.displayRef so fetched notes are actually visible in git log rather than sitting in the object database unreferenced by any command a human runs. And notes are keyed by the SHA they annotate, so a rebase, amend, or squash strands every note on commits that are no longer reachable, which is why the commit path sets notes.rewriteRef (a config with no default value, meaning git copies notes forward for no ref at all until it is set) and why the read path returns 404 rather than an empty 200, since human wrote this and a rebase orphaned the note are indistinguishable from the reader's side. Each agent writes to its own ref because a notes tree cannot hold two entries under one name, so on a shared ref the second agent either fails or discards the first agent's record with add -f, and append concatenates raw bytes into something that parses as neither document. The Worker never commits, because the Artifacts binding is a control plane plus log, readCommit, and readTree with no content write anywhere on it: it authorises the run, mints a fifteen-minute write-scoped repo token, hands back the exact push refspec so no harness has to remember it, and revokes early rather than waiting out the TTL. Credentials go through http.extraHeader rather than the basic-auth remote URL form, which would write the secret into .git/config where git remote -v prints it into CI logs. Reading a note back handles the notes-tree fanout, which git rebalances from flat to two-level to three-level as the count grows, so the path that worked at fifty commits stops working at fifty thousand.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/artifacts-agent-commit-notes/attribution.ts",
+        target: "src/provenance/attribution.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/artifacts-agent-commit-notes/commit-run.ts",
+        target: "src/provenance/commit-run.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/artifacts-agent-commit-notes/worker.ts",
+        target: "src/provenance/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "artifacts-fork-run-workflow",
+    title: "Artifacts Fork Run Workflow",
+    description:
+      "A durable Cloudflare Workflow that gives every agent run its own disposable fork of a reviewed Artifacts baseline, then gates the merge back. The baseline is created readOnly so no agent token can push to it, and each run forks it with defaultBranchOnly so the copy carries the tip instead of every branch and tag it will never read. The fork name is derived from the Workflow instanceId and event.timestamp, never Date.now(), which is what makes the fork step idempotent: a retry recomputes the same name, collides with ALREADY_EXISTS (10201), and adopts the existing repo rather than creating a second one, while FORK_IN_PROGRESS (10303) is absorbed by a retrying readiness step instead of handing the sandbox a remote that is not clonable yet. Write tokens are minted per run with a two hour TTL and sensitive step output, the agent is dispatched with an ArtifactFS blobless mount so file contents hydrate on read, and promotion into the baseline happens only after a merge-decision event from a human or a policy engine, since the binding has no merge call. Teardown runs in a finally block and again in a cron sweeper, because terminate() skips the finally and Artifacts bills storage at $0.50 per GB-month until a repo is explicitly deleted.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/artifacts-fork-run-workflow/run-workflow.ts",
+        target: "src/agent-run-forks/run-workflow.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/artifacts-fork-run-workflow/worker.ts",
+        target: "src/agent-run-forks/worker.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

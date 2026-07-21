@@ -242,6 +242,7 @@ export const backendGroups: RegistryGroup[] = [
       "rivet-durable-workflow-actor",
       "rivet-dynamic-actor-registry",
       "vercel-queue-consumer-groups",
+      "artifacts-fork-run-workflow",
     ],
   },
   {
@@ -254,6 +255,8 @@ export const backendGroups: RegistryGroup[] = [
       "worker-rpc-promise-pipelining",
       "fluid-compute-instance-safety",
       "fluid-stream-lifecycle",
+      "artifacts-repo-provisioner",
+      "artifacts-agent-commit-notes",
     ],
   },
   {
