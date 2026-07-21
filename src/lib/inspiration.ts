@@ -3572,6 +3572,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Motion Extractor",
+        href: "https://aescripts.com/motion-extractor/",
+        dateAdded: "2026-07-21",
+        description:
+          "After Effects plugin (version 1.0) sold through aescripts that isolates the motion in a clip: it compares footage frame by frame and removes everything that stays still, leaving only what changed. The result is a ghostly, high-contrast reading of movement that is otherwise invisible in the plate, useful both as a finished look for music videos and abstract work, and as a compositing aid for spotting drift or subtle camera shake. Good visual reference for the same trick in a shader or canvas effect: difference the current frame against the previous one.",
+      },
+      {
         title: "LosslessCut",
         href: "https://github.com/mifi/lossless-cut",
         dateAdded: "2026-07-21",
@@ -6294,6 +6301,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Docs, slides and content tools",
     links: [
+      {
+        title: "Animotion",
+        href: "https://animotion.pages.dev/",
+        dateAdded: "2026-07-21",
+        description:
+          "Open source presentation framework for building animated slides in code, for when you want to visualize an idea (a diagram, a code walkthrough, a math concept) rather than lay out static bullet points. Built by Matia of Joy of Code on top of Svelte, Reveal.js and Tailwind, scaffolded with `npm create @animotion`. Transitions between slides are automatic: mark an element with the `animate` property and Animotion tweens it from one slide to the next, so motion comes from the markup instead of a timeline. Ships docs, a Discord, and an examples repository of real decks.",
+      },
       {
         title: "Blume CLI",
         href: "https://useblume.dev/cli",
