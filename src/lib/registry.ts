@@ -4157,6 +4157,32 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-service-lifecycle-runtime",
+    title: "Effect Service Lifecycle Runtime",
+    description:
+      "The service, layer, scope, and fiber foundations a long-lived Effect 4 server sits on, built so it shuts down without leaking. Three facts drive it. A resource is acquired and released as a pair by the runtime, not by a finally you maintain: Effect.acquireRelease binds a release to an acquire and the release runs when the enclosing scope closes, whether that is a clean shutdown or an interruption partway through startup, so the connection pool here is drained on SIGTERM without anyone writing the teardown path that is always wrong because it is never tested. A layer is memoized, so a service built once is built once: in v4 the memo map is shared across Effect.provide calls, so two services depending on the pool share one pool rather than opening two against a database sized for one, a doubled connection count the dashboard does not show, and a release path that closes one pool while the other keeps serving. A service is a declared dependency, not a global reached for, so a test provides a different pool by providing a different layer and nothing in the consumer changes. The runtime file supervises background workers in a FiberSet: every worker is run into the set, the set lives in a scope, and when the scope closes every fiber is interrupted, so nothing leaks because membership is the mechanism rather than a list someone maintains. Shutdown is not process.exit: SIGTERM interrupts the root fiber, interruption closes the scope, closing the scope interrupts the workers and runs the acquireRelease finalizers, and the pool closes after the workers that use it stop because that is how scope finalizers compose in reverse. It also notes the v4 fork renames, Effect.fork to forkChild and forkDaemon to forkDetach, that a server built on v3 habits gets wrong. Verified against effect@4.0.0-beta.98, with Layer, Fiber, and FiberSet largely Tim Smart's work.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-21",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-service-lifecycle-runtime/server-services.ts",
+        target: "src/server/server-services.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/effect-service-lifecycle-runtime/server-runtime.ts",
+        target: "src/server/server-runtime.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

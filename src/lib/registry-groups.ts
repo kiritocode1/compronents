@@ -257,6 +257,7 @@ export const backendGroups: RegistryGroup[] = [
       "durable-object-websocket-hibernation",
       "worker-rpc-promise-pipelining",
       "effect-rpc-contract-transport",
+      "effect-service-lifecycle-runtime",
       "fluid-compute-instance-safety",
       "fluid-stream-lifecycle",
       "artifacts-repo-provisioner",
