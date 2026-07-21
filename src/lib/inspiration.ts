@@ -893,6 +893,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "AIcss",
+        href: "https://www.aicss.dev/",
+        dateAdded: "2026-07-22",
+        description:
+          "Copy-paste block library for the UI an AI agent renders mid-conversation, covering the states a chat surface needs beyond the message bubble. Groups its components into thinking and reasoning, tool and action states (web search, file diff, image generation), text outputs (streaming text, inline citations, code block), structured outputs (to-do list, data table, comparison table), and an agent input. Built by Kevin (@kvnkld), free to use, currently in beta at V1.2.",
+      },
+      {
         title: "Thinking Orbs",
         href: "https://orbs.jakubantalik.com/",
         dateAdded: "2026-07-22",
