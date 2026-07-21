@@ -528,6 +528,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Icons",
     links: [
       {
+        title: "MX Icons",
+        href: "https://github.com/ig-imanish/mx-icons",
+        dateAdded: "2026-07-21",
+        description:
+          "React SVG icon library that ships each icon in outline, solid, and mini (16px) variants, for when you want one set that covers both heavier UI glyphs and tiny inline marks. Built by ig-imanish, distributed as a tree-shakeable npm package with React 18 or 19 as its only peer dependency, and props for size, color, and arbitrary SVG attributes. MIT licensed, around 74 stars, with a live demo at mx-icons.vercel.app.",
+      },
+      {
         title: "Iconiqui",
         href: "https://iconiqui.com/",
         dateAdded: "2026-07-14",
@@ -2480,6 +2487,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Typography tools",
     links: [
       {
+        title: "Tinkerfont",
+        href: "https://tinkerfont.com/",
+        dateAdded: "2026-07-21",
+        description:
+          "Browser extension (Chrome and Firefox) for testing typography on live websites, useful when you want to see a font change in a real page before touching a stylesheet. A right-click inspector reports the family, color, and contrast of any text, a DOM scanner lists every font in use, and you can swap in any of 1,900+ Bunny Fonts or upload your own woff2, woff, ttf, or otf. Replacements can be scoped to part of a page, persist per site, and be shared as a setup link. Made by Mighil, free to use with optional supporter contributions, and stores rules locally with no data collection.",
+      },
+      {
         title: "Fontshare pairs",
         href: "https://fontshare.com/pairs",
         dateAdded: "2026-07-14",
@@ -3114,6 +3128,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Annnimate",
+        href: "https://annnimate.com/",
+        dateAdded: "2026-07-21",
+        description:
+          "Library of pre-built GSAP motion components you copy in and tune, for when you need a polished scroll effect or menu without rebuilding it from scratch. Built by Good Fella, a studio that has done motion work for Coca-Cola, BodyArmor, and Powerade, with 62+ components across buttons, scroll effects, menus, sections, and shaders, shipped for React (useGSAP), Vue composables, and plain HTML/CSS/JS, and compatible with Next.js App Router and Nuxt. Each has a live preview and one-click copy in your framework, reduced-motion support, and an MCP server for Cursor and Claude Code. Paid subscription from 29 euro a month with a free weekly starter pack and a one-time Reveal Kit at 149 euro.",
+      },
+      {
         title: "Fancy CSS Reveal Effects",
         href: "https://expensive.toys/blog/fancy-css-reveal-effects",
         dateAdded: "2026-07-16",
@@ -3460,6 +3481,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "LosslessCut",
+        href: "https://github.com/mifi/lossless-cut",
+        dateAdded: "2026-07-21",
+        description:
+          "Cross-platform desktop GUI over FFmpeg for trimming and cutting video and audio without re-encoding, so a rough cut of large camera, GoPro, or drone footage is near instant and quality is untouched. It copies stream data directly rather than transcoding, and handles multi-track editing, stream manipulation, frame and thumbnail extraction, subtitles, metadata, and rotation fixes, with a CLI and an HTTP API. Built by Mifi as a solo Electron and TypeScript project in Norway, GPL-2.0, roughly 42k stars, shipped for macOS, Windows, and Linux through the App Store, Microsoft Store, Snapcraft, and Flathub.",
+      },
+      {
         title: "Cutting Live Broadcast Latency With Fishjam",
         href: "https://fishjam.swmansion.com/blog/cutting-live-broadcast-latency-with-fishjam",
         dateAdded: "2026-07-20",
@@ -3783,6 +3811,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Voicebox",
+        href: "https://github.com/jamiepine/voicebox",
+        dateAdded: "2026-07-21",
+        description:
+          "Local-first AI voice studio that clones voices, generates speech in 23 languages, dictates into any app via a global hotkey, and gives agents a voice you own, positioned against cloud services like ElevenLabs. Built by Jamie Pine as a Tauri (Rust) and React desktop app with a FastAPI backend, running inference on MLX for Apple Silicon or PyTorch elsewhere across models including Qwen3-TTS, Chatterbox, and Kokoro, with seven TTS engines, Whisper speech-to-text, a multi-track stories editor, and an MCP server so Claude Code and Cursor can speak in cloned voices. MIT licensed, around 45k stars.",
+      },
+      {
+        title: "Handy",
+        href: "https://github.com/cjpais/Handy",
+        dateAdded: "2026-07-21",
+        description:
+          "Offline speech-to-text desktop app: press a configurable shortcut, speak, and the transcription is pasted straight into whatever app has focus, with nothing sent to the cloud. Built by cjpais on Tauri with a Rust backend and a React and TypeScript frontend, transcribing via Whisper models or Parakeet V3 with Silero voice-activity detection and GPU acceleration when available, plus push-to-talk and a CLI. The stated goal is to be the most forkable option rather than the most accurate. MIT licensed, around 27k stars, for macOS, Windows, and Linux.",
+      },
+      {
         title: "Zodex",
         href: "https://zodex.dev/",
         dateAdded: "2026-07-20",
@@ -3941,6 +3983,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "wigolo",
+        href: "https://github.com/KnockOutEZ/wigolo",
+        dateAdded: "2026-07-21",
+        description:
+          "Local-first web intelligence server for AI agents: search, fetch, crawl, extract, cache, and research over MCP with no API keys, no cloud, and nothing per query, meant for coding agents that need web access without a paid search API. Built by Towhid (KnockOutEZ) mostly in TypeScript with a Python SDK, it runs an embedded browser engine, on-device embeddings, and ML reranking, needs Node 20+ and around 1.5 GB of disk, and exposes MCP plus REST and SDK interfaces to Claude Code, Cursor, and VS Code. Multi-engine search with rank fusion and byte-pinned verbatim excerpts, optional LLM synthesis via Gemini, OpenAI, Anthropic, Groq, or local Ollama, and works with LangChain, CrewAI, LlamaIndex, and the Vercel AI SDK. AGPL-3.0, around 2.9k stars.",
+      },
       {
         title: "Cloudflare Artifacts",
         href: "https://blog.cloudflare.com/artifacts-git-for-agents-beta/",
@@ -5955,6 +6004,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Marketing and growth tools",
     links: [
+      {
+        title: "OpenSEO",
+        href: "https://github.com/every-app/open-seo",
+        dateAdded: "2026-07-21",
+        description:
+          "Open-source, self-hostable SEO platform pitched as a pay-as-you-go alternative to Semrush and Ahrefs, covering keyword research, rank tracking, competitor analysis, backlinks, site audits, and AI visibility. Maintained by Every (every-app), written almost entirely in TypeScript, and deployable via Docker or Cloudflare. You bring your own DataForSEO API key and pay only for usage rather than a subscription, and an MCP server lets agents like Claude Code query the SEO data directly. MIT licensed, around 6.3k stars.",
+      },
       {
         title: "Seolo blog",
         href: "https://www.seolo.live/blogs",
