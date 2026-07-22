@@ -33,7 +33,11 @@
   ],
   "exclude": [
     "node_modules",
+    "runtime-lab",
     "src/registry/artifacts-*",
+    "src/registry/bun-*",
+    "src/registry/deno-*",
+    "src/registry/node-*",
     "src/registry/better-auth-*",
     "src/registry/cloudflare-*",
     "src/registry/drizzle-*",

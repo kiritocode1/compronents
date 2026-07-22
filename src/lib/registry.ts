@@ -4238,6 +4238,331 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "bun-secrets-vault",
+    title: "Bun Secrets Vault",
+    description:
+      "A config loader that keeps secrets out of git by storing them in the OS credential store through Bun.secrets: macOS Keychain, Linux libsecret, or Windows Credential Manager, encrypted at rest and scoped to the logged-in user. Because Bun.secrets has no native list, the vault maintains its own key index as one extra secret so set, get, list, and rm behave the way a CLI user expects, with a process.env fallback for CI. Ships a small CLI plus a run subcommand that injects every stored secret into a spawned child process env through Bun.spawn, and a loadConfig(keys) library export for application code. Zero npm dependencies: Bun.secrets, Bun.spawn, and process.env cover the whole surface.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/bun-secrets-vault/vault.ts",
+        target: "src/vault/vault.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "bun-sqlite-job-queue",
+    title: "Bun SQLite Job Queue",
+    description:
+      "A durable background job queue with BullMQ semantics and no Redis, built on bun:sqlite and the Bun Worker global. Jobs are claimed race-free across threads with a single UPDATE ... RETURNING, so two workers never take the same row; a visibility timeout makes a crashed worker's in-flight job claimable again instead of lost; failures retry with exponential backoff and land in a dead_letters table after a max-attempts budget. The consumer pool is the same file re-imported as a worker through Bun.isMainThread, and WAL mode with a busy_timeout lets N threads share one .db safely. Zero npm dependencies: storage and the pool both ship inside Bun.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/bun-sqlite-job-queue/queue.ts",
+        target: "src/queue/queue.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "bun-auth-gateway",
+    title: "Bun Auth Gateway",
+    description:
+      "A session-auth gateway assembled entirely from Bun runtime primitives, no auth library and no Redis. Bun.serve routes carry the HTTP surface, req.cookies (Bun.CookieMap) manages sessions with automatic Set-Cookie, Bun.CSRF issues and verifies tokens bound to the session id, and Bun.password (argon2id) hashes credentials with a dummy-hash verify on unknown users so signin timing does not leak which emails exist. A sliding-window rate limiter and a request log live in bun:sqlite. Routes cover signup, login, logout, a session-scoped me, csrf issuance, a CSRF-protected mutation, and an admin log view. Notes the real quirk that Bun.CSRF.verify throws on an empty token rather than returning false, wrapped so any throw reads as invalid.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/bun-auth-gateway/gateway.ts",
+        target: "src/gateway/gateway.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "deno-kv-leader-election",
+    title: "Deno KV Leader Election",
+    description:
+      "Distributed mutual exclusion and leader election across processes, isolates, and Deploy regions on Deno KV alone. withLock(kv, name, fn) is a distributed compare-and-swap through kv.atomic().check(versionstamp).set() with an expireIn lease so a dead holder cannot wedge the lock, and kv.watch() turns poll-until-free into notify-on-release for instant handoff. onLeader(kv, name, cb) runs an election loop that renews at half the TTL and aborts an AbortSignal the moment leadership is lost. Because KV expiry marks the earliest deletion, not the exact moment, each lease also stores its own expiresAt in the value and waiters validate it, so failover latency stays bounded by the TTL even when the expiry sweep lags. Zero dependencies.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/deno-kv-leader-election/lock.ts",
+        target: "src/lock/lock.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "deno-kv-rate-limit",
+    title: "Deno KV Rate Limit",
+    description:
+      "A sliding-window rate limiter middleware for Deno.serve backed by Deno KV, so the limit holds across isolates and regions on Deploy rather than in one process memory. rateLimit({ limit, windowMs })(handler) wraps a handler and enforces a per-client window using the two-bucket weighted approximation, where each increment is kv.atomic().mutate({ type: sum, expireIn }) so the counter buckets self-garbage-collect on their own TTL with no sweeper. Emits the IETF draft RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, and RateLimit-Policy headers plus Retry-After on a 429. Zero dependencies.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/deno-kv-rate-limit/ratelimit.ts",
+        target: "src/ratelimit/ratelimit.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "deno-kv-realtime-sync",
+    title: "Deno KV Realtime Sync",
+    description:
+      "Multiplayer state sync over plain HTTP with no WebSocket infrastructure. Every table is one KV document: clients subscribe with GET /table/:name, whose SSE body is literally kv.watch().pipeThrough(TransformStream).pipeThrough(TextEncoderStream), so a client disconnect cancels the watch through stream teardown with no bookkeeping. Mutations POST the versionstamp the client last saw, and the write runs through kv.atomic().check() so concurrent editors get clean optimistic-concurrency conflicts (409 with the current state to rebase on) instead of silent lost updates, and every subscriber sees each committed change pushed live. Zero dependencies.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/deno-kv-realtime-sync/sync.ts",
+        target: "src/sync/sync.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "node-permission-sandbox",
+    title: "Node Permission Sandbox",
+    description:
+      "A plugin runner that executes untrusted code in a child Node process under the permission model, so a plugin can read only a whitelisted data directory plus its own file and gets ERR_ACCESS_DENIED on any fs write, out-of-scope read, child process spawn, or worker thread. The child receives a clean env with no parent secrets, a JSON input payload, and a wall-clock timeout that ends in SIGKILL, and reports results over a structured stdout line protocol parsed back into a typed allowed, blocked, or killed outcome. Documents the load-bearing gotcha that allowlist paths must be realpath resolved, since on macOS the /tmp to /private/tmp symlink otherwise denies everything, and the honest ceiling that the network scope needs Node 24 (the runner detects the flag). Zero dependencies.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/node-permission-sandbox/sandbox.ts",
+        target: "src/sandbox/sandbox.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "node-diagnostics-telemetry",
+    title: "Node Diagnostics Telemetry",
+    description:
+      "Zero-instrumentation HTTP observability with no APM vendor and no logging code in the handlers at all. Everything is observed from outside through the diagnostics channels Node core already publishes: http.server.request.start and response.finish for inbound requests, undici:request:create for outbound fetch, and net.server.socket for connection counts, with request ids from AsyncLocalStorage so an outbound call correlates to the request that made it. Emits JSON logs, per-route latency histograms, and a Prometheus /metrics endpoint. Documents two real behaviors on current Node: bindStore on http.server.request.start does not propagate for server requests so it uses enterWith in a synchronous subscriber, and response.finish can fire outside the request context so it correlates through a WeakMap keyed by the request object. Zero dependencies.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/node-diagnostics-telemetry/telemetry.ts",
+        target: "src/telemetry/telemetry.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "node-sqlite-worker-pool",
+    title: "Node SQLite Worker Pool",
+    description:
+      "A durable job queue on node:sqlite feeding a worker_threads pool, where jobs survive process restarts: any row left running by a crash is re-queued on boot. The same file is its own worker through isMainThread, and the main thread claims a job with an atomic UPDATE ... RETURNING only when a worker is idle, so backpressure is structural rather than a buffer that grows without bound. Failures retry with capped exponential backoff plus full jitter, then land in a dead state, and SIGINT drains in-flight jobs before terminating workers and closing the DB. Ships a node:test suite that uses mock timers and a mocked clock to prove the backoff fires at exactly the computed delays and that a failed job stays unclaimable until its window elapses, with no real waiting.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/node-sqlite-worker-pool/workq.ts",
+        target: "src/workq/workq.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/node-sqlite-worker-pool/workq.test.ts",
+        target: "src/workq/workq.test.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "durable-object-rpc-rate-limit",
+    title: "Durable Object RPC Rate Limit",
+    description:
+      "A globally consistent token bucket rate limiter, one Durable Object per API key, consumed over native RPC rather than fetch: the fronting Worker calls take() and peek() directly on a stub from env.LIMITER.getByName(apiKey), so each key shards to its own strongly consistent bucket worldwide. Bucket state lives in DO SQLite and survives eviction, the schema is initialized inside blockConcurrencyWhile and refilled inside transactionSync, and refill is alarm driven: an alarm is armed only while the bucket is below capacity and goes quiet once full, so an idle key costs nothing. The Worker maps the RPC result to RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, and Retry-After headers. This is the accounting-correct counterpart to the eventually consistent Rate Limiting binding.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: ["@cloudflare/workers-types@5.20260719.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/durable-object-rpc-rate-limit/worker.ts",
+        target: "src/rate-limiter/worker.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/durable-object-rpc-rate-limit/wrangler.jsonc",
+        target: "wrangler.jsonc",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-cache-stampede-guard",
+    title: "Effect Cache Stampede Guard",
+    description:
+      "A read-through cache that survives a hot-key expiry and a cold-start traffic spike, built on the Effect Cache. When a key is missing, concurrent lookups of that key are coalesced onto a single origin fiber (single-flight), so a thousand simultaneous misses cause exactly one database load instead of a thundering herd. A Semaphore wraps the origin lookup as an admission gate, so even a burst of distinct cold keys can never open more than the permit count of concurrent origin loads and melt the database. Stale entries are served immediately while a detached fiber refreshes them through Cache.refresh, so a slow origin never blocks a reader. Solves cache stampede and thundering herd. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-cache-stampede-guard/stampede.ts",
+        target: "src/cache/stampede.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-circuit-breaker-budget",
+    title: "Effect Circuit Breaker and Retry Budget",
+    description:
+      "Resilience primitives that stop a wobbling dependency from becoming a self-inflicted outage. The retry budget is an atomic token bucket over a Ref: traffic funds tokens, each retry spends one, and an empty bucket rewrites the failure into a non-retryable error, so retries can never exceed a fixed percentage of live traffic no matter how many callers are failing at once. Backoff is Schedule.jittered over Schedule.exponential so a synchronized retry wave desynchronizes. The circuit breaker is a Ref state machine (closed, open, half-open) keyed on the Clock that admits exactly one half-open probe before deciding to close or re-open, and a per-dependency Semaphore bulkhead fails fast so one slow dependency cannot exhaust the shared fiber pool. Every call carries an Effect.timeout. Solves retry storms and cascading failures. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-circuit-breaker-budget/resilience.ts",
+        target: "src/resilience/resilience.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-shard-router-backpressure",
+    title: "Effect Shard Router with Backpressure",
+    description:
+      "A work router that keeps one viral key or one noisy tenant from drowning a single worker. A consistent-hash ring (FNV-1a with virtual nodes) places cold keys, and any key that crosses a frequency threshold is split by power-of-two-choices: hash two ring positions and dispatch to the shallower shard, so a hot key spreads across several workers instead of pinning one. Each shard is a bounded Queue, so a full queue makes offer block and backpressure propagates to the producer rather than growing an unbounded backlog in memory. Low-priority work goes to a dropping Queue that sheds load under pressure instead of blocking, and a per-shard Metric gauge exposes live depth for autoscaling. Solves hot partitions and queue backlog. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-shard-router-backpressure/shards.ts",
+        target: "src/shards/shards.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-fencing-token-hlc",
+    title: "Effect Fencing Token and Hybrid Clock",
+    description:
+      "Two coordination primitives that keep a distributed write correct when leadership and time both misbehave. A lease manager mints strictly increasing fencing tokens through Ref.updateAndGet, and the protected resource remembers the highest token it has accepted and rejects any lower one, so a leader that was presumed dead during a GC pause or partition has its late write refused by the resource itself, not by a race it might win. Causality is carried by a Hybrid Logical Clock built on the Clock service, whose physical component is clamped so it never regresses, so event ordering survives a wall clock that jumps backward across a time sync. The whole thing is tested deterministically with TestClock across a five-minute backward jump. Solves split brain and clock skew. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-fencing-token-hlc/fencing.ts",
+        target: "src/fencing/fencing.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-outbox-replicator",
+    title: "Effect Outbox Replicator",
+    description:
+      "A durable replication path plus leak-proof fiber lifecycles. The business record and its outbox entry commit in one atomic Ref.update, closing the dual-write gap where a row is acknowledged to the client but the follow-up publish is lost to a crash. A replicator drains the outbox with a cursor that advances only after a durable apply, giving at-least-once delivery across restarts, and the apply is idempotent on sequence number so the inevitable re-delivery after a crash does not double-apply. Every background worker is forked into a FiberSet owned by a Scope with ensuring finalizers, so no consumer or subscription can be orphaned when its owner shuts down, and a Metric gauge acts as a leak canary that catches a detached fiber that outlived its scope. Solves data loss and memory leaks. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-outbox-replicator/durability.ts",
+        target: "src/outbox/durability.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -4313,6 +4638,171 @@ export function getRegistryDesignGuidance(
       pair: "Pairs with rateLimit.customRules tightened on the credential endpoints, and with the Better Auth Provisioning Gate for the admission side.",
       avoid:
         'Avoid setting onError to "open" on credential endpoints: a Redis outage then becomes an unthrottled window. Avoid it on better-auth 1.6.x, where the storage interface still requires get and set.',
+    };
+  }
+
+  if (item.name === "bun-secrets-vault") {
+    return {
+      style:
+        "A library export plus a thin CLI over one runtime API. The key index is the only cleverness, and it exists because Bun.secrets has no list, stated where it is read.",
+      use: `Use ${item.title} for keeping local and CI secrets out of git, in the OS keychain, with a run subcommand that hands them to any child process as env.`,
+      pair: "Pair it with process.env in CI where no keychain exists, and with the Bun SQLite Job Queue or Bun Auth Gateway, which read their credentials through loadConfig rather than a committed .env.",
+      avoid:
+        "Avoid it on a runtime other than Bun, since Bun.secrets is the whole mechanism, and avoid treating the run injection as isolation: the child sees every secret, so scope the vault per service rather than sharing one.",
+    };
+  }
+
+  if (item.name === "bun-sqlite-job-queue") {
+    return {
+      style:
+        "One file that is both the queue API and its own worker, gated on isMainThread. The claim is a single SQL statement, so the concurrency argument is readable in one line.",
+      use: `Use ${item.title} for durable background work on a single Bun host: emails, webhooks, thumbnails, anything that must retry and survive a crash without standing up Redis.`,
+      pair: "Pair it with Bun.cron for scheduled enqueues and with the Bun Secrets Vault for any credentials the job handlers need.",
+      avoid:
+        "Avoid it across more than one machine, since a local .db does not coordinate hosts; reach for a network queue there. Avoid long visibility timeouts on fast jobs, which delays recovery of a genuinely crashed worker.",
+    };
+  }
+
+  if (item.name === "bun-auth-gateway") {
+    return {
+      style:
+        "Session auth assembled from runtime primitives, not a framework. Each security decision (argon2id, dummy-hash timing, CSRF binding, sliding window) sits at its call site with the reason next to it.",
+      use: `Use ${item.title} for a small first-party service that needs real signup, sessions, CSRF, and rate limiting without adopting an auth library or a second datastore.`,
+      pair: "Pair it with the Bun Secrets Vault for the signing and database config, and with the Bun SQLite Job Queue for post-signup side effects like verification mail.",
+      avoid:
+        "Avoid it when you need SSO, OAuth providers, or multi-device session management, where a dedicated auth system earns its weight. Avoid running it multi-host on a local sqlite, since sessions and the rate window would not be shared.",
+    };
+  }
+
+  if (item.name === "deno-kv-leader-election") {
+    return {
+      style:
+        "Coordination as compare-and-swap. The lease stores its own expiry so a waiter never trusts the sweep, and that single decision is what makes the failover bound honest.",
+      use: `Use ${item.title} for singleton work across a fleet: one cron runner, one migration, one compactor, where exactly one process may act at a time and it must hand off cleanly on death.`,
+      pair: "Pair it with the Deno KV Realtime Sync or Rate Limit entries on the same KV, and with a short TTL when fast failover matters more than renewal chatter.",
+      avoid:
+        "Avoid a TTL shorter than the work a critical section must finish, or the lease can expire mid-write. Avoid assuming the lock alone makes a side effect idempotent: a rejected stale holder may already have acted, so fence the write too.",
+    };
+  }
+
+  if (item.name === "deno-kv-rate-limit") {
+    return {
+      style:
+        "A limiter that leaves no sweeper behind. The counter buckets expire themselves through expireIn on the sum mutation, so the data model has no cleanup path to forget.",
+      use: `Use ${item.title} for per-client throttling on Deno Deploy where the limit must hold across isolates and regions, not just one process.`,
+      pair: "Pair it with the Deno KV Leader Election entry for singleton control-plane work and with tighter windows on credential or write endpoints.",
+      avoid:
+        "Avoid it where every request already runs single-process, where an in-memory counter is cheaper, and avoid treating the two-bucket window as exact: it is a weighted approximation, correct for throttling, not for billing counts.",
+    };
+  }
+
+  if (item.name === "deno-kv-realtime-sync") {
+    return {
+      style:
+        "The stream is the subscription and the versionstamp is the concurrency control. There is no socket layer to reason about, because kv.watch teardown is the unsubscribe.",
+      use: `Use ${item.title} for small shared documents that several clients edit live: a kanban column, a settings panel, a lobby roster, where optimistic conflicts are acceptable and history is not needed.`,
+      pair: "Pair it with the Deno KV Leader Election entry when one writer must own a merge step, and with an EventSource client that retries on disconnect.",
+      avoid:
+        "Avoid it for large or fast-moving tables, since every subscriber receives the whole document on each change, and avoid it where you need an ordered change log or server-push under load caps, which SSE duration limits will cut.",
+    };
+  }
+
+  if (item.name === "node-permission-sandbox") {
+    return {
+      style:
+        "Isolation by process boundary, not by cleverness in-process. The trust decision is a child launched under --permission with a clean env, and the protocol between parent and child is a few lines of stdout JSON.",
+      use: `Use ${item.title} for running user-supplied or third-party plugin code that should touch only a data directory and nothing else: extension points, importers, formatters, evaluators.`,
+      pair: "Pair it with the Node Diagnostics Telemetry entry to observe plugin runs, and with a Node 24 runtime when you also need to deny the network, which the runner detects and applies.",
+      avoid:
+        "Avoid trusting an unrealpathed allowlist path, which silently denies everything behind a symlink, and avoid presenting it as a full sandbox on Node 22, where there is no network scope: pair it with an outbound firewall until you can run 24.",
+    };
+  }
+
+  if (item.name === "node-diagnostics-telemetry") {
+    return {
+      style:
+        "Observability that touches no handler. The whole artifact is subscribers on channels Node already publishes, so the application code stays free of timing and logging entirely.",
+      use: `Use ${item.title} for structured request logs, per-route latency histograms, and a /metrics endpoint on a plain node:http or Express service without adopting an APM agent.`,
+      pair: "Pair it with a Prometheus scrape of /metrics and with the Node Permission Sandbox entry so plugin executions show up on the same channels.",
+      avoid:
+        "Avoid assuming bindStore propagates on http.server.request.start, which it does not for server requests here, and avoid it where you need full distributed tracing across services, which wants an OpenTelemetry SDK rather than local channels.",
+    };
+  }
+
+  if (item.name === "node-sqlite-worker-pool") {
+    return {
+      style:
+        "Backpressure by construction: the pool claims from SQLite only when a worker is free, so the queue depth lives in the database, never in an unbounded in-memory buffer.",
+      use: `Use ${item.title} for CPU-bound durable work on one Node host, where jobs must survive a restart and where a growing backlog should stay on disk rather than in heap.`,
+      pair: "Pair it with the Node Diagnostics Telemetry entry to watch throughput and with the included node:test mock-timer suite as the template for asserting your own backoff.",
+      avoid:
+        "Avoid it across multiple machines on a shared file, since node:sqlite does not coordinate hosts, and avoid TypeScript parameter properties in the worker file, which type stripping rejects: the code uses explicit fields for that reason.",
+    };
+  }
+
+  if (item.name === "durable-object-rpc-rate-limit") {
+    return {
+      style:
+        "The limiter is a method call, not a request. State is the socket's own SQLite and refill is an alarm that disarms when full, so an idle key is genuinely free and the RPC reads like a local function.",
+      use: `Use ${item.title} for globally correct per-key quotas on Cloudflare where accounting must be exact: paid API tiers, abuse ceilings, anything a per-colo approximation would undercount.`,
+      pair: "Pair it with the Cloudflare Worker Test Harness entry, whose Durable Object storage access can assert the bucket math, and with the eventually consistent Rate Limiting binding in front of it for a cheap first cut.",
+      avoid:
+        "Avoid it where a per-colo approximation is good enough, since a single object per key adds a network hop, and avoid very high single-key throughput, where one object becomes the hot partition the limiter was meant to prevent elsewhere.",
+    };
+  }
+
+  if (item.name === "effect-cache-stampede-guard") {
+    return {
+      style:
+        "Two guarantees stacked in one read path: the Cache gives single-flight, the Semaphore gives an origin ceiling. Each is a few lines, and the demo proves the count rather than asserting it in prose.",
+      use: `Use ${item.title} for a read-through cache in front of an expensive origin (a database, a pricing service, a rendered page) where a hot key expiry or a cold start would otherwise send a herd straight through.`,
+      pair: "Pair it with the Effect Circuit Breaker and Retry Budget entry on the origin call itself, so a stampede that does get through still cannot hammer a sick dependency.",
+      avoid:
+        "Avoid it for per-user data that is never shared, where coalescing buys nothing, and avoid setting the admission ceiling so low that warm traffic queues behind it: the gate is for cold-start protection, not steady-state throttling.",
+    };
+  }
+
+  if (item.name === "effect-circuit-breaker-budget") {
+    return {
+      style:
+        "Resilience as explicit state, not decorators. The budget, the breaker, and the bulkhead are each a Ref you can read and reason about, and the retry ceiling is enforced by accounting rather than by a magic backoff schedule.",
+      use: `Use ${item.title} for calls to any dependency that can fail in bursts (a third-party API, a shared database, another service) where naive per-caller retries would amplify an outage.`,
+      pair: "Pair it with the Effect Cache Stampede Guard on read paths and with a Metric export so the open-circuit and budget-exhausted transitions are visible on a dashboard.",
+      avoid:
+        "Avoid wrapping an idempotent local write that cannot cascade, where the machinery is overhead, and avoid a retry budget so generous it never bites: the point is a hard ceiling on retry-as-a-fraction-of-traffic, so size it to the origin, not to optimism.",
+    };
+  }
+
+  if (item.name === "effect-shard-router-backpressure") {
+    return {
+      style:
+        "Routing plus flow control in one module. The hot-key split is a two-hash decision at the call site, and backpressure is a property of the bounded Queue rather than a check the caller has to remember.",
+      use: `Use ${item.title} for fan-out work with a skewed key distribution: per-tenant pipelines, per-room event processing, anything where one key can go viral and starve the rest.`,
+      pair: "Pair it with the Effect Circuit Breaker and Retry Budget inside each shard worker and with the per-shard gauges wired to an autoscaler or an alert on sustained depth.",
+      avoid:
+        "Avoid it when the key distribution is already uniform, where a plain hash router is simpler, and avoid the dropping queue for work that must not be lost: shedding is for low-priority traffic, and anything durable belongs on the bounded path or in the Effect Outbox Replicator.",
+    };
+  }
+
+  if (item.name === "effect-fencing-token-hlc") {
+    return {
+      style:
+        "Correctness that does not trust the clock or the lease. The resource enforces the fencing token itself, so safety does not depend on the old leader noticing it lost, and the HLC makes ordering independent of wall-clock monotonicity.",
+      use: `Use ${item.title} for a single-writer resource behind a lease (a compactor, a migration, an exactly-one job) where a paused or partitioned leader must never land a stale write, and for ordering events across nodes whose clocks drift.`,
+      pair: "Pair it with the Deno KV Leader Election or a Durable Object for the lease itself, and carry the fencing token into the Effect Outbox Replicator so a rejected write never reaches the replica.",
+      avoid:
+        "Avoid it where writes are already commutative or idempotent and order does not matter, where the token adds ceremony for no safety, and avoid trusting the lease TTL alone without the token: the token is what makes a late write safe, the TTL only decides when to elect.",
+    };
+  }
+
+  if (item.name === "effect-outbox-replicator") {
+    return {
+      style:
+        "Durability and lifecycle treated as one concern. The atomic commit closes the dual-write gap, the cursor makes redelivery safe, and every background fiber is owned by a Scope so shutdown is a finalizer, not a hope.",
+      use: `Use ${item.title} for publishing a change to a replica, a search index, or a message bus exactly when a row is written, where a crash between the two must not lose the event and a restart must not double-apply it.`,
+      pair: "Pair it with the Effect Fencing Token and Hybrid Clock so a stale leader's record never enters the outbox, and with a real broker or database in place of the in-memory stand-ins the demo uses.",
+      avoid:
+        "Avoid it when the consumer is not idempotent, where at-least-once redelivery will double-apply and the sequence guard is the whole point, and avoid skipping the FiberSet ownership on the workers: an orphaned replicator fiber is the leak this component exists to prevent.",
     };
   }
 

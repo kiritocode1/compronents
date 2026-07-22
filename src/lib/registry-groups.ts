@@ -211,6 +211,21 @@ export const pageGroups: RegistryGroup[] = [
 
 export const backendGroups: RegistryGroup[] = [
   {
+    title: "Runtime-native building blocks",
+    names: [
+      "bun-secrets-vault",
+      "bun-sqlite-job-queue",
+      "bun-auth-gateway",
+      "deno-kv-leader-election",
+      "deno-kv-rate-limit",
+      "deno-kv-realtime-sync",
+      "node-permission-sandbox",
+      "node-diagnostics-telemetry",
+      "node-sqlite-worker-pool",
+      "durable-object-rpc-rate-limit",
+    ],
+  },
+  {
     title: "Auth and access control",
     names: [
       "better-auth-jwks-cookie-cache",
@@ -233,6 +248,16 @@ export const backendGroups: RegistryGroup[] = [
       "durable-object-sql-tenant-db",
       "pg-advisory-lock-keyset-scan",
       "indexeddb-sync-outbox",
+    ],
+  },
+  {
+    title: "Failure-mode resilience",
+    names: [
+      "effect-cache-stampede-guard",
+      "effect-circuit-breaker-budget",
+      "effect-shard-router-backpressure",
+      "effect-fencing-token-hlc",
+      "effect-outbox-replicator",
     ],
   },
   {
