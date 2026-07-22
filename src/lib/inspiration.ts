@@ -6689,6 +6689,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Engineering essays and culture",
     links: [
       {
+        title: "Claude Is Not a Compiler",
+        href: "https://blog.exe.dev/claude-is-not-a-compiler",
+        dateAdded: "2026-07-22",
+        description:
+          "Essay by Josh Bleecher Snyder on the exe.dev blog arguing that Claude is not a compiler translating specs into code, but a vertically integrated resource that works across vision, strategy, architecture and implementation at once. Grounds the claim in building a geographically distributed DNS server for exe.dev VMs in a week: agents researched alternatives, generated competing implementations, and surfaced design divergences like a timeline field for database rollbacks. Uses the Empire State Building (metalworkers involved in design decisions) as the analogy for why working across layers beats layered handoffs, and closes with 'vibe-engineering is just engineering'. Published July 2026.",
+      },
+      {
         title: "Three ways to solve problems",
         href: "https://andreasfragner.com/writing/three-ways-to-solve-problems",
         dateAdded: "2026-07-14",
