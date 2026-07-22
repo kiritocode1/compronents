@@ -408,6 +408,109 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "blnk-agency-page": {
+    demoPath: "src/components/demos/blnk-agency-page.tsx",
+    studioPath: "src/components/studios/blnk-agency-page.tsx",
+    assets: [
+      {
+        id: "blnk-agency-page-award-img",
+        label: "BLNK agency project frame",
+        provider: "vercel-blob",
+        pathname: "award-list/img1.jpg",
+        fallbackPath: "https://ui.aryank.space/assets/award-list/img1.jpg",
+        role: "Shared award-list imagery reused as project frames.",
+      },
+      {
+        id: "blnk-agency-page-portfolio-img",
+        label: "BLNK agency portfolio image",
+        provider: "vercel-blob",
+        pathname: "portfolio-page/project-1.jpg",
+        fallbackPath:
+          "https://ui.aryank.space/assets/portfolio-page/project-1.jpg",
+        role: "Shared portfolio imagery for later project slots.",
+      },
+    ],
+    nuance: [
+      {
+        label: "Wheel-driven infinite gallery (source scrollS)",
+        description:
+          "Matches obys.agency home: wheel/touch updates tar, RAF lerps cur (damp ~0.09 / 0.07 when snapping), list is tripled and wraps in the middle buffer, idle snaps to nearest item. Titles and meta follow the centered index.",
+      },
+      {
+        label: "Logo brackets with is-spread",
+        description:
+          "Source #logo SVG halves translate ±137% when spread on Vertical/Horizontal. Removed on Grid; header wordmark shrinks on case study and About.",
+      },
+      {
+        label: "Click opens work case study",
+        description:
+          "Source navigates to /work/* with a preloader-bg veil. This port runs the same fade veil then shows the #wo layout: Back, title, meta, Live Website, and a wheel-scrolled #wo-ga image column.",
+      },
+      {
+        label: "Mode switch V↔H group rotation",
+        description:
+          "Source group.start rotates planes 90deg around the active item. Approximated by rotating the mode wrap while the new layout mounts.",
+      },
+    ],
+    editable: [
+      {
+        name: "studioName / email",
+        control: "text",
+        description:
+          "Wordmark and contact target used across header and caption.",
+      },
+      {
+        name: "projects",
+        control: "text",
+        description:
+          "Name, category, service, aspect, width, image, and grid placement per project.",
+      },
+      {
+        name: "initialMode / initialRoute",
+        control: "text",
+        description: "Start on work (vertical, horizontal, grid) or about.",
+      },
+    ],
+    api: [
+      {
+        name: "projects",
+        type: "BlnkAgencyProject[]",
+        default: "19 BLNK projects",
+        description:
+          "Work items powering all three layouts and the active meta rail.",
+      },
+      {
+        name: "studioName",
+        type: "string",
+        default: '"BLNK"',
+        description: "Header wordmark and about mark.",
+      },
+      {
+        name: "email",
+        type: "string",
+        default: '"hello@aryank.space"',
+        description: "Contact button copies this; caption and about link it.",
+      },
+      {
+        name: "initialMode",
+        type: '"vertical" | "horizontal" | "grid"',
+        default: '"vertical"',
+        description: "Which work layout is active on mount.",
+      },
+      {
+        name: "initialRoute",
+        type: '"work" | "about"',
+        default: '"work"',
+        description: "Work stage or About page.",
+      },
+      {
+        name: "skipPreloader",
+        type: "boolean",
+        default: "false",
+        description: "Skip the black progress intro (studio uses true).",
+      },
+    ],
+  },
   "chrome-folio-page": {
     demoPath: "src/components/demos/chrome-folio-page.tsx",
     assets: [],
@@ -5794,6 +5897,122 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string / React.CSSProperties",
         default: "undefined",
         description: "Passed through to the scroll container root.",
+      },
+    ],
+  },
+  "halftone-scene-footer": {
+    demoPath: "src/components/demos/halftone-scene-footer.tsx",
+    nuance: [
+      {
+        label: "One line per cell",
+        description:
+          "A fragment shader samples the video once per grid cell, runs a levels pass (black point, white point, gamma), and converts the result to the width of a single centered vertical line. Darker cells grow wider lines, and the sweep overshoots the cell by 2% on each side so full darkness fuses into a solid field.",
+      },
+      {
+        label: "Two layers, two logics",
+        description:
+          "The sheep layer draws light lines on an opaque dark field. The mountain layer inverts its levels, samples its video upside down, and sets fill opacity to zero, so the flipped bright sky becomes transparent slits revealing the warm ground plane behind the canvas, and the ridge gradient reads as a fence of stripes. The backdrop block is shorter than the band on purpose: slits above it land on the dark page and vanish, cutting the fence at one uniform height.",
+      },
+      {
+        label: "Trimmed to the subject",
+        description:
+          "Cells whose sampled texel, or any texel in a two-texel ring around it, is transparent or near-black are discarded. That clips the halftone cleanly to the silhouette instead of leaving a hard rectangular video frame, and lets layers composite over each other.",
+      },
+    ],
+    editable: [
+      {
+        name: "backgroundColor / inkColor",
+        control: "color",
+        description:
+          "The two inks: the dark field and page backdrop, and the light halftone lines, ground plane, and text.",
+      },
+      {
+        name: "layers",
+        control: "text",
+        description:
+          "Full scene override: each layer is a video source plus placement, levels, grid density, and opacities.",
+      },
+      {
+        name: "phone / email",
+        control: "text",
+        description: "The two large underlined contact links.",
+      },
+    ],
+    assets: [
+      {
+        id: "halftone-scene-footer-sheep",
+        label: "Halftone Scene Footer sheep footage",
+        provider: "vercel-blob",
+        pathname: "halftone-scene-footer/sheep.mp4",
+        fallbackPath:
+          "https://ui.aryank.space/assets/halftone-scene-footer/sheep.mp4",
+        role: "Portrait loop of grazing sheep sampled into the central halftone figure.",
+      },
+      {
+        id: "halftone-scene-footer-mountain",
+        label: "Halftone Scene Footer mountain footage",
+        provider: "vercel-blob",
+        pathname: "halftone-scene-footer/mountain.mp4",
+        fallbackPath:
+          "https://ui.aryank.space/assets/halftone-scene-footer/mountain.mp4",
+        role: "Wide mountain ridge loop rendered as the striped ground plane across the footer base.",
+      },
+    ],
+    api: [
+      {
+        name: "layers",
+        type: "HalftoneLayer[]",
+        default: "sheep + mountain scene",
+        description:
+          "Video layers: src, placement percentages, black/white points, gamma, threshold, grid density, bg/fill opacities, and an optional flipY.",
+      },
+      {
+        name: "backgroundColor",
+        type: "string",
+        default: '"#2c2824"',
+        description: "Dark ink: canvas field and page backdrop.",
+      },
+      {
+        name: "inkColor",
+        type: "string",
+        default: '"#a89474"',
+        description: "Light ink: halftone lines, ground plane, and text.",
+      },
+      {
+        name: "brand",
+        type: "string",
+        default: '"BLANK"',
+        description: "Center wordmark in the top row.",
+      },
+      {
+        name: "locationEyebrow / locationLines",
+        type: "string / string[]",
+        default: "BLANK location block",
+        description: "Top-left eyebrow and address lines.",
+      },
+      {
+        name: "officeEyebrow / officeLines",
+        type: "string / string[]",
+        default: "BLANK studio block",
+        description: "Top-right eyebrow and studio lines.",
+      },
+      {
+        name: "phone",
+        type: "string",
+        default: '"+38 063 000 0000"',
+        description: "Large underlined tel: link, bottom left.",
+      },
+      {
+        name: "email",
+        type: "string",
+        default: '"hello@aryank.space"',
+        description: "Large underlined mailto: link, bottom right.",
+      },
+      {
+        name: "copyright / privacyLabel",
+        type: "string",
+        default: "BLANK copy",
+        description: "Small print on the ground plane.",
       },
     ],
   },

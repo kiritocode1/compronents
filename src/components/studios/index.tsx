@@ -7,6 +7,7 @@ import ArchiveCommercePageStudio from "./archive-commerce-page";
 import AsciiImageRevealStudio from "./ascii-image-reveal";
 import AsciiLogoStudio from "./ascii-logo";
 import AwardListStudio from "./award-list";
+import BlnkAgencyPageStudio from "./blnk-agency-page";
 import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
@@ -53,6 +54,7 @@ export type StudioComponent = ComponentType;
  * need bespoke controls instead of a generic prop editor.
  */
 export const studios: Record<string, StudioComponent> = {
+  "blnk-agency-page": BlnkAgencyPageStudio,
   "animated-footer": AnimatedFooterStudio,
   "accordion-frames": AccordionFramesStudio,
   "ascii-image-reveal": AsciiImageRevealStudio,

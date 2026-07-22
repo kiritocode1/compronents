@@ -11,6 +11,7 @@ import AsciiLogoDemo from "./ascii-logo";
 import AsciiMonogramHeroDemo from "./ascii-monogram-hero";
 import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
+import BlnkAgencyPageDemo from "./blnk-agency-page";
 import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
@@ -52,6 +53,7 @@ import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
+import HalftoneSceneFooterDemo from "./halftone-scene-footer";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
 import ImageRevealDemo from "./image-reveal";
@@ -133,6 +135,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "blnk-agency-page": BlnkAgencyPageDemo,
   "chrome-folio-page": ChromeFolioPageDemo,
   "fanned-card-deck": FannedCardDeckDemo,
   "wordmark-spotlight-scroll": WordmarkSpotlightScrollDemo,
@@ -166,6 +169,7 @@ export const demos: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "halftone-interface-hero": HalftoneInterfaceHeroDemo,
+  "halftone-scene-footer": HalftoneSceneFooterDemo,
   "sandy-grain-background": SandyGrainBackgroundDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
   "slit-reveal-hero": SlitRevealHeroDemo,

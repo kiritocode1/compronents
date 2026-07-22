@@ -1804,7 +1804,31 @@ const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const halftoneSceneFooterAssets = [
+  {
+    id: "halftone-scene-footer-sheep",
+    label: "Halftone Scene Footer sheep footage",
+    provider: "vercel-blob",
+    pathname: "halftone-scene-footer/sheep.mp4",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/halftone-scene-footer/sheep.mp4`,
+    role: "Portrait loop of grazing sheep sampled into the central halftone figure.",
+    notes:
+      "Upload this video to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+  {
+    id: "halftone-scene-footer-mountain",
+    label: "Halftone Scene Footer mountain footage",
+    provider: "vercel-blob",
+    pathname: "halftone-scene-footer/mountain.mp4",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/halftone-scene-footer/mountain.mp4`,
+    role: "Wide mountain ridge loop rendered as the striped ground plane across the footer base.",
+    notes:
+      "Upload this video to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
+];
+
 export const assetItems = [
+  ...halftoneSceneFooterAssets,
   ...Array.from({ length: 6 }, (_, i) => {
     const n = i + 1;
     return {

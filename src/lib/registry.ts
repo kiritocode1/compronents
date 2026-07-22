@@ -171,6 +171,41 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "blnk-agency-page",
+    title: "BLNK Agency Page",
+    description:
+      "An Obys-inspired agency homepage branded BLNK: black preloader with progress and a split logo intro, fixed difference-blend header with live timezone clock and contact copy, studio caption, and three wheel-driven infinite work galleries (vertical image stack with title rail, horizontal rotated rail, and a numbered grid with center expand previews). Idle scroll snaps to the nearest project. Includes an About route. GSAP preloader; Instrument Sans; existing award-list and portfolio imagery.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-22",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/blnk-agency-page/index.tsx",
+        target: "components/ui/blnk-agency-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/blnk-agency-page/styles.ts",
+        target: "components/ui/blnk-agency-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blnk-agency-page/logo-paths.ts",
+        target: "components/ui/blnk-agency-page/logo-paths.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blnk-agency-page/boot.ts",
+        target: "components/ui/blnk-agency-page/boot.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "chrome-folio-page",
     title: "Chrome Folio Page",
     description:
@@ -1516,6 +1551,26 @@ export const registryItems: RegistryItem[] = [
       {
         path: "src/registry/halftone-interface-hero.tsx",
         target: "components/ui/halftone-interface-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "halftone-scene-footer",
+    title: "Halftone Scene Footer",
+    description:
+      "A footer whose backdrop is live video redrawn as a vertical-line halftone: a WebGL shader samples grazing sheep and a mountain ridge on a coarse grid, mapping each cell's darkness to the width of one vertical line, so the footage reads as a woven, barcode-like engraving in two inks over a warm ground plane.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-07-22",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/halftone-scene-footer.tsx",
+        target: "components/ui/halftone-scene-footer.tsx",
         type: "registry:ui",
       },
     ],

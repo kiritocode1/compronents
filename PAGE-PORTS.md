@@ -22,6 +22,7 @@ Commit per source on `main`. Validate every slice: `tsc --noEmit`, `biome check`
 | CGMWTAPR2026 / lemon-bureau          | `lemon-bureau-page`       | React port   | ✅ done (current) |
 | CGMWTJUNE2025 / wu-wei               | `wu-wei-page`             | React port   | ✅ done (current) |
 | CGMWTJULY2024 / damien-tsarantos     | `damien-tsarantos-page`   | React port   | ✅ done (current) |
+| obys.agency (live)                   | `blnk-agency-page`        | React port   | ✅ done (BLNK rebrand, shared registry imagery) |
 
 ## Port recipe (per source)
 

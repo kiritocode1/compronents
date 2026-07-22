@@ -17,6 +17,7 @@ export const componentGroups: RegistryGroup[] = [
       "portfolio-page",
       "creative-clutter",
       "animated-footer",
+      "halftone-scene-footer",
       "vinyl-orbit-player",
     ],
   },
@@ -176,6 +177,7 @@ export const pageGroups: RegistryGroup[] = [
   {
     title: "Creative studio and experimental",
     names: [
+      "blnk-agency-page",
       "wu-wei-page",
       "lemon-bureau-page",
       "null-studio-page",
