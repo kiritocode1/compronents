@@ -532,7 +532,9 @@ function TaskNode({
           animate(rotation, 0, { duration: 0.3 }).finished,
         ]);
     })();
-    const hide = setTimeout(() => setShowBubble(false), 1600);
+    // hide inside the step (default 1400ms) so the exit finishes before the
+    // next step can raise another bubble on this node
+    const hide = setTimeout(() => setShowBubble(false), 1100);
     return () => {
       cancelled = true;
       clearTimeout(hide);
@@ -839,13 +841,25 @@ function NodeWithLabel({
 }) {
   const elapsed = useNodeTimer(state);
   // kit's rule: the error bubble owns a failed/death node, so the notification
-  // bubble is suppressed while one is showing (never two dialogues at once)
-  const showNotify =
+  // bubble is suppressed while one is showing (never two dialogues at once).
+  // It also auto-hides after 1s so its exit is fully done BEFORE the next step
+  // can raise an error bubble on the same node: a real time gap, not a crossfade.
+  const notifyActive =
     n.notify !== undefined &&
     step !== undefined &&
     step === n.notify.atStep &&
     state !== "failed" &&
     state !== "death";
+  const [showNotify, setShowNotify] = useState(false);
+  useEffect(() => {
+    if (!notifyActive) {
+      setShowNotify(false);
+      return;
+    }
+    setShowNotify(true);
+    const t = setTimeout(() => setShowNotify(false), 1000);
+    return () => clearTimeout(t);
+  }, [notifyActive]);
   return (
     <div className="relative flex flex-col items-center">
       <AnimatePresence>
