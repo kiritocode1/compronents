@@ -3973,6 +3973,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Expo MCP Server",
+        href: "https://docs.expo.dev/mcp/",
+        dateAdded: "2026-07-23",
+        description:
+          "A remote MCP server hosted by Expo that wires AI-assisted tools into your Expo projects, so an agent can read the official docs on demand, install dependencies with npx expo install, and trigger and monitor EAS builds, workflows, and TestFlight data. It runs as a streamable HTTP endpoint at mcp.expo.dev/mcp with OAuth through your Expo account, and the docs list 27 tools plus 1 prompt covering doc search, library installation, workflow and build control, and App Store interactions. Supported clients include Claude Code (claude mcp add), Cursor, VS Code, and Codex; screenshot and simulator automation needs a local SDK 54+ project with the expo-mcp package.",
+      },
+      {
         title: "arxiv-sanity-lite",
         href: "https://github.com/karpathy/arxiv-sanity-lite",
         dateAdded: "2026-07-22",
