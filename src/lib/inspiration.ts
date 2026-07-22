@@ -2799,6 +2799,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Free typefaces",
     links: [
       {
+        title: "Overused Grotesk",
+        href: "https://github.com/RandomMaerks/Overused-Grotesk",
+        dateAdded: "2026-07-22",
+        description:
+          "Free variable sans-serif by RandomMaerks in the Swiss neo-grotesk vein, a Helvetica-adjacent workhorse you can self-host without a license fee. Ships 10 weights (Light 300 to Black 900) with matching italics for 20 static styles, plus a variable font with weight and slant axes. Extras include 12 stylistic sets, Vietnamese and Cyrillic support, IPA, 40+ currency symbols, and tabular figures, in TTF, OTF, WOFF, WOFF2 and variable formats. SIL OFL 1.1, 774 GitHub stars, moving from FontForge to FontLab as of v0.5-alpha.2 (March 2026).",
+      },
+      {
         title: "Brima",
         href: "https://www.dafont.com/brima.font",
         dateAdded: "2026-07-21",
@@ -5292,6 +5299,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "GitHub Wrapped",
+        href: "https://www.trygitwrap.com/",
+        dateAdded: "2026-07-22",
+        description:
+          "Year-in-review generator for a GitHub account, a Spotify Wrapped equivalent for developers rendered as a retro terminal (GITHUB_WRAPPED.EXE) that you feed a username. The 2025 edition counts private contributions and adds a regional leaderboard, reporting aggregate stats of 130+ countries, 12,000+ developers and 1M+ commits tracked. Built by Klaus Codes and Ryan.",
+      },
       {
         title: "joyful",
         href: "https://www.npmjs.com/package/joyful",
