@@ -296,6 +296,14 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "JavaScript and TypeScript",
     links: [
       {
+        title:
+          "Choosing a JavaScript Logging Library: The 2026 Definitive Guide",
+        href: "https://blog.sentry.io/javascript-logging-library-definitive-guide/",
+        dateAdded: "2026-07-22",
+        description:
+          "Sentry blog guide by Kyle Tryon (March 2026) comparing four JavaScript logging libraries for production, useful when picking one for a new project. Covers Pino (Node-only, fastest, 3.3 KB gzipped, 2016), Winston (most transports but largest at 38.3 KB, around since 2010), Bunyan (oldest at 2012, explicitly not recommended for new projects), and LogTape (newest at 2023, zero dependencies, tree-shakable, universal runtime). LogTape is the pick for cross-runtime support (Node, Deno, Bun, browsers, edge), with a claimed 2x speed over Pino.",
+      },
+      {
         title: "Making html_of_jsx 10x faster",
         href: "https://sancho.dev/blog/making-html-of-jsx-10x-faster",
         dateAdded: "2026-07-13",
@@ -6439,6 +6447,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Personal blogs and sites",
     links: [
+      {
+        title: "Thomas Ankcorn",
+        href: "https://ankcorn.dev/",
+        dateAdded: "2026-07-22",
+        description:
+          "Personal blog of Thomas Ankcorn, an engineer on the Workers Observability team at Cloudflare, worth reading for infrastructure and performance writing grounded in production work. A small, high-signal set of posts: 'My Cloud Exit (Raspberry Pi Edition)' (Jan 2026), 'Vertical Integration Wins' (Jan 2025), 'ClickHouse's JSON: 6.5x Faster' (Dec 2024), and an older piece on secrets management with LaconiaJS (Jun 2020).",
+      },
       {
         title: "Tim Smart",
         href: "https://timsmart.co/",
