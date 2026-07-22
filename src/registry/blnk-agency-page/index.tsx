@@ -788,6 +788,16 @@ export default function BlnkAgencyPage({
     setMetaTick((t) => t + 1);
   }, [ready, projects.length]);
 
+  /* Mode switcher underline, imperative so is-in survives re-renders */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const buttons = root.querySelectorAll<HTMLElement>(".bap-modes > button");
+    buttons.forEach((el, i) => {
+      el.classList.toggle("is-on", MODES[i]?.id === mode);
+    });
+  }, [mode]);
+
   /* Logo spread: on for V/H home, off for grid / project / about (source) */
   useEffect(() => {
     const logo = logoRef.current;
@@ -1039,7 +1049,7 @@ export default function BlnkAgencyPage({
                       className={`bap-frame${activeIndex === i % projects.length ? " is-on" : ""}`}
                       style={{
                         aspectRatio: String(p.aspect),
-                        width: `${p.widthRem}rem`,
+                        width: `calc(${p.widthRem} * var(--bap-rem))`,
                       }}
                       aria-label={p.name}
                       onClick={() => openProject(i % projects.length)}
@@ -1087,7 +1097,7 @@ export default function BlnkAgencyPage({
                       className={`bap-frame${activeIndex === i % projects.length ? " is-on" : ""}`}
                       style={{
                         aspectRatio: String(p.aspect),
-                        width: `${p.widthRem}rem`,
+                        width: `calc(${p.widthRem} * var(--bap-rem))`,
                       }}
                       aria-label={p.name}
                       onClick={() => openProject(i % projects.length)}
@@ -1115,9 +1125,9 @@ export default function BlnkAgencyPage({
               <div className="bap-h-meta">
                 <div className="bap-h-meta-line">
                   <div className="bap-h-meta-inner" key={`hm-${activeIndex}`}>
-                    <span>{activeProject?.category}</span>
-                    <span>{activeProject?.service}</span>
                     <span>{pad2(activeIndex + 1)}</span>
+                    <span className="bap-h-meta-rule" aria-hidden />
+                    <span>{activeProject?.category}</span>
                   </div>
                 </div>
               </div>
@@ -1203,14 +1213,11 @@ export default function BlnkAgencyPage({
               </div>
             </div>
 
+            {/* is-on / is-in are toggled imperatively so React re-renders
+                never clobber the classes added by the reveal effect */}
             <div className="bap-modes">
               {MODES.map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  className={mode === m.id ? "is-on" : undefined}
-                  onClick={() => goMode(m.id)}
-                >
+                <button key={m.id} type="button" onClick={() => goMode(m.id)}>
                   {m.label}
                 </button>
               ))}

@@ -11,9 +11,13 @@ export function getBlnkAgencyPageStyles(): string {
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap");
 
 .blnk-agency-page {
-  --bap-g: 1rem;
-  --bap-mx: 1rem;
-  --bap-my: 1rem;
+  /* Fluid design unit standing in for the source's responsive root rem:
+     every dimension in this sheet multiplies it, so the whole composition
+     scales with the viewport (0.75vw ~ the source's density at any width). */
+  --bap-rem: clamp(9px, 0.69vw, 17.6px);
+  --bap-g: calc(1 * var(--bap-rem));
+  --bap-mx: calc(1 * var(--bap-rem));
+  --bap-my: calc(1 * var(--bap-rem));
   --bap-c: calc((100% - (var(--bap-mx) * 2 + var(--bap-g) * 11)) / 12);
   --bap-white: #fff;
   --bap-black: #000;
@@ -29,7 +33,7 @@ export function getBlnkAgencyPageStyles(): string {
   background: var(--bap-white);
   color: var(--bap-black);
   font-family: "Instrument Sans", system-ui, sans-serif;
-  font-size: clamp(13px, 1.1vw, 17.6px);
+  font-size: calc(1.1 * var(--bap-rem));
   line-height: 1.2;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
@@ -151,7 +155,7 @@ export function getBlnkAgencyPageStyles(): string {
   transform: translateY(-50%);
   font-variant-numeric: tabular-nums;
   overflow: hidden;
-  font-size: 1.1rem;
+  font-size: calc(1.1 * var(--bap-rem));
 }
 .blnk-agency-page .bap-preloader-pct > span {
   display: block;
@@ -175,7 +179,7 @@ export function getBlnkAgencyPageStyles(): string {
   z-index: 1;
   aspect-ratio: 1;
   overflow: visible;
-  width: 13rem;
+  width: calc(13 * var(--bap-rem));
   max-width: 28vmin;
   height: auto;
   transition: width 1.6s cubic-bezier(0.19, 1, 0.22, 1);
@@ -185,7 +189,7 @@ export function getBlnkAgencyPageStyles(): string {
   transition: none;
 }
 .blnk-agency-page .bap-logo.is-on > svg {
-  width: var(--bap-logo-w, 13rem);
+  width: var(--bap-logo-w, calc(13 * var(--bap-rem)));
   max-width: 28vmin;
 }
 .blnk-agency-page .bap-logo #bap-logo-l,
@@ -246,7 +250,7 @@ export function getBlnkAgencyPageStyles(): string {
   pointer-events: all;
   overflow: hidden;
   max-width: calc(var(--bap-c) * 2 + var(--bap-g) * 2);
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-size: clamp(calc(1.6 * var(--bap-rem)), 3.2vw, calc(2.4 * var(--bap-rem)));
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 0.9;
@@ -254,8 +258,8 @@ export function getBlnkAgencyPageStyles(): string {
   transition: max-width 0.8s var(--bap-ease), font-size 0.8s var(--bap-ease);
 }
 .blnk-agency-page .bap-header-title.is-shrink {
-  max-width: 4.05rem;
-  font-size: 1.15rem;
+  max-width: calc(4.05 * var(--bap-rem));
+  font-size: calc(1.15 * var(--bap-rem));
 }
 .blnk-agency-page .bap-header-title > span {
   display: inline-block;
@@ -297,7 +301,7 @@ export function getBlnkAgencyPageStyles(): string {
   content: "";
   position: absolute;
   transform-origin: right;
-  border-bottom: 0.1rem solid;
+  border-bottom: calc(0.1 * var(--bap-rem)) solid;
   width: 100%;
   height: 1px;
   transition: transform 0.8s var(--bap-ease-out);
@@ -340,7 +344,7 @@ export function getBlnkAgencyPageStyles(): string {
 /* ---- Studio caption #fx (top-right under header, as live site) ---- */
 .blnk-agency-page .bap-fx {
   position: absolute;
-  top: calc(var(--bap-my) + 2.6rem);
+  top: calc(var(--bap-my) + calc(2.6 * var(--bap-rem)));
   right: var(--bap-mx);
   z-index: 50;
   width: calc(var(--bap-c) * 3 + var(--bap-g) * 2);
@@ -359,12 +363,12 @@ export function getBlnkAgencyPageStyles(): string {
 }
 .blnk-agency-page .bap-fx-de {
   font-size: 0.95em;
-  margin-bottom: 0.75rem;
+  margin-bottom: calc(0.75 * var(--bap-rem));
 }
 .blnk-agency-page .bap-fx-co {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: calc(0.1 * var(--bap-rem));
   pointer-events: all;
   width: fit-content;
 }
@@ -448,8 +452,8 @@ export function getBlnkAgencyPageStyles(): string {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* source: gap .5rem between frames — real vertical space between projects */
-  gap: 0.5rem;
+  /* source: gap calc(.5 * var(--bap-rem)) between frames — real vertical space between projects */
+  gap: calc(0.5 * var(--bap-rem));
   will-change: transform;
   padding: 50vh 0;
   pointer-events: auto;
@@ -487,7 +491,7 @@ export function getBlnkAgencyPageStyles(): string {
   content: "";
   position: absolute;
   inset: 0;
-  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  border: calc(0.1 * var(--bap-rem)) solid rgba(0, 0, 0, 0.12);
   opacity: 1;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -503,7 +507,7 @@ export function getBlnkAgencyPageStyles(): string {
   left: var(--bap-g);
   width: calc(var(--bap-c) * 2 + var(--bap-g) * 1);
   overflow: hidden;
-  height: min(25.25rem, 62vh);
+  height: min(calc(25.25 * var(--bap-rem)), 62vh);
   line-height: 1.2;
   transform: translateY(-50%);
   pointer-events: none;
@@ -568,16 +572,19 @@ export function getBlnkAgencyPageStyles(): string {
   transform: translateY(0);
   transition: opacity 0.35s ease, transform 0.7s var(--bap-ease);
 }
+.blnk-agency-page .bap-v-meta-inner > span {
+  white-space: nowrap;
+}
 .blnk-agency-page .bap-v-meta-inner > span:first-child {
-  width: calc(var(--bap-c) * 7 + var(--bap-g) * 7);
+  /* 7 of the container's 10 columns. --bap-c cannot be reused here: its 100%
+     would re-resolve against this narrower container instead of the page. */
+  width: 71%;
   flex-shrink: 0;
 }
 .blnk-agency-page .bap-v-meta-inner > span:nth-child(2) {
-  width: calc(var(--bap-c) * 2 + var(--bap-g) * 2);
   flex-shrink: 0;
 }
 .blnk-agency-page .bap-v-meta-inner > span:nth-child(3) {
-  width: var(--bap-c);
   text-align: right;
   margin-left: auto;
   font-variant-numeric: tabular-nums;
@@ -594,7 +601,7 @@ export function getBlnkAgencyPageStyles(): string {
   position: absolute;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: calc(0.5 * var(--bap-rem));
   top: 50%;
   left: 0;
   transform: translateY(-50%);
@@ -613,7 +620,7 @@ export function getBlnkAgencyPageStyles(): string {
   width: calc(var(--bap-c) * 3 + var(--bap-g) * 2);
   clip-path: inset(0 0 2.5% 0);
   overflow: hidden;
-  height: min(24.5rem, 58vh);
+  height: min(calc(24.5 * var(--bap-rem)), 58vh);
   pointer-events: none;
   z-index: 3;
   mask-image: linear-gradient(
@@ -636,7 +643,7 @@ export function getBlnkAgencyPageStyles(): string {
   right: var(--bap-g);
   width: calc(var(--bap-c) * 6 + var(--bap-g) * 5);
   pointer-events: none;
-  height: min(24.5rem, 58vh);
+  height: min(calc(24.5 * var(--bap-rem)), 58vh);
   z-index: 3;
 }
 .blnk-agency-page .bap-h-meta-line {
@@ -644,16 +651,25 @@ export function getBlnkAgencyPageStyles(): string {
   overflow: hidden;
   width: 100%;
   height: 1.1lh;
-  top: calc(50% + 1.425rem);
+  top: calc(50% + calc(1.425 * var(--bap-rem)));
   left: 0;
   transform: translateY(-50%);
 }
 .blnk-agency-page .bap-h-meta-inner {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  gap: calc(1 * var(--bap-rem));
   width: 100%;
   opacity: 0;
   transform: translateY(110%);
+}
+.blnk-agency-page .bap-h-meta-rule {
+  flex: 1;
+  height: 1px;
+  border-top: 1px solid currentColor;
+  opacity: 0.35;
 }
 .blnk-agency-page .bap-h-meta-inner.is-on {
   opacity: 1;
@@ -677,7 +693,7 @@ export function getBlnkAgencyPageStyles(): string {
   padding: calc(var(--bap-g) * 3) var(--bap-g);
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 5rem var(--bap-g);
+  gap: calc(5 * var(--bap-rem)) var(--bap-g);
   min-height: 100svh;
 }
 .blnk-agency-page .bap-grid-empty {
@@ -707,8 +723,8 @@ export function getBlnkAgencyPageStyles(): string {
   position: absolute;
   opacity: 0;
   z-index: 1;
-  border: 0.1rem solid rgba(0, 0, 0, 0.1);
-  inset: 0.1rem;
+  border: calc(0.1 * var(--bap-rem)) solid rgba(0, 0, 0, 0.1);
+  inset: calc(0.1 * var(--bap-rem));
   transition: opacity 0.35s ease;
   pointer-events: none;
 }
@@ -730,7 +746,7 @@ export function getBlnkAgencyPageStyles(): string {
 /* Fixed expand preview on hover (source .ho-wo-2-r) */
 .blnk-agency-page .bap-grid-preview {
   position: absolute;
-  width: min(22%, 16rem);
+  width: min(22%, calc(16 * var(--bap-rem)));
   overflow: hidden;
   pointer-events: none;
   z-index: 8;
@@ -761,7 +777,7 @@ export function getBlnkAgencyPageStyles(): string {
   white-space: nowrap;
   text-align: center;
   overflow: hidden;
-  font-size: clamp(3rem, 8vw, 8rem);
+  font-size: clamp(calc(3 * var(--bap-rem)), 8vw, calc(8 * var(--bap-rem)));
   line-height: 1;
   bottom: 8%;
   left: 50%;
@@ -855,7 +871,7 @@ export function getBlnkAgencyPageStyles(): string {
 }
 .blnk-agency-page .bap-case-ti {
   width: calc(var(--bap-c) * 2 + var(--bap-g) * 1);
-  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-size: clamp(calc(1.4 * var(--bap-rem)), 2.4vw, calc(2 * var(--bap-rem)));
   font-weight: 500;
   letter-spacing: -0.03em;
 }
@@ -867,11 +883,11 @@ export function getBlnkAgencyPageStyles(): string {
 .blnk-agency-page .bap-case-meta h2 {
   font-size: 1em;
   font-weight: 400;
-  margin-bottom: 0.15rem;
+  margin-bottom: calc(0.15 * var(--bap-rem));
 }
 .blnk-agency-page .bap-case-link {
   display: inline-block;
-  margin-top: 1.1rem;
+  margin-top: calc(1.1 * var(--bap-rem));
   position: relative;
 }
 .blnk-agency-page .bap-case-ga {
@@ -916,20 +932,20 @@ export function getBlnkAgencyPageStyles(): string {
   visibility: visible;
 }
 .blnk-agency-page .bap-about-inner {
-  padding: 5.5rem var(--bap-g) 4rem;
+  padding: calc(5.5 * var(--bap-rem)) var(--bap-g) calc(4 * var(--bap-rem));
 }
 .blnk-agency-page .bap-about-lead {
   letter-spacing: -0.03em;
-  font-size: clamp(1.8rem, 4vw, 4rem);
+  font-size: clamp(calc(1.8 * var(--bap-rem)), 4vw, calc(4 * var(--bap-rem)));
   line-height: 1.18;
   max-width: 18ch;
-  margin-bottom: 3rem;
+  margin-bottom: calc(3 * var(--bap-rem));
 }
 .blnk-agency-page .bap-about-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 2rem var(--bap-g);
-  padding-bottom: 4rem;
+  gap: calc(2 * var(--bap-rem)) var(--bap-g);
+  padding-bottom: calc(4 * var(--bap-rem));
 }
 .blnk-agency-page .bap-about-col {
   grid-column: span 3;
@@ -938,12 +954,12 @@ export function getBlnkAgencyPageStyles(): string {
   color: var(--bap-muted);
   font-size: 0.95em;
   font-weight: 400;
-  margin-bottom: 0.75rem;
+  margin-bottom: calc(0.75 * var(--bap-rem));
 }
 .blnk-agency-page .bap-about-col p,
 .blnk-agency-page .bap-about-col a {
   display: block;
-  margin-bottom: 0.35rem;
+  margin-bottom: calc(0.35 * var(--bap-rem));
 }
 .blnk-agency-page .bap-about-visual {
   grid-column: 5 / span 6;
@@ -960,12 +976,12 @@ export function getBlnkAgencyPageStyles(): string {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 2rem;
-  padding: 3rem 0 2rem;
+  gap: calc(2 * var(--bap-rem));
+  padding: calc(3 * var(--bap-rem)) 0 calc(2 * var(--bap-rem));
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 .blnk-agency-page .bap-about-mark {
-  font-size: clamp(4rem, 14vw, 12rem);
+  font-size: clamp(calc(4 * var(--bap-rem)), 14vw, calc(12 * var(--bap-rem)));
   line-height: 0.85;
   letter-spacing: -0.06em;
   font-weight: 500;
@@ -989,7 +1005,7 @@ export function getBlnkAgencyPageStyles(): string {
 @media (max-width: 900px) {
   .blnk-agency-page .bap-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2.5rem var(--bap-g);
+    gap: calc(2.5 * var(--bap-rem)) var(--bap-g);
   }
   .blnk-agency-page .bap-grid-item {
     grid-row: var(--gr-s);
@@ -1012,8 +1028,8 @@ export function getBlnkAgencyPageStyles(): string {
   }
   .blnk-agency-page .bap-case-info {
     flex-direction: column;
-    padding: 5rem var(--bap-g) 2rem;
-    gap: 1rem;
+    padding: calc(5 * var(--bap-rem)) var(--bap-g) calc(2 * var(--bap-rem));
+    gap: calc(1 * var(--bap-rem));
   }
   .blnk-agency-page .bap-case-ti,
   .blnk-agency-page .bap-case-meta {
