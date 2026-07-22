@@ -2434,6 +2434,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "3D Lego Dither",
+        href: "https://artifacts.deeo.studio/3d-lego-dither",
+        dateAdded: "2026-07-23",
+        description:
+          "An interactive experiment from DEEO Studio that renders a scene as 3D Lego-brick studs run through a dither, with your cursor left as a trailing path through the field so it participates in the rendering rather than just pointing at it. It is one entry in DEEO's free Artifacts collection of playful motion and effect experiments (siblings include Emoji Glyph Dither and Mask Distortion), built by Yianni Mathioudakis of the studio. Good to study for the technique; the page is a live toy, not a documented export tool.",
+      },
+      {
         title: "BDFM",
         href: "https://bitmap.designfamilymarket.com",
         dateAdded: "2026-07-21",
