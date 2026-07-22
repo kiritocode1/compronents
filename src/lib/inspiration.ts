@@ -2048,6 +2048,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "creatoroly",
+        href: "https://creatoroly.com/",
+        dateAdded: "2026-07-22",
+        description:
+          "Portfolio of Oly (@creatoroly), a motion designer whose whole pitch is restraint: the tagline literally spells out motion that feels c, l, e, a, n. Clients include Whop, Moonshot, ether.fi, Tradezella and Jigsaw; named pieces include an Apple-inspired fintech concept called Pool, a 30 second Moonshot x Bone spot built around rhythm and pacing, and an iOS 27 Liquid Glass fan concept. Also sells an Apple PF Pack V2 and project files via Gumroad, so you can dissect the actual comps behind the work.",
+      },
+      {
         title: "Romain Avalle",
         href: "https://romainavalle.dev/",
         dateAdded: "2026-07-20",
