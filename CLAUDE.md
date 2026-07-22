@@ -1,5 +1,15 @@
 @AGENTS.md
 
+# Backend Visualizations
+
+Every backend registry item gets a kit-style Effect visualization on its
+`/backend/<name>` page, built only from Kit Langton's visual-effect vocabulary
+(convention 5 in `AGENTS.md`). Engine: `src/components/site/effect-viz.tsx`.
+Specs: `src/lib/backend-viz.ts` (one `VizEntry` per item name; a new backend
+item is not done until its spec exists). Mechanics reference:
+`docs/effect-visualization-guide.md`. The animation must teach the failure the
+component prevents, not just decorate the page.
+
 # Registry Asset Uploads
 
 Assets for installable registry components belong in Vercel Blob and should be

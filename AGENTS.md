@@ -45,3 +45,24 @@ Text inside components must be real, specific copy that fits the component, neve
 lorem ipsum or throwaway filler. Never use em dashes (the long dash). Use commas,
 colons, periods, semicolons, or parentheses instead. This applies to component
 copy, headings, labels, preset names, and UX strings.
+
+## 5. Backend items get a kit-style Effect visualization
+
+Every backend registry item (section "backend") ships with an animated
+visualization on its `/backend/<name>` detail page, built strictly from Kit
+Langton's visual-effect vocabulary (effect.kitlangton.com): the stateful task
+node, arrow connectors, the odometer ref cell, the sliding finalizer scope
+stack, the schedule timeline, the segmented outcome toggle, notification and
+error bubbles, and the pentatonic sound cues. Never invent new infographic
+styles (no bar meters, hash rings, or station lanes).
+
+- Engine: `src/components/site/effect-viz.tsx` (archetypes: flow, ref, scope,
+  schedule). Specs: `src/lib/backend-viz.ts`, one `VizEntry` keyed by item name.
+- Adding a backend item means adding its spec too, or the page ships without a
+  visualization. Pick the archetype that fits the concept.
+- The animation must teach, not decorate: prefer a with/without variant toggle
+  that shows the failure the component prevents, results that carry real data
+  (values, balances, latencies), a `code` line whose tokens light with node
+  state, and `{ v, bad: true }` ref values for writes that should not land.
+- Reverse-engineered mechanics (exact springs, colors, per-state recipes) live
+  in `docs/effect-visualization-guide.md`. Match those values; do not restyle.
