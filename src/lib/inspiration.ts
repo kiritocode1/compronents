@@ -3884,6 +3884,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Machine learning and deep learning",
     links: [
       {
+        title: "Transformer Explainer",
+        href: "https://poloclub.github.io/transformer-explainer/",
+        dateAdded: "2026-07-22",
+        description:
+          "Interactive visualization that runs a live GPT-2 (small), 124 million parameters, in your browser to show how a transformer turns text into next-token predictions. Built by the Polo Chau group at Georgia Tech (Aeree Cho, Grace Kim, Alexander Karpekov, Alec Helbling, Jay Wang, Seongmin Lee, Benjamin Hoover and others) on ONNX Runtime, Svelte and D3, porting a PyTorch nanoGPT. Type your own prompt and step through embeddings, positional encoding, multi-head attention with query, key and value, the MLP, and softmax sampling with temperature, top-k and top-p controls.",
+      },
+      {
         title: "Max Fu's essays",
         href: "https://maxxfuu.com/essays",
         dateAdded: "2026-07-19",
