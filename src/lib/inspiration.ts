@@ -3966,6 +3966,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "arxiv-sanity-lite",
+        href: "https://github.com/karpathy/arxiv-sanity-lite",
+        dateAdded: "2026-07-22",
+        description:
+          "Andrej Karpathy's lightweight rewrite of arxiv-sanity for keeping up with new papers on your terms. A daemon polls the arXiv API for recent submissions, then you tag the papers you care about and it recommends similar new ones per tag by training an SVM over tfidf features of the abstracts. You can search, rank, sort and slice results in the web UI, and opt into a daily email of fresh recommendations. Self-hostable Python (arxiv_daemon.py, compute.py, serve.py, send_emails.py); the arxiv-sanity-lite.com instance Karpathy ran is no longer live, so this is the repo to deploy yourself.",
+      },
+      {
         title: "Claude Code iOS Simulator pane",
         href: "https://code.claude.com/docs/en/desktop-ios-simulator",
         dateAdded: "2026-07-22",
