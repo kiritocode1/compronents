@@ -453,7 +453,7 @@ export default function HalftoneSceneFooter({
   locationLines = ["Somewhere in the Carpathians,", "far above the tree line"],
   officeEyebrow = "Studio",
   officeLines = ["aryank.space", "Components, motion, code"],
-  phone = "+38 063 000 0000",
+  phone = "+91 8421911353",
   email = "hello@aryank.space",
   copyright = "© 2026 BLANK. All rights reserved",
   privacyLabel = "Privacy policy",
@@ -594,7 +594,7 @@ const STYLES = `
 .htsf-contact {
   color: inherit;
   text-decoration: none;
-  font-size: clamp(20px, 3.4vw, 48px);
+  font-size: clamp(16px, 2vw, 28px);
   letter-spacing: 0.06em;
   border-bottom: 1px solid currentColor;
   padding-bottom: 4px;

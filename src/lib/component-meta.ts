@@ -5999,7 +5999,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "phone",
         type: "string",
-        default: '"+38 063 000 0000"',
+        default: '"+91 8421911353"',
         description: "Large underlined tel: link, bottom left.",
       },
       {
