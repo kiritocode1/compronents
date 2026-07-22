@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { CodeTabs } from "@/components/site/code-tabs";
 import { CopyMarkdownButton } from "@/components/site/copy-markdown-button";
+import { EffectViz } from "@/components/site/effect-viz";
 import { RegistryFiles } from "@/components/site/registry-files";
+import { backendViz } from "@/lib/backend-viz";
 import {
   getRegistryItem,
   installCommands,
@@ -50,6 +52,7 @@ export default async function BackendItemPage({
   if (!item || item.section !== "backend") notFound();
 
   const built = await buildRegistryItem(item.name);
+  const viz = backendViz[item.name];
 
   const installTabs = await Promise.all(
     installCommands(item.name).map(async (pm) => ({
@@ -96,6 +99,12 @@ export default async function BackendItemPage({
           </p>
         </div>
       </Row>
+
+      {viz && (
+        <Row label="Visualization">
+          <EffectViz spec={viz} />
+        </Row>
+      )}
 
       <Row label="Files">
         <RegistryFiles files={built.files} />
