@@ -900,6 +900,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Jelly UI",
+        href: "https://jelly-ui.com/#jelly-kbd",
+        dateAdded: "2026-07-22",
+        description:
+          "Web Components library of 40 custom elements where real form controls meet soft-body physics, giving buttons, inputs, and keyboard keys (the linked jelly-kbd) a squishy tactile feel. Zero dependencies and framework-free: one script tag from jelly-ui.com loads the whole set, with built-in dark mode, right-to-left support, and WCAG AA color tokens. MIT licensed; the page credits bmson.com as the author.",
+      },
+      {
         title: "Evil Buttons",
         href: "https://www.evilbuttons.com/",
         dateAdded: "2026-07-22",
@@ -3937,6 +3944,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Claude Code iOS Simulator pane",
+        href: "https://code.claude.com/docs/en/desktop-ios-simulator",
+        dateAdded: "2026-07-22",
+        description:
+          "Anthropic's docs for the iOS Simulator pane in Claude Code Desktop: your app runs in Apple's simulator next to the conversation, streamed live, with Claude building, installing, tapping through, and reading the screen to verify its own changes while you can tap the same device yourself. Each session gets its own devices (up to 4 panes), consent is per-device, and no computer use or macOS screen permissions are needed since the pane drives the simulator directly. Public beta on macOS for Pro, Max, and Team plans; requires Claude Desktop v1.24012.0+ and Xcode with the iOS platform, local sessions only.",
+      },
+      {
         title: "Webclaw",
         href: "https://webclaw.io/",
         dateAdded: "2026-07-22",
@@ -6205,6 +6219,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Effect ecosystem",
     links: [
+      {
+        title: "effect-local",
+        href: "https://github.com/lucas-barake/effect-local",
+        dateAdded: "2026-07-22",
+        description:
+          "Frontend-only local-first database engine for Effect v4 apps by lucas-barake, where a durable browser replica is authoritative for interactive reads and writes and syncs when a connection exists. Layers Automerge 3.3.2 for canonical document history, SQLite WASM in OPFS (or Node.js SQLite) for projections, Effect Atom for reactive views, and Effect Cluster plus Workflow for durable command processing, with schema-checked mutations and queries via Effect Schema and peer sync that needs no backend server. Beta targeting Effect 4.0.0-beta.99, so formats and APIs can still change; MIT licensed, 18 stars at time of adding.",
+      },
       {
         title: "effect-rpc-workers",
         href: "https://github.com/ksamirdev/effect-rpc-workers",
