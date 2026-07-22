@@ -114,24 +114,38 @@ export interface VizNodeSpec {
   states: TaskState[];
   /** kit's NotificationBubble: shown (with a chime) while at this step */
   notify?: { atStep: number; message: string; icon?: string };
+  /** substring of the spec's code line that lights up with this node's state */
+  token?: string;
 }
 
 interface Base {
   caption?: string;
   intervalMs?: number;
+  /** kit's CodeBlock + FloatingHighlight: a mono code line rendered under the
+   * viz; node tokens inside it light up with the owning node's state */
+  code?: string;
 }
+
+/** a ref value; `bad` marks a write that should never have landed (red flash) */
+type RefValue = number | string | { v: number | string; bad?: boolean };
 
 interface RefSpec {
   label: string;
-  values: (number | string)[];
+  values: RefValue[];
   unit?: string;
   request?: {
     label: string;
     states: TaskState[];
     result?: string;
     error?: string;
+    token?: string;
   };
-  challenger?: { label: string; states: TaskState[]; error?: string };
+  challenger?: {
+    label: string;
+    states: TaskState[];
+    error?: string;
+    token?: string;
+  };
 }
 
 type ScopeState = "hidden" | "pending" | "running" | "completed";
@@ -140,7 +154,12 @@ interface ScopeSpec {
   /** kit's addFinalizer layout: the effect node shown above the strip, so an
    * outcome (succeed/fail/die/interrupt) plays out while finalizers still run */
   node?: VizNodeSpec;
-  finalizers: { label: string; states: ScopeState[]; compensate?: string }[];
+  finalizers: {
+    label: string;
+    states: ScopeState[];
+    compensate?: string;
+    token?: string;
+  }[];
 }
 
 /** kit's ScheduleTimeline: alternating run (blue, dotted ends) and gap
@@ -819,8 +838,14 @@ function NodeWithLabel({
   step?: number;
 }) {
   const elapsed = useNodeTimer(state);
+  // kit's rule: the error bubble owns a failed/death node, so the notification
+  // bubble is suppressed while one is showing (never two dialogues at once)
   const showNotify =
-    n.notify !== undefined && step !== undefined && step === n.notify.atStep;
+    n.notify !== undefined &&
+    step !== undefined &&
+    step === n.notify.atStep &&
+    state !== "failed" &&
+    state !== "death";
   return (
     <div className="relative flex flex-col items-center">
       <AnimatePresence>
@@ -846,21 +871,41 @@ function NodeWithLabel({
 // ---------------------------------------------------------------------------
 // primitive: odometer ref cell (kit's RefDisplay)
 // ---------------------------------------------------------------------------
-function RefCell({ label, value }: { label: string; value: string }) {
+function RefCell({
+  label,
+  value,
+  bad = false,
+}: {
+  label: string;
+  value: string;
+  bad?: boolean;
+}) {
   const prev = usePrev(value);
   const changed = prev !== undefined && prev !== value;
   useEffect(() => {
-    if (changed) vizSounds.playRefUpdate();
-  }, [changed]);
+    if (!changed) return;
+    if (bad) vizSounds.playFailure();
+    else vizSounds.playRefUpdate();
+  }, [changed, bad]);
   return (
     <motion.div
       className="flex items-center overflow-hidden rounded-lg border"
       initial={false}
       animate={{
         backgroundColor: changed
-          ? "rgba(59,130,246,0.3)"
-          : "rgba(38,38,38,0.8)",
-        borderColor: changed ? "rgba(59,130,246,1)" : "rgba(64,64,64,0.5)",
+          ? bad
+            ? "rgba(239,68,68,0.3)"
+            : "rgba(59,130,246,0.3)"
+          : bad
+            ? "rgba(60,20,20,0.85)"
+            : "rgba(38,38,38,0.8)",
+        borderColor: changed
+          ? bad
+            ? "rgba(239,68,68,1)"
+            : "rgba(59,130,246,1)"
+          : bad
+            ? "rgba(239,68,68,0.6)"
+            : "rgba(64,64,64,0.5)",
       }}
       transition={{
         type: "spring",
@@ -872,7 +917,9 @@ function RefCell({ label, value }: { label: string; value: string }) {
         {label}
       </span>
       <span className="h-9 w-px bg-neutral-700/60" />
-      <div className="overflow-hidden p-2 px-4 font-mono text-lg font-semibold text-neutral-100">
+      <div
+        className={`overflow-hidden p-2 px-4 font-mono text-lg font-semibold ${bad ? "text-red-300" : "text-neutral-100"}`}
+      >
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
             key={value}
@@ -887,6 +934,61 @@ function RefCell({ label, value }: { label: string; value: string }) {
         </AnimatePresence>
       </div>
     </motion.div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// primitive: code line with state-synced token highlights (kit's CodeBlock +
+// FloatingHighlight, driven by node state instead of hover)
+// ---------------------------------------------------------------------------
+interface CodeMark {
+  token: string;
+  state: TaskState;
+}
+
+const MARK_BG: Record<TaskState, string> = {
+  idle: "transparent",
+  running: "rgba(59,130,246,0.35)",
+  completed: "rgba(21,128,61,0.4)",
+  failed: "rgba(239,68,68,0.35)",
+  death: "rgba(153,27,27,0.5)",
+  interrupted: "rgba(249,115,22,0.35)",
+};
+
+function CodeLine({ code, marks }: { code: string; marks: CodeMark[] }) {
+  // split the code into plain and token segments (first occurrence wins)
+  const segments: { text: string; state?: TaskState }[] = [];
+  let rest = code;
+  while (rest.length > 0) {
+    let best: { at: number; mark: CodeMark } | null = null;
+    for (const mark of marks) {
+      const at = rest.indexOf(mark.token);
+      if (at >= 0 && (best === null || at < best.at)) best = { at, mark };
+    }
+    if (!best) {
+      segments.push({ text: rest });
+      break;
+    }
+    if (best.at > 0) segments.push({ text: rest.slice(0, best.at) });
+    segments.push({ text: best.mark.token, state: best.mark.state });
+    rest = rest.slice(best.at + best.mark.token.length);
+  }
+  return (
+    <pre className="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/70 p-3 font-mono text-[13px] leading-relaxed text-neutral-300">
+      {segments.map((seg, i) => (
+        <span
+          // biome-ignore lint/suspicious/noArrayIndexKey: static segmentation of a fixed string
+          key={i}
+          className="rounded px-0.5 transition-colors duration-200"
+          style={{
+            backgroundColor: seg.state ? MARK_BG[seg.state] : "transparent",
+            color: seg.state && seg.state !== "idle" ? "#fff" : undefined,
+          }}
+        >
+          {seg.text}
+        </span>
+      ))}
+    </pre>
   );
 }
 
@@ -980,13 +1082,17 @@ function FinalizerCard({
 // archetype: ref
 // ---------------------------------------------------------------------------
 function RefViz({ spec, step }: { spec: RefSpec; step: number }) {
-  const value = String(spec.values[step % spec.values.length] ?? "");
+  const raw = spec.values[step % spec.values.length];
+  const bad = typeof raw === "object" && raw !== null && raw.bad === true;
+  const value = String(
+    typeof raw === "object" && raw !== null ? raw.v : (raw ?? ""),
+  );
   const reqState =
     spec.request?.states[step % spec.request.states.length] ?? "idle";
   const chalState =
     spec.challenger?.states[step % spec.challenger.states.length] ?? "idle";
   return (
-    <div className="flex flex-wrap items-center gap-6">
+    <div className="flex flex-wrap items-center gap-6 pt-8">
       {spec.request && (
         <>
           <div className="flex flex-col items-center">
@@ -1006,6 +1112,7 @@ function RefViz({ spec, step }: { spec: RefSpec; step: number }) {
       <RefCell
         label={spec.label}
         value={spec.unit ? `${value}${spec.unit}` : value}
+        bad={bad}
       />
       {spec.challenger && (
         <div className="flex flex-col items-center">
@@ -1058,7 +1165,7 @@ function ScopeViz({ spec, step }: { spec: ScopeSpec; step: number }) {
   return (
     <div className="flex flex-col gap-5">
       {spec.node && (
-        <div className="flex">
+        <div className="flex pt-8">
           <NodeWithLabel
             n={spec.node}
             state={spec.node.states[step % spec.node.states.length] ?? "idle"}
@@ -1151,7 +1258,7 @@ function ScopeViz({ spec, step }: { spec: ScopeSpec; step: number }) {
 // ---------------------------------------------------------------------------
 // archetype: schedule (faithful port of kit's ScheduleTimeline)
 // ---------------------------------------------------------------------------
-function ScheduleViz({ spec }: { spec: ScheduleSpec }) {
+function ScheduleViz({ spec, code }: { spec: ScheduleSpec; code?: string }) {
   const durationMs = spec.durationMs ?? 6000;
   const HOLD_MS = 1400;
 
@@ -1221,8 +1328,9 @@ function ScheduleViz({ spec }: { spec: ScheduleSpec }) {
         }}
       />
 
-      {/* nodes above the timeline, driven by the current segment */}
-      <div className="flex flex-row flex-wrap items-start gap-6">
+      {/* nodes above the timeline, driven by the current segment; pt-10 keeps
+          bubbles clear of the controls row */}
+      <div className="flex flex-row flex-wrap items-start gap-6 pt-10">
         {spec.nodes.map((n, i) => (
           <div key={n.label} className="flex flex-row items-start gap-6">
             {i > 0 && (
@@ -1400,6 +1508,18 @@ function ScheduleViz({ spec }: { spec: ScheduleSpec }) {
           transition={{ backgroundColor: { duration: 0.3, ease: "easeInOut" } }}
         />
       </div>
+
+      {code && (
+        <CodeLine
+          code={code}
+          marks={spec.nodes
+            .filter((n) => n.token)
+            .map((n) => ({
+              token: n.token as string,
+              state: n.states[Math.min(segIdx, n.states.length - 1)] ?? "idle",
+            }))}
+        />
+      )}
     </div>
   );
 }
@@ -1426,7 +1546,8 @@ function StepBody({
   switch (spec.archetype) {
     case "flow":
       body = (
-        <div className="flex flex-row flex-wrap items-start gap-6">
+        // pt-10 keeps bubbles (error/notification) clear of the controls row
+        <div className="flex flex-row flex-wrap items-start gap-6 pt-10">
           {spec.nodes.map((n, i) => (
             <div
               key={`${n.label}#${i.toString()}`}
@@ -1455,6 +1576,38 @@ function StepBody({
       break;
   }
 
+  // marks for the code line: each token lights up with its owner's state
+  const marks: CodeMark[] = [];
+  if (spec.code) {
+    const at = (states: TaskState[]) =>
+      states[clock.step % states.length] ?? "idle";
+    if (spec.archetype === "flow") {
+      for (const n of spec.nodes)
+        if (n.token) marks.push({ token: n.token, state: at(n.states) });
+    } else if (spec.archetype === "ref") {
+      const r = spec.ref.request;
+      if (r?.token) marks.push({ token: r.token, state: at(r.states) });
+      const c = spec.ref.challenger;
+      if (c?.token) marks.push({ token: c.token, state: at(c.states) });
+    } else {
+      const n = spec.scope.node;
+      if (n?.token) marks.push({ token: n.token, state: at(n.states) });
+      for (const f of spec.scope.finalizers) {
+        if (!f.token) continue;
+        const st = f.states[clock.step % f.states.length] ?? "hidden";
+        marks.push({
+          token: f.token,
+          state:
+            st === "running"
+              ? "running"
+              : st === "completed"
+                ? "completed"
+                : "idle",
+        });
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <Controls
@@ -1466,6 +1619,7 @@ function StepBody({
         goto={clock.goto}
       />
       <div className="min-h-[120px] py-2">{body}</div>
+      {spec.code && <CodeLine code={spec.code} marks={marks} />}
     </div>
   );
 }
@@ -1510,7 +1664,11 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
       )}
       <div className="flex flex-col gap-4 p-6">
         {active.archetype === "schedule" ? (
-          <ScheduleViz key={selected} spec={active.schedule} />
+          <ScheduleViz
+            key={selected}
+            spec={active.schedule}
+            code={active.code}
+          />
         ) : (
           <StepBody key={selected} spec={active} />
         )}

@@ -122,21 +122,22 @@ const synthReset = def({
   effects: [REVERB],
 });
 
-// kit: fatsawtooth10 through a Distortion(0.8, wet 1) — two detuned saws.
+// kit: fatsawtooth10 through a Distortion — two detuned saws, softened so a
+// looping death card reads grim rather than alarming.
 const synthDeath = def({
   layers: [
     {
       source: { type: "sawtooth", frequency: C4, detune: -10 },
-      envelope: { attack: 0.01, decay: 0.5, sustain: 0.3, release: 1.5 },
-      gain: 0.18,
+      envelope: { attack: 0.01, decay: 0.4, sustain: 0.15, release: 0.9 },
+      gain: 0.09,
     },
     {
       source: { type: "sawtooth", frequency: C4, detune: 10 },
-      envelope: { attack: 0.01, decay: 0.5, sustain: 0.3, release: 1.5 },
-      gain: 0.18,
+      envelope: { attack: 0.01, decay: 0.4, sustain: 0.15, release: 0.9 },
+      gain: 0.09,
     },
   ],
-  effects: [{ type: "distortion", amount: 80, mix: 1 }],
+  effects: [{ type: "distortion", amount: 40, mix: 0.5 }],
 });
 
 const synthConfig = def({
@@ -198,9 +199,10 @@ const SEMIS = {
 };
 const cents = (semis: number) => semis * 100;
 
-// failure/interrupt debounce, as in the source (~200ms)
+// failure/interrupt/death debounce so stacked transitions do not pile up
 let failureUntil = 0;
 let interruptUntil = 0;
+let deathUntil = 0;
 
 // ---------------------------------------------------------------------------
 // public cues (names match TaskSounds)
@@ -229,7 +231,7 @@ export const vizSounds = {
   /** short sine blip, half an octave up the rotating scale */
   playRunning() {
     if (!enabled) return;
-    synthRunning({ detune: cents(nextNoteSemis(0.5)), volume: 0.25 });
+    synthRunning({ detune: cents(nextNoteSemis(0.5)), volume: 0.18 });
   },
 
   /** deep sawtooth bass note */
@@ -241,7 +243,7 @@ export const vizSounds = {
       12 +
       (PENT_SEMITONES[noteIndex % PENT_SEMITONES.length] ?? 0);
     noteIndex = (noteIndex + 1) % PENT_SEMITONES.length;
-    synthBass({ detune: cents(semis), volume: 0.65 });
+    synthBass({ detune: cents(semis), volume: 0.45 });
   },
 
   /** two rapid ascending beeps (C5 then E5) */
@@ -255,12 +257,13 @@ export const vizSounds = {
     );
   },
 
-  /** distorted stab (D#3) plus a low rumble (C1) 100ms later */
+  /** muted distorted stab (D#3) plus a soft low rumble (C1) 100ms later */
   playDeath() {
-    if (!enabled) return;
-    synthDeath({ detune: cents(SEMIS.DS3), volume: 0.45 });
+    if (!enabled || Date.now() < deathUntil) return;
+    deathUntil = Date.now() + 600;
+    synthDeath({ detune: cents(SEMIS.DS3), volume: 0.22 });
     setTimeout(
-      () => synthDeath({ detune: cents(SEMIS.C1), volume: 0.55 }),
+      () => synthDeath({ detune: cents(SEMIS.C1), volume: 0.26 }),
       100,
     );
   },
