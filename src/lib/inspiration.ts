@@ -6684,6 +6684,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer profiles and socials",
     links: [
       {
+        title: "CatsJuice",
+        href: "https://oooo.so/",
+        dateAdded: "2026-07-23",
+        description:
+          "Personal site of CatsJuice, a Node.js fullstack developer, and the hub behind Sticker Forge (sticker.oooo.so). The page itself is a deliberately minimal card: a one-line intro plus links out to GitHub, CodePen and X (@cats_juice). Follow through to the CodePen for their interaction experiments.",
+      },
+      {
         title: "Cassidoo",
         href: "https://github.com/cassidoo",
         dateAdded: "2026-07-14",
