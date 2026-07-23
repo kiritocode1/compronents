@@ -1784,6 +1784,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "60fps",
+        href: "https://60fps.design/",
+        dateAdded: "2026-07-23",
+        description:
+          "Curated library of UI animation and interaction details captured from shipped iOS and web apps, for studying how real products handle motion. Holds 1,995 shots across 467 apps plus 77 app websites, 50 storyboards and 25 motion examples, filterable by 108 categories from tap and swipe up to spring physics, parallax, confetti and gyroscope. Recent captures include Duolingo's mega chest unlock and ChatGPT's long-press intelligence picker; there is also an MCP endpoint, an animation glossary and a mockup tool.",
+      },
+      {
+        title: "Promptism",
+        href: "https://promptism.xyz/",
+        dateAdded: "2026-07-23",
+        description:
+          "Gallery of Midjourney prompts paired with their generated images, for studying how strong prompts are constructed before writing your own. Curated by Maze Heart (remvze), the same maker behind DSGNS, Headinger and OGPedia; each shot links to its own prompt page so you can read the exact wording that produced the image. Free.",
+      },
+      {
         title: "DSGNS",
         href: "https://dsgns.xyz/",
         dateAdded: "2026-07-23",
@@ -5348,6 +5362,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Is Ready For Launch",
+        href: "https://isreadyforlaunch.com/",
+        dateAdded: "2026-07-23",
+        description:
+          "Free pre-launch audit tool: paste a URL and it checks technical, SEO and accessibility site health, reporting passed checks, warnings and errors plus an SSL certificate check. Built by Csaba Kissi. Its distinctive feature is an LLM fix-prompt generator that turns detected first-party code issues into a prompt you can hand to a coding agent, and finished audits are shareable to X, Reddit and Facebook.",
+      },
       {
         title: "GitHub Wrapped",
         href: "https://www.trygitwrap.com/",
