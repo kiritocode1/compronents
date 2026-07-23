@@ -6258,6 +6258,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Marketing and growth tools",
     links: [
       {
+        title: "Post Window for X",
+        href: "https://postwindow.vercel.app/",
+        dateAdded: "2026-07-23",
+        description:
+          "Timezone-overlap tool that recommends when to post on X for an audience in another region: pick your city and weight your audience regions, and it renders a day-by-hour activity heatmap, recommended posting windows converted to your local time, and the dead zones to avoid. Benchmarks come from Buffer, Hootsuite and Sprout Social 2026 engagement data, and the page is explicit that the numbers are modeled estimates for illustrating timezone overlap, not platform analytics.",
+      },
+      {
         title: "OpenSEO",
         href: "https://github.com/every-app/open-seo",
         dateAdded: "2026-07-21",
