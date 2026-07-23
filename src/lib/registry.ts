@@ -248,6 +248,11 @@ export const registryItems: RegistryItem[] = [
         target: "components/ui/content-architecture-page/styles.ts",
         type: "registry:lib",
       },
+      {
+        path: "src/registry/content-architecture-page/spiral.ts",
+        target: "components/ui/content-architecture-page/spiral.ts",
+        type: "registry:lib",
+      },
     ],
   },
   {

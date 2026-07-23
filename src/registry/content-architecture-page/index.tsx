@@ -17,12 +17,18 @@ import {
   type CSSProperties,
   type FormEvent,
   type KeyboardEvent,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-
+import { mountContentArchitectureGlyphField } from "./glyph-field";
+import { SiteMinimap } from "./minimap";
+import {
+  mountContentArchitectureSpiral,
+  type SpiralInteractionState,
+} from "./spiral";
 import { getContentArchitecturePageStyles } from "./styles";
 
 export const DEFAULT_ASSET_BASE =
@@ -59,7 +65,7 @@ const PROBLEMS = [
 const FEATURES = [
   {
     title: "001 / Agent-native",
-    body: "AGENTS.md and a dozen scoped skills let Claude Code or Cursor ingest the conventions before the first prompt, instead of proposing a plausible new architecture per run. Two preconfigured MCP servers ship in the repo: one reads the Next.js runtime, compilation errors, routes, and docs matching the installed version; the other drives a real Chrome for screenshots, traces, and screencasts. The agent builds inside the decisions and checks its own work.",
+    body: "AGENTS.md and a dozen scoped skills let Claude Code or Cursor ingest the conventions before the first prompt, instead of proposing a plausible new architecture per run. Two preconfigured MCP servers ship in the repo: one reads the Next.js runtime, compilation errors, routes, docs matching the installed version, the other drives a real Chrome for screenshots, traces, and screencasts. The agent builds inside the decisions and checks its own work.",
   },
   {
     title: "002 / Agent-ready in production",
@@ -314,21 +320,28 @@ AI guidance for this repository lives in AGENTS.md and .agents/skills/.
 
 MIT`;
 
-const BACKGROUND_TEXT =
-  "THE CONTENT ARCHITECTURE  AGENT NATIVE  SANITY  NEXT.JS  DECIDED ONCE  COMMITTED  SCHEMA  FETCH LAYER  STUDIO  SEO  PRODUCTION READY  ".repeat(
-    260,
-  );
+const ASCII_BANNER = ` /$$$$$$$$ /$$                                                       /$$            /$$$$$$              /$$
+|__  $$__/| $$                                                      | $$           /$$__  $$            | $$
+   | $$   | $$$$$$$   /$$$$$$        /$$$$$$$   /$$$$$$  /$$   /$$ /$$$$$$        |__/  \\ $$        /$$$$$$$  /$$$$$$  /$$   /$$  /$$$$$$$
+   | $$   | $$__  $$ /$$__  $$      | $$__  $$ /$$__  $$|  $$ /$$/|_  $$_/           /$$$$$/       /$$__  $$ |____  $$| $$  | $$ /$$_____/
+   | $$   | $$  \\ $$| $$$$$$$$      | $$  \\ $$| $$$$$$$$ \\  $$$$/   | $$            |___  $$      | $$  | $$  /$$$$$$$| $$  | $$|  $$$$$$
+   | $$   | $$  | $$| $$_____/      | $$  | $$| $$_____/  >$$  $$   | $$ /$$       /$$  \\ $$      | $$  | $$ /$$__  $$| $$  | $$ \\____  $$
+   | $$   | $$  | $$|  $$$$$$$      | $$  | $$|  $$$$$$$ /$$/\\  $$  |  $$$$/      |  $$$$$$/      |  $$$$$$$|  $$$$$$$|  $$$$$$$ /$$$$$$$/
+   |__/   |__/  |__/ \\_______/      |__/  |__/ \\_______/|__/  \\__/   \\___/         \\______/        \\_______/ \\_______/ \\____  $$|_______/
+                                                                                                                       /$$  | $$
+                                                                                                                      |  $$$$$$/
+                                                                                                                       \\______/
 
-const ASCII_BANNER = `THE CONTENT ARCHITECTURE
 
- /$$$$$$$$ /$$                       /$$$$$$                        /$$       /$$   /$$
-|__  $$__/| $$                      /$$__  $$                      | $$      |__/  | $$
-   | $$   | $$$$$$$   /$$$$$$      | $$  \\__/  /$$$$$$  /$$$$$$$ | $$$$$$$  /$$ /$$$$$$
-   | $$   | $$__  $$ /$$__  $$     | $$       /$$__  $$| $$__  $$| $$__  $$| $$|_  $$_/
-   | $$   | $$  \\ $$| $$$$$$$$     | $$      | $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  | $$
-   | $$   | $$  | $$| $$_____/     | $$    $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$ /$$
-   | $$   | $$  | $$|  $$$$$$$     |  $$$$$$/|  $$$$$$/| $$  | $$| $$  | $$| $$  |  $$$$/
-   |__/   |__/  |__/ \\_______/      \\______/  \\______/ |__/  |__/|__/  |__/|__/   \\___/`;
+  /$$$$$$   /$$$$$$   /$$$$$$        /$$   /$$  /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$
+ |____  $$ /$$__  $$ /$$__  $$      | $$  | $$ /$$__  $$| $$  | $$ /$$__  $$ /$$_____/
+  /$$$$$$$| $$  \\__/| $$$$$$$$      | $$  | $$| $$  \\ $$| $$  | $$| $$  \\__/|  $$$$$$
+ /$$__  $$| $$      | $$_____/      | $$  | $$| $$  | $$| $$  | $$| $$       \\____  $$
+|  $$$$$$$| $$      |  $$$$$$$      |  $$$$$$$|  $$$$$$/|  $$$$$$/| $$       /$$$$$$$//$$
+ \\_______/|__/       \\_______/       \\____  $$ \\______/  \\______/ |__/      |_______/|__/
+                                     /$$  | $$
+                                    |  $$$$$$/
+                                     \\______/`;
 
 function getScrollParent(node: HTMLElement) {
   let current = node.parentElement;
@@ -342,10 +355,43 @@ function getScrollParent(node: HTMLElement) {
   return window;
 }
 
-function SectionNoise() {
+function GlyphField({
+  imageUrl,
+  backgroundOnly = false,
+  interactive = true,
+}: {
+  imageUrl?: string;
+  backgroundOnly?: boolean;
+  interactive?: boolean;
+}) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    return mountContentArchitectureGlyphField(root, {
+      imageUrl,
+      backgroundOnly,
+      interactive,
+      cursorLabel: labelRef.current,
+      modelLayout: "right",
+      imageFit: "contain",
+    });
+  }, [backgroundOnly, imageUrl, interactive]);
+
   return (
-    <div className="cap-noise" aria-hidden="true">
-      <pre>{BACKGROUND_TEXT}</pre>
+    <div
+      ref={rootRef}
+      className="cap-glyph-field"
+      aria-hidden="true"
+      data-interactive={interactive}
+    >
+      {interactive ? (
+        <span ref={labelRef} className="cap-glyph-cursor" data-visible="false">
+          Click
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -363,92 +409,166 @@ function GetAccessButton({ light = false }: { light?: boolean }) {
 }
 
 function Spiral() {
-  const radii = [44, 65, 89, 116, 147, 182, 221, 264, 311];
-  const phrase =
-    "THE CONTENT ARCHITECTURE · THE CONTENT ARCHITECTURE · THE CONTENT ARCHITECTURE · ";
-  return (
-    <div className="cap-spiral" aria-hidden="true">
-      <svg viewBox="0 0 700 700" role="img">
-        {radii.map((radius, index) => (
-          <g key={radius}>
-            <circle id={`cap-ring-${index}`} cx="350" cy="350" r={radius} />
-            <text>
-              <textPath href={`#cap-ring-${index}`}>
-                {phrase.repeat(3)}
-              </textPath>
-            </text>
-          </g>
-        ))}
-      </svg>
-    </div>
-  );
-}
-
-function AsciiImage({ src, alt }: { src: string; alt: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [ascii, setAscii] = useState("LOADING SOURCE...");
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const [interaction, setInteraction] =
+    useState<SpiralInteractionState>("idle");
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    let cancelled = false;
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-
-    const render = () => {
-      if (cancelled || !image.naturalWidth) return;
-      const columns = Math.max(
-        48,
-        Math.min(112, Math.floor(root.clientWidth / 6)),
-      );
-      const rows = Math.max(18, Math.round(columns * (9 / 16) * 0.48));
-      const canvas = document.createElement("canvas");
-      canvas.width = columns;
-      canvas.height = rows;
-      const context = canvas.getContext("2d", { willReadFrequently: true });
-      if (!context) return;
-      context.drawImage(image, 0, 0, columns, rows);
-      const pixels = context.getImageData(0, 0, columns, rows).data;
-      const glyphs = " .,:;irsXA253hMHGS#9B&@";
-      const lines: string[] = [];
-      for (let row = 0; row < rows; row++) {
-        let line = "";
-        for (let column = 0; column < columns; column++) {
-          const offset = (row * columns + column) * 4;
-          const luminance =
-            (pixels[offset] * 0.299 +
-              pixels[offset + 1] * 0.587 +
-              pixels[offset + 2] * 0.114) /
-            255;
-          line +=
-            glyphs[
-              Math.min(
-                glyphs.length - 1,
-                Math.floor((1 - luminance) * glyphs.length),
-              )
-            ];
-        }
-        lines.push(line);
-      }
-      setAscii(lines.join("\n"));
-    };
-
-    image.addEventListener("load", render);
-    image.src = src;
-    const resizeObserver = new ResizeObserver(render);
-    resizeObserver.observe(root);
-    return () => {
-      cancelled = true;
-      image.removeEventListener("load", render);
-      resizeObserver.disconnect();
-    };
-  }, [src]);
+    return mountContentArchitectureSpiral(
+      root,
+      labelRef.current,
+      setInteraction,
+    );
+  }, []);
 
   return (
-    <div ref={rootRef} className="cap-ascii">
-      <img src={src} alt={alt} crossOrigin="anonymous" />
-      <pre aria-hidden="true">{ascii}</pre>
+    <div ref={rootRef} className="cap-spiral" aria-hidden="true">
+      <span ref={labelRef} data-visible="false">
+        {interaction === "holding"
+          ? "Keep holding"
+          : interaction === "charged"
+            ? "Release"
+            : "Click & hold"}
+      </span>
     </div>
+  );
+}
+
+function ProblemsTerminal() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState({ row: 0, characters: 0 });
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    let timer = 0;
+    let started = false;
+    let cancelled = false;
+    const type = (row: number, characters: number) => {
+      if (cancelled) return;
+      const line = PROBLEMS[row];
+      if (!line) {
+        setProgress({ row: PROBLEMS.length, characters: 0 });
+        return;
+      }
+      setProgress({ row, characters });
+      if (characters < line[0].length) {
+        timer = window.setTimeout(() => type(row, characters + 1), 16);
+      } else {
+        timer = window.setTimeout(() => type(row + 1, 0), 200);
+      }
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || started) return;
+        started = true;
+        type(0, 0);
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(root);
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      window.clearTimeout(timer);
+    };
+  }, []);
+
+  return (
+    <div ref={rootRef} className="cap-problem-window">
+      <div className="cap-problem-window-shell">
+        <div className="cap-problem-window-title">Common problems</div>
+        <div className="cap-problem-window-body">
+          <span className="cap-sr-only">
+            {PROBLEMS.map(
+              ([problem, time], index) =>
+                `${String(index + 1).padStart(3, "0")} ${problem} ${time}`,
+            ).join(". ")}
+          </span>
+          {PROBLEMS.map(([problem, duration], index) => {
+            const visibleCount =
+              index < progress.row
+                ? problem.length
+                : index === progress.row
+                  ? progress.characters
+                  : 0;
+            const complete = visibleCount >= problem.length;
+            return (
+              <div key={problem} className="cap-problem-terminal-row">
+                <span className="cap-problem-terminal-copy">
+                  <span>
+                    {visibleCount > 0 ? String(index + 1).padStart(3, "0") : ""}
+                  </span>
+                  <span>
+                    {problem.slice(0, visibleCount)}
+                    {!complete && visibleCount > 0 ? (
+                      <i aria-hidden="true" />
+                    ) : null}
+                  </span>
+                </span>
+                <span>{complete ? duration : ""}</span>
+              </div>
+            );
+          })}
+          <div className="cap-problem-terminal-row cap-problem-terminal-total">
+            <span>Estimated time lost:</span>
+            <span>
+              {progress.row >= PROBLEMS.length
+                ? "~24 hours per project (3 full days)"
+                : ""}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TypingQuote({ quote, play }: { quote: string; play: boolean }) {
+  const rootRef = useRef<HTMLElement>(null);
+  const [entered, setEntered] = useState(false);
+  const [characters, setCharacters] = useState(0);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) setEntered(true);
+      },
+      { threshold: 0 },
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!entered || !play || characters >= quote.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCharacters(quote.length);
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setCharacters((current) => Math.min(quote.length, current + 1)),
+      18,
+    );
+    return () => window.clearTimeout(timer);
+  }, [characters, entered, play, quote]);
+
+  return (
+    <blockquote ref={rootRef}>
+      <span className="cap-sr-only">{quote}</span>
+      <span aria-hidden="true" className="cap-typing-quote">
+        {quote.slice(0, characters)}
+        {characters < quote.length ? (
+          <span className="cap-typewriter-cursor" />
+        ) : null}
+        <span className="cap-typewriter-rest">{quote.slice(characters)}</span>
+      </span>
+    </blockquote>
   );
 }
 
@@ -501,7 +621,12 @@ function RepoExplorer() {
 
   return (
     <div className="cap-ide">
-      <div className="cap-ide-bar">The Content Architecture</div>
+      <div className="cap-ide-bar">
+        <span>This is the actual repo.</span>
+        <span className="cap-ide-tools" aria-hidden="true">
+          ▣ &nbsp;⌘ J&nbsp;&nbsp;⌕&nbsp;&nbsp;⌘ K
+        </span>
+      </div>
       <div className="cap-ide-main">
         <nav className="cap-files" aria-label="File explorer">
           {REPO_FILES.map((file) => (
@@ -516,6 +641,7 @@ function RepoExplorer() {
           ))}
         </nav>
         <div className="cap-editor">
+          <div className="cap-editor-tab">{activeFile}</div>
           <textarea
             aria-label={`${activeFile} contents`}
             spellCheck={false}
@@ -537,6 +663,10 @@ function RepoExplorer() {
           </section>
         </div>
       </div>
+      <div className="cap-ide-status">
+        <span>⌁ MAIN &nbsp;• UPDATED TODAY</span>
+        <span>▥ 79 COMMITS</span>
+      </div>
     </div>
   );
 }
@@ -547,9 +677,9 @@ export default function ContentArchitecturePage({
   style,
 }: ContentArchitecturePageProps) {
   const rootRef = useRef<HTMLElement>(null);
+  const [pageRoot, setPageRoot] = useState<HTMLElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [progress, setProgress] = useState(0);
   const [testimonial, setTestimonial] = useState(0);
   const [openFaq, setOpenFaq] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -558,23 +688,16 @@ export default function ContentArchitecturePage({
     () => getContentArchitecturePageStyles(assetBase),
     [assetBase],
   );
+  const attachRoot = useCallback((node: HTMLElement | null) => {
+    rootRef.current = node;
+    setPageRoot(node);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     const scrollParent = getScrollParent(root);
     const onScroll = () => {
-      const scrollTop =
-        scrollParent === window
-          ? window.scrollY
-          : (scrollParent as HTMLElement).scrollTop;
-      const scrollHeight =
-        scrollParent === window
-          ? document.documentElement.scrollHeight - window.innerHeight
-          : (scrollParent as HTMLElement).scrollHeight -
-            (scrollParent as HTMLElement).clientHeight;
-      setProgress(scrollHeight > 0 ? scrollTop / scrollHeight : 0);
-
       let current = "home";
       for (const [id] of NAV_ITEMS) {
         const section = root.querySelector<HTMLElement>(`#cap-${id}`);
@@ -586,6 +709,15 @@ export default function ContentArchitecturePage({
     scrollParent.addEventListener("scroll", onScroll, { passive: true });
     return () => scrollParent.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") setDrawerOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [drawerOpen]);
 
   const scrollTo = (id: string) => {
     rootRef.current
@@ -601,7 +733,7 @@ export default function ContentArchitecturePage({
 
   return (
     <main
-      ref={rootRef}
+      ref={attachRoot}
       className={["content-architecture-page", className]
         .filter(Boolean)
         .join(" ")}
@@ -645,12 +777,7 @@ export default function ContentArchitecturePage({
         </nav>
       </header>
 
-      <div className="cap-minimap" aria-hidden="true">
-        <span
-          className="cap-minimap-progress"
-          style={{ transform: `scaleX(${progress})` }}
-        />
-      </div>
+      <SiteMinimap pageRoot={pageRoot} />
 
       <div className="cap-more">
         <span className="cap-more-label">Learn more</span>
@@ -663,20 +790,26 @@ export default function ContentArchitecturePage({
         </button>
       </div>
 
-      <section id="cap-home" className="cap-hero">
+      <section
+        id="cap-home"
+        className="cap-hero"
+        data-page-builder-section="mainHeroSection"
+      >
         <div className="cap-hero-copy">
-          <p className="cap-kicker">Built for agentic development.</p>
-          <h1>
+          <p className="cap-kicker" data-studio-field="eyebrow">
+            Built for agentic development.
+          </p>
+          <h1 data-studio-field="title">
             The Sanity setup
             <br />
             agents don&apos;t reinvent.
           </h1>
-          <p className="cap-hero-deck">
+          <p className="cap-hero-deck" data-studio-field="text">
             Every run invents a new one, none decided. This Next.js and Sanity
             kit commits six years of decisions. Your agent builds inside them,
             and checks its work through MCP and a real Chrome.
           </p>
-          <p className="cap-audience">
+          <p className="cap-audience" data-studio-field="audience">
             For engineers who work in Next.js and Sanity.
           </p>
           <div className="cap-hero-cta">
@@ -703,35 +836,31 @@ export default function ContentArchitecturePage({
         <div className="cap-hero-art">
           <Spiral />
         </div>
+        <button
+          type="button"
+          className="cap-scroll-cue"
+          aria-label="Scroll to the next section"
+          onClick={() => scrollTo("features")}
+        >
+          <span />
+        </button>
       </section>
 
-      <section className="cap-problems cap-paper">
+      <section
+        className="cap-problems cap-paper"
+        data-page-builder-section="textTerminalSection"
+      >
         <div className="cap-container cap-problem-layout">
-          <div>
-            <p className="cap-kicker">Common problems</p>
-            <div className="cap-problem-table">
-              {PROBLEMS.map(([problem, time], index) => (
-                <div key={problem} className="cap-problem-row">
-                  <span>{String(index + 1).padStart(3, "0")}</span>
-                  <span>{problem}</span>
-                  <span>{time}</span>
-                </div>
-              ))}
-            </div>
-            <div className="cap-problem-total">
-              <span>Estimated time lost:</span>
-              <span>~24 hours per project (3 full days)</span>
-            </div>
-          </div>
+          <ProblemsTerminal />
           <div className="cap-problem-copy">
-            <h2>
+            <h2 data-studio-field="title">
               The page builder
               <br />
               alone costs you days.
               <br />
               Every single time.
             </h2>
-            <p>
+            <p data-studio-field="text.0">
               It&apos;s never the easy stuff that hurts. It&apos;s the page
               builder, modeled from scratch again. Draft mode and live preview,
               wired up and subtly broken again. The cache bug where published
@@ -739,7 +868,7 @@ export default function ContentArchitecturePage({
               wrong. A Studio structure your editors actually understand,
               instead of one they email you about.
             </p>
-            <p>
+            <p data-studio-field="text.1">
               This is the part nobody quotes for and everybody rebuilds. Days
               gone before the real work starts.
             </p>
@@ -747,11 +876,17 @@ export default function ContentArchitecturePage({
         </div>
       </section>
 
-      <section id="cap-features" className="cap-features cap-dark">
-        <SectionNoise />
+      <section
+        id="cap-features"
+        className="cap-features cap-dark"
+        data-page-builder-section="benefitsSection"
+      >
+        <div className="cap-features-field">
+          <GlyphField backgroundOnly />
+        </div>
         <div className="cap-container">
           <div className="cap-features-intro">
-            <h2>
+            <h2 data-studio-field="title">
               Every decision
               <br />
               already made. So
@@ -760,34 +895,51 @@ export default function ContentArchitecturePage({
               <br />
               the actual work.
             </h2>
-            <p>
+            <p data-studio-field="text">
               The Content Architecture is the production foundation underneath
-              real client work. Hundreds of choices, schema, data, preview,
-              cache, Studio, tooling, agents, made once and committed.
+              my client work. Hundreds of choices, schema, fetching, structure,
+              SEO, made once over six years and committed. Not a starter you
+              outgrow in a month. Clone it, rename it, ship. The architecture is
+              fixed; the tools are defaults you can swap. Fixed decisions are
+              also what make agentic development work: an agent inside committed
+              conventions ships, an agent without them redesigns.
             </p>
           </div>
           <div className="cap-feature-grid">
-            {FEATURES.map((feature) => (
-              <article key={feature.title} className="cap-feature">
-                <h3>{feature.title}</h3>
-                <p>{feature.body}</p>
+            {FEATURES.map((feature, index) => (
+              <article
+                key={feature.title}
+                className="cap-feature"
+                data-studio-item={`items.${index}`}
+              >
+                <h3 data-studio-field={`items.${index}.title`}>
+                  {feature.title}
+                </h3>
+                <p data-studio-field={`items.${index}.text`}>{feature.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="cap-repo" className="cap-repo cap-paper">
+      <section
+        id="cap-repo"
+        className="cap-repo cap-paper"
+        data-page-builder-section="ideSection"
+      >
         <div className="cap-repo-shell">
-          <p className="cap-kicker cap-repo-kicker">This is the actual repo.</p>
           <RepoExplorer />
         </div>
       </section>
 
-      <section id="cap-showcase" className="cap-showcase">
+      <section
+        id="cap-showcase"
+        className="cap-showcase"
+        data-page-builder-section="showcaseSection"
+      >
         <div className="cap-showcase-head">
-          <h2>The work that gets remembered.</h2>
-          <p>
+          <h2 data-studio-field="title">The work that gets remembered.</h2>
+          <p data-studio-field="text">
             Real sites, shipped on The Content Architecture. With the plumbing
             already handled, the effort goes where it shows. The work here has
             been recognized by Awwwards, FWA, and CSSDA, and picked up across
@@ -795,68 +947,103 @@ export default function ContentArchitecturePage({
           </p>
         </div>
         <div className="cap-project-grid">
-          {PROJECTS.map(([title, href, image]) => (
-            <a key={title} className="cap-project" href={href}>
-              <AsciiImage
-                src={`${assetBase}/${image}`}
-                alt={`${title} website built on The Content Architecture`}
-              />
-              <h3>{title}</h3>
+          {PROJECTS.map(([title, href, image], index) => (
+            <a
+              key={title}
+              className="cap-project"
+              href={href}
+              data-studio-item={`items.${index}`}
+            >
+              <div
+                className="cap-project-media"
+                data-studio-field={`items.${index}.appMedia`}
+              >
+                <GlyphField imageUrl={`${assetBase}/${image}`} />
+                <img
+                  src={`${assetBase}/${image}`}
+                  alt={`${title} website built on The Content Architecture`}
+                  loading="lazy"
+                />
+              </div>
+              <h3 data-studio-field={`items.${index}.title`}>{title}</h3>
             </a>
           ))}
         </div>
       </section>
 
-      <section className="cap-testimonials">
-        <div className="cap-container">
-          <div className="cap-testimonial-frame">
-            <blockquote>{TESTIMONIALS[testimonial].quote}</blockquote>
-            <div className="cap-testimonial-meta">
-              <div className="cap-person">
-                <img
-                  src={`${assetBase}/${TESTIMONIALS[testimonial].avatar}`}
-                  alt=""
-                />
-                <span>
-                  {TESTIMONIALS[testimonial].name}
-                  <br />
-                  {TESTIMONIALS[testimonial].role}
-                </span>
-              </div>
-              <div className="cap-slider-controls">
-                <button
-                  type="button"
-                  aria-label="Previous slide"
-                  onClick={() =>
-                    setTestimonial(
-                      (testimonial - 1 + TESTIMONIALS.length) %
-                        TESTIMONIALS.length,
-                    )
-                  }
-                >
-                  ←
-                </button>
-                <span className="cap-slider-count">
-                  {String(testimonial + 1).padStart(2, "0")} / 03
-                </span>
-                <button
-                  type="button"
-                  aria-label="Next slide"
-                  onClick={() =>
-                    setTestimonial((testimonial + 1) % TESTIMONIALS.length)
-                  }
-                >
-                  →
-                </button>
-              </div>
-            </div>
+      <section
+        className="cap-testimonials"
+        data-page-builder-section="testimonialsSection"
+      >
+        <div className="cap-testimonial-viewport">
+          <div
+            className="cap-testimonial-track"
+            style={
+              {
+                "--cap-testimonial-index": testimonial,
+              } as CSSProperties
+            }
+          >
+            {TESTIMONIALS.map((item, index) => (
+              <article
+                key={item.name}
+                className="cap-testimonial-slide"
+                data-studio-item={`items.${index}`}
+              >
+                <div className="cap-testimonial-frame">
+                  <div data-studio-field={`items.${index}.quote`}>
+                    <TypingQuote
+                      quote={item.quote}
+                      play={testimonial === index}
+                    />
+                  </div>
+                  <div className="cap-testimonial-meta">
+                    <div className="cap-person">
+                      <img src={`${assetBase}/${item.avatar}`} alt="" />
+                      <span>
+                        {item.name}
+                        <br />
+                        {item.role}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
+        </div>
+        <div className="cap-slider-controls">
+          <button
+            type="button"
+            aria-label="Previous slide"
+            disabled={testimonial === 0}
+            onClick={() => setTestimonial(Math.max(0, testimonial - 1))}
+          >
+            ←
+          </button>
+          <span className="cap-slider-count">
+            {String(testimonial + 1).padStart(2, "0")} / 03
+          </span>
+          <button
+            type="button"
+            aria-label="Next slide"
+            disabled={testimonial === TESTIMONIALS.length - 1}
+            onClick={() =>
+              setTestimonial(Math.min(TESTIMONIALS.length - 1, testimonial + 1))
+            }
+          >
+            →
+          </button>
         </div>
       </section>
 
-      <section id="cap-pricing" className="cap-pricing cap-paper">
+      <section
+        id="cap-pricing"
+        className="cap-pricing cap-paper"
+        data-page-builder-section="pricingSection"
+      >
         <div className="cap-container cap-pricing-grid">
-          <h2>
+          <h2 data-studio-field="title">
             One repo.
             <br />
             One pricing.
@@ -880,10 +1067,14 @@ export default function ContentArchitecturePage({
         </div>
       </section>
 
-      <section id="cap-faq" className="cap-faq">
+      <section
+        id="cap-faq"
+        className="cap-faq"
+        data-page-builder-section="faqSection"
+      >
         <div className="cap-faq-grid">
           <div>
-            <h2>Before you buy</h2>
+            <h2 data-studio-field="title">Before you buy</h2>
             <div className="cap-faq-cta">
               <GetAccessButton light />
             </div>
@@ -917,12 +1108,15 @@ export default function ContentArchitecturePage({
         </div>
       </section>
 
-      <section className="cap-ascii-banner">
+      <section
+        className="cap-ascii-banner"
+        data-page-builder-section="calloutSection"
+      >
         <pre>{ASCII_BANNER}</pre>
       </section>
 
       <footer className="cap-footer">
-        <SectionNoise />
+        <GlyphField backgroundOnly interactive={false} />
         <div className="cap-footer-grid">
           <form className="cap-newsletter" onSubmit={submitNewsletter}>
             <input
@@ -966,24 +1160,66 @@ export default function ContentArchitecturePage({
             onClick={() => setDrawerOpen(false)}
           />
           <aside className="cap-drawer">
-            <div className="cap-drawer-head">
-              <h2>Decided once. Committed.</h2>
-              <button
-                type="button"
-                aria-label="Close learn more"
-                onClick={() => setDrawerOpen(false)}
-              >
-                ×
-              </button>
+            <nav className="cap-drawer-nav" aria-label="Sections">
+              <button type="button">001 / Why this exists</button>
+              <button type="button">002 / Why I keep shipping it</button>
+              <button type="button">003 / Who am I</button>
+            </nav>
+            <div className="cap-drawer-content">
+              <div className="cap-drawer-head">
+                <div>
+                  <h2>README / The Content Architecture</h2>
+                  <p>v1.0.0 - A personal note from the maintainer</p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Close learn more"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+              <div className="cap-drawer-sections">
+                <section id="cap-drawer-why">
+                  <h3>001 / Why this exists</h3>
+                  <p>
+                    Every Sanity project I shipped, the first week looked
+                    identical. Spin up Next. Wire the Studio. Rewrite the page
+                    builder. Rebuild the SEO layer. Re-do the webhook
+                    revalidation. Re-style the same contact form for the fourth
+                    time.
+                  </p>
+                  <p>
+                    By the time the actual creative work started, 3 days of the
+                    budget were gone and the client had not seen a single pixel
+                    that mattered.
+                  </p>
+                  <p>
+                    Extracting it started small. One project. Then two. Then
+                    ten. Every time something broke in production, the fix went
+                    back into the architecture.
+                  </p>
+                </section>
+                <section>
+                  <h3>002 / Why I keep shipping it</h3>
+                  <p>
+                    This is still the foundation underneath my client work.
+                    Each production lesson goes back into the repository, so
+                    the next project begins with a stronger set of decisions.
+                  </p>
+                </section>
+                <section>
+                  <h3>003 / Who am I</h3>
+                  <p>
+                    I am Edoardo Lunardi, an independent designer and engineer
+                    building high-craft sites with Next.js and Sanity.
+                  </p>
+                  <a href="https://www.edoardolunardi.dev/">
+                    edoardolunardi.dev
+                  </a>
+                </section>
+              </div>
             </div>
-            <p>
-              The production Sanity and Next.js foundation built across six
-              years of client work, packaged so engineers and their agents can
-              start with the architecture already decided.
-            </p>
-            <a href="https://www.contentarchitecture.dev/">
-              Visit the original site
-            </a>
           </aside>
         </>
       ) : null}
