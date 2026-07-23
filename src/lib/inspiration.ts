@@ -6546,6 +6546,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Personal blogs and sites",
     links: [
       {
+        title: "nerdy.dev",
+        href: "https://nerdy.dev/",
+        dateAdded: "2026-07-23",
+        description:
+          "Personal site of Adam Argyle (argyleink), CSS specialist, conference speaker and co-host of the Whiskey Web and Whatnot podcast. Around 457 posts, heavily weighted toward CSS (283 posts) plus notes, talks, podcast episodes and a notebook of interactive demos like color pickers and scroll interactions. Recent writing covers new CSS features such as flex-wrap: balance and relative alpha, and a CSS Day 2026 talk titled Contextualism. The site itself runs on Fresh 2 with Deno KV for social data.",
+      },
+      {
         title: "Thomas Ankcorn",
         href: "https://ankcorn.dev/",
         dateAdded: "2026-07-22",
