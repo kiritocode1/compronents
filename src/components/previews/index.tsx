@@ -22,6 +22,7 @@ import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
+import LegoDitherPreview from "./lego-dither";
 import March2025TemplatePreview from "./march-2025-template";
 import MaterialSpotlightPreview from "./material-spotlight";
 import MosaicFlipPreview from "./mosaic-flip";
@@ -61,6 +62,7 @@ export const previews: Record<string, ComponentType> = {
   "creative-clutter": CreativeClutterPreview,
   "crt-display": CrtDisplayPreview,
   "curve-gallery": CurveGalleryPreview,
+  "lego-dither": LegoDitherPreview,
   "falling-tag-list": FallingTagListPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,

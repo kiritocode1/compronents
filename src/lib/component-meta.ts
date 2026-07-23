@@ -7364,6 +7364,79 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "lego-dither": {
+    demoPath: "src/components/demos/lego-dither.tsx",
+    studioPath: "src/components/studios/lego-dither.tsx",
+    nuance: [
+      {
+        label: "The model is only a light field",
+        description:
+          "The GLB never reaches the screen directly. It renders in white against black so the final shader can turn its light and shade into six discrete Lego colors.",
+      },
+      {
+        label: "One sprite, six luminance steps",
+        description:
+          "Each screen cell samples the hand once, chooses one of six 48-pixel stud glyphs, then draws that glyph at native hard edges. The white background is the darkest source level, not a CSS backdrop.",
+      },
+      {
+        label: "The pointer enters before dithering",
+        description:
+          "Pointer motion updates a fading canvas trail. Its gradient warps the hand sample and its intensity lifts nearby cells, so the cursor leaves real Lego marks instead of an overlay.",
+      },
+    ],
+    editable: [
+      {
+        name: "modelUrl / spriteUrl",
+        control: "asset-url",
+        description:
+          "Blob-hosted GLB and six-frame Lego stud sprite sheet used by the two render passes.",
+      },
+      {
+        name: "cellSize / modelScale / spinSpeed",
+        control: "text",
+        description:
+          "Stud resolution, fitted hand size, and autonomous rotation speed.",
+      },
+      {
+        name: "pointerRotation / trailSize / trailDecay / distortion",
+        control: "text",
+        description:
+          "Pointer tilt and the width, lifetime, and warping strength of its dither trail.",
+      },
+    ],
+    assets: assetsByIds(["lego-dither-hand", "lego-dither-sprite"]),
+    api: [
+      {
+        name: "modelUrl / spriteUrl",
+        type: "string / string",
+        default: "BLANK-hosted Lego Dither assets",
+        description: "GLB hand model and horizontal six-glyph sprite sheet.",
+      },
+      {
+        name: "cellSize / modelScale",
+        type: "number / number",
+        default: "7 / 1",
+        description: "Stud size in CSS pixels and normalized hand scale.",
+      },
+      {
+        name: "spinSpeed / pointerRotation",
+        type: "number / number",
+        default: "0.26 / 0.32",
+        description: "Automatic Y rotation and pointer-driven X/Z rotation.",
+      },
+      {
+        name: "trailSize / trailDecay / distortion",
+        type: "number / number / number",
+        default: "0.065 / 0.018 / 0.055",
+        description: "Pointer stroke width, fade rate, and sample warp.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Optional class applied to the full-size canvas wrapper.",
+      },
+    ],
+  },
   "rotating-hand-scroll": {
     demoPath: "src/components/demos/rotating-hand-scroll.tsx",
     nuance: [

@@ -65,6 +65,7 @@ import InversionLensHoverDemo from "./inversion-lens-hover";
 import IsochromePageDemo from "./isochrome-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
+import LegoDitherDemo from "./lego-dither";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LineRiseTextDemo from "./line-rise-text";
 import LiquidStatGridDemo from "./liquid-stat-grid";
@@ -165,6 +166,7 @@ export const demos: Record<string, ComponentType> = {
   "creative-clutter": CreativeClutterDemo,
   "crt-display": CrtDisplayDemo,
   "curve-gallery": CurveGalleryDemo,
+  "lego-dither": LegoDitherDemo,
   "falling-tag-list": FallingTagListDemo,
   "frame-scroll": FrameScrollDemo,
   "halftone-interface-hero": HalftoneInterfaceHeroDemo,

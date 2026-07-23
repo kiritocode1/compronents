@@ -26,6 +26,7 @@ import ImageRevealStudio from "./image-reveal";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
 import IsochromePageStudio from "./isochrome-page";
+import LegoDitherStudio from "./lego-dither";
 import LemonBureauPageStudio from "./lemon-bureau-page";
 import LiquidStatGridStudio from "./liquid-stat-grid";
 import March2025TemplateStudio from "./march-2025-template";
@@ -73,6 +74,7 @@ export const studios: Record<string, StudioComponent> = {
   "creative-clutter": CreativeClutterStudio,
   "crt-display": CrtDisplayStudio,
   "curve-gallery": CurveGalleryStudio,
+  "lego-dither": LegoDitherStudio,
   "falling-tag-list": FallingTagListStudio,
   "frame-scroll": FrameScrollStudio,
   "spiral-gallery": SpiralGalleryStudio,

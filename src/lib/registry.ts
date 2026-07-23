@@ -2896,6 +2896,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "lego-dither",
+    title: "Lego Dither",
+    description:
+      "A spinning 3D marble hand rebuilt from a six-frame Lego stud sprite sheet. The hand renders into a luminance buffer, a fullscreen shader selects one colored stud per cell, and pointer movement rotates the model while painting a fading, warping trail through the same dither field. A self-contained Three.js interpretation of DEEO Studio's 3D Lego Dither artifact.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-23",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/lego-dither.tsx",
+        target: "components/ui/lego-dither.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "rotating-hand-scroll",
     title: "Rotating Hand Scroll",
     description:
