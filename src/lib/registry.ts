@@ -253,6 +253,16 @@ export const registryItems: RegistryItem[] = [
         target: "components/ui/content-architecture-page/spiral.ts",
         type: "registry:lib",
       },
+      {
+        path: "src/registry/content-architecture-page/glyph-field.ts",
+        target: "components/ui/content-architecture-page/glyph-field.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/content-architecture-page/minimap.tsx",
+        target: "components/ui/content-architecture-page/minimap.tsx",
+        type: "registry:ui",
+      },
     ],
   },
   {
