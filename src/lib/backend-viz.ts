@@ -1902,6 +1902,750 @@ export const backendViz: Record<string, VizEntry> = {
     ],
   },
 
+  "effect-payment-reconciliation": {
+    control: "recon",
+    variants: [
+      {
+        name: "off (silent drift)",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "Exactly-once was engineered everywhere, so nobody checks. A processor-side retry posts 25.01 against your 25.00, day after day, and the first anyone hears of it is a quarter close that is off by an amount no query can explain. Nothing errored; the books just diverged.",
+          code: `// no reconciliation job exists; the drift compounds quietly`,
+          schedule: {
+            durationMs: 6000,
+            nodes: [
+              {
+                label: "ledger",
+                result: "$25.00 recorded",
+                states: s("running", "completed", "completed", "completed"),
+              },
+              {
+                label: "processor",
+                error: "$25.01 settled",
+                states: s("running", "completed", "completed", "completed"),
+              },
+              {
+                label: "quarter close",
+                token: "drift",
+                error: "unexplained variance",
+                notify: {
+                  atStep: 3,
+                  message: "90 days of compounding cents",
+                  icon: "🧾",
+                },
+                states: s("idle", "idle", "running", "death"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 0.8 },
+              { kind: "gap", w: 1.2, label: "90 days, no checks" },
+              { kind: "run", w: 0.8 },
+            ],
+          },
+        },
+      },
+      {
+        name: "reconciled",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "The nightly run normalizes both statements, matches by id, and buckets every difference. The 1 cent drift on tx-101 is flagged the same night it happens. tx-102, stamped 23:59:55 internally and 00:00:30 at the processor, is held as pending_cutoff instead of paging anyone, and matches on the next run.",
+          code: `classify(ours, theirs) // matched | mismatch | missing | pending_cutoff`,
+          schedule: {
+            durationMs: 6500,
+            nodes: [
+              {
+                label: "tx-101 drift",
+                token: "mismatch",
+                error: "2500 vs 2501",
+                states: s("running", "failed", "failed", "failed"),
+              },
+              {
+                label: "tx-102 @23:59:55",
+                token: "pending_cutoff",
+                result: "matched day 2",
+                notify: {
+                  atStep: 1,
+                  message: "held, not paged: in transit",
+                  icon: "🌙",
+                },
+                states: s("running", "interrupted", "running", "completed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 1 },
+              { kind: "gap", w: 1.2, label: "day boundary" },
+              { kind: "run", w: 1 },
+            ],
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-hot-account-ledger": {
+    control: "account",
+    variants: [
+      {
+        name: "one row",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 3,
+          caption:
+            "Promotion day: two hundred concurrent credits to one merchant, and every one of them queues on the same row lock. Throughput collapses to one write per lock hold, checkout latency climbs past a second, and the platform's biggest account becomes its slowest row.",
+          code: `UPDATE balance WHERE id = 'merchant' // every credit, same lock`,
+          nodes: [
+            {
+              label: "credit #1",
+              result: "held the lock",
+              token: "UPDATE balance",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "credit #2",
+              error: "queued",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "credit #200",
+              error: "1011ms behind",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "idle",
+              ),
+            },
+            {
+              label: "merchant row",
+              error: "lock convoy",
+              notify: {
+                atStep: 3,
+                message: "one lock, 200 waiters",
+                icon: "🔒",
+              },
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "death",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+      {
+        name: "8 sub-accounts",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 3,
+          caption:
+            "The balance becomes eight sub-account rows. Each credit locks exactly one, so eight writes proceed at once and the convoy dissolves: the same two hundred credits land in 126ms instead of 1011ms, and the balance read (the sum over sub-accounts) is exact to the cent: 20000.",
+          code: `credit -> subAccount[rr % 8] // one update locks one row of eight`,
+          nodes: [
+            {
+              label: "credit #1",
+              result: "sub 1",
+              token: "subAccount",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "credit #2",
+              result: "sub 2",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "credit #200",
+              result: "sub 8",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "balance = sum",
+              result: "20000 exact",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  "effect-bloom-url-frontier": {
+    control: "seen set",
+    variants: [
+      {
+        name: "exact set",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The crawler remembers every URL it has fetched in an exact in-memory set, and the set grows with the web: 100k URLs is 12MB, a billion is tens of gigabytes per worker. Watch the resident memory climb until the fleet is sized by its dedupe structure instead of its work.",
+          code: `seen.add(url) // memory grows with every page ever crawled`,
+          ref: {
+            label: "dedupe RAM (MB)",
+            values: [
+              12,
+              240,
+              2400,
+              { v: 12000, bad: true },
+              { v: 12000, bad: true },
+              12,
+            ],
+            challenger: {
+              label: "crawl grows 1000x",
+              token: "seen.add",
+              error: "OOM sized",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "bloom filter",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The filter is sized once from capacity and error budget: 100k URLs at 1% false positives is 117KB, forever. A seen URL can never report unseen (no loops, structurally), and the 1% of fresh URLs wrongly reported seen cost one missed page each, never correctness.",
+          code: `bloom.testAndSet(url) // k bits decide; memory is a constant you chose`,
+          ref: {
+            label: "dedupe RAM (KB)",
+            values: [117, 117, 117, 117, 117, 117],
+            request: {
+              label: "100k URLs crawled",
+              token: "bloom.testAndSet",
+              result: "0 false negatives",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-password-hash-vault": {
+    control: "storage",
+    variants: [
+      {
+        name: "fast hash, no salt",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The table leaks, and every hash is md5(password) with no salt. A rainbow table computed years ago cracks the common passwords instantly, and identical hashes mean cracking one user cracks everyone who chose the same password. Watch the count climb: this is offline, at billions of guesses per second.",
+          code: `md5(password) // one leaked table, one precomputed rainbow`,
+          ref: {
+            label: "accounts cracked",
+            values: [
+              0,
+              184000,
+              { v: 620000, bad: true },
+              { v: 990000, bad: true },
+              { v: 990000, bad: true },
+              0,
+            ],
+            challenger: {
+              label: "rainbow table",
+              token: "md5",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "scrypt + salt",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Same leak, different table: every record is scrypt with a random per-user salt, parameters embedded in the row. No rainbow table was computed with your salts, so precomputation is worthless, and scrypt's memory-hard cost turns billions of guesses per second into thousands. The cracked count stays where it belongs.",
+          code: `scrypt$16384$8$1$salt$hash // per-user salt, memory-hard cost`,
+          ref: {
+            label: "accounts cracked",
+            values: [0, 0, 0, 0, 0, 0],
+            challenger: {
+              label: "rainbow table",
+              token: "salt",
+              error: "no precomputed match",
+              states: s("idle", "running", "running", "failed", "idle", "idle"),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-quorum-read-repair": {
+    control: "read",
+    variants: [
+      {
+        name: "read one replica",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The write landed on r1 and r2 while r3 was partitioned. r3 is back now, still holding yesterday, and this read happened to route there. The client gets theme=light, acts on it, and overwrites the user's change: staleness became a lost update because one copy was trusted alone.",
+          code: `r3.get(key) // whichever replica you hit is the truth you get`,
+          nodes: [
+            {
+              label: "r3 (was partitioned)",
+              token: "r3.get",
+              error: "theme=light (v1)",
+              states: s(
+                "idle",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "r1",
+              result: "theme=dark (v2)",
+              states: s("idle", "idle", "idle", "idle", "idle", "idle"),
+            },
+            {
+              label: "client",
+              error: "acts on v1",
+              notify: {
+                atStep: 3,
+                message: "the newer copy was never asked",
+                icon: "🕳️",
+              },
+              states: s("idle", "running", "running", "death", "death", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "R+W > N",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 3,
+          caption:
+            "W=2 and R=2 over 3 replicas: every read set overlaps every write set, so the answers must include a v2 copy. The reader takes the highest version, returns theme=dark, and writes v2 back to r3 on a detached fiber. The read was right AND the cluster is one replica less wrong.",
+          code: `max(version) wins; repair(stale) forked // overlap makes stale unelectable`,
+          nodes: [
+            {
+              label: "r1",
+              result: "v2",
+              token: "max(version)",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "r3 (stale)",
+              result: "v1, outvoted",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "read repair",
+              token: "repair(stale)",
+              result: "r3 healed to v2",
+              notify: {
+                atStep: 4,
+                message: "healing rode the read",
+                icon: "🩹",
+              },
+              states: s("idle", "idle", "idle", "running", "completed", "idle"),
+            },
+            {
+              label: "client",
+              result: "theme=dark (v2)",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  "effect-optimistic-lock-retry": {
+    control: "guard",
+    variants: [
+      {
+        name: "unguarded",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Two handlers read stock=10, both compute 9, both write 9. Fifty concurrent sales landed as one: the demo measures 49 lost updates and not a single error anywhere. The odometer flashes red on the second write, the one that silently erased a sale.",
+          code: `stock = stock - 1 // read, compute, write, and the race wins`,
+          ref: {
+            label: "stock",
+            values: [10, 9, { v: 9, bad: true }, { v: 9, bad: true }, 9, 10],
+            request: {
+              label: "sale A",
+              token: "stock - 1",
+              result: "wrote 9",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "sale B",
+              states: s(
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "versioned CAS",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Every row carries a version and the write says WHERE version = 7. Sale A commits and bumps to 8; sale B's write matches zero rows and fails typed with both versions in hand. B re-reads stock=9, retries with jittered backoff, and lands 8. Fifty concurrent sales: value 50, zero lost, 286 conflicts retried.",
+          code: `UPDATE ... WHERE version = 7 // the loser learns, re-reads, retries`,
+          ref: {
+            label: "stock",
+            values: [10, 9, 9, 8, 8, 10],
+            request: {
+              label: "sale A (v7)",
+              token: "version = 7",
+              result: "v8",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "sale B (v7)",
+              token: "retries",
+              error: "conflict, retried",
+              states: s(
+                "running",
+                "running",
+                "failed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-deadlock-detector": {
+    control: "cycle",
+    variants: [
+      {
+        name: "no detection",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "T1 holds alice and wants bob; T2 holds bob and wants alice. All four Coffman conditions hold, so both wait forever. Nothing crashes and nothing logs: throughput just stops, and every later transaction that touches either account joins the frozen queue behind them.",
+          code: `T1: lock(alice) lock(bob)   T2: lock(bob) lock(alice) // forever`,
+          nodes: [
+            {
+              label: "T1 holds alice",
+              token: "lock(bob)",
+              error: "waiting on bob",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "death",
+                "idle",
+              ),
+            },
+            {
+              label: "T2 holds bob",
+              token: "lock(alice)",
+              error: "waiting on alice",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "death",
+                "idle",
+              ),
+            },
+            {
+              label: "lock queue",
+              error: "circular wait",
+              notify: {
+                atStep: 3,
+                message: "each waits for the other, forever",
+                icon: "🔄",
+              },
+              states: s("idle", "idle", "running", "running", "death", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "wait-for graph",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The lock manager walks the wait-for graph inside the same atomic decision that would enqueue the wait. T2's request for alice would close the ring, so it fails typed as the victim, its ensuring releases bob, and T1 takes it and commits. One victim, one survivor, resolved in 21ms.",
+          code: `wouldCycle(T2, alice) -> DeadlockVictim // refused before it waits`,
+          nodes: [
+            {
+              label: "T2 (victim)",
+              token: "DeadlockVictim",
+              error: "aborted, locks freed",
+              states: s(
+                "idle",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "T1",
+              token: "wouldCycle",
+              result: "committed",
+              notify: {
+                atStep: 3,
+                message: "took bob the moment T2 released",
+                icon: "🔓",
+              },
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "lock queue",
+              result: "cycle never formed",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  "effect-geohash-proximity": {
+    control: "lookup",
+    variants: [
+      {
+        name: "single cell",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The user's cell is dr5rsr and the ramen shop 122 meters north sits in dr5ru2: near in space, disjoint in prefix. A lookup that only reads the user's cell returns everything EXCEPT the closest restaurant, and no error hints that the grid's edge just ate a result.",
+          code: `index.get(cell(user)) // the boundary is invisible until it isn't`,
+          nodes: [
+            {
+              label: "cell dr5rsr",
+              token: "cell(user)",
+              result: "2 places",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "ramen @122m",
+              error: "in dr5ru2: missed",
+              notify: {
+                atStep: 3,
+                message: "across the street, across the cell",
+                icon: "🍜",
+              },
+              states: s(
+                "idle",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "results",
+              error: "closest spot absent",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+      {
+        name: "9 cells + haversine",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The covering reads the center cell and its 8 neighbors (candidates, not answers), then the exact haversine circle keeps what is truly inside the radius, sorted by distance. The ramen shop crosses the boundary into the candidate set and comes back first at 122m; the LA noise never enters the math.",
+          code: `covering(user, 9).flatMap(get) |> haversine <= r // grid proposes, circle disposes`,
+          nodes: [
+            {
+              label: "9-cell covering",
+              token: "covering",
+              result: "3 candidates",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "haversine filter",
+              token: "haversine",
+              result: "exact circle",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "results",
+              result: "ramen first @122m",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+
   // ======================= RATE LIMITS / BUDGETS (ref) =======================
   "deno-kv-rate-limit": {
     control: "traffic",

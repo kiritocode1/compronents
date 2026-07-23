@@ -4808,6 +4808,174 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-payment-reconciliation",
+    title: "Effect Payment Reconciliation",
+    description:
+      "The safety net under exactly-once: normalize records from your ledger and the processor's statement (each source's date and amount quirks absorbed in one transformation layer), match by transaction id, and classify every difference into an explicit bucket: matched, amount mismatch, missing internal, missing external. A transaction stamped 23:59:55 internally that the processor shows at 00:00:30 next day is held as pending_cutoff and carried to the next run instead of paging anyone at 1am; it resolves to a match when the counterpart arrives or escalates to a real discrepancy when it never does. One cent of drift is caught, never absorbed. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-payment-reconciliation/reconcile.ts",
+        target: "src/payments/reconcile.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-hot-account-ledger",
+    title: "Effect Hot Account Ledger",
+    description:
+      "Account subdivision for the merchant whose promotion day melts the ledger: the balance becomes N sub-accounts, each behind its own Semaphore row lock, and a credit locks exactly one, so concurrent credits spread across independent locks instead of queueing in a single-row convoy. The balance is the sum over sub-accounts and the demo proves it lands to the cent while finishing several times faster than the serialized row. Debits that need the full balance take every lock in fixed index order (the resource ordering that cannot deadlock), settle across shards atomically, and refuse over-drafts with a typed InsufficientFunds carrying the true balance. Solves the row-lock convoy on hotspot accounts. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-hot-account-ledger/hotaccount.ts",
+        target: "src/payments/hotaccount.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-bloom-url-frontier",
+    title: "Effect Bloom Filter URL Frontier",
+    description:
+      "Crawler-grade dedupe in a fixed bit array: k hash positions per URL (double hashing over FNV-1a with an avalanche finisher), textbook sizing from capacity and target false-positive rate, and a bounded frontier Queue so discovery backpressures fetchers instead of buffering the web in memory. The trade sits on the safe side by construction: false negatives are impossible, so a seen URL is never re-crawled and the crawler cannot loop, while false positives arrive at the configured rate and each costs one missed page, never correctness. The demo measures 100k URLs in ~117KB against a ~12MB exact Set and confirms the observed false-positive rate against the predicted one. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-bloom-url-frontier/frontier.ts",
+        target: "src/crawler/frontier.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-password-hash-vault",
+    title: "Effect Password Hash Vault",
+    description:
+      "Password storage the way the leaked-table postmortem wishes it had been: every user gets a random 16-byte salt, the hash is scrypt (memory-hard, so each offline guess is expensive by design), and the stored record embeds its own parameters as scrypt$N$r$p$salt$hash. Verification recomputes with the record's embedded cost and compares with timingSafeEqual, unknown user and wrong password fail with one identical typed error so login cannot enumerate accounts, and a successful login through an outdated cost transparently re-hashes at the current cost, the only moment the plaintext exists being the only upgrade window. Uses node:crypto only. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-password-hash-vault/passwords.ts",
+        target: "src/auth/passwords.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-quorum-read-repair",
+    title: "Effect Quorum Reads with Read Repair",
+    description:
+      "Eventual consistency with an actual mechanism: N replicas, write to W, read from R, R + W > N, so every read set overlaps every write set and the newest version is always among the answers; the reader takes the highest version, so a partitioned replica's stale copy cannot win a quorum read. Divergence heals instead of lingering: a read that observes disagreeing versions writes the winner back to the stale replicas on a detached fiber (read repair off the read path), replicas reject version regressions so repair can never move a copy backward, and losing quorum is a typed QuorumUnreachable refusal rather than a wrong answer. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-quorum-read-repair/quorum.ts",
+        target: "src/replication/quorum.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-optimistic-lock-retry",
+    title: "Effect Optimistic Lock with Retry",
+    description:
+      "Version-column concurrency for the workload where conflicts are rare and locks are waste: every row carries a version, the write is one atomic compare-and-set (the same shape as UPDATE ... WHERE version = ?), and a write that lost the race surfaces as a typed VersionConflict carrying both versions instead of silently clobbering. The optimistic loop re-reads before every attempt so it never replays a stale computation, retries with jittered exponential backoff a bounded number of times, and exhaustion on a genuine hot spot is a typed RetriesExhausted you can route to a queue. The demo shows 50 unguarded concurrent increments landing as 1 (49 silent lost updates) versus the versioned loop landing all 50 through 286 retried conflicts. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-optimistic-lock-retry/optimistic.ts",
+        target: "src/db/optimistic.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-deadlock-detector",
+    title: "Effect Deadlock Detector",
+    description:
+      "A lock manager that refuses to let the circular wait form: the owners table and wait-for edges live in one Ref, every lock request checks (inside the same atomic decision that would enqueue it) whether waiting would close a cycle, and the request that would complete the ring fails with a typed DeadlockVictim carrying the cycle instead of hanging forever. Victim locks actually release: withTransaction scopes every grant and its release runs on success, failure, and the victim path alike, so the survivor's blocked locks free automatically. Detects transitive rings (T1 waits on T2 waits on T3 waits on T1), and the demo also shows the prevention strategy, fixed resource ordering, committing 10 of 10. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-deadlock-detector/deadlock.ts",
+        target: "src/locks/deadlock.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-geohash-proximity",
+    title: "Effect Geohash Proximity Index",
+    description:
+      "Nearby search without the full-table haversine scan: points are geohashed (interleaved lat/lng bisection, base32) into a Ref-held cell index, and a radius query reads the query point's cell plus its 8 neighbors, then applies the exact haversine circle test to just those candidates. The neighbor scan is the correctness half: two points meters apart on opposite sides of a cell boundary share no useful prefix, and a naive single-cell lookup silently drops one of them, so the grid is only ever a candidate generator and the final circle test decides. Neighbors are derived by decoding the center cell's bounds and re-encoding one cell-width away, immune to base32 edge tables, with antimeridian wrap handled. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-geohash-proximity/proximity.ts",
+        target: "src/geo/proximity.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -5158,6 +5326,94 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with the Effect Circuit Breaker and Retry Budget inside each compartment (the breaker stops calling a sick dependency, the bulkhead contains it meanwhile) and map BulkheadRejected to a degraded fallback.",
       avoid:
         "Avoid slicing one dependency into many tiny compartments, which just lowers its ceiling, and avoid a large waiting room: the room converts shed into queueing, and queueing is the failure mode this exists to stop.",
+    };
+  }
+
+  if (item.name === "effect-payment-reconciliation") {
+    return {
+      style:
+        "A total function over the joined ids: every record lands in exactly one bucket, so 'unexplained' is not a representable outcome, and the cut-off window turns the midnight false alarm into a carried state.",
+      use: `Use ${item.title} as the nightly safety net wherever money crosses systems (your platform, a processor, a ledger), because exactly-once engineering reduces the discrepancy count, it never makes the check unnecessary.`,
+      pair: "Pair it with the Effect Exactly-Once Consumer feeding the ledger side and route amount_mismatch and escalated missing_* findings to an operator queue with the raw records attached.",
+      avoid:
+        "Avoid auto-repairing mismatches (the reconciler's job is to find and classify, a human or a dedicated workflow owns the fix) and avoid a cut-off tolerance so wide it hides genuinely missing settlements for days.",
+    };
+  }
+
+  if (item.name === "effect-hot-account-ledger") {
+    return {
+      style:
+        "The lock convoy dissolved by arithmetic: N sub-accounts means N independent locks for credits, one fixed-order sweep for debits, and the balance stays a sum you can prove to the cent.",
+      use: `Use ${item.title} for the accounts that concentrate traffic: the big merchant on promotion day, the platform fee account, any row whose lock queue shows up in p99 write latency.`,
+      pair: "Pair it with the Effect Idempotency Key Store on the credit path so retried payments land once, and persist sub-accounts as real rows so the pattern survives the move from Refs to your database.",
+      avoid:
+        "Avoid it for ordinary accounts where a single row never queues (the sweep debit costs N locks for no benefit) and avoid sizing N above your real concurrency: idle sub-accounts just make every debit wider.",
+    };
+  }
+
+  if (item.name === "effect-bloom-url-frontier") {
+    return {
+      style:
+        "Memory as a chosen formula instead of a growing set, and the error budget deliberately parked on the safe side: skips cost a page, loops are impossible.",
+      use: `Use ${item.title} for crawl frontiers, seen-item suppression, and any have-I-processed-this check at a scale where the exact set is the biggest object in the process.`,
+      pair: "Pair it with the Effect Shard Router with Backpressure to spread fetches across workers, and check robots and politeness budgets after the filter, so a skipped URL never even costs a lookup.",
+      avoid:
+        "Avoid it where a miss is unacceptable (payments dedupe belongs in the Effect Idempotency Key Store, which is exact) and avoid filling past the sized capacity: the false-positive rate climbs steeply beyond it, and a bloom filter cannot delete.",
+    };
+  }
+
+  if (item.name === "effect-password-hash-vault") {
+    return {
+      style:
+        "Every record self-describing, every comparison constant-time, every failure identical from the outside. The parameters live in the row, so policy upgrades are data migrations that happen one login at a time.",
+      use: `Use ${item.title} wherever you store first-party credentials and cannot hand the problem to an identity provider, and as the reference for the rehash-on-login upgrade loop if you already have a table of aging hashes.`,
+      pair: "Pair it with the Better Auth entries if you want sessions and flows around it, and with a rate limit on the login route, because scrypt slows offline cracking, not online guessing.",
+      avoid:
+        "Avoid inventing reasons to read the plaintext outside login (the upgrade window exists because there is exactly one), and avoid distinguishable unknown-user and wrong-password responses anywhere in the stack, including timing and copy.",
+    };
+  }
+
+  if (item.name === "effect-quorum-read-repair") {
+    return {
+      style:
+        "Consistency as overlap arithmetic: R + W > N is the whole theorem, versions are monotonic, and healing is an active side effect of reading, not a cron job you hope runs.",
+      use: `Use ${item.title} when you replicate state across nodes yourself (session stores, config fan-out, presence) and need reads that cannot return yesterday, plus divergence that shrinks on contact.`,
+      pair: "Pair it with the Effect Heartbeat Failure Detector to know which replicas are genuinely down versus slow, and with the Effect Fencing Token and Hybrid Clock if multiple writers can race on one key.",
+      avoid:
+        "Avoid it in front of a database that already gives you quorum semantics, where it duplicates the engine's job, and avoid W=1 configurations: the arithmetic only protects you when write sets actually overlap read sets.",
+    };
+  }
+
+  if (item.name === "effect-optimistic-lock-retry") {
+    return {
+      style:
+        "Charge the losers, not everyone: no lock on the read path, one conditional write, and the conflict is a typed value carrying both versions, so the caller can retry, merge, or surrender explicitly.",
+      use: `Use ${item.title} for read-modify-write on rows where conflicts are the exception: user settings, inventory decrements, document saves, anything currently protected by nothing at all (check the demo's lost-update count).`,
+      pair: "Pair it with the PG Advisory Lock entry for the opposite regime (long transactions, likely conflicts, pessimistic is right) and with the Effect Hot Account Ledger when one row is so hot that retries would exhaust constantly.",
+      avoid:
+        "Avoid computing side effects inside the retry loop (the computation may run several times, only the CAS is once) and avoid unbounded retries: exhaustion is a signal the row needs the pessimistic path or subdivision, not more attempts.",
+    };
+  }
+
+  if (item.name === "effect-deadlock-detector") {
+    return {
+      style:
+        "The wait-for graph maintained where waits are decided, so detection is a lookup, not a periodic sweep, and the victim is chosen before anyone has waited a millisecond on a doomed cycle.",
+      use: `Use ${item.title} for in-process lock managers over named resources (per-account locks, per-document locks, job claims) where callers take multiple locks and you cannot force every code path into one ordering.`,
+      pair: "Pair it with fixed resource ordering wherever you CAN enforce it (the demo shows it committing 10 of 10 with zero victims) and map DeadlockVictim to a retry-with-ordering fallback at the call site.",
+      avoid:
+        "Avoid it for locks your database already arbitrates (Postgres detects its own deadlocks; do not double-manage) and avoid holding locks across network calls, which turns every slow dependency into a suspected cycle.",
+    };
+  }
+
+  if (item.name === "effect-geohash-proximity") {
+    return {
+      style:
+        "The grid proposes, the circle disposes: cells are only a candidate generator, so correctness never depends on cell shape, and the boundary problem is handled by construction rather than by hoping prefixes match.",
+      use: `Use ${item.title} for store locators, delivery zones, nearby-driver matching, any radius query that is currently a full-table distance scan, at precisions you pick per use case (6 chars is city-block grade).`,
+      pair: "Pair it with a persistent index (the cell string is a perfect database index key: WHERE geohash LIKE 'dr5rs%') and with the Effect Consistent Hash Ring if the index itself must shard across nodes.",
+      avoid:
+        "Avoid radius queries much larger than the cell size without dropping precision first (candidates approach a full scan) and avoid uniform-grid assumptions where density is extreme: downtown needs finer cells than the ocean, which is the quadtree's argument.",
     };
   }
 
