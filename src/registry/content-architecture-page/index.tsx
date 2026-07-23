@@ -528,7 +528,7 @@ function ProblemsTerminal() {
 }
 
 function TypingQuote({ quote, play }: { quote: string; play: boolean }) {
-  const rootRef = useRef<HTMLElement>(null);
+  const rootRef = useRef<HTMLQuoteElement>(null);
   const [entered, setEntered] = useState(false);
   const [characters, setCharacters] = useState(0);
 
