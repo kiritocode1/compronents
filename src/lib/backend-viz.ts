@@ -1040,6 +1040,868 @@ export const backendViz: Record<string, VizEntry> = {
     ],
   },
 
+  // ======================= DISTRIBUTED SYSTEMS PATTERNS =======================
+  "effect-idempotency-key-store": {
+    control: "idempotency",
+    variants: [
+      {
+        name: "off (double charge)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The client times out and retries, but the first request already reached the processor. Both requests execute, and the charged total lands at 9998 cents for a 4999 cent order. Watch the odometer flash red on the second charge: that write should never have happened.",
+          code: `await processor.charge(card, 4999) // the retry charges again`,
+          ref: {
+            label: "charged cents",
+            values: [
+              0,
+              4999,
+              4999,
+              { v: 9998, bad: true },
+              { v: 9998, bad: true },
+              0,
+            ],
+            request: {
+              label: "charge",
+              token: "processor.charge",
+              result: "receipt #1",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "timeout retry",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "keyed",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Both requests carry the same idempotency key. The first arrival claims the key atomically and runs the charge; the retry finds the claim, awaits the same Deferred, and receives the first run's receipt. One execution, one 4999, two identical receipts.",
+          code: `store.execute(key, charge) // duplicates await the winner's Deferred`,
+          ref: {
+            label: "charged cents",
+            values: [0, 4999, 4999, 4999, 4999, 0],
+            request: {
+              label: "charge",
+              token: "store.execute",
+              result: "receipt #1",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "timeout retry",
+              token: "duplicates await",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-hedged-request-race": {
+    control: "hedging",
+    variants: [
+      {
+        name: "off (tail latency)",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Ninety-nine requests land on healthy replicas, and this one landed on the node mid GC pause. The user pays the straggler's full 400ms because there is no second chance: whatever node the request hit is the node that answers.",
+          code: `const rows = yield* replica.query(q) // one attempt, one fate`,
+          nodes: [
+            {
+              label: "request",
+              token: "replica.query",
+              error: "rows @ 400ms",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "failed",
+              ),
+            },
+            {
+              label: "user",
+              error: "p99 spinner",
+              notify: {
+                atStep: 4,
+                message: "still waiting on one node",
+                icon: "🐌",
+              },
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "failed",
+              ),
+            },
+          ],
+        },
+      },
+      {
+        name: "hedged",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The primary gets the p95 delay to answer on its own. When it does not, one backup fires at a different replica and raceFirst takes the first answer, interrupting the loser so it releases its connection. The straggler is capped near delay plus fast latency: 45ms instead of 400.",
+          code: `Effect.raceFirst(primary, backup) // loser is interrupted, not leaked`,
+          nodes: [
+            {
+              label: "primary",
+              token: "primary",
+              error: "interrupted",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "interrupted",
+                "interrupted",
+                "idle",
+              ),
+            },
+            {
+              label: "hedge @p95",
+              token: "backup",
+              result: "rows @ 45ms",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "user",
+              result: "45ms",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  "effect-read-replica-router": {
+    control: "routing",
+    variants: [
+      {
+        name: "off (stale read)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The user saves display_name=Ada, the write commits on the primary, and the reload reads from a replica that has not applied it yet. The page shows the OLD name. Watch the served value flash red: the write vanished from the user's point of view.",
+          code: `db.replica.select(profile) // replication lag decides what you see`,
+          ref: {
+            label: "profile served",
+            values: [
+              "v1",
+              "v1",
+              { v: "v1", bad: true },
+              { v: "v1", bad: true },
+              "v2",
+              "v1",
+            ],
+            request: {
+              label: "save v2",
+              result: "committed LSN 4",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "reload",
+              token: "db.replica.select",
+              error: "shows v1",
+              states: s("idle", "idle", "running", "failed", "idle", "idle"),
+            },
+          },
+        },
+      },
+      {
+        name: "routed",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The router remembers this session wrote at LSN 4. The reload compares the replica's applied LSN (3) against the mark, sees it is behind, and routes to the primary: the user reads their own write. Once the replica applies LSN 4, the same session's reads move back to it.",
+          code: `applied >= sessionMark ? replica : primary // freshness is arithmetic`,
+          ref: {
+            label: "profile served",
+            values: ["v1", "v1", "v2", "v2", "v2", "v1"],
+            request: {
+              label: "save v2",
+              result: "mark = LSN 4",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "reload",
+              token: "applied >= sessionMark",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-heartbeat-failure-detector": {
+    control: "detector",
+    variants: [
+      {
+        name: "fixed timeout",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "The rule is dead after 40ms of silence. One congested heartbeat arrives 60ms late, the timeout fires, and a perfectly healthy node is evicted: its shards reshuffle onto the survivors, which is load the cluster did not need at the exact moment the network was already struggling.",
+          code: `if (silence > 40) evict(node) // congestion reads as death`,
+          schedule: {
+            durationMs: 6000,
+            nodes: [
+              {
+                label: "node-7",
+                token: "node",
+                error: "evicted while alive",
+                notify: {
+                  atStep: 2,
+                  message: "the beat was in flight",
+                  icon: "📦",
+                },
+                states: s("running", "running", "death", "death"),
+              },
+              {
+                label: "monitor",
+                token: "evict",
+                error: "false positive",
+                states: s("running", "running", "failed", "failed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 1 },
+              { kind: "gap", w: 1.2, label: "60ms congestion" },
+              { kind: "run", w: 0.8 },
+            ],
+          },
+        },
+      },
+      {
+        name: "phi accrual",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "Phi grows with silence relative to THIS node's learned rhythm. The 60ms delay pushes phi to 1.3, far under the threshold of 8, and the late beat resets it: no eviction. Only the sustained silence at the end accrues past 8, and that one really is a dead node.",
+          code: `phi = silence / (mean * ln10) // suspicion, then certainty`,
+          schedule: {
+            durationMs: 7000,
+            nodes: [
+              {
+                label: "node-7",
+                token: "node",
+                result: "survived congestion",
+                states: s("running", "running", "running", "running", "death"),
+              },
+              {
+                label: "phi",
+                token: "phi",
+                error: "8.0 crossed: dead",
+                notify: {
+                  atStep: 2,
+                  message: "phi 1.3, beat arrived, reset",
+                  icon: "🫀",
+                },
+                states: s("running", "running", "running", "running", "failed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 1 },
+              { kind: "gap", w: 1, label: "phi 1.3" },
+              { kind: "run", w: 0.8 },
+              { kind: "gap", w: 1.6, label: "silence, phi 8+" },
+            ],
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-multipart-upload-resume": {
+    control: "outcome",
+    variants: [
+      {
+        name: "completes",
+        spec: {
+          archetype: "scope",
+          caption:
+            "Initiate is the acquire and abort is its release. Parts upload in parallel with per-part retry, complete() assembles the ETags, and the abort finalizer sees the completed flag and skips itself. The scope closes clean: object stored, no leftovers.",
+          code: `Effect.acquireRelease(initiate, abortUnlessDone) // cleanup is the scope's job`,
+          scope: {
+            mode: "scope",
+            node: {
+              label: "backup.tar (8 parts)",
+              token: "initiate",
+              result: "assembled",
+              states: s(
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+                "completed",
+              ),
+            },
+            finalizers: [
+              {
+                label: "abort unless completed",
+                token: "abortUnlessDone",
+                states: sc(...ACQ3_A),
+              },
+              { label: "complete w/ etags", states: sc(...ACQ3_B) },
+              { label: "upload parts 1-8", states: sc(...ACQ3_C) },
+            ],
+          },
+        },
+      },
+      {
+        name: "crash mid-part",
+        spec: {
+          archetype: "scope",
+          caption:
+            "Part 4 dies with no retries left and the whole session fails, but failing IS an exit path, so the release runs: abort tells the store to free every uploaded part. Without it, those parts sit invisible in the bucket listing and very visible on the invoice, forever.",
+          code: `abort(uploadId) // ran because the scope closed, not because someone remembered`,
+          scope: {
+            mode: "scope",
+            node: {
+              label: "video.mp4 (8 parts)",
+              error: "part 4 failed",
+              notify: {
+                atStep: 4,
+                message: "orphaned parts freed: 0 billing",
+                icon: "🧾",
+              },
+              states: s(
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "failed",
+              ),
+            },
+            finalizers: [
+              {
+                label: "abort multipart",
+                token: "abort(uploadId)",
+                states: sc(...ACQ2_A),
+              },
+              { label: "upload parts (3 of 8 done)", states: sc(...ACQ2_B) },
+            ],
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-exactly-once-consumer": {
+    control: "ordering",
+    variants: [
+      {
+        name: "commit first (loses)",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "The consumer commits offset 1 and then dies before applying pay-102. The broker's contract is simple: acknowledged work is never redelivered. The restart resumes at offset 2, and 250 dollars is gone with no error, no log line, no retry. Loss is silent by construction.",
+          code: `commit(offset); apply(msg) // crash between = acknowledged and gone`,
+          schedule: {
+            durationMs: 6000,
+            nodes: [
+              {
+                label: "commit offset 1",
+                token: "commit(offset)",
+                result: "acknowledged",
+                states: s("running", "completed", "completed", "completed"),
+              },
+              {
+                label: "apply pay-102",
+                token: "apply(msg)",
+                error: "$250 never lands",
+                states: s("idle", "running", "death", "death"),
+              },
+              {
+                label: "restart",
+                error: "resumes at offset 2",
+                states: s("idle", "idle", "idle", "failed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 1 },
+              { kind: "gap", w: 1.3, label: "crash" },
+              { kind: "run", w: 1 },
+            ],
+          },
+        },
+      },
+      {
+        name: "process first + dedupe",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "Apply first, commit second: the crash in the gap means pay-102's offset was never acknowledged, so the broker redelivers it. The applied-ids set (updated in the same atomic decision as the balance) recognizes the duplicate and skips it. Balance 875, applied once, committed once.",
+          code: `applyOnce(id) then commit(offset) // redelivery hits the dedupe set`,
+          schedule: {
+            durationMs: 6000,
+            nodes: [
+              {
+                label: "apply pay-102",
+                token: "applyOnce(id)",
+                result: "balance +250",
+                states: s("running", "completed", "completed", "completed"),
+              },
+              {
+                label: "redelivery",
+                token: "commit(offset)",
+                result: "duplicate skipped",
+                notify: {
+                  atStep: 2,
+                  message: "applied set says: seen it",
+                  icon: "🧾",
+                },
+                states: s("idle", "interrupted", "running", "completed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 1 },
+              { kind: "gap", w: 1.3, label: "crash before commit" },
+              { kind: "run", w: 1 },
+            ],
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-webhook-dispatcher": {
+    control: "delivery",
+    variants: [
+      {
+        name: "fire and forget",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "The partner's endpoint is mid-deploy and answers 503 for forty seconds. One attempt, one 503, and the invoice.paid event is gone: their outage became your data loss, and nobody on either side has a record to replay.",
+          code: `fetch(url, { body }) // their downtime, your gap`,
+          schedule: {
+            durationMs: 5000,
+            nodes: [
+              {
+                label: "invoice.paid",
+                token: "fetch(url",
+                error: "dropped silently",
+                states: s("running", "death", "death"),
+              },
+              {
+                label: "endpoint",
+                error: "503 mid-deploy",
+                states: s("failed", "failed", "completed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 1 },
+              { kind: "gap", w: 1.6, label: "their deploy finishes" },
+            ],
+          },
+        },
+      },
+      {
+        name: "retried + signed",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "Attempt 1 and 2 hit the deploy window and back off on jittered exponential delays. Attempt 3 lands a 200, and the consumer verifies the HMAC over timestamp.body in constant time before trusting a byte. The outage cost latency, not the event.",
+          code: `retry(jittered(exponential)) + hmac(ts + "." + body) // late, not lost`,
+          schedule: {
+            durationMs: 7000,
+            nodes: [
+              {
+                label: "invoice.paid",
+                token: "retry",
+                result: "delivered, verified",
+                states: s(
+                  "running",
+                  "running",
+                  "running",
+                  "running",
+                  "running",
+                  "running",
+                  "completed",
+                ),
+              },
+              {
+                label: "endpoint",
+                token: "hmac",
+                result: "signature ok",
+                notify: {
+                  atStep: 5,
+                  message: "HMAC verified, replay window ok",
+                  icon: "🔏",
+                },
+                states: s(
+                  "failed",
+                  "idle",
+                  "failed",
+                  "idle",
+                  "running",
+                  "completed",
+                  "completed",
+                ),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 0.7 },
+              { kind: "gap", w: 0.8, label: "2s + jitter" },
+              { kind: "run", w: 0.7 },
+              { kind: "gap", w: 1, label: "4s + jitter" },
+              { kind: "run", w: 0.7 },
+              { kind: "run", w: 0.5 },
+            ],
+          },
+        },
+      },
+      {
+        name: "dead endpoint",
+        spec: {
+          archetype: "schedule",
+          caption:
+            "Every attempt fails, the retries exhaust, and the event moves to the dead-letter queue carrying its attempt history and last status. Exhaustion is an explicit state an operator can replay from, not a log line that scrolled away.",
+          code: `Queue.offer(deadLetters, { event, attempts, lastStatus }) // replayable`,
+          schedule: {
+            durationMs: 6000,
+            nodes: [
+              {
+                label: "invoice.paid",
+                token: "event",
+                error: "4 attempts, all 500",
+                states: s("running", "running", "running", "running", "failed"),
+              },
+              {
+                label: "dead letters",
+                token: "deadLetters",
+                result: "1 event, replayable",
+                notify: {
+                  atStep: 4,
+                  message: "kept with attempt history",
+                  icon: "📮",
+                },
+                states: s("idle", "idle", "idle", "idle", "completed"),
+              },
+            ],
+            segments: [
+              { kind: "run", w: 0.7 },
+              { kind: "gap", w: 0.7, label: "backoff" },
+              { kind: "run", w: 0.7 },
+              { kind: "gap", w: 0.9, label: "backoff" },
+            ],
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-consistent-hash-ring": {
+    control: "placement",
+    variants: [
+      {
+        name: "hash % N",
+        spec: {
+          archetype: "ref",
+          caption:
+            "cache-5 joins and N changes from 4 to 5, so hash(key) % N changes for almost every key: 8020 of 10000 keys now point somewhere new, and each one is a cache miss. The cluster stampedes its own origin at the exact moment it was scaling to protect it.",
+          code: `serverIndex = hash(key) % N // N changed, so everything changed`,
+          ref: {
+            label: "keys remapped",
+            values: [
+              0,
+              0,
+              { v: 8020, bad: true },
+              { v: 8020, bad: true },
+              { v: 8020, bad: true },
+              0,
+            ],
+            challenger: {
+              label: "cache-5 joins",
+              token: "% N",
+              error: "miss storm",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "ring + vnodes",
+        spec: {
+          archetype: "ref",
+          caption:
+            "On the ring, cache-5's 160 virtual nodes claim arcs and steal only the keys inside them: 2030 keys move, every one of them TO the new node, and the other 7970 stay exactly where they were. The join is a 20% event instead of an 80% one.",
+          code: `ring.lookup(key) // first node clockwise; joins steal one arc`,
+          ref: {
+            label: "keys remapped",
+            values: [0, 0, 2030, 2030, 2030, 0],
+            request: {
+              label: "cache-5 joins",
+              token: "ring.lookup",
+              result: "took 1/5 arc",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-snowflake-id-generator": {
+    control: "clock",
+    variants: [
+      {
+        name: "trusting the clock",
+        spec: {
+          archetype: "ref",
+          caption:
+            "NTP steps the wall clock back 60 seconds and the generator keeps minting from it. The odometer rolls BACKWARD: it re-issues timestamp bits it already used, and somewhere a new order id collides with one from a minute ago. Two rows, one primary key.",
+          code: `id = now << 22 | machine | seq // now just moved backward`,
+          ref: {
+            label: "id timestamp ms",
+            values: [
+              1000,
+              1001,
+              1002,
+              { v: 942, bad: true },
+              { v: 943, bad: true },
+              1000,
+            ],
+            challenger: {
+              label: "NTP step -60s",
+              token: "now",
+              states: s(
+                "idle",
+                "idle",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "rollback guard",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The generator remembers the highest timestamp it minted against, inside the same atomic decision as the mint. A small rollback parks the caller until the clock re-passes the mark; this 60 second step is past tolerance, so the mint fails typed. No branch can produce a duplicate.",
+          code: `t < lastTimestamp -> ClockMovedBackward // duplicates are unrepresentable`,
+          ref: {
+            label: "high-water mark ms",
+            values: [1000, 1001, 1002, 1002, 1002, 1000],
+            challenger: {
+              label: "mint at 942",
+              token: "ClockMovedBackward",
+              error: "typed failure",
+              states: s("idle", "idle", "idle", "failed", "idle", "idle"),
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  "effect-bulkhead-isolation": {
+    control: "pool",
+    variants: [
+      {
+        name: "shared pool",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "Recommendations went from 20ms to 150ms per call, and every call holds a shared worker for that long. Thirty of them absorb the whole pool, and checkout, which needs 5ms, queues behind them for 564ms. Checkout is down because recommendations got slow.",
+          code: `sharedPool.run(call) // one slow tenant drains everyone's workers`,
+          nodes: [
+            {
+              label: "recs (150ms)",
+              token: "sharedPool",
+              error: "holds all 8 workers",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "failed",
+              ),
+            },
+            {
+              label: "checkout (5ms)",
+              error: "564ms behind recs",
+              notify: {
+                atStep: 3,
+                message: "queued behind a slow stranger",
+                icon: "🛒",
+              },
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "user",
+              error: "checkout timeout",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "death",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+      {
+        name: "bulkheads",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "Each dependency owns a watertight compartment: recommendations saturates its own 4 permits and sheds its overflow with a typed BulkheadRejected the caller maps to a fallback shelf, while checkout's compartment never sees the flood. Last payment done in 57ms, not 564.",
+          code: `recsBulkhead.run(call) // the breach floods one compartment`,
+          nodes: [
+            {
+              label: "recs (150ms)",
+              token: "recsBulkhead",
+              error: "overflow shed fast",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "checkout (5ms)",
+              result: "paid @ 57ms",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "user",
+              result: "order placed",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+
   // ======================= RATE LIMITS / BUDGETS (ref) =======================
   "deno-kv-rate-limit": {
     control: "traffic",

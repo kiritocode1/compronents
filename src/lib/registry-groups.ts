@@ -260,6 +260,21 @@ export const backendGroups: RegistryGroup[] = [
     ],
   },
   {
+    title: "Distributed systems patterns",
+    names: [
+      "effect-idempotency-key-store",
+      "effect-exactly-once-consumer",
+      "effect-hedged-request-race",
+      "effect-bulkhead-isolation",
+      "effect-read-replica-router",
+      "effect-consistent-hash-ring",
+      "effect-heartbeat-failure-detector",
+      "effect-snowflake-id-generator",
+      "effect-multipart-upload-resume",
+      "effect-webhook-dispatcher",
+    ],
+  },
+  {
     title: "Durable workflows and jobs",
     names: [
       "effect-durable-activity-workflow",

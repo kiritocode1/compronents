@@ -4598,6 +4598,216 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "effect-idempotency-key-store",
+    title: "Effect Idempotency Key Store",
+    description:
+      "An execution guard that makes retried requests safe: every request carries an idempotency key, and the store makes the key the single author of execution. The in-flight slot is claimed with one atomic Ref.modify, so of two racing duplicates exactly one runs the effect while the other awaits a Deferred the winner completes, and a late retry after completion replays the stored result inside its TTL without re-executing. Failures propagate to every waiting duplicate and release the key, so a declined card can be retried deliberately while a double charge stays impossible. Solves the double charge on retry and the check-then-insert race. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-idempotency-key-store/idempotency.ts",
+        target: "src/idempotency/idempotency.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-hedged-request-race",
+    title: "Effect Hedged Request Race",
+    description:
+      "A tail-latency cap built on Effect.raceFirst: run the request, and if it has not answered within the hedge delay (typically the observed p95), fire one backup attempt and take whichever lands first, interrupting the loser so an abandoned attempt never holds a connection. A token-bucket hedge budget funded by completed traffic caps hedges to a fixed fraction of requests, so a systemic slowdown exhausts the budget and degrades to plain single requests instead of doubling load on a backend that is already hurting. Solves p99 stragglers and the hedge storm that doubles traffic during an outage. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-hedged-request-race/hedge.ts",
+        target: "src/latency/hedge.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-read-replica-router",
+    title: "Effect Read Replica Router",
+    description:
+      "A read/write router for a primary with asynchronous replicas that keeps read-your-writes true: writes go to the primary and record the session's write LSN, and a read is only served from a replica whose applied LSN has caught up to that mark, otherwise it routes to the primary. Freshness is a comparison of two LSN Refs, not a timer guess, and any replica lagging beyond a configured ceiling is ejected for all sessions until it catches up, so a replica that silently falls minutes behind stops serving stale data to anyone. Solves the vanishing update after a save and unbounded staleness under replication lag. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-read-replica-router/replica.ts",
+        target: "src/db/replica.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-heartbeat-failure-detector",
+    title: "Effect Heartbeat Failure Detector",
+    description:
+      "A phi-accrual failure detector instead of a fixed heartbeat timeout: the monitor stamps arrivals with its own Clock, learns each node's inter-arrival rhythm in a sliding window Ref, and reports a suspicion level (phi) that grows with silence relative to what is normal for that node. One congested heartbeat nudges phi and recovers on arrival, while sustained silence crosses the threshold and declares the node dead, so the cluster stops evicting healthy nodes over a single delayed packet. Nothing depends on the sick node self-reporting: a wedged process simply stops producing arrivals. Solves false-positive node kills and detection built on trusting the sender. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-heartbeat-failure-detector/heartbeat.ts",
+        target: "src/cluster/heartbeat.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-multipart-upload-resume",
+    title: "Effect Multipart Upload with Abort Scope",
+    description:
+      "A multipart object upload where cleanup is a property of the scope, not a finally the caller must remember: initiate is the acquire, and the release aborts the upload on every exit path (failure, defect, interrupt) unless complete() landed, so a crash mid-transfer can never leave orphaned parts billing invisibly in storage. Parts upload in parallel under bounded concurrency with per-part retry, so one flaky part re-uploads alone, and a resumed session reads the store's acknowledged part list and uploads only the gap. Solves the restart-from-zero upload and the orphaned parts that bill forever. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-multipart-upload-resume/multipart.ts",
+        target: "src/storage/multipart.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-exactly-once-consumer",
+    title: "Effect Exactly-Once Consumer",
+    description:
+      "A queue consumer that turns at-least-once delivery into exactly-once effect: it processes first and commits second, so a crash between the two causes redelivery instead of loss, and the dedupe check lives in the same atomic Ref.modify as the side effect, so a redelivered message is recognized, skipped, and committed without a window where it looks unprocessed twice. The demo also plays the wrong ordering (commit-then-process) to show the acknowledged message the broker never redelivers, which is how money disappears silently. Solves the lost message and the double-applied message, the two failure modes on either side of correct commit ordering. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-exactly-once-consumer/consumer.ts",
+        target: "src/messaging/consumer.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-webhook-dispatcher",
+    title: "Effect Webhook Dispatcher",
+    description:
+      "Signed, retried, dead-lettered webhook delivery: every payload is signed HMAC-SHA256 over timestamp.body, delivery retries on Schedule.jittered exponential backoff with a per-attempt timeout, and an endpoint that stays down moves the event to a dead-letter queue with its attempt history instead of dropping it. The consumer-side verify uses a constant-time comparison and rejects timestamps outside a tolerance window, so a tampered body and a captured-and-replayed request both fail. Solves the silently dropped event and the forged webhook hitting an endpoint that trusts any JSON. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-webhook-dispatcher/webhook.ts",
+        target: "src/webhooks/webhook.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-consistent-hash-ring",
+    title: "Effect Consistent Hash Ring",
+    description:
+      "Ring placement that survives membership churn: keys and nodes hash onto the same 2^32 circle (FNV-1a with an avalanche finisher), a key belongs to the first node clockwise, and each node appears as many virtual nodes so the arcs stay statistically even. Adding a node moves roughly 1/N of the keys (all onto the new node, none between old ones) where hash(key) % N would move nearly all of them, and removing a node reassigns only the leaver's keys. The ring is an immutable sorted array swapped atomically in one Ref, so a lookup never observes a half-applied membership change, and lookup is a binary search. Solves the full reshuffle on scale-out and the lumpy ring hotspot. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-consistent-hash-ring/hashring.ts",
+        target: "src/routing/hashring.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-snowflake-id-generator",
+    title: "Effect Snowflake ID Generator",
+    description:
+      "Coordination-free 64-bit ids that refuse to trust the clock: 41 bits of milliseconds since a custom epoch, 10 bits of machine id, 12 bits of sequence, minted locally at up to 4096 ids per millisecond per machine and still roughly time-sorted. The (lastTimestamp, sequence) pair lives in one Ref and every mint is one atomic Ref.modify, so concurrent fibers cannot interleave into a duplicate, an exhausted sequence parks until the next tick, a small clock rollback parks until the clock re-passes the high-water mark, and a rollback beyond tolerance is a typed ClockMovedBackward failure instead of a silent collision. Solves the central sequence bottleneck and duplicate ids on clock rollback. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-snowflake-id-generator/snowflake.ts",
+        target: "src/ids/snowflake.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-bulkhead-isolation",
+    title: "Effect Bulkhead Isolation",
+    description:
+      "Watertight compartments per dependency, the ship pattern: each downstream service gets its own Semaphore of permits plus a small bounded waiting room, so a dependency that goes slow saturates its own compartment while every other dependency's calls flow untouched, instead of one sick service absorbing the shared pool and taking checkout down with it. Beyond the waiting room, calls are shed immediately with a typed BulkheadRejected, a fast no the caller can map to a fallback, rather than queueing into latency debt that clients time out on anyway. Solves the sympathetic outage and the unbounded queue behind a full pool. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-bulkhead-isolation/bulkhead.ts",
+        target: "src/resilience/bulkhead.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -4838,6 +5048,116 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with the Effect Fencing Token and Hybrid Clock so a stale leader's record never enters the outbox, and with a real broker or database in place of the in-memory stand-ins the demo uses.",
       avoid:
         "Avoid it when the consumer is not idempotent, where at-least-once redelivery will double-apply and the sequence guard is the whole point, and avoid skipping the FiberSet ownership on the workers: an orphaned replicator fiber is the leak this component exists to prevent.",
+    };
+  }
+
+  if (item.name === "effect-idempotency-key-store") {
+    return {
+      style:
+        "One atomic decision per request. Ref.modify either claims the key or tells you who owns it, and the Deferred is the only channel a duplicate learns the result through, so the race has one winner by construction.",
+      use: `Use ${item.title} in front of any non-idempotent effect a client can retry: charges, order submission, account creation, anything where the request may arrive twice and the effect must land once.`,
+      pair: "Pair it with the Effect Exactly-Once Consumer on the message side (the same dedupe idea at the queue boundary) and swap the in-memory Ref for a SQL or KV table when keys must survive a restart.",
+      avoid:
+        "Avoid it on effects that are already idempotent writes keyed by the same id, where it only adds a hop, and avoid an unbounded TTL: a replayed result is a cached response, and cached responses need an expiry.",
+    };
+  }
+
+  if (item.name === "effect-hedged-request-race") {
+    return {
+      style:
+        "Latency treated as a race you can enter twice. raceFirst does the interruption bookkeeping, and the hedge budget is a token bucket in one Ref, so the protection cannot itself become the outage.",
+      use: `Use ${item.title} for read paths against replicated backends (replica pools, key-value stores, search fan-outs) where any node can answer and the p99 is dominated by stragglers.`,
+      pair: "Pair it with the Effect Bulkhead Isolation entry so hedged calls draw from the same compartment as their primaries, and feed the hedge delay from a live p95 metric rather than a constant.",
+      avoid:
+        "Avoid it on writes and anything non-idempotent, where two attempts can both land, and avoid hedging a single-instance dependency: a second request to the same slow node just doubles its queue.",
+    };
+  }
+
+  if (item.name === "effect-read-replica-router") {
+    return {
+      style:
+        "Freshness as arithmetic, not vibes. The session mark and the replica's applied LSN are two numbers, and every routing decision is a comparison of them, so there is no staleness heuristic to tune.",
+      use: `Use ${item.title} when read traffic outgrows one database and you add replicas, the moment users start reporting that a save then a reload shows the old value.`,
+      pair: "Pair it with the Drizzle Effect PG Repository for the actual queries on each target, and surface per-replica lag as a gauge so the ejection ceiling alerts before users notice.",
+      avoid:
+        "Avoid it when all reads can tolerate staleness (route everything to replicas and skip the machinery) and avoid session marks stored client-side without signing: the mark decides where reads go, so it is an integrity input.",
+    };
+  }
+
+  if (item.name === "effect-heartbeat-failure-detector") {
+    return {
+      style:
+        "Suspicion as a number, not a boolean. Phi is a pure function of the learned arrival window and the current clock, so the detector has no timer state that can wedge along with the node it watches.",
+      use: `Use ${item.title} wherever a fixed heartbeat timeout keeps paging you at 3am: cluster membership, worker liveness, any monitor that must distinguish a congested network from a dead process.`,
+      pair: "Pair it with the Deno KV Leader Election so a leader is only deposed when phi crosses the threshold, and with the Effect Consistent Hash Ring so a confirmed death triggers a minimal reshard.",
+      avoid:
+        "Avoid it for request-scoped deadlines, where Effect.timeout is the right tool, and avoid a threshold below 5 unless false positives are cheaper than slow detection: 8 is the classic default for a reason.",
+    };
+  }
+
+  if (item.name === "effect-multipart-upload-resume") {
+    return {
+      style:
+        "Cleanup as a property of the scope. The abort finalizer is bound to the initiate, runs on failure and interrupt alike, and skips itself after complete, so no code path can forget it.",
+      use: `Use ${item.title} for any large-object push to S3-style storage (backups, exports, video) where a dropped connection at 95% must not restart the transfer and an abandoned session must not bill forever.`,
+      pair: "Pair it with the Effect Hedged Request Race on individual part uploads if part latency is spiky, and keep the uploadId in durable storage so a process restart can pass resumeFrom.",
+      avoid:
+        "Avoid it for objects below the multipart minimum, where a single put is simpler and atomic, and avoid unbounded part concurrency: the bound is what keeps a 10GB upload from starving the rest of the process.",
+    };
+  }
+
+  if (item.name === "effect-exactly-once-consumer") {
+    return {
+      style:
+        "Ordering as the whole argument. Process-then-commit turns every crash into a redelivery, the dedupe lives inside the same Ref.modify as the effect, and the demo plays the wrong ordering so the loss is a number you can read.",
+      use: `Use ${item.title} for consuming payment events, ledger postings, or anything where both losing a message and applying it twice are incidents, which is to say most queues that touch money or state.`,
+      pair: "Pair it with the Effect Outbox Replicator on the producing side (atomic write-and-publish feeding at-least-once delivery) and with the Effect Idempotency Key Store when the side effect calls a third party.",
+      avoid:
+        "Avoid the machinery for metrics-grade streams where at-most-once is acceptable and cheaper, and avoid a dedupe set that only lives in memory if redelivery can span restarts: persist the applied ids with the state they guard, ideally in the same transaction.",
+    };
+  }
+
+  if (item.name === "effect-webhook-dispatcher") {
+    return {
+      style:
+        "Delivery as a lifecycle, not a fetch. The retry policy, per-attempt timeout, and dead-letter transition are all explicit, and the signature scheme is the one the consumer can verify in constant time.",
+      use: `Use ${item.title} to push events into customer or partner endpoints, where their downtime is a certainty and a forged POST to their handler must be impossible.`,
+      pair: "Pair it with the Effect Exactly-Once Consumer on the receiving end (the event id is the dedupe key) and drive redelivery of dead letters from an operator action, not a timer.",
+      avoid:
+        "Avoid unsigned webhooks even for internal consumers (the URL always leaks eventually), and avoid retrying 4xx responses: a rejection is a contract disagreement to surface, not a transient to back off on.",
+    };
+  }
+
+  if (item.name === "effect-consistent-hash-ring") {
+    return {
+      style:
+        "Placement as geometry. The ring is one immutable sorted array swapped in a Ref, the lookup is a binary search, and the demo measures the remap fraction instead of asserting it.",
+      use: `Use ${item.title} to place keys on a changing set of nodes: cache tiers, connection pinning, shard assignment, anywhere hash(key) % N would stampede the cluster every time N changes.`,
+      pair: "Pair it with the Effect Heartbeat Failure Detector to drive membership changes off confirmed deaths, and with the Effect Shard Router with Backpressure when hot keys need splitting beyond placement.",
+      avoid:
+        "Avoid it for a fixed-size cluster that will genuinely never change, where modulo is simpler, and avoid tiny vnode counts: the evenness of the arcs is statistical and needs the replication to work.",
+    };
+  }
+
+  if (item.name === "effect-snowflake-id-generator") {
+    return {
+      style:
+        "Uniqueness by construction. The mint is one Ref.modify over (lastTimestamp, sequence), so every failure branch (exhausted sequence, clock rollback) is a visible case, not an interleaving.",
+      use: `Use ${item.title} when inserts outgrow a central sequence: event ids, order numbers, message ids across services, anywhere you need locally-minted 64-bit ids that still sort and paginate by time.`,
+      pair: "Pair it with the Effect Fencing Token and Hybrid Clock where cross-node ORDERING must be correct rather than approximate, and assign machine ids from your deploy topology, never randomly.",
+      avoid:
+        "Avoid it where ids must be unguessable (these leak timing and volume; use random ids there), and avoid trusting NTP to never step: the rollback guard is the component, not an edge case.",
+    };
+  }
+
+  if (item.name === "effect-bulkhead-isolation") {
+    return {
+      style:
+        "Failure domains drawn in code. Each compartment is a Semaphore plus a bounded waiting room, admission is one atomic decision, and rejection is a typed error the caller plans for in the signature.",
+      use: `Use ${item.title} when one service calls several dependencies through shared capacity, and a slowdown in the least important one (recommendations, enrichment) must not take down the most important one (checkout).`,
+      pair: "Pair it with the Effect Circuit Breaker and Retry Budget inside each compartment (the breaker stops calling a sick dependency, the bulkhead contains it meanwhile) and map BulkheadRejected to a degraded fallback.",
+      avoid:
+        "Avoid slicing one dependency into many tiny compartments, which just lowers its ceiling, and avoid a large waiting room: the room converts shed into queueing, and queueing is the failure mode this exists to stop.",
     };
   }
 
