@@ -908,6 +908,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Canvas UI",
+        href: "https://canvasui.dev/",
+        dateAdded: "2026-07-23",
+        description:
+          "Open source library of 24 HTML-in-canvas and WebGL components for creative visual effects (Blaze, Liquid, Glass, Shatter, Particle Reveal, VHS), installable with a single shadcn CLI command and also exposed to AI agents through an MCP server. Framework agnostic across React, Vue, Svelte, and vanilla TypeScript; components initialize only when mounted, pause off-screen, and respect reduced motion. HTML-in-canvas is fully supported only in Chrome behind an experimental flag, other browsers degrade to regular HTML while the pure WebGL effects work everywhere. MIT plus Commons Clause license, credited to David H Dev on GitHub.",
+      },
+      {
+        title: "AI Canvas",
+        href: "https://aicanvas.me/components/interactive-card-stack",
+        dateAdded: "2026-07-23",
+        description:
+          "Open-core registry of animated React components, blocks, and design systems by GitHub user uiNerd16, built with Framer Motion and Tailwind and installable via one shadcn CLI command (npx shadcn add @aicanvas/interactive-card-stack) or through its MCP server. The linked Interactive Card Stack scatters five polaroid-style photo cards you can click to pull forward, drag sideways to cycle, or drive with arrow keys; it is self-contained, responsive down to 320px, reduced-motion aware, and themed for light and dark. The free library is MIT licensed, with a paid Andromeda Design System and templates layered on top.",
+      },
+      {
         title: "Jelly UI",
         href: "https://jelly-ui.com/#jelly-kbd",
         dateAdded: "2026-07-22",
@@ -1339,6 +1353,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Moumen Lab",
+        href: "https://lab.moumen.dev/components",
+        dateAdded: "2026-07-23",
+        description:
+          "Component lab by Moumen Soliman with 13 interactive UI experiments shown as short looping clips, each shipping the live component, its blueprint, and source you can copy or install via npx moumenlab add. The entries lean toward hard interaction problems rather than styling: an unlimited nested menu, a command palette with argument chips, a morphing checkout flow, a caret-anchored mention popover, an OTP segmented input, drag-to-reorder lists, and an inertial wheel list. Source lives on GitHub at moumen-soliman/lab.",
+      },
       {
         title: "Sticker Forge",
         href: "https://sticker.oooo.so/",
@@ -5369,6 +5390,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Turbotunnel",
+        href: "https://turbotunnel.dev/",
+        dateAdded: "2026-07-23",
+        description:
+          "CLI that exposes local apps to the web through a gateway you deploy to your own Vercel account, built on Fluid Compute with a pool of relay WebSockets and Vercel Queue as request fallback. Install with npm i -g turbotunnel, then tt deploy sets up the gateway, tt dev runs your dev server with a tunnel attached, tt http exposes an already-running port, and tt status and tt list monitor active tunnels. Built by GitHub user eersnington; no pricing or license stated on the page.",
+      },
       {
         title: "Is Ready For Launch",
         href: "https://isreadyforlaunch.com/",
