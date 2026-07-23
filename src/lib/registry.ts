@@ -6691,6 +6691,40 @@ export function getLibrarySection(section: LibrarySectionId) {
   return librarySections.find((item) => item.id === section);
 }
 
+/** Renders an llms.txt for one or more sections: title, page URL, install URL, description. */
+export function registrySectionsToMarkdown(
+  heading: string,
+  sections: LibrarySectionId[],
+  intro: string,
+): string {
+  const lines: string[] = [`# ${heading}`, "", intro, ""];
+
+  for (const section of sections) {
+    const meta = getLibrarySection(section);
+    const items = getRegistryItemsBySection(section);
+    if (items.length === 0) continue;
+    lines.push("---", "", `## ${meta?.label ?? section}`, "");
+    if (meta?.description) lines.push(`_${meta.description}_`, "");
+    for (const item of items) {
+      lines.push(
+        `### ${item.title}`,
+        `- Page: ${REGISTRY_BASE_URL}/${item.section}/${item.name}`,
+        `- Install: \`npx shadcn@latest add ${registryItemUrl(item.name)}\``,
+        `- ${item.description}`,
+        "",
+      );
+    }
+  }
+
+  lines.push(
+    "---",
+    "",
+    "Source of truth: `src/lib/registry.ts` in the compronents registry.",
+    "",
+  );
+  return lines.join("\n");
+}
+
 export const categoryOrder: ComponentCategory[] = [
   "Buttons",
   "Inputs",
