@@ -1340,6 +1340,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Sticker Forge",
+        href: "https://sticker.oooo.so/",
+        dateAdded: "2026-07-23",
+        description:
+          "Browser-based sticker lab by CatsJuice (cats_juice) where you design a text sticker and peel it off the page with simulated physics. Sliders cover typography (8 to 240px sizes, line height, color), stroke width and tilt, and a full peel model: curl radius, sticker hardness, wind, shadow intensity and softness, back gloss, even tear sound volume. Everything runs locally in the browser with no server uploads; worth studying for the peel interaction alone.",
+      },
+      {
         title: "Toggle Supply",
         href: "https://www.toggle.supply/",
         dateAdded: "2026-07-21",
