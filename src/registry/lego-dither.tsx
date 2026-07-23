@@ -287,7 +287,7 @@ export default function LegoDither({
       const delta = Math.min((now - previousTime) / 1000, 0.05);
       const time = (now - startedAt) / 1000;
       previousTime = now;
-      easedPointer.lerp(hasPointer ? pointer : pointerCenter, 0.06);
+      easedPointer.lerp(hasPointer ? pointer : pointerCenter, 0.19);
 
       if (trailContext) {
         trailContext.globalCompositeOperation = "destination-out";
@@ -298,7 +298,7 @@ export default function LegoDither({
         if (hasPointer && trailDirty) {
           const point = new THREE.Vector2(
             pointer.x * trailCanvas.width,
-            pointer.y * trailCanvas.height,
+            (1 - pointer.y) * trailCanvas.height,
           );
           const last = previousTrailPoint ?? point;
           trailContext.strokeStyle = "#ffffff";
