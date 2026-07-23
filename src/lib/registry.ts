@@ -4852,6 +4852,531 @@ export const registryItems: RegistryItem[] = [
   },
 
   {
+    name: "effect-weighted-load-balancer",
+    title: "Effect Weighted Load Balancer",
+    description:
+      "Load balancing that notices a degraded backend instead of feeding it its rotation share. Round-robin routes a fixed slice to a server whose in-flight queue is climbing (GC pause, cold cache); the power-of-two-choices strategy samples two random backends and picks the one with fewer in-flight requests, near-optimal balance with two counter reads and no global scan or herd. Each backend's in-flight count is a Ref bracketed by Effect.ensuring so a failed or interrupted request still decrements, and the demo shows a 12x-slower backend shedding to a third of its round-robin load. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-weighted-load-balancer/balancer.ts",
+        target: "src/net/balancer.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-lru-cache-eviction",
+    title: "Effect Segmented LRU Cache",
+    description:
+      "The eviction policy that survives a table scan. A plain LRU treats a one-touch batch job like real traffic, so a single sequential scan marches every hot key out of the cache and the next minute is all misses. Segmented LRU admits new keys to a probation segment and only promotes to protected on a second hit, so scan keys live and die in probation without displacing anything hot, while quiet protected keys demote back so squatters age out. The demo plays a 100-key scan against 4 twice-touched hot keys: plain LRU loses all 4, segmented LRU keeps all 4. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-lru-cache-eviction/slru.ts",
+        target: "src/cache/slru.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-write-behind-cache",
+    title: "Effect Write-Behind Cache",
+    description:
+      "Write coalescing with a journal so eventual durability is not data loss. Write-through pays the store on every keystroke (100 counter bumps, 100 store writes); naive write-behind buffers in memory and a crash between flushes silently drops every acknowledged write. This holds both ends: writes coalesce per key (100 bumps flush as one store write) but every accepted write is journaled first, and recovery replays the journal so a crash costs zero acknowledged writes. The demo proves 100x fewer writes than write-through and full recovery where the unjournaled buffer evaporates. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-write-behind-cache/write-behind.ts",
+        target: "src/cache/write-behind.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-cache-penetration-shield",
+    title: "Effect Cache Penetration Shield",
+    description:
+      "The shield for keys that do not exist, which a plain cache cannot protect. A cache only helps for keys that are present, so an attacker iterating random ids misses every time and points the full request rate at the database (the cache-miss attack). A bloom filter seeded with every existing key answers definitely-absent in memory so made-up keys die before the database hears them, and a TTL'd negative cache absorbs repeats for keys that existed then vanished. Index math uses (h >>> 0) so a negative typed-array index can never drop a bloom bit into a false negative. The demo: 50 fake-key requests, 0 database hits. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-cache-penetration-shield/penetration.ts",
+        target: "src/cache/penetration.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-cdn-origin-shield",
+    title: "Effect CDN Origin Shield",
+    description:
+      "One origin fetch per object no matter how many edges miss at once. A CDN with 12 POPs that all miss on the same fresh object sends 12 simultaneous origin fetches; multiply by every object that just expired and the origin serves the whole internet again in spikes. A shield tier collapses the fan-in: edges fill from one shield cache, and concurrent misses for the same key coalesce onto a single in-flight fetch via a per-key Deferred claimed in one Ref.modify. The winner resolves the Deferred inside Effect.ensuring so even a failed fetch releases the waiters. The demo: 6 simultaneous edge misses become 1 origin fetch. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-cdn-origin-shield/origin-shield.ts",
+        target: "src/cdn/origin-shield.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-dns-resolver-cache",
+    title: "Effect DNS Resolver Cache",
+    description:
+      "A recursive resolver that caches both answers and their absence. Every uncached lookup walks root to TLD to authoritative, three hops before your app sends a byte; the cache collapses that to zero hops until the record's per-name TTL expires, so a rotated IP still propagates on the authority's schedule. NXDOMAIN is the answer nobody caches by default, so a typo'd host in a hot loop re-walks the recursion every time; negative caching (RFC 2308) stores the non-existence with its own shorter TTL. The demo: 41 lookups cost 3 upstream queries, and a nonexistent name's 31 repeats cost 3. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-dns-resolver-cache/resolver.ts",
+        target: "src/net/resolver.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-two-phase-commit",
+    title: "Effect Two-Phase Commit",
+    description:
+      "The commit protocol that will not leave money half-transferred across services. Telling three services commit now in a loop works until the second refuses, and then the first has committed and there is no way back. Two-phase commit splits the write into a prepare round (every participant durably stages and votes) and a commit round that only starts on unanimous yes, so a refusal aborts everyone. The decision is written to a durable log before any commit message is sent, so a coordinator crash blocks but never forks: recovery re-delivers the logged decision. The demo shows one-phase commit minting 150 from nothing versus 2PC conserving every cent. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-two-phase-commit/two-phase.ts",
+        target: "src/tx/two-phase.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-token-bucket-shaper",
+    title: "Effect Token Bucket Shaper",
+    description:
+      "Rate limiting that allows a real burst but bounds the true rate. A fixed window counted in wall-clock minutes admits 1000 at 0:59 and 1000 more at 1:00, so 2000 requests land in two seconds, the exact spike the limit forbids. A token bucket meters continuously: tokens refill at a steady rate with no boundary reset, and capacity sets the burst a normal page load is allowed before throughput settles to the refill rate. Lazy refill computes accrued tokens from elapsed logical time in one Ref.modify per request, so concurrent requests can never both spend the same token. The demo: 50 racing requests for a 1-token bucket admit exactly 1. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-token-bucket-shaper/token-bucket.ts",
+        target: "src/net/token-bucket.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-saga-payment-orchestrator",
+    title: "Effect Saga Orchestrator",
+    description:
+      "The pattern for a multi-vendor booking that fails halfway and must not keep your money. Charge the card, reserve the seat, issue the ticket: if the ticket service is down after the charge, a plain sequence leaves the customer charged for a seat they cannot use. There is no distributed transaction across three vendors' APIs, so the saga registers each step's compensation as it succeeds and, on failure, runs the compensations in reverse for exactly the steps that completed. A compensation that itself fails surfaces as a typed CompensationFailed carrying the stuck steps, not a swallowed refund. The demo unwinds a charge and a seat reservation cleanly when ticketing fails. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-saga-payment-orchestrator/saga.ts",
+        target: "src/tx/saga.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-mvcc-snapshot-isolation",
+    title: "Effect MVCC Snapshot Isolation",
+    description:
+      "Readers that never block writers and never tear, plus the lost update snapshot isolation misses. Multi-version concurrency control gives every transaction a snapshot (the last version committed before it began), so a long read sees a stable point-in-time view while writers append new versions and neither waits. Snapshot isolation alone still allows two transactions to both read 100, both write 150, and lose one; first-committer-wins aborts the second with a typed WriteConflict. Each key keeps an append-only version list in a Ref and commit validates the write set in one atomic Ref.modify. The demo proves a stable read across a concurrent commit and a refused lost update. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-mvcc-snapshot-isolation/mvcc.ts",
+        target: "src/db/mvcc.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-event-sourced-aggregate",
+    title: "Effect Event-Sourced Aggregate",
+    description:
+      "State as a fold over facts, with optimistic concurrency on the stream. Storing just the current balance forgets how it got there: no audit trail, no dispute history, no way to replay a bug. Event sourcing stores the ordered facts and derives state by folding them, so history is the source of truth and any past state is reproducible by folding a prefix. Two commands that both load version 7 and append event 8 would lose one; compare-and-append expects a version and fails with a typed ConcurrencyConflict if the stream advanced, so the log never loses or double-applies a fact. The demo shows time-travel to any version and a refused stale append. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-event-sourced-aggregate/event-sourcing.ts",
+        target: "src/domain/event-sourcing.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-leader-lease-election",
+    title: "Effect Leader Lease Election",
+    description:
+      "Leader election that recovers from a dead leader and fences a zombie one. A plain lock leader that crashes without releasing holds the role forever; a time-bounded lease expires unless renewed, so a dead leader's grip lapses and a follower wins the next election with no human. A leader that pauses past its lease (GC, VM freeze) and resumes must not act on stale authority: every lease carries a monotonic fencing token, and the protected resource rejects any write stamped below the highest token it has seen. The demo elects one leader from a contested lease, hands off after a lapse, and fences a thawed zombie's overwrite. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-leader-lease-election/lease.ts",
+        target: "src/cluster/lease.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-vector-clock-causality",
+    title: "Effect Vector Clock Causality",
+    description:
+      "Ordering distributed events by causality instead of two lying wall clocks. Deciding a conflict by timestamp drops the real later edit when clocks disagree by 200ms; vector clocks track what each node had observed, so happened-before is a fact, not a guess. Genuinely concurrent edits (neither saw the other) are detected as concurrent rather than ranked, so the system surfaces a conflict to merge instead of silently overwriting a real change. Each node bumps only its own counter on a local event and merges element-wise maxima on receive, and comparison is a pure total function returning before, after, equal, or concurrent. The demo catches a conflict last-write-wins would have dropped. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-vector-clock-causality/vector-clock.ts",
+        target: "src/cluster/vector-clock.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-lsm-memtable-compaction",
+    title: "Effect LSM Memtable Compaction",
+    description:
+      "A log-structured merge tree so random writes become sequential appends. Updating rows in place makes a write-heavy workload thrash on scattered seeks; an LSM appends every write to an in-memory memtable that flushes as one sorted immutable SSTable, so writes are sequential regardless of key order. Reads walk memtable then newest-to-oldest segment and stop at the first hit, and a delete is a tombstone that masks older values rather than a gap that lets them resurrect. Background compaction merges segments newest-first, dropping obsolete versions and tombstones to bound read cost. The demo proves newest-wins across segments and compaction collapsing three segments to one. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-lsm-memtable-compaction/lsm.ts",
+        target: "src/db/lsm.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-wal-crash-recovery",
+    title: "Effect WAL Crash Recovery",
+    description:
+      "A write-ahead log so a crash mid-write can always be finished or discarded. Applying updates straight to pages leaves a crash with some pages new and some old and no way to tell which; the WAL rule appends the change and fsyncs it before touching pages, so recovery redoes committed transactions and ignores uncommitted ones. Without checkpoints recovery would replay all of history and the log would grow forever; a checkpoint flushes a durable page image and records that everything up to LSN N is safe, so recovery only replays the suffix. The demo survives a crash for committed writes, discards an uncommitted one, and bounds replay to the post-checkpoint tail. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-wal-crash-recovery/wal.ts",
+        target: "src/db/wal.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-fair-priority-scheduler",
+    title: "Effect Fair Priority Scheduler",
+    description:
+      "A binary-heap priority queue with FIFO ties and aging so nothing starves. A sorted-array priority queue breaks ties unstably and lets a job's position jump as peers arrive; a binary heap with a monotonic sequence tiebreaker gives a stable total order, highest priority first and first-in-first-out among equals. Strict priority starves the low tier under a steady stream of urgent work, so a job's effective priority rises with the time it has waited, and even the lowest tier eventually outranks fresh arrivals, bounding the worst-case wait. Push and pop are O(log n) heap sifts in a single Ref. The demo starves a backup job under strict priority, then runs it under aging. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-fair-priority-scheduler/priority.ts",
+        target: "src/sched/priority.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-merkle-anti-entropy",
+    title: "Effect Merkle Anti-Entropy Sync",
+    description:
+      "Reconciling two replicas by shipping the difference, not the dataset. Comparing a million keys row by row (or resending everything) costs bandwidth proportional to the data even when replicas differ by one row. A Merkle tree hashes data into a tree of digests; two nodes compare root hashes and only descend into subtrees whose hashes differ, so bytes moved track the number of changed keys. A collision-resistant hash rolled to the root means equal roots imply equal contents and any single change alters every hash on its path, so divergence cannot hide. The demo finds one changed key among 64 by visiting 13 tree nodes, then repairs to convergence. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-merkle-anti-entropy/merkle.ts",
+        target: "src/replication/merkle.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-connection-pool-fair",
+    title: "Effect Fair Connection Pool",
+    description:
+      "A bounded pool with FIFO waiting and a fast-fail timeout instead of a hang. Opening a connection per request lets a spike exhaust the database's connection limit so even cheap queries fail; a bounded pool caps concurrency at what the database can serve and makes surplus demand wait. An unbounded wait turns backpressure into a hang, so waiting is FIFO (no waiter starves) and bounded by an acquire timeout that fails with a typed AcquireTimeout under saturation. Acquire and release are single Ref.modify hand-offs, so a connection is issued to exactly one waiter and never double-issued. The demo caps 12 concurrent requests at 3 and fails fast when saturated. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-connection-pool-fair/pool.ts",
+        target: "src/db/pool.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-gossip-dissemination",
+    title: "Effect Gossip Dissemination",
+    description:
+      "Epidemic state dissemination that reaches everyone in O(log N) with no coordinator. A coordinator pushing every update to every node is O(N) work on one machine and a single point of failure; gossip has each node tell a few random peers what it knows, so an update reaches the whole cluster in logarithmic rounds and any node's failure barely dents it. Version vectors make it convergent: nodes merge by keeping the highest version per key, so exchanges are idempotent and order-independent and the system reaches a fixed point where further rounds change nothing. The demo spreads one write to 32 nodes in 3 rounds and converges two concurrent writers. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-gossip-dissemination/gossip.ts",
+        target: "src/cluster/gossip.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-dataloader-batch",
+    title: "Effect DataLoader Batch",
+    description:
+      "The batching loader that turns an N+1 query storm into two queries. Rendering 100 posts that each fetch their author fires 1 query for posts and 100 for authors; a loader collects every key requested within one tick and issues a single WHERE id IN (...) query, so N+1 becomes 2. Identical keys in a batch are deduped so a shared author is fetched once, and the one batched result scatters back to the exact callers that asked. Pending requests accumulate in a Ref, the first schedules a microtask flush that drains atomically, and each caller's Deferred is resolved from the result map. The demo collapses 100 author lookups to 1 query for 3 distinct ids. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-dataloader-batch/dataloader.ts",
+        target: "src/data/dataloader.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-adaptive-concurrency-limit",
+    title: "Effect Adaptive Concurrency Limit",
+    description:
+      "A concurrency limiter that discovers the right ceiling instead of guessing it. Any fixed limit is wrong: too low throttles a healthy downstream, too high buries a degraded one and cascades timeouts. Additive-increase-multiplicative-decrease (the control law TCP uses) nudges the limit up while healthy and halves it fast on overload, converging on whatever the downstream can handle right now. Watching latency, not just errors, backs off before hard failures start, so the system rides just under the cliff. Admission and feedback are single Ref.modify steps clamped to a range so the loop cannot run away. The demo grows the limit on healthy traffic, halves it on a latency spike, and settles near real capacity. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-adaptive-concurrency-limit/aimd.ts",
+        target: "src/net/aimd.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-crdt-counter-merge",
+    title: "Effect CRDT Counter Merge",
+    description:
+      "A conflict-free counter that never loses an increment under partition. Representing a distributed count as one mutable cell means two servers reading 10 and writing 11 turn two likes into one; last-write-wins silently drops increments under any race. A state-based grow-only counter gives each replica its own slot that it only increments, the value is the sum of slots, and merge is element-wise max, commutative, associative, and idempotent, so replicas that exchanged updates in any order and any number of times always converge with no coordinator. The demo shows LWW losing a like, then 3+5+2 taken under partition converging to 10 on every replica with re-delivered stale merges harmless. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-crdt-counter-merge/gcounter.ts",
+        target: "src/crdt/gcounter.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-sliding-window-rate-limit",
+    title: "Effect Sliding Window Rate Limit",
+    description:
+      "Rate limiting that stops the fixed-window boundary burst with O(1) state. A fixed window admits 100 at 0:59.9 and 100 more at 1:00.0, the exact spike it was meant to forbid, because the window snaps to a grid. A true sliding log is accurate but stores a timestamp per request, a memory-exhaustion vector; the sliding-window-counter keeps just the current and previous window counts and weights the previous by how much of it still overlaps, bounding both the burst and memory to O(1) per key. The decision and count bump happen in one atomic Ref.modify so two concurrent requests at the limit cannot both slip through. The demo halves the boundary burst and refills as the window slides. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-sliding-window-rate-limit/sliding-window.ts",
+        target: "src/net/sliding-window.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-scatter-gather-quorum",
+    title: "Effect Scatter-Gather Quorum",
+    description:
+      "Fan-out that returns on a quorum instead of waiting for the slowest shard. A search hitting 20 shards that blocks until all 20 answer is as slow as its worst shard every time; a completeness threshold returns once enough shards answer, so one straggler cannot hold the response and latency is the k-th fastest, not the slowest. A per-gather timeout returns the partial result gathered so far rather than hanging on a dead shard, and remaining shard fibers are interrupted on completion so a slow shard cannot leak a running fiber. The demo meets a 3-of-5 quorum in 16ms past two 500ms stragglers, degrades to a partial result when the quorum is impossible, and leaks no fibers. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-scatter-gather-quorum/scatter-gather.ts",
+        target: "src/net/scatter-gather.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
+    name: "effect-chunked-upload-integrity",
+    title: "Effect Chunked Upload Integrity",
+    description:
+      "Resumable chunked upload with per-chunk and whole-object checksums. Sending a large file as one stream lets a single flipped byte produce a silently wrong object the server stores as fine; per-chunk checksums catch corruption at the boundary and reject that chunk for re-send instead of poisoning the whole upload. Tracking which chunks are verified lets a connection lost at 95% resume by sending only the missing ones, and a final whole-object digest proves the reassembled file matches what the client meant to send. Accepting a chunk recomputes and compares its checksum in one Ref.modify, so a re-sent chunk is idempotent and a corrupt one is a typed ChecksumMismatch. The demo rejects a corrupt chunk, resumes after a drop, and refuses a whole-object mismatch. Pinned to effect 4.0.0-beta.98.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-23",
+    type: "registry:lib",
+    dependencies: ["effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-chunked-upload-integrity/integrity.ts",
+        target: "src/storage/integrity.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+
+  {
     name: "effect-bloom-url-frontier",
     title: "Effect Bloom Filter URL Frontier",
     description:
@@ -5348,6 +5873,281 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with the Effect Idempotency Key Store on the credit path so retried payments land once, and persist sub-accounts as real rows so the pattern survives the move from Refs to your database.",
       avoid:
         "Avoid it for ordinary accounts where a single row never queues (the sweep debit costs N locks for no benefit) and avoid sizing N above your real concurrency: idle sub-accounts just make every debit wider.",
+    };
+  }
+
+  if (item.name === "effect-weighted-load-balancer") {
+    return {
+      style:
+        "Balance as a live measurement, not a static schedule: two counter reads decide each route, so a backend that slows down sheds traffic the instant its queue grows, with no health-check lag.",
+      use: `Use ${item.title} in front of a pool of interchangeable backends (stateless API replicas, worker fleets, cache nodes) where one member can degrade independently and you want load to follow live capacity.`,
+      pair: "Pair it with the Effect Heartbeat Failure Detector to eject a backend that is truly down (not just slow) and with the Effect Adaptive Concurrency Limit to cap total in-flight work per backend.",
+      avoid:
+        "Avoid it for sticky-session or sharded routing where a request must reach a specific backend (the point is interchangeability), and avoid pure random or round-robin when tail latency matters: they cannot see the slow node.",
+    };
+  }
+
+  if (item.name === "effect-lru-cache-eviction") {
+    return {
+      style:
+        "Recency and frequency together: probation catches scans, a second hit earns tenure, and protected keys demote when quiet, so the hot set survives a batch job that a plain LRU would flush.",
+      use: `Use ${item.title} for read caches that sit in front of a database and are periodically walked by analytics, exports, or crawlers, exactly where a single scan would otherwise evict everything real traffic needs.`,
+      pair: "Pair it with the Effect Cache Penetration Shield so nonexistent keys never reach the cache at all, and with the Effect CDN Origin Shield when the miss cost is a slow upstream fetch worth coalescing.",
+      avoid:
+        "Avoid it when your working set fits entirely in cache (eviction never fires, so segmentation is pure overhead) and when access is uniformly random with no hot set to protect.",
+    };
+  }
+
+  if (item.name === "effect-write-behind-cache") {
+    return {
+      style:
+        "Coalesce for throughput, journal for safety: only the last value per key reaches the store, but nothing is acknowledged that is not also recoverable, so eventual durability is never data loss.",
+      use: `Use ${item.title} for high-frequency counters and state that only needs to be eventually durable: view counts, presence, last-seen timestamps, anything hammered far faster than it must be persisted.`,
+      pair: "Pair it with the Effect WAL Crash Recovery mental model for the journal, and with the Effect Outbox Replicator when the downstream write must also reach another system exactly once.",
+      avoid:
+        "Avoid it for money or anything requiring read-your-write durability the instant you acknowledge (use write-through there), and avoid unbounded flush intervals that let the buffer grow past what recovery can replay quickly.",
+    };
+  }
+
+  if (item.name === "effect-cache-penetration-shield") {
+    return {
+      style:
+        "A cache that also shields absence: the bloom filter answers definitely-absent in memory and the negative cache remembers a real key that vanished, so made-up keys never touch the database.",
+      use: `Use ${item.title} anywhere clients can request ids you do not control (public APIs, user-supplied keys, enumerable resources) and a miss is an expensive database round-trip an attacker can weaponize.`,
+      pair: "Pair it with the Effect Segmented LRU Cache for the positive path and with the Effect Sliding Window Rate Limit to bound how fast one client can probe distinct keys at all.",
+      avoid:
+        "Avoid it when the key space is small and fully cacheable (a plain map suffices) and remember a bloom false positive costs one wasted lookup, so size k and the bit array for your real false-positive budget.",
+    };
+  }
+
+  if (item.name === "effect-cdn-origin-shield") {
+    return {
+      style:
+        "One fetch per object, total: edges fill from a shield tier and concurrent misses coalesce onto a single in-flight fetch, so a synchronized expiry storm cannot fan out to the origin.",
+      use: `Use ${item.title} as a mid-tier between many edge caches and one origin, or as request coalescing in front of any expensive idempotent fetch (a render, a signed-URL mint, a slow upstream API).`,
+      pair: "Pair it with the Effect Cache Stampede Guard for the single-flight refresh of hot keys and with the Effect Segmented LRU Cache to decide what the shield keeps resident.",
+      avoid:
+        "Avoid it for per-user or non-idempotent responses that cannot be shared across callers (coalescing would serve one user another's data) and when the origin is already cheap enough that a fan-out does not hurt.",
+    };
+  }
+
+  if (item.name === "effect-dns-resolver-cache") {
+    return {
+      style:
+        "Cache the answer and the absence: TTL'd positive records collapse the recursion to zero hops, and a shorter-TTL tombstone stops a nonexistent name from re-walking root, TLD, and authority every time.",
+      use: `Use ${item.title} whenever you resolve names (or any recursive, TTL-bearing lookup) in a hot path and both real answers and NXDOMAIN storms would otherwise cost a full upstream round-trip each.`,
+      pair: "Pair it with the Effect Weighted Load Balancer once a name resolves to several addresses and with the Effect Heartbeat Failure Detector to stop routing to a resolved-but-dead host.",
+      avoid:
+        "Avoid caching past the record's TTL (a rotated IP must propagate on the authority's schedule) and avoid a negative TTL so long that a freshly registered name stays invisible after it starts existing.",
+    };
+  }
+
+  if (item.name === "effect-two-phase-commit") {
+    return {
+      style:
+        "Prepare, then commit, with the decision made durable before anyone hears it: unanimous yes commits everyone, a single no aborts everyone, and a coordinator crash blocks but can never fork.",
+      use: `Use ${item.title} when one logical write must land atomically across a few services you control and none of them offers a shared transaction, so the alternative is a hand-rolled sequence that can strand state.`,
+      pair: "Pair it with the Effect Saga Orchestrator for the long-running or compensatable variant, and with the Effect Idempotency Key Store so re-delivered commit messages apply exactly once.",
+      avoid:
+        "Avoid it across many participants or over high-latency links where the blocking window is unacceptable (favor a saga), and never skip the durable decision log: it is the whole reason a crash cannot split the brain.",
+    };
+  }
+
+  if (item.name === "effect-token-bucket-shaper") {
+    return {
+      style:
+        "Continuous metering with a burst allowance: tokens refill at a steady rate with no boundary to game, so a normal burst passes up to capacity and sustained abuse is shaped down to the refill rate.",
+      use: `Use ${item.title} for per-client API rate limits, outbound call shaping to a third party, or any place a real client is legitimately bursty but the long-run rate must stay bounded.`,
+      pair: "Pair it with the Effect Sliding Window Rate Limit when you need a request-count-per-window guarantee instead of a rate, and with the Effect Adaptive Concurrency Limit to cap in-flight work as well as arrival rate.",
+      avoid:
+        "Avoid a fixed-window counter for the same job (it leaks 2x at the boundary) and size capacity honestly: a bucket larger than your backend can absorb just moves the spike downstream.",
+    };
+  }
+
+  if (item.name === "effect-saga-payment-orchestrator") {
+    return {
+      style:
+        "Undo in reverse of do: each forward step registers its compensation, a failure rolls back exactly the steps that succeeded, and a compensation that itself fails is surfaced, not swallowed.",
+      use: `Use ${item.title} for multi-step workflows across services that cannot share a transaction (book, charge, notify) where a partial failure must leave no money charged and no resource half-reserved.`,
+      pair: "Pair it with the Effect Two-Phase Commit for the short atomic variant and with the Effect Idempotency Key Store so a retried forward step or compensation runs once.",
+      avoid:
+        "Avoid it when a real distributed transaction is available (use it) and avoid compensations that are not truly inverse: a refund that can fail needs the CompensationFailed path wired to a human or a retry queue.",
+    };
+  }
+
+  if (item.name === "effect-mvcc-snapshot-isolation") {
+    return {
+      style:
+        "Versions instead of locks on the read path: a transaction reads the snapshot it began with while writers append, and first-committer-wins turns a silent lost update into a typed conflict.",
+      use: `Use ${item.title} to model or reason about snapshot-isolation semantics, to build an in-memory store with non-blocking reads, or to demonstrate exactly which anomalies snapshot isolation does and does not prevent.`,
+      pair: "Pair it with the Effect Optimistic Lock with Retry for the single-row version-column case and with the Effect Event-Sourced Aggregate when you want the full history, not just the latest versions.",
+      avoid:
+        "Avoid it where your database already provides snapshot isolation (do not reimplement the engine) and remember it does not stop write skew: that needs serializable isolation or an explicit predicate lock.",
+    };
+  }
+
+  if (item.name === "effect-event-sourced-aggregate") {
+    return {
+      style:
+        "The log is the truth and state is a fold: every fact is retained, any past state is a prefix fold away, and compare-and-append stops two commands from overwriting each other's history.",
+      use: `Use ${item.title} where the audit trail and the ability to replay matter (ledgers, workflows, anything disputed) and current state is better derived from events than stored as a mutable row.`,
+      pair: "Pair it with the Effect MVCC Snapshot Isolation for read models over the same data and with the Effect Outbox Replicator to publish each new event to downstream consumers exactly once.",
+      avoid:
+        "Avoid it for simple CRUD where the history is never read (the fold is pure overhead) and plan for snapshots once streams grow long, so a fold does not replay millions of events on every load.",
+    };
+  }
+
+  if (item.name === "effect-leader-lease-election") {
+    return {
+      style:
+        "Leadership that expires and fences: a lease lapses if a dead leader stops renewing, and a monotonic fencing token means a frozen leader that thaws cannot write behind the new one's back.",
+      use: `Use ${item.title} for singleton work in a cluster (one scheduler, one compactor, one migration runner) where exactly one node must act and a crash must hand the role over without a human.`,
+      pair: "Pair it with the Effect Heartbeat Failure Detector to shorten the time a dead leader's lease is honored and with any fenced resource so the token actually gates writes, not just the election.",
+      avoid:
+        "Avoid leader election when the work is safely idempotent across nodes (you may not need a singleton at all) and never grant authority without the fencing token: the lease alone does not stop split-brain writes.",
+    };
+  }
+
+  if (item.name === "effect-vector-clock-causality") {
+    return {
+      style:
+        "Order by what was observed, not by a clock: happened-before is a fact about causality, and genuinely concurrent edits are detected as concurrent so a real change is never silently ranked away.",
+      use: `Use ${item.title} in multi-writer replication, collaborative editing, or offline-sync where you must distinguish a true update from a concurrent conflict that needs merging.`,
+      pair: "Pair it with the Effect CRDT Counter Merge when the conflict has a lattice merge and with the Effect Gossip Dissemination to actually propagate the stamped updates between replicas.",
+      avoid:
+        "Avoid vector clocks when a single writer or a total order already exists (a scalar version suffices) and watch the per-node entry growth: prune or cap the clock as the participant set changes.",
+    };
+  }
+
+  if (item.name === "effect-lsm-memtable-compaction") {
+    return {
+      style:
+        "Writes become sequential appends, reads stop at the newest version, and compaction reclaims the garbage: a delete is a tombstone that masks, never a gap that resurrects.",
+      use: `Use ${item.title} to understand or model an LSM storage engine (the shape behind RocksDB, Cassandra, and many time-series stores) or to build a write-optimized in-memory index with tombstone deletes.`,
+      pair: "Pair it with the Effect WAL Crash Recovery for durability of the memtable before it flushes and with the Effect Merkle Anti-Entropy Sync to reconcile SSTables across replicas.",
+      avoid:
+        "Avoid an LSM for read-mostly point-lookup workloads that a B-tree serves with fewer seeks, and schedule compaction: unbounded segment growth turns every read into a march through stale versions.",
+    };
+  }
+
+  if (item.name === "effect-wal-crash-recovery") {
+    return {
+      style:
+        "Log before you write, checkpoint to bound replay: recovery redoes committed transactions, discards uncommitted ones, and starts from the last durable page image instead of the beginning of time.",
+      use: `Use ${item.title} to reason about durability and atomicity in a storage layer, or as the recovery model behind the Effect Write-Behind Cache and Effect LSM Memtable Compaction memtables.`,
+      pair: "Pair it with the Effect LSM Memtable Compaction (the WAL protects the memtable) and with the Effect Event-Sourced Aggregate, whose append-only log is the same idea at the domain level.",
+      avoid:
+        "Avoid a WAL where the store is already durable and transactional (you would be logging a log) and never let the log grow without checkpoints: replay time and disk both scale with the un-checkpointed suffix.",
+    };
+  }
+
+  if (item.name === "effect-fair-priority-scheduler") {
+    return {
+      style:
+        "A real heap with a stable tiebreak and aging: highest priority first, FIFO among equals, and a waiting job's rank climbs until even the lowest tier runs, so nothing starves.",
+      use: `Use ${item.title} for job queues and task schedulers where priorities are real but the low tier must still make progress (background jobs behind interactive work, cheap tasks behind expensive ones).`,
+      pair: "Pair it with the Effect Fair Connection Pool when scheduled jobs contend for a scarce resource and with the Effect Adaptive Concurrency Limit to bound how many run at once.",
+      avoid:
+        "Avoid aging when strict priority is actually required (real-time deadlines) and avoid a sorted array masquerading as a heap: it is O(n) per insert and its tie order is whatever the sort happens to do.",
+    };
+  }
+
+  if (item.name === "effect-merkle-anti-entropy") {
+    return {
+      style:
+        "Compare hashes, not rows: equal roots prove equal contents, and a diff descends only into subtrees that disagree, so the bytes moved track the number of differences, not the dataset size.",
+      use: `Use ${item.title} to reconcile replicas, verify a synced dataset, or detect drift between two copies of a large keyspace where shipping everything or comparing key-by-key is too expensive.`,
+      pair: "Pair it with the Effect Gossip Dissemination to spread the repairs the diff identifies and with the Effect CRDT Counter Merge or vector clocks to decide which side wins a differing key.",
+      avoid:
+        "Avoid rebuilding the whole tree on every tiny change (maintain it incrementally at scale) and remember the tree finds which keys differ, not how to merge them: pair it with a conflict rule.",
+    };
+  }
+
+  if (item.name === "effect-connection-pool-fair") {
+    return {
+      style:
+        "Bounded connections, FIFO waiting, fast-fail under saturation: surplus demand queues in arrival order and a stuck caller times out with a typed error instead of hanging on a dead borrow.",
+      use: `Use ${item.title} in front of any scarce, expensive-to-open resource (database connections, upstream sockets, licensed handles) where unbounded opening would exhaust the far side.`,
+      pair: "Pair it with the Effect Adaptive Concurrency Limit to size the pool to live downstream capacity and with the Effect Fair Priority Scheduler when borrowers should not all be equal.",
+      avoid:
+        "Avoid a pool for cheap, unlimited resources (it only adds a queue) and never leave the acquire wait unbounded: a pool with no acquire timeout converts backpressure into a silent hang.",
+    };
+  }
+
+  if (item.name === "effect-gossip-dissemination") {
+    return {
+      style:
+        "Epidemic spread with convergent merges: each node tells a few random peers, updates reach everyone in logarithmic rounds, and version-vector maxima make re-exchange idempotent so the cluster reaches a fixed point.",
+      use: `Use ${item.title} for cluster membership, config fan-out, or presence where a central broadcaster would be a bottleneck and a single point of failure, and eventual consistency is acceptable.`,
+      pair: "Pair it with the Effect Heartbeat Failure Detector (gossip the health signals) and with the Effect Merkle Anti-Entropy Sync to reconcile whatever gossip has not yet converged.",
+      avoid:
+        "Avoid gossip when you need immediate, strongly-consistent propagation (use a coordinator or consensus) and tune fanout and interval: too low is slow, too high just floods the network.",
+    };
+  }
+
+  if (item.name === "effect-dataloader-batch") {
+    return {
+      style:
+        "Collect within a tick, dedupe, scatter back: N per-item fetches become one batched query, identical keys share a fetch, and every caller still gets its own value.",
+      use: `Use ${item.title} to kill N+1 query storms in GraphQL resolvers, ORM associations, or any per-item fetch that runs inside a loop or a fan-out render.`,
+      pair: "Pair it with the Effect Segmented LRU Cache to memoize across ticks and with the Effect CDN Origin Shield when the batched fetch itself is an expensive shared upstream call.",
+      avoid:
+        "Avoid it when calls are naturally already batched or genuinely independent across ticks (the microtask flush adds latency for no dedupe), and give it a stable key so dedup actually collapses duplicates.",
+    };
+  }
+
+  if (item.name === "effect-adaptive-concurrency-limit") {
+    return {
+      style:
+        "AIMD borrowed from TCP: additive-increase while healthy, multiplicative-decrease on a latency spike, so the limit converges on whatever the downstream can serve right now instead of a guessed constant.",
+      use: `Use ${item.title} in front of a downstream whose capacity varies (a shared database, a third-party API, an autoscaling service) where any fixed concurrency cap is wrong at some point in the day.`,
+      pair: "Pair it with the Effect Fair Connection Pool to enforce the discovered limit and with the Effect Weighted Load Balancer to spread the admitted work across healthy backends.",
+      avoid:
+        "Avoid it when the safe limit is genuinely fixed and known (a hard connection cap) and clamp the range: an unbounded control loop can oscillate or starve, so min and max are not optional.",
+    };
+  }
+
+  if (item.name === "effect-crdt-counter-merge") {
+    return {
+      style:
+        "Per-replica slots, summed, merged by max: each node only increments its own slot, so partitioned increments all survive and re-delivered or reordered merges are provably harmless.",
+      use: `Use ${item.title} for distributed counters that must not lose increments under partition (likes, views, inventory reservations across regions) where coordination on every increment is too costly.`,
+      pair: "Pair it with the Effect Gossip Dissemination to propagate replica states and with the Effect Vector Clock Causality when the payload is more than a count and conflicts need causal ordering.",
+      avoid:
+        "Avoid a G-Counter when you also need to decrement (reach for a PN-Counter) and remember slots grow with the replica set: bound or reap retired replica ids so the state does not accrete forever.",
+    };
+  }
+
+  if (item.name === "effect-sliding-window-rate-limit") {
+    return {
+      style:
+        "The boundary burst closed with O(1) state: current and previous window counts, the previous one weighted by its remaining overlap, so no grid to game and no per-request timestamp to store.",
+      use: `Use ${item.title} for per-client request-count limits where a fixed window's 2x boundary leak is unacceptable and a full request log's memory cost is a denial-of-service vector.`,
+      pair: "Pair it with the Effect Token Bucket Shaper when you want a rate with a burst allowance instead of a count and with the Effect Cache Penetration Shield to bound distinct-key probing per client.",
+      avoid:
+        "Avoid a fixed-window counter for the same guarantee (it leaks at the boundary) and note the counter is an approximation: for exact per-request accounting you need the full log and its memory.",
+    };
+  }
+
+  if (item.name === "effect-scatter-gather-quorum") {
+    return {
+      style:
+        "Return on enough, not on all: a completeness threshold answers on the k-th fastest shard, a timeout degrades to a partial result rather than hanging, and stragglers are interrupted so no fiber leaks.",
+      use: `Use ${item.title} for fan-out reads across shards or replicas (search, multi-region lookups, redundant sources) where one slow member should not dictate the whole request's latency.`,
+      pair: "Pair it with the Effect Quorum Reads with Read Repair when the quorum must also be consistent and with the Effect Weighted Load Balancer to pick which replicas to scatter to.",
+      avoid:
+        "Avoid a quorum when every shard's answer is required for correctness (partial results would be wrong) and size the quorum against your replication factor so a normal failure still meets it.",
+    };
+  }
+
+  if (item.name === "effect-chunked-upload-integrity") {
+    return {
+      style:
+        "Verify at the chunk and at the whole: a per-chunk checksum rejects corruption at the boundary for re-send, resume ships only the missing chunks, and a final object digest is the last line of defense.",
+      use: `Use ${item.title} for large-file upload endpoints and object stores where a flaky network can corrupt or truncate a transfer and re-uploading the whole file after a drop is unacceptable.`,
+      pair: "Pair it with the Effect Multipart Upload Resume flow for the client side and with the Effect Idempotency Key Store so a retried finalize request completes the object exactly once.",
+      avoid:
+        "Avoid the ceremony for small payloads a single request delivers atomically, and pick a real content hash (SHA-256) in production: the demo's FNV digest teaches the mechanism, not collision resistance.",
     };
   }
 

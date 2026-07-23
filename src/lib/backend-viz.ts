@@ -5060,4 +5060,1681 @@ export const backendViz: Record<string, VizEntry> = {
       },
     ],
   },
+  "effect-weighted-load-balancer": {
+    control: "strategy",
+    variants: [
+      {
+        name: "round-robin",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Round-robin hands the degraded backend its full rotation share. b3 is 12x slower, yet its in-flight queue climbs to 12 and stays there while a third of traffic waits behind it.",
+          code: "backends[i % backends.length]  // b3 gets its slice regardless",
+          ref: {
+            label: "b3 in-flight",
+            values: [
+              { v: 0 },
+              { v: 4 },
+              { v: 8 },
+              { v: 12, bad: true },
+              { v: 12, bad: true },
+              { v: 12, bad: true },
+            ],
+            unit: "reqs",
+            request: {
+              label: "route",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+              ],
+              result: "b3 buried",
+              token: "backends[i % backends.length]",
+            },
+          },
+        },
+      },
+      {
+        name: "power-of-two",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Sampling two random backends and taking the emptier one routes around b3 the moment its counter is high. Its queue peaks at 6, not 12, and it serves 9 of 90 instead of 30.",
+          code: "la <= lb ? backends[a] : backends[b]  // pick the emptier sample",
+          ref: {
+            label: "b3 in-flight",
+            values: [
+              { v: 0 },
+              { v: 2 },
+              { v: 4 },
+              { v: 4 },
+              { v: 2 },
+              { v: 2 },
+            ],
+            unit: "reqs",
+            request: {
+              label: "route",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "b3 spared",
+              token: "la <= lb ? backends[a] : backends[b]",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-lru-cache-eviction": {
+    control: "policy",
+    variants: [
+      {
+        name: "plain LRU",
+        spec: {
+          archetype: "flow",
+          caption:
+            "A 100-key batch scan marches every hot key out of a plain LRU. One-touch cold keys are treated exactly like real traffic, so the next minute is all misses.",
+          code: "lru.set(scanKey)  // evicts a hot key behind it",
+          nodes: [
+            {
+              label: "4 hot keys",
+              result: "0/4 survive",
+              token: "lru.set(scanKey)",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+            {
+              label: "scan (100 cold)",
+              result: "flushes cache",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "segmented LRU",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Scan keys enter probation and die there without touching the protected segment. A second hit is required for tenure, so all 4 hot keys survive the same scan.",
+          code: "second hit -> promote to protected",
+          nodes: [
+            {
+              label: "scan (100 cold)",
+              result: "churns probation",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "4 hot keys",
+              result: "4/4 survive",
+              token: "second hit -> promote to protected",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-write-behind-cache": {
+    control: "durability",
+    variants: [
+      {
+        name: "no journal",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Naive write-behind buffers writes in memory and flushes later. A crash between flushes drops every acknowledged write: the cache said OK, the store never heard.",
+          code: "crash before flush  // 2 acknowledged writes gone",
+          ref: {
+            label: "recovered writes",
+            values: [
+              { v: 0 },
+              { v: 1 },
+              { v: 2 },
+              { v: 0, bad: true },
+              { v: 0, bad: true },
+              { v: 0, bad: true },
+            ],
+            request: {
+              label: "set",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+              error: "buffer lost",
+              token: "crash before flush",
+            },
+          },
+        },
+      },
+      {
+        name: "journaled",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Every accepted write is journaled first, then coalesced (100 bumps to one key flush as one store write). The same crash costs zero acknowledged writes: recovery replays the journal.",
+          code: "append journal -> then coalesce -> flush",
+          ref: {
+            label: "recovered writes",
+            values: [
+              { v: 0 },
+              { v: 1 },
+              { v: 2 },
+              { v: 2 },
+              { v: 2 },
+              { v: 2 },
+            ],
+            request: {
+              label: "set",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "replayed",
+              token: "append journal -> then coalesce -> flush",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-cache-penetration-shield": {
+    control: "shield",
+    variants: [
+      {
+        name: "unshielded",
+        spec: {
+          archetype: "ref",
+          caption:
+            "A cache only helps keys that exist. 50 requests for a made-up id all miss, the database confirms nothing, and nothing is cached: every request repeats the full trip.",
+          code: "cache.miss -> db.fetch(fakeKey)  // 50 db hits",
+          ref: {
+            label: "database hits",
+            values: [
+              { v: 0 },
+              { v: 12 },
+              { v: 25 },
+              { v: 38, bad: true },
+              { v: 50, bad: true },
+              { v: 50, bad: true },
+            ],
+            request: {
+              label: "get fakeKey",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+              ],
+              result: "db buried",
+              token: "cache.miss -> db.fetch(fakeKey)",
+            },
+          },
+        },
+      },
+      {
+        name: "shielded",
+        spec: {
+          archetype: "ref",
+          caption:
+            "A bloom filter seeded with every real key answers definitely-absent in memory, so 50 rotating fake keys die before the database hears them. Zero database hits.",
+          code: "!bloom.mightExist(key) -> reject in memory",
+          ref: {
+            label: "database hits",
+            values: [
+              { v: 0 },
+              { v: 0 },
+              { v: 0 },
+              { v: 0 },
+              { v: 0 },
+              { v: 0 },
+            ],
+            request: {
+              label: "get fakeKey",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "0 db hits",
+              token: "!bloom.mightExist(key) -> reject in memory",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-cdn-origin-shield": {
+    control: "shield",
+    variants: [
+      {
+        name: "no shield",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Six edge POPs all miss on the same fresh object and send six simultaneous fetches to the origin. Multiply by every object that just expired and the origin serves the internet again.",
+          code: "each POP -> origin.fetch(obj)  // 6 fetches",
+          ref: {
+            label: "origin fetches",
+            values: [
+              { v: 0 },
+              { v: 2 },
+              { v: 4 },
+              { v: 6, bad: true },
+              { v: 6, bad: true },
+              { v: 6, bad: true },
+            ],
+            request: {
+              label: "POP miss",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+              ],
+              result: "origin storm",
+              token: "each POP -> origin.fetch(obj)",
+            },
+          },
+        },
+      },
+      {
+        name: "shield tier",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Edges fill from one shield cache and concurrent misses coalesce onto a single in-flight fetch via a per-key Deferred. Six simultaneous misses become exactly one origin fetch.",
+          code: "first miss fetches; the rest await the Deferred",
+          ref: {
+            label: "origin fetches",
+            values: [
+              { v: 0 },
+              { v: 1 },
+              { v: 1 },
+              { v: 1 },
+              { v: 1 },
+              { v: 1 },
+            ],
+            request: {
+              label: "POP miss",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "5 coalesced",
+              token: "first miss fetches; the rest await the Deferred",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-dns-resolver-cache": {
+    control: "cache",
+    variants: [
+      {
+        name: "no cache",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Every lookup walks root, TLD, and authority: three hops before your app sends a byte. Forty-one lookups of one name cost 123 upstream queries.",
+          code: "resolve(name)  // 3 hops, every time",
+          ref: {
+            label: "upstream queries",
+            values: [
+              { v: 0 },
+              { v: 30 },
+              { v: 60 },
+              { v: 90, bad: true },
+              { v: 123, bad: true },
+              { v: 123, bad: true },
+            ],
+            request: {
+              label: "resolve",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+              ],
+              result: "123 hops",
+              token: "resolve(name)",
+            },
+          },
+        },
+      },
+      {
+        name: "TTL + negative",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The first lookup walks the recursion; repeats cost zero hops until the TTL expires. Even NXDOMAIN is cached with its own shorter TTL, so a typo in a hot loop dies at the resolver.",
+          code: "cache.hit && held.expires > now -> 0 hops",
+          ref: {
+            label: "upstream queries",
+            values: [
+              { v: 0 },
+              { v: 3 },
+              { v: 3 },
+              { v: 3 },
+              { v: 3 },
+              { v: 3 },
+            ],
+            request: {
+              label: "resolve",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "3 total",
+              token: "cache.hit && held.expires > now -> 0 hops",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-two-phase-commit": {
+    control: "outcome",
+    variants: [
+      {
+        name: "unanimous",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Phase 1: every participant durably stages and votes yes. Only then does phase 2 commit them all. Both sides move together, total conserved to the cent.",
+          code: "votes.every(yes) -> log decision -> commit all",
+          nodes: [
+            {
+              label: "prepare (vote)",
+              result: "all yes",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "commit",
+              result: "wallet 40 | bank 60",
+              token: "votes.every(yes) -> log decision -> commit all",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "one refuses",
+        spec: {
+          archetype: "flow",
+          caption:
+            "The wallet cannot cover 150, so it votes no in phase 1. The decision logs abort before anyone commits, and every participant rolls back. No money minted from nothing.",
+          code: "one no -> abort -> nobody commits",
+          nodes: [
+            {
+              label: "prepare (vote)",
+              result: "wallet: no",
+              token: "one no -> abort -> nobody commits",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ],
+            },
+            {
+              label: "abort all",
+              result: "wallet 100 | bank 0",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-token-bucket-shaper": {
+    control: "limiter",
+    variants: [
+      {
+        name: "fixed window",
+        spec: {
+          archetype: "ref",
+          caption:
+            "A fixed window counted on the clock minute admits 10 at 0:59 and 10 more at 1:00. Twenty requests land in a fraction of a second: the exact 2x boundary burst the limit forbids.",
+          code: "if (now - windowStart >= 1000) count = 0  // resets, leaks 2x",
+          ref: {
+            label: "admitted / sec",
+            values: [
+              { v: 0 },
+              { v: 10 },
+              { v: 20, bad: true },
+              { v: 20, bad: true },
+              { v: 10 },
+              { v: 0 },
+            ],
+            request: {
+              label: "burst",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "idle",
+              ],
+              result: "2x leaked",
+              token: "if (now - windowStart >= 1000) count = 0",
+            },
+          },
+        },
+      },
+      {
+        name: "token bucket",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Tokens refill at a steady rate with no boundary to game. A burst up to capacity passes, then throughput settles to the refill rate. The true rate over any window stays bounded.",
+          code: "refilled = min(cap, tokens + elapsed * rate)",
+          ref: {
+            label: "tokens",
+            values: [
+              { v: 10 },
+              { v: 6 },
+              { v: 2 },
+              { v: 0 },
+              { v: 1 },
+              { v: 4 },
+            ],
+            unit: "tok",
+            request: {
+              label: "acquire",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "shaped",
+              token: "refilled = min(cap, tokens + elapsed * rate)",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-saga-payment-orchestrator": {
+    archetype: "scope",
+    caption:
+      "Charge, reserve, issue: each forward step registers its compensation. Ticketing fails, so the saga runs the compensations in reverse for exactly the steps that succeeded. Card refunded, seat released, nothing stranded.",
+    code: "issue-ticket fails -> compensate reserve-seat, then charge-card",
+    scope: {
+      mode: "saga",
+      node: {
+        label: "book trip",
+        error: "issue-ticket fails",
+        states: ["running", "running", "running", "failed", "failed", "failed"],
+      },
+      finalizers: [
+        {
+          label: "charge-card",
+          states: [
+            "hidden",
+            "running",
+            "completed",
+            "completed",
+            "completed",
+            "completed",
+          ],
+          compensate: "refund-card",
+        },
+        {
+          label: "reserve-seat",
+          states: [
+            "hidden",
+            "hidden",
+            "running",
+            "completed",
+            "completed",
+            "completed",
+          ],
+          compensate: "release-seat",
+        },
+      ],
+    },
+  },
+  "effect-mvcc-snapshot-isolation": {
+    control: "concurrency",
+    variants: [
+      {
+        name: "lost update",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Two transactions both read balance 100 and both write 150. Snapshot isolation alone lets the second overwrite the first: one +50 is silently lost, the balance lands at 150 instead of 200.",
+          code: "both read 100 -> both write 150  // one update lost",
+          ref: {
+            label: "balance",
+            values: [
+              { v: 100 },
+              { v: 100 },
+              { v: 150 },
+              { v: 150, bad: true },
+              { v: 150, bad: true },
+              { v: 150, bad: true },
+            ],
+            unit: "$",
+            request: {
+              label: "write",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "lost +50",
+              token: "both read 100 -> both write 150",
+            },
+          },
+        },
+      },
+      {
+        name: "first-committer-wins",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Commit validates the write set against versions committed after the snapshot. The second transaction is aborted with a typed WriteConflict, so it re-reads and the balance stays correct at 150.",
+          code: "written key changed after snapshot -> WriteConflict",
+          ref: {
+            label: "balance",
+            values: [
+              { v: 100 },
+              { v: 100 },
+              { v: 150 },
+              { v: 150 },
+              { v: 150 },
+              { v: 150 },
+            ],
+            unit: "$",
+            request: {
+              label: "write",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "conflict retried",
+              token: "written key changed after snapshot -> WriteConflict",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-event-sourced-aggregate": {
+    control: "model",
+    variants: [
+      {
+        name: "state-only row",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Storing just the current balance forgets how it got there. A corrupted value has no audit trail and cannot be replayed, and a concurrent write overwrites history.",
+          code: "UPDATE account SET balance = ?  // history gone",
+          nodes: [
+            {
+              label: "current balance",
+              result: "75, no history",
+              token: "UPDATE account SET balance = ?",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+          ],
+        },
+      },
+      {
+        name: "event log",
+        spec: {
+          archetype: "flow",
+          caption:
+            "State is a fold over ordered facts, so any past state is a prefix fold away and compare-and-append refuses a stale write with a typed ConcurrencyConflict. The log is the source of truth.",
+          code: "fold([Opened, Deposited, Withdrew]) -> state",
+          nodes: [
+            {
+              label: "event log",
+              result: "4 facts kept",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "fold",
+              result: "balance 75, v4",
+              token: "fold([Opened, Deposited, Withdrew]) -> state",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-leader-lease-election": {
+    control: "guard",
+    variants: [
+      {
+        name: "no fencing",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The old leader froze past its lease, node-b took over, then node-a thawed and wrote with stale authority. Without a fencing token the resource accepts it, rolling the value backward.",
+          code: "resource.write(staleValue)  // no token check",
+          ref: {
+            label: "resource owner",
+            values: [
+              { v: "a" },
+              { v: "a" },
+              { v: "b" },
+              { v: "a", bad: true },
+              { v: "a", bad: true },
+              { v: "a", bad: true },
+            ],
+            request: {
+              label: "zombie write",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+              error: "split brain",
+              token: "resource.write(staleValue)",
+            },
+          },
+        },
+      },
+      {
+        name: "fenced",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Every lease carries a monotonic token and the resource rejects any write below the highest it has seen. The thawed zombie writes with token 1 against a token-2 world and is fenced out.",
+          code: "if (token < seen) -> FencedOut",
+          ref: {
+            label: "resource owner",
+            values: [
+              { v: "a" },
+              { v: "a" },
+              { v: "b" },
+              { v: "b" },
+              { v: "b" },
+              { v: "b" },
+            ],
+            request: {
+              label: "zombie write",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ],
+              error: "fenced",
+              token: "if (token < seen) -> FencedOut",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-vector-clock-causality": {
+    control: "ordering",
+    variants: [
+      {
+        name: "wall-clock LWW",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Two nodes edit the same doc; their clocks disagree by 200ms. Last-write-wins by timestamp picks the wrong one and silently deletes the edit that was actually made later.",
+          code: "wallClockA > wallClockB ? a : b  // drops a real edit",
+          nodes: [
+            {
+              label: "edit A {a:1}",
+              result: "kept (fast clock)",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "edit B {b:1}",
+              result: "deleted",
+              token: "wallClockA > wallClockB ? a : b",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+          ],
+        },
+      },
+      {
+        name: "vector clock",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Comparing what each node had observed reports before, after, or concurrent. The two edits are concurrent, so the system surfaces a conflict to merge instead of ranking one away.",
+          code: "compare({a:1}, {b:1}) === 'concurrent'",
+          nodes: [
+            {
+              label: "edit A {a:1}",
+              result: "survives",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "edit B {b:1}",
+              result: "survives, merge",
+              token: "compare({a:1}, {b:1}) === 'concurrent'",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-lsm-memtable-compaction": {
+    control: "read",
+    variants: [
+      {
+        name: "delete as gap",
+        spec: {
+          archetype: "flow",
+          caption:
+            "If a delete just stops writing, an old copy of the key still sits in an older SSTable and resurrects on the next lookup. Immutable segments make silent gaps dangerous.",
+          code: "read old SSTable -> deleted key comes back",
+          nodes: [
+            {
+              label: "get k (deleted)",
+              result: "returns 'alive'",
+              token: "read old SSTable -> deleted key comes back",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+          ],
+        },
+      },
+      {
+        name: "tombstone + newest-wins",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Reads walk newest-to-oldest and stop at the first hit; a delete is a tombstone that masks older values. Compaction then merges segments and physically drops the garbage.",
+          code: "first hit wins; tombstone -> absent",
+          nodes: [
+            {
+              label: "3 segments",
+              result: "newest first",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "get k",
+              result: "miss (tombstoned)",
+              token: "first hit wins; tombstone -> absent",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-wal-crash-recovery": {
+    control: "recovery",
+    variants: [
+      {
+        name: "committed",
+        spec: {
+          archetype: "flow",
+          caption:
+            "The change was logged and fsynced before the pages were touched, and the transaction committed. A crash wipes the volatile pages, but recovery redoes the committed write from the log.",
+          code: "log commit -> crash -> redo from log",
+          nodes: [
+            {
+              label: "write + commit",
+              result: "logged",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "crash + recover",
+              result: "balance 100 restored",
+              token: "log commit -> crash -> redo from log",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "uncommitted",
+        spec: {
+          archetype: "flow",
+          caption:
+            "A write with no matching commit record is in the log but never committed. Recovery redoes only committed transactions, so the half-written value is discarded, not applied.",
+          code: "no commit record -> not replayed",
+          nodes: [
+            {
+              label: "write (no commit)",
+              result: "in log only",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ],
+            },
+            {
+              label: "crash + recover",
+              result: "discarded",
+              token: "no commit record -> not replayed",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-fair-priority-scheduler": {
+    control: "fairness",
+    variants: [
+      {
+        name: "strict priority",
+        spec: {
+          archetype: "flow",
+          caption:
+            "A steady stream of priority-9 work keeps arriving, so the priority-1 backup job never reaches the front of the heap. Ten rounds pass and it has not run once: starvation.",
+          code: "always pop max priority  // backup never runs",
+          nodes: [
+            {
+              label: "urgent stream (p9)",
+              result: "always first",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "backup (p1)",
+              result: "starved",
+              token: "always pop max priority",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+          ],
+        },
+      },
+      {
+        name: "aging",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Effective priority rises with the time a job has waited. The backup ages past priority 9 and finally runs at round 7, so even the lowest tier has a bounded worst-case wait.",
+          code: "base + floor(waited / agePerTick)",
+          nodes: [
+            {
+              label: "urgent stream (p9)",
+              result: "runs first, at first",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "backup (aged)",
+              result: "runs at round 7",
+              token: "base + floor(waited / agePerTick)",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-merkle-anti-entropy": {
+    control: "sync",
+    variants: [
+      {
+        name: "ship everything",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Reconciling two replicas by comparing key-by-key (or resending the dataset) moves bytes proportional to the data, even when they differ by a single row out of 64.",
+          code: "for k in allKeys: compare(a[k], b[k])  // O(n)",
+          nodes: [
+            {
+              label: "compare 64 keys",
+              result: "64 comparisons",
+              token: "for k in allKeys: compare(a[k], b[k])",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "merkle diff",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Compare root hashes, then descend only into subtrees that disagree. One changed key among 64 is found by visiting 13 tree nodes; equal roots prove equal contents outright.",
+          code: "x.hash === y.hash -> prune subtree",
+          nodes: [
+            {
+              label: "roots differ",
+              result: "descend",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "diff",
+              result: "k37, 13 nodes visited",
+              token: "x.hash === y.hash -> prune subtree",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-connection-pool-fair": {
+    archetype: "scope",
+    caption:
+      "The pool caps concurrency at what the database can serve: 12 concurrent requests against 3 connections never run more than 3 at once. Surplus waits FIFO, and a saturated wait fails fast with AcquireTimeout instead of hanging.",
+    code: "inFlight >= limit ? enqueue(waiter) : take(idle)",
+    scope: {
+      mode: "scope",
+      node: {
+        label: "12 requests",
+        result: "peak 3 in use",
+        states: [
+          "running",
+          "running",
+          "running",
+          "running",
+          "running",
+          "completed",
+        ],
+      },
+      finalizers: [
+        {
+          label: "conn 1",
+          states: [
+            "hidden",
+            "running",
+            "completed",
+            "completed",
+            "completed",
+            "completed",
+          ],
+        },
+        {
+          label: "conn 2",
+          states: [
+            "hidden",
+            "hidden",
+            "running",
+            "completed",
+            "completed",
+            "completed",
+          ],
+        },
+        {
+          label: "conn 3",
+          states: [
+            "hidden",
+            "hidden",
+            "hidden",
+            "running",
+            "completed",
+            "completed",
+          ],
+        },
+      ],
+    },
+  },
+  "effect-gossip-dissemination": {
+    control: "spread",
+    variants: [
+      {
+        name: "central broadcast",
+        spec: {
+          archetype: "flow",
+          caption:
+            "One coordinator pushing every update to every node is O(N) work on one machine and a single point of failure. If the broadcaster dies mid-fan-out, propagation stops.",
+          code: "for node in cluster: coordinator.push(node)  // O(N)",
+          nodes: [
+            {
+              label: "coordinator",
+              result: "32 pushes, one node",
+              token: "for node in cluster: coordinator.push(node)",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+          ],
+        },
+      },
+      {
+        name: "epidemic gossip",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Each node tells a few random peers what it knows. One write reaches all 32 nodes in 3 rounds with no coordinator, and version-vector maxima make re-exchange idempotent so the cluster converges.",
+          code: "gossip to random peers; merge by max version",
+          nodes: [
+            {
+              label: "node 0 writes",
+              result: "tells 3 peers",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "converge",
+              result: "all 32, 3 rounds",
+              token: "gossip to random peers; merge by max version",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-dataloader-batch": {
+    control: "loading",
+    variants: [
+      {
+        name: "N+1",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Rendering 100 posts that each fetch their author fires 1 query for the posts and 100 for the authors. The code reads naturally; the database sees a storm of single-row lookups.",
+          code: "posts.map(p => db.author(p.authorId))  // 100 queries",
+          ref: {
+            label: "database queries",
+            values: [
+              { v: 1 },
+              { v: 25 },
+              { v: 50 },
+              { v: 75, bad: true },
+              { v: 100, bad: true },
+              { v: 100, bad: true },
+            ],
+            request: {
+              label: "load author",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+              ],
+              result: "100 queries",
+              token: "posts.map(p => db.author(p.authorId))",
+            },
+          },
+        },
+      },
+      {
+        name: "batched",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The loader collects every key requested within one tick, dedupes them, and issues a single WHERE id IN (...) query. One hundred author lookups over three distinct ids become one query.",
+          code: "flush tick -> db.authors(WHERE id IN dedup(keys))",
+          ref: {
+            label: "database queries",
+            values: [
+              { v: 0 },
+              { v: 1 },
+              { v: 1 },
+              { v: 1 },
+              { v: 1 },
+              { v: 1 },
+            ],
+            request: {
+              label: "load author",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "1 query, 3 ids",
+              token: "flush tick -> db.authors(WHERE id IN dedup(keys))",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-adaptive-concurrency-limit": {
+    control: "limit",
+    variants: [
+      {
+        name: "fixed limit",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Any constant is wrong at some point: pick 64 and a degraded downstream is buried under work it cannot serve, latency explodes, and timeouts cascade. The limit does not move when it must.",
+          code: "const LIMIT = 64  // wrong the moment capacity drops",
+          ref: {
+            label: "concurrency limit",
+            values: [
+              { v: 64 },
+              { v: 64 },
+              { v: 64, bad: true },
+              { v: 64, bad: true },
+              { v: 64, bad: true },
+              { v: 64, bad: true },
+            ],
+            request: {
+              label: "admit",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "running",
+              ],
+              error: "buried",
+              token: "const LIMIT = 64",
+            },
+          },
+        },
+      },
+      {
+        name: "AIMD",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Additive-increase while healthy, multiplicative-decrease on a latency spike, the control law TCP uses. A slow-response burst halves the limit fast (64 to 8) so the system rides under the cliff.",
+          code: "overloaded ? floor(limit/2) : limit + 1",
+          ref: {
+            label: "concurrency limit",
+            values: [
+              { v: 64 },
+              { v: 32 },
+              { v: 16 },
+              { v: 8 },
+              { v: 10 },
+              { v: 12 },
+            ],
+            request: {
+              label: "feedback",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "settled ~capacity",
+              token: "overloaded ? floor(limit/2) : limit + 1",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-crdt-counter-merge": {
+    control: "counter",
+    variants: [
+      {
+        name: "single cell",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Two servers both read 10 and write 11. Last-write-wins on one mutable number turns two likes into one: an increment vanishes under any race or partition.",
+          code: "read 10 -> write 11 (x2)  // one like lost",
+          ref: {
+            label: "likes",
+            values: [
+              { v: 10 },
+              { v: 10 },
+              { v: 11, bad: true },
+              { v: 11, bad: true },
+              { v: 11, bad: true },
+              { v: 11, bad: true },
+            ],
+            request: {
+              label: "increment",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+              error: "lost +1",
+              token: "read 10 -> write 11 (x2)",
+            },
+          },
+        },
+      },
+      {
+        name: "G-Counter",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Each replica owns a slot it only increments; the value is the sum, and merge is element-wise max, commutative, associative, idempotent. Partitioned increments 3+5+2 converge to 10 on every replica.",
+          code: "merge = element-wise max; value = sum(slots)",
+          ref: {
+            label: "total",
+            values: [
+              { v: 0 },
+              { v: 3 },
+              { v: 8 },
+              { v: 10 },
+              { v: 10 },
+              { v: 10 },
+            ],
+            request: {
+              label: "merge",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "converged 10",
+              token: "merge = element-wise max; value = sum(slots)",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-sliding-window-rate-limit": {
+    control: "window",
+    variants: [
+      {
+        name: "fixed window",
+        spec: {
+          archetype: "ref",
+          caption:
+            "A fixed window snaps to a grid, admitting 10 at 0:59.9 and 10 more at 1:00.0. Twenty requests slip through in a millisecond straddling the reset: the boundary burst it was meant to forbid.",
+          code: "count >= limit ? deny : admit  // resets on the grid",
+          ref: {
+            label: "admitted @ boundary",
+            values: [
+              { v: 0 },
+              { v: 10 },
+              { v: 20, bad: true },
+              { v: 20, bad: true },
+              { v: 10 },
+              { v: 0 },
+            ],
+            request: {
+              label: "request",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "idle",
+              ],
+              result: "2x leaked",
+              token: "count >= limit ? deny : admit",
+            },
+          },
+        },
+      },
+      {
+        name: "sliding counter",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Keep only the current and previous window counts, weighting the previous by its remaining overlap. The same boundary admits at most ~10, with O(1) state per key and no timestamp log to exhaust.",
+          code: "estimate = current + previous * overlap",
+          ref: {
+            label: "admitted @ boundary",
+            values: [
+              { v: 0 },
+              { v: 5 },
+              { v: 10 },
+              { v: 10 },
+              { v: 5 },
+              { v: 0 },
+            ],
+            request: {
+              label: "request",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+              result: "burst blocked",
+              token: "estimate = current + previous * overlap",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "effect-scatter-gather-quorum": {
+    control: "gather",
+    variants: [
+      {
+        name: "wait for all",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Fanning out to 5 shards and waiting for all of them is as slow as the worst shard, every time. Two 500ms stragglers gate the whole query at 500ms while three fast shards sit idle.",
+          code: "Effect.all(shards)  // slowest shard wins",
+          nodes: [
+            {
+              label: "3 fast shards",
+              result: "10ms each",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "wait for all 5",
+              result: "502ms (straggler)",
+              token: "Effect.all(shards)",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "running",
+                "running",
+                "completed",
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "quorum + timeout",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Return once a quorum answers; a timeout degrades to a partial result rather than hanging, and stragglers are interrupted so no fiber leaks. A 3-of-5 quorum lands in 16ms past two 500ms shards.",
+          code: "quorumMet.await race timeout -> interrupt rest",
+          nodes: [
+            {
+              label: "5 shards scattered",
+              result: "race",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "3-of-5 quorum",
+              result: "16ms, stragglers cut",
+              token: "quorumMet.await race timeout -> interrupt rest",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "effect-chunked-upload-integrity": {
+    control: "transfer",
+    variants: [
+      {
+        name: "one stream",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Sending a large file as one stream lets a single flipped byte produce a silently wrong object the server stores as fine, and a connection lost at 95% throws away all the good work.",
+          code: "PUT wholeFile  // one flipped byte, silent corruption",
+          nodes: [
+            {
+              label: "upload 100MB",
+              result: "corrupt, accepted",
+              token: "PUT wholeFile",
+              states: ["idle", "running", "running", "death", "death", "idle"],
+            },
+          ],
+        },
+      },
+      {
+        name: "chunked + checksum",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Each chunk carries a checksum recomputed on arrival, so a corrupt chunk is rejected for re-send, resume ships only the missing chunks, and a final object digest is the last line of defense.",
+          code: "digest(chunk) !== chunk.checksum -> ChecksumMismatch",
+          nodes: [
+            {
+              label: "9 chunks",
+              result: "each verified",
+              states: [
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+            {
+              label: "reassemble",
+              result: "object digest OK",
+              token: "digest(chunk) !== chunk.checksum -> ChecksumMismatch",
+              states: [
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
 };

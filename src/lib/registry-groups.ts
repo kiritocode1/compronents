@@ -283,6 +283,51 @@ export const backendGroups: RegistryGroup[] = [
     ],
   },
   {
+    title: "Caching and edge delivery",
+    names: [
+      "effect-weighted-load-balancer",
+      "effect-lru-cache-eviction",
+      "effect-write-behind-cache",
+      "effect-cache-penetration-shield",
+      "effect-cdn-origin-shield",
+      "effect-dns-resolver-cache",
+    ],
+  },
+  {
+    title: "Storage engines and transactions",
+    names: [
+      "effect-mvcc-snapshot-isolation",
+      "effect-event-sourced-aggregate",
+      "effect-lsm-memtable-compaction",
+      "effect-wal-crash-recovery",
+      "effect-two-phase-commit",
+      "effect-saga-payment-orchestrator",
+    ],
+  },
+  {
+    title: "Coordination and replication",
+    names: [
+      "effect-leader-lease-election",
+      "effect-vector-clock-causality",
+      "effect-merkle-anti-entropy",
+      "effect-gossip-dissemination",
+      "effect-crdt-counter-merge",
+      "effect-scatter-gather-quorum",
+    ],
+  },
+  {
+    title: "Traffic control and throughput",
+    names: [
+      "effect-token-bucket-shaper",
+      "effect-sliding-window-rate-limit",
+      "effect-adaptive-concurrency-limit",
+      "effect-connection-pool-fair",
+      "effect-fair-priority-scheduler",
+      "effect-dataloader-batch",
+      "effect-chunked-upload-integrity",
+    ],
+  },
+  {
     title: "Durable workflows and jobs",
     names: [
       "effect-durable-activity-workflow",
