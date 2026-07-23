@@ -7471,6 +7471,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Agent skills directories",
     links: [
       {
+        title: "write-better",
+        href: "https://github.com/plannotator/write-better",
+        dateAdded: "2026-07-23",
+        description:
+          "Agent skill by plannotator that steers drafting, rewriting, editing and review toward clear, direct prose that keeps the author's voice and does not invent facts, applying the Humanizer pattern catalog and Wikipedia's signs-of-AI-writing standards. Covers docs, workplace messages, essays, reports and interface copy. Installs via npx skills add plannotator/write-better or as a Claude Code or Codex plugin. MIT licensed, around 20 stars.",
+      },
+      {
         title: "SkillsMP",
         href: "https://skillsmp.com/",
         dateAdded: "2026-07-21",
