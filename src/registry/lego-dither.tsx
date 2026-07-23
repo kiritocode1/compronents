@@ -39,7 +39,7 @@ const FRAGMENT_SHADER = /* glsl */ `
   uniform float uDistortion;
   varying vec2 vUv;
 
-  float luminance(vec3 color) {
+  float sampleLuma(vec3 color) {
     return dot(color, vec3(0.2126, 0.7152, 0.0722));
   }
 
@@ -47,18 +47,18 @@ const FRAGMENT_SHADER = /* glsl */ `
     vec2 cell = floor(gl_FragCoord.xy / uCellSize);
     vec2 cellUv = (cell * uCellSize + uCellSize * 0.5) / uResolution;
     vec2 texel = 1.0 / uResolution;
-    float trail = texture2D(uTrail, cellUv).r;
+    float trail = texture2D(uTrail, cellUv).a;
     vec2 trailGradient = vec2(
-      texture2D(uTrail, cellUv + vec2(texel.x * 4.0, 0.0)).r -
-        texture2D(uTrail, cellUv - vec2(texel.x * 4.0, 0.0)).r,
-      texture2D(uTrail, cellUv + vec2(0.0, texel.y * 4.0)).r -
-        texture2D(uTrail, cellUv - vec2(0.0, texel.y * 4.0)).r
+      texture2D(uTrail, cellUv + vec2(texel.x * 4.0, 0.0)).a -
+        texture2D(uTrail, cellUv - vec2(texel.x * 4.0, 0.0)).a,
+      texture2D(uTrail, cellUv + vec2(0.0, texel.y * 4.0)).a -
+        texture2D(uTrail, cellUv - vec2(0.0, texel.y * 4.0)).a
     );
     vec3 source = texture2D(
       uScene,
       clamp(cellUv + trailGradient * uDistortion, 0.0, 1.0)
     ).rgb;
-    float level = max(luminance(source), trail);
+    float level = max(sampleLuma(source), trail);
     float glyph = min(5.0, floor(level * 6.0));
     vec2 local = fract(gl_FragCoord.xy / uCellSize);
     vec2 spriteUv = vec2((glyph + local.x) / 6.0, local.y);
@@ -94,9 +94,9 @@ export default function LegoDither({
   cellSize = 7,
   modelScale = 1,
   spinSpeed = 0.26,
-  pointerRotation = 0.32,
-  trailSize = 0.065,
-  trailDecay = 0.018,
+  pointerRotation = 0.15,
+  trailSize = 0.041,
+  trailDecay = 0.036,
   distortion = 0.055,
   className,
 }: LegoDitherProps) {
@@ -114,10 +114,15 @@ export default function LegoDither({
     let model: THREE.Object3D | null = null;
     let pointerDown = false;
     let hasPointer = false;
+    let trailDirty = false;
     let previousTrailPoint: THREE.Vector2 | null = null;
     const pointer = new THREE.Vector2(0.5, 0.5);
     const easedPointer = new THREE.Vector2(0.5, 0.5);
     const pointerCenter = new THREE.Vector2(0.5, 0.5);
+    const baseRotation = new THREE.Euler();
+    const spinRotation = new THREE.Euler();
+    const baseQuaternion = new THREE.Quaternion();
+    const spinQuaternion = new THREE.Quaternion();
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -231,10 +236,12 @@ export default function LegoDither({
       );
       hasPointer = true;
       pointerDown = event.buttons > 0;
+      trailDirty = true;
     };
     const leavePointer = () => {
       hasPointer = false;
       pointerDown = false;
+      trailDirty = false;
       previousTrailPoint = null;
     };
     root.addEventListener("pointermove", updatePointer);
@@ -273,10 +280,13 @@ export default function LegoDither({
       () => setIsReady(false),
     );
 
-    const clock = new THREE.Clock();
+    const startedAt = performance.now();
+    let previousTime = startedAt;
     const render = () => {
-      const delta = Math.min(clock.getDelta(), 0.05);
-      const time = clock.elapsedTime;
+      const now = performance.now();
+      const delta = Math.min((now - previousTime) / 1000, 0.05);
+      const time = (now - startedAt) / 1000;
+      previousTime = now;
       easedPointer.lerp(hasPointer ? pointer : pointerCenter, 0.06);
 
       if (trailContext) {
@@ -285,7 +295,7 @@ export default function LegoDither({
         trailContext.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
         trailContext.globalCompositeOperation = "source-over";
 
-        if (hasPointer) {
+        if (hasPointer && trailDirty) {
           const point = new THREE.Vector2(
             pointer.x * trailCanvas.width,
             pointer.y * trailCanvas.height,
@@ -295,20 +305,30 @@ export default function LegoDither({
           trailContext.lineCap = "round";
           trailContext.lineJoin = "round";
           trailContext.lineWidth =
-            trailSize * trailCanvas.height * (pointerDown ? 1.35 : 1);
+            trailSize * trailCanvas.height * 2 * (pointerDown ? 1.35 : 1);
           trailContext.beginPath();
           trailContext.moveTo(last.x, last.y);
           trailContext.lineTo(point.x, point.y);
           trailContext.stroke();
           previousTrailPoint = point;
+          trailDirty = false;
         }
         trailTexture.needsUpdate = true;
       }
 
       if (model) {
-        if (!reducedMotion) model.rotation.y = time * spinSpeed;
-        model.rotation.x = (easedPointer.y - 0.5) * pointerRotation;
-        model.rotation.z = -(easedPointer.x - 0.5) * pointerRotation;
+        const pointerX = easedPointer.x - 0.5;
+        const pointerY = easedPointer.y - 0.5;
+        baseRotation.set(
+          Math.PI + pointerY * pointerRotation * Math.PI * 2,
+          pointerX * pointerRotation * Math.PI * 2,
+          -Math.PI,
+        );
+        spinRotation.set(0, reducedMotion ? 0 : time * spinSpeed, 0);
+        baseQuaternion.setFromEuler(baseRotation);
+        spinQuaternion.setFromEuler(spinRotation);
+        model.quaternion.copy(baseQuaternion.multiply(spinQuaternion));
+        keyLight.position.set(3 + pointerX * 0.9, 5 + pointerY * 0.9, 6);
       }
 
       renderer.setRenderTarget(target);

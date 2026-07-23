@@ -10,9 +10,9 @@ const DEFAULTS = {
   cellSize: 7,
   modelScale: 1,
   spinSpeed: 0.26,
-  pointerRotation: 0.32,
-  trailSize: 0.065,
-  trailDecay: 0.018,
+  pointerRotation: 0.15,
+  trailSize: 0.041,
+  trailDecay: 0.036,
   distortion: 0.055,
 };
 
@@ -97,7 +97,7 @@ export default function LegoDitherStudio() {
               value={settings.pointerRotation}
               onChange={(value) => update("pointerRotation", value)}
               min={0}
-              max={0.8}
+              max={0.3}
               step={0.01}
               formatValue={(value) => value.toFixed(2)}
             />
@@ -110,7 +110,7 @@ export default function LegoDitherStudio() {
               value={settings.trailSize}
               onChange={(value) => update("trailSize", value)}
               min={0.02}
-              max={0.15}
+              max={0.08}
               step={0.005}
               formatValue={(value) => value.toFixed(3)}
             />
@@ -119,8 +119,8 @@ export default function LegoDitherStudio() {
               label="Trail fade"
               value={settings.trailDecay}
               onChange={(value) => update("trailDecay", value)}
-              min={0.004}
-              max={0.05}
+              min={0.01}
+              max={0.08}
               step={0.002}
               formatValue={(value) => value.toFixed(3)}
             />

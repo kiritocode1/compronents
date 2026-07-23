@@ -7421,13 +7421,13 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "spinSpeed / pointerRotation",
         type: "number / number",
-        default: "0.26 / 0.32",
+        default: "0.26 / 0.15",
         description: "Automatic Y rotation and pointer-driven X/Z rotation.",
       },
       {
         name: "trailSize / trailDecay / distortion",
         type: "number / number / number",
-        default: "0.065 / 0.018 / 0.055",
+        default: "0.041 / 0.036 / 0.055",
         description: "Pointer stroke width, fade rate, and sample warp.",
       },
       {
