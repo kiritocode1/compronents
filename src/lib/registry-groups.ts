@@ -160,7 +160,6 @@ export const pageGroups: RegistryGroup[] = [
       "interior-studio-page",
       "isochrome-page",
       "damien-tsarantos-page",
-      "juan-mora-page",
       "dither-studio-page",
     ],
   },

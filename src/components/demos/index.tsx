@@ -63,7 +63,6 @@ import InteriorStudioPageDemo from "./interior-studio-page";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
 import IsochromePageDemo from "./isochrome-page";
-import JuanMoraPageDemo from "./juan-mora-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
 import LemonBureauPageDemo from "./lemon-bureau-page";
@@ -249,7 +248,6 @@ export const demos: Record<string, ComponentType> = {
   "march-2025-template": March2025TemplateDemo,
   "brutalist-portfolio-page": BrutalistPortfolioPageDemo,
   "isochrome-page": IsochromePageDemo,
-  "juan-mora-page": JuanMoraPageDemo,
   "dither-studio-page": DitherStudioPageDemo,
   "liquid-stat-grid": LiquidStatGridDemo,
   "null-studio-page": NullStudioPageDemo,

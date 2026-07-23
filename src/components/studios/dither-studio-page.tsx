@@ -15,8 +15,7 @@ const PRESETS = [
 type PresetId = (typeof PRESETS)[number]["id"];
 
 /** A small public-domain loop, so the studio can show the hero with real footage. */
-const SAMPLE_VIDEO =
-  "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/juan-mora-page/videos-work/desk_jm3.mp4";
+const SAMPLE_VIDEO = "/assets/film-studio-page/hero/hero-footage.mp4";
 
 export default function DitherStudioPageStudio() {
   const [preset, setPreset] = useState<PresetId>("plate");

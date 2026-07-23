@@ -2361,31 +2361,6 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
-    name: "juan-mora-page",
-    title: "Juan Mora Page",
-    description:
-      "A source-backed design-director portfolio home page ported from a Webflow build. The full Webflow stylesheet ships verbatim (scoped to the component root), while everything Webflow's own IX2/IX3 runtime used to drive is rebuilt on gsap: the intro loader, the hero parallax, the scrubbed shape drift behind the headline, per-word colour scrubs on the service copy, the two-step benefits sequence, the folder and email hover timelines, and Lottie playback. No jQuery or webflow.js ships with the page, and imagery, Lottie JSON, Goga fonts, and the work reels are Blob-hosted.",
-    section: "pages",
-    category: "Animations",
-    pro: true,
-    date: "2026-07-21",
-    type: "registry:ui",
-    dependencies: ["gsap", "@gsap/react", "lottie-web"],
-    registryDependencies: [],
-    files: [
-      {
-        path: "src/registry/juan-mora-page/index.tsx",
-        target: "components/ui/juan-mora-page/index.tsx",
-        type: "registry:ui",
-      },
-      {
-        path: "src/registry/juan-mora-page/styles.ts",
-        target: "components/ui/juan-mora-page/styles.ts",
-        type: "registry:lib",
-      },
-    ],
-  },
-  {
     name: "dither-studio-page",
     title: "Dither Studio Page",
     description:

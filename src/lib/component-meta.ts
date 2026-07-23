@@ -400,7 +400,6 @@ const brutalistPortfolioPageAssetDocs = pageAssets(
 );
 const nullStudioPageAssetDocs = pageAssets("null-studio-page-", 5);
 const isochromePageAssetDocs = pageAssets("isochrome-page-", 5);
-const juanMoraPageAssetDocs = pageAssets("juan-mora-page-", 5);
 const landingImageRevealAssetDocs = pageAssets("landing-image-reveal-", 5);
 const spotlightGalleryScrollAssetDocs = pageAssets(
   "spotlight-gallery-scroll-",
@@ -1227,57 +1226,6 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: '"/" | "/about" | "/work" | "/project" | "/contact"',
         default: '"/"',
         description: "Source route mounted first.",
-      },
-      {
-        name: "className / style",
-        type: "string / CSSProperties",
-        default: "undefined",
-        description: "Passed to the root wrapper for sizing and layout.",
-      },
-    ],
-  },
-  "juan-mora-page": {
-    demoPath: "src/components/demos/juan-mora-page.tsx",
-    studioPath: "src/components/studios/juan-mora-page.tsx",
-    nuance: [
-      {
-        label: "Webflow runtime replaced by gsap",
-        description:
-          "The source page was driven by Webflow's IX2/IX3 engine on top of jQuery. Every interaction is reimplemented on gsap ScrollTrigger and SplitText, so the port ships gsap and lottie-web instead of a 650KB Webflow bundle.",
-      },
-      {
-        label: "Stylesheet carried over verbatim",
-        description:
-          "normalize, webflow.css, and the site stylesheet ship rule-for-rule with only selectors scoped under the component root, so layout, typography, and colour match the source pixel for pixel.",
-      },
-      {
-        label: "Scroll sequences on the preview scroller",
-        description:
-          "ScrollTrigger binds to the preview's own scroll container rather than the window, and every query is scoped to the component root, so the page animates correctly inside a framed preview and two mounted copies never drive each other.",
-      },
-      {
-        label: "Blob source media",
-        description:
-          "Every image and responsive derivative, the three Lottie animations, the Goga font family, and the work reels resolve through the stable asset base.",
-      },
-    ],
-    editable: [
-      {
-        name: "assetBase",
-        control: "asset-url",
-        description: `Blob-hosted media starting at ${getHostedAssetUrl(
-          "juan-mora-page/images/home-about-jm-1.jpg",
-        )}.`,
-      },
-    ],
-    assets: juanMoraPageAssetDocs,
-    api: [
-      {
-        name: "assetBase",
-        type: "string",
-        default: '"https://ui.aryank.space/assets/juan-mora-page"',
-        description:
-          "Base URL prefixed to every image, Lottie JSON, font, and video the page renders.",
       },
       {
         name: "className / style",
