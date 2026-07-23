@@ -243,7 +243,7 @@ export const vizSounds = {
       12 +
       (PENT_SEMITONES[noteIndex % PENT_SEMITONES.length] ?? 0);
     noteIndex = (noteIndex + 1) % PENT_SEMITONES.length;
-    synthBass({ detune: cents(semis), volume: 0.45 });
+    synthBass({ detune: cents(semis), volume: 0.22 });
   },
 
   /** two rapid ascending beeps (C5 then E5) */
@@ -261,9 +261,9 @@ export const vizSounds = {
   playDeath() {
     if (!enabled || Date.now() < deathUntil) return;
     deathUntil = Date.now() + 600;
-    synthDeath({ detune: cents(SEMIS.DS3), volume: 0.22 });
+    synthDeath({ detune: cents(SEMIS.DS3), volume: 0.11 });
     setTimeout(
-      () => synthDeath({ detune: cents(SEMIS.C1), volume: 0.26 }),
+      () => synthDeath({ detune: cents(SEMIS.C1), volume: 0.13 }),
       100,
     );
   },
