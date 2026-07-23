@@ -18,6 +18,7 @@ const DEFAULT_MODEL =
   "https://ui.aryank.space/assets/lego-dither/marble-hand-2.glb";
 const DEFAULT_SPRITE =
   "https://ui.aryank.space/assets/lego-dither/lego-sprite.png";
+const TRAIL_LEVELS = [0.96, 0.76, 0.58, 0.41, 0.24] as const;
 
 const VERTEX_SHADER = /* glsl */ `
   varying vec2 vUv;
@@ -34,6 +35,7 @@ const FRAGMENT_SHADER = /* glsl */ `
   uniform sampler2D uScene;
   uniform sampler2D uSprite;
   uniform sampler2D uTrail;
+  uniform sampler2D uScatter;
   uniform vec2 uResolution;
   uniform float uCellSize;
   uniform float uDistortion;
@@ -43,21 +45,25 @@ const FRAGMENT_SHADER = /* glsl */ `
     return dot(color, vec3(0.2126, 0.7152, 0.0722));
   }
 
+  vec2 cellNoise(vec2 cell) {
+    return fract(sin(vec2(
+      dot(cell, vec2(127.1, 311.7)),
+      dot(cell, vec2(269.5, 183.3))
+    )) * 43758.5453);
+  }
+
   void main() {
     vec2 cell = floor(gl_FragCoord.xy / uCellSize);
     vec2 cellUv = (cell * uCellSize + uCellSize * 0.5) / uResolution;
-    vec2 texel = 1.0 / uResolution;
-    float trail = texture2D(uTrail, cellUv).a;
-    vec2 trailGradient = vec2(
-      texture2D(uTrail, cellUv + vec2(texel.x * 4.0, 0.0)).a -
-        texture2D(uTrail, cellUv - vec2(texel.x * 4.0, 0.0)).a,
-      texture2D(uTrail, cellUv + vec2(0.0, texel.y * 4.0)).a -
-        texture2D(uTrail, cellUv - vec2(0.0, texel.y * 4.0)).a
-    );
-    vec3 source = texture2D(
-      uScene,
-      clamp(cellUv + trailGradient * uDistortion, 0.0, 1.0)
-    ).rgb;
+    float trail = texture2D(uTrail, cellUv).r;
+    vec4 scatterField = texture2D(uScatter, cellUv);
+    float scatter = scatterField.a;
+    vec2 direction = scatterField.rg * 2.0 - 1.0;
+    direction /= max(length(direction), 0.001);
+    vec2 offset =
+      (cellNoise(cell) - 0.5) * uDistortion * scatter -
+      direction * uDistortion * scatter * 0.65;
+    vec3 source = texture2D(uScene, clamp(cellUv + offset, 0.0, 1.0)).rgb;
     float level = max(sampleLuma(source), trail);
     float glyph = min(5.0, floor(level * 6.0));
     vec2 local = fract(gl_FragCoord.xy / uCellSize);
@@ -80,6 +86,13 @@ export interface LegoDitherProps {
   className?: string;
 }
 
+interface TrailSegment {
+  from: THREE.Vector2;
+  to: THREE.Vector2;
+  createdAt: number;
+  width: number;
+}
+
 function fitModel(model: THREE.Object3D, scale: number) {
   const box = new THREE.Box3().setFromObject(model);
   const center = box.getCenter(new THREE.Vector3());
@@ -92,12 +105,12 @@ export default function LegoDither({
   modelUrl = DEFAULT_MODEL,
   spriteUrl = DEFAULT_SPRITE,
   cellSize = 7,
-  modelScale = 1,
+  modelScale = 1.15,
   spinSpeed = 0.26,
   pointerRotation = 0.15,
   trailSize = 0.041,
-  trailDecay = 0.036,
-  distortion = 0.055,
+  trailDecay = 0.08,
+  distortion = 0.18,
   className,
 }: LegoDitherProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -116,6 +129,7 @@ export default function LegoDither({
     let hasPointer = false;
     let trailDirty = false;
     let previousTrailPoint: THREE.Vector2 | null = null;
+    const trailSegments: TrailSegment[] = [];
     const pointer = new THREE.Vector2(0.5, 0.5);
     const easedPointer = new THREE.Vector2(0.5, 0.5);
     const pointerCenter = new THREE.Vector2(0.5, 0.5);
@@ -163,6 +177,13 @@ export default function LegoDither({
     const trailTexture = new THREE.CanvasTexture(trailCanvas);
     trailTexture.minFilter = THREE.LinearFilter;
     trailTexture.magFilter = THREE.LinearFilter;
+    const scatterCanvas = document.createElement("canvas");
+    scatterCanvas.width = trailCanvas.width;
+    scatterCanvas.height = trailCanvas.height;
+    const scatterContext = scatterCanvas.getContext("2d");
+    const scatterTexture = new THREE.CanvasTexture(scatterCanvas);
+    scatterTexture.minFilter = THREE.LinearFilter;
+    scatterTexture.magFilter = THREE.LinearFilter;
 
     const spriteTexture = new THREE.TextureLoader().load(
       spriteUrl,
@@ -178,6 +199,7 @@ export default function LegoDither({
       uScene: { value: target.texture },
       uSprite: { value: spriteTexture },
       uTrail: { value: trailTexture },
+      uScatter: { value: scatterTexture },
       uResolution: { value: new THREE.Vector2(1, 1) },
       uCellSize: { value: cellSize },
       uDistortion: { value: distortion },
@@ -290,10 +312,20 @@ export default function LegoDither({
       easedPointer.lerp(hasPointer ? pointer : pointerCenter, 0.19);
 
       if (trailContext) {
-        trailContext.globalCompositeOperation = "destination-out";
-        trailContext.fillStyle = `rgba(0,0,0,${Math.min(1, trailDecay * delta * 60)})`;
-        trailContext.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
-        trailContext.globalCompositeOperation = "source-over";
+        if (scatterContext) {
+          scatterContext.globalCompositeOperation = "destination-out";
+          scatterContext.fillStyle = `rgba(0,0,0,${Math.min(
+            1,
+            0.027 * delta * 60,
+          )})`;
+          scatterContext.fillRect(
+            0,
+            0,
+            scatterCanvas.width,
+            scatterCanvas.height,
+          );
+          scatterContext.globalCompositeOperation = "source-over";
+        }
 
         if (hasPointer && trailDirty) {
           const point = new THREE.Vector2(
@@ -301,19 +333,64 @@ export default function LegoDither({
             (1 - pointer.y) * trailCanvas.height,
           );
           const last = previousTrailPoint ?? point;
-          trailContext.strokeStyle = "#ffffff";
-          trailContext.lineCap = "round";
-          trailContext.lineJoin = "round";
-          trailContext.lineWidth =
-            trailSize * trailCanvas.height * 2 * (pointerDown ? 1.35 : 1);
-          trailContext.beginPath();
-          trailContext.moveTo(last.x, last.y);
-          trailContext.lineTo(point.x, point.y);
-          trailContext.stroke();
+          if (point.distanceToSquared(last) > 0.01) {
+            trailSegments.push({
+              from: last.clone(),
+              to: point.clone(),
+              createdAt: now,
+              width: trailSize * trailCanvas.height * (pointerDown ? 1.35 : 1),
+            });
+          }
+          if (scatterContext) {
+            const movement = point.clone().sub(last);
+            if (movement.lengthSq() > 0.01) {
+              movement.normalize();
+              const red = Math.round((movement.x * 0.5 + 0.5) * 255);
+              const green = Math.round((-movement.y * 0.5 + 0.5) * 255);
+              scatterContext.save();
+              scatterContext.filter = "blur(12px)";
+              scatterContext.strokeStyle = `rgb(${red} ${green} 0)`;
+              scatterContext.lineWidth = scatterCanvas.height * 0.52;
+              scatterContext.lineCap = "round";
+              scatterContext.beginPath();
+              scatterContext.moveTo(last.x, last.y);
+              scatterContext.lineTo(point.x, point.y);
+              scatterContext.stroke();
+              scatterContext.restore();
+            }
+          }
           previousTrailPoint = point;
           trailDirty = false;
         }
+
+        const colorDelay = Math.max(16, trailDecay * 1000);
+        const trailLifetime = colorDelay * TRAIL_LEVELS.length;
+        while (
+          trailSegments[0] &&
+          now - trailSegments[0].createdAt >= trailLifetime
+        ) {
+          trailSegments.shift();
+        }
+        trailContext.globalCompositeOperation = "copy";
+        trailContext.fillStyle = "#000000";
+        trailContext.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
+        trailContext.globalCompositeOperation = "source-over";
+        for (const segment of trailSegments) {
+          const phase = Math.min(
+            TRAIL_LEVELS.length - 1,
+            Math.floor((now - segment.createdAt) / colorDelay),
+          );
+          const channel = Math.round(TRAIL_LEVELS[phase] * 255);
+          trailContext.strokeStyle = `rgb(${channel} ${channel} ${channel})`;
+          trailContext.lineCap = "square";
+          trailContext.lineWidth = segment.width;
+          trailContext.beginPath();
+          trailContext.moveTo(segment.from.x, segment.from.y);
+          trailContext.lineTo(segment.to.x, segment.to.y);
+          trailContext.stroke();
+        }
         trailTexture.needsUpdate = true;
+        scatterTexture.needsUpdate = true;
       }
 
       if (model) {
@@ -357,6 +434,7 @@ export default function LegoDither({
       });
       spriteTexture.dispose();
       trailTexture.dispose();
+      scatterTexture.dispose();
       target.dispose();
       postQuad.geometry.dispose();
       postMaterial.dispose();

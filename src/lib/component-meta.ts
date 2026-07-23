@@ -7401,7 +7401,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "pointerRotation / trailSize / trailDecay / distortion",
         control: "text",
         description:
-          "Pointer tilt and the width, lifetime, and warping strength of its dither trail.",
+          "Pointer tilt, stacked-color trail timing, and the hand scatter strength.",
       },
     ],
     assets: assetsByIds(["lego-dither-hand", "lego-dither-sprite"]),
@@ -7415,7 +7415,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "cellSize / modelScale",
         type: "number / number",
-        default: "7 / 1",
+        default: "7 / 1.15",
         description: "Stud size in CSS pixels and normalized hand scale.",
       },
       {
@@ -7427,8 +7427,9 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "trailSize / trailDecay / distortion",
         type: "number / number / number",
-        default: "0.041 / 0.036 / 0.055",
-        description: "Pointer stroke width, fade rate, and sample warp.",
+        default: "0.041 / 0.08 / 0.18",
+        description:
+          "Pointer stroke width, color-step delay, and hand scatter.",
       },
       {
         name: "className",

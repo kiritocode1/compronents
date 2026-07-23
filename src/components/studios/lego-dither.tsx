@@ -8,12 +8,12 @@ import LegoDither from "@/registry/lego-dither";
 
 const DEFAULTS = {
   cellSize: 7,
-  modelScale: 1,
+  modelScale: 1.15,
   spinSpeed: 0.26,
   pointerRotation: 0.15,
   trailSize: 0.041,
-  trailDecay: 0.036,
-  distortion: 0.055,
+  trailDecay: 0.08,
+  distortion: 0.18,
 };
 
 export default function LegoDitherStudio() {
@@ -116,21 +116,21 @@ export default function LegoDitherStudio() {
             />
             <SliderComfortable
               variant="scrubber"
-              label="Trail fade"
+              label="Colour gap"
               value={settings.trailDecay}
               onChange={(value) => update("trailDecay", value)}
-              min={0.01}
-              max={0.08}
-              step={0.002}
-              formatValue={(value) => value.toFixed(3)}
+              min={0.04}
+              max={0.14}
+              step={0.01}
+              formatValue={(value) => `${Math.round(value * 1000)}ms`}
             />
             <SliderComfortable
               variant="scrubber"
-              label="Trail warp"
+              label="Scatter strength"
               value={settings.distortion}
               onChange={(value) => update("distortion", value)}
               min={0}
-              max={0.14}
+              max={0.32}
               step={0.005}
               formatValue={(value) => value.toFixed(3)}
             />
