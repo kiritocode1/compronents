@@ -1784,6 +1784,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "DSGNS",
+        href: "https://dsgns.xyz/",
+        dateAdded: "2026-07-23",
+        description:
+          "Visual gallery of design work pulled from X, for browsing what people are posting and jumping straight to the source thread. Curated by Maze Heart (remvze), every item links back to the original X post, so it doubles as a way to find the designers behind the work (featured handles include haris_chc, oliverhamrin, evilrabbit_, and dogukanui). Images are self-hosted on media.dsgns.xyz. Free.",
+      },
+      {
         title: "Headinger",
         href: "https://headinger.com/",
         dateAdded: "2026-07-20",
