@@ -3512,6 +3512,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Dissolve",
+        href: "https://www.anirudh.info/dissolve",
+        dateAdded: "2026-07-23",
+        description:
+          "Single-page interactive study of a dissolve effect built with SVG filters, useful as a reference for recreating disintegration and fade-to-grain transitions in the browser without reaching for WebGL. Built by Anirudh Pareek (@AnirudhP), a product designer for crypto and internet-native startups, as one of his coding experiments. The page is the live demo itself rather than a write-up, so read the source for the SVG filter setup.",
+      },
+      {
         title: "No Code-Shader",
         href: "https://the-nocodeshader.hardikbhansali.com/library",
         dateAdded: "2026-07-20",
