@@ -1325,6 +1325,39 @@ const houseOfEpochsPageAssets = houseOfEpochsPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const contentArchitecturePageAssetPaths = [
+  "anuc-home.jpg",
+  "aspen-search.jpg",
+  "blink.jpg",
+  "content-architecture.png",
+  "creative-lives.jpg",
+  "edoardo-avatar.jpg",
+  "edoardo-lunardi.jpg",
+  "geist-mono.woff2",
+  "geist-sans.woff2",
+  "good-fella-avatar.jpg",
+  "good-fella.jpg",
+  "house-of-honey-avatar.png",
+  "house-of-honey.jpg",
+  "muralia.jpg",
+  "serve-robotics.jpg",
+  "wasl.jpg",
+] as const;
+
+const contentArchitecturePageAssets = contentArchitecturePageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `content-architecture-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Content Architecture Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `content-architecture-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/content-architecture-page/${rel}`,
+      role: "Source showcase image, testimonial portrait, or Geist font captured from contentarchitecture.dev.",
+      notes:
+        "Uploaded to Vercel Blob at a stable pathname from the 2026-07-23 source capture.",
+    }) as const satisfies AssetItem,
+);
+
 const politeChaosPageAssetPaths = [
   ...Array.from(
     { length: 6 },
@@ -1726,6 +1759,7 @@ const halftoneSceneFooterAssets = [
 
 export const assetItems = [
   ...halftoneSceneFooterAssets,
+  ...contentArchitecturePageAssets,
   ...Array.from({ length: 6 }, (_, i) => {
     const n = i + 1;
     return {

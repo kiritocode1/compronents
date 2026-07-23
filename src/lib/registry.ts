@@ -226,6 +226,31 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "content-architecture-page",
+    title: "Content Architecture Page",
+    description:
+      "A source-captured React port of contentarchitecture.dev: split editorial hero with concentric type, fixed dither navigation and minimap, quantified problem table, nine-part agent-ready feature field, interactive repository explorer and terminal, Blob-backed ASCII showcase, testimonial carousel, one-time pricing card, full FAQ, source banner, newsletter footer, responsive menu, and learn-more drawer. Captured from the complete production HTML, CSS, JavaScript, RSC, font, and media request set on July 23, 2026.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-23",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/content-architecture-page/index.tsx",
+        target: "components/ui/content-architecture-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/content-architecture-page/styles.ts",
+        target: "components/ui/content-architecture-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "fanned-card-deck",
     title: "Fanned Card Deck",
     description:

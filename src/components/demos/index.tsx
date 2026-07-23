@@ -20,6 +20,7 @@ import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
 import ClientHoverPreviewDemo from "./client-hover-preview";
+import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
 import CorridorScene3DDemo from "./corridor-scene-3d";
@@ -136,6 +137,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  */
 export const demos: Record<string, ComponentType> = {
   "blnk-agency-page": BlnkAgencyPageDemo,
+  "content-architecture-page": ContentArchitecturePageDemo,
   "chrome-folio-page": ChromeFolioPageDemo,
   "fanned-card-deck": FannedCardDeckDemo,
   "wordmark-spotlight-scroll": WordmarkSpotlightScrollDemo,

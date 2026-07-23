@@ -387,6 +387,10 @@ const damienTsarantosPageAssetDocs = pageAssets("damien-tsarantos-page-", 5);
 const wuWeiPageAssetDocs = pageAssets("wu-wei-page-", 5);
 const otisValenPageAssetDocs = pageAssets("otis-valen-page-", 5);
 const houseOfEpochsPageAssetDocs = pageAssets("house-of-epochs-page-", 5);
+const contentArchitecturePageAssetDocs = pageAssets(
+  "content-architecture-page-",
+  6,
+);
 const politeChaosPageAssetDocs = pageAssets("polite-chaos-page-", 5);
 const orbitMatterPageAssetDocs = pageAssets("orbit-matter-page-", 5);
 const lemonBureauPageAssetDocs = pageAssets("lemon-bureau-page-", 5);
@@ -507,6 +511,50 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "boolean",
         default: "false",
         description: "Skip the black progress intro (studio uses true).",
+      },
+    ],
+  },
+  "content-architecture-page": {
+    demoPath: "src/components/demos/content-architecture-page.tsx",
+    assets: contentArchitecturePageAssetDocs,
+    nuance: [
+      {
+        label: "Complete production capture",
+        description:
+          "The reference set includes the rendered HTML, minified CSS, 33 JavaScript chunks, 21 RSC payloads, both fonts, every requested responsive image, desktop and mobile geometry, and interaction snapshots from July 23, 2026.",
+      },
+      {
+        label: "ASCII generated from source images",
+        description:
+          "The eleven showcase frames sample the exact Blob-backed source captures into deterministic luminance glyphs at the rendered card width.",
+      },
+      {
+        label: "Contained page interactions",
+        description:
+          "Navigation targets the page's own scroll parent. The mobile menu, active minimap, repository explorer, terminal, carousel, FAQ, newsletter, and learn-more drawer remain functional inside a registry preview.",
+      },
+    ],
+    editable: [
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description:
+          "Stable base URL containing the source showcase images, portraits, and Geist font files.",
+      },
+    ],
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/content-architecture-page"',
+        description:
+          "Base path for all sixteen Blob-backed media and font assets.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the isolated full-page root.",
       },
     ],
   },
