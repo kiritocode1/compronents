@@ -2434,6 +2434,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "Mask Distortion",
+        href: "https://artifacts.deeo.studio/mask-distortion",
+        dateAdded: "2026-07-23",
+        description:
+          "An interactive experiment from DEEO Studio where a pointer-driven mask warps and distorts the layer beneath it, so the cursor smears and displaces the image rather than just hovering over it. It is one entry in DEEO's free Artifacts collection of playful motion and effect experiments (siblings include 3D Lego Dither and Emoji Glyph Dither), published April 2026 and built by Yianni Mathioudakis, the studio's co-founder and creative director. Good to study for the technique; the page is a live toy that loads the effect in the browser, not a documented export tool.",
+      },
+      {
         title: "3D Lego Dither",
         href: "https://artifacts.deeo.studio/3d-lego-dither",
         dateAdded: "2026-07-23",
