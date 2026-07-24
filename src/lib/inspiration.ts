@@ -7367,6 +7367,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Mockups, textures and patterns",
     links: [
       {
+        title: "ContentCore",
+        href: "https://contentcore.xyz/",
+        dateAdded: "2026-07-24",
+        description:
+          "Browser tool for building 3D device mockups, icons, and motion templates and exporting them as video, not just a static PNG. Where a normal mockup site hands you a flat image, ContentCore renders an animated scene you export as MP4 or WEBM for social, blog, or campaign use. Founded in 2024 out of Amsterdam, it runs on a subscription model with commercial export rights and picked up an Awwwards Honorable Mention.",
+      },
+      {
         title: "Free Newspaper Mockup (Brand New Mockup)",
         href: "https://brandnewmockup.com/mockups/free-newspaper-mockup-2-editable-psd-bnm-np-001",
         dateAdded: "2026-07-21",
