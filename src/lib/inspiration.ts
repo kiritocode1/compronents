@@ -3346,6 +3346,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Penflow",
+        href: "https://penflow.cretu.dev/",
+        dateAdded: "2026-07-24",
+        description:
+          'React component that animates text as if a pen were writing it in real time, tracing each glyph\'s outline rather than fading or masking a static string. Built by Cristi Cretu (cristicretu on GitHub), it extracts glyph contours with Typr.js and layers font-aware brush profiles and streaming timing on top, so the stroke follows the actual letterforms of the font you pass. Usage is a single tag: `<Penflow text="hello world" fontUrl="/fonts/BrittanySignature.ttf" />` imported from `penflow/react`. MIT licensed, roughly 110 GitHub stars, shipped as a monorepo with the demo site.',
+      },
+      {
         title: "Annnimate",
         href: "https://annnimate.com/",
         dateAdded: "2026-07-21",
