@@ -117,6 +117,7 @@ import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
 import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
+import SurpriseBoxDemo from "./surprise-box";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
@@ -199,6 +200,7 @@ export const demos: Record<string, ComponentType> = {
   "folding-panel-menu": FoldingPanelMenuDemo,
   "drone-fleet": DroneFleetDemo,
   "starry-night-flow": StarryNightFlowDemo,
+  "surprise-box": SurpriseBoxDemo,
   "sticky-stack-cards": StickyStackCardsDemo,
   "sticky-flip-cards": StickyFlipCardsDemo,
   "smudge-cursor-reveal": SmudgeCursorRevealDemo,

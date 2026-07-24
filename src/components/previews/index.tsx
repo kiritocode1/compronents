@@ -35,6 +35,7 @@ import ProceduralComputerPagePreview from "./procedural-computer-page";
 import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
 import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
 import SpiralGalleryPreview from "./spiral-gallery";
+import SurpriseBoxPreview from "./surprise-box";
 
 /**
  * Optional full-viewport preview for a registry item, shown at
@@ -72,6 +73,7 @@ export const previews: Record<string, ComponentType> = {
   "flow-field-text": FlowFieldTextPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,
+  "surprise-box": SurpriseBoxPreview,
   "archive-commerce-page": ArchiveCommercePagePreview,
   "interior-studio-page": InteriorStudioPagePreview,
   "dining-room-page": DiningRoomPagePreview,

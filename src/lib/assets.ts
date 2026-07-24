@@ -2694,6 +2694,41 @@ export const assetItems = [
     role: "Six Lego stud glyphs selected from the rendered hand luminance.",
     notes: "Served from Vercel Blob at the stable registry pathname.",
   } as const satisfies AssetItem,
+  ...(
+    [
+      [
+        "poke",
+        "poke.mp3",
+        "Poke thud, pitched up a step on every repeat click.",
+      ],
+      [
+        "land",
+        "box_land.mp3",
+        "Cardboard landing hit fired as the hop settles back down.",
+      ],
+      [
+        "explode",
+        "box_explode.mp3",
+        "Burst that fires with the lid opening and the confetti wave.",
+      ],
+      [
+        "close",
+        "box_close.mp3",
+        "Flaps folding shut when the box resets after a burst.",
+      ],
+    ] as const
+  ).map(
+    ([id, filename, role]) =>
+      ({
+        id: `surprise-box-${id}`,
+        label: `Surprise Box ${id} sound`,
+        provider: "vercel-blob",
+        pathname: `surprise-box/${filename}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/surprise-box/${filename}`,
+        role,
+        notes: "Served from Vercel Blob at the stable registry pathname.",
+      }) as const satisfies AssetItem,
+  ),
   {
     id: "starry-night-flow-painting",
     label: "Starry Night Flow painting",

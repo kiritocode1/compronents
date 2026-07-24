@@ -8300,6 +8300,146 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "surprise-box": {
+    demoPath: "src/components/demos/surprise-box.tsx",
+    nuance: [
+      {
+        label: "The scene is drawn twice",
+        description:
+          "A second, pointer-transparent copy of just the front and right faces sits above the confetti layer. Cubes spawn behind it and are promoted in front only when their vertical velocity turns positive, so they read as leaving from inside the box on the way up and falling past it on the way down.",
+      },
+      {
+        label: "Pokes stack, then give",
+        description:
+          "Each click inside a 400ms combo window raises the poke count. Hop height, tilt, and flap rattle all scale with count over target, and the poke sample plays faster (with pitch correction off) so repeat clicks walk up a scale. Miss the window and the count resets to one.",
+      },
+      {
+        label: "Confetti runs on real gravity",
+        description:
+          "Cubes are six absolutely positioned faces in a preserve-3d wrapper, integrated at 1600px/s squared with a clamped timestep, tumbling on independent X and Y spin rates. The burst throws one immediate volley then eight more 85ms apart, and the loop stops itself once the last cube clears the floor.",
+      },
+      {
+        label: "The lid opens fast and closes slow",
+        description:
+          "Opening swaps the flap transition to an overshooting spring with no delay, so all four throw open together. Closing falls back to the base ease with the two long flaps delayed 280ms behind the short ones, so the box tucks its sides in first like real cardboard.",
+      },
+    ],
+    editable: [
+      {
+        name: "label / specCode / specNote / brand",
+        control: "text",
+        description: "Printed copy on the front and right faces.",
+      },
+      {
+        name: "pokesToOpen",
+        control: "text",
+        description: "Clicks inside the combo window before the box bursts.",
+      },
+      {
+        name: "colors",
+        control: "color",
+        description:
+          "Confetti palette. Each entry also produces a 0.7 shade for the cube side faces.",
+      },
+      {
+        name: "sound",
+        control: "text",
+        description: "Set false to run the box silently.",
+      },
+    ],
+    assets: [
+      {
+        id: "surprise-box-poke",
+        label: "Surprise Box poke sound",
+        provider: "vercel-blob",
+        pathname: "surprise-box/poke.mp3",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/surprise-box/poke.mp3",
+        role: "Poke thud, pitched up a step on every repeat click.",
+      },
+      {
+        id: "surprise-box-land",
+        label: "Surprise Box land sound",
+        provider: "vercel-blob",
+        pathname: "surprise-box/box_land.mp3",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/surprise-box/box_land.mp3",
+        role: "Cardboard landing hit fired as the hop settles back down.",
+      },
+      {
+        id: "surprise-box-explode",
+        label: "Surprise Box burst sound",
+        provider: "vercel-blob",
+        pathname: "surprise-box/box_explode.mp3",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/surprise-box/box_explode.mp3",
+        role: "Burst that fires with the lid opening and the confetti wave.",
+      },
+      {
+        id: "surprise-box-close",
+        label: "Surprise Box close sound",
+        provider: "vercel-blob",
+        pathname: "surprise-box/box_close.mp3",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/surprise-box/box_close.mp3",
+        role: "Flaps folding shut when the box resets after a burst.",
+      },
+    ],
+    api: [
+      {
+        name: "label",
+        type: "string",
+        default: '"aryank.space"',
+        description: "Wordmark printed along the bottom of the front face.",
+      },
+      {
+        name: "specCode / specNote",
+        type: "string",
+        default: '"BLK-STD-01" / "HANDLE WITH CARE"',
+        description: "Stencil lines printed at the top of the front face.",
+      },
+      {
+        name: "brand",
+        type: "string",
+        default: '"Powered by BLANK"',
+        description: "Credit line printed on the right face beside the mark.",
+      },
+      {
+        name: "pokesToOpen",
+        type: "number",
+        default: "5",
+        description:
+          "Pokes needed inside the 400ms combo window before the lid bursts open.",
+      },
+      {
+        name: "colors",
+        type: "string[]",
+        default: "15 hex colors",
+        description:
+          "Confetti palette; each color also yields a 0.7 shade used on alternating cube faces.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        default: "true",
+        description: "Whether poke, land, burst, and close cues play.",
+      },
+      {
+        name: "assetBase",
+        type: "string",
+        default: "hosted /assets/surprise-box",
+        description:
+          "Origin serving poke.mp3, box_land.mp3, box_explode.mp3, and box_close.mp3.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description:
+          "Applied to the root; the box fills whatever box you give it.",
+      },
+    ],
+  },
   "starry-night-flow": {
     demoPath: "src/components/demos/starry-night-flow.tsx",
     nuance: [

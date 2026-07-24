@@ -3216,6 +3216,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "surprise-box",
+    title: "Surprise Box",
+    description:
+      "A wireframe shipping box alone on black that begs to be clicked. Each poke hops the box, rattles its top flaps, and pitches the poke sound up a step; land five pokes inside the combo window and the lid bursts open, firing waves of tumbling 3D cubes on real gravity. A pointer-transparent stencil of the box front is painted over the rising confetti, so cubes read as leaving from inside the box and only jump in front once they start falling. Inspired by workbox.sh.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/surprise-box.tsx",
+        target: "components/ui/surprise-box.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:
