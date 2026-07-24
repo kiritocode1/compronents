@@ -759,7 +759,7 @@ const CSS = `
 .ewr-tags{display:flex;flex-direction:column;font-size:12px;line-height:1.5;color:var(--ewr-muted);}
 .ewr-outer{position:relative;}
 .ewr-sticky{position:sticky;top:0;}
-.ewr-band{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:8px;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 6%,#000 94%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 6%,#000 94%,transparent 100%);}
+.ewr-band{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:8px;overflow:hidden;}
 .ewr-band-native{height:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .ewr-band-native::-webkit-scrollbar{display:none;}
 .ewr-track{position:relative;z-index:1;display:flex;flex-direction:row;align-items:center;gap:8px;height:var(--bh);padding:0 8px;will-change:transform;}
