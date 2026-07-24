@@ -915,6 +915,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Lightswind UI",
+        href: "https://lightswind.com/",
+        dateAdded: "2026-07-24",
+        description:
+          "React component library of animated UI elements and ready-made blocks you install with a shadcn-style CLI (`npx lightswind@latest add [component]`) and own the source of. Built by Muhilan and team, with 151+ animated components, 100+ UI blocks, and 342+ app layout blocks, plus a Pro tier of 3D shader and WebGL elements. Built on React, Next.js, Tailwind CSS, TypeScript, and Framer Motion, with universal dark mode, design-token customization, and an MCP integration for AI assistants like Cursor. MIT licensed, currently at v3.1.30, with free and Pro tiers.",
+      },
+      {
         title: "Canvas UI",
         href: "https://canvasui.dev/",
         dateAdded: "2026-07-23",
