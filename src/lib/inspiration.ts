@@ -3547,6 +3547,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "InkField",
+        href: "https://ileivoivm.github.io/inkField/",
+        dateAdded: "2026-07-24",
+        description:
+          "Digital ink painting system built on WebGL and p5.js that records every brushstroke as JSON, its path, speed, and direction, then replays the gesture sequence as time-based generative art rather than a flat image. Made by ileivoivm; brush modes carry Chinese labels (飛, 壓, 麥, 鹽, 染, 毛) and stack with metallic fills, flow patterns, and post-processing passes like cellular noise, fBM, grain, and distortion. A public gallery lets people and AI agents load, fork, and repaint each other's recordings, with each fork pointing back to its source so the lineage forms a visible tree. Copyright stays with the painter, and the author plans to open-source it once active maintenance ends.",
+      },
+      {
         title: "Dissolve",
         href: "https://www.anirudh.info/dissolve",
         dateAdded: "2026-07-23",
