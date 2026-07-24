@@ -18,6 +18,7 @@ import DetroitParisSliderPreview from "./detroit-paris-slider";
 import DiningRoomPagePreview from "./dining-room-page";
 import FallingTagListPreview from "./falling-tag-list";
 import FilmStudioPagePreview from "./film-studio-page";
+import FlowFieldTextPreview from "./flow-field-text";
 import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
 import InteriorStudioPagePreview from "./interior-studio-page";
@@ -64,6 +65,7 @@ export const previews: Record<string, ComponentType> = {
   "curve-gallery": CurveGalleryPreview,
   "lego-dither": LegoDitherPreview,
   "falling-tag-list": FallingTagListPreview,
+  "flow-field-text": FlowFieldTextPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,
   "archive-commerce-page": ArchiveCommercePagePreview,

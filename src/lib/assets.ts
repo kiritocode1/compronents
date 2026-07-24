@@ -1887,6 +1887,17 @@ export const assetItems = [
   ...inkCoreLayoutAssets,
   ...scrollWaveGalleryAssets,
   {
+    id: "flow-field-text-mono",
+    label: "Flow Field Text mono (NEXT Mono Thin)",
+    provider: "vercel-blob",
+    pathname: "flow-field-text/next-mono-thin.woff",
+    fallbackPath:
+      "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/flow-field-text/next-mono-thin.woff",
+    role: "Thin monospace the noise field and header badges are set in; keeps glyphs aligned to the sampling grid.",
+    notes:
+      "Upload to Vercel Blob at the same pathname with public access. Served at /assets/flow-field-text/next-mono-thin.woff.",
+  },
+  {
     id: "preloader-reveal-logo",
     label: "Preloader Reveal backdrop mark",
     provider: "vercel-blob",

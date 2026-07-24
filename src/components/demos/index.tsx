@@ -48,6 +48,7 @@ import FallingTagListDemo from "./falling-tag-list";
 import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
+import FlowFieldTextDemo from "./flow-field-text";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
@@ -192,6 +193,7 @@ export const demos: Record<string, ComponentType> = {
   "video-card-stack": VideoCardStackDemo,
   "client-hover-preview": ClientHoverPreviewDemo,
   "filter-scrub-gallery": FilterScrubGalleryDemo,
+  "flow-field-text": FlowFieldTextDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
   "drone-fleet": DroneFleetDemo,
   "starry-night-flow": StarryNightFlowDemo,

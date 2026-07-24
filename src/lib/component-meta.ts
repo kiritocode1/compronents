@@ -2264,6 +2264,107 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "flow-field-text": {
+    demoPath: "src/components/demos/flow-field-text.tsx",
+    nuance: [
+      {
+        label: "Sampled, not drawn",
+        description:
+          "Each grid cell reads its glyph from a noise-displaced position in the source copy, so text smears and doubles instead of a font simply animating.",
+      },
+      {
+        label: "Scroll re-samples, it does not move",
+        description:
+          "The canvas is fixed; dragging or wheeling updates a scroll offset the field samples at, so text flows sideways while serif headers translate in lockstep above it.",
+      },
+      {
+        label: "Quadratic vertical mask",
+        description:
+          "Displacement is zero at the top and grows with the square of depth, so headings stay legible while lower lines fray into scattered fragments, matching the source.",
+      },
+      {
+        label: "Color follows the character",
+        description:
+          "The accent is decided by the sampled column's url, not the cell, so a hovered column's red bleeds across borders wherever the field borrowed a neighbor's letter.",
+      },
+    ],
+    editable: [
+      {
+        name: "items",
+        control: "textarea",
+        description:
+          "Editorial columns ({ text, title, subtitle, author, label, url }) tiled left to right. A bare string renders one column.",
+      },
+      {
+        name: "textColor / accentColor / background",
+        control: "color",
+        description:
+          "Base glyph color, hovered-column accent, and field background.",
+      },
+      {
+        name: "speed / magnitude",
+        control: "tuple",
+        description:
+          "Field drift multiplier and peak pixel displacement (source uses 1800).",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "items",
+        type: "FlowFieldItem[] | string[] | string",
+        default: "themed BLANK editorial copy",
+        description:
+          "Columns of copy ({ text, title?, subtitle?, author?, label?, isNew?, url? }); hover and onSelect match by url.",
+      },
+      {
+        name: "onSelect",
+        type: "(url, item, index) => void",
+        default: "undefined",
+        description:
+          "Fired when a column is tapped (a pointer press released without a drag).",
+      },
+      {
+        name: "background / textColor / accentColor",
+        type: "string",
+        default: '"#ffffff" / "#111111" / "#f0341f"',
+        description: "Field background, base glyph color, and hover accent.",
+      },
+      {
+        name: "monoFamily / serifFamily",
+        type: "string",
+        default: "Next Mono stack / Century Schoolbook stack",
+        description:
+          "Field + badge monospace family (keeps glyphs on the grid) and the header serif family.",
+      },
+      {
+        name: "fontSize / lineHeight",
+        type: "number",
+        default: "10 / 1.3",
+        description: "Type metrics for the sampled grid.",
+      },
+      {
+        name: "speed / magnitude",
+        type: "number",
+        default: "1 / 1800",
+        description: "Drift time multiplier and peak displacement in pixels.",
+      },
+      {
+        name: "itemWidth / gutter / headerHeight",
+        type: "number",
+        default: "~300 snapped / 10.4 / 265",
+        description:
+          "Column pitch, body left-indent, and the serif header band height (canvas starts below it).",
+      },
+      {
+        name: "hoverHighlight",
+        type: "boolean",
+        default: "true",
+        description:
+          "Accent the column under the pointer and enable grab-cursor scroll.",
+      },
+    ],
+  },
   "text-displacement-field": {
     demoPath: "src/components/demos/text-displacement-field.tsx",
     nuance: [

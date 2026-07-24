@@ -171,6 +171,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "flow-field-text",
+    title: "Flow Field Text",
+    description:
+      "A rebuild of the schemasofuncertainty.com home page. Editorial columns tile across a horizontally drag- and wheel-scrollable strip: serif headers (a NEW or type badge, a byline, an uppercase title with optional subtitle) sit above each column and translate in lockstep, while the body copy is drawn as a monospace character grid where every cell reads its glyph from a position pushed by an animated 3D simplex-noise displacement field. Legible text smears, duplicates, and dissolves into scattered fragments toward the bottom, then reforms as it breathes; a quadratic vertical mask keeps the top rows sharp. The canvas never moves, it re-samples at the scroll offset, so text flows sideways as you drag. Hover a column to pull it into an accent color, tap it to fire onSelect, and because color follows the sampled character rather than the cell, the accent bleeds across a border wherever the field borrowed a neighbor's letter. Uses the exact josephg/noisejs simplex3 and displacement constants. No dependencies.",
+    section: "components",
+    category: "Text",
+    pro: false,
+    date: "2026-07-24",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flow-field-text.tsx",
+        target: "components/ui/flow-field-text.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "blnk-agency-page",
     title: "BLNK Agency Page",
     description:
