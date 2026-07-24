@@ -1812,6 +1812,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "The Component Gallery",
+        href: "https://component.gallery/",
+        dateAdded: "2026-07-24",
+        description:
+          "Reference catalog of how the world's design systems implement each interface component, for surveying real prior art before building your own version of a pattern. Created and maintained by developer and typography enthusiast Iain Bean as a long-running side project; it covers around 60 component types across 90-plus design systems (Fluent UI, Atlassian, Next UI, and more) with over 2,500 individual examples, each linking to the actual product implementation rather than a mockup. Pick a component such as carousel, tabs, accordion or color picker and see every system's take side by side.",
+      },
+      {
         title: "60fps",
         href: "https://60fps.design/",
         dateAdded: "2026-07-23",
