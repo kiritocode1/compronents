@@ -303,6 +303,21 @@ export const registryItems: RegistryItem[] = [
         target: "components/ui/content-architecture-page/minimap.tsx",
         type: "registry:ui",
       },
+      {
+        path: "src/registry/content-architecture-page/ascii-curtain.ts",
+        target: "components/ui/content-architecture-page/ascii-curtain.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/content-architecture-page/blog.tsx",
+        target: "components/ui/content-architecture-page/blog.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/content-architecture-page/repo-explorer.tsx",
+        target: "components/ui/content-architecture-page/repo-explorer.tsx",
+        type: "registry:ui",
+      },
     ],
   },
   {

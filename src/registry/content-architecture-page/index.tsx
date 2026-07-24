@@ -16,15 +16,21 @@
 import {
   type CSSProperties,
   type FormEvent,
-  type KeyboardEvent,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import {
+  type CurtainHandle,
+  type CurtainPhase,
+  mountContentArchitectureCurtain,
+} from "./ascii-curtain";
+import { BLOG_POSTS, BlogArticle, BlogIndex, Odometer } from "./blog";
 import { mountContentArchitectureGlyphField } from "./glyph-field";
 import { SiteMinimap } from "./minimap";
+import { RepoExplorer } from "./repo-explorer";
 import {
   mountContentArchitectureSpiral,
   type SpiralInteractionState,
@@ -39,6 +45,11 @@ export interface ContentArchitecturePageProps {
   className?: string;
   style?: CSSProperties;
 }
+
+type PageView =
+  | { kind: "home"; anchor?: string }
+  | { kind: "blog" }
+  | { kind: "article"; slug: string };
 
 const NAV_ITEMS = [
   ["features", "Features"],
@@ -222,103 +233,6 @@ const FAQ = [
     a: "It is a set of architectural decisions, made once over six years and committed, that gets you to the real work faster. You write real code on top of it. There is no no-code editor, no UI kit or component library to theme, no auth-billing-dashboard SaaS scaffolding, and no course wrapped around it, though the article series explains the reasoning behind it. You buy it once and own it.",
   },
 ] as const;
-
-const REPO_FILES = [
-  ".AGENTS",
-  ".HUSKY",
-  "APP",
-  "COMPONENTS",
-  "DOCS",
-  "FEATURES",
-  "SANITY",
-  "SCRIPTS",
-  "SEED",
-  "TEMPLATES",
-  ".ENV.EXAMPLE",
-  ".GITIGNORE",
-  ".MCP.JSON",
-  ".NPMRC",
-  ".NVMRC",
-  "AGENTS.MD",
-  "ASSETS.D.TS",
-  "BIOME.JSONC",
-  "CLAUDE.MD",
-  "ENV.TS",
-  "GETTING-STARTED.MD",
-  "LEFTHOOK.YML",
-  "NEXT-ENV.D.TS",
-  "NEXT.CONFIG.TS",
-  "PACKAGE.JSON",
-  "PACKAGE-LOCK.JSON",
-  "PLOPFILE.MJS",
-  "PROXY.TS",
-  "README.MD",
-  "GET-ACCESS.MD",
-  "SANITY-SCHEMA.JSON",
-  "SANITY.CLI.TS",
-  "SANITY.CONFIG.TS",
-  "SKILLS-LOCK.JSON",
-  "TSCONFIG.JSON",
-] as const;
-
-const REPO_README = `# The Content Architecture
-
-A modern Next.js 16 starter with Sanity CMS integration.
-
-## Features
-
-- Next.js 16 with App Router and Server Components
-- Sanity CMS with in-app Studio
-- TypeScript 6, Tailwind CSS 4, and Biome
-- Reusable components, page builder sections, and rich text blocks
-- Draft mode with Sanity Live, SEO helpers, and ISR revalidation
-- HTTP Basic Auth, llms.txt, and Agent Markdown
-- Redirects, Umami analytics, view transitions, Mux, and spam prevention
-- Scaffolding via Plop for repeatable section and block generation
-
-## Getting Started
-
-New here? Start with GETTING-STARTED.md.
-
-### Prerequisites
-
-- Node.js >= 24.15.0
-- npm >= 11.6.2
-
-### Installation
-
-\`\`\`bash
-npm install
-\`\`\`
-
-### Development
-
-\`\`\`bash
-npm run dev
-\`\`\`
-
-- App: http://localhost:3000
-- Studio: NEXT_PUBLIC_SANITY_STUDIO_BASE_PATH
-
-## Project Structure
-
-|-- app/             # Next.js App Router
-|-- components/      # Shared React components
-|-- features/        # Feature modules
-|-- public/          # Static assets
-|-- sanity/          # Sanity config, schema, structure
-|-- scripts/         # Dataset and project-setup CLIs
-|-- seed/            # Bundled starter content
-|-- docs/            # Project documentation
-+-- env.ts           # Typed environment config
-
-## Agent Skills
-
-AI guidance for this repository lives in AGENTS.md and .agents/skills/.
-
-## License
-
-MIT`;
 
 const ASCII_BANNER = ` /$$$$$$$$ /$$                                                       /$$            /$$$$$$              /$$
 |__  $$__/| $$                                                      | $$           /$$__  $$            | $$
@@ -572,105 +486,6 @@ function TypingQuote({ quote, play }: { quote: string; play: boolean }) {
   );
 }
 
-function RepoExplorer() {
-  const [activeFile, setActiveFile] = useState("README.MD");
-  const [content, setContent] = useState(REPO_README);
-  const [command, setCommand] = useState("");
-  const [history, setHistory] = useState([
-    "~/the-content-architecture > get-access   # €549 · one-time",
-  ]);
-
-  const openFile = (file: string) => {
-    setActiveFile(file);
-    if (file === "README.MD") setContent(REPO_README);
-    else if (file === "AGENTS.MD") {
-      setContent(
-        "# AGENTS.md\n\nRead the scoped skills before changing the architecture.\nBuild inside the conventions. Verify in a real browser.\n",
-      );
-    } else if (file === "PACKAGE.JSON") {
-      setContent(
-        '{\n  "scripts": {\n    "dev": "next dev",\n    "check": "npm run check.types && biome check .",\n    "sanity:typegen": "sanity schema extract && sanity typegen generate"\n  }\n}',
-      );
-    } else {
-      setContent(
-        `// ${file}\n// Production source included in The Content Architecture.\n// Open README.MD for the captured overview.`,
-      );
-    }
-  };
-
-  const runCommand = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== "Enter") return;
-    const next = command.trim();
-    if (!next) return;
-    if (next === "clear") setHistory([]);
-    else {
-      const output =
-        next === "ls"
-          ? REPO_FILES.slice(0, 12).join("  ")
-          : next === "help"
-            ? "help  ls  cat README.md  get-access  clear"
-            : next.toLowerCase() === "cat readme.md"
-              ? "# The Content Architecture"
-              : next === "get-access"
-                ? "Opening the one-time license page..."
-                : `command not found: ${next}`;
-      setHistory((current) => [...current, `~ > ${next}\n${output}`]);
-    }
-    setCommand("");
-  };
-
-  return (
-    <div className="cap-ide">
-      <div className="cap-ide-bar">
-        <span>This is the actual repo.</span>
-        <span className="cap-ide-tools" aria-hidden="true">
-          ▣ &nbsp;⌘ J&nbsp;&nbsp;⌕&nbsp;&nbsp;⌘ K
-        </span>
-      </div>
-      <div className="cap-ide-main">
-        <nav className="cap-files" aria-label="File explorer">
-          {REPO_FILES.map((file) => (
-            <button
-              key={file}
-              type="button"
-              data-active={activeFile === file}
-              onClick={() => openFile(file)}
-            >
-              {file}
-            </button>
-          ))}
-        </nav>
-        <div className="cap-editor">
-          <div className="cap-editor-tab">{activeFile}</div>
-          <textarea
-            aria-label={`${activeFile} contents`}
-            spellCheck={false}
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-          />
-          <section className="cap-terminal" aria-label="Terminal">
-            <div className="cap-terminal-title">Terminal</div>
-            <div className="cap-terminal-output">{history.join("\n")}</div>
-            <label className="cap-terminal-line">
-              <span>~/the-content-architecture &gt;&nbsp;</span>
-              <input
-                aria-label="Terminal input"
-                value={command}
-                onChange={(event) => setCommand(event.target.value)}
-                onKeyDown={runCommand}
-              />
-            </label>
-          </section>
-        </div>
-      </div>
-      <div className="cap-ide-status">
-        <span>⌁ MAIN &nbsp;• UPDATED TODAY</span>
-        <span>▥ 79 COMMITS</span>
-      </div>
-    </div>
-  );
-}
-
 export default function ContentArchitecturePage({
   assetBase = DEFAULT_ASSET_BASE,
   className = "",
@@ -684,6 +499,7 @@ export default function ContentArchitecturePage({
   const [openFaq, setOpenFaq] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
+  const [view, setView] = useState<PageView>({ kind: "home" });
   const styles = useMemo(
     () => getContentArchitecturePageStyles(assetBase),
     [assetBase],
@@ -692,6 +508,92 @@ export default function ContentArchitecturePage({
     rootRef.current = node;
     setPageRoot(node);
   }, []);
+
+  /*
+   * View transition. The registry item is self-contained, so it owns its own
+   * routing: the curtain covers, the pending view swap runs while the screen
+   * is opaque, then the curtain reveals. Same three-phase contract as the
+   * production provider, minus the framework router.
+   */
+  const curtainRef = useRef<HTMLCanvasElement>(null);
+  const curtain = useRef<CurtainHandle | null>(null);
+  const pendingView = useRef<PageView | null>(null);
+  const [phase, setPhase] = useState<CurtainPhase>("idle");
+  const phaseRef = useRef<CurtainPhase>("idle");
+
+  const watchdog = useRef<number | null>(null);
+
+  const clearWatchdog = useCallback(() => {
+    if (watchdog.current !== null) {
+      window.clearTimeout(watchdog.current);
+      watchdog.current = null;
+    }
+  }, []);
+
+  const applyPhase = useCallback((next: CurtainPhase) => {
+    phaseRef.current = next;
+    setPhase(next);
+    curtain.current?.setPhase(next);
+  }, []);
+
+  const settleView = useCallback(() => {
+    const next = pendingView.current;
+    pendingView.current = null;
+    if (next) setView(next);
+    applyPhase("reveal");
+  }, [applyPhase]);
+
+  useEffect(() => {
+    const canvas = curtainRef.current;
+    if (!canvas) return;
+    const handle = mountContentArchitectureCurtain(canvas, {
+      onCoverComplete: () => {
+        clearWatchdog();
+        settleView();
+      },
+      onRevealComplete: () => applyPhase("idle"),
+      isReducedMotion: () =>
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    });
+    curtain.current = handle;
+    return () => {
+      handle.destroy();
+      // Only release the ref if it still points at this handle, so a
+      // remount that already installed a newer one is left intact.
+      if (curtain.current === handle) curtain.current = null;
+    };
+  }, [applyPhase, clearWatchdog, settleView]);
+
+  const navigate = useCallback(
+    (next: PageView) => {
+      setMenuOpen(false);
+      if (phaseRef.current === "cover") return;
+      pendingView.current = next;
+      applyPhase("cover");
+      // Watchdog from the source provider: if the cover never reports back
+      // (a backgrounded tab pausing rAF, a dropped frame loop), the
+      // navigation still lands instead of stranding an opaque curtain.
+      clearWatchdog();
+      watchdog.current = window.setTimeout(() => {
+        if (phaseRef.current === "cover") settleView();
+      }, 6000);
+    },
+    [applyPhase, clearWatchdog, settleView],
+  );
+
+  useEffect(() => clearWatchdog, [clearWatchdog]);
+
+  useEffect(() => {
+    if (view.kind === "home") {
+      if (!view.anchor) return;
+      rootRef.current
+        ?.querySelector<HTMLElement>(`#cap-${view.anchor}`)
+        ?.scrollIntoView({ block: "start" });
+      return;
+    }
+    // A fresh view starts at the top, the way a real navigation would.
+    getScrollParent(rootRef.current ?? document.body).scrollTo?.({ top: 0 });
+  }, [view]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -720,10 +622,15 @@ export default function ContentArchitecturePage({
   }, [drawerOpen]);
 
   const scrollTo = (id: string) => {
+    setMenuOpen(false);
+    if (view.kind !== "home") {
+      // An anchor from a sub-view is still a navigation: cover, swap, land.
+      navigate({ kind: "home", anchor: id });
+      return;
+    }
     rootRef.current
       ?.querySelector<HTMLElement>(`#cap-${id}`)
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setMenuOpen(false);
   };
 
   const submitNewsletter = (event: FormEvent<HTMLFormElement>) => {
@@ -767,19 +674,25 @@ export default function ContentArchitecturePage({
             <button
               key={id}
               type="button"
-              data-active={activeSection === id}
+              data-active={view.kind === "home" && activeSection === id}
               onClick={() => scrollTo(id)}
             >
               {label}
             </button>
           ))}
-          <a href="https://www.contentarchitecture.dev/blog">Blog</a>
+          <button
+            type="button"
+            data-active={view.kind !== "home"}
+            onClick={() => navigate({ kind: "blog" })}
+          >
+            Blog
+          </button>
         </nav>
       </header>
 
-      <SiteMinimap pageRoot={pageRoot} />
+      {view.kind === "home" ? <SiteMinimap pageRoot={pageRoot} /> : null}
 
-      <div className="cap-more">
+      <div className="cap-more" data-hidden={view.kind !== "home"}>
         <span className="cap-more-label">Learn more</span>
         <button
           type="button"
@@ -790,330 +703,352 @@ export default function ContentArchitecturePage({
         </button>
       </div>
 
-      <section
-        id="cap-home"
-        className="cap-hero"
-        data-page-builder-section="mainHeroSection"
-      >
-        <div className="cap-hero-copy">
-          <p className="cap-kicker" data-studio-field="eyebrow">
-            Built for agentic development.
-          </p>
-          <h1 data-studio-field="title">
-            The Sanity setup
-            <br />
-            agents don&apos;t reinvent.
-          </h1>
-          <p className="cap-hero-deck" data-studio-field="text">
-            Every run invents a new one, none decided. This Next.js and Sanity
-            kit commits six years of decisions. Your agent builds inside them,
-            and checks its work through MCP and a real Chrome.
-          </p>
-          <p className="cap-audience" data-studio-field="audience">
-            For engineers who work in Next.js and Sanity.
-          </p>
-          <div className="cap-hero-cta">
-            <GetAccessButton />
-          </div>
-          <div className="cap-specs">
-            <span>
-              Next 16.x
-              <br />
-              Agents.md: loaded
-            </span>
-            <span>
-              Sanity v6
-              <br />
-              MCP: 2 servers
-            </span>
-            <span>
-              TS: strict
-              <br />
-              Drift: 0
-            </span>
-          </div>
-        </div>
-        <div className="cap-hero-art">
-          <Spiral />
-        </div>
-        <button
-          type="button"
-          className="cap-scroll-cue"
-          aria-label="Scroll to the next section"
-          onClick={() => scrollTo("features")}
-        >
-          <span />
-        </button>
-      </section>
-
-      <section
-        className="cap-problems cap-paper"
-        data-page-builder-section="textTerminalSection"
-      >
-        <div className="cap-container cap-problem-layout">
-          <ProblemsTerminal />
-          <div className="cap-problem-copy">
-            <h2 data-studio-field="title">
-              The page builder
-              <br />
-              alone costs you days.
-              <br />
-              Every single time.
-            </h2>
-            <p data-studio-field="text.0">
-              It&apos;s never the easy stuff that hurts. It&apos;s the page
-              builder, modeled from scratch again. Draft mode and live preview,
-              wired up and subtly broken again. The cache bug where published
-              content goes stale and the client swears you shipped something
-              wrong. A Studio structure your editors actually understand,
-              instead of one they email you about.
-            </p>
-            <p data-studio-field="text.1">
-              This is the part nobody quotes for and everybody rebuilds. Days
-              gone before the real work starts.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="cap-features"
-        className="cap-features cap-dark"
-        data-page-builder-section="benefitsSection"
-      >
-        <div className="cap-features-field">
-          <GlyphField backgroundOnly />
-        </div>
-        <div className="cap-container">
-          <div className="cap-features-intro">
-            <h2 data-studio-field="title">
-              Every decision
-              <br />
-              already made. So
-              <br />
-              you can skip to
-              <br />
-              the actual work.
-            </h2>
-            <p data-studio-field="text">
-              The Content Architecture is the production foundation underneath
-              my client work. Hundreds of choices, schema, fetching, structure,
-              SEO, made once over six years and committed. Not a starter you
-              outgrow in a month. Clone it, rename it, ship. The architecture is
-              fixed; the tools are defaults you can swap. Fixed decisions are
-              also what make agentic development work: an agent inside committed
-              conventions ships, an agent without them redesigns.
-            </p>
-          </div>
-          <div className="cap-feature-grid">
-            {FEATURES.map((feature, index) => (
-              <article
-                key={feature.title}
-                className="cap-feature"
-                data-studio-item={`items.${index}`}
-              >
-                <h3 data-studio-field={`items.${index}.title`}>
-                  {feature.title}
-                </h3>
-                <p data-studio-field={`items.${index}.text`}>{feature.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="cap-repo"
-        className="cap-repo cap-paper"
-        data-page-builder-section="ideSection"
-      >
-        <div className="cap-repo-shell">
-          <RepoExplorer />
-        </div>
-      </section>
-
-      <section
-        id="cap-showcase"
-        className="cap-showcase"
-        data-page-builder-section="showcaseSection"
-      >
-        <div className="cap-showcase-head">
-          <h2 data-studio-field="title">The work that gets remembered.</h2>
-          <p data-studio-field="text">
-            Real sites, shipped on The Content Architecture. With the plumbing
-            already handled, the effort goes where it shows. The work here has
-            been recognized by Awwwards, FWA, and CSSDA, and picked up across
-            design directories.
-          </p>
-        </div>
-        <div className="cap-project-grid">
-          {PROJECTS.map(([title, href, image], index) => (
-            <a
-              key={title}
-              className="cap-project"
-              href={href}
-              data-studio-item={`items.${index}`}
-            >
-              <div
-                className="cap-project-media"
-                data-studio-field={`items.${index}.appMedia`}
-              >
-                <GlyphField imageUrl={`${assetBase}/${image}`} />
-                <img
-                  src={`${assetBase}/${image}`}
-                  alt={`${title} website built on The Content Architecture`}
-                  loading="lazy"
-                />
-              </div>
-              <h3 data-studio-field={`items.${index}.title`}>{title}</h3>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section
-        className="cap-testimonials"
-        data-page-builder-section="testimonialsSection"
-      >
-        <div className="cap-testimonial-viewport">
-          <div
-            className="cap-testimonial-track"
-            style={
-              {
-                "--cap-testimonial-index": testimonial,
-              } as CSSProperties
-            }
+      {view.kind === "home" ? (
+        <>
+          <section
+            id="cap-home"
+            className="cap-hero"
+            data-page-builder-section="mainHeroSection"
           >
-            {TESTIMONIALS.map((item, index) => (
-              <article
-                key={item.name}
-                className="cap-testimonial-slide"
-                data-studio-item={`items.${index}`}
-              >
-                <div className="cap-testimonial-frame">
-                  <div data-studio-field={`items.${index}.quote`}>
-                    <TypingQuote
-                      quote={item.quote}
-                      play={testimonial === index}
+            <div className="cap-hero-copy">
+              <p className="cap-kicker" data-studio-field="eyebrow">
+                Built for agentic development.
+              </p>
+              <h1 data-studio-field="title">
+                The Sanity setup
+                <br />
+                agents don&apos;t reinvent.
+              </h1>
+              <p className="cap-hero-deck" data-studio-field="text">
+                Every run invents a new one, none decided. This Next.js and
+                Sanity kit commits six years of decisions. Your agent builds
+                inside them, and checks its work through MCP and a real Chrome.
+              </p>
+              <p className="cap-audience" data-studio-field="audience">
+                For engineers who work in Next.js and Sanity.
+              </p>
+              <div className="cap-hero-cta">
+                <GetAccessButton />
+              </div>
+              <div className="cap-specs">
+                <span>
+                  Next 16.x
+                  <br />
+                  Agents.md: loaded
+                </span>
+                <span>
+                  Sanity v6
+                  <br />
+                  MCP: 2 servers
+                </span>
+                <span>
+                  TS: strict
+                  <br />
+                  Drift: 0
+                </span>
+              </div>
+            </div>
+            <div className="cap-hero-art">
+              <Spiral />
+            </div>
+            <button
+              type="button"
+              className="cap-scroll-cue"
+              aria-label="Scroll to the next section"
+              onClick={() => scrollTo("features")}
+            >
+              <span />
+            </button>
+          </section>
+
+          <section
+            className="cap-problems cap-paper"
+            data-page-builder-section="textTerminalSection"
+          >
+            <div className="cap-container cap-problem-layout">
+              <ProblemsTerminal />
+              <div className="cap-problem-copy">
+                <h2 data-studio-field="title">
+                  The page builder
+                  <br />
+                  alone costs you days.
+                  <br />
+                  Every single time.
+                </h2>
+                <p data-studio-field="text.0">
+                  It&apos;s never the easy stuff that hurts. It&apos;s the page
+                  builder, modeled from scratch again. Draft mode and live
+                  preview, wired up and subtly broken again. The cache bug where
+                  published content goes stale and the client swears you shipped
+                  something wrong. A Studio structure your editors actually
+                  understand, instead of one they email you about.
+                </p>
+                <p data-studio-field="text.1">
+                  This is the part nobody quotes for and everybody rebuilds.
+                  Days gone before the real work starts.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="cap-features"
+            className="cap-features cap-dark"
+            data-page-builder-section="benefitsSection"
+          >
+            <div className="cap-features-field">
+              <GlyphField backgroundOnly />
+            </div>
+            <div className="cap-container">
+              <div className="cap-features-intro">
+                <h2 data-studio-field="title">
+                  Every decision
+                  <br />
+                  already made. So
+                  <br />
+                  you can skip to
+                  <br />
+                  the actual work.
+                </h2>
+                <p data-studio-field="text">
+                  The Content Architecture is the production foundation
+                  underneath my client work. Hundreds of choices, schema,
+                  fetching, structure, SEO, made once over six years and
+                  committed. Not a starter you outgrow in a month. Clone it,
+                  rename it, ship. The architecture is fixed; the tools are
+                  defaults you can swap. Fixed decisions are also what make
+                  agentic development work: an agent inside committed
+                  conventions ships, an agent without them redesigns.
+                </p>
+              </div>
+              <div className="cap-feature-grid">
+                {FEATURES.map((feature, index) => (
+                  <article
+                    key={feature.title}
+                    className="cap-feature"
+                    data-studio-item={`items.${index}`}
+                  >
+                    <h3 data-studio-field={`items.${index}.title`}>
+                      {feature.title}
+                    </h3>
+                    <p data-studio-field={`items.${index}.text`}>
+                      {feature.body}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="cap-repo"
+            className="cap-repo cap-paper"
+            data-page-builder-section="ideSection"
+          >
+            <div className="cap-repo-shell">
+              <RepoExplorer />
+            </div>
+          </section>
+
+          <section
+            id="cap-showcase"
+            className="cap-showcase"
+            data-page-builder-section="showcaseSection"
+          >
+            <div className="cap-showcase-head">
+              <h2 data-studio-field="title">The work that gets remembered.</h2>
+              <p data-studio-field="text">
+                Real sites, shipped on The Content Architecture. With the
+                plumbing already handled, the effort goes where it shows. The
+                work here has been recognized by Awwwards, FWA, and CSSDA, and
+                picked up across design directories.
+              </p>
+            </div>
+            <div className="cap-project-grid">
+              {PROJECTS.map(([title, href, image], index) => (
+                <a
+                  key={title}
+                  className="cap-project"
+                  href={href}
+                  data-studio-item={`items.${index}`}
+                >
+                  <div
+                    className="cap-project-media"
+                    data-studio-field={`items.${index}.appMedia`}
+                  >
+                    <GlyphField imageUrl={`${assetBase}/${image}`} />
+                    <img
+                      src={`${assetBase}/${image}`}
+                      alt={`${title} website built on The Content Architecture`}
+                      loading="lazy"
                     />
                   </div>
-                  <div className="cap-testimonial-meta">
-                    <div className="cap-person">
-                      <img src={`${assetBase}/${item.avatar}`} alt="" />
-                      <span>
-                        {item.name}
-                        <br />
-                        {item.role}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-        <div className="cap-slider-controls">
-          <button
-            type="button"
-            aria-label="Previous slide"
-            disabled={testimonial === 0}
-            onClick={() => setTestimonial(Math.max(0, testimonial - 1))}
-          >
-            ←
-          </button>
-          <span className="cap-slider-count">
-            {String(testimonial + 1).padStart(2, "0")} / 03
-          </span>
-          <button
-            type="button"
-            aria-label="Next slide"
-            disabled={testimonial === TESTIMONIALS.length - 1}
-            onClick={() =>
-              setTestimonial(Math.min(TESTIMONIALS.length - 1, testimonial + 1))
-            }
-          >
-            →
-          </button>
-        </div>
-      </section>
-
-      <section
-        id="cap-pricing"
-        className="cap-pricing cap-paper"
-        data-page-builder-section="pricingSection"
-      >
-        <div className="cap-container cap-pricing-grid">
-          <h2 data-studio-field="title">
-            One repo.
-            <br />
-            One pricing.
-            <br />
-            Lifetime updates.
-          </h2>
-          <div className="cap-price-card">
-            <div className="cap-price">€549</div>
-            <div className="cap-inclusions">
-              {INCLUSIONS.map((inclusion, index) => (
-                <div key={inclusion} className="cap-inclusion">
-                  <span>{String(index + 1).padStart(3, "0")}</span>
-                  <span>{inclusion}</span>
-                </div>
+                  <h3 data-studio-field={`items.${index}.title`}>{title}</h3>
+                </a>
               ))}
             </div>
-            <div className="cap-price-actions">
-              <GetAccessButton light />
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <section
-        id="cap-faq"
-        className="cap-faq"
-        data-page-builder-section="faqSection"
-      >
-        <div className="cap-faq-grid">
-          <div>
-            <h2 data-studio-field="title">Before you buy</h2>
-            <div className="cap-faq-cta">
-              <GetAccessButton light />
-            </div>
-          </div>
-          <div>
-            {FAQ.map((item, index) => {
-              const open = openFaq === index;
-              return (
-                <article key={item.q} className="cap-faq-item">
-                  <h3>
-                    <button
-                      type="button"
-                      aria-expanded={open}
-                      onClick={() => setOpenFaq(open ? -1 : index)}
-                    >
-                      <span>
-                        Q.{String(index + 1).padStart(3, "0")} / {item.q}
-                      </span>
-                      <span className="cap-faq-plus">{open ? "−" : "+"}</span>
-                    </button>
-                  </h3>
-                  {open ? (
-                    <div className="cap-faq-answer">
-                      <p>{item.a}</p>
+          <section
+            className="cap-testimonials"
+            data-page-builder-section="testimonialsSection"
+          >
+            <div className="cap-testimonial-viewport">
+              <div
+                className="cap-testimonial-track"
+                style={
+                  {
+                    "--cap-testimonial-index": testimonial,
+                  } as CSSProperties
+                }
+              >
+                {TESTIMONIALS.map((item, index) => (
+                  <article
+                    key={item.name}
+                    className="cap-testimonial-slide"
+                    data-studio-item={`items.${index}`}
+                  >
+                    <div className="cap-testimonial-frame">
+                      <div data-studio-field={`items.${index}.quote`}>
+                        <TypingQuote
+                          quote={item.quote}
+                          play={testimonial === index}
+                        />
+                      </div>
+                      <div className="cap-testimonial-meta">
+                        <div className="cap-person">
+                          <img src={`${assetBase}/${item.avatar}`} alt="" />
+                          <span>
+                            {item.name}
+                            <br />
+                            {item.role}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  ) : null}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+                  </article>
+                ))}
+              </div>
+            </div>
+            <div className="cap-slider-controls">
+              <button
+                type="button"
+                aria-label="Previous slide"
+                disabled={testimonial === 0}
+                onClick={() => setTestimonial(Math.max(0, testimonial - 1))}
+              >
+                ←
+              </button>
+              <span className="cap-slider-count">
+                {String(testimonial + 1).padStart(2, "0")} / 03
+              </span>
+              <button
+                type="button"
+                aria-label="Next slide"
+                disabled={testimonial === TESTIMONIALS.length - 1}
+                onClick={() =>
+                  setTestimonial(
+                    Math.min(TESTIMONIALS.length - 1, testimonial + 1),
+                  )
+                }
+              >
+                →
+              </button>
+            </div>
+          </section>
 
-      <section
-        className="cap-ascii-banner"
-        data-page-builder-section="calloutSection"
-      >
-        <pre>{ASCII_BANNER}</pre>
-      </section>
+          <section
+            id="cap-pricing"
+            className="cap-pricing cap-paper"
+            data-page-builder-section="pricingSection"
+          >
+            <div className="cap-container cap-pricing-grid">
+              <h2 data-studio-field="title">
+                One repo.
+                <br />
+                One pricing.
+                <br />
+                Lifetime updates.
+              </h2>
+              <div className="cap-price-card">
+                <div className="cap-price">€549</div>
+                <div className="cap-inclusions">
+                  {INCLUSIONS.map((inclusion, index) => (
+                    <div key={inclusion} className="cap-inclusion">
+                      <span>{String(index + 1).padStart(3, "0")}</span>
+                      <span>{inclusion}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="cap-price-actions">
+                  <GetAccessButton light />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="cap-faq"
+            className="cap-faq"
+            data-page-builder-section="faqSection"
+          >
+            <div className="cap-faq-grid">
+              <div>
+                <h2 data-studio-field="title">Before you buy</h2>
+                <div className="cap-faq-cta">
+                  <GetAccessButton light />
+                </div>
+              </div>
+              <div>
+                {FAQ.map((item, index) => {
+                  const open = openFaq === index;
+                  return (
+                    <article key={item.q} className="cap-faq-item">
+                      <h3>
+                        <button
+                          type="button"
+                          aria-expanded={open}
+                          onClick={() => setOpenFaq(open ? -1 : index)}
+                        >
+                          <span>
+                            Q.{String(index + 1).padStart(3, "0")} / {item.q}
+                          </span>
+                          <span className="cap-faq-plus">
+                            {open ? "−" : "+"}
+                          </span>
+                        </button>
+                      </h3>
+                      {open ? (
+                        <div className="cap-faq-answer">
+                          <p>{item.a}</p>
+                        </div>
+                      ) : null}
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section
+            className="cap-ascii-banner"
+            data-page-builder-section="calloutSection"
+          >
+            <pre>{ASCII_BANNER}</pre>
+          </section>
+        </>
+      ) : view.kind === "blog" ? (
+        <BlogIndex
+          onOpenArticle={(slug) => navigate({ kind: "article", slug })}
+        />
+      ) : (
+        <BlogArticle
+          post={
+            BLOG_POSTS.find((post) => post.slug === view.slug) ?? BLOG_POSTS[0]
+          }
+          onBack={() => navigate({ kind: "blog" })}
+        />
+      )}
 
       <footer className="cap-footer">
         <GlyphField backgroundOnly interactive={false} />
@@ -1126,11 +1061,13 @@ export default function ContentArchitecturePage({
               placeholder="your@email.com"
             />
             <button type="submit">
-              {subscribed ? "Updated" : "Stay updated"}
+              <Odometer text={subscribed ? "Updated" : "Stay updated"} />
             </button>
           </form>
           <nav className="cap-footer-links" aria-label="Footer">
-            <a href="https://www.contentarchitecture.dev/blog">Blog</a>
+            <button type="button" onClick={() => navigate({ kind: "blog" })}>
+              Blog
+            </button>
             <a href="https://www.contentarchitecture.dev/roadmap">Roadmap</a>
             <a href="https://www.contentarchitecture.dev/#pricing">
               Get access
@@ -1203,9 +1140,9 @@ export default function ContentArchitecturePage({
                 <section>
                   <h3>002 / Why I keep shipping it</h3>
                   <p>
-                    This is still the foundation underneath my client work.
-                    Each production lesson goes back into the repository, so
-                    the next project begins with a stronger set of decisions.
+                    This is still the foundation underneath my client work. Each
+                    production lesson goes back into the repository, so the next
+                    project begins with a stronger set of decisions.
                   </p>
                 </section>
                 <section>
@@ -1223,6 +1160,11 @@ export default function ContentArchitecturePage({
           </aside>
         </>
       ) : null}
+      <canvas
+        ref={curtainRef}
+        className="cap-curtain"
+        data-ascii-curtain={phase}
+      />
     </main>
   );
 }
