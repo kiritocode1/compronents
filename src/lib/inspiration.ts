@@ -686,6 +686,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "UI kit directories",
     links: [
       {
+        title: "Native Bloom",
+        href: "https://nativebloom.dev/",
+        dateAdded: "2026-07-24",
+        description:
+          "Curated catalog of React Native UI components, animations and patterns, useful when you want to find a ready block and hand your coding agent a prompt to build it rather than install a library. Built by Volodymyr Serbulenko; over 9,999 hand-reviewed blocks with new drops daily, each with a video preview and copy-ready agent prompt, searchable by title, component or animation and browsable by author, collection or package. Roughly 5% comes from paid collections and the rest from open source, npm packages, articles and social, with examples like Coverflow Carousel, Image Ripple Effect and Step Counter Number Flow. Free tier saves 12 blocks; Pro is $8/month and Team $12 per seat, billed annually.",
+      },
+      {
         title: "UI8",
         href: "https://ui8.net/",
         dateAdded: "2026-07-20",
