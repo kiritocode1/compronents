@@ -7513,6 +7513,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Agent skills directories",
     links: [
       {
+        title: "Animation vocabulary skill",
+        href: "https://skills.sh/emilkowalski/skills/animation-vocabulary",
+        dateAdded: "2026-07-24",
+        description:
+          'Agent skill by Emil Kowalski (Sonner and Vaul) that turns a loose description of a motion effect into its precise animation term. Feed it something vague and it returns the best-matching name with a short definition, for example "Stagger: animate several items one after another with a small delay between each, creating a cascade", then one or two alternatives with notes on how they differ. Published June 29, 2026, 43,300+ installs; part of the emilkowalski/skills repo, installed with npx skills add https://github.com/emilkowalski/skills --skill animation-vocabulary.',
+      },
+      {
         title: "write-better",
         href: "https://github.com/plannotator/write-better",
         dateAdded: "2026-07-23",
