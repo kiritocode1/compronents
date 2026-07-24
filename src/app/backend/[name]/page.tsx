@@ -6,6 +6,7 @@ import { CodeTabs } from "@/components/site/code-tabs";
 import { CopyMarkdownButton } from "@/components/site/copy-markdown-button";
 import { EffectViz } from "@/components/site/effect-viz";
 import { RegistryFiles } from "@/components/site/registry-files";
+import { StreamerVeil } from "@/components/site/streamer-veil";
 import { backendViz } from "@/lib/backend-viz";
 import {
   getRegistryItem,
@@ -89,14 +90,17 @@ export default async function BackendItemPage({
       <Row label="Install">
         <div className="flex flex-col gap-2">
           <CodeTabs tabs={installTabs} />
-          <p className="text-xs text-faint">
-            Installs from ui.aryank.space. To add it by hand, copy the files in
-            Files below, or register the {REGISTRY_NAMESPACE} namespace via the{" "}
-            <Link href="/docs" className="underline hover:text-foreground">
-              docs
-            </Link>
-            .
-          </p>
+          <StreamerVeil>
+            <p className="text-xs text-faint">
+              Installs from ui.aryank.space. To add it by hand, copy the files
+              in Files below, or register the {REGISTRY_NAMESPACE} namespace via
+              the{" "}
+              <Link href="/docs" className="underline hover:text-foreground">
+                docs
+              </Link>
+              .
+            </p>
+          </StreamerVeil>
         </div>
       </Row>
 

@@ -1,12 +1,13 @@
 "use client";
 
 import { useSound } from "@web-kits/audio/react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Eye, EyeOff, Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CompronentsWordmark } from "@/components/site/compronents-wordmark";
 import { useSoundSetting } from "@/components/site/sound-provider";
 import { uiHover, uiToggleOn } from "@/lib/sounds";
+import { setStreamerMode, useStreamerMode } from "@/lib/streamer-mode";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -40,6 +41,31 @@ function SoundToggle() {
   );
 }
 
+/** Dusts every registry URL on the page so it can't be read off a stream. */
+function StreamerToggle() {
+  const on = useStreamerMode();
+  const playOn = useSound(uiToggleOn);
+
+  return (
+    <button
+      type="button"
+      title={on ? "Streamer mode on" : "Streamer mode"}
+      aria-label={on ? "Turn off streamer mode" : "Turn on streamer mode"}
+      aria-pressed={on}
+      onClick={() => {
+        setStreamerMode(!on);
+        if (!on) setTimeout(playOn, 0);
+      }}
+      className={cn(
+        "hit-area-2 transition-colors hover:text-foreground",
+        on ? "text-foreground" : "text-muted-foreground",
+      )}
+    >
+      {on ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
+    </button>
+  );
+}
+
 export function SiteNav() {
   const pathname = usePathname();
   const playHover = useSound(uiHover);
@@ -68,6 +94,7 @@ export function SiteNav() {
             </Link>
           );
         })}
+        <StreamerToggle />
         <SoundToggle />
       </nav>
     </header>

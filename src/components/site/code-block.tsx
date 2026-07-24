@@ -1,4 +1,5 @@
 import { CopyButton } from "@/components/site/copy-button";
+import { StreamerVeil } from "@/components/site/streamer-veil";
 
 /**
  * Renders Shiki-highlighted HTML in a bordered surface with a copy button.
@@ -27,10 +28,9 @@ export function CodeBlock({
         {filename ? null : (
           <CopyButton value={raw} className="absolute top-2 right-2 z-10" />
         )}
-        <div
-          className="overflow-x-auto p-4"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted Shiki output from local source files
-          dangerouslySetInnerHTML={{ __html: html }}
+        <StreamerVeil
+          className="p-4 [&_pre]:break-words [&_pre]:whitespace-pre-wrap"
+          html={html}
         />
       </div>
     </div>

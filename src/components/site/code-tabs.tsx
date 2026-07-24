@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { CopyButton } from "@/components/site/copy-button";
+import { StreamerVeil } from "@/components/site/streamer-veil";
 import {
   TabsSubtle,
   TabsSubtleItem,
@@ -52,10 +53,9 @@ export function CodeTabs({ tabs }: { tabs: CodeTab[] }) {
           selectedIndex={selected}
           idPrefix={idPrefix}
         >
-          <div
-            className="overflow-x-auto p-4"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted Shiki output from local source / static commands
-            dangerouslySetInnerHTML={{ __html: tab.html }}
+          <StreamerVeil
+            className="p-4 [&_pre]:break-words [&_pre]:whitespace-pre-wrap"
+            html={tab.html}
           />
         </TabsSubtlePanel>
       ))}
