@@ -3353,6 +3353,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Hyperiux Vault",
+        href: "https://vault.hyperiux.com/",
+        dateAdded: "2026-07-24",
+        description:
+          "Source-first interaction effects library for React and Next.js: install a component via CLI, then own and customize the code. Built by Hyperiux Studio, a creative frontend agency, with 115 effects (32 free in the Core tier, 83 in Pro) added to monthly, spanning text animations, backgrounds, buttons, carousels, scroll effects, navigation, cursor effects, page transitions, loaders, and WebGL scenes. Built on GSAP, Three.js, Lenis, and WebGL, with reduced-motion support, mobile fallbacks, and commercial-friendly licensing. Free Core is $0 forever; Pro is $20 a month or $179 a year.",
+      },
+      {
         title: "Penflow",
         href: "https://penflow.cretu.dev/",
         dateAdded: "2026-07-24",
