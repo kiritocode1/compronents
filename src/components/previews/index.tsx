@@ -16,6 +16,7 @@ import DeadspacePagePreview from "./deadspace-page";
 import DepoluxeSidewaysCarouselPreview from "./depoluxe-sideways-carousel";
 import DetroitParisSliderPreview from "./detroit-paris-slider";
 import DiningRoomPagePreview from "./dining-room-page";
+import EdgeWarpRailPreview from "./edge-warp-rail";
 import FallingTagListPreview from "./falling-tag-list";
 import FilmStudioPagePreview from "./film-studio-page";
 import FlowFieldTextPreview from "./flow-field-text";
@@ -30,6 +31,7 @@ import MosaicFlipPreview from "./mosaic-flip";
 import OverlayMenuPreview from "./overlay-menu";
 import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
+import ProceduralComputerPagePreview from "./procedural-computer-page";
 import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
 import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
 import SpiralGalleryPreview from "./spiral-gallery";
@@ -57,6 +59,7 @@ export const previews: Record<string, ComponentType> = {
   "inversa-scroll": InversaScrollPreview,
   "material-spotlight": MaterialSpotlightPreview,
   "portfolio-page": PortfolioPagePreview,
+  "procedural-computer-page": ProceduralComputerPagePreview,
   "scroll-tunnel-3d": ScrollTunnel3DPreview,
   "scroll-wave-gallery": ScrollWaveGalleryPreview,
   "preloader-reveal": PreloaderRevealPreview,
@@ -65,6 +68,7 @@ export const previews: Record<string, ComponentType> = {
   "curve-gallery": CurveGalleryPreview,
   "lego-dither": LegoDitherPreview,
   "falling-tag-list": FallingTagListPreview,
+  "edge-warp-rail": EdgeWarpRailPreview,
   "flow-field-text": FlowFieldTextPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,

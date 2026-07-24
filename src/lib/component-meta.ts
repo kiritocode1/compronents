@@ -411,6 +411,73 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
 );
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "edge-warp-rail": {
+    demoPath: "src/components/demos/edge-warp-rail.tsx",
+    nuance: [
+      {
+        label: "Scroll becomes travel",
+        description:
+          "The component owns a vertical scroll container whose height equals the rail's overflow plus one viewport. A sticky band is pinned while the rail translates left by exactly the scroll offset, so one pixel of scroll is one pixel of sideways travel. Wheel and drag both write to that same scroll position, so every input agrees.",
+      },
+      {
+        label: "The rim curls",
+        description:
+          "Each tile measures its position against the band every frame. Within the outer twelve percent on either side it rotates on Y toward a shared vanishing point and recedes on Z, with a flat middle and a fast falloff at the very edge, while a horizontal mask fades it out as it clears the frame.",
+      },
+      {
+        label: "Owns its scroll, degrades cleanly",
+        description:
+          "Because it scrolls its own box rather than the window, it embeds in a bounded stage or fills the screen unchanged. Below 768px it renders a plain vertical stack, and with reduced motion it becomes a native horizontal scroller, so the warp rig only runs when it can.",
+      },
+    ],
+    editable: [
+      {
+        name: "background / textColor / mutedColor",
+        control: "color",
+        description:
+          "Surface, primary ink, and the muted note and caption ink.",
+      },
+      {
+        name: "label / intro / tags",
+        control: "text",
+        description: "The corner wordmark, its intro line, and the meta lines.",
+      },
+      {
+        name: "items",
+        control: "text",
+        description:
+          "The ordered rail: media tiles (src, alt, aspect) and note cards (eyebrow, heading, body) interleaved.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "items",
+        type: "EdgeWarpItem[]",
+        default: "sample rail of 15 frames and 4 notes",
+        description:
+          "Ordered tiles. A media item sizes to the band height at its aspect; a note is a text card.",
+      },
+      {
+        name: "label / intro / tags",
+        type: "string / string / string[]",
+        default: '"BLANK" / intro line / three meta lines',
+        description: "Fixed corner overlay content.",
+      },
+      {
+        name: "background / textColor / mutedColor",
+        type: "string",
+        default: '"#f6f5f1" / "#17150f" / "#8b877c"',
+        description: "Surface, primary ink, and muted ink.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the scroll container root.",
+      },
+    ],
+  },
   "blnk-agency-page": {
     demoPath: "src/components/demos/blnk-agency-page.tsx",
     studioPath: "src/components/studios/blnk-agency-page.tsx",
@@ -659,6 +726,87 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "true",
         description:
           "Own the scroll container and point ScrollTrigger at it; set false to ride the window scroll.",
+      },
+    ],
+  },
+  "procedural-computer-page": {
+    demoPath: "src/components/demos/procedural-computer-page.tsx",
+    assets: [],
+    nuance: [
+      {
+        label: "One triangle covers the whole page",
+        description:
+          "The scene is a single fragment shader rasterized over one oversized triangle at [-1,-1],[3,-1],[-1,3]. There is no geometry for the rings; every pixel independently raymarches the signed-distance field, so the cost scales with resolution, not with scene complexity.",
+      },
+      {
+        label: "Rings are analytic ellipse SDFs, not sampled circles",
+        description:
+          "Each ring rotates a 3D circle by a rotation matrix and projects it, which turns it into an ellipse in screen space. The exact distance to that ellipse is solved with a twelve-step Newton iteration over the ellipse's parametric normal, then onioned to give the ring its thickness. That is what keeps the edges razor sharp at any orientation instead of blurring as they turn edge-on.",
+      },
+      {
+        label: "Two passes, cross-faded by a key",
+        description:
+          "The field is evaluated twice with different line and crosshair widths: a flat pass anti-aliased with fwidth for crisp strokes, and an emboss pass that reads the SDF at four neighbours to build a surface normal and light it. Pressing B lerps uEmboss between them, so the same rings read as line art or as raised metal without a second scene.",
+      },
+      {
+        label: "The loop is deterministic, the input is not",
+        description:
+          "Time is wrapped to a fifteen second period so the ring orbit is perfectly seamless. Everything reactive is added on top as an offset: the wheel feeds a velocity that decays into uScroll, the pointer is exponentially smoothed toward the crosshair, and dark mode eases uInvert. Nothing accumulates permanently, so the background never drifts out of frame.",
+      },
+      {
+        label: "Dark mode is a shader uniform, not a repaint",
+        description:
+          "uInvert mixes the background from a light grey to near-black and swaps the line colour the opposite way inside the shader. Toggling the theme does not touch the DOM canvas; it eases a single float, so the whole field crossfades its palette in one smooth motion.",
+      },
+    ],
+    editable: [
+      {
+        name: "wordmark",
+        control: "text",
+        description: "Fixed top-left studio mark.",
+      },
+      {
+        name: "intro",
+        control: "textarea",
+        description: "Copy inside the blurred glass card.",
+      },
+      {
+        name: "links",
+        control: "links",
+        description: "Bottom-right social nav.",
+      },
+    ],
+    api: [
+      {
+        name: "wordmark",
+        type: "string",
+        default: '"BLANK"',
+        description: "Fixed top-left wordmark over the canvas.",
+      },
+      {
+        name: "intro",
+        type: "string",
+        default: "Studio intro",
+        description: "Paragraph rendered in the blurred backdrop card.",
+      },
+      {
+        name: "contactEmail",
+        type: "string",
+        default: '"hello@aryank.space"',
+        description: "Address opened by the Contact button and the C shortcut.",
+      },
+      {
+        name: "links",
+        type: "ProceduralComputerPageLink[]",
+        default: "Three BLANK links",
+        description: "Bottom-right social navigation as { label, href } pairs.",
+      },
+      {
+        name: "defaultDark",
+        type: "boolean",
+        default: "false",
+        description:
+          "Start with the inverted (dark) palette; press T to toggle.",
       },
     ],
   },

@@ -246,6 +246,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "procedural-computer-page",
+    title: "Procedural Computer Page",
+    description:
+      "A full-bleed WebGL2 studio homepage whose entire background is a single raymarched fragment shader. Three tumbling 3D rings, each an analytic ellipse SDF resolved with a twelve-step Newton refinement, are smooth-unioned with a pointer-tracked crosshair and drawn twice per frame: a crisp flat line pass and a normal-shaded emboss pass, cross-faded live by pressing B. The rings orbit on a fixed fifteen second loop, the wheel injects decaying rotational velocity, the pointer is lerped toward the crosshair with exponential smoothing, and toggling dark mode inverts the grey palette. Fixed wordmark, blurred intro card, contact button, and social nav sit over the canvas. Pure WebGL2, no dependencies; keyboard shortcuts for theme (T), contact (C), and emboss (B).",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-24",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/procedural-computer-page.tsx",
+        target: "components/ui/procedural-computer-page.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "content-architecture-page",
     title: "Content Architecture Page",
     description:
@@ -1811,6 +1831,26 @@ export const registryItems: RegistryItem[] = [
       {
         path: "src/registry/terminal-text-reveal.tsx",
         target: "components/ui/terminal-text-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "edge-warp-rail",
+    title: "Edge Warp Rail",
+    description:
+      "A case study read sideways. Vertical scroll drives a horizontal rail of media: wheel down, swipe, or grab the rail and drag, and the whole strip travels left. Tiles bend and recede at the left and right of the frame like a page turning, so leaving the viewport reads as motion rather than a cut, and a soft edge mask dissolves them at the rim. Portrait, square, and wide frames sit in one continuous line sized by their own proportions, with short note cards set between them. Images fade up from transparent as they load. It owns its own scroll container, so it embeds in a bounded box or fills the viewport; on small screens it becomes a plain vertical stack, and with reduced motion a native horizontal scroller with no scroll hijacking. No animation library.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-24",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/edge-warp-rail.tsx",
+        target: "components/ui/edge-warp-rail.tsx",
         type: "registry:ui",
       },
     ],

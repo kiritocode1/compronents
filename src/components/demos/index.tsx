@@ -42,6 +42,7 @@ import DiningRoomPageDemo from "./dining-room-page";
 import DitherStudioPageDemo from "./dither-studio-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
 import DroneFleetDemo from "./drone-fleet";
+import EdgeWarpRailDemo from "./edge-warp-rail";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
 import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
@@ -93,6 +94,7 @@ import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
+import ProceduralComputerPageDemo from "./procedural-computer-page";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
@@ -214,6 +216,7 @@ export const demos: Record<string, ComponentType> = {
   "split-reveal-preloader": SplitRevealPreloaderDemo,
   "hour-timeline-slider": HourTimelineSliderDemo,
   "drag-timeline-scroll": DragTimelineScrollDemo,
+  "edge-warp-rail": EdgeWarpRailDemo,
   "expanding-rows-gallery": ExpandingRowsGalleryDemo,
   "ribbon-stroke-scroll": RibbonStrokeScrollDemo,
   "rotating-hand-scroll": RotatingHandScrollDemo,
@@ -265,4 +268,5 @@ export const demos: Record<string, ComponentType> = {
   "lemon-bureau-page": LemonBureauPageDemo,
   "pixelgrid-studio-page": PixelgridStudioPageDemo,
   "polite-chaos-page": PoliteChaosPageDemo,
+  "procedural-computer-page": ProceduralComputerPageDemo,
 };
