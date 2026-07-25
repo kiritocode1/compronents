@@ -100,9 +100,26 @@ export default function DrawnPathFeatures({
       },
     });
 
+    // The four illustrations have no intrinsic box until they decode, so the
+    // section is measured short on the first pass and the scrub range comes
+    // out degenerate. Re-measure once each image has actually landed.
+    const images = gsap.utils.toArray<HTMLImageElement>(
+      spotlight.querySelectorAll("img"),
+    );
+    const onImageSettled = () => ScrollTrigger.refresh();
+    for (const image of images) {
+      if (image.complete) continue;
+      image.addEventListener("load", onImageSettled);
+      image.addEventListener("error", onImageSettled);
+    }
+
     ScrollTrigger.refresh();
 
     return () => {
+      for (const image of images) {
+        image.removeEventListener("load", onImageSettled);
+        image.removeEventListener("error", onImageSettled);
+      }
       tween.scrollTrigger?.kill();
       tween.kill();
       gsap.ticker.remove(tickerFn);
@@ -242,6 +259,8 @@ const styles = `
   overflow: hidden;
 }
 .sps-spotlight .sps-row {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -271,7 +290,7 @@ const styles = `
   transform: translateX(-50%);
   width: 90%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 .sps-spotlight .sps-svg-path svg { width: 100%; height: auto; }
 

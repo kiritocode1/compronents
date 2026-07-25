@@ -3376,6 +3376,126 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "sliding-index-menu",
+    title: "Sliding Index Menu",
+    description:
+      "A full-screen menu that wipes up from the bottom edge and hands the page over to an oversized link index. The whole rail slides horizontally against the pointer so moving right pulls the far links into reach, and an accent bar chases whichever link is hovered, easing its position and its width at once. Each link swaps to a duplicate copy on a per-character roll. GSAP SplitText with Lenis.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sliding-index-menu.tsx",
+        target: "components/ui/sliding-index-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "elastic-curtain-menu",
+    title: "Elastic Curtain Menu",
+    description:
+      "A full-screen menu whose panel is a single SVG path with a quadratic control point, so it drops in as a sagging sheet rather than a rectangle. Opening runs the curve past its resting position and settles it, closing flips the anchor to the bottom and lifts the sag the other way. Link characters fly in from far right on an elastic ease while the contact block staggers up underneath.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/elastic-curtain-menu.tsx",
+        target: "components/ui/elastic-curtain-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "tilt-away-menu",
+    title: "Tilt Away Menu",
+    description:
+      "Opening this menu does not cover the page, it throws it. The hero rotates, scales up and slides off toward the bottom right while the panel unfolds from the opposite corner, arriving from a rotated, oversized, quarter-opacity state. The clip path overshoots past the bottom edge so the panel lands as a skewed sheet, links roll up from below their baseline, and hovering a link stacks a new preview in over the last.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/tilt-away-menu.tsx",
+        target: "components/ui/tilt-away-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "push-down-overlay-menu",
+    title: "Push Down Overlay Menu",
+    description:
+      "The menu does not sit on top of the page, it pushes it. Opening drives the whole document down a full viewport while the panel wipes in from the top edge and its own content slides down from half a screen above, so the two read as one sheet. Every line of menu copy is masked and dropped in with a negative stagger, and the hamburger folds into a cross on the same custom ease. GSAP CustomEase and SplitText with Lenis.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/push-down-overlay-menu.tsx",
+        target: "components/ui/push-down-overlay-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "dealt-team-cards",
+    title: "Dealt Team Cards",
+    description:
+      "A team section that deals itself out. Dashed placeholder frames rise into their slots as the section approaches, each popping its giant initial once the frame is most of the way up. The section then pins and the real cards fly in from off to the right, rotating flat and scaling up on staggered windows, so the last card is still arriving while the first has settled. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dealt-team-cards.tsx",
+        target: "components/ui/dealt-team-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "wedge-clip-work-scroll",
+    title: "Wedge Clip Work Scroll",
+    description:
+      "A work index where each project opens and closes like an aperture. The image starts as an angled wedge, widens to a full rectangle as the panel arrives, then folds shut from the bottom as it leaves. The project title is masked per character and each character gets its own short scroll window, so the name types itself upward slightly ahead of the image finishing its opening. GSAP SplitText and ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wedge-clip-work-scroll.tsx",
+        target: "components/ui/wedge-clip-work-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:

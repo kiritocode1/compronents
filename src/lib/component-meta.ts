@@ -415,8 +415,373 @@ const drawnPathFeaturesAssetDocs = assetsByIds(
 const circularWidgetDialAssetDocs = assetsByIds(
   Array.from({ length: 10 }, (_, i) => `circular-widget-dial-widget-${i + 1}`),
 );
+const slidingIndexMenuAssetDocs = assetsByIds(["sliding-index-menu-menu-img"]);
+const elasticCurtainMenuAssetDocs = assetsByIds(["elastic-curtain-menu-bg"]);
+const tiltAwayMenuAssetDocs = assetsByIds([
+  "tilt-away-menu-hero",
+  ...Array.from({ length: 4 }, (_, i) => `tilt-away-menu-img-${i + 1}`),
+]);
+const pushDownOverlayMenuAssetDocs = assetsByIds([
+  "push-down-overlay-menu-hero",
+  "push-down-overlay-menu-menu-media",
+]);
+const dealtTeamCardsAssetDocs = assetsByIds(
+  Array.from({ length: 3 }, (_, i) => `dealt-team-cards-team-member-${i + 1}`),
+);
+const wedgeClipWorkScrollAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `wedge-clip-work-scroll-work-0${i + 1}`),
+);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "sliding-index-menu": {
+    demoPath: "src/components/demos/sliding-index-menu.tsx",
+    nuance: [
+      {
+        label: "The rail is longer than the frame on purpose",
+        description:
+          "The link row is sized to its content and can overflow the panel. Pointer position maps to how far it slides, using only the middle half of the frame as the sensitive range, so small movements near the edges do nothing and the far links stay reachable.",
+      },
+      {
+        label: "The highlighter eases two properties at once",
+        description:
+          "Position and width are both lerped toward the hovered link's box every frame, so the bar stretches and travels as one motion instead of snapping to each new word.",
+      },
+      {
+        label: "Overflow is only unlocked once open",
+        description:
+          "Links keep overflow hidden through the wipe so they cannot poke outside the panel mid-animation, then switch to visible on completion, which is what lets the hover roll push characters past their own box.",
+      },
+    ],
+    editable: [
+      {
+        name: "links",
+        control: "text",
+        description: "The oversized index entries.",
+      },
+      {
+        name: "leftColumn / rightColumn",
+        control: "text",
+        description:
+          "The two info columns. An empty string renders as a spacer line.",
+      },
+      {
+        name: "accent",
+        control: "color",
+        description: "The highlighter bar color.",
+      },
+    ],
+    assets: slidingIndexMenuAssetDocs,
+    api: [
+      {
+        name: "links",
+        type: "string[]",
+        default: "Index, Persona, Biography, Work, Journal",
+        description:
+          "Index entries. Each renders twice so the hover roll has a copy to swap in.",
+      },
+      {
+        name: "leftColumn / rightColumn",
+        type: "string[]",
+        default: "BLANK contact and credits",
+        description:
+          "Info columns beside the plate. Empty strings become spacing breaks.",
+      },
+      {
+        name: "menuImage",
+        type: "string",
+        default: "Blob-hosted plate",
+        description: "The centered image that scales up when the menu opens.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        default: "#fca311",
+        description: "Highlighter bar color.",
+      },
+    ],
+  },
+  "elastic-curtain-menu": {
+    demoPath: "src/components/demos/elastic-curtain-menu.tsx",
+    nuance: [
+      {
+        label: "The panel is one path, not a box",
+        description:
+          "The whole sheet is a single quadratic path whose control point is dragged past the end points, so the leading edge sags in the middle. Two chained tweens, power4.in then power4.out, make it accelerate into the sag and settle out of it.",
+      },
+      {
+        label: "Closing rebuilds the path from the other anchor",
+        description:
+          "Before the close runs, the path is reset to a bottom-anchored variant. The sag then lifts upward instead of replaying the open in reverse, so entry and exit read as different motions.",
+      },
+      {
+        label: "Links arrive from far off the right",
+        description:
+          "Characters start at 750 percent x and return on elastic.out with a 0.01 stagger, so the word assembles as a fast ripple that overshoots and settles rather than a uniform slide.",
+      },
+    ],
+    editable: [
+      {
+        name: "links",
+        control: "text",
+        description: "The menu link labels.",
+      },
+      {
+        name: "panelColor / accent",
+        control: "color",
+        description: "Curtain fill and the contact label color.",
+      },
+    ],
+    assets: elasticCurtainMenuAssetDocs,
+    api: [
+      {
+        name: "links",
+        type: "string[]",
+        default: "work, services, about, insights, careers, contact",
+        description: "Menu entries, split into characters for the fly-in.",
+      },
+      {
+        name: "contactLabel / contactLines / addressLines",
+        type: "string / string[]",
+        default: "BLANK contact block",
+        description: "The information column beside the links.",
+      },
+      {
+        name: "backgroundImage",
+        type: "string",
+        default: "Blob-hosted hero",
+        description: "The page image the curtain drops over.",
+      },
+      {
+        name: "panelColor / accent",
+        type: "string",
+        default: "#f0eeee / #a374ff",
+        description: "Curtain fill and contact label color.",
+      },
+    ],
+  },
+  "tilt-away-menu": {
+    demoPath: "src/components/demos/tilt-away-menu.tsx",
+    nuance: [
+      {
+        label: "The page leaves, the panel arrives",
+        description:
+          "Both moves run on the same 1.25s power4.inOut, but from opposite corners: the hero uses a right-top transform origin and exits rotated and scaled, the panel uses left-bottom and comes back from rotated, oversized, quarter opacity.",
+      },
+      {
+        label: "The clip path overshoots the frame",
+        description:
+          "The open state clips to 175 percent on one side, so the panel edge lands beyond the bottom of the box and the sheet reads as skewed rather than square.",
+      },
+      {
+        label: "Previews stack instead of swapping",
+        description:
+          "Hovering a link appends a new image at scale 1.25 and 10 degrees and eases it flat over the previous one, so there is never an empty frame. Only the last three stay in the DOM.",
+      },
+    ],
+    editable: [
+      {
+        name: "links",
+        control: "text",
+        description: "Menu labels and the preview image each one shows.",
+      },
+      {
+        name: "heroHeading",
+        control: "text",
+        description: "The headline on the page behind the menu.",
+      },
+    ],
+    assets: tiltAwayMenuAssetDocs,
+    api: [
+      {
+        name: "links",
+        type: "TiltAwayMenuLink[]",
+        default: "Visions, Core, Signals, Connect",
+        description: "Label plus the preview image swapped in on hover.",
+      },
+      {
+        name: "heroImage / heroHeading",
+        type: "string",
+        default: "Blob-hosted hero",
+        description: "The page behind the menu.",
+      },
+      {
+        name: "socials / footerPrimary / footerLinks",
+        type: "string[] / string",
+        default: "Behance, Dribbble, LinkedIn, Instagram",
+        description: "Secondary link groups in the panel.",
+      },
+    ],
+  },
+  "push-down-overlay-menu": {
+    demoPath: "src/components/demos/push-down-overlay-menu.tsx",
+    nuance: [
+      {
+        label: "Page and panel move as one sheet",
+        description:
+          "The document is driven down exactly one viewport while the panel content slides from minus fifty percent to zero, so the two travel together and the seam between them never separates.",
+      },
+      {
+        label: "Copy staggers backwards",
+        description:
+          "Lines animate with a negative stagger, so the last line of each column starts first. Combined with a 2s duration against the 1s panel wipe, the text is still arriving after the panel has landed.",
+      },
+      {
+        label: "Scrolling is stopped, not hidden",
+        description:
+          "Lenis is halted for the duration the menu is open and restarted in the close callback, so the pushed page cannot be scrolled out from under the panel.",
+      },
+    ],
+    editable: [
+      {
+        name: "links / tags",
+        control: "text",
+        description: "The two menu columns.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "Headlines on the pushed page.",
+      },
+    ],
+    assets: pushDownOverlayMenuAssetDocs,
+    api: [
+      {
+        name: "links / tags",
+        type: "string[]",
+        default: "BLANK menu columns",
+        description:
+          "Primary navigation and the secondary discipline list beside it.",
+      },
+      {
+        name: "location / contactLines",
+        type: "string / string[]",
+        default: "BLANK contact block",
+        description: "The panel footer.",
+      },
+      {
+        name: "bannerImage / menuImage",
+        type: "string",
+        default: "Blob-hosted images",
+        description: "Page banner and the dimmed plate inside the panel.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "dealt-team-cards": {
+    demoPath: "src/components/demos/dealt-team-cards.tsx",
+    nuance: [
+      {
+        label: "Two triggers, two jobs",
+        description:
+          "An unpinned trigger raises the dashed frames on approach, then a separate pinned trigger three viewports long deals the real cards in. Splitting them means the frames finish arriving before any card starts flying.",
+      },
+      {
+        label: "Each card has its own window",
+        description:
+          "Slide-in and scale-up run on staggered sub-ranges of the pinned progress rather than a shared tween, so the third card is still rotating flat while the first has already reached full size.",
+      },
+      {
+        label: "Narrow layouts opt out entirely",
+        description:
+          "Below 1000px the triggers are killed and every animated property is cleared, so the section falls back to a plain stacked column instead of a squeezed version of the deal.",
+      },
+    ],
+    editable: [
+      {
+        name: "members",
+        control: "text",
+        description: "Names, roles, and portraits.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "The lead-in and closing screens.",
+      },
+    ],
+    assets: dealtTeamCardsAssetDocs,
+    api: [
+      {
+        name: "members",
+        type: "TeamMember[]",
+        default: "Three BLANK team members",
+        description:
+          "First name, last name, role, and portrait. The giant placeholder initial is taken from the first name.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy on the screens around the team section.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "wedge-clip-work-scroll": {
+    demoPath: "src/components/demos/wedge-clip-work-scroll.tsx",
+    nuance: [
+      {
+        label: "Open and close are separate triggers",
+        description:
+          "One trigger runs while the panel enters and clips the wedge out to a full rectangle, a second runs as it leaves and folds the bottom edge back in, so the exit shape is not just the entrance played backwards.",
+      },
+      {
+        label: "Characters get pixel windows, not percentages",
+        description:
+          "Each character's trigger is offset by 25px from the previous one, so the title types out at a rate tied to actual scroll distance and stays consistent no matter how long the name is.",
+      },
+      {
+        label: "Panels are one and a half viewports",
+        description:
+          "At 150svh each project has room to open, hold, and close without a neighbouring panel's triggers overlapping it.",
+      },
+    ],
+    editable: [
+      {
+        name: "items",
+        control: "text",
+        description: "Project names and their images.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "The lead-in and closing screens.",
+      },
+    ],
+    assets: wedgeClipWorkScrollAssetDocs,
+    api: [
+      {
+        name: "items",
+        type: "WedgeWorkItem[]",
+        default: "Five BLANK projects",
+        description: "Project name and image for each full-height panel.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy on the screens around the index.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
   "starfield-warp-scroll": {
     demoPath: "src/components/demos/starfield-warp-scroll.tsx",
     nuance: [

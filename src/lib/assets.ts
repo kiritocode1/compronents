@@ -1510,6 +1510,68 @@ const circularWidgetDialAssets = Array.from(
     }) as const satisfies AssetItem,
 );
 
+function simpleAssets(
+  component: string,
+  label: string,
+  role: string,
+  files: string[],
+) {
+  return files.map(
+    (rel) =>
+      ({
+        id: `${component}-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+        label: `${label} asset ${rel}`,
+        provider: "vercel-blob",
+        pathname: `${component}/${rel}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/${component}/${rel}`,
+        role,
+        notes: `Uploaded to Vercel Blob at the source pathname for the ${component} component.`,
+      }) as const satisfies AssetItem,
+  );
+}
+
+const slidingIndexMenuAssets = simpleAssets(
+  "sliding-index-menu",
+  "Sliding Index Menu",
+  "Centered plate that scales up behind the index when the menu opens.",
+  ["menu_img.jpg"],
+);
+
+const elasticCurtainMenuAssets = simpleAssets(
+  "elastic-curtain-menu",
+  "Elastic Curtain Menu",
+  "Full-bleed hero photograph the curtain panel drops over.",
+  ["bg.jpg"],
+);
+
+const tiltAwayMenuAssets = simpleAssets(
+  "tilt-away-menu",
+  "Tilt Away Menu",
+  "Hero photograph, or a link preview stacked in on hover.",
+  ["hero.jpg", "img-1.jpg", "img-2.jpg", "img-3.jpg", "img-4.jpg"],
+);
+
+const pushDownOverlayMenuAssets = simpleAssets(
+  "push-down-overlay-menu",
+  "Push Down Overlay Menu",
+  "Page banner photograph, or the dimmed plate in the open menu.",
+  ["hero.jpg", "menu-media.jpg"],
+);
+
+const dealtTeamCardsAssets = simpleAssets(
+  "dealt-team-cards",
+  "Dealt Team Cards",
+  "Portrait on a team card as it deals into its dashed slot.",
+  ["team-member-1.jpg", "team-member-2.jpg", "team-member-3.jpg"],
+);
+
+const wedgeClipWorkScrollAssets = simpleAssets(
+  "wedge-clip-work-scroll",
+  "Wedge Clip Work Scroll",
+  "Project photograph revealed as the wedge clip opens to a full rectangle.",
+  ["work_01.jpg", "work_02.jpg", "work_03.jpg", "work_04.jpg", "work_05.jpg"],
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -1897,6 +1959,12 @@ export const assetItems = [
   ...spotlightGalleryScrollAssets,
   ...drawnPathFeaturesAssets,
   ...circularWidgetDialAssets,
+  ...slidingIndexMenuAssets,
+  ...elasticCurtainMenuAssets,
+  ...tiltAwayMenuAssets,
+  ...pushDownOverlayMenuAssets,
+  ...dealtTeamCardsAssets,
+  ...wedgeClipWorkScrollAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
