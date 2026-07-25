@@ -1476,6 +1476,40 @@ const spotlightGalleryScrollAssets = [
     }) as const satisfies AssetItem,
 );
 
+const drawnPathFeaturesAssets = Array.from(
+  { length: 4 },
+  (_, i) => `img_${i + 1}.svg`,
+).map(
+  (rel) =>
+    ({
+      id: `drawn-path-features-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Drawn Path Features illustration ${rel}`,
+      provider: "vercel-blob",
+      pathname: `drawn-path-features/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/drawn-path-features/${rel}`,
+      role: "Line illustration the drawn stroke threads past as it advances.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the drawn-path-features component.",
+    }) as const satisfies AssetItem,
+);
+
+const circularWidgetDialAssets = Array.from(
+  { length: 10 },
+  (_, i) => `widget_${i + 1}.jpg`,
+).map(
+  (rel) =>
+    ({
+      id: `circular-widget-dial-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Circular Widget Dial segment ${rel}`,
+      provider: "vercel-blob",
+      pathname: `circular-widget-dial/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/circular-widget-dial/${rel}`,
+      role: "Image clipped into one ring segment and used as the full-bleed backdrop when the indicator reaches it.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the circular-widget-dial component.",
+    }) as const satisfies AssetItem,
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -1861,6 +1895,8 @@ export const assetItems = [
   ...isochromePageAssets,
   ...landingImageRevealAssets,
   ...spotlightGalleryScrollAssets,
+  ...drawnPathFeaturesAssets,
+  ...circularWidgetDialAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

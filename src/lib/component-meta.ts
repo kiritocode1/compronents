@@ -409,8 +409,378 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
   "spotlight-gallery-scroll-",
   5,
 );
+const drawnPathFeaturesAssetDocs = assetsByIds(
+  Array.from({ length: 4 }, (_, i) => `drawn-path-features-img-${i + 1}`),
+);
+const circularWidgetDialAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `circular-widget-dial-widget-${i + 1}`),
+);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "starfield-warp-scroll": {
+    demoPath: "src/components/demos/starfield-warp-scroll.tsx",
+    nuance: [
+      {
+        label: "Speed is a curve, not the raw progress",
+        description:
+          "Scroll progress is first lifted off a resting fill of 0.25 so the field is already drifting at rest, then raised to a fractional power, so the warp accelerates late instead of tracking the scrollbar linearly.",
+      },
+      {
+        label: "Streaks are drawn, never simulated",
+        description:
+          "Each star keeps only a direction, a phase offset, and a length. Its head position is derived from scroll progress modulo one, so the field loops seamlessly and nothing needs a per-frame physics step.",
+      },
+      {
+        label: "Headline handoff is measured in words",
+        description:
+          "The timeline length is computed from the total word count across all three headlines, so adding or shortening copy redistributes the fades automatically and the scroll distance stays the same.",
+      },
+    ],
+    editable: [
+      {
+        name: "headings",
+        control: "text",
+        description: "The three headlines that hand off across the warp.",
+      },
+      {
+        name: "palette",
+        control: "color",
+        description: "Streak colors, sampled with per-color weights.",
+      },
+      {
+        name: "starCount",
+        control: "text",
+        description: "How many streaks are drawn each frame.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "introHeading / headings / outroHeading",
+        type: "string / [string, string, string] / string",
+        default: "BLANK copy",
+        description:
+          "Copy for the lead-in section, the three warp headlines, and the closing section.",
+      },
+      {
+        name: "starCount",
+        type: "number",
+        default: "1000",
+        description: "Number of streaks in the field.",
+      },
+      {
+        name: "palette / paletteWeights",
+        type: "string[] / number[]",
+        default: "6 cyan-to-pink hexes",
+        description:
+          "Streak colors and the probability weight of each, sampled once per star at creation.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "physics-tag-footer": {
+    demoPath: "src/components/demos/physics-tag-footer.tsx",
+    nuance: [
+      {
+        label: "The lid arrives late",
+        description:
+          "Only the floor and side walls exist at first, so the labels can rain in from far above the frame. A top wall is added three seconds later, which is what stops a hard throw from launching a pill out of the box.",
+      },
+      {
+        label: "Dragging suspends rotation",
+        description:
+          "A grabbed body gets infinite inertia for the length of the drag, so it translates without spinning, then has its real inertia restored on release. Its position and velocity are clamped every step so it cannot be dragged through a wall.",
+      },
+      {
+        label: "Physics runs in the footer's own coordinate space",
+        description:
+          "Walls and bodies are built from the container rect, not the viewport, so the pile fits whatever box the footer occupies.",
+      },
+    ],
+    editable: [
+      {
+        name: "tags",
+        control: "text",
+        description: "The labels that drop in as physics bodies.",
+      },
+      {
+        name: "heroHeading / footerHeading",
+        control: "text",
+        description: "The lead-in headline and the headline behind the pile.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "tags",
+        type: "string[]",
+        default: "12 BLANK stack labels",
+        description:
+          "Labels rendered as draggable pills. Each becomes one Matter.js body sized from its rendered box.",
+      },
+      {
+        name: "heroHeading / footerHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy for the first screen and the footer screen.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "showreel-zoom-scroll": {
+    demoPath: "src/components/demos/showreel-zoom-scroll.tsx",
+    nuance: [
+      {
+        label: "Pointer drift scales with distance",
+        description:
+          "Horizontal tracking is multiplied by (1 - scale), so the card swings widest while it is a distant thumbnail and stops moving entirely once it passes 95 percent scale and becomes the subject.",
+      },
+      {
+        label: "Caption shrinks on two slopes",
+        description:
+          "Font size runs 80 to 40 across the first 40 percent of the scroll and 40 to 20 across the remaining 60 percent, so the type drops fast while the card is small and eases into its final reading size.",
+      },
+      {
+        label: "Start offset is breakpoint aware",
+        description:
+          "The initial translate and the pointer multiplier are picked from a width table, so the thumbnail starts fully above the fold on narrow screens without overshooting on wide ones.",
+      },
+    ],
+    editable: [
+      {
+        name: "videoSrc",
+        control: "text",
+        description: "The looping clip shown in the card.",
+      },
+      {
+        name: "heroHeading / heroCopy / outroCopy",
+        control: "text",
+        description: "Oversized brand headline and the surrounding copy.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "videoSrc",
+        type: "string",
+        default: "Blob-hosted loop",
+        description:
+          "Muted, autoplaying, looping video source used for the showreel card.",
+      },
+      {
+        name: "brand / navLinks / heroHeading / heroCopy / scrollLabel / outroCopy",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation and editorial copy around the reel.",
+      },
+      {
+        name: "videoTitle / videoYears",
+        type: "string",
+        default: "Studio Showreel / 2023 - 2024",
+        description: "The caption pair under the card.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "interlock-title-scroll": {
+    demoPath: "src/components/demos/interlock-title-scroll.tsx",
+    nuance: [
+      {
+        label: "Per-character windows, not a stagger",
+        description:
+          "Each character gets its own start delay and duration computed from its index and the character count, then reads scroll progress directly. The comb closes evenly no matter how long the word is.",
+      },
+      {
+        label: "The middle band runs backwards",
+        description:
+          "Bands one and three stagger left to right and slide in from the right, band two reverses both, so consecutive titles never resolve in the same direction.",
+      },
+      {
+        label: "Bands are shorter than the viewport",
+        description:
+          "Each title occupies 85svh, so the next band is always visible under the current one and the animations overlap as you scroll.",
+      },
+    ],
+    editable: [
+      {
+        name: "titles",
+        control: "text",
+        description: "The full-bleed titles, one per band.",
+      },
+      {
+        name: "accent / background / foreground",
+        control: "color",
+        description: "Alternating band color, page color, and type color.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "titles",
+        type: "string[]",
+        default: "Subtle Phase, Hidden Flow, Calm Glide",
+        description:
+          "One title per band. Odd bands take the accent background, even bands the page background.",
+      },
+      {
+        name: "introHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "The lead-in and closing screens.",
+      },
+      {
+        name: "background / foreground / accent",
+        type: "string",
+        default: "#f4f3ef / #141414 / #e3f794",
+        description: "Page, type, and alternating band colors.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "drawn-path-features": {
+    demoPath: "src/components/demos/drawn-path-features.tsx",
+    nuance: [
+      {
+        label: "One dash offset, measured at runtime",
+        description:
+          "The path's real length is read with getTotalLength and used for both the dash array and the starting offset, so the stroke draws exactly once across the section regardless of viewport size.",
+      },
+      {
+        label: "The line lives behind the content",
+        description:
+          "The SVG sits on a negative layer inside the section, so the stroke passes behind the cards while remaining visible over the page background.",
+      },
+      {
+        label: "Scrub is tied to the section, not a pin",
+        description:
+          "The trigger runs top top to bottom bottom on the feature section itself, so nothing is pinned and the drawing rate stays locked to natural reading speed.",
+      },
+    ],
+    editable: [
+      {
+        name: "strokeColor / strokeWidth",
+        control: "color",
+        description: "Color and thickness of the threading stroke.",
+      },
+      {
+        name: "cards",
+        control: "text",
+        description: "The two feature card headings and bodies.",
+      },
+    ],
+    assets: drawnPathFeaturesAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "[string, string, string, string]",
+        default: "Blob-hosted illustrations",
+        description: "The four illustrations the stroke threads past.",
+      },
+      {
+        name: "cards",
+        type: "[StrokePathCard, StrokePathCard]",
+        default: "Two BLANK feature cards",
+        description: "Heading and body for each of the two text cards.",
+      },
+      {
+        name: "strokeColor / strokeWidth",
+        type: "string / number",
+        default: "#FF5F0A / 200",
+        description: "Color and thickness of the drawn path.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "circular-widget-dial": {
+    demoPath: "src/components/demos/circular-widget-dial.tsx",
+    nuance: [
+      {
+        label: "Two counter-rotations, one readout",
+        description:
+          "The indicator advances and the ring retreats at a quarter that rate. The active segment is derived from the difference between the two angles, so a wheel gesture changes the readout faster than either element alone appears to move.",
+      },
+      {
+        label: "Segments are clipped arcs, not masks",
+        description:
+          "Each slice is an SVG clipPath built from two arcs and two radial edges. The image inside is oversized by 25 percent and pre-rotated to the slice's mid-angle so it fills the wedge with no seams.",
+      },
+      {
+        label: "Backdrop swaps are stacked, then trimmed",
+        description:
+          "A new full-bleed image is appended and faded in over 100ms rather than swapping a src, so there is never a blank frame. Only the last three are kept in the DOM.",
+      },
+    ],
+    editable: [
+      {
+        name: "widgets",
+        control: "text",
+        description: "Segment images and their names.",
+      },
+      {
+        name: "accent / background",
+        control: "color",
+        description: "Indicator and name-chip color, and the base color.",
+      },
+      {
+        name: "spinSpeed",
+        control: "text",
+        description: "Degrees per second the indicator advances at rest.",
+      },
+    ],
+    assets: circularWidgetDialAssetDocs,
+    api: [
+      {
+        name: "widgets",
+        type: "CircularWidget[]",
+        default: "10 Blob-hosted segments",
+        description:
+          "Image and name per ring segment. The ring divides evenly by however many are supplied.",
+      },
+      {
+        name: "accent / background",
+        type: "string",
+        default: "#ffff2b / #000",
+        description: "Indicator and chip color, and the base color.",
+      },
+      {
+        name: "spinSpeed",
+        type: "number",
+        default: "18",
+        description:
+          "Idle rotation speed in degrees per second. The ring counter-rotates at a quarter of it.",
+      },
+    ],
+  },
   "edge-warp-rail": {
     demoPath: "src/components/demos/edge-warp-rail.tsx",
     nuance: [

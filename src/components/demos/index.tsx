@@ -19,6 +19,7 @@ import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
+import CircularWidgetDialDemo from "./circular-widget-dial";
 import ClientHoverPreviewDemo from "./client-hover-preview";
 import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
@@ -41,6 +42,7 @@ import DetroitParisSliderDemo from "./detroit-paris-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import DitherStudioPageDemo from "./dither-studio-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
+import DrawnPathFeaturesDemo from "./drawn-path-features";
 import DroneFleetDemo from "./drone-fleet";
 import EdgeWarpRailDemo from "./edge-warp-rail";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
@@ -63,6 +65,7 @@ import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InkCoreLayoutDemo from "./ink-core-layout";
 import InteriorStudioPageDemo from "./interior-studio-page";
+import InterlockTitleScrollDemo from "./interlock-title-scroll";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
 import IsochromePageDemo from "./isochrome-page";
@@ -89,6 +92,7 @@ import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
+import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
@@ -104,6 +108,7 @@ import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
+import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
 import SorenPageDemo from "./soren-page";
@@ -112,6 +117,7 @@ import SplitCardScrollDemo from "./split-card-scroll";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
+import StarfieldWarpScrollDemo from "./starfield-warp-scroll";
 import StarryNightFlowDemo from "./starry-night-flow";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyStackCardsDemo from "./sticky-stack-cards";
@@ -271,4 +277,10 @@ export const demos: Record<string, ComponentType> = {
   "pixelgrid-studio-page": PixelgridStudioPageDemo,
   "polite-chaos-page": PoliteChaosPageDemo,
   "procedural-computer-page": ProceduralComputerPageDemo,
+  "starfield-warp-scroll": StarfieldWarpScrollDemo,
+  "physics-tag-footer": PhysicsTagFooterDemo,
+  "showreel-zoom-scroll": ShowreelZoomScrollDemo,
+  "interlock-title-scroll": InterlockTitleScrollDemo,
+  "drawn-path-features": DrawnPathFeaturesDemo,
+  "circular-widget-dial": CircularWidgetDialDemo,
 };

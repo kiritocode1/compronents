@@ -3256,6 +3256,126 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "starfield-warp-scroll",
+    title: "Starfield Warp Scroll",
+    description:
+      "A pinned canvas starfield where scroll drives the warp. A thousand weighted-color streaks fire out of a center hole, stretching and brightening the further they travel, while three headlines hand off word by word: one fades out as it swells past full size, the next fades in as it settles. Canvas 2D with GSAP ScrollTrigger, SplitText, and Lenis. No images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/starfield-warp-scroll.tsx",
+        target: "components/ui/starfield-warp-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "physics-tag-footer",
+    title: "Physics Tag Footer",
+    description:
+      "A footer that fills itself by dropping. Scroll it into view and a stack of rounded labels rains in from above, tumbles off the walls, and piles up on the floor, each one grabbable and throwable afterwards. A top wall seals the box three seconds in so nothing can be flung back out, and dragged bodies are clamped so they cannot be dragged through a wall. Matter.js bodies driving real DOM elements.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "matter-js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/physics-tag-footer.tsx",
+        target: "components/ui/physics-tag-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "showreel-zoom-scroll",
+    title: "Showreel Zoom Scroll",
+    description:
+      "A showreel that starts as a thumbnail floating above the fold and grows into the frame as you scroll. The card tracks the pointer horizontally while it is still small, drifting further the smaller it is, then locks dead center once it reaches full size. Its caption shrinks on a two stage curve so the type lands at reading size exactly when the video does. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/showreel-zoom-scroll.tsx",
+        target: "components/ui/showreel-zoom-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "interlock-title-scroll",
+    title: "Interlock Title Scroll",
+    description:
+      "Full-bleed titles that assemble themselves as they enter. Every other character starts pushed above the line and the rest below, so the word reads as two combs sliding into each other, while the whole block drifts in from the side. Each band staggers from a different end and the middle one runs the opposite direction to its neighbours. GSAP SplitText and ScrollTrigger with Lenis, no images.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/interlock-title-scroll.tsx",
+        target: "components/ui/interlock-title-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "drawn-path-features",
+    title: "Drawn Path Features",
+    description:
+      "A feature section threaded together by one fat orange stroke. The path sits behind the content on a negative layer and draws itself in exact step with the scroll, so the line arrives at each illustration and card just as that block reaches reading position, and completes on the last row. Stroke dash offset driven by GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drawn-path-features.tsx",
+        target: "components/ui/drawn-path-features.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "circular-widget-dial",
+    title: "Circular Widget Dial",
+    description:
+      "A ring of image segments that never stops turning. The ring rotates one way, a thin indicator line sweeps the other, and whichever segment sits under the line becomes the desaturated full-bleed backdrop with its name on a chip in the middle. Wheeling over it spins both faster or throws them into reverse, and every value eases on a lerp so the dial coasts instead of snapping. SVG arcs built and clipped at runtime.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/circular-widget-dial.tsx",
+        target: "components/ui/circular-widget-dial.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:
