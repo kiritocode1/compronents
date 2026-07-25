@@ -450,7 +450,7 @@ const styles = `
 .ppm-menu-col h6,
 .ppm-menu-col p { will-change: transform, opacity; }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .ppm-menu { flex-direction: column-reverse; }
   .ppm-menu-col-links { flex: 1.5; }
 }

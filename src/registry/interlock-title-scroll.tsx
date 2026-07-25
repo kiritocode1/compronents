@@ -228,7 +228,7 @@ const styles = `
   will-change: transform;
 }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .tlt-root h1 {
     font-size: 3rem;
     letter-spacing: 0;

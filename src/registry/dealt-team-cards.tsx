@@ -93,7 +93,7 @@ export default function DealtTeamCards({
     let cardSlideInAnimation: ScrollTrigger | null = null;
 
     const initTeamAnimations = () => {
-      const frameWidth = embedded ? root.clientWidth : window.innerWidth;
+      const frameWidth = window.innerWidth;
       const frameHeight = embedded ? root.clientHeight : window.innerHeight;
 
       cardPlaceholderEntrance?.kill();
@@ -357,6 +357,7 @@ const styles = `
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   padding: 2rem;
@@ -394,7 +395,7 @@ const styles = `
   transform: translate(100%, -50%) scale(0.75) rotate(20deg);
 }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .wst-root h1 { font-size: 4rem; }
   .wst-hero h1,
   .wst-outro h1 { width: 100%; }

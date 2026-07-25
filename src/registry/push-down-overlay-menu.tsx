@@ -490,7 +490,7 @@ const styles = `
 .pov-menu-footer p { color: var(--menu-fg-secondary); }
 .pov-line { position: relative; will-change: transform; }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .pov-root h1 { font-size: 3rem; letter-spacing: -0.05rem; }
   .pov-root section h1 { width: 100%; }
   .pov-menu-media-wrapper { display: none; }

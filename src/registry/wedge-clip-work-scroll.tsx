@@ -235,7 +235,7 @@ const styles = `
 }
 .cly-work-item-name h1 { color: #fff; }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .cly-root h1,
   .cly-work-item-name h1 { font-size: 2.5rem; }
 }

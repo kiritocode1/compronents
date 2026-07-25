@@ -294,7 +294,7 @@ const styles = `
 }
 .sps-spotlight .sps-svg-path svg { width: 100%; height: auto; }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .sps-root h1,
   .sps-root h2 { letter-spacing: 0; }
   .sps-root h1 { font-size: 2rem; }

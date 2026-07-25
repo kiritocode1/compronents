@@ -102,7 +102,7 @@ export default function SlidingIndexMenu({
       return;
     }
 
-    const isWide = () => root.clientWidth >= 1000;
+    const isWide = () => window.innerWidth >= 1000;
 
     let currentX = 0;
     let targetX = 0;
@@ -600,7 +600,7 @@ const styles = `
   will-change: transform;
 }
 
-@container (max-width: 1000px) {
+@media (max-width: 1000px) {
   .jam-hero h1 { width: 100%; font-size: 4rem; }
   .jam-menu-content { top: 25%; }
   .jam-menu-img,

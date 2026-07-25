@@ -539,7 +539,7 @@ const styles = `
   transform: translateX(-5px) translateY(10px) rotate(5deg);
 }
 
-@container (max-width: 900px) {
+@media (max-width: 900px) {
   .exo-hero h1 { width: 100%; font-size: 4rem; letter-spacing: 0; }
   .exo-menu-items .exo-col-lg { display: none; }
   .exo-link a::after,

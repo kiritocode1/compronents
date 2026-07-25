@@ -71,7 +71,7 @@ export default function ShowreelZoomScroll({
       root.querySelectorAll(".vck-video-container-desktop .vck-video-title p"),
     );
 
-    const frameWidth = () => (embedded ? root.clientWidth : window.innerWidth);
+    const frameWidth = () => window.innerWidth;
     if (frameWidth() < 900) return;
 
     const scroller = embedded ? root : undefined;
@@ -399,7 +399,7 @@ const styles = `
   border-radius: 1.5rem;
   pointer-events: none;
 }
-@container (max-width: 900px) {
+@media (max-width: 900px) {
   .vck-nav,
   .vck-root section { padding: 1.5em; }
   .vck-hero { justify-content: flex-end; gap: 2em; }
