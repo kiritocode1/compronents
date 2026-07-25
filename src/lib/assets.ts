@@ -1617,6 +1617,56 @@ const throwAwayWorkSliderAssets = simpleAssets(
   Array.from({ length: 4 }, (_, i) => `slide-img-${i + 1}.jpg`),
 );
 
+const flipMarqueeHorizontalAssets = simpleAssets(
+  "flip-marquee-horizontal",
+  "Flip Marquee Horizontal",
+  "Tilted marquee frame, or a panel image in the horizontal run.",
+  [
+    ...Array.from({ length: 13 }, (_, i) => `img-${i + 1}.jpg`),
+    "slide-1.jpg",
+    "slide-2.jpg",
+  ],
+);
+
+const clipRevealServicesAssets = simpleAssets(
+  "clip-reveal-services",
+  "Clip Reveal Services",
+  "Portrait plate, or the repeated services masthead lockup.",
+  ["hero.jpg", "outro.jpg", "whatido.svg"],
+);
+
+const swingInWorkGridAssets = simpleAssets(
+  "swing-in-work-grid",
+  "Swing In Work Grid",
+  "Project thumbnail on a card that swings into its row.",
+  Array.from({ length: 10 }, (_, i) => `work-${i + 1}.jpg`),
+);
+
+const stickyParallaxSlidesAssets = simpleAssets(
+  "sticky-parallax-slides",
+  "Sticky Parallax Slides",
+  "Full-bleed interior photograph parallaxed against its panel.",
+  Array.from({ length: 5 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const maskedSpotlightScrollAssets = simpleAssets(
+  "masked-spotlight-scroll",
+  "Masked Spotlight Scroll",
+  "Desaturated wall still, the revealed banner, or the aperture mask shape.",
+  [
+    ...Array.from({ length: 9 }, (_, i) => `img${i + 1}.jpg`),
+    "spotlight-banner.jpg",
+    "spotlight-mask.svg",
+  ],
+);
+
+const dealStackCardsScrollAssets = simpleAssets(
+  "deal-stack-cards-scroll",
+  "Deal Stack Cards Scroll",
+  "Photograph on a card that rises onto the pile and is pushed off.",
+  Array.from({ length: 6 }, (_, i) => `card-${i + 1}.jpeg`),
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -2016,6 +2066,12 @@ export const assetItems = [
   ...endlessSideStoryAssets,
   ...marqueeCarouselScrollAssets,
   ...throwAwayWorkSliderAssets,
+  ...flipMarqueeHorizontalAssets,
+  ...clipRevealServicesAssets,
+  ...swingInWorkGridAssets,
+  ...stickyParallaxSlidesAssets,
+  ...maskedSpotlightScrollAssets,
+  ...dealStackCardsScrollAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

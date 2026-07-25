@@ -3616,6 +3616,126 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "flip-marquee-horizontal",
+    title: "Flip Marquee Horizontal",
+    description:
+      "A tilted marquee that hands one of its own frames over to the next section. As the marquee passes, one image is cloned in place, and when the horizontal section pins, GSAP Flip grows that clone from its slot in the rotated strip to a full-bleed plate, straightening it on the way. The page darkens across the first five percent of the pin, then the track and the plate travel at different rates so the plate slides out from behind the slides.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flip-marquee-horizontal.tsx",
+        target: "components/ui/flip-marquee-horizontal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "clip-reveal-services",
+    title: "Clip Reveal Services",
+    description:
+      "Copy that fills in as you read it, and a three line masthead that assembles then collapses. Each paragraph is duplicated through a pseudo element and the bright copy is clipped from the bottom up on scroll, so the grey text is overwritten line by line rather than faded. The service lines slide in from alternating sides, then the section pins: the outer two close on the middle one, and once stacked all three scale down together.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/clip-reveal-services.tsx",
+        target: "components/ui/clip-reveal-services.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "swing-in-work-grid",
+    title: "Swing In Work Grid",
+    description:
+      "A work index where each row swings into place. Cards start a thousand pixels low and rotated sixty degrees, mirrored left against right, so a row reads as two panels hinging shut. The row fires once when it reaches mid viewport and the pair lands on a quarter second stagger, which keeps the second card still turning as the first settles. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/swing-in-work-grid.tsx",
+        target: "components/ui/swing-in-work-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "sticky-parallax-slides",
+    title: "Sticky Parallax Slides",
+    description:
+      "A pinned horizontal run where the images resist the track. Each photo is held at 1.35 zoom and pushed back a quarter of the slide width as its panel crosses, so the frames slide over the pictures instead of carrying them. Only the outgoing and incoming pair are offset at any moment. Titles are governed by an IntersectionObserver against the slider, so the caption swaps at the quarter visible mark and steps back correctly on reverse.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sticky-parallax-slides.tsx",
+        target: "components/ui/sticky-parallax-slides.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "masked-spotlight-scroll",
+    title: "Masked Spotlight Scroll",
+    description:
+      "A pinned sequence where a wall of desaturated stills drifts past, then a shaped mask opens through it. The mask grows from nothing to 450 percent while the photograph behind it counter-scales from 1.5 down to 1, so the image appears to settle as the aperture widens rather than being pushed by it. Once the mask is fully open the closing headline fills in word by word against scroll position.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/masked-spotlight-scroll.tsx",
+        target: "components/ui/masked-spotlight-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "deal-stack-cards-scroll",
+    title: "Deal Stack Cards Scroll",
+    description:
+      "A pinned deck where each card rises from below, lands on the pile at its own fixed tilt, then gets pushed off toward the top left as the cards behind it arrive. Departure speed is scaled per card, so the earliest card travels furthest and the stack fans out diagonally instead of leaving as one block. Each card only starts moving once the previous one has fully landed.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/deal-stack-cards-scroll.tsx",
+        target: "components/ui/deal-stack-cards-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:

@@ -467,7 +467,352 @@ const throwAwayWorkSliderAssetDocs = assetsByIds(
   ),
 );
 
+const flipMarqueeHorizontalAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 13 },
+    (_, i) => `flip-marquee-horizontal-img-${i + 1}`,
+  ),
+  "flip-marquee-horizontal-slide-1",
+  "flip-marquee-horizontal-slide-2",
+]);
+const clipRevealServicesAssetDocs = assetsByIds([
+  "clip-reveal-services-hero",
+  "clip-reveal-services-outro",
+  "clip-reveal-services-whatido",
+]);
+const swingInWorkGridAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `swing-in-work-grid-work-${i + 1}`),
+);
+const stickyParallaxSlidesAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `sticky-parallax-slides-img${i + 1}`),
+);
+const maskedSpotlightScrollAssetDocs = assetsByIds([
+  ...Array.from({ length: 9 }, (_, i) => `masked-spotlight-scroll-img${i + 1}`),
+  "masked-spotlight-scroll-spotlight-banner",
+  "masked-spotlight-scroll-spotlight-mask",
+]);
+const dealStackCardsScrollAssetDocs = assetsByIds(
+  Array.from({ length: 6 }, (_, i) => `deal-stack-cards-scroll-card-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "flip-marquee-horizontal": {
+    demoPath: "src/components/demos/flip-marquee-horizontal.tsx",
+    nuance: [
+      {
+        label: "Flip carries the frame across sections",
+        description:
+          "The marquee image is cloned into a free element and Flip records its state in the tilted strip, so the growth to full-bleed is computed from its real position rather than animated between two guessed transforms.",
+      },
+      {
+        label: "The Flip runs on scroll, not on time",
+        description:
+          "The Flip timeline is created paused and its progress is driven directly by the first fifth of the pin, so the plate opens exactly in step with the scrollbar and reverses cleanly.",
+      },
+      {
+        label: "Plate and track move at different rates",
+        description:
+          "The horizontal wrapper travels 66.67 percent while the plate travels three times its slide distance, so the plate visibly slides out from behind the slides instead of moving with them.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "The horizontal panel copy and images.",
+      },
+      {
+        name: "light / dark",
+        control: "color",
+        description: "Page color before and after the pin darkens it.",
+      },
+    ],
+    assets: flipMarqueeHorizontalAssetDocs,
+    api: [
+      {
+        name: "marqueeImages / pinnedIndex",
+        type: "string[] / number",
+        default: "13 images, index 6",
+        description:
+          "The tilted strip's frames, and which one is cloned and flipped into the next section.",
+      },
+      {
+        name: "slides",
+        type: "FlipMarqueeSlide[]",
+        default: "Two BLANK panels",
+        description: "Copy and image for each horizontal panel.",
+      },
+      {
+        name: "light / dark",
+        type: "string",
+        default: "#edf1e8 / #101010",
+        description: "Page colors interpolated across the start of the pin.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "clip-reveal-services": {
+    demoPath: "src/components/demos/clip-reveal-services.tsx",
+    nuance: [
+      {
+        label: "Two copies of the same text, one clipped",
+        description:
+          "The bright text is a pseudo element fed from a data attribute and clipped with inset from the bottom, so it overwrites the grey original in place. No per-word splitting, so line breaks can never disagree between the layers.",
+      },
+      {
+        label: "The masthead assembles then shrinks",
+        description:
+          "The first half of the pin closes the outer two lines onto the middle one, the second half scales all three down together, so stacking and shrinking never overlap.",
+      },
+      {
+        label: "pinSpacing is off on purpose",
+        description:
+          "The services section pins without reserving space, which is what lets the copy below slide up over it on its own large top margin.",
+      },
+    ],
+    editable: [
+      {
+        name: "aboutCopy / servicesCopy",
+        control: "text",
+        description: "The two clip-revealed paragraphs.",
+      },
+    ],
+    assets: clipRevealServicesAssetDocs,
+    api: [
+      {
+        name: "aboutCopy / servicesCopy",
+        type: "string",
+        default: "BLANK copy",
+        description:
+          "Paragraphs revealed by the clip. Both are mirrored into a pseudo element automatically.",
+      },
+      {
+        name: "heroImage / outroImage / headerImage",
+        type: "string",
+        default: "Blob-hosted assets",
+        description:
+          "Opening and closing portraits, and the lockup repeated three times as the masthead.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "swing-in-work-grid": {
+    demoPath: "src/components/demos/swing-in-work-grid.tsx",
+    nuance: [
+      {
+        label: "Mirrored rotation makes it a hinge",
+        description:
+          "The left card starts at minus sixty degrees and the right at plus sixty, both about their own centers, so the pair reads as two panels closing rather than two cards rotating the same way.",
+      },
+      {
+        label: "Fires once per row, not scrubbed",
+        description:
+          "Each row triggers a one second power4.out on entry instead of tracking scroll, so the landing keeps its ease no matter how fast the reader is moving.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Project names, descriptions, images, and routes.",
+      },
+    ],
+    assets: swingInWorkGridAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "WorkProject[]",
+        default: "Ten BLANK projects",
+        description:
+          "Name, description, image, and route. Projects are paired into rows automatically.",
+      },
+      {
+        name: "heading / footerLeft / footerRight",
+        type: "string",
+        default: "BLANK copy",
+        description: "Page heading and the two footer lines.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "sticky-parallax-slides": {
+    demoPath: "src/components/demos/sticky-parallax-slides.tsx",
+    nuance: [
+      {
+        label: "Only the crossing pair is offset",
+        description:
+          "Parallax is applied to the outgoing and incoming slide only, computed from their relative progress. Every other image sits at zero, so nothing drifts out of place while off screen.",
+      },
+      {
+        label: "Titles are observed, not calculated",
+        description:
+          "An IntersectionObserver rooted on the slider switches captions at the quarter visible mark, and on reverse it explicitly restores the previous slide's title, so scrubbing backwards does not leave the caption blank.",
+      },
+      {
+        label: "The zoom is the parallax budget",
+        description:
+          "Images sit at 1.35 scale so a quarter-width push never exposes an edge. Lower the scale and the offset has to come down with it.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Panel images and their two-line titles.",
+      },
+    ],
+    assets: stickyParallaxSlidesAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "StickyParallaxSlide[]",
+        default: "Five BLANK interiors",
+        description:
+          "Image plus a two line title. Track width scales to the slide count automatically.",
+      },
+      {
+        name: "outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "The closing screen after the pin releases.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "masked-spotlight-scroll": {
+    demoPath: "src/components/demos/masked-spotlight-scroll.tsx",
+    nuance: [
+      {
+        label: "The image counter-scales against the mask",
+        description:
+          "As the mask grows to 450 percent the photograph shrinks from 1.5 to 1. Without the counter-scale the picture would appear to be dragged open by the aperture instead of resolving inside it.",
+      },
+      {
+        label: "Three phases share one pin",
+        description:
+          "The wall drifts across the first half, the mask opens between 25 and 75 percent, and the headline fills between 75 and 95, so the phases overlap deliberately rather than running back to back.",
+      },
+      {
+        label: "The wall is deliberately sparse",
+        description:
+          "Only some cells in each four-wide row carry an image. The empty slots are what give the drifting wall its scattered rhythm rather than reading as a solid grid.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "text",
+        description: "The nine stills scattered through the drifting wall.",
+      },
+      {
+        name: "maskHeading / spotlightHeading",
+        control: "text",
+        description: "Headlines revealed through and after the mask.",
+      },
+    ],
+    assets: maskedSpotlightScrollAssetDocs,
+    api: [
+      {
+        name: "images / bannerImage / maskImage",
+        type: "string[] / string",
+        default: "Blob-hosted assets",
+        description:
+          "Wall stills, the photograph revealed through the aperture, and the SVG shape used as the mask.",
+      },
+      {
+        name: "introHeading / spotlightHeading / maskHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy for each phase of the sequence.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "deal-stack-cards-scroll": {
+    demoPath: "src/components/demos/deal-stack-cards-scroll.tsx",
+    nuance: [
+      {
+        label: "Arrival and departure are separate clocks",
+        description:
+          "A card rises across its own slice of the pin, but only begins leaving once that slice is complete, measured against the remaining scroll. The two motions never blend into a single drift.",
+      },
+      {
+        label: "Earlier cards travel further",
+        description:
+          "Departure distance is scaled by 1 minus fifteen percent per index, so the first card ends up furthest off screen and the pile fans diagonally rather than exiting as one block.",
+      },
+      {
+        label: "Tilts are fixed, not random",
+        description:
+          "Each card keeps a hand-picked rotation for its whole life, so the stack always settles into the same deliberate arrangement.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description: "Card images and their reference labels.",
+      },
+      {
+        name: "rotations",
+        control: "text",
+        description: "Per-card resting tilt in degrees.",
+      },
+    ],
+    assets: dealStackCardsScrollAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "DealStackCard[]",
+        default: "Six BLANK cards",
+        description:
+          "Image and label per card. The pin length and per-card slice both follow the array length.",
+      },
+      {
+        name: "rotations",
+        type: "number[]",
+        default: "[-12, 10, -5, 5, -5, -2]",
+        description: "Resting tilt for each card, applied on arrival.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
   "split-column-infinite-slider": {
     demoPath: "src/components/demos/split-column-infinite-slider.tsx",
     nuance: [

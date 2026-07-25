@@ -21,6 +21,7 @@ import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
 import CircularWidgetDialDemo from "./circular-widget-dial";
 import ClientHoverPreviewDemo from "./client-hover-preview";
+import ClipRevealServicesDemo from "./clip-reveal-services";
 import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
@@ -37,6 +38,7 @@ import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
+import DealStackCardsScrollDemo from "./deal-stack-cards-scroll";
 import DealtTeamCardsDemo from "./dealt-team-cards";
 import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
@@ -55,6 +57,7 @@ import FallingTagListDemo from "./falling-tag-list";
 import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
+import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlowFieldTextDemo from "./flow-field-text";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
@@ -83,6 +86,7 @@ import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
 import March2025TemplateDemo from "./march-2025-template";
 import MarqueeCarouselScrollDemo from "./marquee-carousel-scroll";
 import MaskRevealPreloaderDemo from "./mask-reveal-preloader";
+import MaskedSpotlightScrollDemo from "./masked-spotlight-scroll";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
@@ -129,11 +133,13 @@ import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
 import StarfieldWarpScrollDemo from "./starfield-warp-scroll";
 import StarryNightFlowDemo from "./starry-night-flow";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
+import StickyParallaxSlidesDemo from "./sticky-parallax-slides";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
 import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
 import SurpriseBoxDemo from "./surprise-box";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
+import SwingInWorkGridDemo from "./swing-in-work-grid";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
@@ -307,4 +313,10 @@ export const demos: Record<string, ComponentType> = {
   "endless-side-story": EndlessSideStoryDemo,
   "marquee-carousel-scroll": MarqueeCarouselScrollDemo,
   "throw-away-work-slider": ThrowAwayWorkSliderDemo,
+  "flip-marquee-horizontal": FlipMarqueeHorizontalDemo,
+  "clip-reveal-services": ClipRevealServicesDemo,
+  "swing-in-work-grid": SwingInWorkGridDemo,
+  "sticky-parallax-slides": StickyParallaxSlidesDemo,
+  "masked-spotlight-scroll": MaskedSpotlightScrollDemo,
+  "deal-stack-cards-scroll": DealStackCardsScrollDemo,
 };
