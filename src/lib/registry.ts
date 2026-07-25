@@ -3856,6 +3856,126 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "carousel-ring-gallery",
+    title: "Carousel Ring Gallery",
+    description:
+      "Twenty-five cards arranged on a ring, each rotated to face outward from the center. Moving the pointer tilts the whole ring on two axes, and any card within range flips a half turn, scales up, and pushes outward along its own radius, with the amount falling off by distance so the effect reads as a wave. Clicking a card rotates the ring so that card reaches the bottom, then scales the ring five times and drives it down past the frame, leaving the picture filling the view.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/carousel-ring-gallery.tsx",
+        target: "components/ui/carousel-ring-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "infinite-drag-canvas",
+    title: "Infinite Drag Canvas",
+    description:
+      "A grid you can throw in any direction that never runs out. Tiles are keyed by column and row, built as the viewport approaches and destroyed once it passes, with the buffer biased toward the direction of travel so a fast fling still arrives on populated space. Release keeps the last measured velocity and coasts. Clicking a tile hides the original, spawns a free copy at its exact screen box, and grows it to a centered plate, so the expand starts where you clicked.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/infinite-drag-canvas.tsx",
+        target: "components/ui/infinite-drag-canvas.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "card-fan-landing-reveal",
+    title: "Card Fan Landing Reveal",
+    description:
+      "A load sequence that deals a hand. Eight cards pop out around a circle one at a time, then collapse back to nothing. As they go, a second set is already stacked at the first card's exact slot, face down and scaled to a tenth. Those five lift, the front one flips over, and they fan out to evenly spaced positions measured from the real frame width, so the spread always fits its container.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/card-fan-landing-reveal.tsx",
+        target: "components/ui/card-fan-landing-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "counter-word-preloader",
+    title: "Counter Word Preloader",
+    description:
+      "A loading screen where four things run off one three second clock: a counter to 100, a word cycling through five variants, an image flicking through ten frames, and that image frame sliding from the left edge to its slot in the headline. When the curtain wipes up, headline words slide in from alternating sides, and the small image frame is measured, frozen at that exact box, then grown to fill the frame, so the thumbnail becomes the page background in one move.",
+    section: "components",
+    category: "Feedback",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/counter-word-preloader.tsx",
+        target: "components/ui/counter-word-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "shuffle-grid-preloader",
+    title: "Shuffle Grid Preloader",
+    description:
+      "A load sequence built from a three by three grid that riffles. Two columns of credits fade up against a wordmark whose fill climbs line by line, then the panel clears and the grid wipes in. Twenty rounds of random nine-image sets are swapped through at 150ms so the tiles flicker like a shuffling deck, and the final round restores the real center frame. Everything but that tile wipes away, and it scales four times while its own image counter-scales back to one.",
+    section: "components",
+    category: "Feedback",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shuffle-grid-preloader.tsx",
+        target: "components/ui/shuffle-grid-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "logo-mask-zoom-scroll",
+    title: "Logo Mask Zoom Scroll",
+    description:
+      "The page is covered by a solid panel with a logo-shaped hole punched through it. That panel starts at 500 times scale, so the hole is far larger than the frame and you only see the photograph behind it. Scroll shrinks the panel on an exponential curve until the hole is exactly logo-sized, at which point the mark reads as drawn on a flat field. The picture counter-zooms while a white sheet fades over it, and the closing headline is filled by a gradient dragged upward through its own background clip.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/logo-mask-zoom-scroll.tsx",
+        target: "components/ui/logo-mask-zoom-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:

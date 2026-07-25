@@ -16,6 +16,8 @@ import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
+import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
+import CarouselRingGalleryDemo from "./carousel-ring-gallery";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
@@ -27,6 +29,7 @@ import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
 import CorridorScene3DDemo from "./corridor-scene-3d";
 import CounterStarLoaderDemo from "./counter-star-loader";
+import CounterWordPreloaderDemo from "./counter-word-preloader";
 import CreativeClutterDemo from "./creative-clutter";
 import CrossRevealScrollDemo from "./cross-reveal-scroll";
 import CrtDisplayDemo from "./crt-display";
@@ -72,6 +75,7 @@ import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
+import InfiniteDragCanvasDemo from "./infinite-drag-canvas";
 import InkCoreLayoutDemo from "./ink-core-layout";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InterlockTitleScrollDemo from "./interlock-title-scroll";
@@ -84,6 +88,7 @@ import LegoDitherDemo from "./lego-dither";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LineRiseTextDemo from "./line-rise-text";
 import LiquidStatGridDemo from "./liquid-stat-grid";
+import LogoMaskZoomScrollDemo from "./logo-mask-zoom-scroll";
 import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
 import March2025TemplateDemo from "./march-2025-template";
 import MarqueeCarouselScrollDemo from "./marquee-carousel-scroll";
@@ -124,6 +129,7 @@ import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
 import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
+import ShuffleGridPreloaderDemo from "./shuffle-grid-preloader";
 import SlidingIndexMenuDemo from "./sliding-index-menu";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
@@ -331,4 +337,10 @@ export const demos: Record<string, ComponentType> = {
   "nested-mask-banner": NestedMaskBannerDemo,
   "pinned-scale-mosaic": PinnedScaleMosaicDemo,
   "curved-letter-path-scroll": CurvedLetterPathScrollDemo,
+  "carousel-ring-gallery": CarouselRingGalleryDemo,
+  "infinite-drag-canvas": InfiniteDragCanvasDemo,
+  "card-fan-landing-reveal": CardFanLandingRevealDemo,
+  "counter-word-preloader": CounterWordPreloaderDemo,
+  "shuffle-grid-preloader": ShuffleGridPreloaderDemo,
+  "logo-mask-zoom-scroll": LogoMaskZoomScrollDemo,
 };

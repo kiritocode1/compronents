@@ -1717,6 +1717,48 @@ const curvedLetterPathScrollAssets = simpleAssets(
   Array.from({ length: 7 }, (_, i) => `img${i + 1}.jpg`),
 );
 
+const carouselRingGalleryAssets = simpleAssets(
+  "carousel-ring-gallery",
+  "Carousel Ring Gallery",
+  "Card face on the ring, shown full-frame when that card is opened.",
+  Array.from({ length: 20 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const infiniteDragCanvasAssets = simpleAssets(
+  "infinite-drag-canvas",
+  "Infinite Drag Canvas",
+  "Tile image repeated across the endless grid and expanded on click.",
+  Array.from({ length: 20 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const cardFanLandingRevealAssets = simpleAssets(
+  "card-fan-landing-reveal",
+  "Card Fan Landing Reveal",
+  "Face of an intro card as it pops around the circle.",
+  Array.from({ length: 8 }, (_, i) => `card-${i + 1}.jpg`),
+);
+
+const counterWordPreloaderAssets = simpleAssets(
+  "counter-word-preloader",
+  "Counter Word Preloader",
+  "One frame of the flicking preloader thumbnail, which becomes the hero.",
+  Array.from({ length: 10 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const shuffleGridPreloaderAssets = simpleAssets(
+  "shuffle-grid-preloader",
+  "Shuffle Grid Preloader",
+  "Image drawn into the shuffling three by three grid.",
+  Array.from({ length: 35 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const logoMaskZoomScrollAssets = simpleAssets(
+  "logo-mask-zoom-scroll",
+  "Logo Mask Zoom Scroll",
+  "Hero backdrop layer, cut-out foreground layer, or the small hero mark.",
+  ["hero-img-layer-1.jpg", "hero-img-layer-2.png", "logo.png"],
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -2128,6 +2170,12 @@ export const assetItems = [
   ...nestedMaskBannerAssets,
   ...pinnedScaleMosaicAssets,
   ...curvedLetterPathScrollAssets,
+  ...carouselRingGalleryAssets,
+  ...infiniteDragCanvasAssets,
+  ...cardFanLandingRevealAssets,
+  ...counterWordPreloaderAssets,
+  ...shuffleGridPreloaderAssets,
+  ...logoMaskZoomScrollAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

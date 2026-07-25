@@ -524,7 +524,355 @@ const curvedLetterPathScrollAssetDocs = assetsByIds(
   Array.from({ length: 7 }, (_, i) => `curved-letter-path-scroll-img${i + 1}`),
 );
 
+const carouselRingGalleryAssetDocs = assetsByIds(
+  Array.from({ length: 20 }, (_, i) => `carousel-ring-gallery-img${i + 1}`),
+);
+const infiniteDragCanvasAssetDocs = assetsByIds(
+  Array.from({ length: 20 }, (_, i) => `infinite-drag-canvas-img${i + 1}`),
+);
+const cardFanLandingRevealAssetDocs = assetsByIds(
+  Array.from({ length: 8 }, (_, i) => `card-fan-landing-reveal-card-${i + 1}`),
+);
+const counterWordPreloaderAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `counter-word-preloader-img${i + 1}`),
+);
+const shuffleGridPreloaderAssetDocs = assetsByIds(
+  Array.from({ length: 35 }, (_, i) => `shuffle-grid-preloader-img${i + 1}`),
+);
+const logoMaskZoomScrollAssetDocs = assetsByIds([
+  "logo-mask-zoom-scroll-hero-img-layer-1",
+  "logo-mask-zoom-scroll-hero-img-layer-2",
+  "logo-mask-zoom-scroll-logo",
+]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "carousel-ring-gallery": {
+    demoPath: "src/components/demos/carousel-ring-gallery.tsx",
+    nuance: [
+      {
+        label: "Distance drives every property at once",
+        description:
+          "One falloff factor from pointer distance feeds flip angle, scale, and outward push together, so a card near the cursor is fully turned and displaced while its neighbours are partway through, producing a continuous wave rather than a hover state.",
+      },
+      {
+        label: "Opening rotates before it zooms",
+        description:
+          "The clicked card's angle is solved to bring it to the bottom of the ring, normalised to the shorter way round, so the ring never spins the long way to reach the card you picked.",
+      },
+      {
+        label: "The tilt is on the container, cards on themselves",
+        description:
+          "Pointer parallax rotates the wrapper on three axes while cards handle their own flip and offset, so the two effects compose instead of fighting for the same transform.",
+      },
+    ],
+    editable: [
+      {
+        name: "collection",
+        control: "text",
+        description: "Card images and the title shown when opened.",
+      },
+      {
+        name: "imageCount / radius",
+        control: "text",
+        description: "How many cards sit on the ring and how wide it is.",
+      },
+    ],
+    assets: carouselRingGalleryAssetDocs,
+    api: [
+      {
+        name: "collection",
+        type: "RingGalleryItem[]",
+        default: "20 BLANK stills",
+        description:
+          "Image and title per card. Cards cycle through the collection if imageCount exceeds its length.",
+      },
+      {
+        name: "imageCount / radius",
+        type: "number",
+        default: "25 / 275",
+        description: "Cards on the ring and the ring's radius in pixels.",
+      },
+    ],
+  },
+  "infinite-drag-canvas": {
+    demoPath: "src/components/demos/infinite-drag-canvas.tsx",
+    nuance: [
+      {
+        label: "The buffer leans into the throw",
+        description:
+          "The build window is offset 300px toward the direction of travel, so tiles exist before they are needed on the leading edge and are torn down behind, which is what keeps a hard fling from arriving on empty space.",
+      },
+      {
+        label: "Rebuild is throttled two ways",
+        description:
+          "Tiles are only recomputed after 100px of movement or 120ms, whichever comes first, so a slow drag does not rebuild the grid every frame.",
+      },
+      {
+        label: "Expand starts from the real box",
+        description:
+          "The clicked tile's screen rect is measured and the free copy is placed there before growing, so the plate appears to lift out of the grid rather than fading in at the middle.",
+      },
+    ],
+    editable: [
+      {
+        name: "titles / images",
+        control: "text",
+        description: "Tile images and the title shown when one opens.",
+      },
+      {
+        name: "itemWidth / itemHeight / itemGap",
+        control: "text",
+        description: "Tile size and grid spacing.",
+      },
+    ],
+    assets: infiniteDragCanvasAssetDocs,
+    api: [
+      {
+        name: "images / titles",
+        type: "string[]",
+        default: "20 BLANK stills and titles",
+        description:
+          "Tiles cycle through the image list by grid position, so the same picture recurs on a fixed lattice.",
+      },
+      {
+        name: "itemWidth / itemHeight / itemGap / columns",
+        type: "number",
+        default: "120 / 160 / 150 / 4",
+        description:
+          "Tile box, spacing, and the column stride used to pick which image a cell gets.",
+      },
+    ],
+  },
+  "card-fan-landing-reveal": {
+    demoPath: "src/components/demos/card-fan-landing-reveal.tsx",
+    nuance: [
+      {
+        label: "The second hand starts where the first ended",
+        description:
+          "Outro cards are positioned at the first intro card's exact slot on the circle, face down and at a tenth scale, so the deal reads as the same hand being re-dealt rather than a new set appearing.",
+      },
+      {
+        label: "Fan positions are measured, not fixed",
+        description:
+          "Final x positions are computed from the real frame width minus padding and card width, so the spread reaches the edges without overflowing at any size.",
+      },
+      {
+        label: "Transform origins set the fan direction",
+        description:
+          "The two left cards pivot from their bottom-right corner and the two right ones from bottom-left, which is what makes the hand splay outward instead of sliding sideways.",
+      },
+    ],
+    editable: [
+      {
+        name: "outroCards",
+        control: "text",
+        description: "The code and number printed on each fanned card.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "The page color behind the deal.",
+      },
+    ],
+    assets: cardFanLandingRevealAssetDocs,
+    api: [
+      {
+        name: "introImages",
+        type: "string[]",
+        default: "8 BLANK cards",
+        description:
+          "Faces of the cards that pop around the circle. Count drives the circle spacing.",
+      },
+      {
+        name: "outroCards",
+        type: "FanCard[]",
+        default: "Five lettered cards",
+        description:
+          "Code and number on each fanned card. The first also carries an image on its back face.",
+      },
+      {
+        name: "wordmark / background",
+        type: "string",
+        default: "BLANK / #6c9a8b",
+        description: "Footer wordmark and page color.",
+      },
+    ],
+  },
+  "counter-word-preloader": {
+    demoPath: "src/components/demos/counter-word-preloader.tsx",
+    nuance: [
+      {
+        label: "One clock, four readouts",
+        description:
+          "Counter, word cycle, image cycle, and the frame's slide all run as three second tweens started at position zero, so they finish together without any of them knowing about the others.",
+      },
+      {
+        label: "Cycles are rounded progress, not timers",
+        description:
+          "The word and image indexes are derived by rounding a tweened progress value, so they stay in step with the counter even if a frame is dropped, and reverse correctly if the timeline is scrubbed.",
+      },
+      {
+        label: "The handoff freezes the box first",
+        description:
+          "Before expanding, the hero rows are locked to their measured heights and the frame is pinned at its current rect. Without that the layout would reflow the instant the frame leaves the flow and the growth would start from the wrong place.",
+      },
+    ],
+    editable: [
+      {
+        name: "rotatingWords",
+        control: "text",
+        description: "Words cycled through during the load.",
+      },
+      {
+        name: "headingRows",
+        control: "text",
+        description: "The three headline rows.",
+      },
+    ],
+    assets: counterWordPreloaderAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "10 BLANK frames",
+        description:
+          "Flicked through during load. The one showing when the timeline ends becomes the page background.",
+      },
+      {
+        name: "rotatingWords / headingRows / footerCopy",
+        type: "string[] / [string, string, string] / string",
+        default: "BLANK copy",
+        description: "Preloader and hero copy.",
+      },
+      {
+        name: "preloaderBackground",
+        type: "string",
+        default: "#272d2d",
+        description: "Color of the loading curtain.",
+      },
+    ],
+  },
+  "shuffle-grid-preloader": {
+    demoPath: "src/components/demos/shuffle-grid-preloader.tsx",
+    nuance: [
+      {
+        label: "Shuffling is twenty scheduled swaps",
+        description:
+          "Rather than animating, twenty zero-duration tweens fire 150ms apart, each replacing all nine sources with a fresh random draw. The flicker is discrete by design, which is what makes it read as riffling rather than crossfading.",
+      },
+      {
+        label: "The last round is rigged",
+        description:
+          "On the final cycle the center tile is forced back to the real hero image and pre-scaled to two, so the shuffle resolves on the intended picture and the zoom has room to counter-scale.",
+      },
+      {
+        label: "The wordmark fills by moving its background",
+        description:
+          "Each line is a gradient clipped to text with a 200 percent tall background, so animating background-position walks the fill up through the letters instead of fading them.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Credits listed in the two loading columns.",
+      },
+      {
+        name: "title / introCopy",
+        control: "text",
+        description: "Headline and the two intro lines.",
+      },
+    ],
+    assets: shuffleGridPreloaderAssetDocs,
+    api: [
+      {
+        name: "images / heroImage",
+        type: "string[] / string",
+        default: "35 BLANK stills",
+        description:
+          "The pool the shuffle draws from, and the picture the center tile resolves to.",
+      },
+      {
+        name: "projects",
+        type: "ShuffleProject[]",
+        default: "16 BLANK credits",
+        description: "Name, director, and location for the loading columns.",
+      },
+      {
+        name: "wordmarkLines / title / introCopy",
+        type: "[string, string] / string",
+        default: "BLANK copy",
+        description: "Loader wordmark and the hero copy revealed after it.",
+      },
+    ],
+  },
+  "logo-mask-zoom-scroll": {
+    demoPath: "src/components/demos/logo-mask-zoom-scroll.tsx",
+    nuance: [
+      {
+        label: "The mark is a hole, not a drawing",
+        description:
+          "The logo is subtracted from a full-bleed rect through an SVG mask. At 500x the hole is bigger than the frame so you see straight through it; shrinking the panel to 1x is what makes the mark appear, without ever animating the logo itself.",
+      },
+      {
+        label: "Panel scale is exponential",
+        description:
+          "Scale runs as initial^(1-progress) rather than linearly, so the hole closes at a perceptually even rate instead of collapsing almost entirely in the first few percent.",
+      },
+      {
+        label: "The mask fits itself to its box",
+        description:
+          "The path's real bounding box is measured with getBBox and fitted to the logo container, so any replacement path lands correctly sized and centered with no manual numbers.",
+      },
+      {
+        label: "The headline is filled by a moving gradient",
+        description:
+          "Reveal copy is a two-stop gradient clipped to text whose stops are dragged upward, so the text fills from the bottom rather than fading in.",
+      },
+    ],
+    editable: [
+      {
+        name: "logoPath",
+        control: "text",
+        description: "The SVG path punched through the panel.",
+      },
+      {
+        name: "panelColor / revealColor",
+        control: "color",
+        description: "Panel fill and the gradient color of the reveal copy.",
+      },
+    ],
+    assets: logoMaskZoomScrollAssetDocs,
+    api: [
+      {
+        name: "logoPath",
+        type: "string",
+        default: "A neutral BLANK-safe mark",
+        description:
+          "Single SVG path used as the mask. Its bounding box is measured and fitted automatically, so any path works without manual sizing.",
+      },
+      {
+        name: "backgroundImage / foregroundImage / logoImage",
+        type: "string",
+        default: "Blob-hosted layers",
+        description:
+          "Back plate, cut-out front layer that parallaxes over it, and the small mark shown before the scroll starts.",
+      },
+      {
+        name: "panelColor / revealColor",
+        type: "string",
+        default: "#111117 / #e66461",
+        description: "Panel fill and the reveal gradient color.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
   "frame-sequence-hero": {
     demoPath: "src/components/demos/frame-sequence-hero.tsx",
     nuance: [
