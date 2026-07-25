@@ -495,7 +495,379 @@ const dealStackCardsScrollAssetDocs = assetsByIds(
   Array.from({ length: 6 }, (_, i) => `deal-stack-cards-scroll-card-${i + 1}`),
 );
 
+const frameSequenceHeroAssetDocs = assetsByIds([
+  "frame-sequence-hero-frame-0001",
+  "frame-sequence-hero-frame-0104",
+  "frame-sequence-hero-frame-0207",
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `frame-sequence-hero-client-logo-${i + 1}`,
+  ),
+  "frame-sequence-hero-dashboard",
+  "frame-sequence-hero-logo",
+]);
+const snapParallaxProjectsAssetDocs = assetsByIds(
+  Array.from({ length: 6 }, (_, i) => `snap-parallax-projects-img${i + 1}`),
+);
+const triangleFillScrollAssetDocs = assetsByIds([
+  "triangle-fill-scroll-bg",
+  ...Array.from({ length: 3 }, (_, i) => `triangle-fill-scroll-card-${i + 1}`),
+]);
+const nestedMaskBannerAssetDocs = assetsByIds([
+  "nested-mask-banner-banner-img",
+  "nested-mask-banner-banner-img-mask",
+]);
+const pinnedScaleMosaicAssetDocs = assetsByIds(
+  Array.from({ length: 19 }, (_, i) => `pinned-scale-mosaic-img${i + 1}`),
+);
+const curvedLetterPathScrollAssetDocs = assetsByIds(
+  Array.from({ length: 7 }, (_, i) => `curved-letter-path-scroll-img${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "frame-sequence-hero": {
+    demoPath: "src/components/demos/frame-sequence-hero.tsx",
+    nuance: [
+      {
+        label: "Nothing runs until every frame is decoded",
+        description:
+          "A countdown across all 207 loads gates the ScrollTrigger, and errors decrement it too. Scrubbing therefore cannot outrun the network and land on an empty canvas mid-sequence.",
+      },
+      {
+        label: "Cover fit is recomputed per draw",
+        description:
+          "Each render compares the frame's aspect to the canvas aspect and derives its own draw rect, so the sequence fills any container shape without stretching and needs no CSS object-fit.",
+      },
+      {
+        label: "Frames finish before the pin does",
+        description:
+          "Frame index maps to the first 90 percent of the pin, leaving the last stretch for the product shot to arrive after the footage has already settled.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading",
+        control: "text",
+        description: "The hero headline that recedes on Z.",
+      },
+      {
+        name: "frameCount / frameBase",
+        control: "text",
+        description: "How many frames to load and where they live.",
+      },
+    ],
+    assets: frameSequenceHeroAssetDocs,
+    api: [
+      {
+        name: "frameCount / frameBase",
+        type: "number / string",
+        default: "207 / Blob asset base",
+        description:
+          "Sequence length and the base URL. Frames are addressed as frame_0001.jpg through frame_0207.jpg.",
+      },
+      {
+        name: "productImage / clientLogos / logoImage",
+        type: "string / string[]",
+        default: "Blob-hosted assets",
+        description: "The dashboard shot, trust logos, and the nav mark.",
+      },
+      {
+        name: "heading / brand / navLinks / outroHeading",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation and editorial copy.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "snap-parallax-projects": {
+    demoPath: "src/components/demos/snap-parallax-projects.tsx",
+    nuance: [
+      {
+        label: "Snap waits for genuine stillness",
+        description:
+          "A snap only starts 100ms after the last input and never while dragging, so it feels like the list settling rather than fighting the gesture. Any new input cancels it immediately.",
+      },
+      {
+        label: "Parallax reads list space, not screen space",
+        description:
+          "Each image offsets from its panel index times panel height, which is stable across recycling, so a panel that was destroyed and rebuilt returns with the correct offset instead of jumping.",
+      },
+      {
+        label: "Build and destroy have different radii",
+        description:
+          "Panels are created within fifteen of center but only destroyed past fifty, so normal scrolling never crosses the destroy boundary and nothing is rebuilt on every frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Titles, images, and which side the image sits on.",
+      },
+    ],
+    assets: snapParallaxProjectsAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "SnapProject[]",
+        default: "Six BLANK projects",
+        description:
+          "Title, image, and isAlternate, which swaps the image to the left half.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor / snapDuration",
+        type: "number",
+        default: "0.75 / 0.05 / 500",
+        description:
+          "Wheel multiplier, easing factor, and how long the settle to the nearest panel takes.",
+      },
+    ],
+  },
+  "triangle-fill-scroll": {
+    demoPath: "src/components/demos/triangle-fill-scroll.tsx",
+    nuance: [
+      {
+        label: "The order is shuffled once, at build",
+        description:
+          "Every cell gets a permanent random position in the fill sequence, so the flood pattern is arbitrary but stable, and scrubbing backwards empties in exactly the reverse order.",
+      },
+      {
+        label: "Two canvases sandwich the content",
+        description:
+          "Outlines render below the cards and fills above them, so a triangle appears to pass in front of the cards at the moment it fills, which is what makes the grid swallow them.",
+      },
+      {
+        label: "Each triangle eases independently",
+        description:
+          "Cells lerp toward their target scale at 0.15 per frame rather than jumping, and the redraw loop only continues while at least one is still moving.",
+      },
+    ],
+    editable: [
+      {
+        name: "accent",
+        control: "color",
+        description: "Fill color of the triangles and the accent type.",
+      },
+      {
+        name: "triangleSize",
+        control: "text",
+        description: "Cell size in pixels, which sets the grid density.",
+      },
+    ],
+    assets: triangleFillScrollAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "TriangleCard[]",
+        default: "Three BLANK products",
+        description: "Title, code, and image for each card in the strip.",
+      },
+      {
+        name: "accent / triangleSize",
+        type: "string / number",
+        default: "#ff6b00 / 150",
+        description: "Fill color and cell size, which drives grid density.",
+      },
+      {
+        name: "backgroundImage",
+        type: "string",
+        default: "Blob-hosted scene",
+        description: "The photograph behind the grid.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "nested-mask-banner": {
+    demoPath: "src/components/demos/nested-mask-banner.tsx",
+    nuance: [
+      {
+        label: "Rings are the same image, offset in scale",
+        description:
+          "Every masked layer starts 0.2 smaller than the one above it. Since they all share one mask shape and one photograph, the stack reads as nested apertures rather than separate pictures.",
+      },
+      {
+        label: "The rings converge before the container finishes",
+        description:
+          "Layer scales close on 1.0 over the first 90 percent of the pin while the container is still growing, so the rings merge into a single clean image just before the banner reaches full size.",
+      },
+      {
+        label: "The intro words part with the opening",
+        description:
+          "Two words slide to opposite edges over the same 90 percent window, so they clear the frame exactly as it becomes readable.",
+      },
+    ],
+    editable: [
+      {
+        name: "bannerHeading / introWords",
+        control: "text",
+        description: "The masked headline and the two parting words.",
+      },
+      {
+        name: "maskLayers",
+        control: "text",
+        description: "How many nested rings the telescope has.",
+      },
+    ],
+    assets: nestedMaskBannerAssetDocs,
+    api: [
+      {
+        name: "bannerImage / maskImage",
+        type: "string",
+        default: "Blob-hosted assets",
+        description:
+          "The photograph repeated per ring, and the shape masking each one.",
+      },
+      {
+        name: "maskLayers",
+        type: "number",
+        default: "6",
+        description:
+          "Number of masked rings above the base image. Each starts 0.2 smaller than the last.",
+      },
+      {
+        name: "heroHeading / bannerHeading / introWords / outroHeading",
+        type: "string / [string, string]",
+        default: "BLANK copy",
+        description: "Copy around and inside the banner.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "pinned-scale-mosaic": {
+    demoPath: "src/components/demos/pinned-scale-mosaic.tsx",
+    nuance: [
+      {
+        label: "Two triggers per row, plus a guard",
+        description:
+          "One scales in, one pins and scales out, and a third restores full scale when a row is re-entered without its exit having started. Without that guard, scrubbing back leaves rows stuck at zero.",
+      },
+      {
+        label: "pinSpacing off is what stacks the rows",
+        description:
+          "Because the pinned row reserves no space, the following row slides up over it while it shrinks, so rows overlap instead of queueing.",
+      },
+      {
+        label: "Corner origins open the row outward",
+        description:
+          "Images scale about their outer corner, alternating left and right, so a row unfolds from the edges of the grid rather than blooming from its middle.",
+      },
+    ],
+    editable: [
+      {
+        name: "rows",
+        control: "text",
+        description: "The grid layout: four cells per row, null for a gap.",
+      },
+    ],
+    assets: pinnedScaleMosaicAssetDocs,
+    api: [
+      {
+        name: "rows",
+        type: "MosaicCell[][]",
+        default: "Ten sparse rows",
+        description:
+          "Four cells per row. Each cell is an image plus a scale origin, or null for an empty slot.",
+      },
+      {
+        name: "introHeading / introLabel / outroLabel",
+        type: "string",
+        default: "BLANK copy",
+        description: "The screens either side of the grid.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "curved-letter-path-scroll": {
+    demoPath: "src/components/demos/curved-letter-path-scroll.tsx",
+    nuance: [
+      {
+        label: "DOM text with WebGL perspective",
+        description:
+          "Letters stay real DOM nodes but their positions come from projecting curve points through the Three camera, so they pick up genuine 3D perspective while remaining selectable, crisp, and font-hinted.",
+      },
+      {
+        label: "Wrapping snaps instead of easing",
+        description:
+          "A letter whose target jumps more than seventy percent of the frame is teleported rather than lerped, which is what stops a wrapped letter from streaking back across the screen.",
+      },
+      {
+        label: "The card strip is one canvas texture",
+        description:
+          "All cards are painted into a single 4096 wide offscreen canvas that feeds one plane, so the whole strip costs one draw call and can be scrolled by redrawing at an offset.",
+      },
+      {
+        label: "The curve comes from displaced vertices",
+        description:
+          "The plane's Z is displaced on a parabola across its width, so the strip bends away at both ends and the cards appear to wrap around a cylinder.",
+      },
+    ],
+    editable: [
+      {
+        name: "letters",
+        control: "text",
+        description: "One character per travelling row.",
+      },
+      {
+        name: "accent",
+        control: "color",
+        description: "Letter color, dot grid color, and page color.",
+      },
+    ],
+    assets: curvedLetterPathScrollAssetDocs,
+    api: [
+      {
+        name: "letters",
+        type: "string[]",
+        default: "W, O, R, K",
+        description:
+          "One character per curve. Each row repeats its character fifteen times along the path.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "Seven Blob-hosted cards",
+        description: "Cards painted into the curved strip's texture atlas.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        default: "#f40c3f",
+        description: "Letter, dot grid, and surrounding page color.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
   "flip-marquee-horizontal": {
     demoPath: "src/components/demos/flip-marquee-horizontal.tsx",
     nuance: [

@@ -1667,6 +1667,56 @@ const dealStackCardsScrollAssets = simpleAssets(
   Array.from({ length: 6 }, (_, i) => `card-${i + 1}.jpeg`),
 );
 
+const frameSequenceHeroAssets = simpleAssets(
+  "frame-sequence-hero",
+  "Frame Sequence Hero",
+  "One frame of the scroll-scrubbed sequence, or a static hero asset.",
+  [
+    ...Array.from(
+      { length: 207 },
+      (_, i) => `frame_${(i + 1).toString().padStart(4, "0")}.jpg`,
+    ),
+    ...Array.from({ length: 4 }, (_, i) => `client-logo-${i + 1}.png`),
+    "dashboard.png",
+    "logo.png",
+  ],
+);
+
+const snapParallaxProjectsAssets = simpleAssets(
+  "snap-parallax-projects",
+  "Snap Parallax Projects",
+  "Half-panel project photograph parallaxed against its snap panel.",
+  Array.from({ length: 6 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const triangleFillScrollAssets = simpleAssets(
+  "triangle-fill-scroll",
+  "Triangle Fill Scroll",
+  "Scene backdrop, or a product card swallowed by the triangle grid.",
+  ["bg.jpg", ...Array.from({ length: 3 }, (_, i) => `card-${i + 1}.jpg`)],
+);
+
+const nestedMaskBannerAssets = simpleAssets(
+  "nested-mask-banner",
+  "Nested Mask Banner",
+  "Banner photograph repeated per ring, and the shape masking each ring.",
+  ["banner-img.jpg", "banner-img-mask.png"],
+);
+
+const pinnedScaleMosaicAssets = simpleAssets(
+  "pinned-scale-mosaic",
+  "Pinned Scale Mosaic",
+  "Grid cell photograph that scales in and back out as its row passes.",
+  Array.from({ length: 19 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const curvedLetterPathScrollAssets = simpleAssets(
+  "curved-letter-path-scroll",
+  "Curved Letter Path Scroll",
+  "Card painted into the texture atlas for the curved WebGL strip.",
+  Array.from({ length: 7 }, (_, i) => `img${i + 1}.jpg`),
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -2072,6 +2122,12 @@ export const assetItems = [
   ...stickyParallaxSlidesAssets,
   ...maskedSpotlightScrollAssets,
   ...dealStackCardsScrollAssets,
+  ...frameSequenceHeroAssets,
+  ...snapParallaxProjectsAssets,
+  ...triangleFillScrollAssets,
+  ...nestedMaskBannerAssets,
+  ...pinnedScaleMosaicAssets,
+  ...curvedLetterPathScrollAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

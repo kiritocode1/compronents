@@ -34,6 +34,7 @@ import CursorImageTrailDemo from "./cursor-image-trail";
 import CursorTrailScrollDemo from "./cursor-trail-scroll";
 import CurtainRevealHeroDemo from "./curtain-reveal-hero";
 import CurveGalleryDemo from "./curve-gallery";
+import CurvedLetterPathScrollDemo from "./curved-letter-path-scroll";
 import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
@@ -63,6 +64,7 @@ import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
+import FrameSequenceHeroDemo from "./frame-sequence-hero";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
@@ -96,6 +98,7 @@ import MosaicFlipDemo from "./mosaic-flip";
 import MotionTrackingDemo from "./motion-tracking";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
+import NestedMaskBannerDemo from "./nested-mask-banner";
 import NullStudioPageDemo from "./null-studio-page";
 import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
@@ -103,6 +106,7 @@ import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import ParallaxDragRailDemo from "./parallax-drag-rail";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
+import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
@@ -123,6 +127,7 @@ import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
 import SlidingIndexMenuDemo from "./sliding-index-menu";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
+import SnapParallaxProjectsDemo from "./snap-parallax-projects";
 import SorenPageDemo from "./soren-page";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
@@ -146,6 +151,7 @@ import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
 import ThrowAwayWorkSliderDemo from "./throw-away-work-slider";
 import TiltAwayMenuDemo from "./tilt-away-menu";
 import TiltCardStackDemo from "./tilt-card-stack";
+import TriangleFillScrollDemo from "./triangle-fill-scroll";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import VideoCardStackDemo from "./video-card-stack";
@@ -319,4 +325,10 @@ export const demos: Record<string, ComponentType> = {
   "sticky-parallax-slides": StickyParallaxSlidesDemo,
   "masked-spotlight-scroll": MaskedSpotlightScrollDemo,
   "deal-stack-cards-scroll": DealStackCardsScrollDemo,
+  "frame-sequence-hero": FrameSequenceHeroDemo,
+  "snap-parallax-projects": SnapParallaxProjectsDemo,
+  "triangle-fill-scroll": TriangleFillScrollDemo,
+  "nested-mask-banner": NestedMaskBannerDemo,
+  "pinned-scale-mosaic": PinnedScaleMosaicDemo,
+  "curved-letter-path-scroll": CurvedLetterPathScrollDemo,
 };

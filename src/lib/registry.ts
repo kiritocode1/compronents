@@ -3736,6 +3736,126 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "frame-sequence-hero",
+    title: "Frame Sequence Hero",
+    description:
+      "A scroll-scrubbed video played as 207 individual frames on a canvas. Every frame is preloaded before the trigger is created, so scrubbing never lands on a blank canvas, and each draw recomputes its own cover fit so the sequence fills any aspect ratio without distortion. Over the same pin the nav fades in the first tenth, the headline recedes on Z and fades by a quarter, and the product shot flies in from a thousand pixels forward.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/frame-sequence-hero.tsx",
+        target: "components/ui/frame-sequence-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "snap-parallax-projects",
+    title: "Snap Parallax Projects",
+    description:
+      "An endlessly scrolling project list that settles on whole panels. Wheel or drag moves it freely, but a tenth of a second after input stops it eases to the nearest panel boundary on a cubic curve, so it never rests half way between two projects. Panels are built into a fifteen either side buffer and destroyed past fifty. Each image is held at 1.5 zoom and lags its panel by a fifth, and the layout alternates so the picture swaps sides project to project.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/snap-parallax-projects.tsx",
+        target: "components/ui/snap-parallax-projects.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "triangle-fill-scroll",
+    title: "Triangle Fill Scroll",
+    description:
+      "A pinned scene where a lattice of alternating triangles floods with color in a random order. Every cell is assigned a shuffled position in the sequence at build time, then fills once scroll passes its slot, each easing toward its target scale on its own, so the fill spreads as scattered noise rather than a wipe. Two canvases stack around the cards: hollow outlines behind and filled triangles in front, so the cards are swallowed as the grid closes over them.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/triangle-fill-scroll.tsx",
+        target: "components/ui/triangle-fill-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "nested-mask-banner",
+    title: "Nested Mask Banner",
+    description:
+      "A banner that opens like a telescope. Seven copies of the same photograph are stacked, each masked by the same shape and each starting at a smaller scale than the one above, so the frame reads as concentric rings rather than a single picture. Scroll grows the container from nothing while every ring closes on full size at a different rate, so the rings collapse into one image at the end. Two words slide apart as it opens.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/nested-mask-banner.tsx",
+        target: "components/ui/nested-mask-banner.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "pinned-scale-mosaic",
+    title: "Pinned Scale Mosaic",
+    description:
+      "A sparse photo grid where every row grows in and then collapses away. Each row runs two triggers: one scales its images up from nothing as the row rises into view, a second pins the row at the top and scales them back to zero as it leaves, with pinSpacing off so the next row slides up over it. Images scale about their outer corner rather than their center, alternating left and right, so a row opens outward from the edges.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pinned-scale-mosaic.tsx",
+        target: "components/ui/pinned-scale-mosaic.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "curved-letter-path-scroll",
+    title: "Curved Letter Path Scroll",
+    description:
+      "Four rows of letters travelling along invisible 3D curves, over a card strip bent into a cylinder. The letters are real DOM elements: each frame their position is sampled from a CatmullRom curve, projected through the Three camera, and eased toward that screen coordinate, so they get true perspective while staying crisp text. Each row runs at its own speed, and a letter that wraps past the edge snaps rather than easing. The cards are painted into one offscreen canvas used as a texture on a plane whose vertices are displaced on a parabola.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/curved-letter-path-scroll.tsx",
+        target: "components/ui/curved-letter-path-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:
