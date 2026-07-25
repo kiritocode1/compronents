@@ -4959,6 +4959,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Infrastructure, observability and runtimes",
     links: [
       {
+        title: "Hark",
+        href: "https://hark.ryan.ceo/",
+        dateAdded: "2026-07-25",
+        description:
+          "Turns any webhook into an iOS push notification branded with its source, for getting CI, deploy, and service alerts on a phone without building an app. Point a service at the generated webhook URL and sign in to the Hark iOS app to register a device. The free tier covers 10,000 notifications per month and Pro is 8 dollars for 100,000, plus routing a webhook to specific device IDs instead of every active device. An idempotency key header collapses repeat deliveries, so a retrying sender does not fire the same alert twice. Built by Ryan Vogel.",
+      },
+      {
         title: "Domain SDK",
         href: "https://www.domain-sdk.dev/",
         dateAdded: "2026-07-16",
