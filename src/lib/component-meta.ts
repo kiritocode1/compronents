@@ -568,7 +568,259 @@ const pushupCardStackAssetDocs = assetsByIds(
   Array.from({ length: 5 }, (_, i) => `pushup-card-stack-img${i + 1}`),
 );
 
+const clipMaskTransitionPageAssetDocs = assetsByIds(
+  Array.from({ length: 3 }, (_, i) => `clip-mask-transition-page-img${i + 1}`),
+);
+const viewTransitionFolioPageAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `view-transition-folio-page-img${i + 1}`,
+  ),
+  "view-transition-folio-page-portrait",
+]);
+const revealerTransitionPageAssetDocs = assetsByIds([
+  "revealer-transition-page-hero",
+  "revealer-transition-page-studio",
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `revealer-transition-page-img${i + 1}`,
+  ),
+]);
+const blockLogoTransitionPageAssetDocs = assetsByIds(
+  Array.from(
+    { length: 4 },
+    (_, i) => `block-logo-transition-page-img-0${i + 1}`,
+  ),
+);
+const scrollAdvanceProjectPageAssetDocs = assetsByIds(
+  Array.from({ length: 3 }, (_, p) =>
+    Array.from(
+      { length: 5 },
+      (_, i) => `scroll-advance-project-page-project-${p + 1}-${i + 1}`,
+    ),
+  ).flat(),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "clip-mask-transition-page": {
+    demoPath: "src/components/demos/clip-mask-transition-page.tsx",
+    nuance: [
+      {
+        label: "The browser owns the transition",
+        description:
+          "Both pages are snapshotted by startViewTransition and animated through ::view-transition pseudo-elements, so there is no JS timeline, no duplicated DOM, and the two states cannot drift out of sync.",
+      },
+      {
+        label: "The navbar opts out",
+        description:
+          "Giving the nav its own view-transition-name and setting its group animation to none excludes it from the snapshot pair entirely, which is what keeps it rock steady while the page behind it moves.",
+      },
+      {
+        label: "Enter and exit are different shapes",
+        description:
+          "The outgoing page only translates and fades, while the incoming one also opens a clip path from a flat line at the bottom edge, so arrival reads as unrolling rather than as the exit reversed.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "The wordmark in the fixed nav.",
+      },
+    ],
+    assets: clipMaskTransitionPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: "Blob asset base",
+        description: "Base URL the three route backdrops are loaded from.",
+      },
+      {
+        name: "initialPath",
+        type: "ClipMaskRoute",
+        default: '"/"',
+        description: "Which route the internal router starts on.",
+      },
+    ],
+  },
+  "view-transition-folio-page": {
+    demoPath: "src/components/demos/view-transition-folio-page.tsx",
+    nuance: [
+      {
+        label: "Entrances re-run per route",
+        description:
+          "The source replaced the whole document body on navigation and re-initialised from scratch. The port keys its container on the route so React remounts it, which reproduces that fresh-mount behaviour without touching innerHTML.",
+      },
+      {
+        label: "Clip path, not opacity",
+        description:
+          "The incoming page opens a polygon from the bottom edge upward, so content is uncovered rather than faded, and nothing is ever semi-transparent mid-transition.",
+      },
+    ],
+    editable: [
+      {
+        name: "name / aboutCopy",
+        control: "text",
+        description: "The hero wordmark and the about paragraph.",
+      },
+    ],
+    assets: viewTransitionFolioPageAssetDocs,
+    api: [
+      {
+        name: "assetBase / workImages / portraitImage",
+        type: "string / string[]",
+        default: "Blob asset base",
+        description: "Work grid photographs and the about portrait.",
+      },
+      {
+        name: "name / aboutCopy / initialPath",
+        type: "string / FolioRoute",
+        default: "BLANK copy",
+        description: "Folio copy and the route the internal router starts on.",
+      },
+    ],
+  },
+  "revealer-transition-page": {
+    demoPath: "src/components/demos/revealer-transition-page.tsx",
+    nuance: [
+      {
+        label: "Two transitions stacked",
+        description:
+          "A GSAP revealer wipes each page in on arrival, while the View Transition API separately grows the incoming snapshot from a small centered rectangle. One handles the page's own entrance, the other the crossing between pages.",
+      },
+      {
+        label: "The default transition is cancelled",
+        description:
+          "Both pseudo-elements are set to animation: none, so the only motion is the explicit clip-path keyframe run on the documentElement. Without that override the browser's own crossfade would fight it.",
+      },
+      {
+        label: "Split type follows the route",
+        description:
+          "The home hero splits by character and every other route by word, matching the source's per-page choice, with different delays so the copy always lands after the revealer has cleared.",
+      },
+    ],
+    editable: [
+      {
+        name: "studioCopy / contactEmails",
+        control: "text",
+        description: "Studio paragraph and the contact addresses.",
+      },
+    ],
+    assets: revealerTransitionPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: "Blob asset base",
+        description: "Base URL for the hero, work, and studio imagery.",
+      },
+      {
+        name: "brand / location / studioCopy / contactEmails / socials",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Site copy across the four routes.",
+      },
+      {
+        name: "initialPath",
+        type: "RevealerRoute",
+        default: '"/"',
+        description: "Which route the internal router starts on.",
+      },
+    ],
+  },
+  "block-logo-transition-page": {
+    demoPath: "src/components/demos/block-logo-transition-page.tsx",
+    nuance: [
+      {
+        label: "The wipe never reverses",
+        description:
+          "Blocks close from their left origin and open from their right, so the sweep continues in one direction across the whole transition instead of retracing its own path.",
+      },
+      {
+        label: "The mark measures itself",
+        description:
+          "getTotalLength on the path supplies both the dash array and the starting offset, so any replacement logo traces correctly with no hand-tuned numbers.",
+      },
+      {
+        label: "Navigation waits for the cover",
+        description:
+          "The route only changes in the timeline's onComplete, after the blocks have fully closed, so the incoming page is never visible while the cover is still animating.",
+      },
+    ],
+    editable: [
+      {
+        name: "homeHeading / contactHeading",
+        control: "text",
+        description: "The two oversized route headings.",
+      },
+    ],
+    assets: blockLogoTransitionPageAssetDocs,
+    api: [
+      {
+        name: "assetBase / archiveImages",
+        type: "string / string[]",
+        default: "Blob asset base",
+        description: "Photographs listed on the archive route.",
+      },
+      {
+        name: "brand / homeHeading / contactHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Nav wordmark and the route headings.",
+      },
+      {
+        name: "initialPath",
+        type: "BlockLogoRoute",
+        default: '"/"',
+        description: "Which route the internal router starts on.",
+      },
+    ],
+  },
+  "scroll-advance-project-page": {
+    demoPath: "src/components/demos/scroll-advance-project-page.tsx",
+    nuance: [
+      {
+        label: "Scrolling past the end is the navigation",
+        description:
+          "The footer pins for three viewports and its progress bar fills across that pin. Completing it triggers the move to the next project, so the reader advances by continuing rather than by clicking.",
+      },
+      {
+        label: "Two progress bars, two scopes",
+        description:
+          "One tracks the whole document for the nav readout, the other tracks only the pinned footer. They run from separate triggers so the nav bar is not affected by the footer's own scroll range.",
+      },
+      {
+        label: "A latch prevents a double handoff",
+        description:
+          "Once progress reaches one, a ref is flipped before the timeline starts, so scrubbing back and forth across the end of the pin cannot queue a second navigation.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Project slugs, titles, descriptions, and image sets.",
+      },
+    ],
+    assets: scrollAdvanceProjectPageAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "ScrollAdvanceProject[]",
+        default: "Three BLANK projects",
+        description:
+          "Slug, title, description, and images per project. The list wraps, so the last hands back to the first.",
+      },
+      {
+        name: "assetBase / initialSlug",
+        type: "string",
+        default: "Blob asset base",
+        description:
+          "Where the default project images load from, and which project to open on.",
+      },
+    ],
+  },
   "photo-sphere-orb": {
     demoPath: "src/components/demos/photo-sphere-orb.tsx",
     nuance: [

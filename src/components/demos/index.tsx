@@ -12,6 +12,7 @@ import AsciiMonogramHeroDemo from "./ascii-monogram-hero";
 import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
 import BlnkAgencyPageDemo from "./blnk-agency-page";
+import BlockLogoTransitionPageDemo from "./block-logo-transition-page";
 import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
@@ -24,6 +25,7 @@ import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
 import CircularWidgetDialDemo from "./circular-widget-dial";
 import ClientHoverPreviewDemo from "./client-hover-preview";
+import ClipMaskTransitionPageDemo from "./clip-mask-transition-page";
 import ClipRevealServicesDemo from "./clip-reveal-services";
 import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
@@ -124,9 +126,11 @@ import PreloaderRevealDemo from "./preloader-reveal";
 import ProceduralComputerPageDemo from "./procedural-computer-page";
 import PushDownOverlayMenuDemo from "./push-down-overlay-menu";
 import PushupCardStackDemo from "./pushup-card-stack";
+import RevealerTransitionPageDemo from "./revealer-transition-page";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
+import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
@@ -168,6 +172,7 @@ import TriangleFillScrollDemo from "./triangle-fill-scroll";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import VideoCardStackDemo from "./video-card-stack";
+import ViewTransitionFolioPageDemo from "./view-transition-folio-page";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
@@ -357,4 +362,9 @@ export const demos: Record<string, ComponentType> = {
   "card-parting-reveal": CardPartingRevealDemo,
   "image-explosion-footer": ImageExplosionFooterDemo,
   "pushup-card-stack": PushupCardStackDemo,
+  "clip-mask-transition-page": ClipMaskTransitionPageDemo,
+  "view-transition-folio-page": ViewTransitionFolioPageDemo,
+  "revealer-transition-page": RevealerTransitionPageDemo,
+  "block-logo-transition-page": BlockLogoTransitionPageDemo,
+  "scroll-advance-project-page": ScrollAdvanceProjectPageDemo,
 };

@@ -4116,6 +4116,131 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "clip-mask-transition-page",
+    title: "Clip Mask Transition Page",
+    description:
+      "A three route site whose page changes are driven by the browser's own View Transition API rather than a JS timeline. The outgoing page lifts and fades while the incoming one rises and opens from a flat clip path at the bottom edge, so the new page appears to unroll over the old. The navbar is given its own transition name and told not to animate, so it stays pinned and perfectly still while everything behind it changes.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/clip-mask-transition-page/index.tsx",
+        target: "components/ui/clip-mask-transition-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/clip-mask-transition-page/styles.ts",
+        target: "components/ui/clip-mask-transition-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "view-transition-folio-page",
+    title: "View Transition Folio Page",
+    description:
+      "A three route photographer folio where the page change is handled entirely by the View Transition API. The old page lifts a third of a screen and fades while the new one opens upward from a flat clip path, so the arriving page unrolls over the departing one rather than crossfading. Entrance animations re-run on every route: nav links roll up from behind their clip, the hero name splits into characters, and about copy climbs line by line.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/view-transition-folio-page/index.tsx",
+        target: "components/ui/view-transition-folio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/view-transition-folio-page/styles.ts",
+        target: "components/ui/view-transition-folio-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "revealer-transition-page",
+    title: "Revealer Transition Page",
+    description:
+      "A four route studio site with two layers of transition. On arrival a solid panel scaled to full height shrinks away from its top edge, wiping the page in. On navigation the View Transition API animates the incoming snapshot from a small centered rectangle out to the full frame, so the new page grows through a window in the old one rather than sliding over it. Each route then splits and staggers its own copy, by character on the home hero and by word elsewhere.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/revealer-transition-page/index.tsx",
+        target: "components/ui/revealer-transition-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/revealer-transition-page/styles.ts",
+        target: "components/ui/revealer-transition-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "block-logo-transition-page",
+    title: "Block Logo Transition Page",
+    description:
+      "A three route site whose transitions are built from twenty vertical blocks. Leaving a page, the blocks scale out from their left edge on a two hundredth of a second stagger, sweeping the screen shut; arriving, they collapse from the right, so the wipe never reverses direction. While the screen is covered, a mark draws itself: its path length is measured at runtime and used as the dash offset, so the stroke traces on before the fill arrives.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/block-logo-transition-page/index.tsx",
+        target: "components/ui/block-logo-transition-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/block-logo-transition-page/styles.ts",
+        target: "components/ui/block-logo-transition-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "scroll-advance-project-page",
+    title: "Scroll Advance Project Page",
+    description:
+      "A project template where reaching the bottom is the navigation. The footer pins for three viewports and fills a second progress bar as you push through it; when that bar completes, the page advances to the next project on its own. Two independent progress readouts run at once, one in the nav tracking the whole document and one in the footer tracking only the pin, and a latch stops the handoff firing twice if the pin is scrubbed across its end.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-advance-project-page/index.tsx",
+        target: "components/ui/scroll-advance-project-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/scroll-advance-project-page/styles.ts",
+        target: "components/ui/scroll-advance-project-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:

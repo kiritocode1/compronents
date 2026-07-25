@@ -1809,6 +1809,47 @@ const pushupCardStackAssets = simpleAssets(
   Array.from({ length: 5 }, (_, i) => `img${i + 1}.jpg`),
 );
 
+const clipMaskTransitionPageAssets = simpleAssets(
+  "clip-mask-transition-page",
+  "Clip Mask Transition Page",
+  "Full-bleed route backdrop revealed by the clip mask transition.",
+  Array.from({ length: 3 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const viewTransitionFolioPageAssets = simpleAssets(
+  "view-transition-folio-page",
+  "View Transition Folio Page",
+  "Work photograph, or the about-page portrait.",
+  [...Array.from({ length: 4 }, (_, i) => `img${i + 1}.jpeg`), "portrait.jpeg"],
+);
+
+const revealerTransitionPageAssets = simpleAssets(
+  "revealer-transition-page",
+  "Revealer Transition Page",
+  "Home hero plate, a work image, or the studio portrait.",
+  [
+    "hero.jpg",
+    "studio.jpg",
+    ...Array.from({ length: 4 }, (_, i) => `img${i + 1}.jpg`),
+  ],
+);
+
+const blockLogoTransitionPageAssets = simpleAssets(
+  "block-logo-transition-page",
+  "Block Logo Transition Page",
+  "Archive photograph on the routed archive page.",
+  Array.from({ length: 4 }, (_, i) => `img_0${i + 1}.jpg`),
+);
+
+const scrollAdvanceProjectPageAssets = simpleAssets(
+  "scroll-advance-project-page",
+  "Scroll Advance Project Page",
+  "Project photograph in the scrolled image column.",
+  Array.from({ length: 3 }, (_, p) =>
+    Array.from({ length: 5 }, (_, i) => `project-${p + 1}-${i + 1}.jpg`),
+  ).flat(),
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -2232,6 +2273,11 @@ export const assetItems = [
   ...cardPartingRevealAssets,
   ...imageExplosionFooterAssets,
   ...pushupCardStackAssets,
+  ...clipMaskTransitionPageAssets,
+  ...viewTransitionFolioPageAssets,
+  ...revealerTransitionPageAssets,
+  ...blockLogoTransitionPageAssets,
+  ...scrollAdvanceProjectPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
