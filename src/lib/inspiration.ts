@@ -1639,6 +1639,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Laws of UX",
+        href: "https://lawsofux.com",
+        dateAdded: "2026-07-25",
+        description:
+          "Collection of 31 psychology and usability principles that explain why an interface works, each on its own page with a definition, its origins and takeaways you can act on. Built by designer Jon Yablonski, covering Fitts's Law, Hick's Law, Jakob's Law, the Doherty Threshold, Miller's Law, Tesler's Law, the Von Restorff Effect, the Zeigarnik Effect and the rest. There is a companion book and a large-format index poster in the shop; site content is CC BY-NC-ND 4.0, so cite it rather than repackaging it.",
+      },
+      {
         title: "How to make your app look and feel 10x better",
         href: "https://x.com/heysatya_/status/2078444307418345639",
         dateAdded: "2026-07-19",
@@ -1832,6 +1839,34 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Design Spells",
+        href: "https://designspells.com/",
+        dateAdded: "2026-07-25",
+        description:
+          "Catalog of micro-interactions, easter eggs and small design details pulled from shipped apps, for finding concrete prior art before building your own delightful moment. Started in May 2023 as a Twitter account by Chester, who works at Mobbin, and grew into a site plus a biweekly newsletter with over 5,500 subscribers. Entries are browsable by tag, so you can filter down to just desktop spells or just mobile ones.",
+      },
+      {
+        title: "posts.design",
+        href: "https://posts.design",
+        dateAdded: "2026-07-25",
+        description:
+          "Reference wall of social post design, collecting announcement cards, product screenshots and launch graphics from real brands so you have something to look at before designing your own. Recent captures include Coca-Cola and Linear; entries note the post type and link back to the original. The maker is not named on the site.",
+      },
+      {
+        title: "Minimum",
+        href: "https://mnmm.xyz",
+        dateAdded: "2026-07-25",
+        description:
+          "Directory of 148 minimal websites shown as a plain screenshot grid with a Random button and no filters, useful when you want restraint as a reference point rather than maximalism. Curated by Maze Heart (remvze), the same maker behind DSGNS, Headinger, OGPedia and Promptism, with entries dated from April 2025 through July 2026. Free, no submission process listed.",
+      },
+      {
+        title: "Deck.gallery",
+        href: "https://deck.gallery",
+        dateAdded: "2026-07-25",
+        description:
+          "Gallery of 160 well-designed presentation decks, slides, keynotes and brand guideline documents, for studying how a strong deck is paced and laid out before building one. Featured decks come from Nike, Apple, Zapier, Discord, Formula 1, Strava, TikTok, Palantir, Disney and Adobe, tagged by type: Guidelines, Portfolio, Report, Sales, Pitch, Strategy, Marketing and Talks. Most are free to view, there is a weekly newsletter, and a small marketplace sells templates such as a $45 brand guidelines deck.",
+      },
       {
         title: "The Component Gallery",
         href: "https://component.gallery/",
@@ -2291,6 +2326,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Color, gradients and palettes",
     links: [
       {
+        title: "GRADIENTOOL",
+        href: "https://gradientool.com",
+        dateAdded: "2026-07-25",
+        description:
+          "Gradient generator and animator by Leo Benzoni with far more control than a two-stop CSS picker: Linear, Radial and Orbit layouts, Pyramid, Wave and Noise shapes, plus peaks, direction, sweep angle, hue drift and rotation. Exports PNG or JPG at 2K, 4K or 8K, MP4 for the animated version, and a code export, with blend modes (multiply, screen, overlay, difference, lighten, darken), grain, relief, 3D depth and duotone or mono treatments layered on top. Animation duration and layers are adjustable, and a randomize button gets you to a usable starting point fast.",
+      },
+      {
         title: "Colir",
         href: "https://colir.space",
         dateAdded: "2026-07-21",
@@ -2510,6 +2552,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Ditther",
+        href: "https://ditther.com",
+        dateAdded: "2026-07-25",
+        description:
+          "Free browser tool by Aashish (@blurrhaus) that runs an image or video through eight pixel effects: noise dither, ASCII characters, LEGO blocks, voxels, halftone dots, dot grid, Bayer matrix ordered dither and LED display. Settings can be saved as reusable Looks so a treatment carries across a set of assets. Core tools are free forever with video export up to 1080p; Ditther Studio is a one-time $79 unlock for 4K at 60fps, 500-plus premium backgrounds and advanced presets.",
+      },
       {
         title: "Mask Distortion",
         href: "https://artifacts.deeo.studio/mask-distortion",
@@ -2766,6 +2815,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Type foundries and directories",
     links: [
       {
+        title: "Typewolf",
+        href: "https://www.typewolf.com",
+        dateAdded: "2026-07-25",
+        description:
+          "Typography reference that identifies the fonts used on notable websites, so you can see how a typeface performs in production before licensing it. Run as a side project by independent Oregon designer Jeremiah Shoaf, with a daily Site of the Day pick, ranked font lists (Apercu holds the number one spot), Lookbooks, a Google Fonts guide and a Tuesday newsletter; it draws over 350,000 unique visitors a month. Shoaf also sells the Flawless Typography Checklist, a $399 interactive course structured as a checklist.",
+      },
+      {
         title: "Nouveau Grande by DDOTT",
         href: "https://ddott.net/font/nouveau-grande/",
         dateAdded: "2026-07-15",
@@ -2896,6 +2952,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Free typefaces",
     links: [
+      {
+        title: "Awwwards free fonts collection",
+        href: "https://www.awwwards.com/awwwards/collections/free-fonts",
+        dateAdded: "2026-07-25",
+        description:
+          "Awwwards' own curated collection of free typefaces for web projects, 289 items deep and paginated at roughly 30 per page. Includes Geist by Vercel, Nohemi, Ranade, Round 8 by atipo, HK Grotesk Wide, Aalto Display and Galgo Condensed by Giulia Boggio. Each entry links straight out to its source, usually a foundry site, Behance project or Gumroad listing, so check the license there rather than assuming the collection page settles it.",
+      },
       {
         title: "Overused Grotesk",
         href: "https://github.com/RandomMaerks/Overused-Grotesk",
@@ -3237,6 +3300,20 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Branding and logo archives",
     links: [
+      {
+        title: "Visual Journal",
+        href: "https://visualjournal.it",
+        dateAdded: "2026-07-25",
+        description:
+          "Curated archive of branding and editorial design projects from studios worldwide, run by Italian art director and design manager Alessandro Scarpellini as personal research rather than a showcase of his own work. Recent features include OOAK, Oversoon, WOW, Brot, Adaptual, The Mandarin and Radici. Ad-free and funded by voluntary contributions; designers can pitch a complete case study by email and it is reviewed editorially, case by case.",
+      },
+      {
+        title: "Brand Guidelines",
+        href: "https://brandguidelines.net",
+        dateAdded: "2026-07-25",
+        description:
+          "Handpicked library of real brand guideline documents from Adobe, Spotify, eBay, IBM, Duolingo, Dropbox, Starbucks, Klarna, Canva, Instagram and the Mastercard Foundation, for seeing how a full identity system actually gets written down. Curated by 1042 Studio, mixing free in-house guidelines the companies published themselves with paid templates from third-party studios in the $14 to $30 range. Loads roughly 30 at a time behind a Load More button; submissions go to the studio by email.",
+      },
       {
         title: "Logo System",
         href: "https://logosystem.co/",
@@ -3748,6 +3825,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Pixlo",
+        href: "https://pixlo.me",
+        dateAdded: "2026-07-25",
+        description:
+          "Free browser tool that turns a set of photos into a short video slideshow: drop the images in, customize each slide, export something sized for Reels, Stories or a social post. Posted by designer Tran Mau Tri Tam, who built it entirely by prompting in Figma Make and originally made it for his own monthly recaps before opening it to everyone. Reach for it when a full video editor is more than the job needs.",
+      },
+      {
         title: "Motion Extractor",
         href: "https://aescripts.com/motion-extractor/",
         dateAdded: "2026-07-21",
@@ -4092,6 +4176,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "devtools.sh",
+        href: "https://devtools.sh/",
+        dateAdded: "2026-07-25",
+        description:
+          "Directory of 224 AI developer tools, sortable by GitHub stars, latest commit, recently added or name, for surveying a category before committing to one tool. Built by Tim Hanlon with agents and powered by Minima; the largest categories are Orchestration (37), Desktop Applications (23), Local Inference (23), Frameworks and SDKs (17) and Harnesses (17), alongside Agent Memory, Skills and Prompts, Evals and Autonomous Agents. Open-source entries are flagged OSS and link to their repos, and there are separate model and article sections.",
+      },
+      {
         title: "Expo MCP Server",
         href: "https://docs.expo.dev/mcp/",
         dateAdded: "2026-07-23",
@@ -4299,6 +4390,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "BackSearch",
+        href: "https://www.gr.inc/releases/introducing-backsearch",
+        dateAdded: "2026-07-25",
+        description:
+          "Search API that returns the web as it was archived on a chosen past date, so an agent can be backtested on a question without today's answers leaking in. Built by General Reasoning and released 24 July 2026: two endpoints, search and fetch, both taking an as_of date, gated on crawl date rather than publish date so backdated content cannot slip through, and deterministic, meaning the same query at the same as_of returns the same results forever. The preview covers news domains only from December 2025 to July 2026, billed pay-as-you-go at $10 per 1,000 searches and $2 per 1,000 fetches against an OpenReward balance, with failed requests free.",
+      },
       {
         title: "wigolo",
         href: "https://github.com/KnockOutEZ/wigolo",
@@ -7119,6 +7217,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Talks and individual videos",
     links: [
       {
+        title: "Performance Engineering at TigerBeetle",
+        href: "https://youtu.be/-p-Xm7VEqSk",
+        dateAdded: "2026-07-25",
+        description:
+          "Guest lecture at the Technical University of Munich, July 2026, on how the TigerBeetle team does performance engineering on their financial transactions database. Published on the TUM channel and picked up on the Ziggit Zig forum the same month; the video title does not name the speaker. Where the other TigerBeetle material in this registry covers design decisions (the 1000x interface talk, the four-fuzzers post), this one is about the day-to-day practice of measuring and tuning.",
+      },
+      {
         title: "AWS re:Invent",
         href: "https://www.youtube.com/playlist?list=PL2yQDdvlhXf_NqSnDKx7Hbb9FrNQKmxg7",
         dateAdded: "2026-07-14",
@@ -7387,6 +7492,20 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Mockups, textures and patterns",
     links: [
+      {
+        title: "animos",
+        href: "https://animos.app",
+        dateAdded: "2026-07-25",
+        description:
+          "Browser tool that drops a design into a motion template and exports it as a showcase video, for producing an animated product shot without opening After Effects. Over 30 customizable templates, up to 4K, exporting MP4 or WebM; assets stay on your device with no upload, no cloud storage and no account gate on the core flow. Built solo by Herdetya Priambodo and launched on Product Hunt in July 2026 after a beta in which 5,000-plus users produced more than 9,000 exports.",
+      },
+      {
+        title: "Hano",
+        href: "https://www.hano.so/",
+        dateAdded: "2026-07-25",
+        description:
+          "Browser-based 3D device mockup and animation studio: place a screen into a device, animate the scene, export a finished product visual. Worth reaching for when a flat 2D mockup will not sell the product but a real 3D pipeline is overkill. The site does not name its maker.",
+      },
       {
         title: "ContentCore",
         href: "https://contentcore.xyz/",
