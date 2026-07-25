@@ -3496,6 +3496,126 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "split-column-infinite-slider",
+    title: "Split Column Infinite Slider",
+    description:
+      "Two columns that scroll in opposite directions off one wheel. Each slide is revealed by a clip path growing from the bottom on the left and the top on the right, with a half percent overlap so no seam ever shows. Images drift against the reveal at 1.25 zoom so the drift never exposes an edge, and copy holds dead center through a short window before easing away on a smoothstep. Slides are built and destroyed around a three slide buffer, so the loop is endless without cloning the set.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/split-column-infinite-slider.tsx",
+        target: "components/ui/split-column-infinite-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "dial-product-slider",
+    title: "Dial Product Slider",
+    description:
+      "A product reel driven by a single round controller. Arrows step the reel, which keeps a fixed buffer either side of center and recycles the far items so the catalogue loops without cloning. Pressing the middle turns the dial inside out: the outer ring closes to a point, the inner disc opens into a close button, the flanking products fan out and fade, the background fills with the product shot, and a detail card slides up into the middle.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dial-product-slider.tsx",
+        target: "components/ui/dial-product-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "parallax-drag-rail",
+    title: "Parallax Drag Rail",
+    description:
+      "An endless horizontal rail you can wheel or drag. Six copies of the set are laid end to end and the track silently jumps back a full sequence whenever it drifts past the safe band, so the loop never runs out and never visibly seams. Each image is held at 2.25 zoom and slid against its own frame by its distance from center, so cards read as windows onto one continuous scene. Captions only appear once the rail is genuinely still, and a real drag suppresses the click.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/parallax-drag-rail.tsx",
+        target: "components/ui/parallax-drag-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "endless-side-story",
+    title: "Endless Side Story",
+    description:
+      "A whole editorial page laid out sideways and looped. The section run is cloned two sequences either side of the original and the track jumps a full sequence whenever it drifts past the halfway guard, so scrolling never reaches an end in either direction. The progress bar and counter read position modulo one sequence and snap rather than ease across the wrap, so the bar never runs backwards through the whole width.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/endless-side-story.tsx",
+        target: "components/ui/endless-side-story.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "marquee-carousel-scroll",
+    title: "Marquee Carousel Scroll",
+    description:
+      "A pinned carousel where each project arrives as a wedge. Scrolling forward tilts the incoming slide's clip path up from the bottom edge while the outgoing one closes off the top, and the image and copy inside slide at different rates so the layers separate as they cross. Each title is tripled and marqueed on an infinite linear loop, and a row of segmented bars fills one at a time to show position in the set.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/marquee-carousel-scroll.tsx",
+        target: "components/ui/marquee-carousel-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "throw-away-work-slider",
+    title: "Throw Away Work Slider",
+    description:
+      "A wheel-driven project slider where the outgoing slide is thrown rather than faded. It shrinks to a quarter, rotates thirty degrees and flies two viewports off screen, while the incoming one enters from the opposite edge through a narrow clip path that widens to full frame. Copy is split fresh on every slide so words and lines climb out from behind their own masks. Input is rate limited to one slide per second so a fast scroll cannot stack transitions.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/throw-away-work-slider.tsx",
+        target: "components/ui/throw-away-work-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:

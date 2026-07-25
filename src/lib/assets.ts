@@ -1572,6 +1572,51 @@ const wedgeClipWorkScrollAssets = simpleAssets(
   ["work_01.jpg", "work_02.jpg", "work_03.jpg", "work_04.jpg", "work_05.jpg"],
 );
 
+const splitColumnInfiniteSliderAssets = simpleAssets(
+  "split-column-infinite-slider",
+  "Split Column Infinite Slider",
+  "Column slide photograph revealed by the clip path as the column advances.",
+  [
+    ...Array.from({ length: 5 }, (_, i) => `slide_img_left_${i + 1}.jpg`),
+    ...Array.from({ length: 5 }, (_, i) => `slide_img_right_${i + 1}.jpg`),
+  ],
+);
+
+const dialProductSliderAssets = simpleAssets(
+  "dial-product-slider",
+  "Dial Product Slider",
+  "Product cutout shown in the reel and behind the detail card.",
+  Array.from({ length: 10 }, (_, i) => `product-${i + 1}.png`),
+);
+
+const parallaxDragRailAssets = simpleAssets(
+  "parallax-drag-rail",
+  "Parallax Drag Rail",
+  "Project photograph slid against its frame as the rail moves.",
+  Array.from({ length: 8 }, (_, i) => `slider_img_0${i + 1}.jpg`),
+);
+
+const endlessSideStoryAssets = simpleAssets(
+  "endless-side-story",
+  "Endless Side Story",
+  "Full-height panel photograph in the sideways editorial run.",
+  Array.from({ length: 4 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const marqueeCarouselScrollAssets = simpleAssets(
+  "marquee-carousel-scroll",
+  "Marquee Carousel Scroll",
+  "Project photograph wedged in behind the marqueed title.",
+  Array.from({ length: 5 }, (_, i) => `slide-img-${i + 1}.jpg`),
+);
+
+const throwAwayWorkSliderAssets = simpleAssets(
+  "throw-away-work-slider",
+  "Throw Away Work Slider",
+  "Full-bleed project photograph thrown off screen on the next slide.",
+  Array.from({ length: 4 }, (_, i) => `slide-img-${i + 1}.jpg`),
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -1965,6 +2010,12 @@ export const assetItems = [
   ...pushDownOverlayMenuAssets,
   ...dealtTeamCardsAssets,
   ...wedgeClipWorkScrollAssets,
+  ...splitColumnInfiniteSliderAssets,
+  ...dialProductSliderAssets,
+  ...parallaxDragRailAssets,
+  ...endlessSideStoryAssets,
+  ...marqueeCarouselScrollAssets,
+  ...throwAwayWorkSliderAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

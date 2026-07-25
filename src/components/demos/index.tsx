@@ -40,6 +40,7 @@ import DeadspacePageDemo from "./deadspace-page";
 import DealtTeamCardsDemo from "./dealt-team-cards";
 import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
+import DialProductSliderDemo from "./dial-product-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import DitherStudioPageDemo from "./dither-studio-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
@@ -47,6 +48,7 @@ import DrawnPathFeaturesDemo from "./drawn-path-features";
 import DroneFleetDemo from "./drone-fleet";
 import EdgeWarpRailDemo from "./edge-warp-rail";
 import ElasticCurtainMenuDemo from "./elastic-curtain-menu";
+import EndlessSideStoryDemo from "./endless-side-story";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
 import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
@@ -79,6 +81,7 @@ import LineRiseTextDemo from "./line-rise-text";
 import LiquidStatGridDemo from "./liquid-stat-grid";
 import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
 import March2025TemplateDemo from "./march-2025-template";
+import MarqueeCarouselScrollDemo from "./marquee-carousel-scroll";
 import MaskRevealPreloaderDemo from "./mask-reveal-preloader";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
@@ -94,6 +97,7 @@ import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
+import ParallaxDragRailDemo from "./parallax-drag-rail";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
@@ -118,6 +122,7 @@ import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
 import SorenPageDemo from "./soren-page";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
+import SplitColumnInfiniteSliderDemo from "./split-column-infinite-slider";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
@@ -132,6 +137,7 @@ import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
+import ThrowAwayWorkSliderDemo from "./throw-away-work-slider";
 import TiltAwayMenuDemo from "./tilt-away-menu";
 import TiltCardStackDemo from "./tilt-card-stack";
 import UnusualStudioPageDemo from "./unusual-studio-page";
@@ -295,4 +301,10 @@ export const demos: Record<string, ComponentType> = {
   "push-down-overlay-menu": PushDownOverlayMenuDemo,
   "dealt-team-cards": DealtTeamCardsDemo,
   "wedge-clip-work-scroll": WedgeClipWorkScrollDemo,
+  "split-column-infinite-slider": SplitColumnInfiniteSliderDemo,
+  "dial-product-slider": DialProductSliderDemo,
+  "parallax-drag-rail": ParallaxDragRailDemo,
+  "endless-side-story": EndlessSideStoryDemo,
+  "marquee-carousel-scroll": MarqueeCarouselScrollDemo,
+  "throw-away-work-slider": ThrowAwayWorkSliderDemo,
 };

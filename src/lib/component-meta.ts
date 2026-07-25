@@ -432,7 +432,333 @@ const wedgeClipWorkScrollAssetDocs = assetsByIds(
   Array.from({ length: 5 }, (_, i) => `wedge-clip-work-scroll-work-0${i + 1}`),
 );
 
+const splitColumnInfiniteSliderAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 5 },
+    (_, i) => `split-column-infinite-slider-slide-img-left-${i + 1}`,
+  ),
+  ...Array.from(
+    { length: 5 },
+    (_, i) => `split-column-infinite-slider-slide-img-right-${i + 1}`,
+  ),
+]);
+const dialProductSliderAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `dial-product-slider-product-${i + 1}`),
+);
+const parallaxDragRailAssetDocs = assetsByIds(
+  Array.from(
+    { length: 8 },
+    (_, i) => `parallax-drag-rail-slider-img-0${i + 1}`,
+  ),
+);
+const endlessSideStoryAssetDocs = assetsByIds(
+  Array.from({ length: 4 }, (_, i) => `endless-side-story-img${i + 1}`),
+);
+const marqueeCarouselScrollAssetDocs = assetsByIds(
+  Array.from(
+    { length: 5 },
+    (_, i) => `marquee-carousel-scroll-slide-img-${i + 1}`,
+  ),
+);
+const throwAwayWorkSliderAssetDocs = assetsByIds(
+  Array.from(
+    { length: 4 },
+    (_, i) => `throw-away-work-slider-slide-img-${i + 1}`,
+  ),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "split-column-infinite-slider": {
+    demoPath: "src/components/demos/split-column-infinite-slider.tsx",
+    nuance: [
+      {
+        label: "The reveal overshoots by half a percent",
+        description:
+          "Clip paths grow to 100.5 percent rather than 100, so consecutive slides always overlap by a sliver and no hairline of background can appear between them at any scroll position.",
+      },
+      {
+        label: "Zoom exists to hide the drift",
+        description:
+          "Images are held at 1.25 scale purely so the counter-drift against the reveal never pulls an edge into frame. The drift direction is inverted per column, which is what makes the two sides read as moving apart.",
+      },
+      {
+        label: "Copy holds, then leaves on a smoothstep",
+        description:
+          "Titles stay pinned dead center through a ten percent window either side of the slide's midpoint, then depart on a t*t*(3-2t) curve, so the type feels held rather than continuously sliding.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Title, tags, accent, and the two column images.",
+      },
+    ],
+    assets: splitColumnInfiniteSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "SplitSlide[]",
+        default: "Five BLANK projects",
+        description:
+          "Title, tag lines, accent color, link, and a separate image per column.",
+      },
+      {
+        name: "scrollSensitivity / smoothness / imageZoom",
+        type: "number",
+        default: "1200 / 0.05 / 1.25",
+        description:
+          "Wheel divisor, lerp factor toward the target, and the image scale that hides the parallax drift.",
+      },
+    ],
+  },
+  "dial-product-slider": {
+    demoPath: "src/components/demos/dial-product-slider.tsx",
+    nuance: [
+      {
+        label: "The dial turns inside out",
+        description:
+          "Open and close are one gesture: the outer ring's clip circle shrinks to zero while the inner disc's grows to fill, so the control reads as inverting rather than two elements swapping.",
+      },
+      {
+        label: "A buffer either side, not a clone set",
+        description:
+          "Five items are kept on each side of center and the far one is destroyed as a new one is built on the opposite end, so the reel loops through any length of catalogue at constant DOM cost.",
+      },
+      {
+        label: "Stepping is locked while the card is open",
+        description:
+          "Both arrows disable during the transition and for as long as the detail card is up, so the reel underneath can never advance out from behind the product being read.",
+      },
+    ],
+    editable: [
+      {
+        name: "products",
+        control: "text",
+        description: "Name, image, price, tag, and link per product.",
+      },
+    ],
+    assets: dialProductSliderAssetDocs,
+    api: [
+      {
+        name: "products",
+        type: "DialProduct[]",
+        default: "Ten BLANK products",
+        description:
+          "Each product's cutout, name, tag, price, and detail link. The reel loops through however many are supplied.",
+      },
+      {
+        name: "brand / menuLabel / detailLabel",
+        type: "string",
+        default: "BLANK copy",
+        description: "Nav label, dial caption, and the detail card button.",
+      },
+    ],
+  },
+  "parallax-drag-rail": {
+    demoPath: "src/components/demos/parallax-drag-rail.tsx",
+    nuance: [
+      {
+        label: "The jump happens in the safe band",
+        description:
+          "Six sequences are laid out and the track is teleported one sequence back whenever it leaves the middle band. Because the jump distance equals exactly one sequence, the visible arrangement is identical before and after and the seam is invisible.",
+      },
+      {
+        label: "Parallax is per card, from screen position",
+        description:
+          "Each image is offset by a quarter of its distance from the rail's center, read live from its bounding box, so the effect is correct no matter where the track has been teleported to.",
+      },
+      {
+        label: "Captions gate on real stillness",
+        description:
+          "A caption only fades in when velocity drops below 0.1 and no input has landed for 200ms, exposed as a CSS variable, so hover labels never flicker during a fling.",
+      },
+      {
+        label: "A drag is not a click",
+        description:
+          "Movement past five pixels marks the gesture as a drag and suppresses the navigation on release, so throwing the rail never opens a project by accident.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Project titles, images, and links.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor",
+        control: "text",
+        description: "Wheel multiplier and how hard the rail eases.",
+      },
+    ],
+    assets: parallaxDragRailAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "RailSlide[]",
+        default: "Eight BLANK projects",
+        description: "Title, image, and link per card.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor / maxVelocity",
+        type: "number",
+        default: "1.75 / 0.05 / 150",
+        description:
+          "Wheel multiplier, easing factor, and the per-event clamp that stops a trackpad flick from teleporting the rail.",
+      },
+    ],
+  },
+  "endless-side-story": {
+    demoPath: "src/components/demos/endless-side-story.tsx",
+    nuance: [
+      {
+        label: "Real sections, cloned in place",
+        description:
+          "The markup is written once as ordinary sections, then measured and cloned two sequences either side at runtime, so the content stays authorable as normal HTML rather than a data array.",
+      },
+      {
+        label: "The progress bar snaps across the wrap",
+        description:
+          "When the reading jumps from high to low percent, the bar's eased value is force-set instead of lerped, so it never animates backwards across the entire width on every loop.",
+      },
+      {
+        label: "The loop guard sits at the halfway mark",
+        description:
+          "The teleport fires at half a sequence past the buffer rather than at the edge, leaving a full sequence of slack in both directions so a fast fling cannot outrun the reset.",
+      },
+    ],
+    editable: [
+      {
+        name: "storyHeadings / aboutParagraphs",
+        control: "text",
+        description: "The editorial copy across the sideways run.",
+      },
+    ],
+    assets: endlessSideStoryAssetDocs,
+    api: [
+      {
+        name: "heroImage / aboutImage / bannerImage / conceptImage",
+        type: "string",
+        default: "Blob-hosted images",
+        description: "The four full-height photographic panels.",
+      },
+      {
+        name: "introHeading / headerHeading / aboutHeading / storyHeadings / outroHeading",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Copy for each panel in the sequence.",
+      },
+      {
+        name: "smoothFactor",
+        type: "number",
+        default: "0.05",
+        description: "How hard the track eases toward the scroll target.",
+      },
+    ],
+  },
+  "marquee-carousel-scroll": {
+    demoPath: "src/components/demos/marquee-carousel-scroll.tsx",
+    nuance: [
+      {
+        label: "Direction changes the shape",
+        description:
+          "Forward and backward build different clip path polygons, so a slide entering upward wedges from the bottom edge and one entering downward wedges from the top. The transition is never just played in reverse.",
+      },
+      {
+        label: "Image and copy travel at different rates",
+        description:
+          "Inside a slide the image moves 25 percent while the copy moves 100 percent, so the two layers visibly separate during the cross rather than sliding as one block.",
+      },
+      {
+        label: "Titles are tripled for a seamless marquee",
+        description:
+          "Each headline is repeated three times and translated exactly one third, so the loop point lands on an identical glyph run and the scroll never appears to jump.",
+      },
+      {
+        label: "Transitions are not re-entrant",
+        description:
+          "While a slide is animating, scroll progress is recorded but ignored, so scrubbing quickly through the pin cannot start a second transition on top of a running one.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Tag, marquee headline, and image per project.",
+      },
+    ],
+    assets: marqueeCarouselScrollAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "MarqueeSlide[]",
+        default: "Five BLANK projects",
+        description:
+          "Tag, marquee headline, and image. Pin length and the progress bar count both scale to how many are supplied.",
+      },
+      {
+        name: "brand / navItems / introCopy / outroCopy",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation and the screens either side of the carousel.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "throw-away-work-slider": {
+    demoPath: "src/components/demos/throw-away-work-slider.tsx",
+    nuance: [
+      {
+        label: "The exit is a throw, not a fade",
+        description:
+          "The outgoing slide scales to a quarter, rotates thirty degrees and travels two full frames off screen over two seconds, so it reads as discarded rather than dissolved.",
+      },
+      {
+        label: "The incoming slide is built 750ms late",
+        description:
+          "Construction is deliberately delayed into the middle of the exit, so the new slide is never on screen alongside the old one at full size and the clip path opening is the first thing you see of it.",
+      },
+      {
+        label: "Copy is split per slide, not once",
+        description:
+          "Words and lines are re-split on every freshly built slide, so line breaks are measured against the actual box each time and masks always match the real wrap.",
+      },
+      {
+        label: "One slide per second, hard limit",
+        description:
+          "A timestamp gate plus two flags mean a fast wheel or a flick cannot queue transitions, which is what keeps the two second exit from ever overlapping itself.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Title, description, tags, link, and image per project.",
+      },
+    ],
+    assets: throwAwayWorkSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "WorkSlide[]",
+        default: "Four BLANK projects",
+        description:
+          "Title, description, tag list, link, and full-bleed image. The index readout and wrap-around both follow the array length.",
+      },
+      {
+        name: "linkLabel / tagsLabel",
+        type: "string",
+        default: "View Project / Tags",
+        description: "The per-slide link text and the tag column heading.",
+      },
+    ],
+  },
   "sliding-index-menu": {
     demoPath: "src/components/demos/sliding-index-menu.tsx",
     nuance: [
