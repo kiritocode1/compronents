@@ -303,6 +303,26 @@ export const registryItems: RegistryItem[] = [
         target: "components/ui/content-architecture-page/minimap.tsx",
         type: "registry:ui",
       },
+      {
+        path: "src/registry/content-architecture-page/ascii-curtain.ts",
+        target: "components/ui/content-architecture-page/ascii-curtain.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/content-architecture-page/blog.tsx",
+        target: "components/ui/content-architecture-page/blog.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/content-architecture-page/repo-explorer.tsx",
+        target: "components/ui/content-architecture-page/repo-explorer.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/content-architecture-page/hand-model.ts",
+        target: "components/ui/content-architecture-page/hand-model.ts",
+        type: "registry:lib",
+      },
     ],
   },
   {
@@ -3232,6 +3252,991 @@ export const registryItems: RegistryItem[] = [
         path: "src/registry/surprise-box.tsx",
         target: "components/ui/surprise-box.tsx",
         type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "starfield-warp-scroll",
+    title: "Starfield Warp Scroll",
+    description:
+      "A pinned canvas starfield where scroll drives the warp. A thousand weighted-color streaks fire out of a center hole, stretching and brightening the further they travel, while three headlines hand off word by word: one fades out as it swells past full size, the next fades in as it settles. Canvas 2D with GSAP ScrollTrigger, SplitText, and Lenis. No images.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/starfield-warp-scroll.tsx",
+        target: "components/ui/starfield-warp-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "physics-tag-footer",
+    title: "Physics Tag Footer",
+    description:
+      "A footer that fills itself by dropping. Scroll it into view and a stack of rounded labels rains in from above, tumbles off the walls, and piles up on the floor, each one grabbable and throwable afterwards. A top wall seals the box three seconds in so nothing can be flung back out, and dragged bodies are clamped so they cannot be dragged through a wall. Matter.js bodies driving real DOM elements.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "matter-js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/physics-tag-footer.tsx",
+        target: "components/ui/physics-tag-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "showreel-zoom-scroll",
+    title: "Showreel Zoom Scroll",
+    description:
+      "A showreel that starts as a thumbnail floating above the fold and grows into the frame as you scroll. The card tracks the pointer horizontally while it is still small, drifting further the smaller it is, then locks dead center once it reaches full size. Its caption shrinks on a two stage curve so the type lands at reading size exactly when the video does. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/showreel-zoom-scroll.tsx",
+        target: "components/ui/showreel-zoom-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "interlock-title-scroll",
+    title: "Interlock Title Scroll",
+    description:
+      "Full-bleed titles that assemble themselves as they enter. Every other character starts pushed above the line and the rest below, so the word reads as two combs sliding into each other, while the whole block drifts in from the side. Each band staggers from a different end and the middle one runs the opposite direction to its neighbours. GSAP SplitText and ScrollTrigger with Lenis, no images.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/interlock-title-scroll.tsx",
+        target: "components/ui/interlock-title-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "drawn-path-features",
+    title: "Drawn Path Features",
+    description:
+      "A feature section threaded together by one fat orange stroke. The path sits behind the content on a negative layer and draws itself in exact step with the scroll, so the line arrives at each illustration and card just as that block reaches reading position, and completes on the last row. Stroke dash offset driven by GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drawn-path-features.tsx",
+        target: "components/ui/drawn-path-features.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "circular-widget-dial",
+    title: "Circular Widget Dial",
+    description:
+      "A ring of image segments that never stops turning. The ring rotates one way, a thin indicator line sweeps the other, and whichever segment sits under the line becomes the desaturated full-bleed backdrop with its name on a chip in the middle. Wheeling over it spins both faster or throws them into reverse, and every value eases on a lerp so the dial coasts instead of snapping. SVG arcs built and clipped at runtime.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/circular-widget-dial.tsx",
+        target: "components/ui/circular-widget-dial.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "sliding-index-menu",
+    title: "Sliding Index Menu",
+    description:
+      "A full-screen menu that wipes up from the bottom edge and hands the page over to an oversized link index. The whole rail slides horizontally against the pointer so moving right pulls the far links into reach, and an accent bar chases whichever link is hovered, easing its position and its width at once. Each link swaps to a duplicate copy on a per-character roll. GSAP SplitText with Lenis.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sliding-index-menu.tsx",
+        target: "components/ui/sliding-index-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "elastic-curtain-menu",
+    title: "Elastic Curtain Menu",
+    description:
+      "A full-screen menu whose panel is a single SVG path with a quadratic control point, so it drops in as a sagging sheet rather than a rectangle. Opening runs the curve past its resting position and settles it, closing flips the anchor to the bottom and lifts the sag the other way. Link characters fly in from far right on an elastic ease while the contact block staggers up underneath.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/elastic-curtain-menu.tsx",
+        target: "components/ui/elastic-curtain-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "tilt-away-menu",
+    title: "Tilt Away Menu",
+    description:
+      "Opening this menu does not cover the page, it throws it. The hero rotates, scales up and slides off toward the bottom right while the panel unfolds from the opposite corner, arriving from a rotated, oversized, quarter-opacity state. The clip path overshoots past the bottom edge so the panel lands as a skewed sheet, links roll up from below their baseline, and hovering a link stacks a new preview in over the last.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/tilt-away-menu.tsx",
+        target: "components/ui/tilt-away-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "push-down-overlay-menu",
+    title: "Push Down Overlay Menu",
+    description:
+      "The menu does not sit on top of the page, it pushes it. Opening drives the whole document down a full viewport while the panel wipes in from the top edge and its own content slides down from half a screen above, so the two read as one sheet. Every line of menu copy is masked and dropped in with a negative stagger, and the hamburger folds into a cross on the same custom ease. GSAP CustomEase and SplitText with Lenis.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/push-down-overlay-menu.tsx",
+        target: "components/ui/push-down-overlay-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "dealt-team-cards",
+    title: "Dealt Team Cards",
+    description:
+      "A team section that deals itself out. Dashed placeholder frames rise into their slots as the section approaches, each popping its giant initial once the frame is most of the way up. The section then pins and the real cards fly in from off to the right, rotating flat and scaling up on staggered windows, so the last card is still arriving while the first has settled. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dealt-team-cards.tsx",
+        target: "components/ui/dealt-team-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "wedge-clip-work-scroll",
+    title: "Wedge Clip Work Scroll",
+    description:
+      "A work index where each project opens and closes like an aperture. The image starts as an angled wedge, widens to a full rectangle as the panel arrives, then folds shut from the bottom as it leaves. The project title is masked per character and each character gets its own short scroll window, so the name types itself upward slightly ahead of the image finishing its opening. GSAP SplitText and ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wedge-clip-work-scroll.tsx",
+        target: "components/ui/wedge-clip-work-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "split-column-infinite-slider",
+    title: "Split Column Infinite Slider",
+    description:
+      "Two columns that scroll in opposite directions off one wheel. Each slide is revealed by a clip path growing from the bottom on the left and the top on the right, with a half percent overlap so no seam ever shows. Images drift against the reveal at 1.25 zoom so the drift never exposes an edge, and copy holds dead center through a short window before easing away on a smoothstep. Slides are built and destroyed around a three slide buffer, so the loop is endless without cloning the set.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/split-column-infinite-slider.tsx",
+        target: "components/ui/split-column-infinite-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "dial-product-slider",
+    title: "Dial Product Slider",
+    description:
+      "A product reel driven by a single round controller. Arrows step the reel, which keeps a fixed buffer either side of center and recycles the far items so the catalogue loops without cloning. Pressing the middle turns the dial inside out: the outer ring closes to a point, the inner disc opens into a close button, the flanking products fan out and fade, the background fills with the product shot, and a detail card slides up into the middle.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dial-product-slider.tsx",
+        target: "components/ui/dial-product-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "parallax-drag-rail",
+    title: "Parallax Drag Rail",
+    description:
+      "An endless horizontal rail you can wheel or drag. Six copies of the set are laid end to end and the track silently jumps back a full sequence whenever it drifts past the safe band, so the loop never runs out and never visibly seams. Each image is held at 2.25 zoom and slid against its own frame by its distance from center, so cards read as windows onto one continuous scene. Captions only appear once the rail is genuinely still, and a real drag suppresses the click.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/parallax-drag-rail.tsx",
+        target: "components/ui/parallax-drag-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "endless-side-story",
+    title: "Endless Side Story",
+    description:
+      "A whole editorial page laid out sideways and looped. The section run is cloned two sequences either side of the original and the track jumps a full sequence whenever it drifts past the halfway guard, so scrolling never reaches an end in either direction. The progress bar and counter read position modulo one sequence and snap rather than ease across the wrap, so the bar never runs backwards through the whole width.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/endless-side-story.tsx",
+        target: "components/ui/endless-side-story.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "marquee-carousel-scroll",
+    title: "Marquee Carousel Scroll",
+    description:
+      "A pinned carousel where each project arrives as a wedge. Scrolling forward tilts the incoming slide's clip path up from the bottom edge while the outgoing one closes off the top, and the image and copy inside slide at different rates so the layers separate as they cross. Each title is tripled and marqueed on an infinite linear loop, and a row of segmented bars fills one at a time to show position in the set.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/marquee-carousel-scroll.tsx",
+        target: "components/ui/marquee-carousel-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "throw-away-work-slider",
+    title: "Throw Away Work Slider",
+    description:
+      "A wheel-driven project slider where the outgoing slide is thrown rather than faded. It shrinks to a quarter, rotates thirty degrees and flies two viewports off screen, while the incoming one enters from the opposite edge through a narrow clip path that widens to full frame. Copy is split fresh on every slide so words and lines climb out from behind their own masks. Input is rate limited to one slide per second so a fast scroll cannot stack transitions.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/throw-away-work-slider.tsx",
+        target: "components/ui/throw-away-work-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "flip-marquee-horizontal",
+    title: "Flip Marquee Horizontal",
+    description:
+      "A tilted marquee that hands one of its own frames over to the next section. As the marquee passes, one image is cloned in place, and when the horizontal section pins, GSAP Flip grows that clone from its slot in the rotated strip to a full-bleed plate, straightening it on the way. The page darkens across the first five percent of the pin, then the track and the plate travel at different rates so the plate slides out from behind the slides.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flip-marquee-horizontal.tsx",
+        target: "components/ui/flip-marquee-horizontal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "clip-reveal-services",
+    title: "Clip Reveal Services",
+    description:
+      "Copy that fills in as you read it, and a three line masthead that assembles then collapses. Each paragraph is duplicated through a pseudo element and the bright copy is clipped from the bottom up on scroll, so the grey text is overwritten line by line rather than faded. The service lines slide in from alternating sides, then the section pins: the outer two close on the middle one, and once stacked all three scale down together.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/clip-reveal-services.tsx",
+        target: "components/ui/clip-reveal-services.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "swing-in-work-grid",
+    title: "Swing In Work Grid",
+    description:
+      "A work index where each row swings into place. Cards start a thousand pixels low and rotated sixty degrees, mirrored left against right, so a row reads as two panels hinging shut. The row fires once when it reaches mid viewport and the pair lands on a quarter second stagger, which keeps the second card still turning as the first settles. GSAP ScrollTrigger with Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/swing-in-work-grid.tsx",
+        target: "components/ui/swing-in-work-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "sticky-parallax-slides",
+    title: "Sticky Parallax Slides",
+    description:
+      "A pinned horizontal run where the images resist the track. Each photo is held at 1.35 zoom and pushed back a quarter of the slide width as its panel crosses, so the frames slide over the pictures instead of carrying them. Only the outgoing and incoming pair are offset at any moment. Titles are governed by an IntersectionObserver against the slider, so the caption swaps at the quarter visible mark and steps back correctly on reverse.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sticky-parallax-slides.tsx",
+        target: "components/ui/sticky-parallax-slides.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "masked-spotlight-scroll",
+    title: "Masked Spotlight Scroll",
+    description:
+      "A pinned sequence where a wall of desaturated stills drifts past, then a shaped mask opens through it. The mask grows from nothing to 450 percent while the photograph behind it counter-scales from 1.5 down to 1, so the image appears to settle as the aperture widens rather than being pushed by it. Once the mask is fully open the closing headline fills in word by word against scroll position.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/masked-spotlight-scroll.tsx",
+        target: "components/ui/masked-spotlight-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "deal-stack-cards-scroll",
+    title: "Deal Stack Cards Scroll",
+    description:
+      "A pinned deck where each card rises from below, lands on the pile at its own fixed tilt, then gets pushed off toward the top left as the cards behind it arrive. Departure speed is scaled per card, so the earliest card travels furthest and the stack fans out diagonally instead of leaving as one block. Each card only starts moving once the previous one has fully landed.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/deal-stack-cards-scroll.tsx",
+        target: "components/ui/deal-stack-cards-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "frame-sequence-hero",
+    title: "Frame Sequence Hero",
+    description:
+      "A scroll-scrubbed video played as 207 individual frames on a canvas. Every frame is preloaded before the trigger is created, so scrubbing never lands on a blank canvas, and each draw recomputes its own cover fit so the sequence fills any aspect ratio without distortion. Over the same pin the nav fades in the first tenth, the headline recedes on Z and fades by a quarter, and the product shot flies in from a thousand pixels forward.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/frame-sequence-hero.tsx",
+        target: "components/ui/frame-sequence-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "snap-parallax-projects",
+    title: "Snap Parallax Projects",
+    description:
+      "An endlessly scrolling project list that settles on whole panels. Wheel or drag moves it freely, but a tenth of a second after input stops it eases to the nearest panel boundary on a cubic curve, so it never rests half way between two projects. Panels are built into a fifteen either side buffer and destroyed past fifty. Each image is held at 1.5 zoom and lags its panel by a fifth, and the layout alternates so the picture swaps sides project to project.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/snap-parallax-projects.tsx",
+        target: "components/ui/snap-parallax-projects.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "triangle-fill-scroll",
+    title: "Triangle Fill Scroll",
+    description:
+      "A pinned scene where a lattice of alternating triangles floods with color in a random order. Every cell is assigned a shuffled position in the sequence at build time, then fills once scroll passes its slot, each easing toward its target scale on its own, so the fill spreads as scattered noise rather than a wipe. Two canvases stack around the cards: hollow outlines behind and filled triangles in front, so the cards are swallowed as the grid closes over them.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/triangle-fill-scroll.tsx",
+        target: "components/ui/triangle-fill-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "nested-mask-banner",
+    title: "Nested Mask Banner",
+    description:
+      "A banner that opens like a telescope. Seven copies of the same photograph are stacked, each masked by the same shape and each starting at a smaller scale than the one above, so the frame reads as concentric rings rather than a single picture. Scroll grows the container from nothing while every ring closes on full size at a different rate, so the rings collapse into one image at the end. Two words slide apart as it opens.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/nested-mask-banner.tsx",
+        target: "components/ui/nested-mask-banner.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "pinned-scale-mosaic",
+    title: "Pinned Scale Mosaic",
+    description:
+      "A sparse photo grid where every row grows in and then collapses away. Each row runs two triggers: one scales its images up from nothing as the row rises into view, a second pins the row at the top and scales them back to zero as it leaves, with pinSpacing off so the next row slides up over it. Images scale about their outer corner rather than their center, alternating left and right, so a row opens outward from the edges.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pinned-scale-mosaic.tsx",
+        target: "components/ui/pinned-scale-mosaic.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "curved-letter-path-scroll",
+    title: "Curved Letter Path Scroll",
+    description:
+      "Four rows of letters travelling along invisible 3D curves, over a card strip bent into a cylinder. The letters are real DOM elements: each frame their position is sampled from a CatmullRom curve, projected through the Three camera, and eased toward that screen coordinate, so they get true perspective while staying crisp text. Each row runs at its own speed, and a letter that wraps past the edge snaps rather than easing. The cards are painted into one offscreen canvas used as a texture on a plane whose vertices are displaced on a parabola.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/curved-letter-path-scroll.tsx",
+        target: "components/ui/curved-letter-path-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "carousel-ring-gallery",
+    title: "Carousel Ring Gallery",
+    description:
+      "Twenty-five cards arranged on a ring, each rotated to face outward from the center. Moving the pointer tilts the whole ring on two axes, and any card within range flips a half turn, scales up, and pushes outward along its own radius, with the amount falling off by distance so the effect reads as a wave. Clicking a card rotates the ring so that card reaches the bottom, then scales the ring five times and drives it down past the frame, leaving the picture filling the view.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/carousel-ring-gallery.tsx",
+        target: "components/ui/carousel-ring-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "infinite-drag-canvas",
+    title: "Infinite Drag Canvas",
+    description:
+      "A grid you can throw in any direction that never runs out. Tiles are keyed by column and row, built as the viewport approaches and destroyed once it passes, with the buffer biased toward the direction of travel so a fast fling still arrives on populated space. Release keeps the last measured velocity and coasts. Clicking a tile hides the original, spawns a free copy at its exact screen box, and grows it to a centered plate, so the expand starts where you clicked.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/infinite-drag-canvas.tsx",
+        target: "components/ui/infinite-drag-canvas.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "card-fan-landing-reveal",
+    title: "Card Fan Landing Reveal",
+    description:
+      "A load sequence that deals a hand. Eight cards pop out around a circle one at a time, then collapse back to nothing. As they go, a second set is already stacked at the first card's exact slot, face down and scaled to a tenth. Those five lift, the front one flips over, and they fan out to evenly spaced positions measured from the real frame width, so the spread always fits its container.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/card-fan-landing-reveal.tsx",
+        target: "components/ui/card-fan-landing-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "counter-word-preloader",
+    title: "Counter Word Preloader",
+    description:
+      "A loading screen where four things run off one three second clock: a counter to 100, a word cycling through five variants, an image flicking through ten frames, and that image frame sliding from the left edge to its slot in the headline. When the curtain wipes up, headline words slide in from alternating sides, and the small image frame is measured, frozen at that exact box, then grown to fill the frame, so the thumbnail becomes the page background in one move.",
+    section: "components",
+    category: "Feedback",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/counter-word-preloader.tsx",
+        target: "components/ui/counter-word-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "shuffle-grid-preloader",
+    title: "Shuffle Grid Preloader",
+    description:
+      "A load sequence built from a three by three grid that riffles. Two columns of credits fade up against a wordmark whose fill climbs line by line, then the panel clears and the grid wipes in. Twenty rounds of random nine-image sets are swapped through at 150ms so the tiles flicker like a shuffling deck, and the final round restores the real center frame. Everything but that tile wipes away, and it scales four times while its own image counter-scales back to one.",
+    section: "components",
+    category: "Feedback",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shuffle-grid-preloader.tsx",
+        target: "components/ui/shuffle-grid-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "logo-mask-zoom-scroll",
+    title: "Logo Mask Zoom Scroll",
+    description:
+      "The page is covered by a solid panel with a logo-shaped hole punched through it. That panel starts at 500 times scale, so the hole is far larger than the frame and you only see the photograph behind it. Scroll shrinks the panel on an exponential curve until the hole is exactly logo-sized, at which point the mark reads as drawn on a flat field. The picture counter-zooms while a white sheet fades over it, and the closing headline is filled by a gradient dragged upward through its own background clip.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/logo-mask-zoom-scroll.tsx",
+        target: "components/ui/logo-mask-zoom-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "photo-sphere-orb",
+    title: "Photo Sphere Orb",
+    description:
+      "A hundred photographs distributed over the surface of a sphere, each turned to face the middle. Positions come from a Fibonacci spiral rather than a lat/long grid, so the tiles space evenly instead of bunching at the poles. Each plane is built at the real aspect ratio of the texture it received, so nothing is stretched, and the ball is dragged with damped orbit controls that allow rotation and zoom but no panning.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/photo-sphere-orb.tsx",
+        target: "components/ui/photo-sphere-orb.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "flying-cube-scroll",
+    title: "Flying Cube Scroll",
+    description:
+      "Six CSS cubes flying in from thirty thousand pixels away and settling into a spread. Every face is a real image on a preserve-3d box, so the cubes are genuinely dimensional rather than pre-rendered. Position, three rotations, and Z are each interpolated per cube across the first half of the pin, and two keep spinning a further half turn in the second. The logo blurs out, the opening headline scales and blurs away, and a second block resolves once the cubes land.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flying-cube-scroll.tsx",
+        target: "components/ui/flying-cube-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "shader-warp-slider",
+    title: "Shader Warp Slider",
+    description:
+      "A wheel-driven slider where the transition happens in the fragment shader rather than in transforms. Both the outgoing and incoming textures are sampled on the same plane, split at the scroll position, so one image slides out as the next arrives with no second mesh. The vertex shader bows the plane by scroll velocity, bending the sides more than the top and bottom, so the frame flexes like film during a fast flick.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shader-warp-slider.tsx",
+        target: "components/ui/shader-warp-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "skew-char-header",
+    title: "Skew Char Header",
+    description:
+      "Headlines that assemble character by character, skewed and thrown in from the right. The stagger is keyed to each character's index within its own line rather than its index in the whole heading, so every line starts its ripple at the same moment and multi-line copy reads as several parallel waves instead of one long queue. Three modes on the same component: play on mount, play once on entry, and scrub against scroll.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/skew-char-header.tsx",
+        target: "components/ui/skew-char-header.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "card-parting-reveal",
+    title: "Card Parting Reveal",
+    description:
+      "Three rows of paired cards that split apart to uncover the message behind them. Each row is pushed a different distance, height, and angle, so the pairs fan away at their own rates rather than sliding as one wall. The centered block behind them pops its badge from zero, rolls three lines up from behind their own masks, and lifts the button in last on a short delay.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/card-parting-reveal.tsx",
+        target: "components/ui/card-parting-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "image-explosion-footer",
+    title: "Image Explosion Footer",
+    description:
+      "A footer that erupts when it comes into view. Fifteen cards are launched upward with randomised sideways force and spin, then run on a real integrator: gravity accumulates into velocity every frame while friction bleeds off horizontal drift and rotation, so the arc is genuinely ballistic rather than an eased tween. The burst arms itself again once every particle has fallen back below the midpoint.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/image-explosion-footer.tsx",
+        target: "components/ui/image-explosion-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "pushup-card-stack",
+    title: "Pushup Card Stack",
+    description:
+      "A pinned frame where each card is pushed out of view by the one behind it. The outgoing card shrinks to half and tilts ten degrees while its own photograph counter-zooms to 1.5, so the picture appears to hold still as its frame retreats. All three moves run at the same timeline position, so a card leaves at exactly the rate the next one arrives and there is never a gap between them.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pushup-card-stack.tsx",
+        target: "components/ui/pushup-card-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "clip-mask-transition-page",
+    title: "Clip Mask Transition Page",
+    description:
+      "A three route site whose page changes are driven by the browser's own View Transition API rather than a JS timeline. The outgoing page lifts and fades while the incoming one rises and opens from a flat clip path at the bottom edge, so the new page appears to unroll over the old. The navbar is given its own transition name and told not to animate, so it stays pinned and perfectly still while everything behind it changes.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/clip-mask-transition-page/index.tsx",
+        target: "components/ui/clip-mask-transition-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/clip-mask-transition-page/styles.ts",
+        target: "components/ui/clip-mask-transition-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "view-transition-folio-page",
+    title: "View Transition Folio Page",
+    description:
+      "A three route photographer folio where the page change is handled entirely by the View Transition API. The old page lifts a third of a screen and fades while the new one opens upward from a flat clip path, so the arriving page unrolls over the departing one rather than crossfading. Entrance animations re-run on every route: nav links roll up from behind their clip, the hero name splits into characters, and about copy climbs line by line.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/view-transition-folio-page/index.tsx",
+        target: "components/ui/view-transition-folio-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/view-transition-folio-page/styles.ts",
+        target: "components/ui/view-transition-folio-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "revealer-transition-page",
+    title: "Revealer Transition Page",
+    description:
+      "A four route studio site with two layers of transition. On arrival a solid panel scaled to full height shrinks away from its top edge, wiping the page in. On navigation the View Transition API animates the incoming snapshot from a small centered rectangle out to the full frame, so the new page grows through a window in the old one rather than sliding over it. Each route then splits and staggers its own copy, by character on the home hero and by word elsewhere.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/revealer-transition-page/index.tsx",
+        target: "components/ui/revealer-transition-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/revealer-transition-page/styles.ts",
+        target: "components/ui/revealer-transition-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "block-logo-transition-page",
+    title: "Block Logo Transition Page",
+    description:
+      "A three route site whose transitions are built from twenty vertical blocks. Leaving a page, the blocks scale out from their left edge on a two hundredth of a second stagger, sweeping the screen shut; arriving, they collapse from the right, so the wipe never reverses direction. While the screen is covered, a mark draws itself: its path length is measured at runtime and used as the dash offset, so the stroke traces on before the fill arrives.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/block-logo-transition-page/index.tsx",
+        target: "components/ui/block-logo-transition-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/block-logo-transition-page/styles.ts",
+        target: "components/ui/block-logo-transition-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "scroll-advance-project-page",
+    title: "Scroll Advance Project Page",
+    description:
+      "A project template where reaching the bottom is the navigation. The footer pins for three viewports and fills a second progress bar as you push through it; when that bar completes, the page advances to the next project on its own. Two independent progress readouts run at once, one in the nav tracking the whole document and one in the footer tracking only the pin, and a latch stops the handoff firing twice if the pin is scrubbed across its end.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-advance-project-page/index.tsx",
+        target: "components/ui/scroll-advance-project-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/scroll-advance-project-page/styles.ts",
+        target: "components/ui/scroll-advance-project-page/styles.ts",
+        type: "registry:lib",
       },
     ],
   },

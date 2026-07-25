@@ -409,8 +409,2778 @@ const spotlightGalleryScrollAssetDocs = pageAssets(
   "spotlight-gallery-scroll-",
   5,
 );
+const drawnPathFeaturesAssetDocs = assetsByIds(
+  Array.from({ length: 4 }, (_, i) => `drawn-path-features-img-${i + 1}`),
+);
+const circularWidgetDialAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `circular-widget-dial-widget-${i + 1}`),
+);
+const slidingIndexMenuAssetDocs = assetsByIds(["sliding-index-menu-menu-img"]);
+const elasticCurtainMenuAssetDocs = assetsByIds(["elastic-curtain-menu-bg"]);
+const tiltAwayMenuAssetDocs = assetsByIds([
+  "tilt-away-menu-hero",
+  ...Array.from({ length: 4 }, (_, i) => `tilt-away-menu-img-${i + 1}`),
+]);
+const pushDownOverlayMenuAssetDocs = assetsByIds([
+  "push-down-overlay-menu-hero",
+  "push-down-overlay-menu-menu-media",
+]);
+const dealtTeamCardsAssetDocs = assetsByIds(
+  Array.from({ length: 3 }, (_, i) => `dealt-team-cards-team-member-${i + 1}`),
+);
+const wedgeClipWorkScrollAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `wedge-clip-work-scroll-work-0${i + 1}`),
+);
+
+const splitColumnInfiniteSliderAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 5 },
+    (_, i) => `split-column-infinite-slider-slide-img-left-${i + 1}`,
+  ),
+  ...Array.from(
+    { length: 5 },
+    (_, i) => `split-column-infinite-slider-slide-img-right-${i + 1}`,
+  ),
+]);
+const dialProductSliderAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `dial-product-slider-product-${i + 1}`),
+);
+const parallaxDragRailAssetDocs = assetsByIds(
+  Array.from(
+    { length: 8 },
+    (_, i) => `parallax-drag-rail-slider-img-0${i + 1}`,
+  ),
+);
+const endlessSideStoryAssetDocs = assetsByIds(
+  Array.from({ length: 4 }, (_, i) => `endless-side-story-img${i + 1}`),
+);
+const marqueeCarouselScrollAssetDocs = assetsByIds(
+  Array.from(
+    { length: 5 },
+    (_, i) => `marquee-carousel-scroll-slide-img-${i + 1}`,
+  ),
+);
+const throwAwayWorkSliderAssetDocs = assetsByIds(
+  Array.from(
+    { length: 4 },
+    (_, i) => `throw-away-work-slider-slide-img-${i + 1}`,
+  ),
+);
+
+const flipMarqueeHorizontalAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 13 },
+    (_, i) => `flip-marquee-horizontal-img-${i + 1}`,
+  ),
+  "flip-marquee-horizontal-slide-1",
+  "flip-marquee-horizontal-slide-2",
+]);
+const clipRevealServicesAssetDocs = assetsByIds([
+  "clip-reveal-services-hero",
+  "clip-reveal-services-outro",
+  "clip-reveal-services-whatido",
+]);
+const swingInWorkGridAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `swing-in-work-grid-work-${i + 1}`),
+);
+const stickyParallaxSlidesAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `sticky-parallax-slides-img${i + 1}`),
+);
+const maskedSpotlightScrollAssetDocs = assetsByIds([
+  ...Array.from({ length: 9 }, (_, i) => `masked-spotlight-scroll-img${i + 1}`),
+  "masked-spotlight-scroll-spotlight-banner",
+  "masked-spotlight-scroll-spotlight-mask",
+]);
+const dealStackCardsScrollAssetDocs = assetsByIds(
+  Array.from({ length: 6 }, (_, i) => `deal-stack-cards-scroll-card-${i + 1}`),
+);
+
+const frameSequenceHeroAssetDocs = assetsByIds([
+  "frame-sequence-hero-frame-0001",
+  "frame-sequence-hero-frame-0104",
+  "frame-sequence-hero-frame-0207",
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `frame-sequence-hero-client-logo-${i + 1}`,
+  ),
+  "frame-sequence-hero-dashboard",
+  "frame-sequence-hero-logo",
+]);
+const snapParallaxProjectsAssetDocs = assetsByIds(
+  Array.from({ length: 6 }, (_, i) => `snap-parallax-projects-img${i + 1}`),
+);
+const triangleFillScrollAssetDocs = assetsByIds([
+  "triangle-fill-scroll-bg",
+  ...Array.from({ length: 3 }, (_, i) => `triangle-fill-scroll-card-${i + 1}`),
+]);
+const nestedMaskBannerAssetDocs = assetsByIds([
+  "nested-mask-banner-banner-img",
+  "nested-mask-banner-banner-img-mask",
+]);
+const pinnedScaleMosaicAssetDocs = assetsByIds(
+  Array.from({ length: 19 }, (_, i) => `pinned-scale-mosaic-img${i + 1}`),
+);
+const curvedLetterPathScrollAssetDocs = assetsByIds(
+  Array.from({ length: 7 }, (_, i) => `curved-letter-path-scroll-img${i + 1}`),
+);
+
+const carouselRingGalleryAssetDocs = assetsByIds(
+  Array.from({ length: 20 }, (_, i) => `carousel-ring-gallery-img${i + 1}`),
+);
+const infiniteDragCanvasAssetDocs = assetsByIds(
+  Array.from({ length: 20 }, (_, i) => `infinite-drag-canvas-img${i + 1}`),
+);
+const cardFanLandingRevealAssetDocs = assetsByIds(
+  Array.from({ length: 8 }, (_, i) => `card-fan-landing-reveal-card-${i + 1}`),
+);
+const counterWordPreloaderAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `counter-word-preloader-img${i + 1}`),
+);
+const shuffleGridPreloaderAssetDocs = assetsByIds(
+  Array.from({ length: 35 }, (_, i) => `shuffle-grid-preloader-img${i + 1}`),
+);
+const logoMaskZoomScrollAssetDocs = assetsByIds([
+  "logo-mask-zoom-scroll-hero-img-layer-1",
+  "logo-mask-zoom-scroll-hero-img-layer-2",
+  "logo-mask-zoom-scroll-logo",
+]);
+
+const photoSphereOrbAssetDocs = assetsByIds(
+  Array.from({ length: 30 }, (_, i) => `photo-sphere-orb-img${i + 1}`),
+);
+const flyingCubeScrollAssetDocs = assetsByIds(
+  Array.from({ length: 33 }, (_, i) => `flying-cube-scroll-img${i + 1}`),
+);
+const shaderWarpSliderAssetDocs = assetsByIds(
+  Array.from({ length: 7 }, (_, i) => `shader-warp-slider-img${i + 1}`),
+);
+const cardPartingRevealAssetDocs = assetsByIds([
+  ...Array.from({ length: 6 }, (_, i) => `card-parting-reveal-img-${i + 1}`),
+  "card-parting-reveal-logo",
+  "card-parting-reveal-pro-logo",
+]);
+const imageExplosionFooterAssetDocs = assetsByIds([
+  "image-explosion-footer-hero",
+  "image-explosion-footer-outro",
+  ...Array.from({ length: 15 }, (_, i) => `image-explosion-footer-img${i + 1}`),
+]);
+const pushupCardStackAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `pushup-card-stack-img${i + 1}`),
+);
+
+const clipMaskTransitionPageAssetDocs = assetsByIds(
+  Array.from({ length: 3 }, (_, i) => `clip-mask-transition-page-img${i + 1}`),
+);
+const viewTransitionFolioPageAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `view-transition-folio-page-img${i + 1}`,
+  ),
+  "view-transition-folio-page-portrait",
+]);
+const revealerTransitionPageAssetDocs = assetsByIds([
+  "revealer-transition-page-hero",
+  "revealer-transition-page-studio",
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `revealer-transition-page-img${i + 1}`,
+  ),
+]);
+const blockLogoTransitionPageAssetDocs = assetsByIds(
+  Array.from(
+    { length: 4 },
+    (_, i) => `block-logo-transition-page-img-0${i + 1}`,
+  ),
+);
+const scrollAdvanceProjectPageAssetDocs = assetsByIds(
+  Array.from({ length: 3 }, (_, p) =>
+    Array.from(
+      { length: 5 },
+      (_, i) => `scroll-advance-project-page-project-${p + 1}-${i + 1}`,
+    ),
+  ).flat(),
+);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "clip-mask-transition-page": {
+    demoPath: "src/components/demos/clip-mask-transition-page.tsx",
+    nuance: [
+      {
+        label: "The browser owns the transition",
+        description:
+          "Both pages are snapshotted by startViewTransition and animated through ::view-transition pseudo-elements, so there is no JS timeline, no duplicated DOM, and the two states cannot drift out of sync.",
+      },
+      {
+        label: "The navbar opts out",
+        description:
+          "Giving the nav its own view-transition-name and setting its group animation to none excludes it from the snapshot pair entirely, which is what keeps it rock steady while the page behind it moves.",
+      },
+      {
+        label: "Enter and exit are different shapes",
+        description:
+          "The outgoing page only translates and fades, while the incoming one also opens a clip path from a flat line at the bottom edge, so arrival reads as unrolling rather than as the exit reversed.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "The wordmark in the fixed nav.",
+      },
+    ],
+    assets: clipMaskTransitionPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: "Blob asset base",
+        description: "Base URL the three route backdrops are loaded from.",
+      },
+      {
+        name: "initialPath",
+        type: "ClipMaskRoute",
+        default: '"/"',
+        description: "Which route the internal router starts on.",
+      },
+    ],
+  },
+  "view-transition-folio-page": {
+    demoPath: "src/components/demos/view-transition-folio-page.tsx",
+    nuance: [
+      {
+        label: "Entrances re-run per route",
+        description:
+          "The source replaced the whole document body on navigation and re-initialised from scratch. The port keys its container on the route so React remounts it, which reproduces that fresh-mount behaviour without touching innerHTML.",
+      },
+      {
+        label: "Clip path, not opacity",
+        description:
+          "The incoming page opens a polygon from the bottom edge upward, so content is uncovered rather than faded, and nothing is ever semi-transparent mid-transition.",
+      },
+    ],
+    editable: [
+      {
+        name: "name / aboutCopy",
+        control: "text",
+        description: "The hero wordmark and the about paragraph.",
+      },
+    ],
+    assets: viewTransitionFolioPageAssetDocs,
+    api: [
+      {
+        name: "assetBase / workImages / portraitImage",
+        type: "string / string[]",
+        default: "Blob asset base",
+        description: "Work grid photographs and the about portrait.",
+      },
+      {
+        name: "name / aboutCopy / initialPath",
+        type: "string / FolioRoute",
+        default: "BLANK copy",
+        description: "Folio copy and the route the internal router starts on.",
+      },
+    ],
+  },
+  "revealer-transition-page": {
+    demoPath: "src/components/demos/revealer-transition-page.tsx",
+    nuance: [
+      {
+        label: "Two transitions stacked",
+        description:
+          "A GSAP revealer wipes each page in on arrival, while the View Transition API separately grows the incoming snapshot from a small centered rectangle. One handles the page's own entrance, the other the crossing between pages.",
+      },
+      {
+        label: "The default transition is cancelled",
+        description:
+          "Both pseudo-elements are set to animation: none, so the only motion is the explicit clip-path keyframe run on the documentElement. Without that override the browser's own crossfade would fight it.",
+      },
+      {
+        label: "Split type follows the route",
+        description:
+          "The home hero splits by character and every other route by word, matching the source's per-page choice, with different delays so the copy always lands after the revealer has cleared.",
+      },
+    ],
+    editable: [
+      {
+        name: "studioCopy / contactEmails",
+        control: "text",
+        description: "Studio paragraph and the contact addresses.",
+      },
+    ],
+    assets: revealerTransitionPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: "Blob asset base",
+        description: "Base URL for the hero, work, and studio imagery.",
+      },
+      {
+        name: "brand / location / studioCopy / contactEmails / socials",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Site copy across the four routes.",
+      },
+      {
+        name: "initialPath",
+        type: "RevealerRoute",
+        default: '"/"',
+        description: "Which route the internal router starts on.",
+      },
+    ],
+  },
+  "block-logo-transition-page": {
+    demoPath: "src/components/demos/block-logo-transition-page.tsx",
+    nuance: [
+      {
+        label: "The wipe never reverses",
+        description:
+          "Blocks close from their left origin and open from their right, so the sweep continues in one direction across the whole transition instead of retracing its own path.",
+      },
+      {
+        label: "The mark measures itself",
+        description:
+          "getTotalLength on the path supplies both the dash array and the starting offset, so any replacement logo traces correctly with no hand-tuned numbers.",
+      },
+      {
+        label: "Navigation waits for the cover",
+        description:
+          "The route only changes in the timeline's onComplete, after the blocks have fully closed, so the incoming page is never visible while the cover is still animating.",
+      },
+    ],
+    editable: [
+      {
+        name: "homeHeading / contactHeading",
+        control: "text",
+        description: "The two oversized route headings.",
+      },
+    ],
+    assets: blockLogoTransitionPageAssetDocs,
+    api: [
+      {
+        name: "assetBase / archiveImages",
+        type: "string / string[]",
+        default: "Blob asset base",
+        description: "Photographs listed on the archive route.",
+      },
+      {
+        name: "brand / homeHeading / contactHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Nav wordmark and the route headings.",
+      },
+      {
+        name: "initialPath",
+        type: "BlockLogoRoute",
+        default: '"/"',
+        description: "Which route the internal router starts on.",
+      },
+    ],
+  },
+  "scroll-advance-project-page": {
+    demoPath: "src/components/demos/scroll-advance-project-page.tsx",
+    nuance: [
+      {
+        label: "Scrolling past the end is the navigation",
+        description:
+          "The footer pins for three viewports and its progress bar fills across that pin. Completing it triggers the move to the next project, so the reader advances by continuing rather than by clicking.",
+      },
+      {
+        label: "Two progress bars, two scopes",
+        description:
+          "One tracks the whole document for the nav readout, the other tracks only the pinned footer. They run from separate triggers so the nav bar is not affected by the footer's own scroll range.",
+      },
+      {
+        label: "A latch prevents a double handoff",
+        description:
+          "Once progress reaches one, a ref is flipped before the timeline starts, so scrubbing back and forth across the end of the pin cannot queue a second navigation.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Project slugs, titles, descriptions, and image sets.",
+      },
+    ],
+    assets: scrollAdvanceProjectPageAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "ScrollAdvanceProject[]",
+        default: "Three BLANK projects",
+        description:
+          "Slug, title, description, and images per project. The list wraps, so the last hands back to the first.",
+      },
+      {
+        name: "assetBase / initialSlug",
+        type: "string",
+        default: "Blob asset base",
+        description:
+          "Where the default project images load from, and which project to open on.",
+      },
+    ],
+  },
+  "photo-sphere-orb": {
+    demoPath: "src/components/demos/photo-sphere-orb.tsx",
+    nuance: [
+      {
+        label: "Fibonacci spacing, not lat/long",
+        description:
+          "Polar angle comes from acos of a linear ramp, which distributes points evenly over the sphere's surface. A naive nested loop over latitude and longitude would crowd the poles and thin the equator.",
+      },
+      {
+        label: "Each plane matches its own texture",
+        description:
+          "Geometry is built after the image loads, from the texture's real aspect ratio, so portrait and landscape shots both sit undistorted on the same ball.",
+      },
+      {
+        label: "Pan is disabled on purpose",
+        description:
+          "Orbit and zoom are allowed but panning is not, so the sphere always stays centered and cannot be dragged out of frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "text",
+        description: "Pool the sphere's tiles are drawn from at random.",
+      },
+      {
+        name: "totalItems / sphereRadius",
+        control: "text",
+        description: "How many tiles and how large the ball is.",
+      },
+    ],
+    assets: photoSphereOrbAssetDocs,
+    api: [
+      {
+        name: "images / totalItems",
+        type: "string[] / number",
+        default: "30 stills / 100 tiles",
+        description:
+          "Each of the totalItems planes draws a random image from the pool, so tiles repeat across the sphere.",
+      },
+      {
+        name: "sphereRadius / backgroundColor",
+        type: "number / string",
+        default: "5 / #000000",
+        description: "Ball radius in scene units and the clear color.",
+      },
+    ],
+  },
+  "flying-cube-scroll": {
+    demoPath: "src/components/demos/flying-cube-scroll.tsx",
+    nuance: [
+      {
+        label: "Real CSS cubes, six images each",
+        description:
+          "Every cube is a preserve-3d box with six faces translated and rotated into place, each carrying its own photograph, so the cubes have genuine volume and show different pictures as they tumble.",
+      },
+      {
+        label: "Two phases on one pin",
+        description:
+          "All six cubes fly in across the first half of the scroll, then two of them keep rotating an extra half turn across the second, so the arrangement keeps developing after it has apparently settled.",
+      },
+      {
+        label: "Copy hands off through blur",
+        description:
+          "The opening headline scales up and blurs out while the second resolves from blurred and undersized, so the two never read as a crossfade.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading / outroHeading / outroBody",
+        control: "text",
+        description: "The two headline blocks.",
+      },
+    ],
+    assets: flyingCubeScrollAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "33 BLANK stills",
+        description:
+          "Consumed six at a time, one per cube face, in order across the six cubes.",
+      },
+      {
+        name: "heading / outroHeading / outroBody / aboutHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy for both phases and the closing section.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "shader-warp-slider": {
+    demoPath: "src/components/demos/shader-warp-slider.tsx",
+    nuance: [
+      {
+        label: "One plane, two textures",
+        description:
+          "The fragment shader picks between the current and next texture based on the UV's Y against scroll position, so the transition needs a single mesh and there is no second object to keep in sync.",
+      },
+      {
+        label: "Warp is velocity, not position",
+        description:
+          "The vertex shader displaces Z by scroll intensity, which decays independently of scroll position, so the plane bows during a fast flick and flattens as it coasts to a stop.",
+      },
+      {
+        label: "Stability is a separate state",
+        description:
+          "Once motion falls below threshold the component snaps to a whole slide and pins the shader's position uniform to zero, so tiny residual drift cannot leave a hairline of the next image showing.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Slide images, titles, and links.",
+      },
+    ],
+    assets: shaderWarpSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "ShaderSlide[]",
+        default: "7 BLANK projects",
+        description:
+          "Title, link, and image per slide. The set wraps, so scrolling never reaches an end.",
+      },
+      {
+        name: "brand / navLinks / socials / footerLeft / footerRight",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Chrome around the slider.",
+      },
+    ],
+  },
+  "skew-char-header": {
+    demoPath: "src/components/demos/skew-char-header.tsx",
+    nuance: [
+      {
+        label: "Stagger is per line, not per heading",
+        description:
+          "Each character's delay comes from its index inside its own line, so a three line heading fires three simultaneous ripples rather than one long sweep that leaves the last line arriving very late.",
+      },
+      {
+        label: "Three behaviours, one implementation",
+        description:
+          "Load, enter, and scrub all build the same timeline and differ only in how it is driven: played immediately, restarted by a trigger, or bound to scrub. Adding a mode does not change the animation code.",
+      },
+      {
+        label: "Skew is released with the travel",
+        description:
+          "Characters arrive from x:100 with 20 degrees of skew, both easing out together on power3, so the type appears to straighten as it decelerates rather than snapping upright at the end.",
+      },
+    ],
+    editable: [
+      {
+        name: "sections",
+        control: "text",
+        description: "Heading, animation mode, and colors per section.",
+      },
+      {
+        name: "stagger / duration",
+        control: "text",
+        description: "Per-character delay and travel time.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "sections",
+        type: "SkewCharSection[]",
+        default: "Three BLANK sections",
+        description:
+          "Heading plus a mode of load, enter, or scrub, and the section's background and text colors.",
+      },
+      {
+        name: "stagger / duration",
+        type: "number",
+        default: "0.05 / 0.65",
+        description:
+          "Delay between characters within a line, and how long each takes to arrive.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "card-parting-reveal": {
+    demoPath: "src/components/demos/card-parting-reveal.tsx",
+    nuance: [
+      {
+        label: "Every row leaves differently",
+        description:
+          "Horizontal distance, vertical drift, and rotation are all indexed per row, so the three pairs fan away on distinct arcs instead of reading as one wall sliding apart.",
+      },
+      {
+        label: "Transforms are written directly",
+        description:
+          "The scrub handler composes translate and rotate as a style string rather than tweening properties, so all three axes stay exactly in phase with scroll with no interpolation lag between them.",
+      },
+      {
+        label: "The reveal plays both ways",
+        description:
+          "The centered block uses play reverse play reverse, so scrolling back up re-hides the copy and it replays cleanly rather than staying stuck open.",
+      },
+    ],
+    editable: [
+      {
+        name: "lines / buttonLabel",
+        control: "text",
+        description: "The three revealed lines and the call to action.",
+      },
+    ],
+    assets: cardPartingRevealAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "6 BLANK stills",
+        description: "Consumed in pairs, one left and one right per row.",
+      },
+      {
+        name: "heroImage / badgeImage",
+        type: "string",
+        default: "Blob-hosted marks",
+        description:
+          "The opening plate and the circular badge behind the rows.",
+      },
+      {
+        name: "lines / buttonLabel / footerLink",
+        type: "string[] / string",
+        default: "BLANK copy",
+        description: "Revealed copy and the closing link.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "image-explosion-footer": {
+    demoPath: "src/components/demos/image-explosion-footer.tsx",
+    nuance: [
+      {
+        label: "A real integrator, not a tween",
+        description:
+          "Gravity is added to velocity each frame and friction multiplies it, so the trajectory is computed rather than eased. Changing gravity or friction changes the physics, not just the timing.",
+      },
+      {
+        label: "It re-arms, it does not replay",
+        description:
+          "The burst only becomes available again once every particle has fallen past the halfway mark, so scrolling away and back fires a genuinely new explosion with fresh random forces.",
+      },
+      {
+        label: "Images are warmed before the trigger",
+        description:
+          "All fifteen are preloaded on mount, so the first frame of the burst is never a set of empty boxes waiting on the network.",
+      },
+    ],
+    editable: [
+      {
+        name: "gravity / friction / verticalForce",
+        control: "text",
+        description: "The physics constants driving the burst.",
+      },
+      {
+        name: "footerHeading / aboutCopy",
+        control: "text",
+        description: "Footer and section copy.",
+      },
+    ],
+    assets: imageExplosionFooterAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "15 BLANK cards",
+        description: "One particle per image, launched together.",
+      },
+      {
+        name: "gravity / friction / horizontalForce / verticalForce / imageSize",
+        type: "number",
+        default: "0.25 / 0.99 / 20 / 15 / 150",
+        description:
+          "Per-frame downward acceleration, velocity decay, launch spread, launch strength, and particle width.",
+      },
+      {
+        name: "heroImage / outroImage",
+        type: "string",
+        default: "Blob-hosted plates",
+        description: "The full-bleed sections above the footer.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "pushup-card-stack": {
+    demoPath: "src/components/demos/pushup-card-stack.tsx",
+    nuance: [
+      {
+        label: "The image counter-zooms as the card shrinks",
+        description:
+          "The card scales to 0.5 while its photograph scales to 1.5 over the same window, so the picture holds roughly its apparent size while the frame retreats, which is what sells the card as sliding backwards rather than simply shrinking.",
+      },
+      {
+        label: "Exit and entry share a timeline position",
+        description:
+          "All three tweens per step are placed at the same index, so the outgoing card leaves at exactly the rate the incoming one arrives and no gap can open between them.",
+      },
+      {
+        label: "Pin length follows the card count",
+        description:
+          "The scroll distance is one viewport per transition, so adding a card lengthens the pin instead of compressing every step.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description: "Card images and their corner tags.",
+      },
+      {
+        name: "introHeading / outroHeading",
+        control: "text",
+        description: "The screens either side of the stack.",
+      },
+    ],
+    assets: pushupCardStackAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "PushupCard[]",
+        default: "Five BLANK cards",
+        description:
+          "Tag and image per card. Pin length scales with how many are supplied.",
+      },
+      {
+        name: "introHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy on the screens around the stack.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "carousel-ring-gallery": {
+    demoPath: "src/components/demos/carousel-ring-gallery.tsx",
+    nuance: [
+      {
+        label: "Distance drives every property at once",
+        description:
+          "One falloff factor from pointer distance feeds flip angle, scale, and outward push together, so a card near the cursor is fully turned and displaced while its neighbours are partway through, producing a continuous wave rather than a hover state.",
+      },
+      {
+        label: "Opening rotates before it zooms",
+        description:
+          "The clicked card's angle is solved to bring it to the bottom of the ring, normalised to the shorter way round, so the ring never spins the long way to reach the card you picked.",
+      },
+      {
+        label: "The tilt is on the container, cards on themselves",
+        description:
+          "Pointer parallax rotates the wrapper on three axes while cards handle their own flip and offset, so the two effects compose instead of fighting for the same transform.",
+      },
+    ],
+    editable: [
+      {
+        name: "collection",
+        control: "text",
+        description: "Card images and the title shown when opened.",
+      },
+      {
+        name: "imageCount / radius",
+        control: "text",
+        description: "How many cards sit on the ring and how wide it is.",
+      },
+    ],
+    assets: carouselRingGalleryAssetDocs,
+    api: [
+      {
+        name: "collection",
+        type: "RingGalleryItem[]",
+        default: "20 BLANK stills",
+        description:
+          "Image and title per card. Cards cycle through the collection if imageCount exceeds its length.",
+      },
+      {
+        name: "imageCount / radius",
+        type: "number",
+        default: "25 / 275",
+        description: "Cards on the ring and the ring's radius in pixels.",
+      },
+    ],
+  },
+  "infinite-drag-canvas": {
+    demoPath: "src/components/demos/infinite-drag-canvas.tsx",
+    nuance: [
+      {
+        label: "The buffer leans into the throw",
+        description:
+          "The build window is offset 300px toward the direction of travel, so tiles exist before they are needed on the leading edge and are torn down behind, which is what keeps a hard fling from arriving on empty space.",
+      },
+      {
+        label: "Rebuild is throttled two ways",
+        description:
+          "Tiles are only recomputed after 100px of movement or 120ms, whichever comes first, so a slow drag does not rebuild the grid every frame.",
+      },
+      {
+        label: "Expand starts from the real box",
+        description:
+          "The clicked tile's screen rect is measured and the free copy is placed there before growing, so the plate appears to lift out of the grid rather than fading in at the middle.",
+      },
+    ],
+    editable: [
+      {
+        name: "titles / images",
+        control: "text",
+        description: "Tile images and the title shown when one opens.",
+      },
+      {
+        name: "itemWidth / itemHeight / itemGap",
+        control: "text",
+        description: "Tile size and grid spacing.",
+      },
+    ],
+    assets: infiniteDragCanvasAssetDocs,
+    api: [
+      {
+        name: "images / titles",
+        type: "string[]",
+        default: "20 BLANK stills and titles",
+        description:
+          "Tiles cycle through the image list by grid position, so the same picture recurs on a fixed lattice.",
+      },
+      {
+        name: "itemWidth / itemHeight / itemGap / columns",
+        type: "number",
+        default: "120 / 160 / 150 / 4",
+        description:
+          "Tile box, spacing, and the column stride used to pick which image a cell gets.",
+      },
+    ],
+  },
+  "card-fan-landing-reveal": {
+    demoPath: "src/components/demos/card-fan-landing-reveal.tsx",
+    nuance: [
+      {
+        label: "The second hand starts where the first ended",
+        description:
+          "Outro cards are positioned at the first intro card's exact slot on the circle, face down and at a tenth scale, so the deal reads as the same hand being re-dealt rather than a new set appearing.",
+      },
+      {
+        label: "Fan positions are measured, not fixed",
+        description:
+          "Final x positions are computed from the real frame width minus padding and card width, so the spread reaches the edges without overflowing at any size.",
+      },
+      {
+        label: "Transform origins set the fan direction",
+        description:
+          "The two left cards pivot from their bottom-right corner and the two right ones from bottom-left, which is what makes the hand splay outward instead of sliding sideways.",
+      },
+    ],
+    editable: [
+      {
+        name: "outroCards",
+        control: "text",
+        description: "The code and number printed on each fanned card.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "The page color behind the deal.",
+      },
+    ],
+    assets: cardFanLandingRevealAssetDocs,
+    api: [
+      {
+        name: "introImages",
+        type: "string[]",
+        default: "8 BLANK cards",
+        description:
+          "Faces of the cards that pop around the circle. Count drives the circle spacing.",
+      },
+      {
+        name: "outroCards",
+        type: "FanCard[]",
+        default: "Five lettered cards",
+        description:
+          "Code and number on each fanned card. The first also carries an image on its back face.",
+      },
+      {
+        name: "wordmark / background",
+        type: "string",
+        default: "BLANK / #6c9a8b",
+        description: "Footer wordmark and page color.",
+      },
+    ],
+  },
+  "counter-word-preloader": {
+    demoPath: "src/components/demos/counter-word-preloader.tsx",
+    nuance: [
+      {
+        label: "One clock, four readouts",
+        description:
+          "Counter, word cycle, image cycle, and the frame's slide all run as three second tweens started at position zero, so they finish together without any of them knowing about the others.",
+      },
+      {
+        label: "Cycles are rounded progress, not timers",
+        description:
+          "The word and image indexes are derived by rounding a tweened progress value, so they stay in step with the counter even if a frame is dropped, and reverse correctly if the timeline is scrubbed.",
+      },
+      {
+        label: "The handoff freezes the box first",
+        description:
+          "Before expanding, the hero rows are locked to their measured heights and the frame is pinned at its current rect. Without that the layout would reflow the instant the frame leaves the flow and the growth would start from the wrong place.",
+      },
+    ],
+    editable: [
+      {
+        name: "rotatingWords",
+        control: "text",
+        description: "Words cycled through during the load.",
+      },
+      {
+        name: "headingRows",
+        control: "text",
+        description: "The three headline rows.",
+      },
+    ],
+    assets: counterWordPreloaderAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "10 BLANK frames",
+        description:
+          "Flicked through during load. The one showing when the timeline ends becomes the page background.",
+      },
+      {
+        name: "rotatingWords / headingRows / footerCopy",
+        type: "string[] / [string, string, string] / string",
+        default: "BLANK copy",
+        description: "Preloader and hero copy.",
+      },
+      {
+        name: "preloaderBackground",
+        type: "string",
+        default: "#272d2d",
+        description: "Color of the loading curtain.",
+      },
+    ],
+  },
+  "shuffle-grid-preloader": {
+    demoPath: "src/components/demos/shuffle-grid-preloader.tsx",
+    nuance: [
+      {
+        label: "Shuffling is twenty scheduled swaps",
+        description:
+          "Rather than animating, twenty zero-duration tweens fire 150ms apart, each replacing all nine sources with a fresh random draw. The flicker is discrete by design, which is what makes it read as riffling rather than crossfading.",
+      },
+      {
+        label: "The last round is rigged",
+        description:
+          "On the final cycle the center tile is forced back to the real hero image and pre-scaled to two, so the shuffle resolves on the intended picture and the zoom has room to counter-scale.",
+      },
+      {
+        label: "The wordmark fills by moving its background",
+        description:
+          "Each line is a gradient clipped to text with a 200 percent tall background, so animating background-position walks the fill up through the letters instead of fading them.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Credits listed in the two loading columns.",
+      },
+      {
+        name: "title / introCopy",
+        control: "text",
+        description: "Headline and the two intro lines.",
+      },
+    ],
+    assets: shuffleGridPreloaderAssetDocs,
+    api: [
+      {
+        name: "images / heroImage",
+        type: "string[] / string",
+        default: "35 BLANK stills",
+        description:
+          "The pool the shuffle draws from, and the picture the center tile resolves to.",
+      },
+      {
+        name: "projects",
+        type: "ShuffleProject[]",
+        default: "16 BLANK credits",
+        description: "Name, director, and location for the loading columns.",
+      },
+      {
+        name: "wordmarkLines / title / introCopy",
+        type: "[string, string] / string",
+        default: "BLANK copy",
+        description: "Loader wordmark and the hero copy revealed after it.",
+      },
+    ],
+  },
+  "logo-mask-zoom-scroll": {
+    demoPath: "src/components/demos/logo-mask-zoom-scroll.tsx",
+    nuance: [
+      {
+        label: "The mark is a hole, not a drawing",
+        description:
+          "The logo is subtracted from a full-bleed rect through an SVG mask. At 500x the hole is bigger than the frame so you see straight through it; shrinking the panel to 1x is what makes the mark appear, without ever animating the logo itself.",
+      },
+      {
+        label: "Panel scale is exponential",
+        description:
+          "Scale runs as initial^(1-progress) rather than linearly, so the hole closes at a perceptually even rate instead of collapsing almost entirely in the first few percent.",
+      },
+      {
+        label: "The mask fits itself to its box",
+        description:
+          "The path's real bounding box is measured with getBBox and fitted to the logo container, so any replacement path lands correctly sized and centered with no manual numbers.",
+      },
+      {
+        label: "The headline is filled by a moving gradient",
+        description:
+          "Reveal copy is a two-stop gradient clipped to text whose stops are dragged upward, so the text fills from the bottom rather than fading in.",
+      },
+    ],
+    editable: [
+      {
+        name: "logoPath",
+        control: "text",
+        description: "The SVG path punched through the panel.",
+      },
+      {
+        name: "panelColor / revealColor",
+        control: "color",
+        description: "Panel fill and the gradient color of the reveal copy.",
+      },
+    ],
+    assets: logoMaskZoomScrollAssetDocs,
+    api: [
+      {
+        name: "logoPath",
+        type: "string",
+        default: "A neutral BLANK-safe mark",
+        description:
+          "Single SVG path used as the mask. Its bounding box is measured and fitted automatically, so any path works without manual sizing.",
+      },
+      {
+        name: "backgroundImage / foregroundImage / logoImage",
+        type: "string",
+        default: "Blob-hosted layers",
+        description:
+          "Back plate, cut-out front layer that parallaxes over it, and the small mark shown before the scroll starts.",
+      },
+      {
+        name: "panelColor / revealColor",
+        type: "string",
+        default: "#111117 / #e66461",
+        description: "Panel fill and the reveal gradient color.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "frame-sequence-hero": {
+    demoPath: "src/components/demos/frame-sequence-hero.tsx",
+    nuance: [
+      {
+        label: "Nothing runs until every frame is decoded",
+        description:
+          "A countdown across all 207 loads gates the ScrollTrigger, and errors decrement it too. Scrubbing therefore cannot outrun the network and land on an empty canvas mid-sequence.",
+      },
+      {
+        label: "Cover fit is recomputed per draw",
+        description:
+          "Each render compares the frame's aspect to the canvas aspect and derives its own draw rect, so the sequence fills any container shape without stretching and needs no CSS object-fit.",
+      },
+      {
+        label: "Frames finish before the pin does",
+        description:
+          "Frame index maps to the first 90 percent of the pin, leaving the last stretch for the product shot to arrive after the footage has already settled.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading",
+        control: "text",
+        description: "The hero headline that recedes on Z.",
+      },
+      {
+        name: "frameCount / frameBase",
+        control: "text",
+        description: "How many frames to load and where they live.",
+      },
+    ],
+    assets: frameSequenceHeroAssetDocs,
+    api: [
+      {
+        name: "frameCount / frameBase",
+        type: "number / string",
+        default: "207 / Blob asset base",
+        description:
+          "Sequence length and the base URL. Frames are addressed as frame_0001.jpg through frame_0207.jpg.",
+      },
+      {
+        name: "productImage / clientLogos / logoImage",
+        type: "string / string[]",
+        default: "Blob-hosted assets",
+        description: "The dashboard shot, trust logos, and the nav mark.",
+      },
+      {
+        name: "heading / brand / navLinks / outroHeading",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation and editorial copy.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "snap-parallax-projects": {
+    demoPath: "src/components/demos/snap-parallax-projects.tsx",
+    nuance: [
+      {
+        label: "Snap waits for genuine stillness",
+        description:
+          "A snap only starts 100ms after the last input and never while dragging, so it feels like the list settling rather than fighting the gesture. Any new input cancels it immediately.",
+      },
+      {
+        label: "Parallax reads list space, not screen space",
+        description:
+          "Each image offsets from its panel index times panel height, which is stable across recycling, so a panel that was destroyed and rebuilt returns with the correct offset instead of jumping.",
+      },
+      {
+        label: "Build and destroy have different radii",
+        description:
+          "Panels are created within fifteen of center but only destroyed past fifty, so normal scrolling never crosses the destroy boundary and nothing is rebuilt on every frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Titles, images, and which side the image sits on.",
+      },
+    ],
+    assets: snapParallaxProjectsAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "SnapProject[]",
+        default: "Six BLANK projects",
+        description:
+          "Title, image, and isAlternate, which swaps the image to the left half.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor / snapDuration",
+        type: "number",
+        default: "0.75 / 0.05 / 500",
+        description:
+          "Wheel multiplier, easing factor, and how long the settle to the nearest panel takes.",
+      },
+    ],
+  },
+  "triangle-fill-scroll": {
+    demoPath: "src/components/demos/triangle-fill-scroll.tsx",
+    nuance: [
+      {
+        label: "The order is shuffled once, at build",
+        description:
+          "Every cell gets a permanent random position in the fill sequence, so the flood pattern is arbitrary but stable, and scrubbing backwards empties in exactly the reverse order.",
+      },
+      {
+        label: "Two canvases sandwich the content",
+        description:
+          "Outlines render below the cards and fills above them, so a triangle appears to pass in front of the cards at the moment it fills, which is what makes the grid swallow them.",
+      },
+      {
+        label: "Each triangle eases independently",
+        description:
+          "Cells lerp toward their target scale at 0.15 per frame rather than jumping, and the redraw loop only continues while at least one is still moving.",
+      },
+    ],
+    editable: [
+      {
+        name: "accent",
+        control: "color",
+        description: "Fill color of the triangles and the accent type.",
+      },
+      {
+        name: "triangleSize",
+        control: "text",
+        description: "Cell size in pixels, which sets the grid density.",
+      },
+    ],
+    assets: triangleFillScrollAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "TriangleCard[]",
+        default: "Three BLANK products",
+        description: "Title, code, and image for each card in the strip.",
+      },
+      {
+        name: "accent / triangleSize",
+        type: "string / number",
+        default: "#ff6b00 / 150",
+        description: "Fill color and cell size, which drives grid density.",
+      },
+      {
+        name: "backgroundImage",
+        type: "string",
+        default: "Blob-hosted scene",
+        description: "The photograph behind the grid.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "nested-mask-banner": {
+    demoPath: "src/components/demos/nested-mask-banner.tsx",
+    nuance: [
+      {
+        label: "Rings are the same image, offset in scale",
+        description:
+          "Every masked layer starts 0.2 smaller than the one above it. Since they all share one mask shape and one photograph, the stack reads as nested apertures rather than separate pictures.",
+      },
+      {
+        label: "The rings converge before the container finishes",
+        description:
+          "Layer scales close on 1.0 over the first 90 percent of the pin while the container is still growing, so the rings merge into a single clean image just before the banner reaches full size.",
+      },
+      {
+        label: "The intro words part with the opening",
+        description:
+          "Two words slide to opposite edges over the same 90 percent window, so they clear the frame exactly as it becomes readable.",
+      },
+    ],
+    editable: [
+      {
+        name: "bannerHeading / introWords",
+        control: "text",
+        description: "The masked headline and the two parting words.",
+      },
+      {
+        name: "maskLayers",
+        control: "text",
+        description: "How many nested rings the telescope has.",
+      },
+    ],
+    assets: nestedMaskBannerAssetDocs,
+    api: [
+      {
+        name: "bannerImage / maskImage",
+        type: "string",
+        default: "Blob-hosted assets",
+        description:
+          "The photograph repeated per ring, and the shape masking each one.",
+      },
+      {
+        name: "maskLayers",
+        type: "number",
+        default: "6",
+        description:
+          "Number of masked rings above the base image. Each starts 0.2 smaller than the last.",
+      },
+      {
+        name: "heroHeading / bannerHeading / introWords / outroHeading",
+        type: "string / [string, string]",
+        default: "BLANK copy",
+        description: "Copy around and inside the banner.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "pinned-scale-mosaic": {
+    demoPath: "src/components/demos/pinned-scale-mosaic.tsx",
+    nuance: [
+      {
+        label: "Two triggers per row, plus a guard",
+        description:
+          "One scales in, one pins and scales out, and a third restores full scale when a row is re-entered without its exit having started. Without that guard, scrubbing back leaves rows stuck at zero.",
+      },
+      {
+        label: "pinSpacing off is what stacks the rows",
+        description:
+          "Because the pinned row reserves no space, the following row slides up over it while it shrinks, so rows overlap instead of queueing.",
+      },
+      {
+        label: "Corner origins open the row outward",
+        description:
+          "Images scale about their outer corner, alternating left and right, so a row unfolds from the edges of the grid rather than blooming from its middle.",
+      },
+    ],
+    editable: [
+      {
+        name: "rows",
+        control: "text",
+        description: "The grid layout: four cells per row, null for a gap.",
+      },
+    ],
+    assets: pinnedScaleMosaicAssetDocs,
+    api: [
+      {
+        name: "rows",
+        type: "MosaicCell[][]",
+        default: "Ten sparse rows",
+        description:
+          "Four cells per row. Each cell is an image plus a scale origin, or null for an empty slot.",
+      },
+      {
+        name: "introHeading / introLabel / outroLabel",
+        type: "string",
+        default: "BLANK copy",
+        description: "The screens either side of the grid.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "curved-letter-path-scroll": {
+    demoPath: "src/components/demos/curved-letter-path-scroll.tsx",
+    nuance: [
+      {
+        label: "DOM text with WebGL perspective",
+        description:
+          "Letters stay real DOM nodes but their positions come from projecting curve points through the Three camera, so they pick up genuine 3D perspective while remaining selectable, crisp, and font-hinted.",
+      },
+      {
+        label: "Wrapping snaps instead of easing",
+        description:
+          "A letter whose target jumps more than seventy percent of the frame is teleported rather than lerped, which is what stops a wrapped letter from streaking back across the screen.",
+      },
+      {
+        label: "The card strip is one canvas texture",
+        description:
+          "All cards are painted into a single 4096 wide offscreen canvas that feeds one plane, so the whole strip costs one draw call and can be scrolled by redrawing at an offset.",
+      },
+      {
+        label: "The curve comes from displaced vertices",
+        description:
+          "The plane's Z is displaced on a parabola across its width, so the strip bends away at both ends and the cards appear to wrap around a cylinder.",
+      },
+    ],
+    editable: [
+      {
+        name: "letters",
+        control: "text",
+        description: "One character per travelling row.",
+      },
+      {
+        name: "accent",
+        control: "color",
+        description: "Letter color, dot grid color, and page color.",
+      },
+    ],
+    assets: curvedLetterPathScrollAssetDocs,
+    api: [
+      {
+        name: "letters",
+        type: "string[]",
+        default: "W, O, R, K",
+        description:
+          "One character per curve. Each row repeats its character fifteen times along the path.",
+      },
+      {
+        name: "images",
+        type: "string[]",
+        default: "Seven Blob-hosted cards",
+        description: "Cards painted into the curved strip's texture atlas.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        default: "#f40c3f",
+        description: "Letter, dot grid, and surrounding page color.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "flip-marquee-horizontal": {
+    demoPath: "src/components/demos/flip-marquee-horizontal.tsx",
+    nuance: [
+      {
+        label: "Flip carries the frame across sections",
+        description:
+          "The marquee image is cloned into a free element and Flip records its state in the tilted strip, so the growth to full-bleed is computed from its real position rather than animated between two guessed transforms.",
+      },
+      {
+        label: "The Flip runs on scroll, not on time",
+        description:
+          "The Flip timeline is created paused and its progress is driven directly by the first fifth of the pin, so the plate opens exactly in step with the scrollbar and reverses cleanly.",
+      },
+      {
+        label: "Plate and track move at different rates",
+        description:
+          "The horizontal wrapper travels 66.67 percent while the plate travels three times its slide distance, so the plate visibly slides out from behind the slides instead of moving with them.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "The horizontal panel copy and images.",
+      },
+      {
+        name: "light / dark",
+        control: "color",
+        description: "Page color before and after the pin darkens it.",
+      },
+    ],
+    assets: flipMarqueeHorizontalAssetDocs,
+    api: [
+      {
+        name: "marqueeImages / pinnedIndex",
+        type: "string[] / number",
+        default: "13 images, index 6",
+        description:
+          "The tilted strip's frames, and which one is cloned and flipped into the next section.",
+      },
+      {
+        name: "slides",
+        type: "FlipMarqueeSlide[]",
+        default: "Two BLANK panels",
+        description: "Copy and image for each horizontal panel.",
+      },
+      {
+        name: "light / dark",
+        type: "string",
+        default: "#edf1e8 / #101010",
+        description: "Page colors interpolated across the start of the pin.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "clip-reveal-services": {
+    demoPath: "src/components/demos/clip-reveal-services.tsx",
+    nuance: [
+      {
+        label: "Two copies of the same text, one clipped",
+        description:
+          "The bright text is a pseudo element fed from a data attribute and clipped with inset from the bottom, so it overwrites the grey original in place. No per-word splitting, so line breaks can never disagree between the layers.",
+      },
+      {
+        label: "The masthead assembles then shrinks",
+        description:
+          "The first half of the pin closes the outer two lines onto the middle one, the second half scales all three down together, so stacking and shrinking never overlap.",
+      },
+      {
+        label: "pinSpacing is off on purpose",
+        description:
+          "The services section pins without reserving space, which is what lets the copy below slide up over it on its own large top margin.",
+      },
+    ],
+    editable: [
+      {
+        name: "aboutCopy / servicesCopy",
+        control: "text",
+        description: "The two clip-revealed paragraphs.",
+      },
+    ],
+    assets: clipRevealServicesAssetDocs,
+    api: [
+      {
+        name: "aboutCopy / servicesCopy",
+        type: "string",
+        default: "BLANK copy",
+        description:
+          "Paragraphs revealed by the clip. Both are mirrored into a pseudo element automatically.",
+      },
+      {
+        name: "heroImage / outroImage / headerImage",
+        type: "string",
+        default: "Blob-hosted assets",
+        description:
+          "Opening and closing portraits, and the lockup repeated three times as the masthead.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "swing-in-work-grid": {
+    demoPath: "src/components/demos/swing-in-work-grid.tsx",
+    nuance: [
+      {
+        label: "Mirrored rotation makes it a hinge",
+        description:
+          "The left card starts at minus sixty degrees and the right at plus sixty, both about their own centers, so the pair reads as two panels closing rather than two cards rotating the same way.",
+      },
+      {
+        label: "Fires once per row, not scrubbed",
+        description:
+          "Each row triggers a one second power4.out on entry instead of tracking scroll, so the landing keeps its ease no matter how fast the reader is moving.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "text",
+        description: "Project names, descriptions, images, and routes.",
+      },
+    ],
+    assets: swingInWorkGridAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "WorkProject[]",
+        default: "Ten BLANK projects",
+        description:
+          "Name, description, image, and route. Projects are paired into rows automatically.",
+      },
+      {
+        name: "heading / footerLeft / footerRight",
+        type: "string",
+        default: "BLANK copy",
+        description: "Page heading and the two footer lines.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "sticky-parallax-slides": {
+    demoPath: "src/components/demos/sticky-parallax-slides.tsx",
+    nuance: [
+      {
+        label: "Only the crossing pair is offset",
+        description:
+          "Parallax is applied to the outgoing and incoming slide only, computed from their relative progress. Every other image sits at zero, so nothing drifts out of place while off screen.",
+      },
+      {
+        label: "Titles are observed, not calculated",
+        description:
+          "An IntersectionObserver rooted on the slider switches captions at the quarter visible mark, and on reverse it explicitly restores the previous slide's title, so scrubbing backwards does not leave the caption blank.",
+      },
+      {
+        label: "The zoom is the parallax budget",
+        description:
+          "Images sit at 1.35 scale so a quarter-width push never exposes an edge. Lower the scale and the offset has to come down with it.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Panel images and their two-line titles.",
+      },
+    ],
+    assets: stickyParallaxSlidesAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "StickyParallaxSlide[]",
+        default: "Five BLANK interiors",
+        description:
+          "Image plus a two line title. Track width scales to the slide count automatically.",
+      },
+      {
+        name: "outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "The closing screen after the pin releases.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "masked-spotlight-scroll": {
+    demoPath: "src/components/demos/masked-spotlight-scroll.tsx",
+    nuance: [
+      {
+        label: "The image counter-scales against the mask",
+        description:
+          "As the mask grows to 450 percent the photograph shrinks from 1.5 to 1. Without the counter-scale the picture would appear to be dragged open by the aperture instead of resolving inside it.",
+      },
+      {
+        label: "Three phases share one pin",
+        description:
+          "The wall drifts across the first half, the mask opens between 25 and 75 percent, and the headline fills between 75 and 95, so the phases overlap deliberately rather than running back to back.",
+      },
+      {
+        label: "The wall is deliberately sparse",
+        description:
+          "Only some cells in each four-wide row carry an image. The empty slots are what give the drifting wall its scattered rhythm rather than reading as a solid grid.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "text",
+        description: "The nine stills scattered through the drifting wall.",
+      },
+      {
+        name: "maskHeading / spotlightHeading",
+        control: "text",
+        description: "Headlines revealed through and after the mask.",
+      },
+    ],
+    assets: maskedSpotlightScrollAssetDocs,
+    api: [
+      {
+        name: "images / bannerImage / maskImage",
+        type: "string[] / string",
+        default: "Blob-hosted assets",
+        description:
+          "Wall stills, the photograph revealed through the aperture, and the SVG shape used as the mask.",
+      },
+      {
+        name: "introHeading / spotlightHeading / maskHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy for each phase of the sequence.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "deal-stack-cards-scroll": {
+    demoPath: "src/components/demos/deal-stack-cards-scroll.tsx",
+    nuance: [
+      {
+        label: "Arrival and departure are separate clocks",
+        description:
+          "A card rises across its own slice of the pin, but only begins leaving once that slice is complete, measured against the remaining scroll. The two motions never blend into a single drift.",
+      },
+      {
+        label: "Earlier cards travel further",
+        description:
+          "Departure distance is scaled by 1 minus fifteen percent per index, so the first card ends up furthest off screen and the pile fans diagonally rather than exiting as one block.",
+      },
+      {
+        label: "Tilts are fixed, not random",
+        description:
+          "Each card keeps a hand-picked rotation for its whole life, so the stack always settles into the same deliberate arrangement.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description: "Card images and their reference labels.",
+      },
+      {
+        name: "rotations",
+        control: "text",
+        description: "Per-card resting tilt in degrees.",
+      },
+    ],
+    assets: dealStackCardsScrollAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "DealStackCard[]",
+        default: "Six BLANK cards",
+        description:
+          "Image and label per card. The pin length and per-card slice both follow the array length.",
+      },
+      {
+        name: "rotations",
+        type: "number[]",
+        default: "[-12, 10, -5, 5, -5, -2]",
+        description: "Resting tilt for each card, applied on arrival.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "split-column-infinite-slider": {
+    demoPath: "src/components/demos/split-column-infinite-slider.tsx",
+    nuance: [
+      {
+        label: "The reveal overshoots by half a percent",
+        description:
+          "Clip paths grow to 100.5 percent rather than 100, so consecutive slides always overlap by a sliver and no hairline of background can appear between them at any scroll position.",
+      },
+      {
+        label: "Zoom exists to hide the drift",
+        description:
+          "Images are held at 1.25 scale purely so the counter-drift against the reveal never pulls an edge into frame. The drift direction is inverted per column, which is what makes the two sides read as moving apart.",
+      },
+      {
+        label: "Copy holds, then leaves on a smoothstep",
+        description:
+          "Titles stay pinned dead center through a ten percent window either side of the slide's midpoint, then depart on a t*t*(3-2t) curve, so the type feels held rather than continuously sliding.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Title, tags, accent, and the two column images.",
+      },
+    ],
+    assets: splitColumnInfiniteSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "SplitSlide[]",
+        default: "Five BLANK projects",
+        description:
+          "Title, tag lines, accent color, link, and a separate image per column.",
+      },
+      {
+        name: "scrollSensitivity / smoothness / imageZoom",
+        type: "number",
+        default: "1200 / 0.05 / 1.25",
+        description:
+          "Wheel divisor, lerp factor toward the target, and the image scale that hides the parallax drift.",
+      },
+    ],
+  },
+  "dial-product-slider": {
+    demoPath: "src/components/demos/dial-product-slider.tsx",
+    nuance: [
+      {
+        label: "The dial turns inside out",
+        description:
+          "Open and close are one gesture: the outer ring's clip circle shrinks to zero while the inner disc's grows to fill, so the control reads as inverting rather than two elements swapping.",
+      },
+      {
+        label: "A buffer either side, not a clone set",
+        description:
+          "Five items are kept on each side of center and the far one is destroyed as a new one is built on the opposite end, so the reel loops through any length of catalogue at constant DOM cost.",
+      },
+      {
+        label: "Stepping is locked while the card is open",
+        description:
+          "Both arrows disable during the transition and for as long as the detail card is up, so the reel underneath can never advance out from behind the product being read.",
+      },
+    ],
+    editable: [
+      {
+        name: "products",
+        control: "text",
+        description: "Name, image, price, tag, and link per product.",
+      },
+    ],
+    assets: dialProductSliderAssetDocs,
+    api: [
+      {
+        name: "products",
+        type: "DialProduct[]",
+        default: "Ten BLANK products",
+        description:
+          "Each product's cutout, name, tag, price, and detail link. The reel loops through however many are supplied.",
+      },
+      {
+        name: "brand / menuLabel / detailLabel",
+        type: "string",
+        default: "BLANK copy",
+        description: "Nav label, dial caption, and the detail card button.",
+      },
+    ],
+  },
+  "parallax-drag-rail": {
+    demoPath: "src/components/demos/parallax-drag-rail.tsx",
+    nuance: [
+      {
+        label: "The jump happens in the safe band",
+        description:
+          "Six sequences are laid out and the track is teleported one sequence back whenever it leaves the middle band. Because the jump distance equals exactly one sequence, the visible arrangement is identical before and after and the seam is invisible.",
+      },
+      {
+        label: "Parallax is per card, from screen position",
+        description:
+          "Each image is offset by a quarter of its distance from the rail's center, read live from its bounding box, so the effect is correct no matter where the track has been teleported to.",
+      },
+      {
+        label: "Captions gate on real stillness",
+        description:
+          "A caption only fades in when velocity drops below 0.1 and no input has landed for 200ms, exposed as a CSS variable, so hover labels never flicker during a fling.",
+      },
+      {
+        label: "A drag is not a click",
+        description:
+          "Movement past five pixels marks the gesture as a drag and suppresses the navigation on release, so throwing the rail never opens a project by accident.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Project titles, images, and links.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor",
+        control: "text",
+        description: "Wheel multiplier and how hard the rail eases.",
+      },
+    ],
+    assets: parallaxDragRailAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "RailSlide[]",
+        default: "Eight BLANK projects",
+        description: "Title, image, and link per card.",
+      },
+      {
+        name: "scrollSpeed / lerpFactor / maxVelocity",
+        type: "number",
+        default: "1.75 / 0.05 / 150",
+        description:
+          "Wheel multiplier, easing factor, and the per-event clamp that stops a trackpad flick from teleporting the rail.",
+      },
+    ],
+  },
+  "endless-side-story": {
+    demoPath: "src/components/demos/endless-side-story.tsx",
+    nuance: [
+      {
+        label: "Real sections, cloned in place",
+        description:
+          "The markup is written once as ordinary sections, then measured and cloned two sequences either side at runtime, so the content stays authorable as normal HTML rather than a data array.",
+      },
+      {
+        label: "The progress bar snaps across the wrap",
+        description:
+          "When the reading jumps from high to low percent, the bar's eased value is force-set instead of lerped, so it never animates backwards across the entire width on every loop.",
+      },
+      {
+        label: "The loop guard sits at the halfway mark",
+        description:
+          "The teleport fires at half a sequence past the buffer rather than at the edge, leaving a full sequence of slack in both directions so a fast fling cannot outrun the reset.",
+      },
+    ],
+    editable: [
+      {
+        name: "storyHeadings / aboutParagraphs",
+        control: "text",
+        description: "The editorial copy across the sideways run.",
+      },
+    ],
+    assets: endlessSideStoryAssetDocs,
+    api: [
+      {
+        name: "heroImage / aboutImage / bannerImage / conceptImage",
+        type: "string",
+        default: "Blob-hosted images",
+        description: "The four full-height photographic panels.",
+      },
+      {
+        name: "introHeading / headerHeading / aboutHeading / storyHeadings / outroHeading",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Copy for each panel in the sequence.",
+      },
+      {
+        name: "smoothFactor",
+        type: "number",
+        default: "0.05",
+        description: "How hard the track eases toward the scroll target.",
+      },
+    ],
+  },
+  "marquee-carousel-scroll": {
+    demoPath: "src/components/demos/marquee-carousel-scroll.tsx",
+    nuance: [
+      {
+        label: "Direction changes the shape",
+        description:
+          "Forward and backward build different clip path polygons, so a slide entering upward wedges from the bottom edge and one entering downward wedges from the top. The transition is never just played in reverse.",
+      },
+      {
+        label: "Image and copy travel at different rates",
+        description:
+          "Inside a slide the image moves 25 percent while the copy moves 100 percent, so the two layers visibly separate during the cross rather than sliding as one block.",
+      },
+      {
+        label: "Titles are tripled for a seamless marquee",
+        description:
+          "Each headline is repeated three times and translated exactly one third, so the loop point lands on an identical glyph run and the scroll never appears to jump.",
+      },
+      {
+        label: "Transitions are not re-entrant",
+        description:
+          "While a slide is animating, scroll progress is recorded but ignored, so scrubbing quickly through the pin cannot start a second transition on top of a running one.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Tag, marquee headline, and image per project.",
+      },
+    ],
+    assets: marqueeCarouselScrollAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "MarqueeSlide[]",
+        default: "Five BLANK projects",
+        description:
+          "Tag, marquee headline, and image. Pin length and the progress bar count both scale to how many are supplied.",
+      },
+      {
+        name: "brand / navItems / introCopy / outroCopy",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation and the screens either side of the carousel.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "throw-away-work-slider": {
+    demoPath: "src/components/demos/throw-away-work-slider.tsx",
+    nuance: [
+      {
+        label: "The exit is a throw, not a fade",
+        description:
+          "The outgoing slide scales to a quarter, rotates thirty degrees and travels two full frames off screen over two seconds, so it reads as discarded rather than dissolved.",
+      },
+      {
+        label: "The incoming slide is built 750ms late",
+        description:
+          "Construction is deliberately delayed into the middle of the exit, so the new slide is never on screen alongside the old one at full size and the clip path opening is the first thing you see of it.",
+      },
+      {
+        label: "Copy is split per slide, not once",
+        description:
+          "Words and lines are re-split on every freshly built slide, so line breaks are measured against the actual box each time and masks always match the real wrap.",
+      },
+      {
+        label: "One slide per second, hard limit",
+        description:
+          "A timestamp gate plus two flags mean a fast wheel or a flick cannot queue transitions, which is what keeps the two second exit from ever overlapping itself.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Title, description, tags, link, and image per project.",
+      },
+    ],
+    assets: throwAwayWorkSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "WorkSlide[]",
+        default: "Four BLANK projects",
+        description:
+          "Title, description, tag list, link, and full-bleed image. The index readout and wrap-around both follow the array length.",
+      },
+      {
+        name: "linkLabel / tagsLabel",
+        type: "string",
+        default: "View Project / Tags",
+        description: "The per-slide link text and the tag column heading.",
+      },
+    ],
+  },
+  "sliding-index-menu": {
+    demoPath: "src/components/demos/sliding-index-menu.tsx",
+    nuance: [
+      {
+        label: "The rail is longer than the frame on purpose",
+        description:
+          "The link row is sized to its content and can overflow the panel. Pointer position maps to how far it slides, using only the middle half of the frame as the sensitive range, so small movements near the edges do nothing and the far links stay reachable.",
+      },
+      {
+        label: "The highlighter eases two properties at once",
+        description:
+          "Position and width are both lerped toward the hovered link's box every frame, so the bar stretches and travels as one motion instead of snapping to each new word.",
+      },
+      {
+        label: "Overflow is only unlocked once open",
+        description:
+          "Links keep overflow hidden through the wipe so they cannot poke outside the panel mid-animation, then switch to visible on completion, which is what lets the hover roll push characters past their own box.",
+      },
+    ],
+    editable: [
+      {
+        name: "links",
+        control: "text",
+        description: "The oversized index entries.",
+      },
+      {
+        name: "leftColumn / rightColumn",
+        control: "text",
+        description:
+          "The two info columns. An empty string renders as a spacer line.",
+      },
+      {
+        name: "accent",
+        control: "color",
+        description: "The highlighter bar color.",
+      },
+    ],
+    assets: slidingIndexMenuAssetDocs,
+    api: [
+      {
+        name: "links",
+        type: "string[]",
+        default: "Index, Persona, Biography, Work, Journal",
+        description:
+          "Index entries. Each renders twice so the hover roll has a copy to swap in.",
+      },
+      {
+        name: "leftColumn / rightColumn",
+        type: "string[]",
+        default: "BLANK contact and credits",
+        description:
+          "Info columns beside the plate. Empty strings become spacing breaks.",
+      },
+      {
+        name: "menuImage",
+        type: "string",
+        default: "Blob-hosted plate",
+        description: "The centered image that scales up when the menu opens.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        default: "#fca311",
+        description: "Highlighter bar color.",
+      },
+    ],
+  },
+  "elastic-curtain-menu": {
+    demoPath: "src/components/demos/elastic-curtain-menu.tsx",
+    nuance: [
+      {
+        label: "The panel is one path, not a box",
+        description:
+          "The whole sheet is a single quadratic path whose control point is dragged past the end points, so the leading edge sags in the middle. Two chained tweens, power4.in then power4.out, make it accelerate into the sag and settle out of it.",
+      },
+      {
+        label: "Closing rebuilds the path from the other anchor",
+        description:
+          "Before the close runs, the path is reset to a bottom-anchored variant. The sag then lifts upward instead of replaying the open in reverse, so entry and exit read as different motions.",
+      },
+      {
+        label: "Links arrive from far off the right",
+        description:
+          "Characters start at 750 percent x and return on elastic.out with a 0.01 stagger, so the word assembles as a fast ripple that overshoots and settles rather than a uniform slide.",
+      },
+    ],
+    editable: [
+      {
+        name: "links",
+        control: "text",
+        description: "The menu link labels.",
+      },
+      {
+        name: "panelColor / accent",
+        control: "color",
+        description: "Curtain fill and the contact label color.",
+      },
+    ],
+    assets: elasticCurtainMenuAssetDocs,
+    api: [
+      {
+        name: "links",
+        type: "string[]",
+        default: "work, services, about, insights, careers, contact",
+        description: "Menu entries, split into characters for the fly-in.",
+      },
+      {
+        name: "contactLabel / contactLines / addressLines",
+        type: "string / string[]",
+        default: "BLANK contact block",
+        description: "The information column beside the links.",
+      },
+      {
+        name: "backgroundImage",
+        type: "string",
+        default: "Blob-hosted hero",
+        description: "The page image the curtain drops over.",
+      },
+      {
+        name: "panelColor / accent",
+        type: "string",
+        default: "#f0eeee / #a374ff",
+        description: "Curtain fill and contact label color.",
+      },
+    ],
+  },
+  "tilt-away-menu": {
+    demoPath: "src/components/demos/tilt-away-menu.tsx",
+    nuance: [
+      {
+        label: "The page leaves, the panel arrives",
+        description:
+          "Both moves run on the same 1.25s power4.inOut, but from opposite corners: the hero uses a right-top transform origin and exits rotated and scaled, the panel uses left-bottom and comes back from rotated, oversized, quarter opacity.",
+      },
+      {
+        label: "The clip path overshoots the frame",
+        description:
+          "The open state clips to 175 percent on one side, so the panel edge lands beyond the bottom of the box and the sheet reads as skewed rather than square.",
+      },
+      {
+        label: "Previews stack instead of swapping",
+        description:
+          "Hovering a link appends a new image at scale 1.25 and 10 degrees and eases it flat over the previous one, so there is never an empty frame. Only the last three stay in the DOM.",
+      },
+    ],
+    editable: [
+      {
+        name: "links",
+        control: "text",
+        description: "Menu labels and the preview image each one shows.",
+      },
+      {
+        name: "heroHeading",
+        control: "text",
+        description: "The headline on the page behind the menu.",
+      },
+    ],
+    assets: tiltAwayMenuAssetDocs,
+    api: [
+      {
+        name: "links",
+        type: "TiltAwayMenuLink[]",
+        default: "Visions, Core, Signals, Connect",
+        description: "Label plus the preview image swapped in on hover.",
+      },
+      {
+        name: "heroImage / heroHeading",
+        type: "string",
+        default: "Blob-hosted hero",
+        description: "The page behind the menu.",
+      },
+      {
+        name: "socials / footerPrimary / footerLinks",
+        type: "string[] / string",
+        default: "Behance, Dribbble, LinkedIn, Instagram",
+        description: "Secondary link groups in the panel.",
+      },
+    ],
+  },
+  "push-down-overlay-menu": {
+    demoPath: "src/components/demos/push-down-overlay-menu.tsx",
+    nuance: [
+      {
+        label: "Page and panel move as one sheet",
+        description:
+          "The document is driven down exactly one viewport while the panel content slides from minus fifty percent to zero, so the two travel together and the seam between them never separates.",
+      },
+      {
+        label: "Copy staggers backwards",
+        description:
+          "Lines animate with a negative stagger, so the last line of each column starts first. Combined with a 2s duration against the 1s panel wipe, the text is still arriving after the panel has landed.",
+      },
+      {
+        label: "Scrolling is stopped, not hidden",
+        description:
+          "Lenis is halted for the duration the menu is open and restarted in the close callback, so the pushed page cannot be scrolled out from under the panel.",
+      },
+    ],
+    editable: [
+      {
+        name: "links / tags",
+        control: "text",
+        description: "The two menu columns.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "Headlines on the pushed page.",
+      },
+    ],
+    assets: pushDownOverlayMenuAssetDocs,
+    api: [
+      {
+        name: "links / tags",
+        type: "string[]",
+        default: "BLANK menu columns",
+        description:
+          "Primary navigation and the secondary discipline list beside it.",
+      },
+      {
+        name: "location / contactLines",
+        type: "string / string[]",
+        default: "BLANK contact block",
+        description: "The panel footer.",
+      },
+      {
+        name: "bannerImage / menuImage",
+        type: "string",
+        default: "Blob-hosted images",
+        description: "Page banner and the dimmed plate inside the panel.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "dealt-team-cards": {
+    demoPath: "src/components/demos/dealt-team-cards.tsx",
+    nuance: [
+      {
+        label: "Two triggers, two jobs",
+        description:
+          "An unpinned trigger raises the dashed frames on approach, then a separate pinned trigger three viewports long deals the real cards in. Splitting them means the frames finish arriving before any card starts flying.",
+      },
+      {
+        label: "Each card has its own window",
+        description:
+          "Slide-in and scale-up run on staggered sub-ranges of the pinned progress rather than a shared tween, so the third card is still rotating flat while the first has already reached full size.",
+      },
+      {
+        label: "Narrow layouts opt out entirely",
+        description:
+          "Below 1000px the triggers are killed and every animated property is cleared, so the section falls back to a plain stacked column instead of a squeezed version of the deal.",
+      },
+    ],
+    editable: [
+      {
+        name: "members",
+        control: "text",
+        description: "Names, roles, and portraits.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "The lead-in and closing screens.",
+      },
+    ],
+    assets: dealtTeamCardsAssetDocs,
+    api: [
+      {
+        name: "members",
+        type: "TeamMember[]",
+        default: "Three BLANK team members",
+        description:
+          "First name, last name, role, and portrait. The giant placeholder initial is taken from the first name.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy on the screens around the team section.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "wedge-clip-work-scroll": {
+    demoPath: "src/components/demos/wedge-clip-work-scroll.tsx",
+    nuance: [
+      {
+        label: "Open and close are separate triggers",
+        description:
+          "One trigger runs while the panel enters and clips the wedge out to a full rectangle, a second runs as it leaves and folds the bottom edge back in, so the exit shape is not just the entrance played backwards.",
+      },
+      {
+        label: "Characters get pixel windows, not percentages",
+        description:
+          "Each character's trigger is offset by 25px from the previous one, so the title types out at a rate tied to actual scroll distance and stays consistent no matter how long the name is.",
+      },
+      {
+        label: "Panels are one and a half viewports",
+        description:
+          "At 150svh each project has room to open, hold, and close without a neighbouring panel's triggers overlapping it.",
+      },
+    ],
+    editable: [
+      {
+        name: "items",
+        control: "text",
+        description: "Project names and their images.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        control: "text",
+        description: "The lead-in and closing screens.",
+      },
+    ],
+    assets: wedgeClipWorkScrollAssetDocs,
+    api: [
+      {
+        name: "items",
+        type: "WedgeWorkItem[]",
+        default: "Five BLANK projects",
+        description: "Project name and image for each full-height panel.",
+      },
+      {
+        name: "heroHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy on the screens around the index.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "starfield-warp-scroll": {
+    demoPath: "src/components/demos/starfield-warp-scroll.tsx",
+    nuance: [
+      {
+        label: "Speed is a curve, not the raw progress",
+        description:
+          "Scroll progress is first lifted off a resting fill of 0.25 so the field is already drifting at rest, then raised to a fractional power, so the warp accelerates late instead of tracking the scrollbar linearly.",
+      },
+      {
+        label: "Streaks are drawn, never simulated",
+        description:
+          "Each star keeps only a direction, a phase offset, and a length. Its head position is derived from scroll progress modulo one, so the field loops seamlessly and nothing needs a per-frame physics step.",
+      },
+      {
+        label: "Headline handoff is measured in words",
+        description:
+          "The timeline length is computed from the total word count across all three headlines, so adding or shortening copy redistributes the fades automatically and the scroll distance stays the same.",
+      },
+    ],
+    editable: [
+      {
+        name: "headings",
+        control: "text",
+        description: "The three headlines that hand off across the warp.",
+      },
+      {
+        name: "palette",
+        control: "color",
+        description: "Streak colors, sampled with per-color weights.",
+      },
+      {
+        name: "starCount",
+        control: "text",
+        description: "How many streaks are drawn each frame.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "introHeading / headings / outroHeading",
+        type: "string / [string, string, string] / string",
+        default: "BLANK copy",
+        description:
+          "Copy for the lead-in section, the three warp headlines, and the closing section.",
+      },
+      {
+        name: "starCount",
+        type: "number",
+        default: "1000",
+        description: "Number of streaks in the field.",
+      },
+      {
+        name: "palette / paletteWeights",
+        type: "string[] / number[]",
+        default: "6 cyan-to-pink hexes",
+        description:
+          "Streak colors and the probability weight of each, sampled once per star at creation.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "physics-tag-footer": {
+    demoPath: "src/components/demos/physics-tag-footer.tsx",
+    nuance: [
+      {
+        label: "The lid arrives late",
+        description:
+          "Only the floor and side walls exist at first, so the labels can rain in from far above the frame. A top wall is added three seconds later, which is what stops a hard throw from launching a pill out of the box.",
+      },
+      {
+        label: "Dragging suspends rotation",
+        description:
+          "A grabbed body gets infinite inertia for the length of the drag, so it translates without spinning, then has its real inertia restored on release. Its position and velocity are clamped every step so it cannot be dragged through a wall.",
+      },
+      {
+        label: "Physics runs in the footer's own coordinate space",
+        description:
+          "Walls and bodies are built from the container rect, not the viewport, so the pile fits whatever box the footer occupies.",
+      },
+    ],
+    editable: [
+      {
+        name: "tags",
+        control: "text",
+        description: "The labels that drop in as physics bodies.",
+      },
+      {
+        name: "heroHeading / footerHeading",
+        control: "text",
+        description: "The lead-in headline and the headline behind the pile.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "tags",
+        type: "string[]",
+        default: "12 BLANK stack labels",
+        description:
+          "Labels rendered as draggable pills. Each becomes one Matter.js body sized from its rendered box.",
+      },
+      {
+        name: "heroHeading / footerHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy for the first screen and the footer screen.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "showreel-zoom-scroll": {
+    demoPath: "src/components/demos/showreel-zoom-scroll.tsx",
+    nuance: [
+      {
+        label: "Pointer drift scales with distance",
+        description:
+          "Horizontal tracking is multiplied by (1 - scale), so the card swings widest while it is a distant thumbnail and stops moving entirely once it passes 95 percent scale and becomes the subject.",
+      },
+      {
+        label: "Caption shrinks on two slopes",
+        description:
+          "Font size runs 80 to 40 across the first 40 percent of the scroll and 40 to 20 across the remaining 60 percent, so the type drops fast while the card is small and eases into its final reading size.",
+      },
+      {
+        label: "Start offset is breakpoint aware",
+        description:
+          "The initial translate and the pointer multiplier are picked from a width table, so the thumbnail starts fully above the fold on narrow screens without overshooting on wide ones.",
+      },
+    ],
+    editable: [
+      {
+        name: "videoSrc",
+        control: "text",
+        description: "The looping clip shown in the card.",
+      },
+      {
+        name: "heroHeading / heroCopy / outroCopy",
+        control: "text",
+        description: "Oversized brand headline and the surrounding copy.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "videoSrc",
+        type: "string",
+        default: "Blob-hosted loop",
+        description:
+          "Muted, autoplaying, looping video source used for the showreel card.",
+      },
+      {
+        name: "brand / navLinks / heroHeading / heroCopy / scrollLabel / outroCopy",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation and editorial copy around the reel.",
+      },
+      {
+        name: "videoTitle / videoYears",
+        type: "string",
+        default: "Studio Showreel / 2023 - 2024",
+        description: "The caption pair under the card.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "interlock-title-scroll": {
+    demoPath: "src/components/demos/interlock-title-scroll.tsx",
+    nuance: [
+      {
+        label: "Per-character windows, not a stagger",
+        description:
+          "Each character gets its own start delay and duration computed from its index and the character count, then reads scroll progress directly. The comb closes evenly no matter how long the word is.",
+      },
+      {
+        label: "The middle band runs backwards",
+        description:
+          "Bands one and three stagger left to right and slide in from the right, band two reverses both, so consecutive titles never resolve in the same direction.",
+      },
+      {
+        label: "Bands are shorter than the viewport",
+        description:
+          "Each title occupies 85svh, so the next band is always visible under the current one and the animations overlap as you scroll.",
+      },
+    ],
+    editable: [
+      {
+        name: "titles",
+        control: "text",
+        description: "The full-bleed titles, one per band.",
+      },
+      {
+        name: "accent / background / foreground",
+        control: "color",
+        description: "Alternating band color, page color, and type color.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "titles",
+        type: "string[]",
+        default: "Subtle Phase, Hidden Flow, Calm Glide",
+        description:
+          "One title per band. Odd bands take the accent background, even bands the page background.",
+      },
+      {
+        name: "introHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "The lead-in and closing screens.",
+      },
+      {
+        name: "background / foreground / accent",
+        type: "string",
+        default: "#f4f3ef / #141414 / #e3f794",
+        description: "Page, type, and alternating band colors.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "drawn-path-features": {
+    demoPath: "src/components/demos/drawn-path-features.tsx",
+    nuance: [
+      {
+        label: "One dash offset, measured at runtime",
+        description:
+          "The path's real length is read with getTotalLength and used for both the dash array and the starting offset, so the stroke draws exactly once across the section regardless of viewport size.",
+      },
+      {
+        label: "The line lives behind the content",
+        description:
+          "The SVG sits on a negative layer inside the section, so the stroke passes behind the cards while remaining visible over the page background.",
+      },
+      {
+        label: "Scrub is tied to the section, not a pin",
+        description:
+          "The trigger runs top top to bottom bottom on the feature section itself, so nothing is pinned and the drawing rate stays locked to natural reading speed.",
+      },
+    ],
+    editable: [
+      {
+        name: "strokeColor / strokeWidth",
+        control: "color",
+        description: "Color and thickness of the threading stroke.",
+      },
+      {
+        name: "cards",
+        control: "text",
+        description: "The two feature card headings and bodies.",
+      },
+    ],
+    assets: drawnPathFeaturesAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "[string, string, string, string]",
+        default: "Blob-hosted illustrations",
+        description: "The four illustrations the stroke threads past.",
+      },
+      {
+        name: "cards",
+        type: "[StrokePathCard, StrokePathCard]",
+        default: "Two BLANK feature cards",
+        description: "Heading and body for each of the two text cards.",
+      },
+      {
+        name: "strokeColor / strokeWidth",
+        type: "string / number",
+        default: "#FF5F0A / 200",
+        description: "Color and thickness of the drawn path.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "circular-widget-dial": {
+    demoPath: "src/components/demos/circular-widget-dial.tsx",
+    nuance: [
+      {
+        label: "Two counter-rotations, one readout",
+        description:
+          "The indicator advances and the ring retreats at a quarter that rate. The active segment is derived from the difference between the two angles, so a wheel gesture changes the readout faster than either element alone appears to move.",
+      },
+      {
+        label: "Segments are clipped arcs, not masks",
+        description:
+          "Each slice is an SVG clipPath built from two arcs and two radial edges. The image inside is oversized by 25 percent and pre-rotated to the slice's mid-angle so it fills the wedge with no seams.",
+      },
+      {
+        label: "Backdrop swaps are stacked, then trimmed",
+        description:
+          "A new full-bleed image is appended and faded in over 100ms rather than swapping a src, so there is never a blank frame. Only the last three are kept in the DOM.",
+      },
+    ],
+    editable: [
+      {
+        name: "widgets",
+        control: "text",
+        description: "Segment images and their names.",
+      },
+      {
+        name: "accent / background",
+        control: "color",
+        description: "Indicator and name-chip color, and the base color.",
+      },
+      {
+        name: "spinSpeed",
+        control: "text",
+        description: "Degrees per second the indicator advances at rest.",
+      },
+    ],
+    assets: circularWidgetDialAssetDocs,
+    api: [
+      {
+        name: "widgets",
+        type: "CircularWidget[]",
+        default: "10 Blob-hosted segments",
+        description:
+          "Image and name per ring segment. The ring divides evenly by however many are supplied.",
+      },
+      {
+        name: "accent / background",
+        type: "string",
+        default: "#ffff2b / #000",
+        description: "Indicator and chip color, and the base color.",
+      },
+      {
+        name: "spinSpeed",
+        type: "number",
+        default: "18",
+        description:
+          "Idle rotation speed in degrees per second. The ring counter-rotates at a quarter of it.",
+      },
+    ],
+  },
   "edge-warp-rail": {
     demoPath: "src/components/demos/edge-warp-rail.tsx",
     nuance: [

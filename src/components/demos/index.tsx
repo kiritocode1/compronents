@@ -12,19 +12,27 @@ import AsciiMonogramHeroDemo from "./ascii-monogram-hero";
 import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
 import BlnkAgencyPageDemo from "./blnk-agency-page";
+import BlockLogoTransitionPageDemo from "./block-logo-transition-page";
 import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
+import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
+import CardPartingRevealDemo from "./card-parting-reveal";
+import CarouselRingGalleryDemo from "./carousel-ring-gallery";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
+import CircularWidgetDialDemo from "./circular-widget-dial";
 import ClientHoverPreviewDemo from "./client-hover-preview";
+import ClipMaskTransitionPageDemo from "./clip-mask-transition-page";
+import ClipRevealServicesDemo from "./clip-reveal-services";
 import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
 import CorridorScene3DDemo from "./corridor-scene-3d";
 import CounterStarLoaderDemo from "./counter-star-loader";
+import CounterWordPreloaderDemo from "./counter-word-preloader";
 import CreativeClutterDemo from "./creative-clutter";
 import CrossRevealScrollDemo from "./cross-reveal-scroll";
 import CrtDisplayDemo from "./crt-display";
@@ -32,37 +40,50 @@ import CursorImageTrailDemo from "./cursor-image-trail";
 import CursorTrailScrollDemo from "./cursor-trail-scroll";
 import CurtainRevealHeroDemo from "./curtain-reveal-hero";
 import CurveGalleryDemo from "./curve-gallery";
+import CurvedLetterPathScrollDemo from "./curved-letter-path-scroll";
 import CurvedPlaneSliderDemo from "./curved-plane-slider";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
+import DealStackCardsScrollDemo from "./deal-stack-cards-scroll";
+import DealtTeamCardsDemo from "./dealt-team-cards";
 import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
+import DialProductSliderDemo from "./dial-product-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import DitherStudioPageDemo from "./dither-studio-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
+import DrawnPathFeaturesDemo from "./drawn-path-features";
 import DroneFleetDemo from "./drone-fleet";
 import EdgeWarpRailDemo from "./edge-warp-rail";
+import ElasticCurtainMenuDemo from "./elastic-curtain-menu";
+import EndlessSideStoryDemo from "./endless-side-story";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
 import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
 import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
+import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlowFieldTextDemo from "./flow-field-text";
+import FlyingCubeScrollDemo from "./flying-cube-scroll";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
+import FrameSequenceHeroDemo from "./frame-sequence-hero";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
+import ImageExplosionFooterDemo from "./image-explosion-footer";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
+import InfiniteDragCanvasDemo from "./infinite-drag-canvas";
 import InkCoreLayoutDemo from "./ink-core-layout";
 import InteriorStudioPageDemo from "./interior-studio-page";
+import InterlockTitleScrollDemo from "./interlock-title-scroll";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
 import IsochromePageDemo from "./isochrome-page";
@@ -72,9 +93,12 @@ import LegoDitherDemo from "./lego-dither";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LineRiseTextDemo from "./line-rise-text";
 import LiquidStatGridDemo from "./liquid-stat-grid";
+import LogoMaskZoomScrollDemo from "./logo-mask-zoom-scroll";
 import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
 import March2025TemplateDemo from "./march-2025-template";
+import MarqueeCarouselScrollDemo from "./marquee-carousel-scroll";
 import MaskRevealPreloaderDemo from "./mask-reveal-preloader";
+import MaskedSpotlightScrollDemo from "./masked-spotlight-scroll";
 import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
@@ -84,51 +108,75 @@ import MosaicFlipDemo from "./mosaic-flip";
 import MotionTrackingDemo from "./motion-tracking";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
+import NestedMaskBannerDemo from "./nested-mask-banner";
 import NullStudioPageDemo from "./null-studio-page";
 import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
+import ParallaxDragRailDemo from "./parallax-drag-rail";
+import PhotoSphereOrbDemo from "./photo-sphere-orb";
+import PhysicsTagFooterDemo from "./physics-tag-footer";
+import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
 import ProceduralComputerPageDemo from "./procedural-computer-page";
+import PushDownOverlayMenuDemo from "./push-down-overlay-menu";
+import PushupCardStackDemo from "./pushup-card-stack";
+import RevealerTransitionPageDemo from "./revealer-transition-page";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
+import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
+import ShaderWarpSliderDemo from "./shader-warp-slider";
+import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
+import ShuffleGridPreloaderDemo from "./shuffle-grid-preloader";
+import SkewCharHeaderDemo from "./skew-char-header";
+import SlidingIndexMenuDemo from "./sliding-index-menu";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
+import SnapParallaxProjectsDemo from "./snap-parallax-projects";
 import SorenPageDemo from "./soren-page";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
+import SplitColumnInfiniteSliderDemo from "./split-column-infinite-slider";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
+import StarfieldWarpScrollDemo from "./starfield-warp-scroll";
 import StarryNightFlowDemo from "./starry-night-flow";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
+import StickyParallaxSlidesDemo from "./sticky-parallax-slides";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
 import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
 import SurpriseBoxDemo from "./surprise-box";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
+import SwingInWorkGridDemo from "./swing-in-work-grid";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
+import ThrowAwayWorkSliderDemo from "./throw-away-work-slider";
+import TiltAwayMenuDemo from "./tilt-away-menu";
 import TiltCardStackDemo from "./tilt-card-stack";
+import TriangleFillScrollDemo from "./triangle-fill-scroll";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import VideoCardStackDemo from "./video-card-stack";
+import ViewTransitionFolioPageDemo from "./view-transition-folio-page";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
+import WedgeClipWorkScrollDemo from "./wedge-clip-work-scroll";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
 import WordmarkSpotlightScrollDemo from "./wordmark-spotlight-scroll";
 import WuWeiPageDemo from "./wu-wei-page";
@@ -271,4 +319,52 @@ export const demos: Record<string, ComponentType> = {
   "pixelgrid-studio-page": PixelgridStudioPageDemo,
   "polite-chaos-page": PoliteChaosPageDemo,
   "procedural-computer-page": ProceduralComputerPageDemo,
+  "starfield-warp-scroll": StarfieldWarpScrollDemo,
+  "physics-tag-footer": PhysicsTagFooterDemo,
+  "showreel-zoom-scroll": ShowreelZoomScrollDemo,
+  "interlock-title-scroll": InterlockTitleScrollDemo,
+  "drawn-path-features": DrawnPathFeaturesDemo,
+  "circular-widget-dial": CircularWidgetDialDemo,
+  "sliding-index-menu": SlidingIndexMenuDemo,
+  "elastic-curtain-menu": ElasticCurtainMenuDemo,
+  "tilt-away-menu": TiltAwayMenuDemo,
+  "push-down-overlay-menu": PushDownOverlayMenuDemo,
+  "dealt-team-cards": DealtTeamCardsDemo,
+  "wedge-clip-work-scroll": WedgeClipWorkScrollDemo,
+  "split-column-infinite-slider": SplitColumnInfiniteSliderDemo,
+  "dial-product-slider": DialProductSliderDemo,
+  "parallax-drag-rail": ParallaxDragRailDemo,
+  "endless-side-story": EndlessSideStoryDemo,
+  "marquee-carousel-scroll": MarqueeCarouselScrollDemo,
+  "throw-away-work-slider": ThrowAwayWorkSliderDemo,
+  "flip-marquee-horizontal": FlipMarqueeHorizontalDemo,
+  "clip-reveal-services": ClipRevealServicesDemo,
+  "swing-in-work-grid": SwingInWorkGridDemo,
+  "sticky-parallax-slides": StickyParallaxSlidesDemo,
+  "masked-spotlight-scroll": MaskedSpotlightScrollDemo,
+  "deal-stack-cards-scroll": DealStackCardsScrollDemo,
+  "frame-sequence-hero": FrameSequenceHeroDemo,
+  "snap-parallax-projects": SnapParallaxProjectsDemo,
+  "triangle-fill-scroll": TriangleFillScrollDemo,
+  "nested-mask-banner": NestedMaskBannerDemo,
+  "pinned-scale-mosaic": PinnedScaleMosaicDemo,
+  "curved-letter-path-scroll": CurvedLetterPathScrollDemo,
+  "carousel-ring-gallery": CarouselRingGalleryDemo,
+  "infinite-drag-canvas": InfiniteDragCanvasDemo,
+  "card-fan-landing-reveal": CardFanLandingRevealDemo,
+  "counter-word-preloader": CounterWordPreloaderDemo,
+  "shuffle-grid-preloader": ShuffleGridPreloaderDemo,
+  "logo-mask-zoom-scroll": LogoMaskZoomScrollDemo,
+  "photo-sphere-orb": PhotoSphereOrbDemo,
+  "flying-cube-scroll": FlyingCubeScrollDemo,
+  "shader-warp-slider": ShaderWarpSliderDemo,
+  "skew-char-header": SkewCharHeaderDemo,
+  "card-parting-reveal": CardPartingRevealDemo,
+  "image-explosion-footer": ImageExplosionFooterDemo,
+  "pushup-card-stack": PushupCardStackDemo,
+  "clip-mask-transition-page": ClipMaskTransitionPageDemo,
+  "view-transition-folio-page": ViewTransitionFolioPageDemo,
+  "revealer-transition-page": RevealerTransitionPageDemo,
+  "block-logo-transition-page": BlockLogoTransitionPageDemo,
+  "scroll-advance-project-page": ScrollAdvanceProjectPageDemo,
 };

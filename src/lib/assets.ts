@@ -1476,6 +1476,380 @@ const spotlightGalleryScrollAssets = [
     }) as const satisfies AssetItem,
 );
 
+const drawnPathFeaturesAssets = Array.from(
+  { length: 4 },
+  (_, i) => `img_${i + 1}.svg`,
+).map(
+  (rel) =>
+    ({
+      id: `drawn-path-features-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Drawn Path Features illustration ${rel}`,
+      provider: "vercel-blob",
+      pathname: `drawn-path-features/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/drawn-path-features/${rel}`,
+      role: "Line illustration the drawn stroke threads past as it advances.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the drawn-path-features component.",
+    }) as const satisfies AssetItem,
+);
+
+const circularWidgetDialAssets = Array.from(
+  { length: 10 },
+  (_, i) => `widget_${i + 1}.jpg`,
+).map(
+  (rel) =>
+    ({
+      id: `circular-widget-dial-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Circular Widget Dial segment ${rel}`,
+      provider: "vercel-blob",
+      pathname: `circular-widget-dial/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/circular-widget-dial/${rel}`,
+      role: "Image clipped into one ring segment and used as the full-bleed backdrop when the indicator reaches it.",
+      notes:
+        "Uploaded to Vercel Blob at the source pathname for the circular-widget-dial component.",
+    }) as const satisfies AssetItem,
+);
+
+function simpleAssets(
+  component: string,
+  label: string,
+  role: string,
+  files: string[],
+) {
+  return files.map(
+    (rel) =>
+      ({
+        id: `${component}-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+        label: `${label} asset ${rel}`,
+        provider: "vercel-blob",
+        pathname: `${component}/${rel}`,
+        fallbackPath: `${BLOB_PUBLIC_ORIGIN}/${component}/${rel}`,
+        role,
+        notes: `Uploaded to Vercel Blob at the source pathname for the ${component} component.`,
+      }) as const satisfies AssetItem,
+  );
+}
+
+const slidingIndexMenuAssets = simpleAssets(
+  "sliding-index-menu",
+  "Sliding Index Menu",
+  "Centered plate that scales up behind the index when the menu opens.",
+  ["menu_img.jpg"],
+);
+
+const elasticCurtainMenuAssets = simpleAssets(
+  "elastic-curtain-menu",
+  "Elastic Curtain Menu",
+  "Full-bleed hero photograph the curtain panel drops over.",
+  ["bg.jpg"],
+);
+
+const tiltAwayMenuAssets = simpleAssets(
+  "tilt-away-menu",
+  "Tilt Away Menu",
+  "Hero photograph, or a link preview stacked in on hover.",
+  ["hero.jpg", "img-1.jpg", "img-2.jpg", "img-3.jpg", "img-4.jpg"],
+);
+
+const pushDownOverlayMenuAssets = simpleAssets(
+  "push-down-overlay-menu",
+  "Push Down Overlay Menu",
+  "Page banner photograph, or the dimmed plate in the open menu.",
+  ["hero.jpg", "menu-media.jpg"],
+);
+
+const dealtTeamCardsAssets = simpleAssets(
+  "dealt-team-cards",
+  "Dealt Team Cards",
+  "Portrait on a team card as it deals into its dashed slot.",
+  ["team-member-1.jpg", "team-member-2.jpg", "team-member-3.jpg"],
+);
+
+const wedgeClipWorkScrollAssets = simpleAssets(
+  "wedge-clip-work-scroll",
+  "Wedge Clip Work Scroll",
+  "Project photograph revealed as the wedge clip opens to a full rectangle.",
+  ["work_01.jpg", "work_02.jpg", "work_03.jpg", "work_04.jpg", "work_05.jpg"],
+);
+
+const splitColumnInfiniteSliderAssets = simpleAssets(
+  "split-column-infinite-slider",
+  "Split Column Infinite Slider",
+  "Column slide photograph revealed by the clip path as the column advances.",
+  [
+    ...Array.from({ length: 5 }, (_, i) => `slide_img_left_${i + 1}.jpg`),
+    ...Array.from({ length: 5 }, (_, i) => `slide_img_right_${i + 1}.jpg`),
+  ],
+);
+
+const dialProductSliderAssets = simpleAssets(
+  "dial-product-slider",
+  "Dial Product Slider",
+  "Product cutout shown in the reel and behind the detail card.",
+  Array.from({ length: 10 }, (_, i) => `product-${i + 1}.png`),
+);
+
+const parallaxDragRailAssets = simpleAssets(
+  "parallax-drag-rail",
+  "Parallax Drag Rail",
+  "Project photograph slid against its frame as the rail moves.",
+  Array.from({ length: 8 }, (_, i) => `slider_img_0${i + 1}.jpg`),
+);
+
+const endlessSideStoryAssets = simpleAssets(
+  "endless-side-story",
+  "Endless Side Story",
+  "Full-height panel photograph in the sideways editorial run.",
+  Array.from({ length: 4 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const marqueeCarouselScrollAssets = simpleAssets(
+  "marquee-carousel-scroll",
+  "Marquee Carousel Scroll",
+  "Project photograph wedged in behind the marqueed title.",
+  Array.from({ length: 5 }, (_, i) => `slide-img-${i + 1}.jpg`),
+);
+
+const throwAwayWorkSliderAssets = simpleAssets(
+  "throw-away-work-slider",
+  "Throw Away Work Slider",
+  "Full-bleed project photograph thrown off screen on the next slide.",
+  Array.from({ length: 4 }, (_, i) => `slide-img-${i + 1}.jpg`),
+);
+
+const flipMarqueeHorizontalAssets = simpleAssets(
+  "flip-marquee-horizontal",
+  "Flip Marquee Horizontal",
+  "Tilted marquee frame, or a panel image in the horizontal run.",
+  [
+    ...Array.from({ length: 13 }, (_, i) => `img-${i + 1}.jpg`),
+    "slide-1.jpg",
+    "slide-2.jpg",
+  ],
+);
+
+const clipRevealServicesAssets = simpleAssets(
+  "clip-reveal-services",
+  "Clip Reveal Services",
+  "Portrait plate, or the repeated services masthead lockup.",
+  ["hero.jpg", "outro.jpg", "whatido.svg"],
+);
+
+const swingInWorkGridAssets = simpleAssets(
+  "swing-in-work-grid",
+  "Swing In Work Grid",
+  "Project thumbnail on a card that swings into its row.",
+  Array.from({ length: 10 }, (_, i) => `work-${i + 1}.jpg`),
+);
+
+const stickyParallaxSlidesAssets = simpleAssets(
+  "sticky-parallax-slides",
+  "Sticky Parallax Slides",
+  "Full-bleed interior photograph parallaxed against its panel.",
+  Array.from({ length: 5 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const maskedSpotlightScrollAssets = simpleAssets(
+  "masked-spotlight-scroll",
+  "Masked Spotlight Scroll",
+  "Desaturated wall still, the revealed banner, or the aperture mask shape.",
+  [
+    ...Array.from({ length: 9 }, (_, i) => `img${i + 1}.jpg`),
+    "spotlight-banner.jpg",
+    "spotlight-mask.svg",
+  ],
+);
+
+const dealStackCardsScrollAssets = simpleAssets(
+  "deal-stack-cards-scroll",
+  "Deal Stack Cards Scroll",
+  "Photograph on a card that rises onto the pile and is pushed off.",
+  Array.from({ length: 6 }, (_, i) => `card-${i + 1}.jpeg`),
+);
+
+const frameSequenceHeroAssets = simpleAssets(
+  "frame-sequence-hero",
+  "Frame Sequence Hero",
+  "One frame of the scroll-scrubbed sequence, or a static hero asset.",
+  [
+    ...Array.from(
+      { length: 207 },
+      (_, i) => `frame_${(i + 1).toString().padStart(4, "0")}.jpg`,
+    ),
+    ...Array.from({ length: 4 }, (_, i) => `client-logo-${i + 1}.png`),
+    "dashboard.png",
+    "logo.png",
+  ],
+);
+
+const snapParallaxProjectsAssets = simpleAssets(
+  "snap-parallax-projects",
+  "Snap Parallax Projects",
+  "Half-panel project photograph parallaxed against its snap panel.",
+  Array.from({ length: 6 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const triangleFillScrollAssets = simpleAssets(
+  "triangle-fill-scroll",
+  "Triangle Fill Scroll",
+  "Scene backdrop, or a product card swallowed by the triangle grid.",
+  ["bg.jpg", ...Array.from({ length: 3 }, (_, i) => `card-${i + 1}.jpg`)],
+);
+
+const nestedMaskBannerAssets = simpleAssets(
+  "nested-mask-banner",
+  "Nested Mask Banner",
+  "Banner photograph repeated per ring, and the shape masking each ring.",
+  ["banner-img.jpg", "banner-img-mask.png"],
+);
+
+const pinnedScaleMosaicAssets = simpleAssets(
+  "pinned-scale-mosaic",
+  "Pinned Scale Mosaic",
+  "Grid cell photograph that scales in and back out as its row passes.",
+  Array.from({ length: 19 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const curvedLetterPathScrollAssets = simpleAssets(
+  "curved-letter-path-scroll",
+  "Curved Letter Path Scroll",
+  "Card painted into the texture atlas for the curved WebGL strip.",
+  Array.from({ length: 7 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const carouselRingGalleryAssets = simpleAssets(
+  "carousel-ring-gallery",
+  "Carousel Ring Gallery",
+  "Card face on the ring, shown full-frame when that card is opened.",
+  Array.from({ length: 20 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const infiniteDragCanvasAssets = simpleAssets(
+  "infinite-drag-canvas",
+  "Infinite Drag Canvas",
+  "Tile image repeated across the endless grid and expanded on click.",
+  Array.from({ length: 20 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const cardFanLandingRevealAssets = simpleAssets(
+  "card-fan-landing-reveal",
+  "Card Fan Landing Reveal",
+  "Face of an intro card as it pops around the circle.",
+  Array.from({ length: 8 }, (_, i) => `card-${i + 1}.jpg`),
+);
+
+const counterWordPreloaderAssets = simpleAssets(
+  "counter-word-preloader",
+  "Counter Word Preloader",
+  "One frame of the flicking preloader thumbnail, which becomes the hero.",
+  Array.from({ length: 10 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const shuffleGridPreloaderAssets = simpleAssets(
+  "shuffle-grid-preloader",
+  "Shuffle Grid Preloader",
+  "Image drawn into the shuffling three by three grid.",
+  Array.from({ length: 35 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const logoMaskZoomScrollAssets = simpleAssets(
+  "logo-mask-zoom-scroll",
+  "Logo Mask Zoom Scroll",
+  "Hero backdrop layer, cut-out foreground layer, or the small hero mark.",
+  ["hero-img-layer-1.jpg", "hero-img-layer-2.png", "logo.png"],
+);
+
+const photoSphereOrbAssets = simpleAssets(
+  "photo-sphere-orb",
+  "Photo Sphere Orb",
+  "Photograph mapped onto one plane of the orbiting sphere.",
+  Array.from({ length: 30 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const flyingCubeScrollAssets = simpleAssets(
+  "flying-cube-scroll",
+  "Flying Cube Scroll",
+  "Image on one face of a flying CSS cube.",
+  Array.from({ length: 33 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const shaderWarpSliderAssets = simpleAssets(
+  "shader-warp-slider",
+  "Shader Warp Slider",
+  "Slide texture sampled by the transition fragment shader.",
+  Array.from({ length: 7 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const cardPartingRevealAssets = simpleAssets(
+  "card-parting-reveal",
+  "Card Parting Reveal",
+  "Card face that fans away, or a badge behind the parting rows.",
+  [
+    ...Array.from({ length: 6 }, (_, i) => `img-${i + 1}.jpg`),
+    "logo.jpg",
+    "pro-logo.png",
+  ],
+);
+
+const imageExplosionFooterAssets = simpleAssets(
+  "image-explosion-footer",
+  "Image Explosion Footer",
+  "Particle card launched by the burst, or a full-bleed section plate.",
+  [
+    "hero.jpg",
+    "outro.jpg",
+    ...Array.from({ length: 15 }, (_, i) => `img${i + 1}.jpg`),
+  ],
+);
+
+const pushupCardStackAssets = simpleAssets(
+  "pushup-card-stack",
+  "Pushup Card Stack",
+  "Photograph on a card as it is pushed out by the next one.",
+  Array.from({ length: 5 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const clipMaskTransitionPageAssets = simpleAssets(
+  "clip-mask-transition-page",
+  "Clip Mask Transition Page",
+  "Full-bleed route backdrop revealed by the clip mask transition.",
+  Array.from({ length: 3 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const viewTransitionFolioPageAssets = simpleAssets(
+  "view-transition-folio-page",
+  "View Transition Folio Page",
+  "Work photograph, or the about-page portrait.",
+  [...Array.from({ length: 4 }, (_, i) => `img${i + 1}.jpeg`), "portrait.jpeg"],
+);
+
+const revealerTransitionPageAssets = simpleAssets(
+  "revealer-transition-page",
+  "Revealer Transition Page",
+  "Home hero plate, a work image, or the studio portrait.",
+  [
+    "hero.jpg",
+    "studio.jpg",
+    ...Array.from({ length: 4 }, (_, i) => `img${i + 1}.jpg`),
+  ],
+);
+
+const blockLogoTransitionPageAssets = simpleAssets(
+  "block-logo-transition-page",
+  "Block Logo Transition Page",
+  "Archive photograph on the routed archive page.",
+  Array.from({ length: 4 }, (_, i) => `img_0${i + 1}.jpg`),
+);
+
+const scrollAdvanceProjectPageAssets = simpleAssets(
+  "scroll-advance-project-page",
+  "Scroll Advance Project Page",
+  "Project photograph in the scrolled image column.",
+  Array.from({ length: 3 }, (_, p) =>
+    Array.from({ length: 5 }, (_, i) => `project-${p + 1}-${i + 1}.jpg`),
+  ).flat(),
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -1861,6 +2235,49 @@ export const assetItems = [
   ...isochromePageAssets,
   ...landingImageRevealAssets,
   ...spotlightGalleryScrollAssets,
+  ...drawnPathFeaturesAssets,
+  ...circularWidgetDialAssets,
+  ...slidingIndexMenuAssets,
+  ...elasticCurtainMenuAssets,
+  ...tiltAwayMenuAssets,
+  ...pushDownOverlayMenuAssets,
+  ...dealtTeamCardsAssets,
+  ...wedgeClipWorkScrollAssets,
+  ...splitColumnInfiniteSliderAssets,
+  ...dialProductSliderAssets,
+  ...parallaxDragRailAssets,
+  ...endlessSideStoryAssets,
+  ...marqueeCarouselScrollAssets,
+  ...throwAwayWorkSliderAssets,
+  ...flipMarqueeHorizontalAssets,
+  ...clipRevealServicesAssets,
+  ...swingInWorkGridAssets,
+  ...stickyParallaxSlidesAssets,
+  ...maskedSpotlightScrollAssets,
+  ...dealStackCardsScrollAssets,
+  ...frameSequenceHeroAssets,
+  ...snapParallaxProjectsAssets,
+  ...triangleFillScrollAssets,
+  ...nestedMaskBannerAssets,
+  ...pinnedScaleMosaicAssets,
+  ...curvedLetterPathScrollAssets,
+  ...carouselRingGalleryAssets,
+  ...infiniteDragCanvasAssets,
+  ...cardFanLandingRevealAssets,
+  ...counterWordPreloaderAssets,
+  ...shuffleGridPreloaderAssets,
+  ...logoMaskZoomScrollAssets,
+  ...photoSphereOrbAssets,
+  ...flyingCubeScrollAssets,
+  ...shaderWarpSliderAssets,
+  ...cardPartingRevealAssets,
+  ...imageExplosionFooterAssets,
+  ...pushupCardStackAssets,
+  ...clipMaskTransitionPageAssets,
+  ...viewTransitionFolioPageAssets,
+  ...revealerTransitionPageAssets,
+  ...blockLogoTransitionPageAssets,
+  ...scrollAdvanceProjectPageAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,
