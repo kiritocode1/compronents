@@ -61,7 +61,13 @@ export function getRevealerTransitionStyles() {
   justify-content: space-between;
 }
 .rvt-nav-items { display: flex; gap: 1em; }
-.rvt-scroll { position: relative; width: 100%; min-height: 100%; }
+.rvt-scroll {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .rvt-home {
   width: 100%;
   height: 100svh;
@@ -125,7 +131,7 @@ export function getRevealerTransitionStyles() {
 .rvt-contact {
   position: relative;
   width: 100%;
-  min-height: 100%;
+  flex: 1 0 auto;
 }
 .rvt-contact .rvt-socials {
   position: absolute;

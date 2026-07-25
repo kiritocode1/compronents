@@ -15,9 +15,13 @@ export function getViewTransitionFolioStyles() {
 .vtf-root::-webkit-scrollbar { display: none; }
 .vtf-root * { margin: 0; padding: 0; box-sizing: border-box; }
 .vtf-root img { width: 100%; height: 100%; object-fit: cover; }
+/* Column flex, not a bare min-height, so full-height routes can fill without
+   resolving a percentage against an auto-height parent. */
 .vtf-container {
   width: 100%;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
   background-color: #f1efe7;
 }
 .vtf-nav {
@@ -50,7 +54,11 @@ export function getViewTransitionFolioStyles() {
   font-weight: 600;
 }
 .vtf-links { display: flex; gap: 1em; }
-.vtf-hero { position: relative; width: 100%; min-height: 100%; }
+.vtf-hero {
+  position: relative;
+  width: 100%;
+  flex: 1 0 auto;
+}
 .vtf-hero h1 {
   width: 100%;
   position: absolute;
@@ -83,7 +91,7 @@ export function getViewTransitionFolioStyles() {
 .vtf-images img { width: 35%; margin: 0 auto; }
 .vtf-info {
   width: 100%;
-  min-height: 100%;
+  flex: 1 0 auto;
   display: flex;
 }
 .vtf-col { flex: 1; }

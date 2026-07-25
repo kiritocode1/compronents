@@ -51,11 +51,17 @@ export function getBlockLogoTransitionStyles() {
   font-weight: 700;
 }
 .blt-nav-links { display: flex; gap: 2rem; }
-.blt-scroll { position: relative; width: 100%; min-height: 100%; }
-.blt-container {
+.blt-scroll {
   position: relative;
   width: 100%;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.blt-container {
+  position: relative;
+  width: 100%;
+  flex: 1 0 auto;
   background-color: #e3e4d8;
 }
 .blt-page-header {
