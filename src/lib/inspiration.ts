@@ -1368,6 +1368,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Animated Favicons: Live Demo",
+        href: "https://favicon.im/blog/animated-favicon-live-demo",
+        dateAdded: "2026-07-25",
+        description:
+          "Blog post from Favicon.im where the demo runs in the actual browser tab: six animation styles (pulse dot, spinner, progress ring, image flip, notification badge, and a GitHub-style flip) that you trigger on the page, with an 8x zoomed preview mirroring the real 16x16 icon. The technique is pure canvas, about 15 lines: draw the frame, export a PNG data URL, swap it onto the favicon link element. It also covers the OffscreenCanvas plus Web Worker pattern from the Aymkdn/animated-favicon library for keeping motion alive in background tabs, and is honest about support: Firefox animates unfocused tabs, Chrome and Edge throttle requestAnimationFrame in the background, Safari updates intermittently. Favicon.im itself is a free favicon lookup, conversion, and generator service handling 15M+ requests a month.",
+      },
+      {
         title: "Moumen Lab",
         href: "https://lab.moumen.dev/components",
         dateAdded: "2026-07-23",
