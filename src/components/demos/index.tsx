@@ -17,6 +17,7 @@ import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
+import CardPartingRevealDemo from "./card-parting-reveal";
 import CarouselRingGalleryDemo from "./carousel-ring-gallery";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ChromeFolioPageDemo from "./chrome-folio-page";
@@ -63,6 +64,7 @@ import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
 import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlowFieldTextDemo from "./flow-field-text";
+import FlyingCubeScrollDemo from "./flying-cube-scroll";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
@@ -73,6 +75,7 @@ import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
+import ImageExplosionFooterDemo from "./image-explosion-footer";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InfiniteDragCanvasDemo from "./infinite-drag-canvas";
@@ -110,6 +113,7 @@ import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import ParallaxDragRailDemo from "./parallax-drag-rail";
+import PhotoSphereOrbDemo from "./photo-sphere-orb";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
@@ -119,6 +123,7 @@ import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
 import ProceduralComputerPageDemo from "./procedural-computer-page";
 import PushDownOverlayMenuDemo from "./push-down-overlay-menu";
+import PushupCardStackDemo from "./pushup-card-stack";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
@@ -128,8 +133,10 @@ import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
+import ShaderWarpSliderDemo from "./shader-warp-slider";
 import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
 import ShuffleGridPreloaderDemo from "./shuffle-grid-preloader";
+import SkewCharHeaderDemo from "./skew-char-header";
 import SlidingIndexMenuDemo from "./sliding-index-menu";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
@@ -343,4 +350,11 @@ export const demos: Record<string, ComponentType> = {
   "counter-word-preloader": CounterWordPreloaderDemo,
   "shuffle-grid-preloader": ShuffleGridPreloaderDemo,
   "logo-mask-zoom-scroll": LogoMaskZoomScrollDemo,
+  "photo-sphere-orb": PhotoSphereOrbDemo,
+  "flying-cube-scroll": FlyingCubeScrollDemo,
+  "shader-warp-slider": ShaderWarpSliderDemo,
+  "skew-char-header": SkewCharHeaderDemo,
+  "card-parting-reveal": CardPartingRevealDemo,
+  "image-explosion-footer": ImageExplosionFooterDemo,
+  "pushup-card-stack": PushupCardStackDemo,
 };

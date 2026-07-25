@@ -545,7 +545,399 @@ const logoMaskZoomScrollAssetDocs = assetsByIds([
   "logo-mask-zoom-scroll-logo",
 ]);
 
+const photoSphereOrbAssetDocs = assetsByIds(
+  Array.from({ length: 30 }, (_, i) => `photo-sphere-orb-img${i + 1}`),
+);
+const flyingCubeScrollAssetDocs = assetsByIds(
+  Array.from({ length: 33 }, (_, i) => `flying-cube-scroll-img${i + 1}`),
+);
+const shaderWarpSliderAssetDocs = assetsByIds(
+  Array.from({ length: 7 }, (_, i) => `shader-warp-slider-img${i + 1}`),
+);
+const cardPartingRevealAssetDocs = assetsByIds([
+  ...Array.from({ length: 6 }, (_, i) => `card-parting-reveal-img-${i + 1}`),
+  "card-parting-reveal-logo",
+  "card-parting-reveal-pro-logo",
+]);
+const imageExplosionFooterAssetDocs = assetsByIds([
+  "image-explosion-footer-hero",
+  "image-explosion-footer-outro",
+  ...Array.from({ length: 15 }, (_, i) => `image-explosion-footer-img${i + 1}`),
+]);
+const pushupCardStackAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `pushup-card-stack-img${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
+  "photo-sphere-orb": {
+    demoPath: "src/components/demos/photo-sphere-orb.tsx",
+    nuance: [
+      {
+        label: "Fibonacci spacing, not lat/long",
+        description:
+          "Polar angle comes from acos of a linear ramp, which distributes points evenly over the sphere's surface. A naive nested loop over latitude and longitude would crowd the poles and thin the equator.",
+      },
+      {
+        label: "Each plane matches its own texture",
+        description:
+          "Geometry is built after the image loads, from the texture's real aspect ratio, so portrait and landscape shots both sit undistorted on the same ball.",
+      },
+      {
+        label: "Pan is disabled on purpose",
+        description:
+          "Orbit and zoom are allowed but panning is not, so the sphere always stays centered and cannot be dragged out of frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "images",
+        control: "text",
+        description: "Pool the sphere's tiles are drawn from at random.",
+      },
+      {
+        name: "totalItems / sphereRadius",
+        control: "text",
+        description: "How many tiles and how large the ball is.",
+      },
+    ],
+    assets: photoSphereOrbAssetDocs,
+    api: [
+      {
+        name: "images / totalItems",
+        type: "string[] / number",
+        default: "30 stills / 100 tiles",
+        description:
+          "Each of the totalItems planes draws a random image from the pool, so tiles repeat across the sphere.",
+      },
+      {
+        name: "sphereRadius / backgroundColor",
+        type: "number / string",
+        default: "5 / #000000",
+        description: "Ball radius in scene units and the clear color.",
+      },
+    ],
+  },
+  "flying-cube-scroll": {
+    demoPath: "src/components/demos/flying-cube-scroll.tsx",
+    nuance: [
+      {
+        label: "Real CSS cubes, six images each",
+        description:
+          "Every cube is a preserve-3d box with six faces translated and rotated into place, each carrying its own photograph, so the cubes have genuine volume and show different pictures as they tumble.",
+      },
+      {
+        label: "Two phases on one pin",
+        description:
+          "All six cubes fly in across the first half of the scroll, then two of them keep rotating an extra half turn across the second, so the arrangement keeps developing after it has apparently settled.",
+      },
+      {
+        label: "Copy hands off through blur",
+        description:
+          "The opening headline scales up and blurs out while the second resolves from blurred and undersized, so the two never read as a crossfade.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading / outroHeading / outroBody",
+        control: "text",
+        description: "The two headline blocks.",
+      },
+    ],
+    assets: flyingCubeScrollAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "33 BLANK stills",
+        description:
+          "Consumed six at a time, one per cube face, in order across the six cubes.",
+      },
+      {
+        name: "heading / outroHeading / outroBody / aboutHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy for both phases and the closing section.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "shader-warp-slider": {
+    demoPath: "src/components/demos/shader-warp-slider.tsx",
+    nuance: [
+      {
+        label: "One plane, two textures",
+        description:
+          "The fragment shader picks between the current and next texture based on the UV's Y against scroll position, so the transition needs a single mesh and there is no second object to keep in sync.",
+      },
+      {
+        label: "Warp is velocity, not position",
+        description:
+          "The vertex shader displaces Z by scroll intensity, which decays independently of scroll position, so the plane bows during a fast flick and flattens as it coasts to a stop.",
+      },
+      {
+        label: "Stability is a separate state",
+        description:
+          "Once motion falls below threshold the component snaps to a whole slide and pins the shader's position uniform to zero, so tiny residual drift cannot leave a hairline of the next image showing.",
+      },
+    ],
+    editable: [
+      {
+        name: "slides",
+        control: "text",
+        description: "Slide images, titles, and links.",
+      },
+    ],
+    assets: shaderWarpSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "ShaderSlide[]",
+        default: "7 BLANK projects",
+        description:
+          "Title, link, and image per slide. The set wraps, so scrolling never reaches an end.",
+      },
+      {
+        name: "brand / navLinks / socials / footerLeft / footerRight",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Chrome around the slider.",
+      },
+    ],
+  },
+  "skew-char-header": {
+    demoPath: "src/components/demos/skew-char-header.tsx",
+    nuance: [
+      {
+        label: "Stagger is per line, not per heading",
+        description:
+          "Each character's delay comes from its index inside its own line, so a three line heading fires three simultaneous ripples rather than one long sweep that leaves the last line arriving very late.",
+      },
+      {
+        label: "Three behaviours, one implementation",
+        description:
+          "Load, enter, and scrub all build the same timeline and differ only in how it is driven: played immediately, restarted by a trigger, or bound to scrub. Adding a mode does not change the animation code.",
+      },
+      {
+        label: "Skew is released with the travel",
+        description:
+          "Characters arrive from x:100 with 20 degrees of skew, both easing out together on power3, so the type appears to straighten as it decelerates rather than snapping upright at the end.",
+      },
+    ],
+    editable: [
+      {
+        name: "sections",
+        control: "text",
+        description: "Heading, animation mode, and colors per section.",
+      },
+      {
+        name: "stagger / duration",
+        control: "text",
+        description: "Per-character delay and travel time.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "sections",
+        type: "SkewCharSection[]",
+        default: "Three BLANK sections",
+        description:
+          "Heading plus a mode of load, enter, or scrub, and the section's background and text colors.",
+      },
+      {
+        name: "stagger / duration",
+        type: "number",
+        default: "0.05 / 0.65",
+        description:
+          "Delay between characters within a line, and how long each takes to arrive.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "card-parting-reveal": {
+    demoPath: "src/components/demos/card-parting-reveal.tsx",
+    nuance: [
+      {
+        label: "Every row leaves differently",
+        description:
+          "Horizontal distance, vertical drift, and rotation are all indexed per row, so the three pairs fan away on distinct arcs instead of reading as one wall sliding apart.",
+      },
+      {
+        label: "Transforms are written directly",
+        description:
+          "The scrub handler composes translate and rotate as a style string rather than tweening properties, so all three axes stay exactly in phase with scroll with no interpolation lag between them.",
+      },
+      {
+        label: "The reveal plays both ways",
+        description:
+          "The centered block uses play reverse play reverse, so scrolling back up re-hides the copy and it replays cleanly rather than staying stuck open.",
+      },
+    ],
+    editable: [
+      {
+        name: "lines / buttonLabel",
+        control: "text",
+        description: "The three revealed lines and the call to action.",
+      },
+    ],
+    assets: cardPartingRevealAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "6 BLANK stills",
+        description: "Consumed in pairs, one left and one right per row.",
+      },
+      {
+        name: "heroImage / badgeImage",
+        type: "string",
+        default: "Blob-hosted marks",
+        description:
+          "The opening plate and the circular badge behind the rows.",
+      },
+      {
+        name: "lines / buttonLabel / footerLink",
+        type: "string[] / string",
+        default: "BLANK copy",
+        description: "Revealed copy and the closing link.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "image-explosion-footer": {
+    demoPath: "src/components/demos/image-explosion-footer.tsx",
+    nuance: [
+      {
+        label: "A real integrator, not a tween",
+        description:
+          "Gravity is added to velocity each frame and friction multiplies it, so the trajectory is computed rather than eased. Changing gravity or friction changes the physics, not just the timing.",
+      },
+      {
+        label: "It re-arms, it does not replay",
+        description:
+          "The burst only becomes available again once every particle has fallen past the halfway mark, so scrolling away and back fires a genuinely new explosion with fresh random forces.",
+      },
+      {
+        label: "Images are warmed before the trigger",
+        description:
+          "All fifteen are preloaded on mount, so the first frame of the burst is never a set of empty boxes waiting on the network.",
+      },
+    ],
+    editable: [
+      {
+        name: "gravity / friction / verticalForce",
+        control: "text",
+        description: "The physics constants driving the burst.",
+      },
+      {
+        name: "footerHeading / aboutCopy",
+        control: "text",
+        description: "Footer and section copy.",
+      },
+    ],
+    assets: imageExplosionFooterAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "15 BLANK cards",
+        description: "One particle per image, launched together.",
+      },
+      {
+        name: "gravity / friction / horizontalForce / verticalForce / imageSize",
+        type: "number",
+        default: "0.25 / 0.99 / 20 / 15 / 150",
+        description:
+          "Per-frame downward acceleration, velocity decay, launch spread, launch strength, and particle width.",
+      },
+      {
+        name: "heroImage / outroImage",
+        type: "string",
+        default: "Blob-hosted plates",
+        description: "The full-bleed sections above the footer.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "pushup-card-stack": {
+    demoPath: "src/components/demos/pushup-card-stack.tsx",
+    nuance: [
+      {
+        label: "The image counter-zooms as the card shrinks",
+        description:
+          "The card scales to 0.5 while its photograph scales to 1.5 over the same window, so the picture holds roughly its apparent size while the frame retreats, which is what sells the card as sliding backwards rather than simply shrinking.",
+      },
+      {
+        label: "Exit and entry share a timeline position",
+        description:
+          "All three tweens per step are placed at the same index, so the outgoing card leaves at exactly the rate the incoming one arrives and no gap can open between them.",
+      },
+      {
+        label: "Pin length follows the card count",
+        description:
+          "The scroll distance is one viewport per transition, so adding a card lengthens the pin instead of compressing every step.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "text",
+        description: "Card images and their corner tags.",
+      },
+      {
+        name: "introHeading / outroHeading",
+        control: "text",
+        description: "The screens either side of the stack.",
+      },
+    ],
+    assets: pushupCardStackAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "PushupCard[]",
+        default: "Five BLANK cards",
+        description:
+          "Tag and image per card. Pin length scales with how many are supplied.",
+      },
+      {
+        name: "introHeading / outroHeading",
+        type: "string",
+        default: "BLANK copy",
+        description: "Copy on the screens around the stack.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
   "carousel-ring-gallery": {
     demoPath: "src/components/demos/carousel-ring-gallery.tsx",
     nuance: [

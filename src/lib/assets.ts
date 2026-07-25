@@ -1759,6 +1759,56 @@ const logoMaskZoomScrollAssets = simpleAssets(
   ["hero-img-layer-1.jpg", "hero-img-layer-2.png", "logo.png"],
 );
 
+const photoSphereOrbAssets = simpleAssets(
+  "photo-sphere-orb",
+  "Photo Sphere Orb",
+  "Photograph mapped onto one plane of the orbiting sphere.",
+  Array.from({ length: 30 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const flyingCubeScrollAssets = simpleAssets(
+  "flying-cube-scroll",
+  "Flying Cube Scroll",
+  "Image on one face of a flying CSS cube.",
+  Array.from({ length: 33 }, (_, i) => `img${i + 1}.jpeg`),
+);
+
+const shaderWarpSliderAssets = simpleAssets(
+  "shader-warp-slider",
+  "Shader Warp Slider",
+  "Slide texture sampled by the transition fragment shader.",
+  Array.from({ length: 7 }, (_, i) => `img${i + 1}.jpg`),
+);
+
+const cardPartingRevealAssets = simpleAssets(
+  "card-parting-reveal",
+  "Card Parting Reveal",
+  "Card face that fans away, or a badge behind the parting rows.",
+  [
+    ...Array.from({ length: 6 }, (_, i) => `img-${i + 1}.jpg`),
+    "logo.jpg",
+    "pro-logo.png",
+  ],
+);
+
+const imageExplosionFooterAssets = simpleAssets(
+  "image-explosion-footer",
+  "Image Explosion Footer",
+  "Particle card launched by the burst, or a full-bleed section plate.",
+  [
+    "hero.jpg",
+    "outro.jpg",
+    ...Array.from({ length: 15 }, (_, i) => `img${i + 1}.jpg`),
+  ],
+);
+
+const pushupCardStackAssets = simpleAssets(
+  "pushup-card-stack",
+  "Pushup Card Stack",
+  "Photograph on a card as it is pushed out by the next one.",
+  Array.from({ length: 5 }, (_, i) => `img${i + 1}.jpg`),
+);
+
 const nullStudioPageAssetPaths = [
   "images/home/hero.jpg",
   "images/home/article-1.jpg",
@@ -2176,6 +2226,12 @@ export const assetItems = [
   ...counterWordPreloaderAssets,
   ...shuffleGridPreloaderAssets,
   ...logoMaskZoomScrollAssets,
+  ...photoSphereOrbAssets,
+  ...flyingCubeScrollAssets,
+  ...shaderWarpSliderAssets,
+  ...cardPartingRevealAssets,
+  ...imageExplosionFooterAssets,
+  ...pushupCardStackAssets,
   ...lemonBureauPageAssets,
   ...spiralGalleryAssets,
   ...frameScrollAssets,

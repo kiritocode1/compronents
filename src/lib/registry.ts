@@ -3976,6 +3976,146 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "photo-sphere-orb",
+    title: "Photo Sphere Orb",
+    description:
+      "A hundred photographs distributed over the surface of a sphere, each turned to face the middle. Positions come from a Fibonacci spiral rather than a lat/long grid, so the tiles space evenly instead of bunching at the poles. Each plane is built at the real aspect ratio of the texture it received, so nothing is stretched, and the ball is dragged with damped orbit controls that allow rotation and zoom but no panning.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/photo-sphere-orb.tsx",
+        target: "components/ui/photo-sphere-orb.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "flying-cube-scroll",
+    title: "Flying Cube Scroll",
+    description:
+      "Six CSS cubes flying in from thirty thousand pixels away and settling into a spread. Every face is a real image on a preserve-3d box, so the cubes are genuinely dimensional rather than pre-rendered. Position, three rotations, and Z are each interpolated per cube across the first half of the pin, and two keep spinning a further half turn in the second. The logo blurs out, the opening headline scales and blurs away, and a second block resolves once the cubes land.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flying-cube-scroll.tsx",
+        target: "components/ui/flying-cube-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "shader-warp-slider",
+    title: "Shader Warp Slider",
+    description:
+      "A wheel-driven slider where the transition happens in the fragment shader rather than in transforms. Both the outgoing and incoming textures are sampled on the same plane, split at the scroll position, so one image slides out as the next arrives with no second mesh. The vertex shader bows the plane by scroll velocity, bending the sides more than the top and bottom, so the frame flexes like film during a fast flick.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shader-warp-slider.tsx",
+        target: "components/ui/shader-warp-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "skew-char-header",
+    title: "Skew Char Header",
+    description:
+      "Headlines that assemble character by character, skewed and thrown in from the right. The stagger is keyed to each character's index within its own line rather than its index in the whole heading, so every line starts its ripple at the same moment and multi-line copy reads as several parallel waves instead of one long queue. Three modes on the same component: play on mount, play once on entry, and scrub against scroll.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/skew-char-header.tsx",
+        target: "components/ui/skew-char-header.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "card-parting-reveal",
+    title: "Card Parting Reveal",
+    description:
+      "Three rows of paired cards that split apart to uncover the message behind them. Each row is pushed a different distance, height, and angle, so the pairs fan away at their own rates rather than sliding as one wall. The centered block behind them pops its badge from zero, rolls three lines up from behind their own masks, and lifts the button in last on a short delay.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/card-parting-reveal.tsx",
+        target: "components/ui/card-parting-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "image-explosion-footer",
+    title: "Image Explosion Footer",
+    description:
+      "A footer that erupts when it comes into view. Fifteen cards are launched upward with randomised sideways force and spin, then run on a real integrator: gravity accumulates into velocity every frame while friction bleeds off horizontal drift and rotation, so the arc is genuinely ballistic rather than an eased tween. The burst arms itself again once every particle has fallen back below the midpoint.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/image-explosion-footer.tsx",
+        target: "components/ui/image-explosion-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "pushup-card-stack",
+    title: "Pushup Card Stack",
+    description:
+      "A pinned frame where each card is pushed out of view by the one behind it. The outgoing card shrinks to half and tilts ten degrees while its own photograph counter-zooms to 1.5, so the picture appears to hold still as its frame retreats. All three moves run at the same timeline position, so a card leaves at exactly the rate the next one arrives and there is never a gap between them.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-25",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pushup-card-stack.tsx",
+        target: "components/ui/pushup-card-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:
