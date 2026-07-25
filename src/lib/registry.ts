@@ -318,6 +318,11 @@ export const registryItems: RegistryItem[] = [
         target: "components/ui/content-architecture-page/repo-explorer.tsx",
         type: "registry:ui",
       },
+      {
+        path: "src/registry/content-architecture-page/hand-model.ts",
+        target: "components/ui/content-architecture-page/hand-model.ts",
+        type: "registry:lib",
+      },
     ],
   },
   {

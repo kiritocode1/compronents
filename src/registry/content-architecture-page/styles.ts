@@ -1325,7 +1325,7 @@ export function getContentArchitecturePageStyles(assetBase: string): string {
   .content-architecture-page .cap-hero-copy{grid-column:1/span 6}
   .content-architecture-page .cap-hero-art{grid-column:7/span 6}
   .content-architecture-page .cap-problems{height:662px}
-  .content-architecture-page .cap-features{height:3252px;overflow:hidden}
+  .content-architecture-page .cap-features{min-height:100svh}
   .content-architecture-page .cap-showcase{height:2885px;overflow:hidden}
   .content-architecture-page .cap-testimonials{height:982px;overflow:hidden}
   .content-architecture-page .cap-pricing{height:812px;overflow:hidden}
@@ -1363,7 +1363,7 @@ export function getContentArchitecturePageStyles(assetBase: string): string {
   .content-architecture-page .cap-problem-table{max-height:225px;overflow:hidden}
   .content-architecture-page .cap-problem-copy h2{font-size:32px}
   .content-architecture-page .cap-problem-copy p{margin-top:18px;font-size:13px}
-  .content-architecture-page .cap-features{height:2486px;overflow:hidden;padding:72px 16px 64px}
+  .content-architecture-page .cap-features{min-height:100svh;padding:72px 16px 64px}
   .content-architecture-page .cap-features>.cap-container{width:100%;margin:0}
   .content-architecture-page .cap-features-intro{gap:32px;margin-bottom:80px}
   .content-architecture-page .cap-features-intro h2{font-size:32px}

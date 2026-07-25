@@ -261,6 +261,33 @@ function replaceTextureImage(
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 }
 
+/**
+ * Paint a precomputed brightness grid straight into the texture source. Grey
+ * is written to all three channels because the shader samples .r and treats
+ * the texel as luminance.
+ */
+function createBrightnessCanvasFromGrid(
+  columns: number,
+  rows: number,
+  cellBrightness: Uint8Array | number[],
+) {
+  const canvas = document.createElement("canvas");
+  canvas.width = columns;
+  canvas.height = rows;
+  const context = canvas.getContext("2d", { alpha: false });
+  if (!context) return canvas;
+  const data = context.createImageData(columns, rows);
+  for (let index = 0; index < columns * rows; index++) {
+    const value = cellBrightness[index] ?? 0;
+    data.data[index * 4] = value;
+    data.data[index * 4 + 1] = value;
+    data.data[index * 4 + 2] = value;
+    data.data[index * 4 + 3] = 255;
+  }
+  context.putImageData(data, 0, 0);
+  return canvas;
+}
+
 function createBrightnessCanvas(
   columns: number,
   rows: number,
@@ -331,9 +358,22 @@ interface Ripple {
   centerY: number;
 }
 
+/**
+ * A precomputed per-cell brightness grid for the model region, row-major and
+ * 0-255. Supplying this skips the image path entirely: the texture is built at
+ * mount instead of waiting on a load event, which is how the production field
+ * feeds its model.
+ */
+export interface GlyphFieldModelData {
+  cols: number;
+  rows: number;
+  cellBrightness: Uint8Array | number[];
+}
+
 export interface GlyphFieldOptions {
   backgroundOnly?: boolean;
   imageUrl?: string;
+  modelData?: GlyphFieldModelData;
   interactive?: boolean;
   modelLayout?: "right" | "bottom";
   imageFit?: "contain" | "cover";
@@ -349,6 +389,7 @@ export function mountContentArchitectureGlyphField(
   const {
     backgroundOnly = false,
     imageUrl,
+    modelData,
     interactive = true,
     modelLayout = "right",
     imageFit = "contain",
@@ -357,9 +398,15 @@ export function mountContentArchitectureGlyphField(
     cursorLabel,
   } = options;
   const glyphAspect = 0.55;
-  const sourceAspect = 1;
-  const modelColumns = 160;
-  const modelRows = 88;
+  const modelColumns = modelData?.cols ?? 160;
+  const modelRows = modelData?.rows ?? 88;
+  /*
+   * Aspect of the model's source, used to size the model region. A grid states
+   * it through its own cell dimensions; an image only knows it once loaded, so
+   * this starts square and is corrected on load. Leaving it pinned at 1 sizes
+   * a 16:9 tile as a square and covers barely half the box.
+   */
+  let sourceAspect = modelData ? (modelColumns * glyphAspect) / modelRows : 1;
   const phraseIndices = new Float32Array(
     Array.from(FIELD_PHRASE, (character) => {
       const index = FIELD_ATLAS.indexOf(character);
@@ -390,7 +437,13 @@ export function mountContentArchitectureGlyphField(
   const atlasTexture = createTexture(gl, atlasCanvas);
   const brightnessTexture = createTexture(
     gl,
-    createBrightnessCanvas(modelColumns, modelRows),
+    modelData
+      ? createBrightnessCanvasFromGrid(
+          modelColumns,
+          modelRows,
+          modelData.cellBrightness,
+        )
+      : createBrightnessCanvas(modelColumns, modelRows),
     { linear: true },
   );
 
@@ -670,15 +723,21 @@ export function mountContentArchitectureGlyphField(
   }
 
   let image: HTMLImageElement | undefined;
-  if (!backgroundOnly && imageUrl) {
+  // A supplied grid wins: it is already uploaded, so no image is fetched.
+  if (!backgroundOnly && !modelData && imageUrl) {
     image = new Image();
     image.crossOrigin = "anonymous";
     image.addEventListener("load", () => {
+      if (image?.naturalWidth && image.naturalHeight) {
+        sourceAspect = image.naturalWidth / image.naturalHeight;
+      }
       replaceTextureImage(
         gl,
         brightnessTexture,
         createBrightnessCanvas(modelColumns, modelRows, image),
       );
+      // Re-measure: the model region was sized against the placeholder aspect.
+      resize();
       render();
     });
     image.src = imageUrl;

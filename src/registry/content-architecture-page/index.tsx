@@ -28,7 +28,15 @@ import {
   mountContentArchitectureCurtain,
 } from "./ascii-curtain";
 import { BLOG_POSTS, BlogArticle, BlogIndex, Odometer } from "./blog";
-import { mountContentArchitectureGlyphField } from "./glyph-field";
+import {
+  type GlyphFieldModelData,
+  mountContentArchitectureGlyphField,
+} from "./glyph-field";
+import {
+  getHandModelBrightness,
+  HAND_MODEL_COLUMNS,
+  HAND_MODEL_ROWS,
+} from "./hand-model";
 import { SiteMinimap } from "./minimap";
 import { RepoExplorer } from "./repo-explorer";
 import {
@@ -269,14 +277,34 @@ function getScrollParent(node: HTMLElement) {
   return window;
 }
 
+/**
+ * The model region sits beside the copy column on desktop and drops below it
+ * once the layout stacks, matching the source's right/bottom split.
+ */
+function useModelLayout(): "right" | "bottom" {
+  const [layout, setLayout] = useState<"right" | "bottom">("right");
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 900px)");
+    const sync = () => setLayout(query.matches ? "bottom" : "right");
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+  return layout;
+}
+
 function GlyphField({
   imageUrl,
+  modelData,
   backgroundOnly = false,
   interactive = true,
+  modelLayout = "right",
 }: {
   imageUrl?: string;
+  modelData?: GlyphFieldModelData;
   backgroundOnly?: boolean;
   interactive?: boolean;
+  modelLayout?: "right" | "bottom";
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -286,13 +314,14 @@ function GlyphField({
     if (!root) return;
     return mountContentArchitectureGlyphField(root, {
       imageUrl,
+      modelData,
       backgroundOnly,
       interactive,
       cursorLabel: labelRef.current,
-      modelLayout: "right",
+      modelLayout,
       imageFit: "contain",
     });
-  }, [backgroundOnly, imageUrl, interactive]);
+  }, [backgroundOnly, imageUrl, interactive, modelData, modelLayout]);
 
   return (
     <div
@@ -500,6 +529,15 @@ export default function ContentArchitecturePage({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const [view, setView] = useState<PageView>({ kind: "home" });
+  const modelLayout = useModelLayout();
+  const handModel = useMemo<GlyphFieldModelData>(
+    () => ({
+      cols: HAND_MODEL_COLUMNS,
+      rows: HAND_MODEL_ROWS,
+      cellBrightness: getHandModelBrightness(),
+    }),
+    [],
+  );
   const styles = useMemo(
     () => getContentArchitecturePageStyles(assetBase),
     [assetBase],
@@ -797,7 +835,7 @@ export default function ContentArchitecturePage({
             data-page-builder-section="benefitsSection"
           >
             <div className="cap-features-field">
-              <GlyphField backgroundOnly />
+              <GlyphField modelData={handModel} modelLayout={modelLayout} />
             </div>
             <div className="cap-container">
               <div className="cap-features-intro">
