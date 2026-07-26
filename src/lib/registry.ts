@@ -4241,6 +4241,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "alchemy-cloudflare-access-gateway",
+    title: "Alchemy Cloudflare Access Gateway",
+    description:
+      "An Effect-driven Alchemy deployment that puts one Cloudflare Worker behind Zero Trust Access for both people and authenticated agents. It validates the owner email and gateway hostname before provisioning, creates a one-year agent service token, attaches separate human and non-identity policies to a self-hosted Access application, disables workers.dev and preview ingress, routes the protected hostname to the Worker, serves SPA assets while keeping /api on the Worker, and exposes the Access audience as a binding for origin-side verification.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-26",
+    type: "registry:lib",
+    dependencies: ["alchemy@0.93.12", "effect@4.0.0-beta.98"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/alchemy-cloudflare-access-gateway/alchemy.run.ts",
+        target: "infra/alchemy.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "effect-cloudflare-event-api",
     title: "Effect Cloudflare Event API",
     description:
@@ -6617,6 +6637,17 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with authentication at the HTTP boundary, a durable store when KV consistency is insufficient, and the target project's existing telemetry exporter.",
       avoid:
         "Avoid it for a tiny stateless endpoint or a project that does not use Effect, because the service and layer model would add ceremony without leverage.",
+    };
+  }
+
+  if (item.name === "alchemy-cloudflare-access-gateway") {
+    return {
+      style:
+        "A compact infrastructure boundary: typed configuration in Effect, explicit provisioning failures, and Alchemy resources wired by reference so dependency order stays visible.",
+      use: `Use ${item.title} when one Cloudflare Worker hostname must admit a named human through identity login and an automated client through a scoped service token.`,
+      pair: "Pair it with JWT audience verification inside the Worker when requests can reach the origin through any path other than the protected route, and rotate the agent token on the same schedule as other machine credentials.",
+      avoid:
+        "Avoid re-enabling workers.dev or preview subdomains without protecting those hostnames too. Do not log or return the service-token secret from application code.",
     };
   }
 
