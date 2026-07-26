@@ -584,6 +584,129 @@ export const backendViz: Record<string, VizEntry> = {
       "The same workflow annotated with the six verified Effect 3 to 4 breaks: the package move, tag-first make, and the generic-bound change.",
     nodes: [{ label: "migrate", result: "v4", states: s(...OK_SLOW) }],
   },
+  "alchemy-cloudflare-access-gateway": {
+    control: "identity",
+    variants: [
+      {
+        name: "human",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The named owner completes identity login, the email policy matches, and Cloudflare Access admits the request to the only public Worker route.",
+          code: 'AccessApplication("api-gateway", { policies: [humanPolicy, agentPolicy] })',
+          nodes: [
+            {
+              label: "owner",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "email policy",
+              result: "allow",
+              token: "humanPolicy",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "gateway",
+              result: "200",
+              token: "AccessApplication",
+              states: s("idle", "idle", "idle", "running", "completed", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "agent",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The agent presents its service-token headers, the non-identity policy matches that exact token, and Access forwards the machine request without an interactive login.",
+          code: 'AccessApplication("api-gateway", { policies: [humanPolicy, agentPolicy] })',
+          nodes: [
+            {
+              label: "service token",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "agent policy",
+              result: "allow",
+              token: "agentPolicy",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "gateway",
+              result: "200",
+              token: "AccessApplication",
+              states: s("idle", "idle", "idle", "running", "completed", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "anonymous",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "Without an identity session or the exact service token, neither policy matches. Access returns a 401 before the request can consume Worker time.",
+          code: "serviceAuth401Redirect: true",
+          nodes: [
+            {
+              label: "request",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "access policy",
+              error: "no identity",
+              states: s("idle", "idle", "running", "failed", "failed", "idle"),
+            },
+            {
+              label: "response",
+              result: "401",
+              token: "true",
+              states: s("idle", "idle", "idle", "running", "completed", "idle"),
+            },
+          ],
+        },
+      },
+    ],
+  },
   "effect-cloudflare-event-api": {
     control: "outcome",
     variants: [
