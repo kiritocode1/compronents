@@ -5552,6 +5552,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer tools and utilities",
     links: [
       {
+        title: "Native SDK",
+        href: "https://github.com/vercel-labs/native",
+        dateAdded: "2026-07-26",
+        description:
+          "Toolkit from Vercel Labs for building native desktop apps out of declarative markup, with Zig compiling and rendering straight to OS windows so the shipped binary carries no browser, WebView or JS runtime. An app is three files: a .native markup view, logic in TypeScript or Zig, and a manifest; state moves through explicit messages, so an on-press attribute dispatches to an update function rather than mutating in place. macOS support is deepest, Linux runs on a software renderer, Windows uses Win32, and iOS and Android are experimental. Apache-2.0 and roughly 6.9k stars, installed with npm i -g @native-sdk/cli, with Calculator, Notes, Soundboard, Deck and Feed examples covering persistence, virtual lists and custom theming, plus an automation server for agent-driven development.",
+      },
+      {
         title: "Turbotunnel",
         href: "https://turbotunnel.dev/",
         dateAdded: "2026-07-23",
