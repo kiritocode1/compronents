@@ -915,6 +915,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Lifeline",
+        href: "https://lifeline-evil-rabbit.vercel.app/",
+        dateAdded: "2026-07-26",
+        description:
+          "Timeline component system by evilrabbit for laying out a career, a company history, or a personal journey as dated milestones, horizontal and scroll-scrubbed on desktop, vertical on mobile. Milestones carry hover-reveal images, draggable photo cards, video clips with lightbox expansion, mentor rows with portraits, and inline company badges; there is an intro sweep on load, keyboard navigation, reduced-motion support, and a fireworks easter egg. Ships as a shadcn registry with separately installable pieces: `npx shadcn@latest add evilrabbit/lifeline/page` for the full page, `/shell`, `/lifeline` for the component system alone, `/theme-switcher`, or the personal, company, and journey starter templates. Needs Next.js App Router, Tailwind v3 or v4, lucide-react, and next-themes. MIT licensed.",
+      },
+      {
         title: "Lightswind UI",
         href: "https://lightswind.com/",
         dateAdded: "2026-07-24",
