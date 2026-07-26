@@ -228,6 +228,9 @@ export default function MotionTracking({
     };
     video.addEventListener("loadeddata", tryPlay);
     video.addEventListener("canplay", tryPlay);
+    // Chrome suspends media in a backgrounded tab and never resumes it, which
+    // leaves a frozen frame: no frame delta, no motion, glyphs decay to nothing.
+    video.addEventListener("pause", tryPlay);
 
     const videoTexture = new VideoTexture(video);
     videoTexture.colorSpace = SRGBColorSpace;
@@ -250,10 +253,9 @@ export default function MotionTracking({
     let trails: StorageTexture[] = [];
     // biome-ignore lint/suspicious/noExplicitAny: TSL node graph fights TS generics
     let computeNodes: any[] = [];
-    // biome-ignore lint/suspicious/noExplicitAny: TSL node graph fights TS generics
-    let outputNodes: any[] = [];
     let phase = 0;
     let hasPrev = false;
+    let builtKey = "";
 
     // A gentle saturation lift, matching the reference's final grade.
     // biome-ignore lint/suspicious/noExplicitAny: TSL node graph fights TS generics
@@ -273,6 +275,14 @@ export default function MotionTracking({
       if (disposed) return;
       const width = Math.max(1, root.clientWidth);
       const height = Math.max(1, root.clientHeight);
+      const videoAspect = video.videoWidth / video.videoHeight || 16 / 9;
+
+      // ponytail: a rebuild throws away the motion trail, so skip the no-op ones
+      // (ResizeObserver's initial fire, a `loadedmetadata` that changes nothing).
+      const key = `${width}x${height}x${videoAspect}`;
+      if (key === builtKey) return;
+      builtKey = key;
+
       renderer.setSize(width, height, false);
 
       const pr = renderer.getPixelRatio();
@@ -281,7 +291,6 @@ export default function MotionTracking({
       const dw = Math.max(1, Math.floor(0.25 * gw));
       const dh = Math.max(1, Math.floor(0.25 * gh));
 
-      const videoAspect = video.videoWidth / video.videoHeight || 16 / 9;
       const viewAspect = gw / gh;
       // cover-fit scale (uv space) so the footage fills the pane
       const fx = videoAspect > viewAspect ? viewAspect / videoAspect : 1;
@@ -347,10 +356,18 @@ export default function MotionTracking({
       };
 
       computeNodes = [compute(0, 1), compute(1, 0)];
-      outputNodes = [display(1), display(0)];
       phase = 0;
       hasPrev = false;
       uHasPrev.value = false;
+
+      // PostProcessing compiles `outputNode` into its quad material once and only
+      // recompiles when `needsUpdate` is set, so assigning it per frame does
+      // nothing. Publish it here instead: without the flag the pipeline stays
+      // latched on the pre-rebuild graph, keeps sampling the trail textures this
+      // build just disposed, reads zeros, and the glyphs vanish for good while
+      // the video keeps rendering.
+      post.outputNode = display(1) as never;
+      post.needsUpdate = true;
     };
 
     const render = () => {
@@ -361,7 +378,6 @@ export default function MotionTracking({
       uShowDebug.value = debugRef.current;
       uVideoBrightness.value = videoBrightnessRef.current;
       renderer.compute(computeNodes[phase]);
-      post.outputNode = outputNodes[phase] as never;
       renderer.clear();
       post.render();
       hasPrev = true;
@@ -395,6 +411,7 @@ export default function MotionTracking({
       video.removeEventListener("loadedmetadata", onMeta);
       video.removeEventListener("loadeddata", tryPlay);
       video.removeEventListener("canplay", tryPlay);
+      video.removeEventListener("pause", tryPlay);
       video.pause();
       video.src = "";
       disposeTextures();
