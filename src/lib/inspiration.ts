@@ -7737,6 +7737,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Agent skills directories",
     links: [
       {
+        title: "agent-skills",
+        href: "https://skills.addy.ie/",
+        dateAdded: "2026-07-27",
+        description:
+          "Catalog site for Addy Osmani's agent-skills, 24 skills that encode senior engineering practice for AI coding agents and are grouped by where they land in the lifecycle: Define (interview-me, spec-driven-development), Build (incremental-implementation, test-driven-development, doubt-driven-development, frontend-ui-engineering), Review (code-review-and-quality, security-and-hardening, performance-optimization) and Ship (shipping-and-launch). Useful when you want a whole opinionated workflow rather than one narrow skill. Installs as a set with npx skills add addyosmani/agent-skills, claims compatibility with 70+ agents including Claude Code, Cursor, Copilot, Windsurf and Cline. MIT licensed at addyosmani/agent-skills, around 80,500 stars at time of adding.",
+      },
+      {
         title: "Animation vocabulary skill",
         href: "https://skills.sh/emilkowalski/skills/animation-vocabulary",
         dateAdded: "2026-07-24",
