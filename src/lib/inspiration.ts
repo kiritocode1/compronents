@@ -5064,6 +5064,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Infrastructure, observability and runtimes",
     links: [
       {
+        title: "Vercel Container Registry",
+        href: "https://vercel.com/changelog/introducing-vcr-vercel-container-registry",
+        dateAdded: "2026-07-27",
+        description:
+          "Changelog post announcing VCR, an OCI compliant image registry hosted on Vercel infrastructure, for keeping container images next to the project that runs them instead of on a separate registry. Plain docker push, pull and tag work against vcr.vercel.com/team/project/repository:tag, repositories are unlimited per project and created on first push or from the dashboard, and authentication runs through project OIDC or an access token rather than separate registry credentials. Images consumed by Sandboxes and Functions are automatically optimized into precompiled snapshots. Announced 2026-06-30; the post leaves pricing, storage quotas and plan availability to the docs.",
+      },
+      {
         title: "Hark",
         href: "https://hark.ryan.ceo/",
         dateAdded: "2026-07-25",
@@ -5558,6 +5565,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "shadscan",
+        href: "https://www.shadscan.com/",
+        dateAdded: "2026-07-27",
+        description:
+          "CLI that statically audits a shadcn app for UI fundamentals, flagging accessibility regressions, state handling mistakes and composition problems without running the code. Run it as pnpm dlx @shadscan/cli in a terminal or wire it into CI; the audits are deterministic, so the same source always yields the same report. Understands Next.js, Vite, TanStack Start, Astro, React Router and Laravel project layouts. Open source at TheOrcDev/shadscan by OrcDev, v0.5.0 with 235 stars at time of adding.",
+      },
       {
         title: "Native SDK",
         href: "https://github.com/vercel-labs/native",
@@ -6528,6 +6542,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Effect ecosystem",
     links: [
+      {
+        title: "effect-torch",
+        href: "https://github.com/mikearnaldi/effect-torch/tree/main",
+        dateAdded: "2026-07-27",
+        description:
+          "Experimental tensor library for TypeScript by Mike Arnaldi, built on Effect over a Rust backend that wraps candle through napi-rs. The stated goal is teaching rather than production use: rebuild the building blocks behind machine learning with an API a TypeScript developer can actually read. Covers tensors and dtypes, a lazy computation graph, device abstraction across CPU, Metal and CUDA, reverse-mode autodiff, shape operations (reshape, transpose, slice, concat, broadcast) and reductions, with typed errors and cancellation inherited from Effect. Created 2026-07-26 with six commits, no license file and 17 stars at time of adding, so read it as a study project, not a dependency.",
+      },
       {
         title: "effect-local",
         href: "https://github.com/lucas-barake/effect-local",
