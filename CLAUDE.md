@@ -1,5 +1,27 @@
 @AGENTS.md
 
+# Inspiration Search
+
+The inspiration wall is 1080+ links served in three tiers:
+
+- `/inspiration/search?q=<question>`: ~12 ranked entries (~4KB). The default.
+  Also `?category=<name>`, `?limit=`, and no params for the category index.
+- `/inspiration/llms.txt`: a ~3KB index (what the directory is, how to search,
+  every category and count). Safe to read whole. Keep it small; a test fails
+  above 8KB. It is the only thing foreign agents (Codex, Grok, Cursor) reliably
+  fetch, so the search instructions live there.
+- `/inspiration/llms-full.txt`: the complete ~400KB dump. Never read this to
+  answer a question; it truncates and you recommend from a fragment.
+
+Retrieval is BM25 (`src/lib/inspiration-search.ts`), so it matches on shared
+vocabulary. Ask two or three differently worded queries and merge, then pick
+by meaning: the ranking produces candidates, you do the judging. When a
+response says no entry uses a given word, that is the signal to reword rather
+than trust the order.
+
+Adding links to `src/lib/inspiration.ts` needs no separate indexing step; the
+index is derived from `inspirationGroups` at runtime.
+
 # Backend Visualizations
 
 Every backend registry item gets a kit-style Effect visualization on its

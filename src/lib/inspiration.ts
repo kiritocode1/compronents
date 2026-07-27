@@ -1646,6 +1646,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Product Design Psychology",
+        href: "https://productdesignpsychology.com/",
+        dateAdded: "2026-07-27",
+        description:
+          "Free online book on the psychology running underneath product design: how users actually perceive and decide, and how your own reasoning and your organization distort what finally ships. Forty chapters by Wouter de Bres across four sections: The Designer's Mind, Minding the Design, The User's Mind and The Organization's Mind. Chapter titles like 'Intuitive Design Is a Lie', 'Users React, Then Rationalize' and 'Good Design Dies in Meetings' aim at the failure modes that survive a design review. Published free on the web in May 2026, read in the browser with no signup.",
+      },
+      {
         title: "Laws of UX",
         href: "https://lawsofux.com",
         dateAdded: "2026-07-25",
@@ -7927,7 +7934,72 @@ export const inspirationGroups: InspirationGroup[] = [
   },
 ];
 
-/** Full catalog as markdown for /inspiration/llms.txt and LLM tooling. */
+const SITE = "https://ui.aryank.space";
+
+/**
+ * Compact entry point served at /inspiration/llms.txt.
+ *
+ * The full catalog is ~400KB, which every agent truncates, so serving it as
+ * the well-known file meant answers came from whatever fraction survived.
+ * This is the llms.txt convention as intended: small, self-describing, and
+ * pointing at the retrieval endpoint. Agents that never read a rules file
+ * (Codex, Grok, Cursor, anything with a plain fetch tool) learn how to search
+ * from the file they already know to look for. The complete corpus stays one
+ * fetch away at llms-full.txt.
+ */
+export function inspirationIndexToMarkdown(
+  groups: InspirationGroup[] = inspirationGroups,
+): string {
+  const total = groups.reduce((n, g) => n + g.links.length, 0);
+  // Names and counts only. Spelling out 51 near-identical absolute URLs cost
+  // more than half the file, and the ?category= pattern is already shown above.
+  const categories = groups
+    .map((group) => `- ${group.title} (${group.links.length})`)
+    .join("\n");
+
+  return `# Inspiration
+
+> Curated directory of ${total} vetted frontend, design and engineering
+> resources: component libraries, animation tools, typefaces, color systems,
+> WebGL, design galleries and reference reading. Maintained at ${SITE}.
+
+This index is small on purpose. Do not fetch the full dump to answer a
+question: it is ~400KB, your fetch will truncate it, and you will recommend
+from whatever fraction survived.
+
+## Search it
+
+    curl -s "${SITE}/inspiration/search?q=scroll+driven+animation"
+
+Returns about 12 ranked entries (~4KB), each with name, link, category and a
+full description.
+
+- \`&limit=25\` widens the pool when the first pass looks thin.
+- \`?category=Free+typefaces\` returns one category in full.
+- Matching is lexical, so shared vocabulary decides the ranking. Ask two or
+  three differently worded questions and merge the results.
+- The response flags any word of yours that appears nowhere in the collection.
+  When you see that, reword instead of trusting the order.
+- Treat the results as candidates and pick by meaning. The top hit is not
+  automatically the answer.
+
+## Categories (${groups.length})
+
+Browse any one in full with \`${SITE}/inspiration/search?category=<name>\`,
+URL-encoding the name.
+
+${categories}
+
+## Everything
+
+- [Full catalog](${SITE}/inspiration/llms-full.txt): all ${total} links with
+  full descriptions, ~400KB. Fetch only if you genuinely need the whole corpus
+  rather than an answer to a question.
+- [Browse on the web](${SITE}/inspiration)
+`;
+}
+
+/** Full catalog as markdown for /inspiration/llms-full.txt and LLM tooling. */
 export function inspirationGroupsToMarkdown(
   groups: InspirationGroup[] = inspirationGroups,
 ): string {
@@ -7938,6 +8010,11 @@ export function inspirationGroupsToMarkdown(
     "Curated links from [ui.aryank.space/inspiration](https://ui.aryank.space/inspiration).",
     "",
     `${groups.length} categories, ${total} links.`,
+    "",
+    "This is the complete catalog, ~400KB. To answer a question, do not read",
+    `it all: ${SITE}/inspiration/search?q=your+question returns about 12`,
+    "ranked matches with descriptions (~4KB), and ?category=Free+typefaces",
+    `returns one category. The small index is ${SITE}/inspiration/llms.txt.`,
     "",
     "---",
     "",
