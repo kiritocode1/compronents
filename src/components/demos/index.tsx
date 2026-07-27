@@ -42,6 +42,7 @@ import CurtainRevealHeroDemo from "./curtain-reveal-hero";
 import CurveGalleryDemo from "./curve-gallery";
 import CurvedLetterPathScrollDemo from "./curved-letter-path-scroll";
 import CurvedPlaneSliderDemo from "./curved-plane-slider";
+import CylinderBlockGalleryDemo from "./cylinder-block-gallery";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
 import DeadspacePageDemo from "./deadspace-page";
@@ -57,6 +58,7 @@ import DrawnPathFeaturesDemo from "./drawn-path-features";
 import DroneFleetDemo from "./drone-fleet";
 import EdgeWarpRailDemo from "./edge-warp-rail";
 import ElasticCurtainMenuDemo from "./elastic-curtain-menu";
+import EmojiTrailPreloaderDemo from "./emoji-trail-preloader";
 import EndlessSideStoryDemo from "./endless-side-story";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
 import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
@@ -65,6 +67,8 @@ import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
 import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
+import FlipTileBoardDemo from "./flip-tile-board";
+import FloatingModelScrollDemo from "./floating-model-scroll";
 import FlowFieldTextDemo from "./flow-field-text";
 import FlyingCubeScrollDemo from "./flying-cube-scroll";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
@@ -72,6 +76,7 @@ import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import FrameSequenceHeroDemo from "./frame-sequence-hero";
+import GarageScene3DDemo from "./garage-scene-3d";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
@@ -115,6 +120,8 @@ import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
 import ParallaxDragRailDemo from "./parallax-drag-rail";
+import ParallaxModelFooterDemo from "./parallax-model-footer";
+import ParticleFluidHeroDemo from "./particle-fluid-hero";
 import PhotoSphereOrbDemo from "./photo-sphere-orb";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
@@ -128,7 +135,9 @@ import PushDownOverlayMenuDemo from "./push-down-overlay-menu";
 import PushupCardStackDemo from "./pushup-card-stack";
 import RevealerTransitionPageDemo from "./revealer-transition-page";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
+import RotatingHalvesMenuDemo from "./rotating-halves-menu";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
+import RotatingPanelSliderDemo from "./rotating-panel-slider";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
 import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
@@ -152,12 +161,14 @@ import SplitColumnInfiniteSliderDemo from "./split-column-infinite-slider";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
+import StackedBrandCardsDemo from "./stacked-brand-cards";
 import StarfieldWarpScrollDemo from "./starfield-warp-scroll";
 import StarryNightFlowDemo from "./starry-night-flow";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyParallaxSlidesDemo from "./sticky-parallax-slides";
 import StickyStackCardsDemo from "./sticky-stack-cards";
 import StretchTextScrollDemo from "./stretch-text-scroll";
+import StripMergeRevealDemo from "./strip-merge-reveal";
 import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
 import SurpriseBoxDemo from "./surprise-box";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
@@ -177,6 +188,7 @@ import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WedgeClipWorkScrollDemo from "./wedge-clip-work-scroll";
+import WheelClipSliderDemo from "./wheel-clip-slider";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
 import WordmarkSpotlightScrollDemo from "./wordmark-spotlight-scroll";
 import WuWeiPageDemo from "./wu-wei-page";
@@ -367,4 +379,16 @@ export const demos: Record<string, ComponentType> = {
   "revealer-transition-page": RevealerTransitionPageDemo,
   "block-logo-transition-page": BlockLogoTransitionPageDemo,
   "scroll-advance-project-page": ScrollAdvanceProjectPageDemo,
+  "strip-merge-reveal": StripMergeRevealDemo,
+  "parallax-model-footer": ParallaxModelFooterDemo,
+  "rotating-halves-menu": RotatingHalvesMenuDemo,
+  "stacked-brand-cards": StackedBrandCardsDemo,
+  "cylinder-block-gallery": CylinderBlockGalleryDemo,
+  "floating-model-scroll": FloatingModelScrollDemo,
+  "particle-fluid-hero": ParticleFluidHeroDemo,
+  "emoji-trail-preloader": EmojiTrailPreloaderDemo,
+  "garage-scene-3d": GarageScene3DDemo,
+  "wheel-clip-slider": WheelClipSliderDemo,
+  "rotating-panel-slider": RotatingPanelSliderDemo,
+  "flip-tile-board": FlipTileBoardDemo,
 };

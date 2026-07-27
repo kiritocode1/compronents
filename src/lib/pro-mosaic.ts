@@ -42,7 +42,12 @@ export const PRO_ROWS = 8;
 export const PRO_BASE = "#f4b400";
 export const PRO_FLASH = "#ffd766";
 /** red, blue, lime, navy — same accents as the live mosaic twinkle */
-export const PRO_ACCENTS = ["#e8402a", "#2f6bff", "#c3f53b", "#141d3f"] as const;
+export const PRO_ACCENTS = [
+  "#e8402a",
+  "#2f6bff",
+  "#c3f53b",
+  "#141d3f",
+] as const;
 
 /** Deterministic 0..1 from an integer, stable across SSR and client. */
 export function proRnd(n: number) {

@@ -2131,7 +2131,196 @@ const halftoneSceneFooterAssets = [
   } as const satisfies AssetItem,
 ];
 
+const stripMergeRevealAssets = Array.from({ length: 5 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `strip-merge-reveal-img-${n}`,
+    label: `Strip Merge Reveal strip ${n}`,
+    provider: "vercel-blob",
+    pathname: `strip-merge-reveal/img_${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/strip-merge-reveal/img_${n}.jpg`,
+    role: "Portrait strip that rises into the row; the middle one grows into the hero image.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const parallaxModelFooterAssets = [
+  {
+    id: "parallax-model-footer-model",
+    label: "Parallax Model Footer model",
+    provider: "vercel-blob",
+    pathname: "parallax-model-footer/model.glb",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/parallax-model-footer/model.glb`,
+    role: "GLTF object rendered behind the footer copy and driven by scroll and pointer.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+];
+
+const rotatingHalvesMenuAssets = [
+  {
+    id: "rotating-halves-menu-hero",
+    label: "Rotating Halves Menu hero",
+    provider: "vercel-blob",
+    pathname: "rotating-halves-menu/hero.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/rotating-halves-menu/hero.jpg`,
+    role: "Full-bleed hero photograph sitting behind the menu panels.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+];
+
+const stackedBrandCardsAssets = [
+  ["hero", "hero.jpeg", "Opening full-bleed image above the pinned deck."],
+  ["card-1", "card-1.jpeg", "Image on the first service card."],
+  ["card-2", "card-2.jpeg", "Image on the second service card."],
+  ["card-3", "card-3.jpeg", "Image on the third service card."],
+  ["card-4", "card-4.jpeg", "Image on the final service card."],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `stacked-brand-cards-${id}`,
+      label: `Stacked Brand Cards ${id}`,
+      provider: "vercel-blob",
+      pathname: `stacked-brand-cards/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/stacked-brand-cards/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
+const cylinderBlockGalleryAssets = Array.from({ length: 50 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `cylinder-block-gallery-img-${n}`,
+    label: `Cylinder Block Gallery image ${n}`,
+    provider: "vercel-blob",
+    pathname: `cylinder-block-gallery/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cylinder-block-gallery/img${n}.jpg`,
+    role: "Photograph drawn at random onto a curved panel of the cylinder wall.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const floatingModelScrollAssets = [
+  {
+    id: "floating-model-scroll-model",
+    label: "Floating Model Scroll model",
+    provider: "vercel-blob",
+    pathname: "floating-model-scroll/chair.glb",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/floating-model-scroll/chair.glb`,
+    role: "GLTF product held in the centre of the frame while the page scrolls.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+];
+
+const emojiTrailPreloaderAssets = [
+  ["cursor", "cursor.svg", "Custom pointer used across the page."],
+  ["logo", "logo.png", "Wordmark in the middle of the navigation row."],
+  ["menu", "menu-btn.png", "Menu glyph in the top right."],
+  ["hero", "hero-2.png", "Centre badge that pops in and spins continuously."],
+  [
+    "badge-1",
+    "emoji-1.png",
+    "First badge variant dropped along the pointer trail.",
+  ],
+  [
+    "badge-2",
+    "emoji-2.png",
+    "Second badge variant dropped along the pointer trail.",
+  ],
+  [
+    "badge-3",
+    "emoji-3.png",
+    "Third badge variant dropped along the pointer trail.",
+  ],
+  [
+    "badge-4",
+    "emoji-4.png",
+    "Fourth badge variant dropped along the pointer trail.",
+  ],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `emoji-trail-preloader-${id}`,
+      label: `Emoji Trail Preloader ${id}`,
+      provider: "vercel-blob",
+      pathname: `emoji-trail-preloader/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/emoji-trail-preloader/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
+const garageScene3DAssets = [
+  {
+    id: "garage-scene-3d-model",
+    label: "Garage Scene 3D model",
+    provider: "vercel-blob",
+    pathname: "garage-scene-3d/scene.gltf",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/garage-scene-3d/scene.gltf`,
+    role: "Garage interior. Its scene.bin and textures/ siblings load from the same folder.",
+    notes:
+      "Upload the whole model folder to Vercel Blob under this prefix, keeping the textures/ subfolder, because the .gltf resolves its buffers and images relatively.",
+  } as const satisfies AssetItem,
+];
+
+const wheelClipSliderAssets = Array.from({ length: 5 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `wheel-clip-slider-img-${n}`,
+    label: `Wheel Clip Slider slide ${n}`,
+    provider: "vercel-blob",
+    pathname: `wheel-clip-slider/img-${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/wheel-clip-slider/img-${n}.jpg`,
+    role: "Slide revealed by opening its clip-path while the image scales from two to one.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const rotatingPanelSliderAssets = Array.from({ length: 7 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `rotating-panel-slider-img-${n}`,
+    label: `Rotating Panel Slider panel ${n}`,
+    provider: "vercel-blob",
+    pathname: `rotating-panel-slider/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/rotating-panel-slider/img${n}.jpg`,
+    role: "Panel image, counter-rotated against its frame and reused as the blurred backdrop.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const flipTileBoardAssets = [
+  [
+    "front",
+    "front.jpg",
+    "Photograph shown across the fronts of the tile grid.",
+  ],
+  ["back", "back.jpg", "Photograph shown across the backs, seen after a flip."],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `flip-tile-board-${id}`,
+      label: `Flip Tile Board ${id}`,
+      provider: "vercel-blob",
+      pathname: `flip-tile-board/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/flip-tile-board/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
 export const assetItems = [
+  ...wheelClipSliderAssets,
+  ...rotatingPanelSliderAssets,
+  ...flipTileBoardAssets,
+  ...stripMergeRevealAssets,
+  ...parallaxModelFooterAssets,
+  ...rotatingHalvesMenuAssets,
+  ...stackedBrandCardsAssets,
+  ...cylinderBlockGalleryAssets,
+  ...floatingModelScrollAssets,
+  ...emojiTrailPreloaderAssets,
+  ...garageScene3DAssets,
   ...halftoneSceneFooterAssets,
   ...contentArchitecturePageAssets,
   ...Array.from({ length: 6 }, (_, i) => {

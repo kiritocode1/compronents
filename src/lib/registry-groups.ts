@@ -25,6 +25,8 @@ export const componentGroups: RegistryGroup[] = [
       "image-explosion-footer",
       "circular-widget-dial",
       "drawn-path-features",
+      "parallax-model-footer",
+      "stacked-brand-cards",
     ],
   },
   {
@@ -45,6 +47,8 @@ export const componentGroups: RegistryGroup[] = [
       "shuffle-grid-preloader",
       "card-fan-landing-reveal",
       "block-page-transition",
+      "strip-merge-reveal",
+      "emoji-trail-preloader",
     ],
   },
   {
@@ -83,6 +87,8 @@ export const componentGroups: RegistryGroup[] = [
       "pinned-scale-mosaic",
       "masked-spotlight-scroll",
       "wedge-clip-work-scroll",
+      "cylinder-block-gallery",
+      "flip-tile-board",
     ],
   },
   {
@@ -109,6 +115,8 @@ export const componentGroups: RegistryGroup[] = [
       "snap-parallax-projects",
       "shader-warp-slider",
       "magnetic-spotlight-marquee",
+      "wheel-clip-slider",
+      "rotating-panel-slider",
     ],
   },
   {
@@ -174,6 +182,7 @@ export const componentGroups: RegistryGroup[] = [
       "elastic-curtain-menu",
       "tilt-away-menu",
       "push-down-overlay-menu",
+      "rotating-halves-menu",
     ],
   },
   {
@@ -208,6 +217,9 @@ export const componentGroups: RegistryGroup[] = [
       "starry-night-flow",
       "flying-cube-scroll",
       "surprise-box",
+      "floating-model-scroll",
+      "garage-scene-3d",
+      "particle-fluid-hero",
     ],
   },
 ];

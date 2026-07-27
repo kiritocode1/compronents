@@ -601,6 +601,46 @@ const scrollAdvanceProjectPageAssetDocs = assetsByIds(
   ).flat(),
 );
 
+const stripMergeRevealAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `strip-merge-reveal-img-${i + 1}`),
+);
+const parallaxModelFooterAssetDocs = assetsByIds([
+  "parallax-model-footer-model",
+]);
+const rotatingHalvesMenuAssetDocs = assetsByIds(["rotating-halves-menu-hero"]);
+const stackedBrandCardsAssetDocs = assetsByIds([
+  "stacked-brand-cards-hero",
+  ...Array.from({ length: 4 }, (_, i) => `stacked-brand-cards-card-${i + 1}`),
+]);
+const cylinderBlockGalleryAssetDocs = assetsByIds(
+  Array.from({ length: 50 }, (_, i) => `cylinder-block-gallery-img-${i + 1}`),
+);
+const floatingModelScrollAssetDocs = assetsByIds([
+  "floating-model-scroll-model",
+]);
+const emojiTrailPreloaderAssetDocs = assetsByIds([
+  "emoji-trail-preloader-cursor",
+  "emoji-trail-preloader-logo",
+  "emoji-trail-preloader-menu",
+  "emoji-trail-preloader-hero",
+  ...Array.from(
+    { length: 4 },
+    (_, i) => `emoji-trail-preloader-badge-${i + 1}`,
+  ),
+]);
+const garageScene3DAssetDocs = assetsByIds(["garage-scene-3d-model"]);
+
+const wheelClipSliderAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `wheel-clip-slider-img-${i + 1}`),
+);
+const rotatingPanelSliderAssetDocs = assetsByIds(
+  Array.from({ length: 7 }, (_, i) => `rotating-panel-slider-img-${i + 1}`),
+);
+const flipTileBoardAssetDocs = assetsByIds([
+  "flip-tile-board-front",
+  "flip-tile-board-back",
+]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -11316,6 +11356,686 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "0.14 / true",
         description:
           "Pointer steering radius in UV units, and whether steering is enabled.",
+      },
+    ],
+  },
+  "strip-merge-reveal": {
+    demoPath: "src/components/demos/strip-merge-reveal.tsx",
+    nuance: [
+      {
+        label: "Three timelines, no shared clock",
+        description:
+          "Counter, status list, and image reveal are separate timelines with their own delays. Nothing waits on anything else, so the counter can still be climbing while the strips have already merged, which is what makes the intro feel busy rather than choreographed.",
+      },
+      {
+        label: "The status list is one window, not three fades",
+        description:
+          "All three lines live in a column inside a one line tall clip, and the column steps by exactly its line height. Each move is a single tween on the same element, so the lines cannot drift out of register with each other.",
+      },
+      {
+        label: "The closed gap is resolved before GSAP sees it",
+        description:
+          "The row is sized in container units so it scales with the box, but GSAP cannot interpolate a cqw value. The closed gap is converted to pixels against the component's own width first, which is why the merge lands identically at any size.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description:
+          "Name in the nav and in the headline that rises at the end.",
+      },
+      {
+        name: "statusLines",
+        control: "text",
+        description: "The three lines stepped through during the load.",
+      },
+    ],
+    assets: stripMergeRevealAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "5 BLANK strips",
+        description:
+          "Strips in the row. Any count works; the one at heroIndex is the one that survives.",
+      },
+      {
+        name: "heroIndex",
+        type: "number",
+        default: "2",
+        description:
+          "Which strip stays and doubles once the others have wiped away.",
+      },
+      {
+        name: "navItems / statusLines",
+        type: "string[]",
+        default: "BLANK copy",
+        description: "Navigation links and the three loading lines.",
+      },
+      {
+        name: "overlayColor",
+        type: "string",
+        default: "#0f0f0f",
+        description: "Colour of the dark card that lifts away at the end.",
+      },
+    ],
+  },
+  "parallax-model-footer": {
+    demoPath: "src/components/demos/parallax-model-footer.tsx",
+    nuance: [
+      {
+        label: "The offset is the effect",
+        description:
+          "The footer content starts at minus thirty five percent of the footer's height and is driven to zero across the footer's entry. The footer itself never moves, so the parallax costs one transform and no pinning.",
+      },
+      {
+        label: "The model settles on scroll, drifts on pointer",
+        description:
+          "Scroll progress sets a base Z and base X rotation; the pointer adds an offset on top. Both are applied through the same eased follow in the render loop, so a scroll and a mouse move mid-flight blend instead of fighting.",
+      },
+      {
+        label: "Pointer is measured against the component",
+        description:
+          "The source normalises the mouse against the window. Here it is normalised against the component's own rect, so the tilt still reaches full range when the footer occupies part of the screen.",
+      },
+    ],
+    editable: [
+      {
+        name: "statement",
+        control: "text",
+        description: "The large closing line in the footer.",
+      },
+      {
+        name: "metaRight",
+        control: "text",
+        description: "Credit line in the bottom right.",
+      },
+    ],
+    assets: parallaxModelFooterAssetDocs,
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        default: "BLANK model.glb",
+        description:
+          "GLTF loaded behind the footer. It is auto-centred and scaled to a unit box, so any model fits.",
+      },
+      {
+        name: "sections",
+        type: "ParallaxModelFooterSection[]",
+        default: "3 colour blocks",
+        description:
+          "Page above the footer, present only so the footer has something to arrive from.",
+      },
+      {
+        name: "links / statusLabel / statusValue",
+        type: "string[] / string / string",
+        default: "BLANK copy",
+        description: "Footer column contents.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "rotating-halves-menu": {
+    demoPath: "src/components/demos/rotating-halves-menu.tsx",
+    nuance: [
+      {
+        label: "Scaled twice over so the corners never show",
+        description:
+          "Each panel is scaled 2x before being rotated about the seam edge. Without that the rotating rectangle's corners would sweep inside its own clip and leave a wedge of background visible mid-turn.",
+      },
+      {
+        label: "One paused timeline, played and reversed",
+        description:
+          "Open and close are the same timeline run in both directions, so an interrupted close resumes from wherever it was rather than snapping to a start state.",
+      },
+      {
+        label: "Links rise late on purpose",
+        description:
+          "The masked lines start at 0.6s, while the panels take a full second. They arrive over a surface that is already mostly filled, which reads as the menu settling rather than two separate animations.",
+      },
+    ],
+    editable: [
+      {
+        name: "primaryLinks",
+        control: "text",
+        description: "Uppercase column of the menu.",
+      },
+      {
+        name: "secondaryLinks",
+        control: "text",
+        description: "Serif column of the menu.",
+      },
+    ],
+    assets: rotatingHalvesMenuAssetDocs,
+    api: [
+      {
+        name: "leftPanelColor / rightPanelColor",
+        type: "string",
+        default: "#474437 / #403d31",
+        description:
+          "The two halves. Two close values read as one surface with a fold; two distant ones read as a split.",
+      },
+      {
+        name: "heroImage / heroHeading",
+        type: "string",
+        default: "BLANK hero",
+        description: "Page behind the menu.",
+      },
+      {
+        name: "footerLinks / footerNote",
+        type: "string[] / string",
+        default: "BLANK copy",
+        description: "Legal row along the bottom of the open menu.",
+      },
+    ],
+  },
+  "stacked-brand-cards": {
+    demoPath: "src/components/demos/stacked-brand-cards.tsx",
+    nuance: [
+      {
+        label: "Every card ends at the same trigger",
+        description:
+          "All the pins share one endTrigger, the outro. That is why the deck releases together instead of unstacking in the order it stacked.",
+      },
+      {
+        label: "The lift scales with what is left",
+        description:
+          "A card's inner panel is pulled up by (remaining cards) x 14% of the viewport, so the first card travels furthest. Equal lifts would produce a flat overlap rather than a compressed pile.",
+      },
+      {
+        label: "pinSpacing is off everywhere",
+        description:
+          "With pin spacing on, each pin would insert its own duration of blank scroll and the cards would never meet. Off, they share the same stretch of page, which is what puts them on top of each other.",
+      },
+    ],
+    editable: [
+      {
+        name: "introHeading",
+        control: "text",
+        description: "The pinned line above the deck.",
+      },
+      {
+        name: "outroHeading",
+        control: "text",
+        description: "Closing line that releases the pins.",
+      },
+    ],
+    assets: stackedBrandCardsAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "StackedBrandCard[]",
+        default: "4 BLANK services",
+        description:
+          "Title, copy, image, and background per card. The last card does not pin, it scrolls over the pile.",
+      },
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK hero",
+        description: "Opening full-bleed image.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "cylinder-block-gallery": {
+    demoPath: "src/components/demos/cylinder-block-gallery.tsx",
+    nuance: [
+      {
+        label: "The panels are bent, not billboarded",
+        description:
+          "Each panel is a generated buffer geometry whose vertices follow the cylinder's arc. A flat plane rotated to the same angle would visibly chord away from the wall at this radius.",
+      },
+      {
+        label: "UVs are inset a tenth on each side",
+        description:
+          "The horizontal UV runs 0.1 to 0.9 rather than 0 to 1, so the edge texels are never stretched across the curve. It costs a slight crop and removes the smear at the panel edges.",
+      },
+      {
+        label: "Spin is base plus impulse",
+        description:
+          "The ring always turns at a constant crawl; scroll velocity is added on top and is overwritten by the next scroll event. Stopping the scroll leaves the idle rotation behind rather than a dead ring.",
+      },
+    ],
+    editable: [
+      {
+        name: "rows",
+        control: "text",
+        description: "Horizontal bands of panels up the cylinder.",
+      },
+      {
+        name: "panelsPerRow",
+        control: "text",
+        description: "Panels evenly spaced around each band.",
+      },
+    ],
+    assets: cylinderBlockGalleryAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "50 BLANK photographs",
+        description:
+          "Pool drawn from at random per panel, so the same set gives a different wall each mount.",
+      },
+      {
+        name: "rows / panelsPerRow / rowSpacing",
+        type: "number",
+        default: "12 / 4 / 3.25",
+        description:
+          "Density of the wall. More panels per row with less spacing reads as a mosaic; fewer reads as an archive.",
+      },
+      {
+        name: "panelSize",
+        type: "[number, number]",
+        default: "[5, 3]",
+        description: "Panel width and height in world units before the curve.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "floating-model-scroll": {
+    demoPath: "src/components/demos/floating-model-scroll.tsx",
+    nuance: [
+      {
+        label: "Two motions on one object",
+        description:
+          "The bob runs off wall clock time and the rotation runs off scroll progress. Neither is a timeline, so the object keeps breathing when the page is still and keeps bobbing while it is being scrubbed.",
+      },
+      {
+        label: "The cheap loop runs first",
+        description:
+          "A render-only loop starts before the model arrives, so the canvas is composited and sized correctly from the first frame; the animated loop replaces it once the file lands.",
+      },
+      {
+        label: "Copy passes through the model, not around it",
+        description:
+          "The canvas layer sits above the scrolling content with pointer events off. That is what lets the headline slide behind the object instead of the object sitting in a boxed-out slot.",
+      },
+    ],
+    editable: [
+      {
+        name: "headingRows",
+        control: "text",
+        description: "The three lines of the opening statement.",
+      },
+      {
+        name: "archiveLabel",
+        control: "text",
+        description: "Small italic label above the collection list.",
+      },
+    ],
+    assets: floatingModelScrollAssetDocs,
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        default: "BLANK chair.glb",
+        description:
+          "GLTF product. It is centred and the camera distance is derived from its bounding box, so any model frames itself.",
+      },
+      {
+        name: "archiveItems",
+        type: "FloatingModelArchiveItem[]",
+        default: "6 BLANK products",
+        description: "Title plus four metadata columns per row.",
+      },
+      {
+        name: "outroCopy / contactRows / footerCopy",
+        type: "string / [string, string][] / string",
+        default: "BLANK copy",
+        description: "Closing section, revealed line by line on entry.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "particle-fluid-hero": {
+    demoPath: "src/components/demos/particle-fluid-hero.tsx",
+    nuance: [
+      {
+        label: "Density is the whole trick",
+        description:
+          "Every close pair raises a density count on both bodies, and that count is then read back to soften gravity, the separation correction, and the velocity blend for that frame. Without it a settled pile keeps injecting energy into itself and boils.",
+      },
+      {
+        label: "Neighbours come from a hash, not a scan",
+        description:
+          "Bodies are bucketed into cells the width of the interaction radius each frame, and only the nine surrounding cells are tested. Two hundred and fifty bodies at full quadratic cost would be thirty thousand pair tests per frame.",
+      },
+      {
+        label: "Drawn between the last two positions",
+        description:
+          "Each shape is rendered at the midpoint of its previous and current position rather than at its current one. It is a half-frame of motion blur for free, and it hides the jitter from the position corrections.",
+      },
+    ],
+    editable: [
+      {
+        name: "particleCount",
+        control: "text",
+        description: "Bodies in the pit.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Field colour, repainted every frame.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "particleCount / particleSize",
+        type: "number",
+        default: "250 / 12",
+        description:
+          "Size also sets the interaction radius, which is twelve times the shape, so raising it thickens the fluid as well as the shapes.",
+      },
+      {
+        name: "background / particleColor",
+        type: "string",
+        default: "#1a2ffb / #ffffff",
+        description: "Field and shape colours.",
+      },
+      {
+        name: "eyebrow / headingLines / ctaLabel",
+        type: "string / string[] / string",
+        default: "BLANK copy",
+        description: "The call to action floating over the field.",
+      },
+    ],
+  },
+  "emoji-trail-preloader": {
+    demoPath: "src/components/demos/emoji-trail-preloader.tsx",
+    nuance: [
+      {
+        label: "The trail only exists while loading",
+        description:
+          "Badges spawn only before the loader hands off. The playable moment is deliberately confined to the wait, so the page it reveals is not left with a decoration that outstays it.",
+      },
+      {
+        label: "Spacing is distance, staggering is time",
+        description:
+          "A badge needs four hundred pixels of pointer travel to spawn, but the fall is additionally delayed by how recently the last one dropped. Distance alone would let one fast sweep drop a whole row at once.",
+      },
+      {
+        label: "Each badge cleans itself up",
+        description:
+          "The fall tween's completion removes the element. Nothing tracks the trail, so a long wait cannot accumulate hundreds of nodes.",
+      },
+    ],
+    editable: [
+      {
+        name: "headingRows",
+        control: "text",
+        description: "Headline rows, split to characters that rise per row.",
+      },
+      {
+        name: "heroBackground",
+        control: "color",
+        description: "Page colour revealed under the loader.",
+      },
+    ],
+    assets: emojiTrailPreloaderAssetDocs,
+    api: [
+      {
+        name: "badges",
+        type: "string[]",
+        default: "4 BLANK badges",
+        description: "Pool drawn from at random for each drop.",
+      },
+      {
+        name: "heroImage",
+        type: "string",
+        default: "BLANK badge",
+        description:
+          "Centre image that pops in and then spins continuously for twenty seconds a turn.",
+      },
+      {
+        name: "cursor",
+        type: "string",
+        default: "BLANK cursor.svg",
+        description: "Custom pointer, hot spot at 32 32.",
+      },
+      {
+        name: "preloaderBackground / loaderColor",
+        type: "string",
+        default: "#ded7ce / #c5beb5",
+        description: "The loading card and the square rotating on it.",
+      },
+    ],
+  },
+  "garage-scene-3d": {
+    demoPath: "src/components/demos/garage-scene-3d.tsx",
+    nuance: [
+      {
+        label: "Ambient is zero on purpose",
+        description:
+          "Nothing is lit for legibility. Every visible surface is reached by one of four points with hand-tuned decay, which is why the room has deep unlit corners instead of a flat floor.",
+      },
+      {
+        label: "Bloom does the neon, not the materials",
+        description:
+          "The lights are ordinary point lights; the glow is an UnrealBloom pass reading the tone-mapped render. Raising the strength spreads the halo without touching a single material.",
+      },
+      {
+        label: "The orbit is fenced",
+        description:
+          "Polar angle is clamped to a half turn and distance to a ten-to-fifty range, so the camera cannot pass through the floor or leave the room and expose the model's open back.",
+      },
+    ],
+    editable: [
+      {
+        name: "bloomStrength",
+        control: "text",
+        description: "How far the hot spots bleed.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Scene clear colour behind the model.",
+      },
+    ],
+    assets: garageScene3DAssetDocs,
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        default: "BLANK scene.gltf",
+        description:
+          "GLTF interior, auto-centred on load. Its scene.bin and textures/ must sit beside it.",
+      },
+      {
+        name: "bloomStrength",
+        type: "number",
+        default: "0.6",
+        description: "UnrealBloom strength. Radius and threshold stay fixed.",
+      },
+      {
+        name: "brand / navItems / statement / credit",
+        type: "string / string[] / string / string",
+        default: "BLANK copy",
+        description: "Overlay chrome sitting above the canvas.",
+      },
+    ],
+  },
+  "wheel-clip-slider": {
+    demoPath: "src/components/demos/wheel-clip-slider.tsx",
+    nuance: [
+      {
+        label: "The frame opens, it does not travel",
+        description:
+          "The incoming slide is already full size and full bleed; only its clip-path changes. Nothing slides, which is why the transition reads as a reveal rather than a carousel step.",
+      },
+      {
+        label: "Two images cross in depth",
+        description:
+          "Outgoing goes to scale two, incoming comes from scale two down to one, both over the same two seconds. The overlap is what sells the depth; matching the durations is what keeps them from fighting.",
+      },
+      {
+        label: "The DOM stays at five nodes",
+        description:
+          "Slides are created on demand and anything more than two away is removed after each transition, so scrolling a hundred times does not accumulate a hundred images.",
+      },
+    ],
+    editable: [
+      {
+        name: "prefix",
+        control: "text",
+        description: "Fixed first word of the title.",
+      },
+      {
+        name: "words",
+        control: "text",
+        description: "Column stepped one row per slide.",
+      },
+    ],
+    assets: wheelClipSliderAssetDocs,
+    api: [
+      {
+        name: "images / words / linkUrls",
+        type: "string[]",
+        default: "5 BLANK entries",
+        description:
+          "Indexes are wrapped, so the slider loops in both directions regardless of count.",
+      },
+      {
+        name: "lineHeight / fontSize",
+        type: "number",
+        default: "150 / 120",
+        description:
+          "The word column steps by exactly lineHeight, so the two must move together.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        default: "#f9b165",
+        description: "Title, indicator, ring, and label colour.",
+      },
+    ],
+  },
+  "rotating-panel-slider": {
+    demoPath: "src/components/demos/rotating-panel-slider.tsx",
+    nuance: [
+      {
+        label: "Frame turns, picture does not",
+        description:
+          "Each panel is rotated to its station and its inner image is tweened to the exact negative of that rotation. The photograph stays upright while its frame lies flat, which is the whole illusion.",
+      },
+      {
+        label: "Four panels for three slots",
+        description:
+          "A replacement is built at scale zero in the slot being vacated before the far panel is scaled away, so the arc is never seen with a gap in it.",
+      },
+      {
+        label: "Class names are the state machine",
+        description:
+          "prev/active/next are read back out of the DOM to find the panels, then reassigned after two seconds. There is no separate index for panel identity, only for content.",
+      },
+    ],
+    editable: [
+      { name: "brand", control: "text", description: "Wordmark in the nav." },
+      {
+        name: "footerLeft",
+        control: "text",
+        description: "Experiment label, bottom right.",
+      },
+    ],
+    assets: rotatingPanelSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "RotatingPanelSlide[]",
+        default: "7 BLANK entries",
+        description:
+          "Name and image per slide. The index list, counter, title, and backdrop all read from this one array.",
+      },
+      {
+        name: "brand / navLink",
+        type: "string",
+        default: "BLANK copy",
+        description: "Navigation row.",
+      },
+      {
+        name: "footerLeft / footerRight",
+        type: "string",
+        default: "BLANK copy",
+        description: "Footer row.",
+      },
+    ],
+  },
+  "flip-tile-board": {
+    demoPath: "src/components/demos/flip-tile-board.tsx",
+    nuance: [
+      {
+        label: "One image, thirty six windows",
+        description:
+          "Every tile paints the same picture at six hundred percent and offsets it by its own column and row. Change the source image and the whole board re-slices itself with no other work.",
+      },
+      {
+        label: "The yaw comes from the column",
+        description:
+          "Tilt is picked by index modulo six: forty degrees at the edges, ten in the middle, mirrored either side. A single shared value would read as the whole row rotating rather than splaying.",
+      },
+      {
+        label: "Cooldown is per tile, not global",
+        description:
+          "Each tile keeps its own last-entered timestamp, so sweeping across the board triggers every tile once but re-entering one within a second does nothing.",
+      },
+    ],
+    editable: [
+      {
+        name: "flipLabel",
+        control: "text",
+        description: "Label on the flip-all button.",
+      },
+      { name: "brand", control: "text", description: "Wordmark in the nav." },
+    ],
+    assets: flipTileBoardAssetDocs,
+    api: [
+      {
+        name: "frontImage / backImage",
+        type: "string",
+        default: "BLANK photographs",
+        description: "Sliced across the fronts and the backs of the grid.",
+      },
+      {
+        name: "rows / cols",
+        type: "number",
+        default: "6 / 6",
+        description:
+          "The background offset step is fixed at twenty percent, which is what a six by six grid needs; other sizes re-slice but will crop.",
+      },
+      {
+        name: "blockSize / cooldown",
+        type: "number",
+        default: "50 / 1000",
+        description:
+          "Cursor highlight cell size in px, and per-tile re-entry lockout in ms.",
       },
     ],
   },

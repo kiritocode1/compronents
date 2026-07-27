@@ -4241,6 +4241,246 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "strip-merge-reveal",
+    title: "Strip Merge Reveal",
+    description:
+      "A landing intro that opens on a dark card: a counter runs to a hundred in one corner while a three line status list steps up through a single line window. Behind it five narrow portrait strips rise into place, the row closes its gap, and the strips scale to full size. The four outer strips then wipe upward one after another, the centre strip doubles, and the dark card lifts away to leave that image filling the frame with the name rising in beneath it. GSAP with CustomEase and masked SplitText words.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/strip-merge-reveal.tsx",
+        target: "components/ui/strip-merge-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "parallax-model-footer",
+    title: "Parallax Model Footer",
+    description:
+      "A footer that is taller than the space it occupies and slides the difference back as you reach it. Its content block sits at minus thirty five percent and is driven to zero across the footer's entry, so the text arrives already in motion instead of scrolling in flat. Behind it a GLTF model sits on a transparent canvas, pushed a unit into the depth and tilted, and both of those settle to rest on the same scroll progress while the pointer keeps nudging its rotation with an eased follow. GSAP ScrollTrigger, Lenis, and Three.js.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/parallax-model-footer.tsx",
+        target: "components/ui/parallax-model-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "rotating-halves-menu",
+    title: "Rotating Halves Menu",
+    description:
+      "A fullscreen navigation whose backdrop is two panels that arrive by rotating rather than sliding. Each half is scaled twice over and parked at a half turn about the edge it meets in the middle, so opening the menu unwinds both rotations at once and the two colours sweep in from the seam. The links are split into masked lines that rise once the panels are most of the way home, and the hamburger crosses into an X on the same clock. GSAP with CustomEase and SplitText.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/rotating-halves-menu.tsx",
+        target: "components/ui/rotating-halves-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "stacked-brand-cards",
+    title: "Stacked Brand Cards",
+    description:
+      "A services section where every card but the last pins at the same line and stays there until the outro reaches it, so the deck builds up in place instead of scrolling past. While a card is pinned its inner panel is pulled upward by an amount that grows with how many cards are still to come, which is what makes the pile compress from the bottom rather than simply overlapping. The intro heading is pinned across the whole run on a separate trigger, so it holds until the final card takes the line. GSAP ScrollTrigger and Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/stacked-brand-cards.tsx",
+        target: "components/ui/stacked-brand-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "cylinder-block-gallery",
+    title: "Cylinder Block Gallery",
+    description:
+      "Photographs mounted as curved panels on the inside of a tall cylinder you fly up through. Each panel is a hand-built buffer geometry bent to the cylinder's radius, so the picture wraps with the wall instead of floating flat in front of it, and its UVs are inset a tenth on each side so the edges do not smear. Panels sit in horizontal bands with a random angular jitter, the ring turns on its own at a constant crawl, and scroll velocity is injected as extra spin that decays on its own. Three.js and Lenis, no animation library.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["three", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cylinder-block-gallery.tsx",
+        target: "components/ui/cylinder-block-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "floating-model-scroll",
+    title: "Floating Model Scroll",
+    description:
+      "A product page with a GLTF model held in the centre of the frame while the copy scrolls past it. The model bobs on a sine of wall clock time, independent of scroll, and separately takes two full turns on its X axis mapped to overall scroll progress, so idling and scrubbing read as two different motions on the same object. It renders with a cheap loop until the file lands, then swaps to the animated loop and scales up from zero, and the closing statement rises line by line on its own trigger. Three.js, GSAP ScrollTrigger, SplitText, and Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["three", "gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/floating-model-scroll.tsx",
+        target: "components/ui/floating-model-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "particle-fluid-hero",
+    title: "Particle Fluid Hero",
+    description:
+      "A call to action sitting in a pit of two hundred and fifty shapes that behave like a coarse fluid. Each pair inside the spacing radius pushes apart, blends velocity toward their average, and raises a density count on both; that count then softens gravity, damping, and the separation correction for the frame, which is what keeps a settled pile from boiling. Neighbour lookups go through a spatial hash rebuilt every frame, so the pair test stays local rather than quadratic. Press and drag to inject pointer velocity into anything within range. Canvas 2D with no physics library.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/particle-fluid-hero.tsx",
+        target: "components/ui/particle-fluid-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "emoji-trail-preloader",
+    title: "Emoji Trail Preloader",
+    description:
+      "A loading screen you can play with. A square rotates a half turn twice, shrinks to nothing, and hands off to the page reveal: the headline is split to characters that rise per row, and the centre image pops from zero into a twenty second continuous spin. While the loader is still up, moving the pointer four hundred pixels since the last drop spawns a badge at the cursor that springs in with a back ease, holds, then falls out of frame and removes itself. The queue is spaced by wall clock time, so a fast sweep still staggers the drops instead of firing them together. GSAP only.",
+    section: "components",
+    category: "Feedback",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/emoji-trail-preloader.tsx",
+        target: "components/ui/emoji-trail-preloader.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "garage-scene-3d",
+    title: "Garage Scene 3D",
+    description:
+      "A GLTF interior lit almost entirely by coloured point lights and orbited with damped controls. Ambient is set to zero, so every surface you see is being reached by one of four points with hand-tuned decay, and a single dim directional fills the rest. An UnrealBloom pass on top of the render is what turns those hot spots into the neon look, and the orbit is clamped to a polar half turn and a distance range so the camera cannot leave the room or drop through the floor. Three.js with EffectComposer, no animation library.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/garage-scene-3d.tsx",
+        target: "components/ui/garage-scene-3d.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "wheel-clip-slider",
+    title: "Wheel Clip Slider",
+    description:
+      "A wheel-driven slider where the incoming frame is not moved, it is unclipped. The next slide sits at full size with its clip-path collapsed to the edge you are scrolling from and opens to the full rectangle, while its image travels from scale two down to one and the outgoing image travels the opposite way, so the two pictures cross in depth rather than sliding. The word column is one strip stepped by exactly its line height, a magnetic ring follows the pointer at half strength, and the ring's stroke is drawn out and back with a dash offset on every change. Slides are built on demand and any slide more than two away is dropped, so the list never exceeds five nodes.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wheel-clip-slider.tsx",
+        target: "components/ui/wheel-clip-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "rotating-panel-slider",
+    title: "Rotating Panel Slider",
+    description:
+      "Three panels on an arc where the side ones are turned a quarter turn on their own axis while the picture inside is counter-rotated by the same amount, so the image stays upright while its frame lies flat. Advancing moves each panel to the next station and re-opens or re-closes its clip-path at the same time, so a card does not slide in, it unfolds into place. A fourth panel is built off-frame at scale zero for the vacated slot and the far one is scaled away, so the arc is always exactly three visible. The title is split per character and enters from the direction of travel, and a blurred pan of the active image sits behind everything.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/rotating-panel-slider.tsx",
+        target: "components/ui/rotating-panel-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "flip-tile-board",
+    title: "Flip Tile Board",
+    description:
+      "One photograph cut across a six by six grid of tiles, with a second photograph on their backs. Each tile carries the same background sized six hundred percent and offset by its own column and row, so the grid reassembles a single image rather than showing thirty six copies. Hovering a tile spins it three quarters of a turn and back while yawing it sideways, and the yaw is picked from the tile's column so a row splays outward from the centre. A one second per-tile cooldown stops a fast sweep retriggering it. Over the top, a grid of fifty pixel cells lights its border under the cursor, and a button flips the whole board in a randomised stagger.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flip-tile-board.tsx",
+        target: "components/ui/flip-tile-board.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
