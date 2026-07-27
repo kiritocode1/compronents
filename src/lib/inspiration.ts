@@ -5272,6 +5272,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Distributed systems and computer science",
     links: [
       {
+        title: "Diving Deep on S3 Consistency",
+        href: "https://www.allthingsdistributed.com/2021/04/s3-strong-consistency.html",
+        dateAdded: "2026-07-27",
+        description:
+          "Werner Vogels' April 2021 post explaining how Amazon S3 moved from eventual to strong read-after-write consistency by default, a good case study in retrofitting a stronger guarantee onto a live system without a performance or availability tradeoff. The mechanism is a cache coherency protocol in the S3 metadata subsystem: a new witness component tracks per-object order of operations and acts as a read barrier, so a cached value is either confirmed current or invalidated and re-fetched from the persistence tier. Useful context on what customers had to build before this, including Netflix's s3mper and Apache Hadoop's S3Guard, both of which bolted consistency on externally via DynamoDB. Written when S3 held well over 100 trillion objects and served tens of millions of requests per second.",
+      },
+      {
         title: "The TCP/IP Guide",
         href: "http://www.tcpipguide.com/free/t_toc.html",
         dateAdded: "2026-07-14",
