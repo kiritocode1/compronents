@@ -43,15 +43,25 @@
   },
   "overrides": [
     {
-      "includes": ["src/components/ui/**"],
+      "includes": [
+        "src/components/ui/**",
+        "src/components/animate-ui/**",
+        "src/hooks/use-controlled-state.tsx",
+        "src/lib/get-strict-context.tsx"
+      ],
       "linter": {
         "rules": {
+          "security": { "noDangerouslySetInnerHtml": "off" },
           "suspicious": {
             "noExplicitAny": "off",
-            "noGlobalIsNan": "off"
+            "noGlobalIsNan": "off",
+            "noArrayIndexKey": "off"
           },
-          "style": { "noNonNullAssertion": "off" },
-          "correctness": { "useExhaustiveDependencies": "off" },
+          "style": { "noNonNullAssertion": "off", "useTemplate": "off" },
+          "correctness": {
+            "useExhaustiveDependencies": "off",
+            "noUnusedImports": "off"
+          },
           "a11y": {
             "noLabelWithoutControl": "off",
             "useFocusableInteractive": "off",

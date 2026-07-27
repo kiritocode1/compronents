@@ -332,7 +332,7 @@ function FolderIcon({
   );
 }
 
-const FILE_ICON_MAP: Record<string, { color: string; label: string }> = {
+export const FILE_ICON_MAP: Record<string, { color: string; label: string }> = {
   ts: { color: "#3178c6", label: "TS" },
   tsx: { color: "#3178c6", label: "TX" },
   js: { color: "#f7df1e", label: "JS" },
