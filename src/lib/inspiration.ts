@@ -5566,6 +5566,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer tools and utilities",
     links: [
       {
+        title: "scriptc",
+        href: "https://github.com/vercel-labs/scriptc",
+        dateAdded: "2026-07-27",
+        description:
+          "Compiler from Vercel Labs that turns ordinary TypeScript into a small native executable with no Node, V8 or JS engine inside the binary, for shipping a CLI as one self-contained file instead of a script plus a runtime. scriptc run executes a file directly, scriptc build produces the binary, and scriptc coverage reports how much of a codebase can compile statically. Static compilation is the default, --dynamic embeds quickjs-ng (roughly 620KB) for code that needs real dynamism, and whatever neither tier can handle is rejected at build time with a diagnostic rather than failing later. Covers classes, closures, generics, async/await, the standard library, and much of Node's API surface (fs, path, process, net, http, https, tls, fetch) plus npm dependencies where it can, with comptime(() => ...) for build-time evaluation, validated casts on JSON.parse, and C ABI bindings behind --ffi. Apache-2.0, installed with npm install -g scriptc and requires clang; 813 stars at time of adding.",
+      },
+      {
         title: "shadscan",
         href: "https://www.shadscan.com/",
         dateAdded: "2026-07-27",
