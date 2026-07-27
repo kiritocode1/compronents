@@ -12,6 +12,7 @@ import {
   getRegistryDesignGuidance,
   matchesRegistrySearch,
 } from "../src/lib/registry.ts";
+import { registryGroupsBySection } from "../src/lib/registry-groups.ts";
 import { searchDate } from "../src/lib/search-time.ts";
 import {
   analyzeFile,
@@ -262,3 +263,33 @@ for (const item of registryItems) {
     );
   });
 }
+
+// Every item must sit in a named group. Anything unassigned falls into the
+// trailing "More" bucket in the UI, which had swallowed 40% of components
+// before this was enforced: a catch-all is invisible drift, not a category.
+test("no registry item falls into the More bucket", () => {
+  const sections = ["components", "pages", "backend"];
+  for (const section of sections) {
+    const items = registryItems.filter((item) => item.section === section);
+    const groups = registryGroupsBySection[section] ?? [];
+    const names = groups.flatMap((group) => group.names);
+    const assigned = new Set(names);
+
+    const ungrouped = items
+      .filter((item) => !assigned.has(item.name))
+      .map((item) => item.name);
+    assert.deepEqual(
+      ungrouped,
+      [],
+      `${section}: assign these in src/lib/registry-groups.ts`,
+    );
+
+    // A name in two groups renders the item twice; a name matching no item is
+    // a rename that silently stopped grouping anything.
+    const duplicated = names.filter((n, i) => names.indexOf(n) !== i);
+    assert.deepEqual(duplicated, [], `${section}: name listed in two groups`);
+
+    const ghosts = names.filter((n) => !items.some((item) => item.name === n));
+    assert.deepEqual(ghosts, [], `${section}: grouped name matches no item`);
+  }
+});

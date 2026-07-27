@@ -1,7 +1,9 @@
 // Grouping of registry items for the section index pages. Components are
-// grouped by interaction type; pages by aesthetic theme. Names must match
-// `RegistryItem.name`. Ordering here is the display order; any item not listed
-// falls into a trailing "More" group in the UI.
+// grouped by interaction type; pages by aesthetic theme, except "Route
+// transitions" which is a mechanic. Names must match `RegistryItem.name`.
+// Ordering here is the display order; any item not listed falls into a
+// trailing "More" group in the UI, so keep every item assigned. A test in
+// tests/registry-integrity.test.mjs fails when anything is left ungrouped.
 
 export interface RegistryGroup {
   title: string;
@@ -19,6 +21,10 @@ export const componentGroups: RegistryGroup[] = [
       "animated-footer",
       "halftone-scene-footer",
       "vinyl-orbit-player",
+      "physics-tag-footer",
+      "image-explosion-footer",
+      "circular-widget-dial",
+      "drawn-path-features",
     ],
   },
   {
@@ -34,6 +40,11 @@ export const componentGroups: RegistryGroup[] = [
       "split-reveal-preloader",
       "montage-reveal-hero",
       "landing-image-reveal",
+      "circle-preloader-hero",
+      "counter-word-preloader",
+      "shuffle-grid-preloader",
+      "card-fan-landing-reveal",
+      "block-page-transition",
     ],
   },
   {
@@ -46,6 +57,8 @@ export const componentGroups: RegistryGroup[] = [
       "slit-reveal-hero",
       "frame-scroll",
       "inversa-scroll",
+      "ascii-monogram-hero",
+      "frame-sequence-hero",
     ],
   },
   {
@@ -62,6 +75,14 @@ export const componentGroups: RegistryGroup[] = [
       "ascii-image-reveal",
       "image-reveal",
       "liquid-stat-grid",
+      "curve-gallery",
+      "carousel-ring-gallery",
+      "photo-sphere-orb",
+      "infinite-drag-canvas",
+      "swing-in-work-grid",
+      "pinned-scale-mosaic",
+      "masked-spotlight-scroll",
+      "wedge-clip-work-scroll",
     ],
   },
   {
@@ -77,6 +98,17 @@ export const componentGroups: RegistryGroup[] = [
       "minimap-scrubber",
       "minimap-parallax-scroll",
       "drag-timeline-scroll",
+      "split-column-infinite-slider",
+      "dial-product-slider",
+      "parallax-drag-rail",
+      "endless-side-story",
+      "marquee-carousel-scroll",
+      "throw-away-work-slider",
+      "flip-marquee-horizontal",
+      "sticky-parallax-slides",
+      "snap-parallax-projects",
+      "shader-warp-slider",
+      "magnetic-spotlight-marquee",
     ],
   },
   {
@@ -88,6 +120,11 @@ export const componentGroups: RegistryGroup[] = [
       "sticky-flip-cards",
       "tilt-card-stack",
       "sticky-stack-cards",
+      "fanned-card-deck",
+      "dealt-team-cards",
+      "deal-stack-cards-scroll",
+      "pushup-card-stack",
+      "card-parting-reveal",
     ],
   },
   {
@@ -102,6 +139,12 @@ export const componentGroups: RegistryGroup[] = [
       "stretch-text-scroll",
       "converging-icons-text",
       "converging-search-scroll",
+      "flow-field-text",
+      "wordmark-spotlight-scroll",
+      "interlock-title-scroll",
+      "skew-char-header",
+      "curved-letter-path-scroll",
+      "clip-reveal-services",
     ],
   },
   {
@@ -127,6 +170,10 @@ export const componentGroups: RegistryGroup[] = [
       "overlay-menu",
       "expanding-navbar-reveal",
       "folding-panel-menu",
+      "sliding-index-menu",
+      "elastic-curtain-menu",
+      "tilt-away-menu",
+      "push-down-overlay-menu",
     ],
   },
   {
@@ -138,6 +185,12 @@ export const componentGroups: RegistryGroup[] = [
       "rotating-hand-scroll",
       "infinite-contact-scroll",
       "webgl-dissolve-scroll",
+      "stroke-wipe-spotlight",
+      "showreel-zoom-scroll",
+      "starfield-warp-scroll",
+      "triangle-fill-scroll",
+      "nested-mask-banner",
+      "logo-mask-zoom-scroll",
     ],
   },
   {
@@ -149,6 +202,12 @@ export const componentGroups: RegistryGroup[] = [
       "crt-display",
       "ascii-logo",
       "material-spotlight",
+      "drone-fleet",
+      "motion-tracking",
+      "lego-dither",
+      "starry-night-flow",
+      "flying-cube-scroll",
+      "surprise-box",
     ],
   },
 ];
@@ -171,6 +230,7 @@ export const pageGroups: RegistryGroup[] = [
       "house-of-epochs-page",
       "dining-room-page",
       "expanding-rows-gallery",
+      "content-architecture-page",
     ],
   },
   {
@@ -185,6 +245,20 @@ export const pageGroups: RegistryGroup[] = [
       "unusual-studio-page",
       "otis-valen-page",
       "polite-chaos-page",
+      "pixelgrid-studio-page",
+      "edge-warp-rail",
+    ],
+  },
+  {
+    // The one page group defined by mechanic rather than look: these are
+    // multi-route templates whose whole point is what happens between pages.
+    title: "Route transitions",
+    names: [
+      "clip-mask-transition-page",
+      "view-transition-folio-page",
+      "revealer-transition-page",
+      "block-logo-transition-page",
+      "scroll-advance-project-page",
     ],
   },
   {
@@ -228,6 +302,7 @@ export const backendGroups: RegistryGroup[] = [
   {
     title: "Auth and access control",
     names: [
+      "alchemy-cloudflare-access-gateway",
       "better-auth-jwks-cookie-cache",
       "better-auth-provisioning-gate",
       "better-auth-atomic-rate-limit",
