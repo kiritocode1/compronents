@@ -4503,11 +4503,11 @@ export const inspirationGroups: InspirationGroup[] = [
           "Open-source AI research agent that reads papers, searches the web, writes research drafts, plans experiments and cites sources, with both a CLI and a local workbench app for notebooks and chat. Built by Companion (companion.ai), open source on GitHub, installs via a one-line curl script, and pulls in Exa, Perplexity, and Gemini for literature search.",
       },
       {
-        title: "Rivet Agent OS",
-        href: "https://rivet.dev/agent-os",
+        title: "agentOS",
+        href: "https://agentos-sdk.dev/",
         dateAdded: "2026-07-14",
         description:
-          "Runtime and infrastructure platform for deploying AI agents, now published as agentos-sdk.dev, an SDK for giving agents durable, production-grade execution environments. Now rebranded to agentos-sdk.dev, built by the Rivet team behind the RivetKit actor framework, giving agents durable state that survives crashes and redeploys.",
+          "Library that gives each agent its own virtual operating system (filesystem, process execution, orchestration) inside your existing backend, instead of renting a sandbox or VM per agent. Built by Rivet on WebAssembly and V8 isolates, Apache 2.0, Rust core, installed with npm install @rivet-dev/agentos. Its published benchmarks claim 4.8ms p50 cold starts against 440ms for E2B and roughly 22 MB per instance against a 1 GiB sandbox minimum, with methodology and reproduction steps linked. Runs Pi, Claude Code, Codex, and OpenCode on the same virtual OS, and can mount S3, SQLite, or the host filesystem as normal files.",
       },
       {
         title: "Agentation",
