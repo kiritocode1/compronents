@@ -2401,7 +2401,20 @@ const shaderTunnelSliderAssets = Array.from({ length: 10 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const wrappedDragIndexAssets = [
+  {
+    id: "wrapped-drag-index-bg",
+    label: "Wrapped Drag Index backdrop",
+    provider: "vercel-blob",
+    pathname: "wrapped-drag-index/bg.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/wrapped-drag-index/bg.jpg`,
+    role: "Full-bleed backdrop behind the list, darkened by a radial vignette.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+];
+
 export const assetItems = [
+  ...wrappedDragIndexAssets,
   ...shaderTunnelSliderAssets,
   ...contactSheetZoomAssets,
   ...serviceIndexScrubAssets,

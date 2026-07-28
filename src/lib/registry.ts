@@ -4641,6 +4641,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "wrapped-drag-index",
+    title: "Wrapped Drag Index",
+    description:
+      "An endless list built from exactly as many rows as it shows. Nothing is cloned or appended: every row is placed at its index times the row height plus the scroll offset, and a GSAP modifier wraps that value back into a single row-height window, so a row leaving the bottom reappears at the top in the same frame. Scroll velocity is derived by differencing the smoothed offset and fed straight into scale and rotation, so the rows squash and tilt in proportion to how hard you throw them and settle flat on their own as the interpolation catches up. Wheel and drag both write to one target eased at 0.1 a frame, over a radial-vignetted backdrop.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wrapped-drag-index.tsx",
+        target: "components/ui/wrapped-drag-index.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

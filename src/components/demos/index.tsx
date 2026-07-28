@@ -199,6 +199,7 @@ import WedgeClipWorkScrollDemo from "./wedge-clip-work-scroll";
 import WheelClipSliderDemo from "./wheel-clip-slider";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
 import WordmarkSpotlightScrollDemo from "./wordmark-spotlight-scroll";
+import WrappedDragIndexDemo from "./wrapped-drag-index";
 import WuWeiPageDemo from "./wu-wei-page";
 
 /**
@@ -407,4 +408,5 @@ export const demos: Record<string, ComponentType> = {
   "shader-tunnel-slider": ShaderTunnelSliderDemo,
   "pixel-smear-wordmark": PixelSmearWordmarkDemo,
   "shuffle-panel-menu": ShufflePanelMenuDemo,
+  "wrapped-drag-index": WrappedDragIndexDemo,
 };

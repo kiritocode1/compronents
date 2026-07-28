@@ -28,6 +28,7 @@ export const componentGroups: RegistryGroup[] = [
       "parallax-model-footer",
       "stacked-brand-cards",
       "service-index-scrub",
+      "wrapped-drag-index",
     ],
   },
   {

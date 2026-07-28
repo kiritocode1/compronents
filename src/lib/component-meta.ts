@@ -664,6 +664,8 @@ const shaderTunnelSliderAssetDocs = assetsByIds(
   Array.from({ length: 10 }, (_, i) => `shader-tunnel-slider-img-${i + 1}`),
 );
 
+const wrappedDragIndexAssetDocs = assetsByIds(["wrapped-drag-index-bg"]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12486,6 +12488,61 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "3 BLANK rows",
         description:
           "Title and content pairs along the bottom, each with its own sweep on hover.",
+      },
+    ],
+  },
+  "wrapped-drag-index": {
+    demoPath: "src/components/demos/wrapped-drag-index.tsx",
+    nuance: [
+      {
+        label: "Ten rows, not twenty",
+        description:
+          "The loop is a modifier that wraps each row's y back into one row-height window. Nothing is duplicated, so the DOM node count equals the entry count no matter how far you scroll.",
+      },
+      {
+        label: "Velocity is differenced, not measured",
+        description:
+          "Speed is this frame's smoothed offset minus last frame's. That is why the rows relax back to flat on their own: as the easing converges the difference goes to zero without anything resetting it.",
+      },
+      {
+        label: "Squash is clamped, tilt is not",
+        description:
+          "Scale clamps the speed at 100 so a hard throw cannot collapse a row to nothing, while rotation is left unclamped so the tilt keeps reading as force.",
+      },
+    ],
+    editable: [
+      {
+        name: "dragSpeed",
+        control: "text",
+        description: "Multiplier applied to drag distance.",
+      },
+      {
+        name: "ease",
+        control: "text",
+        description: "Easing factor per frame toward the scroll target.",
+      },
+    ],
+    assets: wrappedDragIndexAssetDocs,
+    api: [
+      {
+        name: "entries",
+        type: "WrappedDragEntry[]",
+        default: "10 BLANK entries",
+        description:
+          "Category and name per row. The wrap window is derived from the count, so any number loops correctly.",
+      },
+      {
+        name: "dragSpeed / ease",
+        type: "number",
+        default: "3 / 0.1",
+        description:
+          "Drag multiplier and per-frame easing. Raising ease tightens tracking and reduces the squash, since velocity is the frame delta.",
+      },
+      {
+        name: "backgroundImage",
+        type: "string",
+        default: "BLANK backdrop",
+        description: "Sits behind the list under a radial vignette.",
       },
     ],
   },
