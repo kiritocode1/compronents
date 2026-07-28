@@ -44,16 +44,16 @@ export interface ShaderTunnelSliderProps {
 }
 
 const DEFAULT_SLIDES: TunnelSlide[] = [
-  { title: "Neon", id: "CG30128", image: `${ASSET_BASE}/img1.jpg` },
-  { title: "Volt", id: "CG39102", image: `${ASSET_BASE}/img2.jpg` },
-  { title: "Echo", id: "CG84729", image: `${ASSET_BASE}/img3.jpg` },
-  { title: "Glitch", id: "CG67215", image: `${ASSET_BASE}/img4.jpg` },
-  { title: "Pulse", id: "CG48391", image: `${ASSET_BASE}/img5.jpg` },
-  { title: "Drift", id: "CG55204", image: `${ASSET_BASE}/img6.jpg` },
-  { title: "Prism", id: "CG71638", image: `${ASSET_BASE}/img7.jpg` },
-  { title: "Vapor", id: "CG29457", image: `${ASSET_BASE}/img8.jpg` },
-  { title: "Signal", id: "CG83016", image: `${ASSET_BASE}/img9.jpg` },
-  { title: "Static", id: "CG40972", image: `${ASSET_BASE}/img10.jpg` },
+  { title: "Neon", id: "BLK30128", image: `${ASSET_BASE}/img1.jpg` },
+  { title: "Volt", id: "BLK39102", image: `${ASSET_BASE}/img2.jpg` },
+  { title: "Echo", id: "BLK84729", image: `${ASSET_BASE}/img3.jpg` },
+  { title: "Glitch", id: "BLK67215", image: `${ASSET_BASE}/img4.jpg` },
+  { title: "Pulse", id: "BLK48391", image: `${ASSET_BASE}/img5.jpg` },
+  { title: "Drift", id: "BLK55204", image: `${ASSET_BASE}/img6.jpg` },
+  { title: "Prism", id: "BLK71638", image: `${ASSET_BASE}/img7.jpg` },
+  { title: "Vapor", id: "BLK29457", image: `${ASSET_BASE}/img8.jpg` },
+  { title: "Signal", id: "BLK83016", image: `${ASSET_BASE}/img9.jpg` },
+  { title: "Static", id: "BLK40972", image: `${ASSET_BASE}/img10.jpg` },
 ];
 
 const VERTEX_SHADER = `
@@ -105,6 +105,14 @@ export default function ShaderTunnelSlider({
     const container = root.querySelector<HTMLElement>(".sts-container");
     const stage = root.querySelector<HTMLElement>(".sts-canvas");
     if (!content || !container || !stage) return;
+
+    // Drives the sticky stage and the scroll spacer. Embedded that is the
+    // component's own box; unembedded it is the window, as in the source.
+    const syncViewport = () => {
+      const px = embedded ? root.clientHeight : window.innerHeight;
+      if (px) root.style.setProperty("--sts-vh", `${px}px`);
+    };
+    syncViewport();
 
     const scroller = embedded ? root : undefined;
     const lenis = embedded
@@ -221,12 +229,13 @@ export default function ShaderTunnelSlider({
     }
 
     const resize = new ResizeObserver(() => {
+      syncViewport();
       if (!stage.clientWidth || !stage.clientHeight) return;
       renderer.setSize(stage.clientWidth, stage.clientHeight);
       uniforms.iResolution.value.set(stage.clientWidth, stage.clientHeight);
       ScrollTrigger.refresh();
     });
-    resize.observe(stage);
+    resize.observe(root);
 
     ScrollTrigger.refresh();
 
@@ -250,50 +259,52 @@ export default function ShaderTunnelSlider({
     >
       <style>{styles}</style>
 
-      <div className="sts-canvas" />
-
-      <nav className="sts-nav">
-        <div className="sts-nav-items">
-          {navLeft.map((item) => (
-            <a href="#nav" key={item}>
-              {item}
-            </a>
-          ))}
-        </div>
-        <div className="sts-logo">
-          <a href="#brand">{brand}</a>
-        </div>
-        <div className="sts-nav-items">
-          {navRight.map((item) => (
-            <a href="#nav" key={item}>
-              {item}
-            </a>
-          ))}
-        </div>
-      </nav>
-
-      <footer className="sts-footer">
-        <p>{footerLeft}</p>
-        <p>{footerRight}</p>
-      </footer>
-
-      <div className="sts-slider">
-        {slides.map((slide) => (
-          <div className="sts-slide" key={slide.id}>
-            <div className="sts-slide-img">
-              <img alt="" draggable={false} src={slide.image} />
-            </div>
-            <div className="sts-slide-copy">
-              <p>{slide.title}</p>
-              <p>{slide.id}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="sts-overlay" />
-
       <div className="sts-content">
+        <div className="sts-stage">
+          <div className="sts-canvas" />
+
+          <div className="sts-overlay" />
+
+          <nav className="sts-nav">
+            <div className="sts-nav-items">
+              {navLeft.map((item) => (
+                <a href="#nav" key={item}>
+                  {item}
+                </a>
+              ))}
+            </div>
+            <div className="sts-logo">
+              <a href="#brand">{brand}</a>
+            </div>
+            <div className="sts-nav-items">
+              {navRight.map((item) => (
+                <a href="#nav" key={item}>
+                  {item}
+                </a>
+              ))}
+            </div>
+          </nav>
+
+          <footer className="sts-footer">
+            <p>{footerLeft}</p>
+            <p>{footerRight}</p>
+          </footer>
+
+          <div className="sts-slider">
+            {slides.map((slide) => (
+              <div className="sts-slide" key={slide.id}>
+                <div className="sts-slide-img">
+                  <img alt="" draggable={false} src={slide.image} />
+                </div>
+                <div className="sts-slide-copy">
+                  <p>{slide.title}</p>
+                  <p>{slide.id}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="sts-container" />
       </div>
     </div>
@@ -313,26 +324,32 @@ const styles = `
   box-sizing: border-box;
 }
 
-/* Every layer below is position: fixed, as in the source. The transform here
-   makes this element their containing block, so inside a bounded box they pin
-   to the component instead of the page and, crucially, stay put while its own
-   content scrolls: as plain absolute children of the scroller they scrolled
-   straight off the top and left a black screen. Unembedded there is no
-   transform, so fixed means the viewport, exactly as the source has it. */
 .sts-root.sts-embedded {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  transform: translateZ(0);
 }
 .sts-root.sts-embedded::-webkit-scrollbar {
   display: none;
 }
 
+/* The source pins its layers with position: fixed against the window. Embedded,
+   the component owns the scroll and neither absolute nor fixed pins to it: an
+   absolute child of the scroller scrolls with the content, and a fixed one does
+   exactly the same the moment any ancestor carries a transform. Sticky is the
+   only one that really holds. The negative margin cancels the stage's flow
+   height, so the scroll length stays the source's 2000vh and not one more. */
+.sts-stage {
+  position: sticky;
+  top: 0;
+  height: var(--sts-vh, 100svh);
+  margin-bottom: calc(var(--sts-vh, 100svh) * -1);
+}
+
 /* Paint order follows the source's: backdrop, vignette, chrome, then the cards
    over all of it. The vignette darkens the tunnel, never the cards. */
 .sts-canvas {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -366,7 +383,7 @@ const styles = `
 
 .sts-nav,
 .sts-footer {
-  position: fixed;
+  position: absolute;
   left: 0;
   width: 100%;
   padding: 2em;
@@ -421,11 +438,11 @@ const styles = `
 
 .sts-container {
   width: 100%;
-  height: 2000svh;
+  height: calc(var(--sts-vh, 100svh) * 20);
 }
 
 .sts-slider {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -462,7 +479,7 @@ const styles = `
 }
 
 .sts-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
