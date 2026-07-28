@@ -13384,6 +13384,66 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "pixel-cube-avatar": {
+    demoPath: "src/components/demos/pixel-cube-avatar.tsx",
+    nuance: [
+      {
+        label: "The grid stays 17 by 17 at every size",
+        description:
+          "Resolution is what makes it read as pixels, so size scales the block each cell draws rather than adding cells. A larger avatar is the same 289-cell simulation with bigger squares.",
+      },
+      {
+        label: "Chroma reacts to speed, not to a clock",
+        description:
+          "The red and blue passes are offset by a fixed 13 degrees plus a term driven by how fast the cube actually turned this frame, clamped to 0.4 radians. Standing still it is nearly clean; thrown hard it tears into full RGB.",
+      },
+      {
+        label: "The trail is a max blend, not alpha",
+        description:
+          "Each frame keeps the brighter of the new edge and 90 percent of the previous one per channel, so the smear decays without ever muddying the live wireframe underneath it.",
+      },
+      {
+        label: "Two rest poses, nearest one wins",
+        description:
+          "On release it measures the angular distance to both head-on orientations and springs to the closer one, with the spring frequency softened the further it has to travel, so a long throw settles slowly and a nudge snaps back.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description: "Backdrop the cube is rasterized onto.",
+      },
+      {
+        name: "label",
+        control: "text",
+        description: "Accessible name for the canvas.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "size",
+        type: "number",
+        default: "320",
+        description:
+          "Rendered size in px. Rounded so each of the 17 cells lands on a whole number of pixels.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#161616"',
+        description:
+          "Hex only. It is baked into every pixel, so a transparent or named colour will not work.",
+      },
+      {
+        name: "label",
+        type: "string",
+        default: '"Rotating pixel cube"',
+        description: "Accessible name for the canvas, which has role img.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

@@ -4981,6 +4981,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "pixel-cube-avatar",
+    title: "Pixel Cube Avatar",
+    description:
+      "A wireframe cube rasterized onto a 17 by 17 pixel grid with RGB channel separation. Twelve edges are projected through a two-axis rotation and drawn with an integer Bresenham line into three 8-bit channel buffers; the red and blue passes sit a few degrees off green and scale slightly apart, so the wireframe splits into chromatic fringes, and each frame blends the last one back in so motion smears a decaying trail. It idles still, spins on hover, follows a drag, coasts on release, and returns on a randomized spring to whichever of two rest poses is nearer. A click fires a multi-turn tumble with a decaying sine wobble on top. Canvas 2D and one rAF loop, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-29",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pixel-cube-avatar.tsx",
+        target: "components/ui/pixel-cube-avatar.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
