@@ -1389,6 +1389,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "On Repeat",
+        href: "https://on-repeat-tau.vercel.app/demo/index.html",
+        dateAdded: "2026-07-29",
+        description:
+          "Demo page for On Repeat, a set of drop-in music player components you can lift into any site. Three skins are live on the page: a vinyl record player, an iPod-style player, and a bar visualizer, each with its own demo route and a Load button that starts playback. The page frames distribution as a prompt you copy rather than a package you install, so the useful part is opening each player and reading how the transport controls and the audio-reactive artwork are wired.",
+      },
+      {
         title: "Animated Favicons: Live Demo",
         href: "https://favicon.im/blog/animated-favicon-live-demo",
         dateAdded: "2026-07-25",
