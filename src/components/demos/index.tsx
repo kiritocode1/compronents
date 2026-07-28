@@ -128,6 +128,7 @@ import ParticleFluidHeroDemo from "./particle-fluid-hero";
 import PhotoSphereOrbDemo from "./photo-sphere-orb";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
+import PixelSmearWordmarkDemo from "./pixel-smear-wordmark";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
@@ -154,6 +155,7 @@ import ShaderTunnelSliderDemo from "./shader-tunnel-slider";
 import ShaderWarpSliderDemo from "./shader-warp-slider";
 import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
 import ShuffleGridPreloaderDemo from "./shuffle-grid-preloader";
+import ShufflePanelMenuDemo from "./shuffle-panel-menu";
 import SkewCharHeaderDemo from "./skew-char-header";
 import SlidingIndexMenuDemo from "./sliding-index-menu";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
@@ -403,4 +405,6 @@ export const demos: Record<string, ComponentType> = {
   "contact-sheet-zoom": ContactSheetZoomDemo,
   "service-index-scrub": ServiceIndexScrubDemo,
   "shader-tunnel-slider": ShaderTunnelSliderDemo,
+  "pixel-smear-wordmark": PixelSmearWordmarkDemo,
+  "shuffle-panel-menu": ShufflePanelMenuDemo,
 };

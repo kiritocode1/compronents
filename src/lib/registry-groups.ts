@@ -156,6 +156,7 @@ export const componentGroups: RegistryGroup[] = [
       "skew-char-header",
       "curved-letter-path-scroll",
       "clip-reveal-services",
+      "pixel-smear-wordmark",
     ],
   },
   {
@@ -186,6 +187,7 @@ export const componentGroups: RegistryGroup[] = [
       "tilt-away-menu",
       "push-down-overlay-menu",
       "rotating-halves-menu",
+      "shuffle-panel-menu",
     ],
   },
   {

@@ -4601,6 +4601,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "pixel-smear-wordmark",
+    title: "Pixel Smear Wordmark",
+    description:
+      "A wordmark rendered to a canvas, uploaded as a texture, and sampled through a shader that drags it under the cursor. The displacement is not the pointer position, it is the pointer's velocity: each fragment snaps its UV to a forty by forty grid, measures the distance from that cell's centre to the cursor, and offsets its sample along the direction the cursor last travelled, scaled by a smoothstep falloff. So the letters only smear while the mouse is actually moving, and the grid quantisation is what makes the smear read as blocks rather than a smooth warp. Two easing rates are used deliberately: slow on enter and leave so the field settles, faster while moving so it tracks. Three.js.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pixel-smear-wordmark.tsx",
+        target: "components/ui/pixel-smear-wordmark.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "shuffle-panel-menu",
+    title: "Shuffle Panel Menu",
+    description:
+      "A side panel whose every label scrambles into place. Each character runs its own interval swapping in a random letter, and the interval is torn down on a per-character delay that grows by 150ms down the word, so the text resolves left to right rather than snapping back at once. The highlight plate behind a link is not a fixed width: each link is measured after mount and its plate sized to that width plus thirty, with the meta label parked just past it, so a long word and a short one both get a plate that fits. Items slide in from minus a hundred pixels on a fifty millisecond cascade, and hovering a row walks its meta text through a colour flip one character at a time.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shuffle-panel-menu.tsx",
+        target: "components/ui/shuffle-panel-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

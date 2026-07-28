@@ -12383,6 +12383,112 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "pixel-smear-wordmark": {
+    demoPath: "src/components/demos/pixel-smear-wordmark.tsx",
+    nuance: [
+      {
+        label: "Velocity displaces, not position",
+        description:
+          "The offset is u_mouse minus u_prevMouse. Park the cursor and the wordmark snaps back to true even though the pointer is still over it, which is what makes it feel like drag rather than a lens.",
+      },
+      {
+        label: "The grid snap is the whole look",
+        description:
+          "Each fragment floors its UV to a 40x40 cell before measuring distance, so a whole block shares one offset. Without that quantisation the same maths gives a smooth liquid warp instead of chunks.",
+      },
+      {
+        label: "Two easing rates, deliberately",
+        description:
+          "0.035 while moving so it tracks the cursor, 0.01 on enter and leave so it drifts to rest. One rate would either lag during movement or snap at the edges.",
+      },
+    ],
+    editable: [
+      {
+        name: "text",
+        control: "text",
+        description: "The wordmark drawn to the texture.",
+      },
+      { name: "textColor", control: "color", description: "Letter colour." },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "text / fontFamily / fontWeight",
+        type: "string",
+        default: "BLANK / Anton / 100",
+        description:
+          "Drawn to a 2x canvas and auto-scaled to fit the width, so long words shrink rather than clip.",
+      },
+      {
+        name: "gridSize",
+        type: "number",
+        default: "40",
+        description: "Cells per axis the shader snaps to. Lower is chunkier.",
+      },
+      {
+        name: "strength",
+        type: "number",
+        default: "0.4",
+        description:
+          "How far a cell is dragged along the pointer's travel direction.",
+      },
+    ],
+  },
+  "shuffle-panel-menu": {
+    demoPath: "src/components/demos/shuffle-panel-menu.tsx",
+    nuance: [
+      {
+        label: "Each character resolves on its own clock",
+        description:
+          "Every char gets its own interval and its own teardown delay, growing 150ms per position. That growing delay is what makes the word settle left to right instead of unscrambling all at once.",
+      },
+      {
+        label: "The plate is measured, not assumed",
+        description:
+          "Link widths are read after mount and the highlight sized to width + 30, with the meta label placed at width + 40. A fixed plate would either clip the long labels or float past the short ones.",
+      },
+      {
+        label: "Timers are tracked, not fired and forgotten",
+        description:
+          "Every interval and timeout is held in a set and cleared on unmount. The source leaks them freely, which in a React tree would keep writing to detached nodes after navigation.",
+      },
+    ],
+    editable: [
+      {
+        name: "activeColor",
+        control: "color",
+        description: "Plate colour on the item highlighted at rest.",
+      },
+      {
+        name: "sectionTitle",
+        control: "text",
+        description: "Label in the left column.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "items",
+        type: "ShufflePanelItem[]",
+        default: "6 BLANK entries",
+        description:
+          "Label and meta per row. Plate widths are derived per item.",
+      },
+      {
+        name: "activeIndex",
+        type: "number",
+        default: "4",
+        description: "Which row keeps its plate when nothing is hovered.",
+      },
+      {
+        name: "subItems",
+        type: "ShufflePanelSubItem[]",
+        default: "3 BLANK rows",
+        description:
+          "Title and content pairs along the bottom, each with its own sweep on hover.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {
