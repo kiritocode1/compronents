@@ -117,7 +117,13 @@ export function analyzeFile(filePath, src, shippedPaths, dependencies) {
       // path is still correct after install. Prisma 7 is the case that forces
       // this: the generated client replaced `@prisma/client` as the import
       // site, and its output path is set by the item's own prisma.config.ts.
-      const generated = /(^|\/)generated\//.test(base) && deps.has("prisma");
+      // Convex is the same shape with a different spelling: `npx convex dev`
+      // writes convex/_generated/{api,server,dataModel} into the consumer's
+      // project, and a Convex function module cannot be written without
+      // importing them.
+      const generated =
+        (/(^|\/)generated\//.test(base) && deps.has("prisma")) ||
+        (/(^|\/)_generated\//.test(base) && deps.has("convex"));
       if (!resolved && !generated) {
         problems.push(
           `imports "${spec}" which is not shipped by this item (resolved ${base})`,

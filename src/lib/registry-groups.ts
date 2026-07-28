@@ -360,6 +360,9 @@ export const backendGroups: RegistryGroup[] = [
       "durable-object-sql-tenant-db",
       "pg-advisory-lock-keyset-scan",
       "indexeddb-sync-outbox",
+      "turso-replica-read-your-writes",
+      "turso-tenant-migration-fanout",
+      "turso-transaction-mode-guard",
     ],
   },
   {
@@ -393,6 +396,7 @@ export const backendGroups: RegistryGroup[] = [
       "effect-password-hash-vault",
       "effect-payment-reconciliation",
       "effect-hot-account-ledger",
+      "convex-exactly-once-action",
     ],
   },
   {
@@ -415,6 +419,9 @@ export const backendGroups: RegistryGroup[] = [
       "effect-wal-crash-recovery",
       "effect-two-phase-commit",
       "effect-saga-payment-orchestrator",
+      "convex-occ-sharded-counter",
+      "tigerbeetle-test-ledger",
+      "tigerbeetle-two-phase-reservation",
     ],
   },
   {
@@ -438,6 +445,7 @@ export const backendGroups: RegistryGroup[] = [
       "effect-fair-priority-scheduler",
       "effect-dataloader-batch",
       "effect-chunked-upload-integrity",
+      "vercel-ai-gateway-failover-budget",
     ],
   },
   {
@@ -453,6 +461,8 @@ export const backendGroups: RegistryGroup[] = [
       "vercel-queue-consumer-groups",
       "artifacts-fork-run-workflow",
       "effect-cluster-entity-sharding",
+      "vercel-workflow-step-idempotency",
+      "vercel-workflow-continuation-versioning",
     ],
   },
   {
@@ -469,6 +479,8 @@ export const backendGroups: RegistryGroup[] = [
       "fluid-stream-lifecycle",
       "artifacts-repo-provisioner",
       "artifacts-agent-commit-notes",
+      "vercel-waituntil-drain-guard",
+      "vercel-blob-client-upload-tokens",
     ],
   },
   {

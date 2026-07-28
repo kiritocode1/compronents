@@ -6860,4 +6860,1079 @@ export const backendViz: Record<string, VizEntry> = {
       },
     ],
   },
+
+  "convex-exactly-once-action": {
+    control: "reservation",
+    variants: [
+      {
+        name: "off (double charge)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The key is minted inside the action. Convex schedules an action at most once and never retries it, so a lost process means you retry by hand, and the second run mints a fresh key. Stripe sees two different keys, so it has nothing to dedupe on and creates a second charge. Watch the cell flash red: that is a real $49.99 the customer did not authorise.",
+          code: `"Idempotency-Key": crypto.randomUUID() // minted per action run`,
+          ref: {
+            label: "key sent to Stripe",
+            values: [
+              "none",
+              "ik_1a3f",
+              "ik_1a3f",
+              { v: "ik_9c72", bad: true },
+              { v: "ik_9c72", bad: true },
+              "none",
+            ],
+            request: {
+              label: "action run 1",
+              token: "crypto.randomUUID",
+              result: "charge $49.99",
+              states: s(
+                "running",
+                "completed",
+                "death",
+                "death",
+                "death",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "manual retry",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "reserved",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The mutation inserts the attempt row and schedules the action in one transaction, then derives the key from the document id Convex just assigned. The row is durable before the effect is possible, so the retry reads the same key back and Stripe collapses the duplicate into the original charge. One key, one charge, two identical receipts.",
+          code: `providerKeyFor(attemptId) // the id the reserving transaction assigned`,
+          ref: {
+            label: "key sent to Stripe",
+            values: [
+              "none",
+              "ik_att7k",
+              "ik_att7k",
+              "ik_att7k",
+              "ik_att7k",
+              "none",
+            ],
+            request: {
+              label: "action run 1",
+              token: "providerKeyFor",
+              result: "charge $49.99",
+              states: s(
+                "running",
+                "completed",
+                "death",
+                "death",
+                "death",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "swept retry",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+  "convex-occ-sharded-counter": {
+    control: "sharding",
+    variants: [
+      {
+        name: "one hot row",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Both mutations read the same document, so both read sets cover it. The first commit invalidates the second, which aborts and re-runs from the latest timestamp. The total is never wrong, but exactly one writer commits per round, so under load the retries go quadratic and Convex eventually returns Write conflict: Optimistic concurrency control.",
+          code: `ctx.db.patch("counts", id, { value: doc.value + 1 }) // one row, every writer`,
+          ref: {
+            label: "likes",
+            values: [412, 413, 413, 414, 414, 412],
+            request: {
+              label: "increment A",
+              token: "ctx.db.patch",
+              result: "committed",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "increment B",
+              error: "read set stale, re-run",
+              states: s(
+                "running",
+                "running",
+                "failed",
+                "running",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "16 shards",
+        spec: {
+          archetype: "ref",
+          caption:
+            "pickShard hashes each caller's token to one of 16 rows, so the two mutations read disjoint index ranges and neither invalidates the other. Both commit on their first attempt. The total is the same number, read from a query that sums the shards and never takes part in a write conflict at all.",
+          code: `withIndex("by_name_shard", q => q.eq("name", n).eq("shard", pickShard(token)))`,
+          ref: {
+            label: "likes (rollup)",
+            values: [412, 413, 414, 414, 414, 412],
+            request: {
+              label: "increment A -> shard 3",
+              token: "pickShard",
+              result: "committed",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "increment B -> shard 11",
+              states: s(
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+  "tigerbeetle-test-ledger": {
+    control: "test double",
+    variants: [
+      {
+        name: "mock returns []",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The mock resolves to an empty array, so the code under test never reads a status and every assertion is green. The first real rejection arrives in production: the customer overdraws, exceeds_credits comes back, and the handler that was never written to read it books the order anyway.",
+          code: `createTransfers: async () => [] // every test is green`,
+          nodes: [
+            {
+              label: "unit test",
+              result: "green",
+              token: "createTransfers: async () => []",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "status handling",
+              error: "never exercised",
+              states: s("idle", "idle", "idle", "idle", "failed", "idle"),
+            },
+            {
+              label: "production",
+              error: "exceeds_credits ignored",
+              notify: {
+                atStep: 4,
+                message: "overdrawn, order booked",
+                icon: "💸",
+              },
+              states: s("idle", "idle", "running", "running", "death", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "test ledger",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "The same code runs against a ledger that enforces the invariant, so the overdraw is rejected in CI with the real status code. The test fails on the developer's machine, the handler learns to read results[i].status, and production sees the path that was already proven.",
+          code: `results[1].status === CreateTransferStatus.exceeds_credits`,
+          nodes: [
+            {
+              label: "unit test",
+              error: "red, correctly",
+              token: "CreateTransferStatus.exceeds_credits",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "status handling",
+              result: "reads every index",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "production",
+              result: "rejection handled",
+              notify: { atStep: 4, message: "overdraw declined", icon: "🐅" },
+              states: s("idle", "idle", "idle", "running", "completed", "idle"),
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "tigerbeetle-two-phase-reservation": {
+    control: "overdraft guard",
+    variants: [
+      {
+        name: "off (balance check)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Two checkouts for $60.00 arrive against a $100.00 wallet. Both read the balance, both see enough, and both write. The application checked, so nobody is at fault, and the wallet lands at -$20.00. Watch the odometer flash red: that second debit should never have landed.",
+          code: `if (balance >= amount) debit(amount) // both read $100.00`,
+          ref: {
+            label: "wallet",
+            unit: "$",
+            values: [
+              100,
+              100,
+              40,
+              { v: -20, bad: true },
+              { v: -20, bad: true },
+              100,
+            ],
+            request: {
+              label: "checkout A",
+              token: "if (balance >= amount)",
+              result: "debited $60",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "checkout B",
+              states: s(
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "invariant + hold",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The wallet carries debits_must_not_exceed_credits, so the second authorization is refused by the cluster with exceeds_credits. The first $60.00 sits in debits_pending, which the invariant counts, so the hold is unspendable until the capture posts it or the timeout releases it.",
+          code: `debits_pending + debits_posted + amount > credits_posted -> exceeds_credits`,
+          ref: {
+            label: "wallet",
+            unit: "$",
+            values: [100, 100, 40, 40, 40, 100],
+            request: {
+              label: "authorize A",
+              token: "debits_pending",
+              result: "held $60",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "authorize B",
+              token: "exceeds_credits",
+              error: "exceeds_credits",
+              states: s(
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+  "turso-replica-read-your-writes": {
+    control: "read path",
+    variants: [
+      {
+        name: "syncInterval only (stale)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The comment commits on the remote primary at frame 42 and the POST answers 303. The follow-up GET is served from a local replica file still sitting at frame 41, because syncInterval bounds how old data gets, never how old it is relative to your own write. Watch the frame the reader sees stay behind the write it just made: the author reloads into a page missing their own comment, and every local test passed because locally there is only one file.",
+          code: `createClient({ syncUrl, syncInterval: 60 }) // staleness bound, not causality`,
+          ref: {
+            label: "replica frame",
+            values: [
+              "41",
+              "42",
+              { v: "41", bad: true },
+              { v: "41", bad: true },
+              "42",
+              "42",
+            ],
+            request: {
+              label: "GET after POST",
+              token: "syncInterval: 60",
+              states: s(
+                "idle",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+                "idle",
+              ),
+              result: "0 comments",
+            },
+          },
+        },
+      },
+      {
+        name: "frame watermark",
+        spec: {
+          archetype: "ref",
+          caption:
+            "commitWrite syncs once after the primary acknowledges and hands back frame 42. The GET carries that number and awaitFrame pulls until the local file reaches it, so the read is still a microsecond local read, just never one taken below the caller's own write. If the replica cannot reach 42 inside the deadline the query escalates to the primary: correct and slow, never fast and wrong.",
+          code: `await readAtLeast({ replica, primary, frame: 42, read })`,
+          ref: {
+            label: "replica frame",
+            values: ["41", "41", "42", "42", "42", "41"],
+            request: {
+              label: "GET after POST",
+              token: "frame: 42",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+              result: "2 comments",
+            },
+          },
+        },
+      },
+    ],
+  },
+  "turso-tenant-migration-fanout": {
+    control: "fan-out",
+    variants: [
+      {
+        name: "Promise.all (mixed fleet)",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "One tenant was hotfixed by hand during an incident, so migration 3's CREATE TABLE collides there. Promise.all rejects on that first failure and throws away the settled outcome of every other database. The deploy log says the migration failed; it cannot say which of the 10,000 tenants are at v3 and which are at v2, and the application that ships next expects exactly one of them.",
+          code: `await Promise.all(tenants.map(migrateOne)) // first rejection wins`,
+          nodes: [
+            {
+              label: "acme .. wayne",
+              token: "tenants.map(migrateOne)",
+              result: "v3",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "globex",
+              error: "table exists",
+              states: s(
+                "idle",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "deploy report",
+              error: "fleet version unknown",
+              notify: {
+                atStep: 3,
+                message: "9,999 outcomes discarded",
+                icon: "🚨",
+              },
+              states: s("idle", "idle", "idle", "death", "death", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "bounded fan-out",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 2,
+          caption:
+            "Each database is migrated in isolation through a bounded pool, and the failing tenant is a row in the report rather than the end of the run. Its migration rolled back whole, statements and version row together, because libSQL DDL is transactional, so the retry finds clean ground and touches only the one database that is behind.",
+          code: `await fanOut({ fleet, migrations, concurrency: 8 })`,
+          nodes: [
+            {
+              label: "acme .. wayne",
+              token: "fanOut",
+              result: "v3",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "globex",
+              error: "rolled back to v2",
+              states: s(
+                "idle",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "deploy report",
+              result: "4 at v3, 1 behind",
+              notify: {
+                atStep: 3,
+                message: "retry resumes 1 database",
+                icon: "📋",
+              },
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "vercel-waituntil-drain-guard": {
+    control: "background work",
+    variants: [
+      {
+        name: "bare waitUntil",
+        spec: {
+          archetype: "flow",
+          caption:
+            "waitUntil is getContext().waitUntil?.(promise). When the context is missing, the optional chain swallows the call: nothing throws, nothing warns, and the promise is left floating. The response goes out 200, the instance freezes, and the analytics write never lands. Watch the third node: it never reaches completed.",
+          code: `waitUntil(track(evt)) // no context: ?. swallows it`,
+          nodes: [
+            {
+              label: "handler",
+              result: "200 OK",
+              token: "waitUntil(track(evt))",
+              states: s(
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "instance",
+              result: "frozen",
+              notify: {
+                atStep: 3,
+                message: "froze with work in flight",
+                icon: "🧊",
+              },
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "analytics write",
+              error: "never landed",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "failed",
+                "failed",
+              ),
+            },
+          ],
+        },
+      },
+      {
+        name: "planned",
+        spec: {
+          archetype: "flow",
+          caption:
+            "The same three calls, planned instead of assumed. The context is read from the same symbol the SDK reads, so an unwired scope downgrades to an inline await rather than a floating promise, and the write lands before the freeze. Latency is the cheaper failure.",
+          code: `plan = planBackgroundTask(...) // inline when unwired`,
+          nodes: [
+            {
+              label: "handler",
+              result: "200 OK",
+              token: "planBackgroundTask(...)",
+              states: s(
+                "running",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "instance",
+              result: "drained",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "analytics write",
+              result: "row saved",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "turso-transaction-mode-guard": {
+    control: "mode",
+    variants: [
+      {
+        name: "deferred (lost write)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "Both transactions begin deferred, so neither holds a write lock while it reads. Both read 3 seats remaining. The first commits, and the second's upgrade fails with SQLITE_BUSY_SNAPSHOT: its snapshot went stale and no busy timeout can wait that away. The booking is lost while the seat sits unsold, and the customer sees an error on a flight that has room.",
+          code: `await client.transaction("deferred") // the default, and the one that loses`,
+          ref: {
+            label: "seats remaining",
+            values: [3, 3, 2, { v: 2, bad: true }, 2, 3],
+            request: {
+              label: "buyer A",
+              token: `"deferred"`,
+              result: "booked",
+              states: s(
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "buyer B",
+              error: "SQLITE_BUSY_SNAPSHOT 517",
+              states: s(
+                "running",
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "write mode",
+        spec: {
+          archetype: "ref",
+          caption:
+            "BEGIN IMMEDIATE takes the write lock before the first read, so buyer B blocks at the BEGIN instead of reading a snapshot it will not be allowed to keep. B waits, then reads 2 and books the last seat it is entitled to. Three seats, three bookings, no spurious failures, and the retry counter is the metric that tells you the mode was wrong.",
+          code: `await client.transaction("write") // BEGIN IMMEDIATE: lock before read`,
+          ref: {
+            label: "seats remaining",
+            values: [3, 3, 2, 2, 1, 3],
+            request: {
+              label: "buyer A",
+              token: `"write"`,
+              result: "booked",
+              states: s(
+                "running",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "buyer B",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "running",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+  "vercel-blob-client-upload-tokens": {
+    control: "policy",
+    variants: [
+      {
+        name: "off (any path)",
+        spec: {
+          archetype: "flow",
+          caption:
+            "The hook returns only allowedContentTypes, which reads as an allowlist and is one for content type alone. The pathname is not in the value the hook returns, so it cannot be corrected: the token is minted for exactly the path the browser asked for. A signed-in user writes over someone else's avatar, and because the blob URL does not change, every cache and embed keeps serving the new bytes.",
+          code: `onBeforeGenerateToken: async () => ({ allowedContentTypes: ["image/webp"] })`,
+          nodes: [
+            {
+              label: "client asks",
+              token: "onBeforeGenerateToken",
+              result: "u_9999.webp",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "token minted",
+              result: "write allowed",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "victim's avatar",
+              error: "overwritten",
+              states: s("idle", "idle", "running", "failed", "failed", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "scoped",
+        spec: {
+          archetype: "flow",
+          caption:
+            "The proposed pathname is checked against the prefix this session owns before anything is signed. It resolves outside that prefix, so it is refused rather than rewritten, which is the only move the hook's return type allows. The grant path mints one media type, one size ceiling, a ten minute expiry and a server-derived tokenPayload, so the capability cannot outlive or exceed the decision that made it.",
+          code: `if (!ownsPathname(session, pathname)) throw new Error("pathname_not_owned")`,
+          nodes: [
+            {
+              label: "client asks",
+              token: "ownsPathname",
+              result: "u_9999.webp",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "prefix check",
+              error: "pathname_not_owned",
+              states: s(
+                "idle",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            {
+              label: "victim's avatar",
+              result: "untouched",
+              states: s(
+                "idle",
+                "idle",
+                "idle",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "vercel-workflow-step-idempotency": {
+    control: "reservation",
+    variants: [
+      {
+        name: "off (double charge)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The step charges, then the process dies before the result is journaled. The runtime sees a step that started and never completed, so it retries it, and the retry has no way to know a charge already landed. Two charges, one invoice. The journal did its job perfectly: it records results, and there was never a result to record.",
+          code: `await step(async () => provider.charge(card, 4999)) // journals the result, not the effect`,
+          ref: {
+            label: "charged cents",
+            values: [
+              0,
+              4999,
+              4999,
+              { v: 9998, bad: true },
+              { v: 9998, bad: true },
+              0,
+            ],
+            request: {
+              label: "attempt 1",
+              token: "provider.charge",
+              result: "charged, then died",
+              states: s(
+                "running",
+                "completed",
+                "death",
+                "death",
+                "death",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "replay",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "reserved",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The key is claimed before the effect, so the replay finds a reservation with no receipt and does the one correct thing: it asks the provider what it holds under that key. The provider returns the original charge, the receipt is adopted rather than re-earned, and the total never moves. The retry is not suppressed, it is informed.",
+          code: `const held = await provider.recover(key) // ask, do not assume`,
+          ref: {
+            label: "charged cents",
+            values: [0, 4999, 4999, 4999, 4999, 0],
+            request: {
+              label: "attempt 1",
+              token: "provider.recover",
+              result: "charged, then died",
+              states: s(
+                "running",
+                "completed",
+                "death",
+                "death",
+                "death",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "replay adopts ch_1",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
+  "vercel-workflow-continuation-versioning": {
+    control: "envelope",
+    variants: [
+      {
+        name: "off (silent drift)",
+        spec: {
+          archetype: "flow",
+          caption:
+            "Deploy 12 renamed lastSentAt to lastDigestAt. The loop started on deploy 11 hands the new code the old object, the field reads undefined, and the digest window falls back to the epoch. Nothing throws. Every subscriber receives a year of articles in one email, and the loop writes the same broken shape forward so the next hop does it again.",
+          code: `const since = state.lastDigestAt ?? new Date(0) // the rename nobody migrated`,
+          nodes: [
+            {
+              label: "hop 11 state",
+              result: "lastSentAt",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "deploy 12 reads",
+              token: "state.lastDigestAt",
+              result: "undefined",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "digest sent",
+              error: "1 year of articles",
+              states: s("idle", "idle", "running", "failed", "failed", "idle"),
+            },
+          ],
+        },
+      },
+      {
+        name: "stamped",
+        spec: {
+          archetype: "flow",
+          caption:
+            "The state carries its version, so deploy 12 recognises a v1 envelope and runs the v1 to v2 migration that moves the field, then validates the result before using it. A migration that dropped the timestamp would be rejected here rather than shipped. The digest window is the real one, and the shape written forward is the current one.",
+          code: `decodeState(raw) // refuses what it cannot name, migrates what it can`,
+          nodes: [
+            {
+              label: "hop 11 state",
+              result: "v1 stamped",
+              states: s(
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "migrate v1 to v2",
+              token: "decodeState",
+              result: "lastDigestAt",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+            {
+              label: "digest sent",
+              result: "since last hop",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          ],
+        },
+      },
+    ],
+  },
+  "vercel-ai-gateway-failover-budget": {
+    control: "accounting",
+    variants: [
+      {
+        name: "off (release on error)",
+        spec: {
+          archetype: "ref",
+          caption:
+            "The first attempt streams 900 tokens and then the provider times out. The wrapper does what every retry wrapper does and releases the hold, but the error carried a generationId, which means a provider was reached and the generation was billed. The failover succeeds, the ledger reports the cost of one call, and the invoice shows two.",
+          code: `catch { ledger.release(hold) } // the error carried a generationId`,
+          ref: {
+            label: "committed USD",
+            values: [
+              "0.0000",
+              "0.0000",
+              { v: "0.0000", bad: true },
+              "0.0210",
+              "0.0210",
+              "0.0000",
+            ],
+            request: {
+              label: "gpt-5 attempt",
+              token: "ledger.release",
+              error: "504, billed anyway",
+              states: s(
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "failover settles",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+      {
+        name: "reconciled",
+        spec: {
+          archetype: "ref",
+          caption:
+            "A failure carrying a generationId is booked rather than released, and the id is queued for a getGenerationInfo() lookup that replaces the placeholder with the real totalCost. The failed attempt's spend is on the books before the next admission is tested, so the cap is measured against what was actually billed and the third candidate is refused rather than attempted.",
+          code: `ledger.recordGeneration(hold, err.generationId) // it billed, so book it`,
+          ref: {
+            label: "committed USD",
+            values: [
+              "0.0000",
+              "0.0000",
+              "0.0180",
+              "0.0390",
+              "0.0390",
+              "0.0000",
+            ],
+            request: {
+              label: "gpt-5 attempt",
+              token: "ledger.recordGeneration",
+              error: "504, booked $0.0180",
+              states: s(
+                "running",
+                "running",
+                "failed",
+                "failed",
+                "failed",
+                "idle",
+              ),
+            },
+            challenger: {
+              label: "failover settles",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "idle",
+              ),
+            },
+          },
+        },
+      },
+    ],
+  },
 };

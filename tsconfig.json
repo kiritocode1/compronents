@@ -53,6 +53,9 @@
     "src/registry/rivet-*",
     "src/registry/vercel-*",
     "src/registry/sveltekit-*",
+    "src/registry/convex-*",
+    "src/registry/tigerbeetle-*",
+    "src/registry/turso-*",
     "src/registry/worker-rpc-*"
   ]
 }

@@ -7366,6 +7366,292 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+
+  {
+    name: "convex-exactly-once-action",
+    title: "Convex Exactly-Once Action",
+    description:
+      "The most expensive mistake on Convex: mutations are serializable OCC transactions, but actions are not transactions at all and the docs are explicit that a scheduled action executes at most once and is never retried, so the ordinary shape of calling Stripe from an action and writing the result afterwards charges the customer twice whenever the process dies in between. This splits the work the only way that survives it: a mutation reserves an attempt row and schedules the action in the same transaction (ctx.scheduler.runAfter inside a mutation commits with the write or not at all, which is a transactional outbox for free), the action is the sole place a fetch may happen, and a fenced settling mutation commits the outcome exactly once. The provider idempotency key is minted from the attempt document id that Convex assigns transactionally, never from Math.random(), which returns a new value on every OCC re-execution and is frozen at deploy time when called at module scope; every retry therefore sends the provider the same key. Includes attempt-number fencing so a stalled action from a superseded attempt cannot overwrite a terminal outcome, permanent-versus-transient classification so a declined card is not retried forever, and a cron sweeper that retires exhausted rows instead of rescanning them until its index range is all garbage. All decision logic is pure and ships with an eight-property demo that runs under bun with no deployment. Pinned to convex@1.42.3.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["convex@1.42.3"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/convex-exactly-once-action/lib/attemptMachine.ts",
+        target: "convex/lib/attemptMachine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/convex-exactly-once-action/charges.ts",
+        target: "convex/charges.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "convex-occ-sharded-counter",
+    title: "Convex OCC Sharded Counter",
+    description:
+      "Every Convex mutation is a serializable transaction over the whole database, so the read-modify-write that silently loses updates on Postgres at READ COMMITTED is simply correct here, with no BEGIN, no isolation level to pick, and no row lock to forget; a read that found nothing even conflicts with an insert into the range it searched, which is the unique constraint you never had to write. What you pay instead is contention: every writer to one hot document invalidates every other writer's read set, retries go quadratic in the writer count, and Convex eventually gives up with Write conflict: Optimistic concurrency control. This spreads increments across N shard rows selected by a hash of a caller token, never Math.random(), which returns a new value on every OCC re-execution and would move the retry to a different row. The rollup is a query, because a query never conflicts and re-runs reactively, while summing every shard inside a mutation would put all N back into one read set and undo the sharding entirely; a limit a mutation genuinely has to enforce gets a per-shard slice of the budget so the check reads only the row it is about to write. Also documents the read-set rule behind all of it, that .filter() has no index and scans the table, so a mutation written that way conflicts with every unrelated insert and works fine at 100 rows before throwing at 100k. Ships with a small model of Convex OCC and READ COMMITTED that runs the same handler under both engines, and an eight-property demo that runs under bun with no deployment. Pinned to convex@1.42.3.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["convex@1.42.3"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/convex-occ-sharded-counter/lib/occShards.ts",
+        target: "convex/lib/occShards.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/convex-occ-sharded-counter/counters.ts",
+        target: "convex/counters.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "tigerbeetle-test-ledger",
+    title: "TigerBeetle Test Ledger",
+    description:
+      "An in-memory TigerBeetle that enforces the real rejection semantics, so ledger code is unit tested in CI without a cluster. It implements createAccounts, createTransfers, lookupAccounts and lookupTransfers against the actual 0.17.x result shape (one { timestamp, status } per event, positionally, with created = 4294967295), plus double entry, the debits_must_not_exceed_credits invariant, two-phase pending/post/void with field inheritance, linked-chain rollback with linked_event_failed and linked_event_chain_open, id idempotency, and id_already_failed. Prevents the hand-rolled mock that resolves to an empty array, which trains code to never read a status and silently ignores every rejection until production, and it exposes advanceSeconds so pending-timeout expiry is an assertion instead of a sleep. Pinned to tigerbeetle-node 0.17.9.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["tigerbeetle-node@0.17.9"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/tigerbeetle-test-ledger/fake-cluster.ts",
+        target: "src/tigerbeetle-test-ledger/fake-cluster.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "tigerbeetle-two-phase-reservation",
+    title: "TigerBeetle Two-Phase Reservation",
+    description:
+      "Authorize now, capture later, auto-void on expiry, built on TigerBeetle's pending transfers. The payer account carries AccountFlags.debits_must_not_exceed_credits, so the cluster refuses an overdraw with exceeds_credits instead of the application losing the gap between if (balance >= amount) and the write, and because the invariant counts debits_pending a hold is unspendable rather than a row someone has to remember to subtract. Transfer.timeout releases a forgotten hold with no sweeper cron and no compensating refund, and the classifiers fold a retried capture (exists, or pending_transfer_already_posted from a fresh id) into already-applied so the retry that follows a network timeout does not refund a customer who was correctly charged. Pinned to tigerbeetle-node 0.17.9.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["tigerbeetle-node@0.17.9"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/tigerbeetle-two-phase-reservation/reservation.ts",
+        target: "src/tigerbeetle-two-phase-reservation/reservation.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/tigerbeetle-two-phase-reservation/reservation.demo.ts",
+        target: "src/tigerbeetle-two-phase-reservation/reservation.demo.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/tigerbeetle-test-ledger/fake-cluster.ts",
+        target: "src/tigerbeetle-test-ledger/fake-cluster.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "turso-replica-read-your-writes",
+    title: "Turso Replica Read Your Writes",
+    description:
+      "Read-your-writes for Turso embedded replicas, using the replication frame number as a session watermark. An embedded replica inverts the latency model: reads are a local SQLite file at microsecond latency and writes go to the remote primary, so a read issued right after a write can be answered by a replica that has not pulled it yet, and the author reloads into a page missing their own comment. commitWrite returns the frame_no that Client.sync() resolves to, readAtLeast pulls until the replica reaches it, and a replica that cannot catch up inside the deadline escalates to the primary rather than serving a fast wrong answer. syncInterval cannot do this: it bounds how old data gets, never how old it is relative to your own write. Also survives sync() rejecting with an empty error code on a non-replica client, which is what the local development configuration does. Pinned to @libsql/client@0.17.4.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["@libsql/client@0.17.4"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/turso-replica-read-your-writes/replica-session.ts",
+        target: "src/db/replica-session.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "turso-tenant-migration-fanout",
+    title: "Turso Tenant Migration Fan-Out",
+    description:
+      "A resumable schema migration fan-out across a fleet of database-per-tenant libSQL databases. Turso makes thousands of databases from one schema parent affordable, which removes the whole class of forgotten WHERE tenant_id clauses, and replaces it with a migration problem: the fan-out is not atomic across databases, so a partial run leaves the fleet at mixed schema versions. Promise.all rejects on the first failure and discards every other outcome; this returns a report naming who reached the target version, who is behind and at what version, and who drifted. Each migration's statements and its ledger row commit in one batch(stmts, write), so libSQL's transactional DDL makes a killed process leave clean ground rather than a schema that moved without its version row, and an explicit write mode avoids the deferred default that loses an upgrade race. A per-version checksum catches an edited migration before it silently splits the fleet into two schemas that both report the same version. Pinned to @libsql/client@0.17.4 and @tursodatabase/api@2.0.5.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["@libsql/client@0.17.4", "@tursodatabase/api@2.0.5"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/turso-tenant-migration-fanout/migrate-fleet.ts",
+        target: "src/db/migrate-fleet.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "vercel-waituntil-drain-guard",
+    title: "Vercel waitUntil Drain Guard",
+    description:
+      "Post-response work on Vercel, built around the fact that waitUntil is a lookup rather than a runtime primitive: the shipped implementation in @vercel/functions is getContext().waitUntil?.(promise), and getContext is globalThis[Symbol.for('@vercel/request-context')]?.get?.() ?? {}, so the optional chain turns a missing context into a silent no-op that returns undefined and leaves your promise floating, which is the exact failure waitUntil exists to prevent. That happens in every module-load drain loop, every cold-start listener, every unit test, and every self-hosted deployment, and nothing about it errors. This module reads the same symbol the SDK reads and exposes the answer as a boolean, then plans each task from the remaining duration budget rather than the configured maxDuration, since the docs state promises passed to waitUntil share the function's timeout and are cancelled when it expires with no failed invocation, no dead letter, and no retry. The planner returns one of three decisions: background it, await it inline when the context is not wired because latency is cheaper than a lost row, or refuse it outright when the work is must-not-lose or larger than the budget that is actually left. The self-check runs locally against a fake instance that installs the real symbol and models the freeze. Pinned to @vercel/functions@3.7.6.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["@vercel/functions@3.7.6"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vercel-waituntil-drain-guard/background.ts",
+        target: "src/lib/background.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/vercel-waituntil-drain-guard/route.ts",
+        target: "src/app/api/checkout/route.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "turso-transaction-mode-guard",
+    title: "Turso Transaction Mode Guard",
+    description:
+      "libSQL's client.transaction() defaults to deferred and client.batch() does too, which means the safe-looking one-liner is on the mode that loses writes. A deferred transaction takes no write lock until its first write, so a read-modify-write reads a snapshot, another connection commits underneath it, and the upgrade fails with SQLITE_BUSY_SNAPSHOT (extended code 517) that no busy timeout can rescue, because waiting cannot make a stale snapshot fresh: only restarting the transaction can. This runs the closure in write mode (BEGIN IMMEDIATE, the lock taken before the first read) and retries the whole closure rather than the failed statement, since a statement-level retry carries values read from a snapshot that has already been invalidated. The BEGIN itself sits inside the retry, because with BEGIN IMMEDIATE the lock acquisition is the single most likely place to see SQLITE_BUSY and a loop that starts after it leaves its commonest failure unretried. A classifier separates stale-snapshot (restart), lock-busy (wait and retry with full jitter) and fatal (never retry), which are indistinguishable without the extended code since all three arrive as SQLITE_BUSY or worse. Ships with a demo that races eight real connections against three seats on a real local WAL database and prints the real SQLite error codes. Pinned to @libsql/client@0.17.4.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["@libsql/client@0.17.4"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/turso-transaction-mode-guard/write-transaction.ts",
+        target: "src/db/write-transaction.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "vercel-blob-client-upload-tokens",
+    title: "Vercel Blob Client Upload Tokens",
+    description:
+      "The authorization decision behind handleUpload, built around a fact visible in the type rather than the prose: in @vercel/blob 2.6.1 onBeforeGenerateToken receives pathname as an argument but the value it returns is a Pick that does not include pathname, so there is no supported way to hand back a corrected path. Whatever the browser passed to upload() is what the token is minted for, which makes the near-universal hook body that returns only allowedContentTypes an authorization to write any path in the store, including another user's avatar. A client-proposed pathname can only be refused, so this validates it against the session's own prefix and rejects traversal, leading slashes, backslashes, doubled separators and null bytes rather than trying to sanitize them. It also pins the media type server-side from the purpose instead of letting the client's file extension choose it, since contentType is inferred from the pathname by default and a blob served as text/html from a public store is stored XSS on your blob domain; sets maximumSizeInBytes on the signed token constraints rather than the advisory put option; and makes the overwrite decision explicit, because addRandomSuffix and allowOverwrite both default to false and reaching for allowOverwrite the first time a user re-uploads turns a client-controlled pathname into a primitive for replacing anyone's file at a URL that never changes. tokenPayload is derived from the session, never echoed from the client. Pinned to @vercel/blob@2.6.1.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["@vercel/blob@2.6.1"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vercel-blob-client-upload-tokens/upload-policy.ts",
+        target: "src/blob/upload-policy.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/vercel-blob-client-upload-tokens/route.ts",
+        target: "app/api/blob/upload/route.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "vercel-workflow-step-idempotency",
+    title: "Vercel Workflow Step Idempotency",
+    description:
+      "Durable execution journals a step's RESULT, not its side effect. The documented step lifecycle runs step_created, step_started, step_completed, and a provider call lands somewhere between started and completed, so a crash in that window leaves a step with no recorded result and the runtime retries it: the guarantee is that the result is recorded once, never that the effect happened once. That gap is the double charge, and closing it is the caller's job. This reserves an idempotency key through a single-winner atomic claim (INSERT ON CONFLICT DO NOTHING, a conditional put, SET NX, or a unique index all qualify; a read-then-write in application code does not, and its gap is exactly wide enough for the second charge), then handles the case most implementations get wrong: a retry that finds a reservation with no receipt cannot distinguish an attempt that died before charging from one that charged and died before writing the receipt, so it asks the provider what it holds under that key instead of guessing, since guessing is wrong half the time in whichever direction it picks. A lease deadline separates a concurrent second attempt still alive on a stalled network call, where the loser must refuse and be retried later, from a genuinely dead one where recovery is meaningful. Pure logic, no SDK imports, with a demo that runs under bun. Pinned to workflow@4.6.2.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["workflow@4.6.2"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vercel-workflow-step-idempotency/reservation.ts",
+        target: "src/workflow/reservation.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/vercel-workflow-step-idempotency/charge-step.ts",
+        target: "src/workflow/charge-step.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "vercel-workflow-continuation-versioning",
+    title: "Vercel Workflow Continuation Versioning",
+    description:
+      'A run is pinned to the deployment that started it, and the only supported way off that pin is start(fn, args, { deploymentId: "latest" }), whose own type declaration in workflow 4.6.2 states that argument and return types become unknown because there is no guarantee the types will be consistent across deployments. So the continuation state of a self-restarting loop is an untyped wire format between two versions of your own code, and the compiler goes quiet at exactly the boundary that needs it. What happens next is silent shape drift: a deploy renames lastSentAt to lastDigestAt, an in-flight loop hands the new code the old object, the field reads undefined, the digest window falls back to the epoch, every subscriber gets a year of articles at once, and the loop writes the broken shape forward so the next hop repeats it, all without throwing. This stamps the state with a version and a hop count and refuses at the boundary rather than coercing: forward migrations run in sequence and are validated after running, so a lossy migration is rejected instead of shipped; state stamped with a version the running code has never heard of is refused loudly, because a rollback moves state backward and migrations only run forward and there is no correct guess for a field you cannot know about; and the hop cap is the brake on an always-continuing chain that no single cancellation stops, since each hop is a fresh run. Pure logic, no SDK imports, with a demo that runs under bun. Pinned to workflow@4.6.2.',
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["workflow@4.6.2"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vercel-workflow-continuation-versioning/state-envelope.ts",
+        target: "src/workflow/state-envelope.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/vercel-workflow-continuation-versioning/digest-loop.ts",
+        target: "src/workflow/digest-loop.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "vercel-ai-gateway-failover-budget",
+    title: "Vercel AI Gateway Failover Budget",
+    description:
+      "Admission control for AI Gateway calls that counts the money the gateway actually billed rather than the tokens you happened to receive. The gateway records a generation's final status server-side and injects the generation id on the first content chunk, which means a stream that dies mid-flight bills you and returns no usage object: a ledger that meters result.usage after a successful await counts zero for exactly the calls most likely to be expensive, and a wrapper that releases the hold on error reads healthy while the invoice climbs. The same fact governs failover, which is why both halves live here. GatewayError carries isRetryable and an optional generationId, so a chain that routes on hand-written status codes walks all five fallbacks on a 401 that will fail identically everywhere, and a chain that releases a failed attempt whose generationId proves it reached a provider loses that spend entirely: a failed attempt with a generation id must be reconciled, not released, and only an attempt without one was genuinely free. Holds are taken per attempt before the call so a runaway agent loop is refused admission instead of becoming a billing incident, cost is reconciled against GatewayGenerationInfo.totalCost in USD rather than inferred from token counts (fallbacks and sort cost mean the model that served the request is chosen at request time and is not the one you priced), and the ledger is integer micro-dollars internally because a few thousand additions of 0.0021 do not sum to what you expect. Pinned to @ai-sdk/gateway@4.0.31.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-07-29",
+    type: "registry:lib",
+    dependencies: ["@ai-sdk/gateway@4.0.31"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vercel-ai-gateway-failover-budget/spend-ledger.ts",
+        target: "src/ai/spend-ledger.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/vercel-ai-gateway-failover-budget/routing-policy.ts",
+        target: "src/ai/routing-policy.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -8420,6 +8706,138 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with an idempotency key the server dedupes on, since delivery here is at-least-once, and with a Web Lock if more than one tab may drain concurrently.",
       avoid:
         "Avoid awaiting a fetch inside an IndexedDB transaction: it auto-commits the moment it yields, and the transaction is dead when the request resolves. Avoid stepping a cursor per record where getAll over a key range does the same work in roughly half the time.",
+    };
+  }
+
+  if (item.name === "convex-exactly-once-action") {
+    return {
+      style:
+        "Mutation reserves, action effects, mutation commits. The reservation and the ctx.scheduler.runAfter that queues the action are one serializable transaction, so the durable record of intent cannot exist without the job and the job cannot exist without the record; everything after that is fencing on an attempt number the database issued.",
+      use: `Use ${item.title} when a Convex action touches something you cannot take back: charging a card, sending a payout, provisioning a seat, firing a webhook a partner bills you for.`,
+      pair: "Pair it with Effect Idempotency Key Store when the same external effect is also reachable from a non-Convex service, so both sides agree on one key per request.",
+      avoid:
+        "Avoid it when the external call is genuinely idempotent and free to repeat (a cache warm, a search index upsert). The lease, the fence, and the sweeper are three moving parts you are paying for the ability to name the one run that counted.",
+    };
+  }
+
+  if (item.name === "convex-occ-sharded-counter") {
+    return {
+      style:
+        "One idea applied twice: the read set is the unit of contention. Writes go to a hashed shard so two callers rarely read the same range, reads of the total live in a query where a read set costs nothing, and a limit a mutation must enforce is sliced per shard so the check never widens past the row being written.",
+      use: `Use ${item.title} when one document is taking writes faster than a transaction can commit: like and view counts, active-session gauges, per-tenant usage meters, any figure many clients increment at once.`,
+      pair: "Pair it with Convex Exactly-Once Action when the counted event also triggers something external, so the increment and the effect share one transaction boundary.",
+      avoid:
+        "Avoid it for money and for anything where an exact global limit must never be crossed: the per-shard budget can reject a caller while another shard has headroom, and a ledger wants the single authoritative document and the contention that comes with it. If you only need the number and not the reasoning, Convex's own @convex-dev/sharded-counter component is the smaller install.",
+    };
+  }
+
+  if (item.name === "tigerbeetle-test-ledger") {
+    return {
+      style:
+        "An in-memory implementation of the client surface that returns the same per-index status codes the real cluster returns, so the rejection paths (exceeds_credits, pending_transfer_already_posted, linked_event_failed) are reachable from a unit test. advanceSeconds moves a simulated cluster clock, which is the only way to test pending-timeout expiry without sleeping.",
+      use: `Use ${item.title} when your ledger logic must be tested in CI, where no TigerBeetle cluster exists, and you need the rejections rather than the happy path.`,
+      pair: "Pair it with TigerBeetle Two-Phase Reservation, TigerBeetle Linked Chain Transfer and TigerBeetle Batch Result Router; all three ship demos that run against this ledger.",
+      avoid:
+        "Avoid it as a stand-in for cluster testing: it models no durability, replication, consensus, throughput, balancing transfers, closed accounts or imported events, and it accepts batches larger than the server's 8189-event ceiling.",
+    };
+  }
+
+  if (item.name === "tigerbeetle-two-phase-reservation") {
+    return {
+      style:
+        "A pending transfer parks the amount in debits_pending, an invariant flag on the payer makes an overdraw impossible for the database rather than unlikely for the application, and a timeout makes the release the cluster's job. Every entry point returns a classified outcome, so a retried capture reads as already-applied instead of as a failure worth refunding.",
+      use: `Use ${item.title} when money must be held before it is spent: card authorizations, marketplace escrow, ride or delivery holds, prepaid balance checkout, anything where the capture happens minutes or days after the reservation.`,
+      pair: "Pair it with TigerBeetle Linked Chain Transfer when the capture has to land together with fees or a payout leg, and with TigerBeetle Test Ledger to exercise the expiry path in CI.",
+      avoid:
+        "Avoid it when the debit and the credit are simultaneous and unconditional, where a single posted transfer is simpler, and when the hold has to survive longer than a u32 of seconds, since timeout is an interval and not an absolute deadline.",
+    };
+  }
+
+  if (item.name === "turso-replica-read-your-writes") {
+    return {
+      style:
+        "The write hands back a number and the read refuses to answer below it. Because Client.sync() resolves to a monotonic frame_no, causality becomes an integer comparison that survives the trip through a cookie to a different machine, which is something no interval-based freshness setting can express.",
+      use: `Use ${item.title} whenever an embedded replica serves a read that must contain the caller's own write: post-then-redirect, save-then-render, checkout-then-receipt. Carry the frame in a cookie or an X-Replica-Frame header across the request boundary.`,
+      pair: "Pair it with the D1 Session Read Replica entry, which solves the same causality problem with Cloudflare's bookmark instead of a frame number, and with the Turso Transaction Mode Guard entry so the write half of the round trip does not lose an upgrade race.",
+      avoid:
+        "Avoid it on reads that do not depend on this session's write, since the catch-up wait buys nothing there, and avoid setting the deadline so generously that a lagging replica converts a stale read into a hung request: the deadline exists so the escalation to the primary actually fires.",
+    };
+  }
+
+  if (item.name === "turso-tenant-migration-fanout") {
+    return {
+      style:
+        "Every database is migrated in isolation and the run's output is a census, not a boolean. Because SQLite-family DDL is transactional, the schema change and the version row are one commit, which is what turns a failed fan-out from an ambiguous state into a resumable one.",
+      use: `Use ${item.title} when tenants each own a real database created from a Turso schema parent and a deploy has to move all of them forward: run it unconditionally in the deploy pipeline, since it is idempotent and its no-op run is also your fleet version audit.`,
+      pair: "Pair it with the Drizzle Kit Migration Gate entry for authoring the migrations that get fanned out, and with the Durable Object SQL Tenant DB entry when comparing database-per-tenant against a single shared table.",
+      avoid:
+        "Avoid it for a handful of tenants in one shared database, where a single ordinary migration is the whole job, and avoid raising the concurrency toward the fleet size: the client caps itself at 20 in-flight requests by default and the failure that follows looks like a migration bug rather than a connection budget.",
+    };
+  }
+
+  if (item.name === "vercel-waituntil-drain-guard") {
+    return {
+      style:
+        "A detector and a planner, because the SDK function answers neither question it needs to: whether backgrounding is possible here, and whether there is time left to do it.",
+      use: `Use ${item.title} anywhere a handler schedules work after the response, especially a codebase where waitUntil is called from a helper, a shared instrumentation module, or a drain loop that was set up at import time.`,
+      pair: "Pair it with Fluid Compute Instance Safety, which covers the surrounding execution model including pool attachment and uncaught exceptions, and with Vercel Queue Consumer Groups, which is where every task this planner refuses actually belongs.",
+      avoid:
+        "Avoid trusting the return value of waitUntil, which is void either way. Avoid hoisting the context check to module scope, where it reports false on a healthy instance. Avoid guessing estimatedMs from the median: the planner is only as honest as that number, and an optimistic one reintroduces the silent cancellation it exists to prevent.",
+    };
+  }
+
+  if (item.name === "turso-transaction-mode-guard") {
+    return {
+      style:
+        "The mode is not an option, because the only reason to run a read-modify-write as deferred is to lose it. Retry the whole closure, never the statement, and classify the failure by extended code so waiting is only ever applied to the one class waiting can fix.",
+      use: `Use ${item.title} for any read-modify-write against libSQL or SQLite where two callers can race: inventory and seat counts, balance decrements, claim-the-next-job queues, anything with a guard that must still be true at commit.`,
+      pair: "Pair it with Turso Replica Read-Your-Writes when the same app also reads from an embedded replica, since the write path here is what produces the frame the read path has to wait for.",
+      avoid:
+        "Avoid the interactive transaction entirely when a conditional UPDATE with the guard in its WHERE clause expresses the same change: that is one round trip and no held lock, which is what writeBatch is for. Avoid retrying a constraint violation, which is a decision that was already wrong.",
+    };
+  }
+
+  if (item.name === "vercel-blob-client-upload-tokens") {
+    return {
+      style:
+        "A capability, not a filter. The hook cannot rewrite the pathname it is handed, so every decision is a refusal or a grant, and each constraint on the signed token (one media type, one size ceiling, one expiry, one overwrite mode) is enforced by the store rather than by the browser.",
+      use: `Use ${item.title} whenever a browser uploads straight to Blob: avatars, invoice PDFs, product photos, anything that would otherwise be proxied through a route handler and hit the body limit.`,
+      pair: "Pair it with the repo's own asset conventions for server-side uploads, and with a purpose-keyed prefix scheme so one glance at a pathname says which policy minted it.",
+      avoid:
+        "Avoid allowOverwrite on any pathname a client proposes unless the prefix check has already proven ownership, and avoid trusting the file extension for content type: both are the client's choice, and together they are how a public store starts serving HTML.",
+    };
+  }
+
+  if (item.name === "vercel-workflow-step-idempotency") {
+    return {
+      style:
+        "Ask, do not assume. The reservation is claimed by one winner atomically, and a retry that finds a claim with no receipt queries the provider rather than picking a branch, because both branches are wrong half the time. The lease is what separates a stalled peer from a dead one.",
+      use: `Use ${item.title} around any workflow step whose effect cannot be taken back: charging a card, issuing a refund, sending a payout, posting to a partner API that bills per call.`,
+      pair: "Pair it with Vercel Workflow Continuation Versioning when the same run also crosses a deployment boundary, and with Effect Idempotency Key Store when a non-workflow service can reach the same effect.",
+      avoid:
+        "Avoid it on steps that are already idempotent by key (an upsert, a cache warm), where the claim is pure overhead. Avoid any store whose claim is a read followed by a write: without a single-winner guarantee the whole design is decoration.",
+    };
+  }
+
+  if (item.name === "vercel-workflow-continuation-versioning") {
+    return {
+      style:
+        "Treat continuation state as a wire format between two programs, because that is what it is once deploymentId latest erases the types. Every hop is stamped, migrated forward in sequence, validated after migrating, and refused when it arrives from a version this code does not know.",
+      use: `Use ${item.title} for any workflow that restarts itself to pick up new code: digest and drip loops, long pollers, subscription cycles, anything sleeping across a deploy.`,
+      pair: "Pair it with Vercel Workflow Step Idempotency so the steps inside each hop are safe to replay, and with the Effect Workflow V4 Migration entry for the same problem stated on a different runtime.",
+      avoid:
+        "Avoid coercing an unknown shape into the current one with defaults: a plausible default is what turns a rename into a year of email. Avoid an uncapped continuation chain, since each hop is a new run and no single cancellation reaches the ones not started yet.",
+    };
+  }
+
+  if (item.name === "vercel-ai-gateway-failover-budget") {
+    return {
+      style:
+        "A hold taken before the call, not a meter read after it, because metering cannot stop anything. Failover and budget are one decision: the generation id on a FAILED attempt is the tell that it billed, so the money is settled before the next admission is tested.",
+      use: `Use ${item.title} for agent loops and any user-facing generation path where spend must be capped per user, per tenant, or per run rather than discovered on the invoice.`,
+      pair: "Pair it with the gateway's own models, order and sort options for fallback inside a single request, and reach for this layer when distinct attempts have distinct budget consequences.",
+      avoid:
+        "Avoid metering token counts as a proxy for cost when fallbacks or sort cost are in play, since the model that served the request was chosen at request time. Avoid releasing a hold on error: that is the exact path where a billed generation disappears from the ledger.",
     };
   }
 
