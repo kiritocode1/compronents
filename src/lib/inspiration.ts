@@ -732,7 +732,7 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "http://tailark.com",
         dateAdded: "2026-07-14",
         description:
-          "Collection of reusable marketing site components built with shadcn/ui and Tailwind, hundreds of premium blocks and ready-made landing pages across multiple design styles. 200+ premium blocks sold as one-time-payment tiers ($249-$499, no subscription), plus a permanently free tier rather than a trial.",
+          "Collection of reusable marketing site components built with shadcn/ui and Tailwind, hundreds of premium blocks and ready-made landing pages across multiple design styles. 200+ premium blocks sold as one-time-payment tiers ($249-$499, no subscription), plus a permanently free tier rather than a trial. The registry also ships illustrations at /illustrations, drawn for feature sections and bento grid cells, which is the part to raid when a marketing section needs art rather than another layout.",
       },
       {
         title: "Luxe UI",
