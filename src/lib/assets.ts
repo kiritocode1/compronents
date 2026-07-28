@@ -2579,7 +2579,59 @@ const scatterPhotoPhysicsAssets = Array.from({ length: 12 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const panVideoCanvasAssets = Array.from({ length: 11 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `pan-video-canvas-preview-${n}`,
+    label: `Pan Video Canvas still ${n}`,
+    provider: "vercel-blob",
+    pathname: `pan-video-canvas/preview-${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/pan-video-canvas/preview-${n}.jpg`,
+    role: "Tile still, crossfaded out to reveal the video on hover.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const filmstripVideoPlayerAssets = [
+  ...Array.from({ length: 9 }, (_, i) => [
+    `frame-${i + 1}`,
+    `${i + 1}.jpg`,
+    "Still laid along the scrubber strip.",
+  ]),
+  [
+    "video",
+    "video.mp4",
+    "The clip itself, played full-bleed behind the strip.",
+  ],
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `filmstrip-video-player-${id}`,
+      label: `Filmstrip Video Player ${id}`,
+      provider: "vercel-blob",
+      pathname: `filmstrip-video-player/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/filmstrip-video-player/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
+const scatterLetterIntroAssets = [
+  {
+    id: "scatter-letter-intro-video",
+    label: "Scatter Letter Intro footage",
+    provider: "vercel-blob",
+    pathname: "scatter-letter-intro/hero-video.mp4",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/scatter-letter-intro/hero-video.mp4`,
+    role: "Footage exposed as the panels wipe away; the letters invert against it.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+];
+
 export const assetItems = [
+  ...panVideoCanvasAssets,
+  ...filmstripVideoPlayerAssets,
+  ...scatterLetterIntroAssets,
   ...radialNameWheelAssets,
   ...scatterPhotoPhysicsAssets,
   ...splitPlateSliderAssets,

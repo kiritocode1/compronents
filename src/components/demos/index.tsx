@@ -71,6 +71,7 @@ import ExpandingRowsGalleryDemo from "./expanding-rows-gallery";
 import FallingTagListDemo from "./falling-tag-list";
 import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
+import FilmstripVideoPlayerDemo from "./filmstrip-video-player";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
 import FlipLayoutGalleryDemo from "./flip-layout-gallery";
 import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
@@ -130,6 +131,7 @@ import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
 import OverlayMenuDemo from "./overlay-menu";
+import PanVideoCanvasDemo from "./pan-video-canvas";
 import ParallaxDragRailDemo from "./parallax-drag-rail";
 import ParallaxModelFooterDemo from "./parallax-model-footer";
 import ParticleFluidHeroDemo from "./particle-fluid-hero";
@@ -153,6 +155,7 @@ import RotatingHalvesMenuDemo from "./rotating-halves-menu";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import RotatingPanelSliderDemo from "./rotating-panel-slider";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
+import ScatterLetterIntroDemo from "./scatter-letter-intro";
 import ScatterPhotoPhysicsDemo from "./scatter-photo-physics";
 import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
@@ -435,4 +438,7 @@ export const demos: Record<string, ComponentType> = {
   "diagonal-plate-carousel": DiagonalPlateCarouselDemo,
   "radial-name-wheel": RadialNameWheelDemo,
   "scatter-photo-physics": ScatterPhotoPhysicsDemo,
+  "pan-video-canvas": PanVideoCanvasDemo,
+  "filmstrip-video-player": FilmstripVideoPlayerDemo,
+  "scatter-letter-intro": ScatterLetterIntroDemo,
 };

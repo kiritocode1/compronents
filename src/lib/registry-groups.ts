@@ -29,6 +29,7 @@ export const componentGroups: RegistryGroup[] = [
       "stacked-brand-cards",
       "service-index-scrub",
       "wrapped-drag-index",
+      "filmstrip-video-player",
     ],
   },
   {
@@ -52,6 +53,7 @@ export const componentGroups: RegistryGroup[] = [
       "strip-merge-reveal",
       "emoji-trail-preloader",
       "odometer-load-hero",
+      "scatter-letter-intro",
     ],
   },
   {
@@ -97,6 +99,7 @@ export const componentGroups: RegistryGroup[] = [
       "flip-layout-gallery",
       "carousel-disc-scroll",
       "radial-name-wheel",
+      "pan-video-canvas",
     ],
   },
   {

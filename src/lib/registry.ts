@@ -4921,6 +4921,66 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "pan-video-canvas",
+    title: "Pan Video Canvas",
+    description:
+      "A canvas twice the size of its frame in both directions, panned by the inverse of the pointer position so moving right pulls the board left and you steer around a space larger than the window. The motion is a plain CSS transition at two seconds on a heavy ease-out curve rather than a per-frame lerp, so the board keeps gliding long after the cursor stops and arrives without any physics. Each tile holds a still and a Vimeo embed scaled two hundred percent behind it; hovering crossfades the still out, the video in, and the title up, all on separate durations so the three do not arrive together.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["react-player"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pan-video-canvas.tsx",
+        target: "components/ui/pan-video-canvas.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "filmstrip-video-player",
+    title: "Filmstrip Video Player",
+    description:
+      "A full-bleed player whose scrubber is a strip of still frames rather than a bar. The playhead is a red rule positioned from the video's own timeupdate as a percentage, with a half second linear transition so it glides between the roughly four-per-second events instead of stepping. Clicking the strip seeks by ratio and moves the marker in the same gesture, and the click handler stops propagation so seeking does not also toggle playback: anywhere else in the frame is a play or pause target, reported by a label that trails the cursor on a one second ease-out.",
+    section: "components",
+    category: "Inputs",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/filmstrip-video-player.tsx",
+        target: "components/ui/filmstrip-video-player.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "scatter-letter-intro",
+    title: "Scatter Letter Intro",
+    description:
+      "A landing sequence where a wordmark assembles, counts itself in, then scatters. The letters rise into place on a stagger, a three two one counter steps a single strip by exactly one line height per beat, and when it lands the type blows up to fifteen percent of the frame while six black panels wipe away in a random order to expose the video behind. In the same instant each letter is thrown to its own hand-authored vertical offset, so the wordmark comes apart into a composition rather than dispersing evenly. The letters use mix-blend-mode difference, so they invert against whatever the footage puts behind them.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scatter-letter-intro.tsx",
+        target: "components/ui/scatter-letter-intro.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

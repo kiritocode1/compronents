@@ -715,6 +715,18 @@ const scatterPhotoPhysicsAssetDocs = assetsByIds(
   Array.from({ length: 12 }, (_, i) => `scatter-photo-physics-img-${i + 1}`),
 );
 
+const panVideoCanvasAssetDocs = assetsByIds(
+  Array.from({ length: 11 }, (_, i) => `pan-video-canvas-preview-${i + 1}`),
+);
+const filmstripVideoPlayerAssetDocs = assetsByIds([
+  ...Array.from(
+    { length: 9 },
+    (_, i) => `filmstrip-video-player-frame-${i + 1}`,
+  ),
+  "filmstrip-video-player-video",
+]);
+const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -13221,6 +13233,154 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "150 / 3",
         description:
           "How close the pointer must come, and the peak of the random impulse applied per axis.",
+      },
+    ],
+  },
+  "pan-video-canvas": {
+    demoPath: "src/components/demos/pan-video-canvas.tsx",
+    nuance: [
+      {
+        label: "The pan is inverted",
+        description:
+          "Offset is centre minus pointer, so moving right pulls the board left. It reads as steering a larger space rather than dragging a surface.",
+      },
+      {
+        label: "A CSS transition, not a lerp",
+        description:
+          "Two seconds on a heavy ease-out means the board keeps gliding well after the cursor stops, with no rAF loop and no physics to tune.",
+      },
+      {
+        label: "Three hover changes, three durations",
+        description:
+          "Still out at 300ms, video in at 300ms, title up at 150ms. Matching them would make the tile switch state; staggered, it feels like it wakes up.",
+      },
+    ],
+    editable: [
+      {
+        name: "factor",
+        control: "text",
+        description: "Divides the pointer offset. Higher values pan less.",
+      },
+    ],
+    assets: panVideoCanvasAssetDocs,
+    api: [
+      {
+        name: "rows",
+        type: "PanVideoItem[][]",
+        default: "3 rows (4, 3, 4)",
+        description:
+          "Vimeo id, title, and still per tile. The middle row is spaced with space-around by design, so an odd count there reads deliberately.",
+      },
+      {
+        name: "factor",
+        type: "number",
+        default: "1",
+        description:
+          "Pointer offset divisor. Raise it to reduce how far the board travels.",
+      },
+    ],
+  },
+  "filmstrip-video-player": {
+    demoPath: "src/components/demos/filmstrip-video-player.tsx",
+    nuance: [
+      {
+        label: "The scrubber is the content",
+        description:
+          "Stills along the strip mean the timeline shows you where you are going, not just how far. Hovering a frame lifts its dimming overlay, so the strip previews without seeking.",
+      },
+      {
+        label: "The marker glides between events",
+        description:
+          "timeupdate fires about four times a second. A half second linear transition on left is what turns those steps into continuous travel.",
+      },
+      {
+        label: "stopPropagation is load-bearing",
+        description:
+          "Without it a click on the strip would seek and then bubble to the root handler and pause the video in the same gesture.",
+      },
+    ],
+    editable: [
+      {
+        name: "playLabel",
+        control: "text",
+        description: "Cursor label while paused.",
+      },
+      {
+        name: "pauseLabel",
+        control: "text",
+        description: "Cursor label while playing.",
+      },
+    ],
+    assets: filmstripVideoPlayerAssetDocs,
+    api: [
+      {
+        name: "videoSrc / frames",
+        type: "string / string[]",
+        default: "BLANK clip / 9 stills",
+        description:
+          "Frames are decorative: seeking is by click ratio, so their count need not divide the duration.",
+      },
+      {
+        name: "timestamps",
+        type: "string[]",
+        default: "00:00 to 01:00 in fives",
+        description:
+          "Labels only. They are not derived from the clip, so set them to match your own duration.",
+      },
+    ],
+  },
+  "scatter-letter-intro": {
+    demoPath: "src/components/demos/scatter-letter-intro.tsx",
+    nuance: [
+      {
+        label: "The scatter is authored, not random",
+        description:
+          "Each letter has its own final offset in the movements array. A random spread would look arbitrary; these values are a composition.",
+      },
+      {
+        label: "The counter is one strip",
+        description:
+          "3, 2 and 1 are a single element stepped by exactly one line height per beat, so the digits can never drift out of register with each other.",
+      },
+      {
+        label: "Letters invert against the footage",
+        description:
+          "mix-blend-mode difference means the wordmark reacts to whatever the video puts behind it, so it stays legible over both light and dark frames without a scrim.",
+      },
+    ],
+    editable: [
+      {
+        name: "wordmark",
+        control: "text",
+        description: "Letters that assemble and scatter.",
+      },
+      {
+        name: "letterColor",
+        control: "color",
+        description: "Letter colour before blending.",
+      },
+    ],
+    assets: scatterLetterIntroAssetDocs,
+    api: [
+      {
+        name: "wordmark / movements",
+        type: "string / number[]",
+        default: "FPKPXTF / 7 offsets",
+        description:
+          "One movement entry per character. A shorter array leaves the trailing letters in place.",
+      },
+      {
+        name: "blockCount",
+        type: "number",
+        default: "6",
+        description:
+          "Panels that wipe away in a random order to expose the video.",
+      },
+      {
+        name: "tagline / links / copyright",
+        type: "string / string[] / string",
+        default: "BLANK copy",
+        description: "Chrome that fades in after the scatter lands.",
       },
     ],
   },
