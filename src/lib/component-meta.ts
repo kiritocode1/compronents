@@ -690,6 +690,10 @@ const letterGridCarouselAssetDocs = assetsByIds(
   Array.from({ length: 30 }, (_, i) => `letter-grid-carousel-img-${i + 1}`),
 );
 
+const carouselDiscScrollAssetDocs = assetsByIds(
+  Array.from({ length: 15 }, (_, i) => `carousel-disc-scroll-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12919,6 +12923,51 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string",
         default: "BLANK copy",
         description: "Overlay chrome above the canvas.",
+      },
+    ],
+  },
+  "carousel-disc-scroll": {
+    demoPath: "src/components/demos/carousel-disc-scroll.tsx",
+    nuance: [
+      {
+        label: "The ring is a transform origin, not coordinates",
+        description:
+          "Each tile rotates about a point 400px below itself, so setting rotationZ alone places it on the circle. No sin or cos anywhere, and changing the radius is one CSS value.",
+      },
+      {
+        label: "150 tiles from 15 images",
+        description:
+          "Sources are cycled with a modulo, so the ring is dense without loading 150 files. Raising itemCount thickens the disc at no network cost.",
+      },
+      {
+        label: "Two rotations on the same element",
+        description:
+          "The disc carries the pointer tilt on X and Y while each tile carries its own Z. Because they are on different elements they compose cleanly instead of fighting for the transform.",
+      },
+    ],
+    editable: [
+      {
+        name: "itemCount",
+        control: "text",
+        description: "Tiles placed around the disc.",
+      },
+      { name: "navLeft", control: "text", description: "Top left label." },
+    ],
+    assets: carouselDiscScrollAssetDocs,
+    api: [
+      {
+        name: "images / itemCount",
+        type: "string[] / number",
+        default: "15 BLANK images / 150",
+        description:
+          "Images are cycled to fill itemCount tiles, so the two are independent.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
       },
     ],
   },

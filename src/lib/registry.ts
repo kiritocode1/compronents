@@ -4801,6 +4801,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "carousel-disc-scroll",
+    title: "Carousel Disc Scroll",
+    description:
+      "A hundred and fifty thumbnails arranged around a single disc tilted fifty five degrees away from you and turned a full revolution as you scroll. Every tile is rotated about a transform origin four hundred pixels below itself, so one CSS property places it on the circle without any trigonometry: the ring is the origin offset, not computed coordinates. Pointer position tilts the whole disc a couple of degrees on both axes, and hovering a tile lifts it ten pixels out of the plane and pushes its image into the fixed preview frame at the centre. GSAP ScrollTrigger with a scrub of two.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/carousel-disc-scroll.tsx",
+        target: "components/ui/carousel-disc-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

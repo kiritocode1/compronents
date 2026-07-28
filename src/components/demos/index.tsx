@@ -20,6 +20,7 @@ import CalendarPadCardsDemo from "./calendar-pad-cards";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
 import CardPartingRevealDemo from "./card-parting-reveal";
+import CarouselDiscScrollDemo from "./carousel-disc-scroll";
 import CarouselRingGalleryDemo from "./carousel-ring-gallery";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import ChromeFolioPageDemo from "./chrome-folio-page";
@@ -423,4 +424,5 @@ export const demos: Record<string, ComponentType> = {
   "story-reel-viewer": StoryReelViewerDemo,
   "letter-grid-carousel": LetterGridCarouselDemo,
   "lava-particle-field": LavaParticleFieldDemo,
+  "carousel-disc-scroll": CarouselDiscScrollDemo,
 };

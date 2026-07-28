@@ -95,6 +95,7 @@ export const componentGroups: RegistryGroup[] = [
       "flip-tile-board",
       "contact-sheet-zoom",
       "flip-layout-gallery",
+      "carousel-disc-scroll",
     ],
   },
   {

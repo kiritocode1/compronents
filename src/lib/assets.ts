@@ -2502,7 +2502,21 @@ const letterGridCarouselAssets = Array.from({ length: 30 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const carouselDiscScrollAssets = Array.from({ length: 15 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `carousel-disc-scroll-img-${n}`,
+    label: `Carousel Disc Scroll tile ${n}`,
+    provider: "vercel-blob",
+    pathname: `carousel-disc-scroll/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/carousel-disc-scroll/img${n}.jpg`,
+    role: "Thumbnail cycled around the disc and shown in the centre preview on hover.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...carouselDiscScrollAssets,
   ...letterGridCarouselAssets,
   ...storyReelViewerAssets,
   ...flipLayoutGalleryAssets,
