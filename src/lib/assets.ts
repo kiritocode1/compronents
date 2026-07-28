@@ -2413,7 +2413,21 @@ const wrappedDragIndexAssets = [
   } as const satisfies AssetItem,
 ];
 
+const calendarPadCardsAssets = Array.from({ length: 8 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `calendar-pad-cards-img-${n}`,
+    label: `Calendar Pad Cards image ${n}`,
+    provider: "vercel-blob",
+    pathname: `calendar-pad-cards/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/calendar-pad-cards/img${n}.jpg`,
+    role: "Image in the detail view a pad expands into.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...calendarPadCardsAssets,
   ...wrappedDragIndexAssets,
   ...shaderTunnelSliderAssets,
   ...contactSheetZoomAssets,

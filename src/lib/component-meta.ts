@@ -666,6 +666,10 @@ const shaderTunnelSliderAssetDocs = assetsByIds(
 
 const wrappedDragIndexAssetDocs = assetsByIds(["wrapped-drag-index-bg"]);
 
+const calendarPadCardsAssetDocs = assetsByIds(
+  Array.from({ length: 8 }, (_, i) => `calendar-pad-cards-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12543,6 +12547,61 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string",
         default: "BLANK backdrop",
         description: "Sits behind the list under a radial vignette.",
+      },
+    ],
+  },
+  "calendar-pad-cards": {
+    demoPath: "src/components/demos/calendar-pad-cards.tsx",
+    nuance: [
+      {
+        label: "The pad becomes the panel",
+        description:
+          "There is no separate surface. The clicked square is scaled 20x until it covers the card, so the detail view opens in that square's own accent colour and the transition has an obvious origin.",
+      },
+      {
+        label: "Active pads are random, but bounded",
+        description:
+          "Only the middle rows are eligible; the first and last stay decorative. The eligible set is shuffled and sliced to the entry count, so every entry gets exactly one pad and the layout differs each mount.",
+      },
+      {
+        label: "Content enters from a random tilt",
+        description:
+          "Each block starts 100px down at a random rotation between -30 and 30 and springs to zero on an elastic ease. Uniform entry would read as a modal; the scatter is what makes it feel physical.",
+      },
+    ],
+    editable: [
+      {
+        name: "activeColors",
+        control: "text",
+        description: "Palette drawn from for the clickable pads.",
+      },
+      {
+        name: "backLabel",
+        control: "text",
+        description: "Label on the close button.",
+      },
+    ],
+    assets: calendarPadCardsAssetDocs,
+    api: [
+      {
+        name: "months",
+        type: "CalendarPadMonth[]",
+        default: "4 BLANK months",
+        description:
+          "One card per month. The number of entries sets how many pads light up, so a month with one entry gets one square.",
+      },
+      {
+        name: "activeColors",
+        type: "string[]",
+        default: "4 accents",
+        description:
+          "Sampled per pad, so a card usually shows several colours.",
+      },
+      {
+        name: "brand / navItems",
+        type: "string / string[]",
+        default: "BLANK copy",
+        description: "Navigation row above the cards.",
       },
     ],
   },

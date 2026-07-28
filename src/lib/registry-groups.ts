@@ -137,6 +137,7 @@ export const componentGroups: RegistryGroup[] = [
       "deal-stack-cards-scroll",
       "pushup-card-stack",
       "card-parting-reveal",
+      "calendar-pad-cards",
     ],
   },
   {

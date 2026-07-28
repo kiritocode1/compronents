@@ -16,6 +16,7 @@ import BlockLogoTransitionPageDemo from "./block-logo-transition-page";
 import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
+import CalendarPadCardsDemo from "./calendar-pad-cards";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
 import CardPartingRevealDemo from "./card-parting-reveal";
@@ -409,4 +410,5 @@ export const demos: Record<string, ComponentType> = {
   "pixel-smear-wordmark": PixelSmearWordmarkDemo,
   "shuffle-panel-menu": ShufflePanelMenuDemo,
   "wrapped-drag-index": WrappedDragIndexDemo,
+  "calendar-pad-cards": CalendarPadCardsDemo,
 };

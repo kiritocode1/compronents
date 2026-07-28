@@ -4661,6 +4661,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "calendar-pad-cards",
+    title: "Calendar Pad Cards",
+    description:
+      "Contribution-graph style cards where the coloured squares are the navigation. Each card lays out five rows of pads, the first and last rows are decorative, and as many of the middle pads as there are entries are picked at random, coloured, and made clickable. Opening one does not slide a panel in: the pad itself is scaled twenty times until it fills the card, which is why the detail view arrives in the accent colour of the square you pressed. The content then springs in on an elastic ease with each block entering from a random tilt, and closing runs the whole thing backwards before clearing the props.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/calendar-pad-cards.tsx",
+        target: "components/ui/calendar-pad-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
