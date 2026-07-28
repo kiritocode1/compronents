@@ -4,23 +4,45 @@ import { useSound } from "@web-kits/audio/react";
 import { Calligraph } from "calligraph";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { type ReactNode, useState } from "react";
+import { useQueryState } from "nuqs";
+import { type ReactNode, Suspense } from "react";
 import { matchesRegistrySearch, type RegistryItem } from "@/lib/registry";
 import type { RegistryGroup } from "@/lib/registry-groups";
 import { uiHover } from "@/lib/sounds";
 
-export function RegistryIndex({
-  heading,
-  items,
-  brand,
-  groups,
-}: {
+interface RegistryIndexProps {
   heading: ReactNode;
   items: RegistryItem[];
   brand?: ReactNode;
   groups?: RegistryGroup[];
+}
+
+export function RegistryIndex(props: RegistryIndexProps) {
+  // Reading the URL opts this subtree out of prerendering, so the fallback
+  // renders the unfiltered list: static HTML still ships every row.
+  return (
+    <Suspense fallback={<RegistryIndexView {...props} query="" />}>
+      <RegistryIndexFiltered {...props} />
+    </Suspense>
+  );
+}
+
+function RegistryIndexFiltered(props: RegistryIndexProps) {
+  const [query, setQuery] = useQueryState("q", { defaultValue: "" });
+  return <RegistryIndexView {...props} query={query} onQueryChange={setQuery} />;
+}
+
+function RegistryIndexView({
+  heading,
+  items,
+  brand,
+  groups,
+  query,
+  onQueryChange,
+}: RegistryIndexProps & {
+  query: string;
+  onQueryChange?: (value: string) => void;
 }) {
-  const [query, setQuery] = useState("");
   const playHover = useSound(uiHover);
   const q = query.trim().toLowerCase();
   const visible = q
@@ -82,7 +104,7 @@ export function RegistryIndex({
         <input
           type="text"
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => onQueryChange?.(event.target.value)}
           placeholder="Search titles or dates…"
           aria-label="Search the registry"
           className="w-full bg-transparent py-1 text-sm text-foreground placeholder:text-faint focus:outline-none"

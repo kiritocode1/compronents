@@ -4,7 +4,8 @@ import { useSound } from "@web-kits/audio/react";
 import { Calligraph } from "calligraph";
 import Fuse from "fuse.js";
 import { ArrowUpRight, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useQueryState } from "nuqs";
+import { Suspense, useMemo } from "react";
 import type { InspirationGroup, InspirationLink } from "@/lib/inspiration";
 import { matchesDateRange, parseTimeQuery } from "@/lib/search-time";
 import { uiHover } from "@/lib/sounds";
@@ -15,7 +16,35 @@ interface SearchEntry {
 }
 
 export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
-  const [query, setQuery] = useState("");
+  // Reading the URL opts this subtree out of prerendering, so the fallback
+  // renders the unfiltered list: static HTML still ships every link.
+  return (
+    <Suspense fallback={<InspirationIndexView groups={groups} query="" />}>
+      <InspirationIndexFiltered groups={groups} />
+    </Suspense>
+  );
+}
+
+function InspirationIndexFiltered({ groups }: { groups: InspirationGroup[] }) {
+  const [query, setQuery] = useQueryState("q", { defaultValue: "" });
+  return (
+    <InspirationIndexView
+      groups={groups}
+      query={query}
+      onQueryChange={setQuery}
+    />
+  );
+}
+
+function InspirationIndexView({
+  groups,
+  query,
+  onQueryChange,
+}: {
+  groups: InspirationGroup[];
+  query: string;
+  onQueryChange?: (value: string) => void;
+}) {
   const playHover = useSound(uiHover);
 
   const fuse = useMemo(() => {
@@ -72,7 +101,7 @@ export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
         <input
           type="text"
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => onQueryChange?.(event.target.value)}
           placeholder="Search titles or dates…"
           aria-label="Search inspiration"
           className="w-full bg-transparent py-1 text-sm text-foreground placeholder:text-faint focus:outline-none"

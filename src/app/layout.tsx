@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteSoundProvider } from "@/components/site/sound-provider";
 import "./globals.css";
@@ -50,12 +51,14 @@ export default function RootLayout({
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full`}
     >
       <body className="min-h-full bg-background text-foreground">
-        <SiteSoundProvider>
-          <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-6 sm:px-10">
-            <SiteNav />
-            <div className="flex flex-1 flex-col">{children}</div>
-          </div>
-        </SiteSoundProvider>
+        <NuqsAdapter>
+          <SiteSoundProvider>
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-6 sm:px-10">
+              <SiteNav />
+              <div className="flex flex-1 flex-col">{children}</div>
+            </div>
+          </SiteSoundProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
