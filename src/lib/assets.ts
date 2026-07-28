@@ -2528,7 +2528,34 @@ const pinnedShrinkCardsAssets = Array.from({ length: 6 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const splitPlateSliderAssets = Array.from({ length: 8 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `split-plate-slider-img-${n}`,
+    label: `Split Plate Slider image ${n}`,
+    provider: "vercel-blob",
+    pathname: `split-plate-slider/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/split-plate-slider/img${n}.jpg`,
+    role: "Image drawn into both the top and bottom plate of a slide.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const diagonalPlateCarouselAssets = Array.from({ length: 6 }, (_, i) =>
+  [1, 2].map((half) => ({
+    id: `diagonal-plate-carousel-${i + 1}-${half}`,
+    label: `Diagonal Plate Carousel slide ${i + 1} plate ${half}`,
+    provider: "vercel-blob",
+    pathname: `diagonal-plate-carousel/slider-${i + 1}-${half}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/diagonal-plate-carousel/slider-${i + 1}-${half}.jpg`,
+    role: "Tall plate leaning twenty degrees beside the slide title.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  })),
+).flat() as unknown as AssetItem[];
+
 export const assetItems = [
+  ...splitPlateSliderAssets,
+  ...diagonalPlateCarouselAssets,
   ...pinnedShrinkCardsAssets,
   ...carouselDiscScrollAssets,
   ...letterGridCarouselAssets,

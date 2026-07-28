@@ -126,6 +126,8 @@ export const componentGroups: RegistryGroup[] = [
       "rotating-panel-slider",
       "split-click-slider",
       "letter-grid-carousel",
+      "split-plate-slider",
+      "diagonal-plate-carousel",
     ],
   },
   {

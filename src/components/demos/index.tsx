@@ -54,6 +54,7 @@ import DealStackCardsScrollDemo from "./deal-stack-cards-scroll";
 import DealtTeamCardsDemo from "./dealt-team-cards";
 import DepoluxeSidewaysCarouselDemo from "./depoluxe-sideways-carousel";
 import DetroitParisSliderDemo from "./detroit-paris-slider";
+import DiagonalPlateCarouselDemo from "./diagonal-plate-carousel";
 import DialProductSliderDemo from "./dial-product-slider";
 import DiningRoomPageDemo from "./dining-room-page";
 import DitherStudioPageDemo from "./dither-studio-page";
@@ -174,6 +175,7 @@ import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
 import SplitClickSliderDemo from "./split-click-slider";
 import SplitColumnInfiniteSliderDemo from "./split-column-infinite-slider";
+import SplitPlateSliderDemo from "./split-plate-slider";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
 import SpotlightIndexScrollDemo from "./spotlight-index-scroll";
@@ -427,4 +429,6 @@ export const demos: Record<string, ComponentType> = {
   "lava-particle-field": LavaParticleFieldDemo,
   "carousel-disc-scroll": CarouselDiscScrollDemo,
   "pinned-shrink-cards": PinnedShrinkCardsDemo,
+  "split-plate-slider": SplitPlateSliderDemo,
+  "diagonal-plate-carousel": DiagonalPlateCarouselDemo,
 };

@@ -4841,6 +4841,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "split-plate-slider",
+    title: "Split Plate Slider",
+    description:
+      "A click-through slider whose single image is cut into two offset plates. The top and bottom halves carry different clip-paths inset from opposite sides, so at rest the picture reads as two staggered bands; hovering pulls both to a symmetrical inset on a one second transition, snapping the halves back into alignment. Advancing stacks a new pair of images that wipe in from the right at scale two and settle to one, staggered by 150ms so the halves arrive slightly apart, and anything past five layers is pruned once the tween completes. The title strip steps by exactly one cell, with the incoming title lit a beat after the movement starts.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/split-plate-slider.tsx",
+        target: "components/ui/split-plate-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "diagonal-plate-carousel",
+    title: "Diagonal Plate Carousel",
+    description:
+      "Two tall photographic plates leaning twenty degrees in opposite directions with the title set between them. Advancing does not move the current slide: a whole new slide is stacked on top with its clip-path collapsed to the bottom edge and unfurled upward, so the incoming frame is revealed rather than slid. Inside it the two plates ride from a hundred percent to fifty while the outgoing slide's plates continue to zero, which is what makes the images look like they are being pulled through the cut. The heading arrives pre-scaled at 1.5 and settles to 1 on the same ease, slides alternate a light and dark theme, and the stack is trimmed to five per transition.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/diagonal-plate-carousel.tsx",
+        target: "components/ui/diagonal-plate-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

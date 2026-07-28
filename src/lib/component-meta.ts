@@ -698,6 +698,16 @@ const pinnedShrinkCardsAssetDocs = assetsByIds(
   Array.from({ length: 6 }, (_, i) => `pinned-shrink-cards-img-${i + 1}`),
 );
 
+const splitPlateSliderAssetDocs = assetsByIds(
+  Array.from({ length: 8 }, (_, i) => `split-plate-slider-img-${i + 1}`),
+);
+const diagonalPlateCarouselAssetDocs = assetsByIds(
+  Array.from({ length: 6 }, (_, i) => [
+    `diagonal-plate-carousel-${i + 1}-1`,
+    `diagonal-plate-carousel-${i + 1}-2`,
+  ]).flat(),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -13028,6 +13038,81 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "true",
         description:
           "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "split-plate-slider": {
+    demoPath: "src/components/demos/split-plate-slider.tsx",
+    nuance: [
+      {
+        label: "One image, two plates, two clip-paths",
+        description:
+          "The halves are inset from opposite sides at rest, so the picture reads as offset bands. Hover moves both to a symmetric inset, which is the moment the image looks whole.",
+      },
+      {
+        label: "The strip repeats its first two titles",
+        description:
+          "Two extra cells at the end let the index step past the last title without the strip snapping back, so the loop is seamless in one direction.",
+      },
+      {
+        label: "Layers are pruned, not reused",
+        description:
+          "Each advance appends a fresh pair of images and trims anything past five on completion, so the wipe always starts from a clean element and the DOM stays bounded.",
+      },
+    ],
+    editable: [
+      { name: "brand", control: "text", description: "Wordmark in the nav." },
+      {
+        name: "footerNote",
+        control: "text",
+        description: "Hint in the footer.",
+      },
+    ],
+    assets: splitPlateSliderAssetDocs,
+    api: [
+      {
+        name: "titles / images",
+        type: "string[]",
+        default: "7 titles / 8 images",
+        description:
+          "The strip renders titles plus its first two repeated; the step size is derived from that count.",
+      },
+    ],
+  },
+  "diagonal-plate-carousel": {
+    demoPath: "src/components/demos/diagonal-plate-carousel.tsx",
+    nuance: [
+      {
+        label: "The slide is revealed, never moved",
+        description:
+          "A new full slide is stacked with its clip-path collapsed to the bottom edge and unfurled upward. The outgoing slide never translates, so there is no seam between them.",
+      },
+      {
+        label: "The plates cross at the cut",
+        description:
+          "Incoming plates ride 100% to 50% while the outgoing ones continue 50% to 0% on the same ease, so the images look like one continuous strip being pulled through the reveal.",
+      },
+      {
+        label: "The heading settles rather than arrives",
+        description:
+          "It is created at scale 1.5 and tweened to 1 over the same 1.5s. Starting at rest would make the type feel bolted to the slide instead of resolving with it.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description: "Colour behind the slide stack.",
+      },
+    ],
+    assets: diagonalPlateCarouselAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "DiagonalPlateSlide[]",
+        default: "6 BLANK slides",
+        description:
+          "Title plus exactly two plate images per slide. Themes alternate light and dark by index.",
       },
     ],
   },
