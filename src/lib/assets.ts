@@ -2355,7 +2355,42 @@ const driftingCardMarqueeAssets = [
     }) as const satisfies AssetItem,
 );
 
+const contactSheetZoomAssets = Array.from({ length: 50 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `contact-sheet-zoom-img-${n}`,
+    label: `Contact Sheet Zoom thumbnail ${n}`,
+    provider: "vercel-blob",
+    pathname: `contact-sheet-zoom/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/contact-sheet-zoom/img${n}.jpg`,
+    role: "Drawn at random for each of the twelve hundred tiles on the sheet.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const serviceIndexScrubAssets = [
+  ["hero", "hero.jpg", "Full-bleed opening image above the pinned index."],
+  ...Array.from({ length: 8 }, (_, i) => [
+    `img-${i + 1}`,
+    `img${i + 1}.jpg`,
+    "Frame in the tall strip, one per service.",
+  ]),
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `service-index-scrub-${id}`,
+      label: `Service Index Scrub ${id}`,
+      provider: "vercel-blob",
+      pathname: `service-index-scrub/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/service-index-scrub/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
 export const assetItems = [
+  ...contactSheetZoomAssets,
+  ...serviceIndexScrubAssets,
   ...cycleScrubShowcaseAssets,
   ...splitClickSliderAssets,
   ...driftingCardMarqueeAssets,

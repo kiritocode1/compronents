@@ -4541,6 +4541,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "contact-sheet-zoom",
+    title: "Contact Sheet Zoom",
+    description:
+      "Twelve hundred thumbnails laid out as one contact sheet that explodes into a draggable wall. Zooming in does not scale the container: every tile measures its own offset from the centre of the frame, divides it by a hundred, and is pushed out along that vector by 1200 across and 600 down while scaling five times, so the sheet fans wider than it does tall in a way a plain container scale cannot produce. Dragging lerps the whole sheet toward a target at 0.075 a frame, so it keeps gliding after the pointer stops, and a transparent layer above the tiles owns the pointer so no individual image can start a native drag.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/contact-sheet-zoom.tsx",
+        target: "components/ui/contact-sheet-zoom.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "service-index-scrub",
+    title: "Service Index Scrub",
+    description:
+      "A pinned services index where scroll distance is the selector: every viewport height advances one service, so the list steps discretely rather than scrubbing. A black indicator bar slides down by exactly one row height and resizes to the width of the label it lands on, measured off-screen at the real display font before anything animates, so it hugs each name instead of using a fixed width. A single tall image strip translates by one image height in step with it, and the body copy swaps by splitting to lines, lifting them out, replacing the text, and dropping the new lines back in. GSAP ScrollTrigger, SplitText, and Lenis.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/service-index-scrub.tsx",
+        target: "components/ui/service-index-scrub.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

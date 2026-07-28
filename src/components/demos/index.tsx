@@ -27,6 +27,7 @@ import CircularWidgetDialDemo from "./circular-widget-dial";
 import ClientHoverPreviewDemo from "./client-hover-preview";
 import ClipMaskTransitionPageDemo from "./clip-mask-transition-page";
 import ClipRevealServicesDemo from "./clip-reveal-services";
+import ContactSheetZoomDemo from "./contact-sheet-zoom";
 import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
 import ConvergingSearchScrollDemo from "./converging-search-scroll";
@@ -147,6 +148,7 @@ import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
+import ServiceIndexScrubDemo from "./service-index-scrub";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
 import ShaderWarpSliderDemo from "./shader-warp-slider";
 import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
@@ -397,4 +399,6 @@ export const demos: Record<string, ComponentType> = {
   "cycle-scrub-showcase": CycleScrubShowcaseDemo,
   "split-click-slider": SplitClickSliderDemo,
   "drifting-card-marquee": DriftingCardMarqueeDemo,
+  "contact-sheet-zoom": ContactSheetZoomDemo,
+  "service-index-scrub": ServiceIndexScrubDemo,
 };

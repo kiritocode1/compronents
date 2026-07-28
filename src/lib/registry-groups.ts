@@ -27,6 +27,7 @@ export const componentGroups: RegistryGroup[] = [
       "drawn-path-features",
       "parallax-model-footer",
       "stacked-brand-cards",
+      "service-index-scrub",
     ],
   },
   {
@@ -89,6 +90,7 @@ export const componentGroups: RegistryGroup[] = [
       "wedge-clip-work-scroll",
       "cylinder-block-gallery",
       "flip-tile-board",
+      "contact-sheet-zoom",
     ],
   },
   {

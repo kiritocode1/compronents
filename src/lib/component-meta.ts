@@ -652,6 +652,14 @@ const driftingCardMarqueeAssetDocs = assetsByIds([
   ...Array.from({ length: 5 }, (_, i) => `drifting-card-marquee-img-${i + 1}`),
 ]);
 
+const contactSheetZoomAssetDocs = assetsByIds(
+  Array.from({ length: 50 }, (_, i) => `contact-sheet-zoom-img-${i + 1}`),
+);
+const serviceIndexScrubAssetDocs = assetsByIds([
+  "service-index-scrub-hero",
+  ...Array.from({ length: 8 }, (_, i) => `service-index-scrub-img-${i + 1}`),
+]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12193,6 +12201,118 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "5 authored routes",
         description:
           "Per card, four y-percent stops and four rotation stops. Must have one entry per card.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "contact-sheet-zoom": {
+    demoPath: "src/components/demos/contact-sheet-zoom.tsx",
+    nuance: [
+      {
+        label: "The container never scales",
+        description:
+          "Each tile is displaced along its own vector from the centre and scaled individually. Scaling the container instead would keep the grid rigid; this is what lets the sheet fan out.",
+      },
+      {
+        label: "The spread is deliberately anisotropic",
+        description:
+          "1200 across against 600 down. Equal multipliers would fan it uniformly; the mismatch is what makes it read as a wall you pan rather than a zoom.",
+      },
+      {
+        label: "A transparent layer takes the drag",
+        description:
+          "Tiles are pointer-events: none and a full-bleed layer is switched on only while zoomed. Without it, every one of the twelve hundred images would try to start a native image drag.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "Label on the floating pill.",
+      },
+      {
+        name: "totalRows",
+        control: "text",
+        description: "Rows of tiles on the sheet.",
+      },
+    ],
+    assets: contactSheetZoomAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "50 BLANK photographs",
+        description:
+          "Pool drawn from at random per tile, so each mount lays out differently.",
+      },
+      {
+        name: "totalRows / imagesPerRow",
+        type: "number",
+        default: "20 / 60",
+        description:
+          "Tile count is the product of these. The tile width is a calc against imagesPerRow, so changing it needs the CSS changed with it.",
+      },
+      {
+        name: "zoomScale / spread",
+        type: "number / [number, number]",
+        default: "5 / [1200, 600]",
+        description:
+          "Per-tile scale at full zoom, and the horizontal and vertical fan multipliers.",
+      },
+    ],
+  },
+  "service-index-scrub": {
+    demoPath: "src/components/demos/service-index-scrub.tsx",
+    nuance: [
+      {
+        label: "Distance selects, it does not scrub",
+        description:
+          "The active index is the floor of scroll distance over one viewport, so each service holds for a full screen and the change is a discrete transition rather than a scrubbed one.",
+      },
+      {
+        label: "Label widths are measured, not guessed",
+        description:
+          "A hidden node is rendered at the real display font and each label's width read off it before anything animates. That is what lets the indicator hug names of very different lengths.",
+      },
+      {
+        label: "One strip, not eight crossfades",
+        description:
+          "All the images live in a single tall column translated by exactly one image height, so the media change is one transform and can never desync from the label.",
+      },
+    ],
+    editable: [
+      {
+        name: "accent",
+        control: "color",
+        description: "Separator and outro colour.",
+      },
+      {
+        name: "heroCopy",
+        control: "text",
+        description: "Prompt at the bottom of the opening image.",
+      },
+    ],
+    assets: serviceIndexScrubAssetDocs,
+    api: [
+      {
+        name: "services",
+        type: "ServiceIndexEntry[]",
+        default: "8 BLANK services",
+        description:
+          "Label, copy, and image. The pin length is one viewport per entry, so the list length sets the scroll distance.",
+      },
+      {
+        name: "serviceHeight / imgHeight",
+        type: "number",
+        default: "38 / 250",
+        description:
+          "Row height and image frame height in px. Both are step sizes for transforms, so they must match the CSS.",
       },
       {
         name: "embedded",
