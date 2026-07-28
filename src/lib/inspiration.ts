@@ -915,6 +915,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Toolcraft",
+        href: "https://toolcraft.sh/",
+        dateAdded: "2026-07-29",
+        description:
+          "Open-source starter kit from Pixel Point for building creative tool interfaces, the kind with a canvas, toolbar, layer list, timeline, and keyframes already wired together. The component set is the part you would not want to hand-roll: sliders, colour palettes, curve editors, font pickers, gradient tools, and vector editing controls. It also ships agent skills, performance instructions, and visual testing rules so Claude, Codex, or Cursor generate consistent output inside it, which is unusual for a UI kit. Scaffold with `npx @pixel-point/toolcraft create`; the gallery has five example apps (Textures, Watercolor, ASCII, Bricks, Shaders).",
+      },
+      {
         title: "Great UI",
         href: "https://www.great-ui.com/components",
         dateAdded: "2026-07-29",
