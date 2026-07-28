@@ -2733,6 +2733,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Typography tools",
     links: [
       {
+        title: "Locale",
+        href: "https://joshpuckett.me/locale",
+        dateAdded: "2026-07-28",
+        description:
+          "Single-page tool that previews every font family installed on your own machine directly in the browser, useful when picking a system typeface without opening a font manager. You type a sample sentence once and it renders across the whole local library, with size and weight controls (defaults of 72 and 400) applied to every specimen at once. Built by Josh Puckett, co-founder of Iteration and Upperstudy and previously a design lead at Dropbox, Wealthfront, and Groupon, as one of a set of small interface experiments on his site. It leans on the browser's Local Font Access API, so it needs a Chromium-based browser and a one-time permission grant.",
+      },
+      {
         title: "Tinkerfont",
         href: "https://tinkerfont.com/",
         dateAdded: "2026-07-21",
