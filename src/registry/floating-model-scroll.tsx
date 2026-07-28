@@ -127,6 +127,11 @@ export default function FloatingModelScroll({
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 2.5;
+    // The source runs three r128, which wrote the tone-mapped linear values
+    // straight to the framebuffer. Modern three encodes to sRGB on the way out,
+    // which lifts the blacks hard and turns this near-black leather chair into
+    // light grey. Keep the source's output so the model reads as it should.
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     stage.appendChild(renderer.domElement);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.75));
@@ -469,7 +474,11 @@ const styles = `
   width: 20%;
 }
 
-.fms-archive {
+/* Scoped through the root so it outranks the .fms-content section rule above.
+   The source's plain \`section\` selector lost to \`.archive\` on specificity; once
+   scoped that flipped, the archive collapsed to one viewport, and its six items
+   overflowed a box half their height straight into the outro copy. */
+.fms-root .fms-archive {
   height: 200svh;
   display: flex;
   flex-direction: column;
