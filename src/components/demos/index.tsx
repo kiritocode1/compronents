@@ -150,6 +150,7 @@ import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ServiceIndexScrubDemo from "./service-index-scrub";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
+import ShaderTunnelSliderDemo from "./shader-tunnel-slider";
 import ShaderWarpSliderDemo from "./shader-warp-slider";
 import ShowreelZoomScrollDemo from "./showreel-zoom-scroll";
 import ShuffleGridPreloaderDemo from "./shuffle-grid-preloader";
@@ -401,4 +402,5 @@ export const demos: Record<string, ComponentType> = {
   "drifting-card-marquee": DriftingCardMarqueeDemo,
   "contact-sheet-zoom": ContactSheetZoomDemo,
   "service-index-scrub": ServiceIndexScrubDemo,
+  "shader-tunnel-slider": ShaderTunnelSliderDemo,
 };

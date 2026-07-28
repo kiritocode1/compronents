@@ -4581,6 +4581,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "shader-tunnel-slider",
+    title: "Shader Tunnel Slider",
+    description:
+      "Cards flying at you down a CSS perspective corridor, over a raymarch-style tunnel drawn by a fragment shader. The backdrop is a single full-screen plane whose polar pattern is sin(angle / 0.1) times sin(20 / radius + t), which is what produces the ribbed funnel, and scroll is fed in as a separate uniform on top of elapsed time so scrolling accelerates the tunnel rather than only moving the cards. Each card starts far down the Z axis, alternates to the left or right of centre, and is pushed forward across the whole scroll while its opacity ramps only over the final step, so it fades up out of the dark instead of popping in. Three.js, GSAP ScrollTrigger, and Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["three", "gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/shader-tunnel-slider.tsx",
+        target: "components/ui/shader-tunnel-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

@@ -660,6 +660,10 @@ const serviceIndexScrubAssetDocs = assetsByIds([
   ...Array.from({ length: 8 }, (_, i) => `service-index-scrub-img-${i + 1}`),
 ]);
 
+const shaderTunnelSliderAssetDocs = assetsByIds(
+  Array.from({ length: 10 }, (_, i) => `shader-tunnel-slider-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12313,6 +12317,62 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "38 / 250",
         description:
           "Row height and image frame height in px. Both are step sizes for transforms, so they must match the CSS.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "shader-tunnel-slider": {
+    demoPath: "src/components/demos/shader-tunnel-slider.tsx",
+    nuance: [
+      {
+        label: "Two independent depth systems",
+        description:
+          "The tunnel is a fragment shader on a flat plane; the cards are ordinary DOM in a CSS perspective. Neither knows about the other, they just share the same scroll progress, which is why the cards can use backdrop-filter over a WebGL backdrop.",
+      },
+      {
+        label: "Scroll is a second clock, not a replacement",
+        description:
+          "The shader adds scrollOffset * 200 on top of elapsed time, so the tunnel keeps turning when the page is still and speeds up when it is not. Driving it from scroll alone would freeze the backdrop at rest.",
+      },
+      {
+        label: "Opacity ramps only over the last step",
+        description:
+          "A card is invisible for almost its whole journey and fades in across the final z-step before the camera. Ramping across the full travel would show ten translucent cards stacked down the corridor at once.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "Wordmark in the centre of the nav.",
+      },
+      {
+        name: "zStep",
+        control: "text",
+        description: "World units between two cards on the Z axis.",
+      },
+    ],
+    assets: shaderTunnelSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "TunnelSlide[]",
+        default: "10 BLANK cards",
+        description:
+          "Title, id, and image. Travel distance is derived from the count, so adding cards lengthens the corridor rather than crowding it.",
+      },
+      {
+        name: "zStep",
+        type: "number",
+        default: "2500",
+        description:
+          "Spacing between cards, and also the window over which a card fades up.",
       },
       {
         name: "embedded",

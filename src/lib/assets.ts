@@ -2388,7 +2388,21 @@ const serviceIndexScrubAssets = [
     }) as const satisfies AssetItem,
 );
 
+const shaderTunnelSliderAssets = Array.from({ length: 10 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `shader-tunnel-slider-img-${n}`,
+    label: `Shader Tunnel Slider card ${n}`,
+    provider: "vercel-blob",
+    pathname: `shader-tunnel-slider/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/shader-tunnel-slider/img${n}.jpg`,
+    role: "Image on a card flying forward down the tunnel.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...shaderTunnelSliderAssets,
   ...contactSheetZoomAssets,
   ...serviceIndexScrubAssets,
   ...cycleScrubShowcaseAssets,

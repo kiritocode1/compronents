@@ -225,6 +225,7 @@ export const componentGroups: RegistryGroup[] = [
       "floating-model-scroll",
       "garage-scene-3d",
       "particle-fluid-hero",
+      "shader-tunnel-slider",
     ],
   },
 ];
