@@ -140,6 +140,7 @@ import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
 import PinnedShrinkCardsDemo from "./pinned-shrink-cards";
 import PixelCubeAvatarDemo from "./pixel-cube-avatar";
+import PixelCubeFieldDemo from "./pixel-cube-field";
 import PixelSmearWordmarkDemo from "./pixel-smear-wordmark";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
@@ -443,4 +444,5 @@ export const demos: Record<string, ComponentType> = {
   "filmstrip-video-player": FilmstripVideoPlayerDemo,
   "scatter-letter-intro": ScatterLetterIntroDemo,
   "pixel-cube-avatar": PixelCubeAvatarDemo,
+  "pixel-cube-field": PixelCubeFieldDemo,
 };

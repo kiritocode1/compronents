@@ -13444,6 +13444,93 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "pixel-cube-field": {
+    demoPath: "src/components/demos/pixel-cube-field.tsx",
+    nuance: [
+      {
+        label: "Tilt grows outward, not inward",
+        description:
+          "The cube under the cursor is the one held head-on and every other cube leans by its offset to it, so the field points at the pointer instead of peaking there. The offset vector is clamped to one radius rather than the angle being clamped, which keeps the lean direction correct at the far corners instead of flattening them.",
+      },
+      {
+        label: "Flat by construction",
+        description:
+          "Cubes are never scaled or translated by distance from the focus, only rotated, so the grid reads as a field of turning objects rather than a bulging lens.",
+      },
+      {
+        label: "One canvas for the whole grid",
+        description:
+          "Every cube rasterizes into the same three channel buffers and the field is flushed with a single putImageData, so 36 cubes cost one canvas and one rAF loop instead of 36 of each.",
+      },
+      {
+        label: "Per-cube chroma and easing",
+        description:
+          "Each cube carries its own rotation, its own half-life easing and its own chroma offset, so they lag into place independently and only the ones actually turning fast tear into full RGB.",
+      },
+      {
+        label: "The ripple is one full turn",
+        description:
+          "A click spins each ring by exactly 2 pi on an ease-out, so every cube lands back where it started and the wave leaves no drift behind it.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description: "Backdrop the field is rasterized onto.",
+      },
+      {
+        name: "label",
+        control: "text",
+        description: "Accessible name for the canvas.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "gridSize / cellsPerCube",
+        type: "number / number",
+        default: "6 / 17",
+        description:
+          "Cubes per side, and the pixel cells each cube box is drawn into. Lower cellsPerCube reads coarser.",
+      },
+      {
+        name: "maxAngle / radius",
+        type: "number / number",
+        default: "55 / 3",
+        description:
+          "Degrees of tilt reached once a cube is this many cubes from the cursor. Past that the lean stops growing.",
+      },
+      {
+        name: "smoothing",
+        type: "number",
+        default: "0.12",
+        description:
+          "Seconds for a cube to close half the gap to its target angle. Frame-rate independent.",
+      },
+      {
+        name: "chromDeg / fade",
+        type: "number / number",
+        default: "13 / 0.9",
+        description:
+          "Degrees the red and blue passes sit off green, and how much of the previous frame bleeds into this one. Set chromDeg to 0 for a clean wireframe.",
+      },
+      {
+        name: "autoAnimate / rippleOnClick / rippleSpeed",
+        type: "boolean / boolean / number",
+        default: "true / true / 2",
+        description:
+          "Idle drift after three seconds, the click ripple, and how fast that ripple travels.",
+      },
+      {
+        name: "size / background",
+        type: "number / string",
+        default: '640 / "#0a0a0a"',
+        description:
+          "Rendered size in px, rounded so each cell lands on whole pixels, and the hex backdrop baked into every pixel.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

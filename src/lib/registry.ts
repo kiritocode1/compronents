@@ -5001,6 +5001,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "pixel-cube-field",
+    title: "Pixel Cube Field",
+    description:
+      "A grid of RGB-split wireframe cubes that aim at the cursor. Each cube is rasterized the same way as the single Pixel Cube Avatar, twelve edges drawn with an integer Bresenham line into three 8-bit channel buffers with the red and blue passes offset a few degrees from green, and the whole field shares one cell buffer and one canvas. Orientation comes from each cube's offset to the pointer: the cube under the cursor sits head-on and the tilt grows outward, saturating at a set radius, so the grid reads as a lens aimed wherever the mouse is. Cubes are never scaled by distance, so the field stays flat rather than bulging. Every cube eases independently, the fringing widens with how fast each one turned, the focus drifts by itself after three idle seconds, and a click sends a ring of full revolutions outward from the cube you hit. No dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-29",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pixel-cube-field.tsx",
+        target: "components/ui/pixel-cube-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
