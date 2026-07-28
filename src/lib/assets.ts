@@ -2439,7 +2439,35 @@ const gravityDropLandingAssets = Array.from({ length: 12 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const flipLayoutGalleryAssets = Array.from({ length: 14 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `flip-layout-gallery-img-${n}`,
+    label: `Flip Layout Gallery tile ${n}`,
+    provider: "vercel-blob",
+    pathname: `flip-layout-gallery/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/flip-layout-gallery/img${n}.jpg`,
+    role: "Tile that flips between the three layouts, also shown in the tall preview strip.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const odometerLoadHeroAssets = Array.from({ length: 7 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `odometer-load-hero-img-${n}`,
+    label: `Odometer Load Hero frame ${n}`,
+    provider: "vercel-blob",
+    pathname: `odometer-load-hero/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/odometer-load-hero/img${n}.jpg`,
+    role: "Stacked hero photograph, wiped open in sequence once the counter lands.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...flipLayoutGalleryAssets,
+  ...odometerLoadHeroAssets,
   ...gravityDropLandingAssets,
   ...calendarPadCardsAssets,
   ...wrappedDragIndexAssets,

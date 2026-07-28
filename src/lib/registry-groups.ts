@@ -51,6 +51,7 @@ export const componentGroups: RegistryGroup[] = [
       "block-page-transition",
       "strip-merge-reveal",
       "emoji-trail-preloader",
+      "odometer-load-hero",
     ],
   },
   {
@@ -93,6 +94,7 @@ export const componentGroups: RegistryGroup[] = [
       "cylinder-block-gallery",
       "flip-tile-board",
       "contact-sheet-zoom",
+      "flip-layout-gallery",
     ],
   },
   {

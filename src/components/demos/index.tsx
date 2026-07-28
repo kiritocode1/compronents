@@ -70,6 +70,7 @@ import FallingTagListDemo from "./falling-tag-list";
 import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
+import FlipLayoutGalleryDemo from "./flip-layout-gallery";
 import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlipTileBoardDemo from "./flip-tile-board";
 import FloatingModelScrollDemo from "./floating-model-scroll";
@@ -120,6 +121,7 @@ import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
 import NestedMaskBannerDemo from "./nested-mask-banner";
 import NullStudioPageDemo from "./null-studio-page";
+import OdometerLoadHeroDemo from "./odometer-load-hero";
 import OrbitMatterPageDemo from "./orbit-matter-page";
 import OrbitTextPreloaderDemo from "./orbit-text-preloader";
 import OtisValenPageDemo from "./otis-valen-page";
@@ -413,4 +415,6 @@ export const demos: Record<string, ComponentType> = {
   "wrapped-drag-index": WrappedDragIndexDemo,
   "calendar-pad-cards": CalendarPadCardsDemo,
   "gravity-drop-landing": GravityDropLandingDemo,
+  "flip-layout-gallery": FlipLayoutGalleryDemo,
+  "odometer-load-hero": OdometerLoadHeroDemo,
 };

@@ -674,6 +674,13 @@ const gravityDropLandingAssetDocs = assetsByIds(
   Array.from({ length: 12 }, (_, i) => `gravity-drop-landing-img-${i + 1}`),
 );
 
+const flipLayoutGalleryAssetDocs = assetsByIds(
+  Array.from({ length: 14 }, (_, i) => `flip-layout-gallery-img-${i + 1}`),
+);
+const odometerLoadHeroAssetDocs = assetsByIds(
+  Array.from({ length: 7 }, (_, i) => `odometer-load-hero-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12662,6 +12669,110 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "[ Drop / Raise ]",
         description:
           "The only control; it blends against the backdrop with mix-blend-mode.",
+      },
+    ],
+  },
+  "flip-layout-gallery": {
+    demoPath: "src/components/demos/flip-layout-gallery.tsx",
+    nuance: [
+      {
+        label: "Layouts are CSS, motion is Flip",
+        description:
+          "Each arrangement is just a class with different rules. Flip records the rects before the swap and interpolates to whatever the new stylesheet computes, so adding a fourth layout needs no new animation code at all.",
+      },
+      {
+        label: "The stagger is dropped into the column",
+        description:
+          "Entering the vertical list uses stagger 0; every other transition uses 0.025. A staggered arrival into a column reads as items queuing up rather than a formation resolving.",
+      },
+      {
+        label: "It must return to the top before flipping out",
+        description:
+          "Leaving the column layout mid-scroll scrolls to zero first, because Flip would otherwise measure the tiles from a scrolled position and fly them in from off-frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "Wordmark at the left of the nav.",
+      },
+      {
+        name: "menuLabel",
+        control: "text",
+        description: "Label at the right of the nav.",
+      },
+    ],
+    assets: flipLayoutGalleryAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "14 BLANK tiles",
+        description:
+          "Layout 1 positions tiles 1 to 14 individually in CSS, so a different count needs those rules extended.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "odometer-load-hero": {
+    demoPath: "src/components/demos/odometer-load-hero.tsx",
+    nuance: [
+      {
+        label: "Three reels, three clocks",
+        description:
+          "Units run 5s, tens 6s, hundreds 2s starting at 5s. Nothing coordinates them; they land together because the durations and delays were chosen to. A single tweened number could not produce that mechanical mismatch.",
+      },
+      {
+        label: "The units reel is seeded longer than it needs",
+        description:
+          "Twenty one numerals are appended at mount so the column can spin two full passes before resting on the final zero. Ten would land immediately and lose the spin.",
+      },
+      {
+        label: "The bar overshoots on purpose",
+        description:
+          "It fills to 30%, pauses, then jumps to 100% while fading out. Reaching full smoothly would read as an honest progress bar; the jump reads as the load completing early.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading",
+        control: "text",
+        description: "Wordmark that rises per character.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Page colour behind the loader.",
+      },
+    ],
+    assets: odometerLoadHeroAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "7 BLANK photographs",
+        description:
+          "Stacked and wiped open in sequence at 0.25s stagger once the counter finishes.",
+      },
+      {
+        name: "background / foreground",
+        type: "string",
+        default: "#ebdc0b / #000",
+        description: "Page colour and the counter and bar colour.",
+      },
+      {
+        name: "logo / siteInfo / menuLabel",
+        type: "string",
+        default: "BLANK copy",
+        description:
+          "Navigation row, dropped in from above once the reveal is done.",
       },
     ],
   },

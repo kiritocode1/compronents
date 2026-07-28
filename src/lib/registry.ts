@@ -4701,6 +4701,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "flip-layout-gallery",
+    title: "Flip Layout Gallery",
+    description:
+      "One set of images that rearranges between three completely different layouts without ever being re-created. Positions are declared purely in CSS per layout class; switching records the current rects with GSAP Flip, swaps the class, and lets Flip interpolate every tile from where it was to where the new stylesheet puts it. The stagger is dropped to zero when moving into the column layout, because a staggered arrival into a vertical list reads as a queue rather than a formation. The column layout also mounts a scroll relationship: an invisible tall strip provides the scroll length, and its progress drives the gallery and a minimap at different multipliers, so the two travel at different rates over the same gesture.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/flip-layout-gallery.tsx",
+        target: "components/ui/flip-layout-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "odometer-load-hero",
+    title: "Odometer Load Hero",
+    description:
+      "A percentage counter built as three independent reels rather than a number that increments. Each digit column is a strip of numerals translated by its own total height over its own duration, so the units reel takes five seconds, the tens six, and the hundreds column only two starting at second five: they finish together at 100 without any shared clock, and the mismatched speeds are what make it read mechanically. The units column is seeded with twenty one numerals so it can spin twice before landing. When it ends, a bar fills to thirty percent, jumps to full while fading, then seven photographs wipe open in sequence as the whole hero scales up and the wordmark rises per character.",
+    section: "components",
+    category: "Feedback",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/odometer-load-hero.tsx",
+        target: "components/ui/odometer-load-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
