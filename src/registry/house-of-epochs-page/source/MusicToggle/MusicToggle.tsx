@@ -2,8 +2,8 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
+import { useEffect, useRef, useState } from "react";
 
 import "./MusicToggle.css";
 

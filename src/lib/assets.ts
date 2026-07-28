@@ -2309,7 +2309,56 @@ const flipTileBoardAssets = [
     }) as const satisfies AssetItem,
 );
 
+const cycleScrubShowcaseAssets = Array.from({ length: 5 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `cycle-scrub-showcase-img-${n}`,
+    label: `Cycle Scrub Showcase frame ${n}`,
+    provider: "vercel-blob",
+    pathname: `cycle-scrub-showcase/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cycle-scrub-showcase/img${n}.jpg`,
+    role: "Project frame, clipped open and scaled down across its own scroll cycle.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const splitClickSliderAssets = Array.from({ length: 5 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `split-click-slider-img-${n}`,
+    label: `Split Click Slider frame ${n}`,
+    provider: "vercel-blob",
+    pathname: `split-click-slider/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/split-click-slider/img${n}.jpg`,
+    role: "Full-bleed layer wiped open from the edge, also used as its thumbnail.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const driftingCardMarqueeAssets = [
+  ["hero", "hero.jpg", "Full-bleed opening image above the pinned marquee."],
+  ...Array.from({ length: 5 }, (_, i) => [
+    `img-${i + 1}`,
+    `img${i + 1}.jpg`,
+    "Photograph on a drifting card.",
+  ]),
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `drifting-card-marquee-${id}`,
+      label: `Drifting Card Marquee ${id}`,
+      provider: "vercel-blob",
+      pathname: `drifting-card-marquee/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/drifting-card-marquee/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
 export const assetItems = [
+  ...cycleScrubShowcaseAssets,
+  ...splitClickSliderAssets,
+  ...driftingCardMarqueeAssets,
   ...wheelClipSliderAssets,
   ...rotatingPanelSliderAssets,
   ...flipTileBoardAssets,

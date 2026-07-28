@@ -1,4 +1,4 @@
-import { Elysia, t, status, type UnwrapSchema } from "elysia";
+import { Elysia, status, t, type UnwrapSchema } from "elysia";
 import { z } from "zod";
 
 /**

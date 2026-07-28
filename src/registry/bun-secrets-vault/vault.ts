@@ -22,7 +22,8 @@
 
 import { secrets } from "bun";
 
-const SERVICE = process.env.VAULT_SERVICE ?? `vault:${process.cwd().split("/").pop()}`;
+const SERVICE =
+  process.env.VAULT_SERVICE ?? `vault:${process.cwd().split("/").pop()}`;
 const INDEX = "__vault_index__";
 
 async function readIndex(service = SERVICE): Promise<string[]> {
@@ -31,22 +32,36 @@ async function readIndex(service = SERVICE): Promise<string[]> {
 }
 
 async function writeIndex(keys: string[], service = SERVICE) {
-  await secrets.set({ service, name: INDEX, value: JSON.stringify([...new Set(keys)].sort()) });
+  await secrets.set({
+    service,
+    name: INDEX,
+    value: JSON.stringify([...new Set(keys)].sort()),
+  });
 }
 
 export async function vaultSet(key: string, value: string, service = SERVICE) {
-  if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) throw new Error(`invalid key name: ${key}`);
+  if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key))
+    throw new Error(`invalid key name: ${key}`);
   await secrets.set({ service, name: key, value });
   await writeIndex([...(await readIndex(service)), key], service);
 }
 
-export async function vaultGet(key: string, service = SERVICE): Promise<string | null> {
+export async function vaultGet(
+  key: string,
+  service = SERVICE,
+): Promise<string | null> {
   return secrets.get({ service, name: key });
 }
 
-export async function vaultRm(key: string, service = SERVICE): Promise<boolean> {
+export async function vaultRm(
+  key: string,
+  service = SERVICE,
+): Promise<boolean> {
   const deleted = await secrets.delete({ service, name: key });
-  await writeIndex((await readIndex(service)).filter(k => k !== key), service);
+  await writeIndex(
+    (await readIndex(service)).filter((k) => k !== key),
+    service,
+  );
   return deleted;
 }
 
@@ -55,7 +70,10 @@ export async function vaultList(service = SERVICE): Promise<string[]> {
 }
 
 /** Keychain wins; process.env (which includes Bun's auto-loaded .env) is the fallback. */
-export async function loadConfig(keys: string[], service = SERVICE): Promise<Record<string, string>> {
+export async function loadConfig(
+  keys: string[],
+  service = SERVICE,
+): Promise<Record<string, string>> {
   const out: Record<string, string> = {};
   const missing: string[] = [];
   for (const key of keys) {
@@ -63,7 +81,10 @@ export async function loadConfig(keys: string[], service = SERVICE): Promise<Rec
     if (v == null) missing.push(key);
     else out[key] = v;
   }
-  if (missing.length) throw new Error(`vault: missing config keys: ${missing.join(", ")} (set with: bun vault.ts set <KEY> <value>)`);
+  if (missing.length)
+    throw new Error(
+      `vault: missing config keys: ${missing.join(", ")} (set with: bun vault.ts set <KEY> <value>)`,
+    );
   return out;
 }
 
@@ -86,7 +107,11 @@ async function main() {
     }
     case "rm": {
       if (!args[0]) fail("usage: bun vault.ts rm <KEY>");
-      console.log((await vaultRm(args[0])) ? `removed ${args[0]}` : `${args[0]} was not set`);
+      console.log(
+        (await vaultRm(args[0]))
+          ? `removed ${args[0]}`
+          : `${args[0]} was not set`,
+      );
       break;
     }
     case "list": {
@@ -99,32 +124,42 @@ async function main() {
       const argv = sep >= 0 ? args.slice(sep + 1) : args;
       if (!argv.length) fail("usage: bun vault.ts run -- <command> [args]");
       const env = { ...process.env };
-      for (const key of await vaultList()) env[key] = (await vaultGet(key)) ?? "";
-      const proc = Bun.spawn(argv, { env, stdio: ["inherit", "inherit", "inherit"] });
+      for (const key of await vaultList())
+        env[key] = (await vaultGet(key)) ?? "";
+      const proc = Bun.spawn(argv, {
+        env,
+        stdio: ["inherit", "inherit", "inherit"],
+      });
       process.exit(await proc.exited);
     }
     case "self-test": {
       const svc = `vault:selftest-${Date.now()}`;
       await vaultSet("API_KEY", "k-123", svc);
       await vaultSet("DB_URL", "postgres://localhost/app", svc);
-      if ((await vaultGet("API_KEY", svc)) !== "k-123") throw new Error("get failed");
+      if ((await vaultGet("API_KEY", svc)) !== "k-123")
+        throw new Error("get failed");
       const listed = await vaultList(svc);
-      if (listed.join(",") !== "API_KEY,DB_URL") throw new Error(`list failed: ${listed}`);
+      if (listed.join(",") !== "API_KEY,DB_URL")
+        throw new Error(`list failed: ${listed}`);
       process.env.ENV_ONLY = "from-env";
       const cfg = await loadConfig(["API_KEY", "ENV_ONLY"], svc);
-      if (cfg.API_KEY !== "k-123" || cfg.ENV_ONLY !== "from-env") throw new Error("loadConfig failed");
+      if (cfg.API_KEY !== "k-123" || cfg.ENV_ONLY !== "from-env")
+        throw new Error("loadConfig failed");
       let threw = false;
       await loadConfig(["NOPE_MISSING"], svc).catch(() => (threw = true));
       if (!threw) throw new Error("loadConfig should throw on missing key");
       if (!(await vaultRm("API_KEY", svc))) throw new Error("rm failed");
-      if ((await vaultList(svc)).join(",") !== "DB_URL") throw new Error("index not updated after rm");
+      if ((await vaultList(svc)).join(",") !== "DB_URL")
+        throw new Error("index not updated after rm");
       await vaultRm("DB_URL", svc);
       await secrets.delete({ service: svc, name: INDEX });
       console.log("vault self-test: all assertions passed");
       break;
     }
     default:
-      fail("commands: set <KEY> <value> | get <KEY> | rm <KEY> | list | run -- <cmd> | self-test");
+      fail(
+        "commands: set <KEY> <value> | get <KEY> | rm <KEY> | list | run -- <cmd> | self-test",
+      );
   }
 }
 

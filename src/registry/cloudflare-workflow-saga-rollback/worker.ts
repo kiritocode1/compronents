@@ -33,10 +33,7 @@
  * }
  */
 
-import type {
-  ProvisionSubscription,
-  SubscriptionEnv,
-} from "./workflow";
+import type { ProvisionSubscription, SubscriptionEnv } from "./workflow";
 
 export { ProvisionSubscriptionWorkflow } from "./workflow";
 

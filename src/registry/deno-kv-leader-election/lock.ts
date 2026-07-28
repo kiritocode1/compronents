@@ -45,7 +45,8 @@ export async function tryAcquire(
   const now = Date.now();
   // Held and not past its own deadline: give up this attempt.
   if (cur.value && cur.value.expiresAt > now) return null;
-  const res = await kv.atomic()
+  const res = await kv
+    .atomic()
     .check({ key: key(name), versionstamp: cur.versionstamp })
     .set(key(name), { id, expiresAt: now + ttlMs } satisfies LockValue, {
       expireIn: ttlMs,
@@ -58,7 +59,8 @@ export async function tryAcquire(
     versionstamp: res.versionstamp,
     release: async () => {
       // Delete only if the key is still our exact write.
-      await kv.atomic()
+      await kv
+        .atomic()
         .check({ key: key(name), versionstamp: res.versionstamp })
         .delete(key(name))
         .commit();
@@ -94,7 +96,7 @@ async function waitForChangeOrExpiry(
   const reader = kv.watch<[LockValue]>([key(name)]).getReader();
   // ponytail: timer fallback because KV expiry sweeps can lag past expiresAt
   const timer = new Promise<void>((r) =>
-    setTimeout(r, Math.max(0, cur.value!.expiresAt - Date.now()) + 25)
+    setTimeout(r, Math.max(0, cur.value!.expiresAt - Date.now()) + 25),
   );
   const abort = new Promise<never>((_, rej) => {
     signal?.addEventListener("abort", () => rej(signal.reason), { once: true });
@@ -158,11 +160,16 @@ export function onLeader(
       // Renew until we lose the CAS race, expire, or are stopped.
       while (!stopped.signal.aborted) {
         await new Promise((r) => setTimeout(r, ttlMs / 2));
-        const res = await kv.atomic()
+        const res = await kv
+          .atomic()
           .check({ key: key(name), versionstamp: stamp })
-          .set(key(name), { id, expiresAt: Date.now() + ttlMs }, {
-            expireIn: ttlMs,
-          })
+          .set(
+            key(name),
+            { id, expiresAt: Date.now() + ttlMs },
+            {
+              expireIn: ttlMs,
+            },
+          )
           .commit();
         if (!res.ok) break; // someone else took over
         stamp = res.versionstamp;
@@ -170,7 +177,8 @@ export function onLeader(
       lost.abort("leadership lost");
       await cbDone;
       if (stopped.signal.aborted) {
-        await kv.atomic()
+        await kv
+          .atomic()
           .check({ key: key(name), versionstamp: stamp })
           .delete(key(name))
           .commit();
@@ -191,31 +199,43 @@ if (import.meta.main) {
     // Cross-process leader election on a shared KV file.
     const kv = await Deno.openKv(path ?? "/tmp/lockdemo.db");
     console.log(`[${nodeId}] contending for leadership`);
-    onLeader(kv, "cluster-leader", async (signal) => {
-      console.log(`[${nodeId}] I AM LEADER at ${new Date().toISOString()}`);
-      await new Promise<void>((r) =>
-        signal.addEventListener("abort", () => r(), { once: true })
-      );
-      console.log(`[${nodeId}] lost leadership`);
-    }, { ttlMs: 2000, id: nodeId });
+    onLeader(
+      kv,
+      "cluster-leader",
+      async (signal) => {
+        console.log(`[${nodeId}] I AM LEADER at ${new Date().toISOString()}`);
+        await new Promise<void>((r) =>
+          signal.addEventListener("abort", () => r(), { once: true }),
+        );
+        console.log(`[${nodeId}] lost leadership`);
+      },
+      { ttlMs: 2000, id: nodeId },
+    );
   } else {
     // Mutual exclusion proof: two workers, same lock, interleavings recorded.
     const kv = await Deno.openKv(":memory:");
     const log: string[] = [];
     let inside = 0;
     const worker = (label: string) =>
-      withLock(kv, "shared", async () => {
-        inside++;
-        log.push(`${label} enter (concurrent holders: ${inside})`);
-        if (inside > 1) throw new Error("MUTUAL EXCLUSION VIOLATED");
-        await new Promise((r) => setTimeout(r, 300));
-        inside--;
-        log.push(`${label} exit`);
-      }, { ttlMs: 3000 });
+      withLock(
+        kv,
+        "shared",
+        async () => {
+          inside++;
+          log.push(`${label} enter (concurrent holders: ${inside})`);
+          if (inside > 1) throw new Error("MUTUAL EXCLUSION VIOLATED");
+          await new Promise((r) => setTimeout(r, 300));
+          inside--;
+          log.push(`${label} exit`);
+        },
+        { ttlMs: 3000 },
+      );
     const t0 = Date.now();
     await Promise.all([worker("A"), worker("B")]);
     console.log(log.join("\n"));
-    console.log(`both done in ${Date.now() - t0}ms (second waited, no overlap)`);
+    console.log(
+      `both done in ${Date.now() - t0}ms (second waited, no overlap)`,
+    );
     // Expiry failover proof: take a lease, never release, next acquire
     // succeeds only after the TTL deadline passes.
     const dead = await tryAcquire(kv, "orphan", { ttlMs: 1000 });

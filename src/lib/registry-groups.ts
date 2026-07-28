@@ -117,6 +117,7 @@ export const componentGroups: RegistryGroup[] = [
       "magnetic-spotlight-marquee",
       "wheel-clip-slider",
       "rotating-panel-slider",
+      "split-click-slider",
     ],
   },
   {
@@ -200,6 +201,8 @@ export const componentGroups: RegistryGroup[] = [
       "triangle-fill-scroll",
       "nested-mask-banner",
       "logo-mask-zoom-scroll",
+      "cycle-scrub-showcase",
+      "drifting-card-marquee",
     ],
   },
   {

@@ -4481,6 +4481,66 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "cycle-scrub-showcase",
+    title: "Cycle Scrub Showcase",
+    description:
+      "A pinned section where scroll progress is multiplied by the project count, so the integer part of that number picks the project and the fraction drives everything inside it. The current frame scales from 1.25 down to 1 across its own cycle, and crossing an integer boundary fires a discrete swap: the outgoing frame shrinks away going forward, or re-clips downward and blows out its contrast going back, so reversing is not the forward transition played backwards. Metadata types itself in one character every thirty milliseconds, half a second after the swap, and a thin bar refills once per project. GSAP ScrollTrigger and Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cycle-scrub-showcase.tsx",
+        target: "components/ui/cycle-scrub-showcase.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "split-click-slider",
+    title: "Split Click Slider",
+    description:
+      "The whole frame is the control: clicking its left half goes back, the right half goes forward. Each change stacks a new full-bleed layer on top and wipes it open from the edge you came from, while the picture inside both the old and the new layer slides five hundred pixels in that same direction, so the two images parallax against each other instead of one simply covering the other. The counter and title are single strips stepped by exactly one row, and the two plus marks accumulate a quarter turn per change so they keep winding rather than resetting. Layers past the slide count are dropped.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/split-click-slider.tsx",
+        target: "components/ui/split-click-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "drifting-card-marquee",
+    title: "Drifting Card Marquee",
+    description:
+      "A pinned section that pans an oversized wordmark sideways while cards drift across it on hand-authored paths. Each card gets its own four point tracks for vertical position and rotation, and its progress is a delayed, doubled slice of the section progress, so the cards start in sequence and each finishes early rather than all sharing one clock. The card is placed by walking those tracks: progress times three picks the segment and the remainder interpolates within it, which is what makes a card arc and tumble instead of travelling in a straight line. GSAP ScrollTrigger and Lenis.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/drifting-card-marquee.tsx",
+        target: "components/ui/drifting-card-marquee.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

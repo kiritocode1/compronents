@@ -1,4 +1,4 @@
-import { betterAuth, type BetterAuthOptions } from "better-auth";
+import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { jwt } from "better-auth/plugins";
 
 /**

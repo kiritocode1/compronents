@@ -22,147 +22,171 @@
  * concurrent hedgers cannot overspend it.
  */
 
-import { Duration, Effect, Ref } from "effect"
+import { Duration, Effect, Ref } from "effect";
 
 export interface Hedger {
   /** Run `request`; if it has not answered within `delay`, race a backup. */
-  readonly hedged: <A, E>(request: Effect.Effect<A, E>) => Effect.Effect<A, E>
-  readonly stats: Effect.Effect<{ hedgesFired: number; budgetLeft: number }>
+  readonly hedged: <A, E>(request: Effect.Effect<A, E>) => Effect.Effect<A, E>;
+  readonly stats: Effect.Effect<{ hedgesFired: number; budgetLeft: number }>;
 }
 
 export const makeHedger = (options: {
   /** fire the backup after this long, typically the observed p95 */
-  readonly delay: Duration.Input
+  readonly delay: Duration.Input;
   /** at most one hedge per this many completed requests */
-  readonly hedgeEveryN: number
+  readonly hedgeEveryN: number;
   /** hard cap on banked hedge tokens, so idle time cannot fund a burst */
-  readonly burst: number
+  readonly burst: number;
 }): Effect.Effect<Hedger> =>
   Effect.gen(function* () {
-    const tokens = yield* Ref.make(options.burst)
-    const fills = yield* Ref.make(0)
-    const hedgesFired = yield* Ref.make(0)
+    const tokens = yield* Ref.make(options.burst);
+    const fills = yield* Ref.make(0);
+    const hedgesFired = yield* Ref.make(0);
 
     // Each completed primary funds 1/N of a token; a hedge spends a whole one.
     const fund = Ref.update(fills, (n) => n + 1).pipe(
       Effect.andThen(
         Ref.modify(fills, (n) =>
-          n >= options.hedgeEveryN ? ([true, 0] as const) : ([false, n] as const),
+          n >= options.hedgeEveryN
+            ? ([true, 0] as const)
+            : ([false, n] as const),
         ),
       ),
       Effect.tap((filled) =>
-        filled ? Ref.update(tokens, (t) => Math.min(options.burst, t + 1)) : Effect.void,
+        filled
+          ? Ref.update(tokens, (t) => Math.min(options.burst, t + 1))
+          : Effect.void,
       ),
-    )
-    const trySpend = Ref.modify(tokens, (t) => (t > 0 ? ([true, t - 1] as const) : ([false, t] as const)))
+    );
+    const trySpend = Ref.modify(tokens, (t) =>
+      t > 0 ? ([true, t - 1] as const) : ([false, t] as const),
+    );
 
-    const hedged = <A, E>(request: Effect.Effect<A, E>): Effect.Effect<A, E> => {
+    const hedged = <A, E>(
+      request: Effect.Effect<A, E>,
+    ): Effect.Effect<A, E> => {
       const backup = Effect.gen(function* () {
-        yield* Effect.sleep(options.delay)
-        const allowed = yield* trySpend
+        yield* Effect.sleep(options.delay);
+        const allowed = yield* trySpend;
         if (!allowed) {
           // Budget dry: never answer, so the primary is the only runner.
-          return yield* Effect.never
+          return yield* Effect.never;
         }
-        yield* Ref.update(hedgesFired, (n) => n + 1)
-        return yield* request
-      })
+        yield* Ref.update(hedgesFired, (n) => n + 1);
+        return yield* request;
+      });
       // raceFirst interrupts the loser, so the abandoned attempt releases its
       // connection instead of running to completion in the background.
-      return Effect.raceFirst(request, backup).pipe(Effect.ensuring(fund))
-    }
+      return Effect.raceFirst(request, backup).pipe(Effect.ensuring(fund));
+    };
 
     const stats = Effect.gen(function* () {
       return {
         hedgesFired: yield* Ref.get(hedgesFired),
         budgetLeft: yield* Ref.get(tokens),
-      }
-    })
+      };
+    });
 
-    return { hedged, stats } as const
-  })
+    return { hedged, stats } as const;
+  });
 
 // ---- demo: prove the properties ----
 const demo = Effect.gen(function* () {
   const assert = (label: string, ok: boolean, detail: string) =>
-    Effect.sync(() => console.log(`${ok ? "PASS" : "FAIL"}  ${label} :: ${detail}`))
+    Effect.sync(() =>
+      console.log(`${ok ? "PASS" : "FAIL"}  ${label} :: ${detail}`),
+    );
 
   // A replica pool where the straggler takes 400ms and a healthy pick takes 15ms.
   const makePool = () =>
     Effect.gen(function* () {
-      const calls = yield* Ref.make(0)
-      const interrupted = yield* Ref.make(0)
+      const calls = yield* Ref.make(0);
+      const interrupted = yield* Ref.make(0);
       const query = (latencyMs: number) =>
         Effect.gen(function* () {
-          yield* Ref.update(calls, (n) => n + 1)
-          yield* Effect.sleep(Duration.millis(latencyMs))
-          return `rows@${latencyMs}ms`
-        }).pipe(Effect.onInterrupt(() => Ref.update(interrupted, (n) => n + 1)))
-      return { calls, interrupted, query } as const
-    })
+          yield* Ref.update(calls, (n) => n + 1);
+          yield* Effect.sleep(Duration.millis(latencyMs));
+          return `rows@${latencyMs}ms`;
+        }).pipe(
+          Effect.onInterrupt(() => Ref.update(interrupted, (n) => n + 1)),
+        );
+      return { calls, interrupted, query } as const;
+    });
 
   // Property 1: a straggler primary is capped near hedge delay + fast latency.
   {
-    const pool = yield* makePool()
-    const hedger = yield* makeHedger({ delay: "30 millis", hedgeEveryN: 10, burst: 5 })
-    const t0 = Date.now()
+    const pool = yield* makePool();
+    const hedger = yield* makeHedger({
+      delay: "30 millis",
+      hedgeEveryN: 10,
+      burst: 5,
+    });
+    const t0 = Date.now();
     // First call is the 400ms straggler; the hedge re-queries at 15ms.
-    let served = ""
+    let served = "";
     {
-      let first = true
+      let first = true;
       served = yield* hedger.hedged(
         Effect.suspend(() => {
-          const latency = first ? 400 : 15
-          first = false
-          return pool.query(latency)
+          const latency = first ? 400 : 15;
+          first = false;
+          return pool.query(latency);
         }),
-      )
+      );
     }
-    const elapsed = Date.now() - t0
-    const cancelled = yield* Ref.get(pool.interrupted)
+    const elapsed = Date.now() - t0;
+    const cancelled = yield* Ref.get(pool.interrupted);
     yield* assert(
       "hedge caps the tail",
       served === "rows@15ms" && elapsed < 200 && cancelled === 1,
       `served "${served}" in ${elapsed}ms (straggler was 400ms) and the loser was interrupted (${cancelled})`,
-    )
+    );
   }
 
   // Property 2: a fast primary never pays for a hedge.
   {
-    const pool = yield* makePool()
-    const hedger = yield* makeHedger({ delay: "30 millis", hedgeEveryN: 10, burst: 5 })
-    yield* hedger.hedged(pool.query(5))
-    const calls = yield* Ref.get(pool.calls)
-    const { hedgesFired } = yield* hedger.stats
+    const pool = yield* makePool();
+    const hedger = yield* makeHedger({
+      delay: "30 millis",
+      hedgeEveryN: 10,
+      burst: 5,
+    });
+    yield* hedger.hedged(pool.query(5));
+    const calls = yield* Ref.get(pool.calls);
+    const { hedgesFired } = yield* hedger.stats;
     yield* assert(
       "fast path fires no hedge",
       calls === 1 && hedgesFired === 0,
       `one 5ms request made ${calls} call(s) and fired ${hedgesFired} hedge(s)`,
-    )
+    );
   }
 
   // Property 3: a systemic slowdown exhausts the budget instead of doubling load.
   {
-    const pool = yield* makePool()
-    const hedger = yield* makeHedger({ delay: "10 millis", hedgeEveryN: 1000, burst: 2 })
+    const pool = yield* makePool();
+    const hedger = yield* makeHedger({
+      delay: "10 millis",
+      hedgeEveryN: 1000,
+      burst: 2,
+    });
     // Every request is slow (60ms), so every request WANTS to hedge; the
     // budget allows only the banked burst of 2.
     yield* Effect.all(
       Array.from({ length: 12 }, () => hedger.hedged(pool.query(60))),
       { concurrency: "unbounded" },
-    )
-    const { hedgesFired, budgetLeft } = yield* hedger.stats
+    );
+    const { hedgesFired, budgetLeft } = yield* hedger.stats;
     yield* assert(
       "budget stops a hedge storm",
       hedgesFired <= 2 && budgetLeft === 0,
       `12 slow requests fired ${hedgesFired} hedge(s) (cap 2), budget left ${budgetLeft}`,
-    )
+    );
   }
 
-  console.log("hedge.ts: all properties verified")
-})
+  console.log("hedge.ts: all properties verified");
+});
 
 Effect.runPromise(demo).catch((e) => {
-  console.error("demo failed", e)
-  process.exit(1)
-})
+  console.error("demo failed", e);
+  process.exit(1);
+});

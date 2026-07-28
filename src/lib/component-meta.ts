@@ -641,6 +641,17 @@ const flipTileBoardAssetDocs = assetsByIds([
   "flip-tile-board-back",
 ]);
 
+const cycleScrubShowcaseAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `cycle-scrub-showcase-img-${i + 1}`),
+);
+const splitClickSliderAssetDocs = assetsByIds(
+  Array.from({ length: 5 }, (_, i) => `split-click-slider-img-${i + 1}`),
+);
+const driftingCardMarqueeAssetDocs = assetsByIds([
+  "drifting-card-marquee-hero",
+  ...Array.from({ length: 5 }, (_, i) => `drifting-card-marquee-img-${i + 1}`),
+]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12036,6 +12047,159 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "50 / 1000",
         description:
           "Cursor highlight cell size in px, and per-tile re-entry lockout in ms.",
+      },
+    ],
+  },
+  "cycle-scrub-showcase": {
+    demoPath: "src/components/demos/cycle-scrub-showcase.tsx",
+    nuance: [
+      {
+        label: "One number is both the index and the easing",
+        description:
+          "Progress times the project count gives a value whose integer part selects the project and whose fraction drives the scale and the bar. There is no separate index state to fall out of sync with the scroll.",
+      },
+      {
+        label: "Reversing is a different animation",
+        description:
+          "Forward, the outgoing frame shrinks to half and fades. Backward, it re-clips downward and blows its contrast out. Playing the forward transition in reverse would lose the film-burn look the entry has.",
+      },
+      {
+        label: "The swap is discrete inside a scrub",
+        description:
+          "Crossing an integer boundary fires one-shot tweens rather than scrubbed ones, so a slow scroll through a boundary still gets the full entry at full speed.",
+      },
+    ],
+    editable: [
+      {
+        name: "linkLabel",
+        control: "text",
+        description: "Label on the project link.",
+      },
+      {
+        name: "outroCopy",
+        control: "text",
+        description: "Copy in the section after the pin.",
+      },
+    ],
+    assets: cycleScrubShowcaseAssetDocs,
+    api: [
+      {
+        name: "projects",
+        type: "CycleScrubProject[]",
+        default: "5 BLANK projects",
+        description:
+          "Title, tagline, year, tag, link, and image. The cycle count is the array length, so adding a project lengthens the pin automatically.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "split-click-slider": {
+    demoPath: "src/components/demos/split-click-slider.tsx",
+    nuance: [
+      {
+        label: "The frame is the control",
+        description:
+          "There are no arrows. A click is measured against the slider's own midpoint, so the left half goes back and the right half forward, and the thumbnails opt out of that by returning early.",
+      },
+      {
+        label: "Both images move, in the same direction",
+        description:
+          "The outgoing picture slides 500px one way while the incoming one arrives from 500px the other. Only moving the new image would read as a wipe; moving both is what gives it depth.",
+      },
+      {
+        label: "The plus marks never reset",
+        description:
+          "Rotation accumulates by 90 degrees per change rather than being set from the index, so going back and forth keeps winding them instead of snapping to a canonical angle.",
+      },
+    ],
+    editable: [
+      {
+        name: "navLinks",
+        control: "text",
+        description: "Links centred at the top.",
+      },
+      {
+        name: "counterStep",
+        control: "text",
+        description: "Row height of the counter strip, in px.",
+      },
+    ],
+    assets: splitClickSliderAssetDocs,
+    api: [
+      {
+        name: "slides",
+        type: "SplitClickSlide[]",
+        default: "5 BLANK slides",
+        description:
+          "Title and image. Drives the layers, the title strip, the counter, and the thumbnails.",
+      },
+      {
+        name: "counterStep / titleStep",
+        type: "number",
+        default: "20 / 60",
+        description:
+          "Both strips step by exactly one row, so these must match the CSS line heights.",
+      },
+    ],
+  },
+  "drifting-card-marquee": {
+    demoPath: "src/components/demos/drifting-card-marquee.tsx",
+    nuance: [
+      {
+        label: "Paths are authored, not simulated",
+        description:
+          "Each card has four y stops and four rotation stops. Progress times three picks the segment and the remainder interpolates inside it, which is why the cards arc and tumble on distinct routes rather than sharing one curve.",
+      },
+      {
+        label: "Cards are staggered by slicing progress",
+        description:
+          "A card's progress is (progress - index * 0.1125) * 2, clamped. The delay staggers the entries and the doubling means each card finishes its route before the pin ends.",
+      },
+      {
+        label: "The wordmark pan is measured, not guessed",
+        description:
+          "Translation is the header's real overflow (offsetWidth minus the viewport), so the last letter lands exactly at the right edge whatever the text or the screen width.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading",
+        control: "text",
+        description: "The oversized wordmark that pans.",
+      },
+      {
+        name: "outroCopy",
+        control: "text",
+        description: "Copy in the section after the pin.",
+      },
+    ],
+    assets: driftingCardMarqueeAssetDocs,
+    api: [
+      {
+        name: "cards",
+        type: "DriftingCard[]",
+        default: "5 BLANK cards",
+        description: "Title, description, and image per drifting card.",
+      },
+      {
+        name: "transforms",
+        type: "[number[], number[]][]",
+        default: "5 authored routes",
+        description:
+          "Per card, four y-percent stops and four rotation stops. Must have one entry per card.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
       },
     ],
   },

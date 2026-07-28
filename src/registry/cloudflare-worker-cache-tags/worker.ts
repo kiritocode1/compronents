@@ -37,7 +37,7 @@
  * }
  */
 
-import { WorkerEntrypoint, cache } from "cloudflare:workers";
+import { cache, WorkerEntrypoint } from "cloudflare:workers";
 
 export type CatalogEnv = {
   CATALOG: KVNamespace;
@@ -104,7 +104,9 @@ export default {
    * Purge from a queue consumer. There is no `ctx.cache` here, so the module
    * level `cache` binding from `cloudflare:workers` is the way in.
    */
-  async queue(batch: MessageBatch<{ productId: string; collections: string[] }>) {
+  async queue(
+    batch: MessageBatch<{ productId: string; collections: string[] }>,
+  ) {
     const tags = new Set<string>();
     for (const message of batch.messages) {
       tags.add(`product:${message.body.productId}`);
@@ -131,7 +133,9 @@ export default {
  */
 export class Admin extends WorkerEntrypoint<CatalogEnv> {
   override async fetch(request: Request): Promise<Response> {
-    if (request.headers.get("authorization") !== `Bearer ${this.env.ADMIN_TOKEN}`) {
+    if (
+      request.headers.get("authorization") !== `Bearer ${this.env.ADMIN_TOKEN}`
+    ) {
       return new Response("Unauthorized", { status: 401 });
     }
 
@@ -154,7 +158,9 @@ export class Admin extends WorkerEntrypoint<CatalogEnv> {
 
   /** Nuclear option, for a schema migration that reshapes every response body. */
   async purgeCatalog(): Promise<number> {
-    const result = await this.ctx.cache!.purge({ pathPrefixes: ["/products/"] });
+    const result = await this.ctx.cache!.purge({
+      pathPrefixes: ["/products/"],
+    });
     return result.errors.length;
   }
 }

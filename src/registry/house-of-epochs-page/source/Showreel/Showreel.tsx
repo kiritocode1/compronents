@@ -2,11 +2,11 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Flip } from "gsap/Flip";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { Flip } from "gsap/Flip";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 
 import "./Showreel.css";
 

@@ -16,126 +16,130 @@ const REFILL_TOKENS = 5; // tokens added per alarm tick
 const REFILL_INTERVAL_MS = 5_000;
 
 export interface Verdict {
-	allowed: boolean;
-	remaining: number;
-	limit: number;
-	resetSeconds: number; // seconds until the bucket is full again
+  allowed: boolean;
+  remaining: number;
+  limit: number;
+  resetSeconds: number; // seconds until the bucket is full again
 }
 
 export class TokenBucket extends DurableObject {
-	constructor(ctx: DurableObjectState, env: unknown) {
-		super(ctx, env);
-		// Schema init is guaranteed to finish before any RPC call is delivered.
-		ctx.blockConcurrencyWhile(async () => {
-			ctx.storage.sql.exec(
-				`CREATE TABLE IF NOT EXISTS bucket (
+  constructor(ctx: DurableObjectState, env: unknown) {
+    super(ctx, env);
+    // Schema init is guaranteed to finish before any RPC call is delivered.
+    ctx.blockConcurrencyWhile(async () => {
+      ctx.storage.sql.exec(
+        `CREATE TABLE IF NOT EXISTS bucket (
 					id INTEGER PRIMARY KEY CHECK (id = 1),
 					tokens REAL NOT NULL,
 					updated_ms INTEGER NOT NULL
 				)`,
-			);
-			ctx.storage.sql.exec(
-				"INSERT OR IGNORE INTO bucket (id, tokens, updated_ms) VALUES (1, ?, ?)",
-				CAPACITY,
-				Date.now(),
-			);
-		});
-	}
+      );
+      ctx.storage.sql.exec(
+        "INSERT OR IGNORE INTO bucket (id, tokens, updated_ms) VALUES (1, ?, ?)",
+        CAPACITY,
+        Date.now(),
+      );
+    });
+  }
 
-	// RPC method: called as stub.take(cost) from the fronting Worker, no fetch involved.
-	async take(cost = 1): Promise<Verdict> {
-		const row = this.ctx.storage.sql
-			.exec<{ tokens: number }>("SELECT tokens FROM bucket WHERE id = 1")
-			.one();
-		let tokens = row.tokens;
-		const allowed = tokens >= cost;
-		if (allowed) {
-			tokens -= cost;
-			this.ctx.storage.sql.exec(
-				"UPDATE bucket SET tokens = ?, updated_ms = ? WHERE id = 1",
-				tokens,
-				Date.now(),
-			);
-		}
-		// Arm the refill alarm only while the bucket is not full. One alarm per DO.
-		if (tokens < CAPACITY && (await this.ctx.storage.getAlarm()) === null) {
-			await this.ctx.storage.setAlarm(Date.now() + REFILL_INTERVAL_MS);
-		}
-		return {
-			allowed,
-			remaining: Math.floor(tokens),
-			limit: CAPACITY,
-			resetSeconds: Math.ceil(
-				(Math.ceil((CAPACITY - tokens) / REFILL_TOKENS) * REFILL_INTERVAL_MS) / 1000,
-			),
-		};
-	}
+  // RPC method: called as stub.take(cost) from the fronting Worker, no fetch involved.
+  async take(cost = 1): Promise<Verdict> {
+    const row = this.ctx.storage.sql
+      .exec<{ tokens: number }>("SELECT tokens FROM bucket WHERE id = 1")
+      .one();
+    let tokens = row.tokens;
+    const allowed = tokens >= cost;
+    if (allowed) {
+      tokens -= cost;
+      this.ctx.storage.sql.exec(
+        "UPDATE bucket SET tokens = ?, updated_ms = ? WHERE id = 1",
+        tokens,
+        Date.now(),
+      );
+    }
+    // Arm the refill alarm only while the bucket is not full. One alarm per DO.
+    if (tokens < CAPACITY && (await this.ctx.storage.getAlarm()) === null) {
+      await this.ctx.storage.setAlarm(Date.now() + REFILL_INTERVAL_MS);
+    }
+    return {
+      allowed,
+      remaining: Math.floor(tokens),
+      limit: CAPACITY,
+      resetSeconds: Math.ceil(
+        (Math.ceil((CAPACITY - tokens) / REFILL_TOKENS) * REFILL_INTERVAL_MS) /
+          1000,
+      ),
+    };
+  }
 
-	// Debug RPC: read the bucket without spending a token.
-	async peek(): Promise<{ tokens: number; alarmAt: number | null }> {
-		const row = this.ctx.storage.sql
-			.exec<{ tokens: number }>("SELECT tokens FROM bucket WHERE id = 1")
-			.one();
-		return { tokens: row.tokens, alarmAt: await this.ctx.storage.getAlarm() };
-	}
+  // Debug RPC: read the bucket without spending a token.
+  async peek(): Promise<{ tokens: number; alarmAt: number | null }> {
+    const row = this.ctx.storage.sql
+      .exec<{ tokens: number }>("SELECT tokens FROM bucket WHERE id = 1")
+      .one();
+    return { tokens: row.tokens, alarmAt: await this.ctx.storage.getAlarm() };
+  }
 
-	async alarm(): Promise<void> {
-		const next = this.ctx.storage.transactionSync(() => {
-			const row = this.ctx.storage.sql
-				.exec<{ tokens: number }>("SELECT tokens FROM bucket WHERE id = 1")
-				.one();
-			const tokens = Math.min(CAPACITY, row.tokens + REFILL_TOKENS);
-			this.ctx.storage.sql.exec(
-				"UPDATE bucket SET tokens = ?, updated_ms = ? WHERE id = 1",
-				tokens,
-				Date.now(),
-			);
-			return tokens;
-		});
-		if (next < CAPACITY) {
-			await this.ctx.storage.setAlarm(Date.now() + REFILL_INTERVAL_MS);
-		}
-	}
+  async alarm(): Promise<void> {
+    const next = this.ctx.storage.transactionSync(() => {
+      const row = this.ctx.storage.sql
+        .exec<{ tokens: number }>("SELECT tokens FROM bucket WHERE id = 1")
+        .one();
+      const tokens = Math.min(CAPACITY, row.tokens + REFILL_TOKENS);
+      this.ctx.storage.sql.exec(
+        "UPDATE bucket SET tokens = ?, updated_ms = ? WHERE id = 1",
+        tokens,
+        Date.now(),
+      );
+      return tokens;
+    });
+    if (next < CAPACITY) {
+      await this.ctx.storage.setAlarm(Date.now() + REFILL_INTERVAL_MS);
+    }
+  }
 }
 
 interface Env {
-	LIMITER: DurableObjectNamespace<TokenBucket>;
+  LIMITER: DurableObjectNamespace<TokenBucket>;
 }
 
 export default {
-	async fetch(request: Request, env: Env): Promise<Response> {
-		const apiKey = request.headers.get("x-api-key");
-		if (!apiKey) {
-			return Response.json(
-				{ error: "Send an x-api-key header, each key gets its own global bucket." },
-				{ status: 401 },
-			);
-		}
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const apiKey = request.headers.get("x-api-key");
+    if (!apiKey) {
+      return Response.json(
+        {
+          error:
+            "Send an x-api-key header, each key gets its own global bucket.",
+        },
+        { status: 401 },
+      );
+    }
 
-		const stub = env.LIMITER.getByName(apiKey);
+    const stub = env.LIMITER.getByName(apiKey);
 
-		if (new URL(request.url).pathname === "/peek") {
-			return Response.json(await stub.peek());
-		}
+    if (new URL(request.url).pathname === "/peek") {
+      return Response.json(await stub.peek());
+    }
 
-		const verdict = await stub.take(1);
-		const headers = new Headers({
-			"RateLimit-Limit": String(verdict.limit),
-			"RateLimit-Remaining": String(verdict.remaining),
-			"RateLimit-Reset": String(verdict.resetSeconds),
-			"content-type": "application/json",
-		});
+    const verdict = await stub.take(1);
+    const headers = new Headers({
+      "RateLimit-Limit": String(verdict.limit),
+      "RateLimit-Remaining": String(verdict.remaining),
+      "RateLimit-Reset": String(verdict.resetSeconds),
+      "content-type": "application/json",
+    });
 
-		if (!verdict.allowed) {
-			headers.set("Retry-After", String(verdict.resetSeconds));
-			return new Response(
-				JSON.stringify({ error: "Rate limit exceeded, bucket is empty." }),
-				{ status: 429, headers },
-			);
-		}
-		return new Response(
-			JSON.stringify({ ok: true, key: apiKey, remaining: verdict.remaining }),
-			{ headers },
-		);
-	},
+    if (!verdict.allowed) {
+      headers.set("Retry-After", String(verdict.resetSeconds));
+      return new Response(
+        JSON.stringify({ error: "Rate limit exceeded, bucket is empty." }),
+        { status: 429, headers },
+      );
+    }
+    return new Response(
+      JSON.stringify({ ok: true, key: apiKey, remaining: verdict.remaining }),
+      { headers },
+    );
+  },
 };

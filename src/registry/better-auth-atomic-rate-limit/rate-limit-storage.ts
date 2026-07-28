@@ -29,7 +29,9 @@ import type { BetterAuthOptions } from "better-auth";
  * ```
  */
 
-type RateLimitStorage = NonNullable<NonNullable<BetterAuthOptions["rateLimit"]>["customStorage"]>;
+type RateLimitStorage = NonNullable<
+  NonNullable<BetterAuthOptions["rateLimit"]>["customStorage"]
+>;
 
 /**
  * Minimal structural type matching `@upstash/redis`, which takes keys and
@@ -37,7 +39,11 @@ type RateLimitStorage = NonNullable<NonNullable<BetterAuthOptions["rateLimit"]>[
  * `{ eval: (s, keys, args) => io.eval(s, keys.length, ...keys, ...args) }`.
  */
 export type EvalCapableRedis = {
-  eval: (script: string, keys: string[], args: (string | number)[]) => Promise<unknown>;
+  eval: (
+    script: string,
+    keys: string[],
+    args: (string | number)[],
+  ) => Promise<unknown>;
 };
 
 /**
@@ -87,28 +93,40 @@ export function createRedisRateLimitStorage(
 
       let result: unknown;
       try {
-        result = await config.redis.eval(CONSUME_SCRIPT, [`${prefix}:${key}`], [windowMs]);
+        result = await config.redis.eval(
+          CONSUME_SCRIPT,
+          [`${prefix}:${key}`],
+          [windowMs],
+        );
       } catch {
         // Do not log `key` here: it embeds the client identifier (IP or
         // session token) that Better Auth derived for this request.
-        return failOpen ? { allowed: true, retryAfter: null } : { allowed: false, retryAfter: 1 };
+        return failOpen
+          ? { allowed: true, retryAfter: null }
+          : { allowed: false, retryAfter: 1 };
       }
 
       if (!Array.isArray(result) || result.length < 2) {
-        return failOpen ? { allowed: true, retryAfter: null } : { allowed: false, retryAfter: 1 };
+        return failOpen
+          ? { allowed: true, retryAfter: null }
+          : { allowed: false, retryAfter: 1 };
       }
 
       const count = Number(result[0]);
       const ttlMs = Number(result[1]);
       if (!Number.isFinite(count)) {
-        return failOpen ? { allowed: true, retryAfter: null } : { allowed: false, retryAfter: 1 };
+        return failOpen
+          ? { allowed: true, retryAfter: null }
+          : { allowed: false, retryAfter: 1 };
       }
 
       if (count <= rule.max) return { allowed: true, retryAfter: null };
 
       // retryAfter is seconds, and it goes into a Retry-After header, so it
       // must round up. Rounding down advertises a retry that is still blocked.
-      const retryAfter = Number.isFinite(ttlMs) ? Math.max(1, Math.ceil(ttlMs / 1000)) : rule.window;
+      const retryAfter = Number.isFinite(ttlMs)
+        ? Math.max(1, Math.ceil(ttlMs / 1000))
+        : rule.window;
       return { allowed: false, retryAfter };
     },
   };

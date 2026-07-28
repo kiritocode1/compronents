@@ -205,7 +205,7 @@ void main() {
 const LINEAR_LUT = new Float32Array(256);
 for (let i = 0; i < 256; i++) {
   const s = i / 255;
-  LINEAR_LUT[i] = s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  LINEAR_LUT[i] = s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
 }
 
 /** Serpentine Floyd-Steinberg on linear luminance. Returns 1 for "on" pixels. */
@@ -345,7 +345,7 @@ function boxBlur(
 
 // Deterministic PRNG so the same density always keeps the same points.
 function mulberry32(seed: number) {
-  return function () {
+  return () => {
     seed |= 0;
     seed = (seed + 0x6d2b79f5) | 0;
     let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);

@@ -52,7 +52,8 @@ export async function checkRateLimit(
   const prevKey: Deno.KvKey = [prefix, clientKey, bucketStart - windowMs];
 
   // Atomic distributed increment; the bucket deletes itself after two windows.
-  await kv.atomic()
+  await kv
+    .atomic()
     .mutate({
       type: "sum",
       key: currKey,
@@ -82,7 +83,8 @@ export async function checkRateLimit(
 export function rateLimit(
   opts: RateLimitOptions,
 ): (handler: Deno.ServeHandler) => Deno.ServeHandler {
-  const keyFn = opts.keyFn ??
+  const keyFn =
+    opts.keyFn ??
     ((_req: Request, info: Deno.ServeHandlerInfo) =>
       (info.remoteAddr as Deno.NetAddr).hostname ?? "unknown");
   return (handler) => async (req, info) => {
@@ -122,11 +124,12 @@ if (import.meta.main) {
   const limited = rateLimit({ kv, limit: 5, windowMs: 10_000 });
   Deno.serve(
     { port: 4110 },
-    limited((_req) =>
-      new Response(
-        JSON.stringify({ message: "you are within the limit" }) + "\n",
-        { headers: { "Content-Type": "application/json" } },
-      )
+    limited(
+      (_req) =>
+        new Response(
+          JSON.stringify({ message: "you are within the limit" }) + "\n",
+          { headers: { "Content-Type": "application/json" } },
+        ),
     ),
   );
 }

@@ -1,4 +1,4 @@
-import { Elysia, t, status } from "elysia";
+import { Elysia, status, t } from "elysia";
 import type { EventScope } from "elysia/types";
 
 /**

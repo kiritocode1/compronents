@@ -33,7 +33,9 @@ export type EdgeSessionConfig = {
 
 let cachedJwks: { keys: JSONWebKeySet; expiresAt: number } | null = null;
 
-async function loadJwks(config: EdgeSessionConfig): Promise<JSONWebKeySet | null> {
+async function loadJwks(
+  config: EdgeSessionConfig,
+): Promise<JSONWebKeySet | null> {
   const ttl = config.jwksTtlMs ?? 5 * 60 * 1000;
   if (cachedJwks && cachedJwks.expiresAt > Date.now()) return cachedJwks.keys;
 
@@ -70,7 +72,10 @@ async function loadJwks(config: EdgeSessionConfig): Promise<JSONWebKeySet | null
  * destructive, privileged, or billing related must re-read the session
  * through `auth.api.getSession({ headers })` on the origin.
  */
-export async function readEdgeSession(request: Request, config: EdgeSessionConfig) {
+export async function readEdgeSession(
+  request: Request,
+  config: EdgeSessionConfig,
+) {
   const jwks = await loadJwks(config);
   if (!jwks) return null;
 

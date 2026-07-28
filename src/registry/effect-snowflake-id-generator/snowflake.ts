@@ -25,180 +25,233 @@
  * rollback branches cannot interleave into a duplicate.
  */
 
-import { Clock, Data, Effect, Fiber, Ref } from "effect"
+import { Clock, Data, Effect, Fiber, Ref } from "effect";
 
 export class ClockMovedBackward extends Data.TaggedError("ClockMovedBackward")<{
-  readonly lastTimestamp: number
-  readonly now: number
+  readonly lastTimestamp: number;
+  readonly now: number;
 }> {}
 
-const TIMESTAMP_BITS = 41n
-const MACHINE_BITS = 10n
-const SEQUENCE_BITS = 12n
-const MAX_SEQUENCE = (1 << Number(SEQUENCE_BITS)) - 1 // 4095
-const MAX_MACHINE = (1 << Number(MACHINE_BITS)) - 1 // 1023
+const TIMESTAMP_BITS = 41n;
+const MACHINE_BITS = 10n;
+const SEQUENCE_BITS = 12n;
+const MAX_SEQUENCE = (1 << Number(SEQUENCE_BITS)) - 1; // 4095
+const MAX_MACHINE = (1 << Number(MACHINE_BITS)) - 1; // 1023
 
 export interface Snowflake {
-  readonly next: Effect.Effect<bigint, ClockMovedBackward>
+  readonly next: Effect.Effect<bigint, ClockMovedBackward>;
   /** unpack an id back into its parts, for debugging and range scans */
   readonly decode: (id: bigint) => {
-    readonly timestampMs: number
-    readonly machineId: number
-    readonly sequence: number
-  }
+    readonly timestampMs: number;
+    readonly machineId: number;
+    readonly sequence: number;
+  };
 }
 
 export const makeSnowflake = (options: {
-  readonly machineId: number
+  readonly machineId: number;
   /** custom epoch; ids store milliseconds since this instant */
-  readonly epochMs: number
+  readonly epochMs: number;
   /** park-and-wait for rollbacks up to this size, fail beyond it */
-  readonly maxBackwardDriftMs: number
+  readonly maxBackwardDriftMs: number;
   /** test seam: read a fake clock instead of Clock */
-  readonly nowOverride?: Effect.Effect<number>
+  readonly nowOverride?: Effect.Effect<number>;
 }): Effect.Effect<Snowflake> =>
   Effect.gen(function* () {
     if (options.machineId < 0 || options.machineId > MAX_MACHINE) {
-      return yield* Effect.die(new Error(`machineId must be 0..${MAX_MACHINE}`))
+      return yield* Effect.die(
+        new Error(`machineId must be 0..${MAX_MACHINE}`),
+      );
     }
-    const state = yield* Ref.make({ lastTimestamp: -1, sequence: 0 })
-    const now = options.nowOverride ?? Clock.currentTimeMillis
+    const state = yield* Ref.make({ lastTimestamp: -1, sequence: 0 });
+    const now = options.nowOverride ?? Clock.currentTimeMillis;
 
     type MintResult =
-      | { readonly _tag: "Minted"; readonly timestamp: number; readonly sequence: number }
+      | {
+          readonly _tag: "Minted";
+          readonly timestamp: number;
+          readonly sequence: number;
+        }
       | { readonly _tag: "SequenceExhausted" }
-      | { readonly _tag: "Backward"; readonly lastTimestamp: number }
+      | { readonly _tag: "Backward"; readonly lastTimestamp: number };
 
-    const next: Effect.Effect<bigint, ClockMovedBackward> = Effect.gen(function* () {
-      while (true) {
-        const t = yield* now
-        // One atomic decision: mint, or report why not.
-        const result = yield* Ref.modify(
-          state,
-          (s): readonly [MintResult, { lastTimestamp: number; sequence: number }] => {
-          if (t < s.lastTimestamp) return [{ _tag: "Backward", lastTimestamp: s.lastTimestamp }, s]
-          if (t === s.lastTimestamp) {
-            if (s.sequence >= MAX_SEQUENCE) return [{ _tag: "SequenceExhausted" }, s]
-            const seq = s.sequence + 1
-            return [{ _tag: "Minted", timestamp: t, sequence: seq }, { lastTimestamp: t, sequence: seq }]
-          }
-          return [{ _tag: "Minted", timestamp: t, sequence: 0 }, { lastTimestamp: t, sequence: 0 }]
-          },
-        )
+    const next: Effect.Effect<bigint, ClockMovedBackward> = Effect.gen(
+      function* () {
+        while (true) {
+          const t = yield* now;
+          // One atomic decision: mint, or report why not.
+          const result = yield* Ref.modify(
+            state,
+            (
+              s,
+            ): readonly [
+              MintResult,
+              { lastTimestamp: number; sequence: number },
+            ] => {
+              if (t < s.lastTimestamp)
+                return [
+                  { _tag: "Backward", lastTimestamp: s.lastTimestamp },
+                  s,
+                ];
+              if (t === s.lastTimestamp) {
+                if (s.sequence >= MAX_SEQUENCE)
+                  return [{ _tag: "SequenceExhausted" }, s];
+                const seq = s.sequence + 1;
+                return [
+                  { _tag: "Minted", timestamp: t, sequence: seq },
+                  { lastTimestamp: t, sequence: seq },
+                ];
+              }
+              return [
+                { _tag: "Minted", timestamp: t, sequence: 0 },
+                { lastTimestamp: t, sequence: 0 },
+              ];
+            },
+          );
 
-        switch (result._tag) {
-          case "Minted": {
-            const sinceEpoch = BigInt(result.timestamp - options.epochMs)
-            return (
-              (sinceEpoch << (MACHINE_BITS + SEQUENCE_BITS)) |
-              (BigInt(options.machineId) << SEQUENCE_BITS) |
-              BigInt(result.sequence)
-            )
-          }
-          case "SequenceExhausted": {
-            // 4096 ids minted this millisecond: wait for the next tick.
-            yield* Effect.sleep("1 millis")
-            break
-          }
-          case "Backward": {
-            const drift = result.lastTimestamp - t
-            if (drift > options.maxBackwardDriftMs) {
-              return yield* new ClockMovedBackward({ lastTimestamp: result.lastTimestamp, now: t })
+          switch (result._tag) {
+            case "Minted": {
+              const sinceEpoch = BigInt(result.timestamp - options.epochMs);
+              return (
+                (sinceEpoch << (MACHINE_BITS + SEQUENCE_BITS)) |
+                (BigInt(options.machineId) << SEQUENCE_BITS) |
+                BigInt(result.sequence)
+              );
             }
-            // Small drift: park until the clock re-passes the high-water mark.
-            yield* Effect.sleep("1 millis")
-            break
+            case "SequenceExhausted": {
+              // 4096 ids minted this millisecond: wait for the next tick.
+              yield* Effect.sleep("1 millis");
+              break;
+            }
+            case "Backward": {
+              const drift = result.lastTimestamp - t;
+              if (drift > options.maxBackwardDriftMs) {
+                return yield* new ClockMovedBackward({
+                  lastTimestamp: result.lastTimestamp,
+                  now: t,
+                });
+              }
+              // Small drift: park until the clock re-passes the high-water mark.
+              yield* Effect.sleep("1 millis");
+              break;
+            }
           }
         }
-      }
-    })
+      },
+    );
 
     const decode = (id: bigint) => ({
-      timestampMs: Number(id >> (MACHINE_BITS + SEQUENCE_BITS)) + options.epochMs,
+      timestampMs:
+        Number(id >> (MACHINE_BITS + SEQUENCE_BITS)) + options.epochMs,
       machineId: Number((id >> SEQUENCE_BITS) & BigInt(MAX_MACHINE)),
       sequence: Number(id & BigInt(MAX_SEQUENCE)),
-    })
+    });
 
-    return { next, decode } as const
-  })
+    return { next, decode } as const;
+  });
 
 // ---- demo: prove the properties ----
 const demo = Effect.gen(function* () {
   const check = (label: string, ok: boolean, detail: string) =>
-    Effect.sync(() => console.log(`${ok ? "PASS" : "FAIL"}  ${label} :: ${detail}`))
+    Effect.sync(() =>
+      console.log(`${ok ? "PASS" : "FAIL"}  ${label} :: ${detail}`),
+    );
 
-  const EPOCH = Date.UTC(2024, 0, 1)
+  const EPOCH = Date.UTC(2024, 0, 1);
 
   // Property 1: 20k concurrent mints, zero duplicates, k-sorted by time.
   {
-    const flake = yield* makeSnowflake({ machineId: 7, epochMs: EPOCH, maxBackwardDriftMs: 10 })
+    const flake = yield* makeSnowflake({
+      machineId: 7,
+      epochMs: EPOCH,
+      maxBackwardDriftMs: 10,
+    });
     const ids = yield* Effect.all(
       Array.from({ length: 20_000 }, () => flake.next),
       { concurrency: "unbounded" },
-    )
-    const unique = new Set(ids.map(String)).size
-    const decoded = flake.decode(ids[0])
+    );
+    const unique = new Set(ids.map(String)).size;
+    const decoded = flake.decode(ids[0]);
     yield* check(
       "20k concurrent mints are unique",
       unique === 20_000 && decoded.machineId === 7,
       `${unique}/20000 unique, machine bits decode to ${decoded.machineId}`,
-    )
-    const sortedByValue = [...ids].sort((a, b) => (a < b ? -1 : 1))
+    );
+    const sortedByValue = [...ids].sort((a, b) => (a < b ? -1 : 1));
     const timeOrdered = sortedByValue.every(
-      (id, i) => i === 0 || flake.decode(sortedByValue[i - 1]).timestampMs <= flake.decode(id).timestampMs,
-    )
-    yield* check("numeric order is time order", timeOrdered, "sorting by id sorts by mint millisecond")
+      (id, i) =>
+        i === 0 ||
+        flake.decode(sortedByValue[i - 1]).timestampMs <=
+          flake.decode(id).timestampMs,
+    );
+    yield* check(
+      "numeric order is time order",
+      timeOrdered,
+      "sorting by id sorts by mint millisecond",
+    );
   }
 
   // Property 2: two machines mint in the same millisecond without colliding.
   {
-    const a = yield* makeSnowflake({ machineId: 1, epochMs: EPOCH, maxBackwardDriftMs: 10 })
-    const b = yield* makeSnowflake({ machineId: 2, epochMs: EPOCH, maxBackwardDriftMs: 10 })
+    const a = yield* makeSnowflake({
+      machineId: 1,
+      epochMs: EPOCH,
+      maxBackwardDriftMs: 10,
+    });
+    const b = yield* makeSnowflake({
+      machineId: 2,
+      epochMs: EPOCH,
+      maxBackwardDriftMs: 10,
+    });
     const [idsA, idsB] = yield* Effect.all([
       Effect.all(Array.from({ length: 1000 }, () => a.next)),
       Effect.all(Array.from({ length: 1000 }, () => b.next)),
-    ])
-    const all = new Set([...idsA, ...idsB].map(String))
-    yield* check("machine bits partition the id space", all.size === 2000, `${all.size}/2000 unique across two machines`)
+    ]);
+    const all = new Set([...idsA, ...idsB].map(String));
+    yield* check(
+      "machine bits partition the id space",
+      all.size === 2000,
+      `${all.size}/2000 unique across two machines`,
+    );
   }
 
   // Property 3: a small clock rollback parks instead of duplicating; a large
   // one is a typed failure instead of a silent collision.
   {
-    const fakeNow = yield* Ref.make(EPOCH + 1_000_000)
+    const fakeNow = yield* Ref.make(EPOCH + 1_000_000);
     const flake = yield* makeSnowflake({
       machineId: 3,
       epochMs: EPOCH,
       maxBackwardDriftMs: 5,
       nowOverride: Ref.get(fakeNow),
-    })
-    const before = yield* flake.next
+    });
+    const before = yield* flake.next;
     // small rollback: 3ms backwards, inside tolerance; a fiber parks and a
     // background nudge moves the clock forward again
-    yield* Ref.update(fakeNow, (t) => t - 3)
-    const parked = yield* Effect.forkChild(flake.next)
-    yield* Effect.sleep("10 millis")
-    yield* Ref.update(fakeNow, (t) => t + 4) // clock re-passes the mark
-    const after = yield* Fiber.await(parked)
-    const smallOk = after._tag === "Success" && after.value > before
+    yield* Ref.update(fakeNow, (t) => t - 3);
+    const parked = yield* Effect.forkChild(flake.next);
+    yield* Effect.sleep("10 millis");
+    yield* Ref.update(fakeNow, (t) => t + 4); // clock re-passes the mark
+    const after = yield* Fiber.await(parked);
+    const smallOk = after._tag === "Success" && after.value > before;
 
     // large rollback: 60s backwards, way past tolerance
-    yield* Ref.update(fakeNow, (t) => t - 60_000)
-    const large = yield* Effect.exit(flake.next)
+    yield* Ref.update(fakeNow, (t) => t - 60_000);
+    const large = yield* Effect.exit(flake.next);
     const largeFailed =
       large._tag === "Failure" &&
-      String(large.cause).includes("ClockMovedBackward")
+      String(large.cause).includes("ClockMovedBackward");
     yield* check(
       "rollback never duplicates",
       smallOk && largeFailed,
       `3ms rollback parked then minted a HIGHER id; 60s rollback failed typed instead of re-issuing old timestamps`,
-    )
+    );
   }
 
-  console.log("snowflake.ts: all properties verified")
-})
+  console.log("snowflake.ts: all properties verified");
+});
 
 Effect.runPromise(demo).catch((e) => {
-  console.error("demo failed", e)
-  process.exit(1)
-})
+  console.error("demo failed", e);
+  process.exit(1);
+});

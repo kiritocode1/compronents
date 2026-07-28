@@ -13,12 +13,13 @@
  * BLANK - aryank.space
  */
 
+import { useEffect, useRef, useState } from "react";
 import { bloom } from "three/addons/tsl/display/BloomNode.js";
 import {
   dot,
+  Fn,
   float,
   floor,
-  Fn,
   If,
   instanceIndex,
   mix,
@@ -42,7 +43,6 @@ import {
   VideoTexture,
   WebGPURenderer,
 } from "three/webgpu";
-import { useEffect, useRef, useState } from "react";
 
 // ponytail: default hotlinks the reference footage so the effect works 1:1 out
 // of the box. Its watercolour mask is tuned for river water; re-host on Blob and
@@ -197,7 +197,10 @@ export default function MotionTracking({
   videoBrightnessRef.current = videoBrightness;
 
   useEffect(() => {
-    if (typeof navigator === "undefined" || !(navigator as Navigator & { gpu?: unknown }).gpu) {
+    if (
+      typeof navigator === "undefined" ||
+      !(navigator as Navigator & { gpu?: unknown }).gpu
+    ) {
       setSupported(false);
       return;
     }
@@ -305,7 +308,9 @@ export default function MotionTracking({
         motionShader({
           sceneTexture: texture(videoTexture),
           previousFrameReadTexture: texture(prevFrames[readIdx]),
-          previousFrameWriteTexture: textureStore(prevFrames[writeIdx]).toWriteOnly(),
+          previousFrameWriteTexture: textureStore(
+            prevFrames[writeIdx],
+          ).toWriteOnly(),
           trailReadTexture: texture(trails[readIdx]),
           trailWriteTexture: textureStore(trails[writeIdx]).toWriteOnly(),
           hasPreviousFrame: uHasPrev,
@@ -352,7 +357,9 @@ export default function MotionTracking({
           return vec4((grade as unknown as (...a: unknown[]) => never)(out), 1);
           // biome-ignore lint/suspicious/noExplicitAny: TSL node graph fights TS generics
         })() as any;
-        return node.add((bloom as (...a: unknown[]) => unknown)(node, 0.75, 0.15, 0.19));
+        return node.add(
+          (bloom as (...a: unknown[]) => unknown)(node, 0.75, 0.15, 0.19),
+        );
       };
 
       computeNodes = [compute(0, 1), compute(1, 0)];

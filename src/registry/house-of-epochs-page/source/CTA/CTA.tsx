@@ -2,10 +2,10 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 import Button from "../Button/Button";
 import Copy from "../Copy/Copy";
 

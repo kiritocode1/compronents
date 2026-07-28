@@ -64,7 +64,9 @@ function openDb(path: string): Database {
     error TEXT,
     died_at REAL NOT NULL DEFAULT (unixepoch('subsec'))
   )`);
-  db.run("CREATE INDEX IF NOT EXISTS idx_jobs_claim ON jobs(state, visible_at)");
+  db.run(
+    "CREATE INDEX IF NOT EXISTS idx_jobs_claim ON jobs(state, visible_at)",
+  );
   return db;
 }
 
@@ -79,7 +81,12 @@ export class JobQueue {
   enqueue(
     name: string,
     payload: unknown = {},
-    opts: { maxAttempts?: number; delayMs?: number; visibilityTimeoutSec?: number; baseDelayMs?: number } = {},
+    opts: {
+      maxAttempts?: number;
+      delayMs?: number;
+      visibilityTimeoutSec?: number;
+      baseDelayMs?: number;
+    } = {},
   ): number {
     const row = this.db
       .query(
@@ -120,38 +127,56 @@ export class JobQueue {
   }
 
   complete(id: number, result: unknown) {
-    this.db.run("UPDATE jobs SET state = 'done', result = ?, error = NULL WHERE id = ?", [JSON.stringify(result ?? null), id]);
+    this.db.run(
+      "UPDATE jobs SET state = 'done', result = ?, error = NULL WHERE id = ?",
+      [JSON.stringify(result ?? null), id],
+    );
   }
 
   /** Retry with exponential backoff, or move to dead_letters after max attempts. */
   fail(job: Job, error: string) {
     if (job.attempts >= job.max_attempts) {
       const tx = this.db.transaction(() => {
-        this.db.run("INSERT INTO dead_letters (job_id, name, payload, attempts, error) VALUES (?, ?, ?, ?, ?)", [
-          job.id, job.name, job.payload, job.attempts, error,
-        ]);
+        this.db.run(
+          "INSERT INTO dead_letters (job_id, name, payload, attempts, error) VALUES (?, ?, ?, ?, ?)",
+          [job.id, job.name, job.payload, job.attempts, error],
+        );
         this.db.run("DELETE FROM jobs WHERE id = ?", [job.id]);
       });
       tx();
     } else {
       const backoffSec = (job.base_delay_ms * 2 ** (job.attempts - 1)) / 1000;
-      this.db.run("UPDATE jobs SET state = 'ready', error = ?, visible_at = unixepoch('subsec') + ? WHERE id = ?", [
-        error, backoffSec, job.id,
-      ]);
+      this.db.run(
+        "UPDATE jobs SET state = 'ready', error = ?, visible_at = unixepoch('subsec') + ? WHERE id = ?",
+        [error, backoffSec, job.id],
+      );
     }
   }
 
   counts(): Record<string, number> {
-    const out: Record<string, number> = { dead: (this.db.query("SELECT count(*) c FROM dead_letters").get() as any).c };
-    for (const r of this.db.query("SELECT state, count(*) c FROM jobs GROUP BY state").all() as any[]) out[r.state] = r.c;
+    const out: Record<string, number> = {
+      dead: (this.db.query("SELECT count(*) c FROM dead_letters").get() as any)
+        .c,
+    };
+    for (const r of this.db
+      .query("SELECT state, count(*) c FROM jobs GROUP BY state")
+      .all() as any[])
+      out[r.state] = r.c;
     return out;
   }
 
   /** Spawn a pool of Worker threads that import handlersPath and consume jobs. */
-  work(handlersPath: string, opts: { concurrency?: number; pollMs?: number } = {}) {
+  work(
+    handlersPath: string,
+    opts: { concurrency?: number; pollMs?: number } = {},
+  ) {
     for (let i = 0; i < (opts.concurrency ?? 2); i++) {
       const w = new Worker(new URL(import.meta.url));
-      w.postMessage({ dbPath: this.path, handlersPath, pollMs: opts.pollMs ?? 250 });
+      w.postMessage({
+        dbPath: this.path,
+        handlersPath,
+        pollMs: opts.pollMs ?? 250,
+      });
       this.#workers.push(w);
     }
   }
@@ -204,7 +229,10 @@ export const handlers: Record<string, (payload: any, job: Job) => unknown> = {
 
 if (import.meta.main && Bun.isMainThread) {
   const dbPath = `${import.meta.dir}/.queue-selftest.db`;
-  for (const suffix of ["", "-wal", "-shm"]) await Bun.file(dbPath + suffix).delete().catch(() => {});
+  for (const suffix of ["", "-wal", "-shm"])
+    await Bun.file(dbPath + suffix)
+      .delete()
+      .catch(() => {});
 
   const q = new JobQueue(dbPath);
   for (let n = 1; n <= 5; n++) q.enqueue("square", { n });
@@ -222,20 +250,32 @@ if (import.meta.main && Bun.isMainThread) {
   q.stop();
 
   const c = q.counts();
-  const flaky = q.db.query("SELECT * FROM jobs WHERE id = ?").get(flakyId) as Job;
+  const flaky = q.db
+    .query("SELECT * FROM jobs WHERE id = ?")
+    .get(flakyId) as Job;
   const dead = q.db.query("SELECT * FROM dead_letters").get() as any;
-  const squares = (q.db.query("SELECT result FROM jobs WHERE name = 'square' ORDER BY id").all() as any[]).map(r => JSON.parse(r.result));
+  const squares = (
+    q.db
+      .query("SELECT result FROM jobs WHERE name = 'square' ORDER BY id")
+      .all() as any[]
+  ).map((r) => JSON.parse(r.result));
 
   console.log("counts:", c);
   console.log("squares:", squares);
   console.log(`flaky: attempts=${flaky.attempts} result=${flaky.result}`);
-  console.log(`dead letter: name=${dead.name} attempts=${dead.attempts} error=${dead.error}`);
+  console.log(
+    `dead letter: name=${dead.name} attempts=${dead.attempts} error=${dead.error}`,
+  );
 
-  if ((c.done ?? 0) !== 6) throw new Error(`expected 6 done jobs, got ${c.done}`);
+  if ((c.done ?? 0) !== 6)
+    throw new Error(`expected 6 done jobs, got ${c.done}`);
   if (c.dead !== 1) throw new Error(`expected 1 dead letter, got ${c.dead}`);
-  if (squares.join(",") !== "1,4,9,16,25") throw new Error("square results wrong");
-  if (flaky.attempts !== 3 || !String(flaky.result).includes("attempt 3")) throw new Error("flaky retry path wrong");
-  if (dead.name !== "poison" || dead.attempts !== 2) throw new Error("dead-letter path wrong");
+  if (squares.join(",") !== "1,4,9,16,25")
+    throw new Error("square results wrong");
+  if (flaky.attempts !== 3 || !String(flaky.result).includes("attempt 3"))
+    throw new Error("flaky retry path wrong");
+  if (dead.name !== "poison" || dead.attempts !== 2)
+    throw new Error("dead-letter path wrong");
   console.log("queue self-test: all assertions passed");
   process.exit(0);
 }

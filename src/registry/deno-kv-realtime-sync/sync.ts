@@ -37,20 +37,20 @@ interface Mutation {
 
 const tableKey = (name: string): Deno.KvKey => ["table", name];
 
-function sseEvent(
-  entry: { value: TableDoc | null; versionstamp: string | null },
-): string {
-  return `event: table\ndata: ${
-    JSON.stringify({
-      versionstamp: entry.versionstamp,
-      rows: entry.value?.rows ?? {},
-    })
-  }\n\n`;
+function sseEvent(entry: {
+  value: TableDoc | null;
+  versionstamp: string | null;
+}): string {
+  return `event: table\ndata: ${JSON.stringify({
+    versionstamp: entry.versionstamp,
+    rows: entry.value?.rows ?? {},
+  })}\n\n`;
 }
 
 /** SSE stream of table state: initial snapshot, then a push per commit. */
 export function streamTable(kv: Deno.Kv, name: string): Response {
-  const body = kv.watch<[TableDoc]>([tableKey(name)])
+  const body = kv
+    .watch<[TableDoc]>([tableKey(name)])
     .pipeThrough(
       new TransformStream<[Deno.KvEntryMaybe<TableDoc>], string>({
         transform([entry], controller) {
@@ -86,7 +86,8 @@ export async function mutateTable(
   }
   const rows = { ...(cur.value?.rows ?? {}), ...(m.set ?? {}) };
   for (const k of m.delete ?? []) delete rows[k];
-  const res = await kv.atomic()
+  const res = await kv
+    .atomic()
     .check({ key: tableKey(name), versionstamp: cur.versionstamp })
     .set(tableKey(name), { rows } satisfies TableDoc)
     .commit();
@@ -107,8 +108,7 @@ export async function mutateTable(
 
 export function tableServer(kv: Deno.Kv): Deno.ServeHandler {
   return async (req) => {
-    const match = new URLPattern({ pathname: "/table/:name" })
-      .exec(req.url);
+    const match = new URLPattern({ pathname: "/table/:name" }).exec(req.url);
     if (!match) return new Response("not found\n", { status: 404 });
     const name = match.pathname.groups.name!;
     if (req.method === "GET") return streamTable(kv, name);

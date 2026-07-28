@@ -1,4 +1,7 @@
-import type { ValidateUserInfoResult, ValidateUserInfoSource } from "better-auth";
+import type {
+  ValidateUserInfoResult,
+  ValidateUserInfoSource,
+} from "better-auth";
 
 /**
  * A tenant admission gate for `user.validateUserInfo`.
@@ -69,11 +72,14 @@ function emailDomain(email: string): string | null {
 }
 
 export function createProvisioningGate(config: ProvisioningGateConfig) {
-  const allowed = new Set(config.allowedEmailDomains.map((d) => d.toLowerCase()));
+  const allowed = new Set(
+    config.allowedEmailDomains.map((d) => d.toLowerCase()),
+  );
   const trustedVerifiers = new Set(config.trustedEmailVerifyingProviders ?? []);
 
   return function validateUserInfo(data: {
-    user: Partial<{ email: string; emailVerified: boolean }> & Record<string, unknown>;
+    user: Partial<{ email: string; emailVerified: boolean }> &
+      Record<string, unknown>;
     source: ValidateUserInfoSource;
   }): ValidateUserInfoResult | void {
     const { user, source } = data;
@@ -87,14 +93,16 @@ export function createProvisioningGate(config: ProvisioningGateConfig) {
       };
     }
 
-    const email = typeof user.email === "string" ? user.email.trim().toLowerCase() : "";
+    const email =
+      typeof user.email === "string" ? user.email.trim().toLowerCase() : "";
     const domain = email ? emailDomain(email) : null;
     if (!domain) {
       // Fail closed. A provider that returns no email cannot be domain checked,
       // so it cannot be admitted by a domain policy.
       return {
         error: DENY.noEmail,
-        errorDescription: "This identity provider did not return an email address.",
+        errorDescription:
+          "This identity provider did not return an email address.",
       };
     }
 
@@ -123,7 +131,9 @@ export function createProvisioningGate(config: ProvisioningGateConfig) {
     if (source.action === "create-user" || source.action === "link-account") {
       const providerId = source.oauth?.providerId;
       const providerAssertsVerified =
-        providerId !== undefined && trustedVerifiers.has(providerId) && user.emailVerified === true;
+        providerId !== undefined &&
+        trustedVerifiers.has(providerId) &&
+        user.emailVerified === true;
 
       // Email/password and OTP flows run Better Auth's own verification, so
       // they are allowed through unverified and gated by the normal flow.
@@ -132,7 +142,11 @@ export function createProvisioningGate(config: ProvisioningGateConfig) {
         source.method === "email-otp" ||
         source.method === "magic-link";
 
-      if (providerId !== undefined && !providerAssertsVerified && !selfVerifyingMethod) {
+      if (
+        providerId !== undefined &&
+        !providerAssertsVerified &&
+        !selfVerifyingMethod
+      ) {
         return {
           error: DENY.unverified,
           errorDescription:

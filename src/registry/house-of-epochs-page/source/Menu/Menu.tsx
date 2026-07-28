@@ -2,12 +2,12 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { useLenis } from "lenis/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 import "./Menu.css";
 

@@ -260,8 +260,7 @@ export default function DroneFleet({ count }: DroneFleetProps) {
           heading + Math.max(-o.agility, Math.min(o.agility, delta));
         const maxSpeed = 1.7 * o.speed;
         const nextSpeed =
-          spd +
-          (Math.max(0.4 * o.speed, Math.min(maxSpeed, mag)) - spd) * 0.08;
+          spd + (Math.max(0.4 * o.speed, Math.min(maxSpeed, mag)) - spd) * 0.08;
         const vx = Math.cos(nextHeading) * nextSpeed;
         const vy = Math.sin(nextHeading) * nextSpeed;
         return {
@@ -392,19 +391,40 @@ export default function DroneFleet({ count }: DroneFleetProps) {
             <g
               key={`wp-${i}`}
               opacity={
-                i < frame.activeWaypoint ? 0.12 : i === frame.activeWaypoint ? 0.7 : 0.35
+                i < frame.activeWaypoint
+                  ? 0.12
+                  : i === frame.activeWaypoint
+                    ? 0.7
+                    : 0.35
               }
               stroke="currentColor"
             >
-              <line strokeWidth={0.5} x1={wp.x - 6} x2={wp.x + 6} y1={wp.y} y2={wp.y} />
-              <line strokeWidth={0.5} x1={wp.x} x2={wp.x} y1={wp.y - 6} y2={wp.y + 6} />
+              <line
+                strokeWidth={0.5}
+                x1={wp.x - 6}
+                x2={wp.x + 6}
+                y1={wp.y}
+                y2={wp.y}
+              />
+              <line
+                strokeWidth={0.5}
+                x1={wp.x}
+                x2={wp.x}
+                y1={wp.y - 6}
+                y2={wp.y + 6}
+              />
               <circle cx={wp.x} cy={wp.y} fill="none" r={3} strokeWidth={0.4} />
             </g>
           ))}
         </g>
 
         {/* drones */}
-        <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth={1}>
+        <g
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth={1}
+        >
           {frame.drones.map((d, i) => (
             <path d={d.d} key={`drone-${i}`} opacity={d.opacity} />
           ))}

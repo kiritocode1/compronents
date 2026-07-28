@@ -42,6 +42,7 @@ import CurtainRevealHeroDemo from "./curtain-reveal-hero";
 import CurveGalleryDemo from "./curve-gallery";
 import CurvedLetterPathScrollDemo from "./curved-letter-path-scroll";
 import CurvedPlaneSliderDemo from "./curved-plane-slider";
+import CycleScrubShowcaseDemo from "./cycle-scrub-showcase";
 import CylinderBlockGalleryDemo from "./cylinder-block-gallery";
 import DamienTsarantosPageDemo from "./damien-tsarantos-page";
 import DarkCatalogPageDemo from "./dark-catalog-page";
@@ -55,6 +56,7 @@ import DiningRoomPageDemo from "./dining-room-page";
 import DitherStudioPageDemo from "./dither-studio-page";
 import DragTimelineScrollDemo from "./drag-timeline-scroll";
 import DrawnPathFeaturesDemo from "./drawn-path-features";
+import DriftingCardMarqueeDemo from "./drifting-card-marquee";
 import DroneFleetDemo from "./drone-fleet";
 import EdgeWarpRailDemo from "./edge-warp-rail";
 import ElasticCurtainMenuDemo from "./elastic-curtain-menu";
@@ -157,6 +159,7 @@ import SnapParallaxProjectsDemo from "./snap-parallax-projects";
 import SorenPageDemo from "./soren-page";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
+import SplitClickSliderDemo from "./split-click-slider";
 import SplitColumnInfiniteSliderDemo from "./split-column-infinite-slider";
 import SplitRevealPreloaderDemo from "./split-reveal-preloader";
 import SpotlightGalleryScrollDemo from "./spotlight-gallery-scroll";
@@ -391,4 +394,7 @@ export const demos: Record<string, ComponentType> = {
   "wheel-clip-slider": WheelClipSliderDemo,
   "rotating-panel-slider": RotatingPanelSliderDemo,
   "flip-tile-board": FlipTileBoardDemo,
+  "cycle-scrub-showcase": CycleScrubShowcaseDemo,
+  "split-click-slider": SplitClickSliderDemo,
+  "drifting-card-marquee": DriftingCardMarqueeDemo,
 };

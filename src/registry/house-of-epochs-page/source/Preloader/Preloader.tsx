@@ -2,10 +2,10 @@
 // biome-ignore-all lint: source-authored full-page port.
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { useLenis } from "lenis/react";
+import { useEffect, useRef, useState } from "react";
 
 import "./Preloader.css";
 

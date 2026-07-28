@@ -52,9 +52,7 @@ const hash = (key: string, round: number) => {
 };
 
 export interface Shield {
-  readonly get: (
-    key: string,
-  ) => Effect.Effect<{
+  readonly get: (key: string) => Effect.Effect<{
     value: string | undefined;
     source: "bloom" | "negative" | "cache" | "db";
   }>;
