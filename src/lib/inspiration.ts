@@ -2174,6 +2174,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Bakai Tolondu uulu",
+        href: "https://www.bakai.me/lab",
+        dateAdded: "2026-07-28",
+        description:
+          "Lab shelf of Bakai Tolondu uulu, a design engineer in San Francisco, originally from Kyrgyzstan, working at an AI agency while studying at Minerva University. Around sixteen interface screens across four named pieces: Sidebars, a study of navigation panel variants; Oymo and Spina, two iOS apps covering scanning and expense tracking; and FOHE, an admissions CRM whose applicant board is worth the visit on its own, splitting a pipeline into Waiting, Ready for review, Ready for decision and Decided with live counts on each column. No case study text, just the screens, so it reads as a working shelf rather than a portfolio narrative.",
+      },
+      {
         title: "creatoroly",
         href: "https://creatoroly.com/",
         dateAdded: "2026-07-22",
