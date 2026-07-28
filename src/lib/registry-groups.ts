@@ -235,6 +235,7 @@ export const componentGroups: RegistryGroup[] = [
       "garage-scene-3d",
       "particle-fluid-hero",
       "shader-tunnel-slider",
+      "lava-particle-field",
     ],
   },
 ];

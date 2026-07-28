@@ -100,6 +100,7 @@ import InversionLensHoverDemo from "./inversion-lens-hover";
 import IsochromePageDemo from "./isochrome-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
+import LavaParticleFieldDemo from "./lava-particle-field";
 import LegoDitherDemo from "./lego-dither";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LetterGridCarouselDemo from "./letter-grid-carousel";
@@ -421,4 +422,5 @@ export const demos: Record<string, ComponentType> = {
   "odometer-load-hero": OdometerLoadHeroDemo,
   "story-reel-viewer": StoryReelViewerDemo,
   "letter-grid-carousel": LetterGridCarouselDemo,
+  "lava-particle-field": LavaParticleFieldDemo,
 };

@@ -4781,6 +4781,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "lava-particle-field",
+    title: "Lava Particle Field",
+    description:
+      "A GPU particle solver where the particles live in the texture itself. Buffer A stores one particle per texel as position in RG and velocity in BA, and advances it by sampling its eight neighbours and adopting whichever one is closer under a wrapped distance, which is how particles are handed between texels without any CPU-side list. Buffer B accumulates density and pressure from that field, and its gradient is fed back into A on the next frame, so the two ping-pong: motion writes density, density pushes motion. The image pass reads out vorticity, the curl of the velocity field, and maps it straight to the lava colour, so what you see is rotation rather than heat. Four double-buffered FloatType targets at twice display resolution; press and drag to inject a gaussian of velocity.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/lava-particle-field.tsx",
+        target: "components/ui/lava-particle-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

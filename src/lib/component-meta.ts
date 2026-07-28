@@ -12874,6 +12874,54 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "lava-particle-field": {
+    demoPath: "src/components/demos/lava-particle-field.tsx",
+    nuance: [
+      {
+        label: "The particle list is the texture",
+        description:
+          "One particle per texel, position in RG and velocity in BA. Advection happens by each texel checking its eight neighbours and adopting the closest under a wrapped distance, so particles migrate across texels with no CPU-side array and no draw call per particle.",
+      },
+      {
+        label: "Motion and density feed each other",
+        description:
+          "A writes positions, B integrates them into a density and pressure field, and A reads B's gradient next frame. Neither is the source of truth; the look comes from the loop between them.",
+      },
+      {
+        label: "The colour is vorticity, not heat",
+        description:
+          "The image pass computes the curl of the velocity field and maps its magnitude to the orange. Bright regions are where the fluid is rotating fastest, which is why the filaments look like they are being wrung out.",
+      },
+    ],
+    editable: [
+      {
+        name: "resolutionScale",
+        control: "text",
+        description: "Simulation resolution as a multiple of display size.",
+      },
+      {
+        name: "experimentLabel",
+        control: "text",
+        description: "Label at the top right.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "resolutionScale",
+        type: "number",
+        default: "2",
+        description:
+          "Simulation runs at this multiple of display size. Particle count is one per simulation texel, so halving this quarters the work.",
+      },
+      {
+        name: "brand / experimentLabel / footerLeft / footerRight",
+        type: "string",
+        default: "BLANK copy",
+        description: "Overlay chrome above the canvas.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {
