@@ -407,6 +407,9 @@ const styles = `
   position: absolute;
   top: 25%;
   left: 50%;
+  /* the only child is absolute, so without an explicit width this
+     shrink-to-fits to 0 and the headline wraps one word per line */
+  width: 100%;
   transform: translateX(-50%);
   transform-style: preserve-3d;
   perspective: 1000px;
