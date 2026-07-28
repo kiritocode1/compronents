@@ -915,6 +915,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Great UI",
+        href: "https://www.great-ui.com/components",
+        dateAdded: "2026-07-29",
+        description:
+          "Copy-and-paste React and Tailwind component collection, small but weighted toward set pieces rather than form primitives. Sixteen components across five categories: Illustrations is the largest with seven (Mobile Mockup, Macbook Mockup, Vinyl Album Card, ASCII Image, Image Hover Reveal, Avatar Stack, Diagonal Marquee Carousel), then Buttons with three, Utilities with three (Deployment Checklist, Terminal Loader, Revision Timeline), Navigation with two (Page Transition Shader, Animated Link), and Inputs with one (Animated Select). Several lean on GLSL fragment shaders and spring animation rather than CSS alone, so the shader-backed page transition and ASCII image are the ones worth reading the source of. No pricing, license, or install command is stated on the site.",
+      },
+      {
         title: "Lifeline",
         href: "https://lifeline-evil-rabbit.vercel.app/",
         dateAdded: "2026-07-26",
