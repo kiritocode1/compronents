@@ -146,12 +146,14 @@ import PreloaderRevealDemo from "./preloader-reveal";
 import ProceduralComputerPageDemo from "./procedural-computer-page";
 import PushDownOverlayMenuDemo from "./push-down-overlay-menu";
 import PushupCardStackDemo from "./pushup-card-stack";
+import RadialNameWheelDemo from "./radial-name-wheel";
 import RevealerTransitionPageDemo from "./revealer-transition-page";
 import RibbonStrokeScrollDemo from "./ribbon-stroke-scroll";
 import RotatingHalvesMenuDemo from "./rotating-halves-menu";
 import RotatingHandScrollDemo from "./rotating-hand-scroll";
 import RotatingPanelSliderDemo from "./rotating-panel-slider";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
+import ScatterPhotoPhysicsDemo from "./scatter-photo-physics";
 import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
@@ -431,4 +433,6 @@ export const demos: Record<string, ComponentType> = {
   "pinned-shrink-cards": PinnedShrinkCardsDemo,
   "split-plate-slider": SplitPlateSliderDemo,
   "diagonal-plate-carousel": DiagonalPlateCarouselDemo,
+  "radial-name-wheel": RadialNameWheelDemo,
+  "scatter-photo-physics": ScatterPhotoPhysicsDemo,
 };

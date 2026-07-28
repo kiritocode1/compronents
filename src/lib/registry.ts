@@ -4881,6 +4881,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "radial-name-wheel",
+    title: "Radial Name Wheel",
+    description:
+      "Sixty labels laid around a circle eleven hundred pixels across, most of it off-frame, so you only ever see the arc that passes through the viewport. Scroll rotates the whole ring by a ten-thousandth of a pixel per unit, which is why a very long page turns it slowly and evenly, and every label is re-placed with cos and sin plus a rotation matching its own angle so the type stays tangent to the circle. Hovering a label pushes an image into a frame that trails the cursor, clip-wiped up from the bottom; leaving wipes it away from the top, and older images in the stack clear on a delay so a fast sweep leaves a brief trail rather than snapping.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/radial-name-wheel.tsx",
+        target: "components/ui/radial-name-wheel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "scatter-photo-physics",
+    title: "Scatter Photo Physics",
+    description:
+      "Polaroid-style cards floating in zero gravity behind a wordmark, shoved around by the cursor. Gravity is switched off entirely and the bodies are held in by four static walls, so nothing settles: high air friction bleeds the energy off instead and each card drifts to a stop wherever it happens to be. Moving the pointer applies a randomly directed force to every card within a hundred and fifty pixels, so a sweep scatters the cluster rather than pushing it, and each card carries a random starting angle so the pile never looks aligned. The DOM cards are positioned from the physics bodies every frame; the simulation has no renderer of its own.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["matter-js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scatter-photo-physics.tsx",
+        target: "components/ui/scatter-photo-physics.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

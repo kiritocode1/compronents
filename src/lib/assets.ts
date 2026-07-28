@@ -2553,7 +2553,35 @@ const diagonalPlateCarouselAssets = Array.from({ length: 6 }, (_, i) =>
   })),
 ).flat() as unknown as AssetItem[];
 
+const radialNameWheelAssets = Array.from({ length: 60 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `radial-name-wheel-img-${n}`,
+    label: `Radial Name Wheel image ${n}`,
+    provider: "vercel-blob",
+    pathname: `radial-name-wheel/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/radial-name-wheel/img${n}.jpg`,
+    role: "Pushed into the trailing cursor frame when its label is hovered.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
+const scatterPhotoPhysicsAssets = Array.from({ length: 12 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `scatter-photo-physics-img-${n}`,
+    label: `Scatter Photo Physics card ${n}`,
+    provider: "vercel-blob",
+    pathname: `scatter-photo-physics/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/scatter-photo-physics/img${n}.jpg`,
+    role: "Photograph on a floating card bound to a Matter.js body.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...radialNameWheelAssets,
+  ...scatterPhotoPhysicsAssets,
   ...splitPlateSliderAssets,
   ...diagonalPlateCarouselAssets,
   ...pinnedShrinkCardsAssets,

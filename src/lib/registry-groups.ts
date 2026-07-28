@@ -96,6 +96,7 @@ export const componentGroups: RegistryGroup[] = [
       "contact-sheet-zoom",
       "flip-layout-gallery",
       "carousel-disc-scroll",
+      "radial-name-wheel",
     ],
   },
   {
@@ -240,6 +241,7 @@ export const componentGroups: RegistryGroup[] = [
       "particle-fluid-hero",
       "shader-tunnel-slider",
       "lava-particle-field",
+      "scatter-photo-physics",
     ],
   },
 ];

@@ -708,6 +708,13 @@ const diagonalPlateCarouselAssetDocs = assetsByIds(
   ]).flat(),
 );
 
+const radialNameWheelAssetDocs = assetsByIds(
+  Array.from({ length: 60 }, (_, i) => `radial-name-wheel-img-${i + 1}`),
+);
+const scatterPhotoPhysicsAssetDocs = assetsByIds(
+  Array.from({ length: 12 }, (_, i) => `scatter-photo-physics-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -13113,6 +13120,107 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "6 BLANK slides",
         description:
           "Title plus exactly two plate images per slide. Themes alternate light and dark by index.",
+      },
+    ],
+  },
+  "radial-name-wheel": {
+    demoPath: "src/components/demos/radial-name-wheel.tsx",
+    nuance: [
+      {
+        label: "Most of the ring is off-frame",
+        description:
+          "An 1100px radius against a viewport-sized box means you only see the arc passing through. That is what makes the labels appear to travel in a straight-ish sweep rather than an obvious circle.",
+      },
+      {
+        label: "A very small scroll coefficient",
+        description:
+          "0.0001 radians per scroll unit over a 3000vh page. The page height is what gives the wheel its range; the coefficient is what keeps it from spinning wildly.",
+      },
+      {
+        label: "The trail is a delayed cleanup",
+        description:
+          "Only the newest image wipes immediately. Older ones wipe after 0.5s and are removed a second later, so sweeping across labels leaves a short stack rather than a hard cut.",
+      },
+    ],
+    editable: [
+      {
+        name: "radius",
+        control: "text",
+        description: "Radius of the ring in px.",
+      },
+      { name: "brand", control: "text", description: "Wordmark in the nav." },
+    ],
+    assets: radialNameWheelAssetDocs,
+    api: [
+      {
+        name: "names / images",
+        type: "string[]",
+        default: "60 BLANK entries",
+        description:
+          "One label per ring position; the angle step is derived from the count.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        default: "1100",
+        description:
+          "Smaller values curve the type more visibly within the frame.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "scatter-photo-physics": {
+    demoPath: "src/components/demos/scatter-photo-physics.tsx",
+    nuance: [
+      {
+        label: "Zero gravity, high air friction",
+        description:
+          "Nothing falls and nothing settles into a pile. frictionAir at 0.075 bleeds the energy off instead, so a card drifts to a halt wherever it was pushed rather than sliding to the floor.",
+      },
+      {
+        label: "The force is random, not directional",
+        description:
+          "Cards in range get an impulse in a random direction rather than away from the cursor. That is why a sweep scatters the cluster instead of ploughing through it.",
+      },
+      {
+        label: "Matter has no renderer here",
+        description:
+          "The bodies are invisible; DOM cards are positioned from body.position and body.angle each frame. That keeps the cards as real elements with real images rather than canvas draws.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading",
+        control: "text",
+        description: "Wordmark behind the cards.",
+      },
+      {
+        name: "influenceRadius",
+        control: "text",
+        description: "Radius in px within which the pointer disturbs a card.",
+      },
+    ],
+    assets: scatterPhotoPhysicsAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "12 BLANK photographs",
+        description:
+          "One card per image, each seeded at a random position and angle.",
+      },
+      {
+        name: "influenceRadius / forceMagnitude",
+        type: "number",
+        default: "150 / 3",
+        description:
+          "How close the pointer must come, and the peak of the random impulse applied per axis.",
       },
     ],
   },
