@@ -1854,6 +1854,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "404s",
+        href: "https://www.404s.design/",
+        dateAdded: "2026-07-29",
+        description:
+          "Curated gallery of creative 404 error pages, for the moment you have to design the one screen nobody plans for. Built by freelance designer Finnian Sturdy. Entries are tagged three ways: by style (brutalist, glitchy, editorial, hand-drawn, large type, retro, photographic and more), by interaction (animated, custom cursor, game, hover effects, scroll-driven), and by industry (agency, e-commerce, fintech, media, non-profit, personal, tech). Keyboard shortcuts G for grid and S for a random shuffle.",
+      },
+      {
         title: "Design Spells",
         href: "https://designspells.com/",
         dateAdded: "2026-07-25",
@@ -2574,6 +2581,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "Ladybug",
+        href: "https://app.theladybug.app/",
+        dateAdded: "2026-07-29",
+        description:
+          "Image and video effects studio that runs entirely in the browser, with halftone, dither, ASCII and over 40 other effects, and nothing leaving your machine. Pick an effect and it opens on a sample clip with every control already wired up, then swap in your own media. The standout is Trace Motion, which turns movement into persistent trails and redraws that memory as ink, dither, type, dots or lines; there is also a live webcam mode, a Composite tool for layering two or more effects, and a Cyber Form Builder for shaping vector forms on an artboard. The public roadmap takes votes on what ships next.",
+      },
+      {
+        title: "The Base",
+        href: "https://thebase.design",
+        dateAdded: "2026-07-29",
+        description:
+          "Directory of free design assets covering mockups, fonts, templates, UI kits, icons, illustrations, backgrounds, graphics and photos, all free with no paywall. Filters run on category, source (direct download or external link), and file format, with more than 20 formats including Figma, Framer, HTML, SVG and PSD. Reach for it when you need a specific asset in a specific format and do not want to open five marketplaces. The site does not name its maker.",
+      },
+      {
         title: "Ditther",
         href: "https://ditther.com",
         dateAdded: "2026-07-25",
@@ -2843,6 +2864,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Type foundries and directories",
     links: [
       {
+        title: "CcTimeline",
+        href: "https://cctype.com/typefaces/cc-timeline",
+        dateAdded: "2026-07-29",
+        description:
+          "A 2026 release from CcType, the foundry run by studio Koto, drawing on three eras of typographic history: metal type, phototypesetting, and digital. It ships as a multi-axis variable font with weight and contrast axes, 18 styles across three subfamilies (Timeline, Timeline Mid, Timeline High) from Light to ExtraBold, in OTF, TTF, WOFF and WOFF2. Character set covers Latin and Thai, with 14 OpenType features including alternate G and R, stylistic sets for square shapes and short ascenders, fractions and tabular figures. Trial fonts are free for testing and mockups; commercial work needs a paid license.",
+      },
+      {
         title: "Typewolf",
         href: "https://www.typewolf.com",
         dateAdded: "2026-07-25",
@@ -2980,6 +3008,41 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Free typefaces",
     links: [
+      {
+        title: "Datatype",
+        href: "https://fonts.google.com/specimen/Datatype",
+        dateAdded: "2026-07-29",
+        description:
+          "A monospace variable font by Frank Tisellano that renders inline charts from plain text, no JavaScript involved: type {b:15,45,80,30,60} and OpenType contextual alternates turn it into a bar chart in place. It handles bar charts and sparklines (up to 20 values each, 0 to 100) via calt, and single-value pie charts like {p:75} via standard ligatures. Two axes, width 50 to 150 and weight 100 to 900, tune density and stroke thickness. Built with fontTools on glyphs from IBM Plex Mono, OFL licensed, and it works anywhere OpenType features do, including Google Docs, Sheets and Slides.",
+      },
+      {
+        title: "Stack Sans Text",
+        href: "https://fonts.google.com/specimen/Stack+Sans+Text",
+        dateAdded: "2026-07-29",
+        description:
+          "The text-size companion to Stack Sans Notch, by Koto, drawn for body copy where the notched detailing should read as texture rather than as a feature. Variable weight axis from 200 to 700, Latin and Latin Extended, OFL licensed. Pair it with the Notch cut for headlines to get one voice across the whole type scale.",
+      },
+      {
+        title: "Miranda Sans",
+        href: "https://fonts.google.com/specimen/Miranda+Sans",
+        dateAdded: "2026-07-29",
+        description:
+          "A screen-first sans by Max Thunberg built for text that needs to be read rather than noticed: calm proportions, open shapes, and spacing balanced to hold up over long passages. Variable weight axis from 400 to 700 with matching italics, Latin and Latin Extended, OFL licensed. The designer named it after his sister and deliberately avoided stylistic gestures, so it works as a neutral default in a UI where the type should not compete with the content.",
+      },
+      {
+        title: "Elms Sans",
+        href: "https://fonts.google.com/specimen/Elms+Sans",
+        dateAdded: "2026-07-29",
+        description:
+          "A utilitarian geometric sans by Amarachi Nwauwa of Gida Type Studio, drawn from early geometric models but with subtle warmth in the proportions so it holds up as both display and text. Weight and italic axes spanning nine named weights from Thin to Black, built from three masters, covering Latin, Latin Extended and Vietnamese, with Sub-Saharan African Latin support in development. OFL licensed. The name is a dedication to three mentors and to the elm tree.",
+      },
+      {
+        title: "Stack Sans Notch",
+        href: "https://fonts.google.com/specimen/Stack+Sans+Notch",
+        dateAdded: "2026-07-29",
+        description:
+          "A modernist sans by Koto whose signature is a notched cut in the letterforms, taken from the idea of a building process. Originally commissioned for Stack Overflow and released on Google Fonts under the OFL, it carries a variable weight axis from 200 to 700 across Latin and Latin Extended. This is the display cut; Stack Sans Text is the companion for body copy.",
+      },
       {
         title: "Awwwards free fonts collection",
         href: "https://www.awwwards.com/awwwards/collections/free-fonts",
@@ -3329,6 +3392,34 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Branding and logo archives",
     links: [
       {
+        title: "Coverjunkie",
+        href: "https://coverjunkie.com",
+        dateAdded: "2026-07-29",
+        description:
+          "Archive of magazine cover design running since late 2010, now past 30,000 covers, useful when you need editorial cover reference with the credits attached. Set up and still curated daily by Jaap Biemans, art director of Volkskrant Magazine in Amsterdam. What separates it from other cover sites is the indexing: covers are searchable by publication, theme and art director, each with full credit information, so you can trace a look back to the person who made it. Biemans's stated filter is that a great cover punches you in the face and follows with a kiss.",
+      },
+      {
+        title: "Film/Art Gallery",
+        href: "https://filmartgallery.com",
+        dateAdded: "2026-07-29",
+        description:
+          "Dealer in original vintage movie posters, worth browsing as a reference archive for poster composition and title lettering across seven decades. Owned by Matthew McCarthy, based in Los Angeles with viewing by appointment, and marking its 20th year. Stock spans the 1930s through the 2000s across US, French, Polish, Japanese, Belgian and British printings, including a dedicated Saul Bass archive and work by Drew Struzan. Filters cover director, actor, genre, decade, country, artist and size. Everything is an authentic original rather than a reproduction, priced from around $295 to $8,500 and up.",
+      },
+      {
+        title: "The Book Cover Archive",
+        href: "https://bookcoverarchive.com",
+        dateAdded: "2026-07-29",
+        description:
+          "Long-running archive of book cover design, catalogued for the designers behind each one rather than for the books. Run by Ben Pieratt and Eric Jacobsen, with type identification credited to Stephen Coles, so entries name the typefaces as well as the designer. Browsing is plain pagination across the full collection, and the site keeps a companion directory of cover designers' own portfolio sites alongside links to other book design writing.",
+      },
+      {
+        title: "Matchboxes from the Subcontinent",
+        href: "https://matt-lee.com/matchboxes-from-the-subcontinent",
+        dateAdded: "2026-07-29",
+        description:
+          "Matt Lee's personal archive of over 750 Indian matchbox labels, collected across ten years after he moved from London to Bengaluru in 2007. It is a study in disposable design: Hindu symbolism, historical figures, Bollywood actors, cartoon characters, consumer goods and exotic animals, printed cheaply and combined with a logic that rarely explains itself. Lee digitised the labels and wrote about the collection for Archivoz. Good reference for vernacular packaging graphics, limited palettes, and typography that was never art-directed.",
+      },
+      {
         title: "Visual Journal",
         href: "https://visualjournal.it",
         dateAdded: "2026-07-25",
@@ -3410,6 +3501,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design essays and culture",
     links: [
+      {
+        title: "Start Anywhere",
+        href: "https://www.figma.com/blog/start-anywhere/",
+        dateAdded: "2026-07-29",
+        description:
+          "Figma's print magazine for Config 2026, announced here by Amber Bravo, Director of Story Studio, on 29 June 2026. It is organized around three questions: where design really starts, how AI amplifies craft, and who gets to be creative, with contributor pieces from Figma's Brand Studio and leadership. Worth reading for how a product team frames the argument that new tools widen expressive range rather than replace it; the issue was designed by graphic studio No Ideas, printed with three cover variants, and sold through the Figma Store.",
+      },
       {
         title: "Path to Design",
         href: "https://www.pathtodesign.com/",
@@ -3997,6 +4095,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "LLMs and AI engineering",
     links: [
+      {
+        title: "vLLM documentation",
+        href: "https://docs.vllm.ai/en/latest/",
+        dateAdded: "2026-07-29",
+        description:
+          "Official docs for vLLM, the inference and serving library that started at UC Berkeley's Sky Computing Lab and is now maintained by over 2,000 contributors. Read it before self-hosting a model: it covers PagedAttention, continuous batching, prefix caching, speculative decoding, structured output, multi-LoRA, and quantization across FP8, INT4, INT8, GPTQ, AWQ and GGUF. Backends span NVIDIA and AMD GPUs, x86, ARM and PowerPC CPUs, and accelerators including Google TPU, Intel Gaudi, IBM Spyre, Huawei Ascend and Apple Silicon. Sections run from quickstart through serving and parallelism strategies to design internals and the API reference. This URL is the developer preview; the site links to the stable release docs.",
+      },
       {
         title: "Inside vLLM: Anatomy of a High-Throughput LLM Inference System",
         href: "https://vllm.ai/blog/2025-09-05-anatomy-of-vllm",
@@ -5594,6 +5699,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer tools and utilities",
     links: [
       {
+        title: "shieldcn",
+        href: "https://shieldcn.dev",
+        dateAdded: "2026-07-29",
+        description:
+          "Badge and chart generator for README files, taking the idea of shields.io and badgen.net and restyling it with shadcn/ui design tokens. Created by Justin Levine as an open-source project. Beyond badges it renders star history, commit history, issue counts, npm download figures and custom JSON as portable SVGs, so the charts work on GitHub where JavaScript does not. It also ships a README Studio for building the whole file visually, header images, and an agent skill for wiring it into a coding agent.",
+      },
+      {
         title: "scriptc",
         href: "https://github.com/vercel-labs/scriptc",
         dateAdded: "2026-07-27",
@@ -6730,6 +6842,27 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Docs, slides and content tools",
     links: [
       {
+        title: "Presentations.AI",
+        href: "https://presentations.ai",
+        dateAdded: "2026-07-29",
+        description:
+          "Generates decks from an idea, a document or a URL, then exports editable PowerPoint rather than locking the result in. Founded in Singapore by Sumanth Raghavendra, Ravi Kasthuri and Saravanan Govindaraj, backed by Together Fund and Accel, and claiming over 12 million teams. The pieces worth knowing are Brand Sync, which applies your logo, fonts and colors automatically, Presentation Refresh for decks wired to live data, and an API for generating decks programmatically. Free tier gives 100 credits a month; Pro is $20/month and Gold $100/month, both billed annually.",
+      },
+      {
+        title: "Gamma",
+        href: "https://gamma.app",
+        dateAdded: "2026-07-29",
+        description:
+          "Turns a text prompt into presentations, documents or a simple website, aimed at teams that ship visual documents without a designer on hand. Everything runs on a credit system: roughly 50 credits for a ten-slide deck, 10 to 40 for an advanced AI image. Free gives 400 credits once, not monthly; Plus adds 1,000 credits a month and up to 20 cards per prompt, Pro 4,000 credits and 60 cards, Ultra 20,000 credits, with paid plans starting around $8/month.",
+      },
+      {
+        title: "Slidesgo",
+        href: "https://slidesgo.com",
+        dateAdded: "2026-07-29",
+        description:
+          "Presentation templates for Google Slides and PowerPoint, with some editable in Canva, run by Freepik Company as part of its Magnific Projects group. The library is large enough that browsing by category is the point: over 9,800 education templates, 5,300 business, 4,400 minimalist, plus filters on industry, style and color. It also bundles AI utilities around the templates, including a presentation maker, a PDF to PPT converter, a lesson plan generator and a quiz maker. Freemium, with premium templates behind a subscription.",
+      },
+      {
         title: "Animotion",
         href: "https://animotion.pages.dev/",
         dateAdded: "2026-07-21",
@@ -7562,6 +7695,20 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Mockups, textures and patterns",
     links: [
+      {
+        title: "mckp",
+        href: "https://mckp.live",
+        dateAdded: "2026-07-29",
+        description:
+          "3D mockup tool by studio ls.graphics whose distinguishing move is embedding the mockup live rather than exporting a still: visitors can interact with the device on your portfolio or a client's homepage, or you can render it out as video. Over 300 scenes covering iPhone 17 Pro, MacBook Air and Pro, iPad Pro and Nothing Phone. Ready-made enter, exit, breathing and looping animations, camera effects driven by the cursor (zoom, shake, dolly, follow), and triggers on click, hover, scroll or cursor position. Performance can be checked before you ship it, and it drops into Webflow, Framer or plain HTML. Free tier available.",
+      },
+      {
+        title: "Presenta",
+        href: "https://presenta.design",
+        dateAdded: "2026-07-29",
+        description:
+          "Device mockup generator by Deny Shepovalov under Craftwork Design, built around paste speed: take a screenshot, hit Cmd+V, and it lands on the canvas already framed. Frames for iPhone, MacBook, Apple Watch, iPad and browser windows, 48 background presets, real-time 3D rotation, perspective and depth of field, multiple artboards on one canvas for showing a flow, plus text and image layers. Exports PNG, JPG or WebP at 1x, 2x or 3x. All processing happens locally, so nothing uploads. Free with no watermark or limits; Presenta Pro adds AI site capture and background removal for $8/month or $20 lifetime.",
+      },
       {
         title: "animos",
         href: "https://animos.app",
