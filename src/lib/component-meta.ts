@@ -686,6 +686,10 @@ const storyReelViewerAssetDocs = assetsByIds([
   ...Array.from({ length: 6 }, (_, i) => `story-reel-viewer-profile-${i + 1}`),
 ]);
 
+const letterGridCarouselAssetDocs = assetsByIds(
+  Array.from({ length: 30 }, (_, i) => `letter-grid-carousel-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12822,6 +12826,51 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "4000",
         description:
           "Also the fill duration of the active progress bar, so the two can never disagree.",
+      },
+    ],
+  },
+  "letter-grid-carousel": {
+    demoPath: "src/components/demos/letter-grid-carousel.tsx",
+    nuance: [
+      {
+        label: "A grid of cells, not a word",
+        description:
+          "Every slide fills the same fourteen cells and leaves some empty on purpose. The skeleton never moves, so the type reads as one masthead being re-set rather than different words being swapped in.",
+      },
+      {
+        label: "The rail is pure flex",
+        description:
+          "The active tick takes flex 5 against its neighbours' flex 1, so selecting one widens its slot and compresses the others in a single CSS transition with no measurement anywhere.",
+      },
+      {
+        label: "One random colour drives everything",
+        description:
+          "Each change generates a hex once and applies it to the backdrop and every letter, so the tint always agrees. Independent colours would drift apart between the two.",
+      },
+    ],
+    editable: [
+      {
+        name: "brand",
+        control: "text",
+        description: "Wordmark at the top left.",
+      },
+      { name: "footerLeft", control: "text", description: "Left footer line." },
+    ],
+    assets: letterGridCarouselAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "30 BLANK slides",
+        description:
+          "Slide count drives the track width and the number of ticks on the rail.",
+      },
+      {
+        name: "titles",
+        type: "LetterGridTitle[]",
+        default: "30 BLANK grids",
+        description:
+          "Two rows of seven cells per slide; an empty string leaves that cell blank. Must be at least as long as images.",
       },
     ],
   },

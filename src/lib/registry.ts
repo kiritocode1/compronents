@@ -4761,6 +4761,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "letter-grid-carousel",
+    title: "Letter Grid Carousel",
+    description:
+      "A carousel whose title is a fixed grid of letter cells, not a word. Each slide supplies two rows of seven characters with gaps left deliberately blank, so the type stays on the same skeleton while the letters that occupy it change, and the whole title re-enters from the side you are travelling toward. The progress rail is the other half of it: the active tick claims five times the flex of its neighbours, so selecting one widens its slot and squeezes the rest on the same CSS transition. Every change also picks a random colour, which tints the backdrop and every letter together, so no two visits look the same.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/letter-grid-carousel.tsx",
+        target: "components/ui/letter-grid-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

@@ -2489,7 +2489,21 @@ const storyReelViewerAssets = [
     }) as const satisfies AssetItem,
 );
 
+const letterGridCarouselAssets = Array.from({ length: 30 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `letter-grid-carousel-img-${n}`,
+    label: `Letter Grid Carousel slide ${n}`,
+    provider: "vercel-blob",
+    pathname: `letter-grid-carousel/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/letter-grid-carousel/img${n}.jpg`,
+    role: "Centred slide image behind the letter grid.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...letterGridCarouselAssets,
   ...storyReelViewerAssets,
   ...flipLayoutGalleryAssets,
   ...odometerLoadHeroAssets,

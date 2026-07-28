@@ -102,6 +102,7 @@ import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
 import LegoDitherDemo from "./lego-dither";
 import LemonBureauPageDemo from "./lemon-bureau-page";
+import LetterGridCarouselDemo from "./letter-grid-carousel";
 import LineRiseTextDemo from "./line-rise-text";
 import LiquidStatGridDemo from "./liquid-stat-grid";
 import LogoMaskZoomScrollDemo from "./logo-mask-zoom-scroll";
@@ -419,4 +420,5 @@ export const demos: Record<string, ComponentType> = {
   "flip-layout-gallery": FlipLayoutGalleryDemo,
   "odometer-load-hero": OdometerLoadHeroDemo,
   "story-reel-viewer": StoryReelViewerDemo,
+  "letter-grid-carousel": LetterGridCarouselDemo,
 };
