@@ -331,7 +331,11 @@ const styles = `
   height: 200%;
   pointer-events: none;
 }
-.exp-particle-img {
+/* Scoped through .exp-root so it outranks the .exp-root img rule above. The
+   source's plain \`img\` selector lost to \`.particle-img\` on specificity; once
+   scoped to the root that flipped, and every card rendered 150px wide by the
+   full height of the 200%-tall container instead of keeping its aspect. */
+.exp-root .exp-particle-img {
   position: absolute;
   bottom: -200px;
   left: 50%;

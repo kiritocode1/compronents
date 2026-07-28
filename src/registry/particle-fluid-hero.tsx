@@ -47,6 +47,10 @@ const random = (min: number, max: number) => min + Math.random() * (max - min);
 
 /** p5's frameRate(60) budget, in ms. See the loop for why the cap matters. */
 const STEP_MS = 1000 / 60;
+/** p5 allows a frame this far early before skipping it. Without the slack a
+ *  60Hz display, whose rAF deltas jitter either side of 16.667ms, loses a large
+ *  share of its steps and the pile settles far tighter than the source's. */
+const STEP_EPSILON_MS = 5;
 
 export default function ParticleFluidHero({
   eyebrow = "Is your big idea ready to go wild?",
@@ -332,9 +336,11 @@ export default function ParticleFluidHero({
       // steps per second. That cap is load-bearing: the separation correction in
       // interact() moves positions directly and is NOT scaled by dt, so an
       // uncapped rAF on a 120Hz display applies it twice as often and the fluid
-      // spreads to roughly double the spacing. Step on the same 60Hz budget.
-      if (now - previous < STEP_MS) return;
-      previous = now;
+      // spreads to roughly double the spacing. This is p5's own gate: allow the
+      // frame a few ms early, and advance the clock by one whole step rather
+      // than to now, so 60Hz runs every frame and 120Hz runs every other one.
+      if (now - previous < STEP_MS - STEP_EPSILON_MS) return;
+      previous = Math.max(previous + STEP_MS, now);
       const dt = STEP_MS / 1000;
 
       context.fillStyle = background;

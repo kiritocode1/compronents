@@ -328,11 +328,15 @@ export default function ServiceIndexScrub({
 const styles = `
 @import url("https://fonts.googleapis.com/css2?family=Bungee&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
 
+/* White, as the source renders: it leaves the page behind the services section
+   unstyled. Painting that area #d5d5d5 hides the inactive labels, which are
+   #d5d5d5 themselves and read as faint grey only against white. */
 .svx-root {
   position: relative;
   width: 100%;
   height: 100%;
   color: #000;
+  background-color: #fff;
   font-family: "Hanken Grotesk", sans-serif;
 }
 
@@ -401,7 +405,6 @@ const styles = `
 
 .svx-sticky {
   display: flex;
-  background-color: #d5d5d5;
 }
 
 .svx-col {

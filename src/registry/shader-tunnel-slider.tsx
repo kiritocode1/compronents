@@ -151,8 +151,11 @@ export default function ShaderTunnelSlider({
     animateTunnel(0);
 
     const totalSlides = slides.length;
-    const totalTravel = totalSlides * zStep - zStep;
-    const initialZ = -(totalTravel + zStep);
+    // The last card starts at z 0, dead centre and full size, and the first is
+    // one step per card behind it. Travel is exactly that distance, so at the
+    // end of the scroll the first card has taken the last one's opening place.
+    const totalTravel = (totalSlides - 1) * zStep;
+    const initialZ = -totalTravel;
 
     const slideEls = gsap.utils.toArray<HTMLElement>(
       root.querySelectorAll(".sts-slide"),
@@ -203,8 +206,7 @@ export default function ShaderTunnelSlider({
           end: "bottom bottom",
           scrub: 1,
           onUpdate: (self) => {
-            const currentZ =
-              slideInitialZ + self.progress * (totalTravel + zStep);
+            const currentZ = slideInitialZ + self.progress * totalTravel;
 
             const opacity =
               currentZ >= -zStep
@@ -304,25 +306,33 @@ const styles = `
 .sts-root {
   position: relative;
   width: 100%;
-  height: 100%;
   background: #000;
-  overflow: hidden;
 }
 
 .sts-root * {
   box-sizing: border-box;
 }
 
+/* Every layer below is position: fixed, as in the source. The transform here
+   makes this element their containing block, so inside a bounded box they pin
+   to the component instead of the page and, crucially, stay put while its own
+   content scrolls: as plain absolute children of the scroller they scrolled
+   straight off the top and left a black screen. Unembedded there is no
+   transform, so fixed means the viewport, exactly as the source has it. */
 .sts-root.sts-embedded {
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  transform: translateZ(0);
 }
 .sts-root.sts-embedded::-webkit-scrollbar {
   display: none;
 }
 
+/* Paint order follows the source's: backdrop, vignette, chrome, then the cards
+   over all of it. The vignette darkens the tunnel, never the cards. */
 .sts-canvas {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -356,7 +366,7 @@ const styles = `
 
 .sts-nav,
 .sts-footer {
-  position: absolute;
+  position: fixed;
   left: 0;
   width: 100%;
   padding: 2em;
@@ -364,7 +374,7 @@ const styles = `
   justify-content: space-between;
   align-items: center;
   mix-blend-mode: exclusion;
-  z-index: 3;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -405,7 +415,7 @@ const styles = `
 .sts-content {
   position: relative;
   width: 100%;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 
@@ -415,7 +425,7 @@ const styles = `
 }
 
 .sts-slider {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -423,7 +433,7 @@ const styles = `
   transform-style: preserve-3d;
   perspective: 500px;
   overflow: hidden;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -452,12 +462,12 @@ const styles = `
 }
 
 .sts-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
   background: rgb(0, 0, 0);
   background: radial-gradient(

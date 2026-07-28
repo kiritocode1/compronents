@@ -370,9 +370,12 @@ const styles = `
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
+/* Left inline, as the source has them: an inline-block per character would give
+   the browser a break opportunity between every letter, and the heading (an
+   absolutely positioned shrink-to-fit box only half the container wide) would
+   wrap mid-word instead of running as one line. */
 .olh-header h1 span {
   position: relative;
-  display: inline-block;
   top: 400px;
 }
 
