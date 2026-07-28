@@ -681,6 +681,11 @@ const odometerLoadHeroAssetDocs = assetsByIds(
   Array.from({ length: 7 }, (_, i) => `odometer-load-hero-img-${i + 1}`),
 );
 
+const storyReelViewerAssetDocs = assetsByIds([
+  ...Array.from({ length: 6 }, (_, i) => `story-reel-viewer-story-${i + 1}`),
+  ...Array.from({ length: 6 }, (_, i) => `story-reel-viewer-profile-${i + 1}`),
+]);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12773,6 +12778,50 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "BLANK copy",
         description:
           "Navigation row, dropped in from above once the reveal is done.",
+      },
+    ],
+  },
+  "story-reel-viewer": {
+    demoPath: "src/components/demos/story-reel-viewer.tsx",
+    nuance: [
+      {
+        label: "The images pass through each other",
+        description:
+          "Outgoing goes to scale 2 rotating one way, incoming comes from scale 2 rotating the other. They cross in depth rather than one sliding over the other, and the clip-path wipe on the container is a second, independent reveal on the same change.",
+      },
+      {
+        label: "Text swaps by append and prune",
+        description:
+          "A new line is appended and the old pushed out by exactly its own height, then anything beyond the newest two nodes is removed. Cross-fading in place would blur mid-transition; this keeps every glyph sharp.",
+      },
+      {
+        label: "Going back empties the bar from the right",
+        description:
+          "resetIndexHighlight sets width to 0% and scales from the right origin when reversing, so a skipped-back story drains the way it filled rather than snapping empty.",
+      },
+    ],
+    editable: [
+      {
+        name: "storyDuration",
+        control: "text",
+        description: "Milliseconds a story holds before auto-advancing.",
+      },
+    ],
+    assets: storyReelViewerAssetDocs,
+    api: [
+      {
+        name: "stories",
+        type: "StoryReelEntry[]",
+        default: "6 BLANK stories",
+        description:
+          "Avatar, name, up to three title lines, link, and full-bleed image. The progress bar count follows the array length.",
+      },
+      {
+        name: "storyDuration",
+        type: "number",
+        default: "4000",
+        description:
+          "Also the fill duration of the active progress bar, so the two can never disagree.",
       },
     ],
   },

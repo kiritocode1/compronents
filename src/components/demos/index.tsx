@@ -179,6 +179,7 @@ import StarryNightFlowDemo from "./starry-night-flow";
 import StickyFlipCardsDemo from "./sticky-flip-cards";
 import StickyParallaxSlidesDemo from "./sticky-parallax-slides";
 import StickyStackCardsDemo from "./sticky-stack-cards";
+import StoryReelViewerDemo from "./story-reel-viewer";
 import StretchTextScrollDemo from "./stretch-text-scroll";
 import StripMergeRevealDemo from "./strip-merge-reveal";
 import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
@@ -417,4 +418,5 @@ export const demos: Record<string, ComponentType> = {
   "gravity-drop-landing": GravityDropLandingDemo,
   "flip-layout-gallery": FlipLayoutGalleryDemo,
   "odometer-load-hero": OdometerLoadHeroDemo,
+  "story-reel-viewer": StoryReelViewerDemo,
 };

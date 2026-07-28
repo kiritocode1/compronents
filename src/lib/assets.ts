@@ -2465,7 +2465,32 @@ const odometerLoadHeroAssets = Array.from({ length: 7 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const storyReelViewerAssets = [
+  ...Array.from({ length: 6 }, (_, i) => [
+    `story-${i + 1}`,
+    `story-${i + 1}.png`,
+    "Full-bleed story frame, counter-scaled against the outgoing one.",
+  ]),
+  ...Array.from({ length: 6 }, (_, i) => [
+    `profile-${i + 1}`,
+    `profile-${i + 1}.png`,
+    "Round avatar shown beside the story name.",
+  ]),
+].map(
+  ([id, filename, role]) =>
+    ({
+      id: `story-reel-viewer-${id}`,
+      label: `Story Reel Viewer ${id}`,
+      provider: "vercel-blob",
+      pathname: `story-reel-viewer/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/story-reel-viewer/${filename}`,
+      role,
+      notes: "Served from Vercel Blob at the stable registry pathname.",
+    }) as const satisfies AssetItem,
+);
+
 export const assetItems = [
+  ...storyReelViewerAssets,
   ...flipLayoutGalleryAssets,
   ...odometerLoadHeroAssets,
   ...gravityDropLandingAssets,

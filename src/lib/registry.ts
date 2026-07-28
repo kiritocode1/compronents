@@ -4741,6 +4741,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "story-reel-viewer",
+    title: "Story Reel Viewer",
+    description:
+      "A stories player where the transition is a counter-scale rather than a slide. The outgoing photograph scales to two and rotates twenty five degrees away while the incoming one starts at scale two and the opposite rotation and settles to rest, so the two images pass through each other in depth. The new frame's container is also clip-path wiped in from the edge you are travelling toward, giving two independent reveals on one change. Text does not cross-fade: a fresh node is appended, the old one pushed out by exactly one line height, and any node beyond the newest two pruned so the DOM cannot grow. Skipping backwards empties the progress bar from the right rather than the left.",
+    section: "components",
+    category: "Overlays",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/story-reel-viewer.tsx",
+        target: "components/ui/story-reel-viewer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

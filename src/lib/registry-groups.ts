@@ -193,6 +193,7 @@ export const componentGroups: RegistryGroup[] = [
       "push-down-overlay-menu",
       "rotating-halves-menu",
       "shuffle-panel-menu",
+      "story-reel-viewer",
     ],
   },
   {
