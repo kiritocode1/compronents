@@ -4821,6 +4821,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "pinned-shrink-cards",
+    title: "Pinned Shrink Cards",
+    description:
+      "Full-bleed sections that pin at the top and shrink their image to half size as the next one arrives. Each section's scale range ends at a point computed from the distance to the section below it rather than at a fixed scroll length, so uneven section heights still hand over cleanly. Pin spacing is off, so the pins share the same stretch of document and the cards overlap instead of queueing. The hero heading fades on its own trigger across four viewports, independent of the stack. GSAP ScrollTrigger.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/pinned-shrink-cards.tsx",
+        target: "components/ui/pinned-shrink-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

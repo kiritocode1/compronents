@@ -694,6 +694,10 @@ const carouselDiscScrollAssetDocs = assetsByIds(
   Array.from({ length: 15 }, (_, i) => `carousel-disc-scroll-img-${i + 1}`),
 );
 
+const pinnedShrinkCardsAssetDocs = assetsByIds(
+  Array.from({ length: 6 }, (_, i) => `pinned-shrink-cards-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12961,6 +12965,62 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "15 BLANK images / 150",
         description:
           "Images are cycled to fill itemCount tiles, so the two are independent.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own the scroll container. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "pinned-shrink-cards": {
+    demoPath: "src/components/demos/pinned-shrink-cards.tsx",
+    nuance: [
+      {
+        label: "The scale range is measured, not fixed",
+        description:
+          "Each section's end point is the offset distance to the section below it. A fixed scroll length would desynchronise the moment two sections had different heights.",
+      },
+      {
+        label: "pinSpacing off is what makes them overlap",
+        description:
+          "With spacing on, each pin would insert its own duration of blank document and the cards would arrive one after another instead of stacking over each other.",
+      },
+      {
+        label: "The heading fades on its own trigger",
+        description:
+          "Opacity is driven by a separate four-viewport trigger on the whole content, not by the hero's pin, so the text keeps fading after its section has handed over.",
+      },
+    ],
+    editable: [
+      {
+        name: "heading",
+        control: "text",
+        description: "Hero line that fades out.",
+      },
+      {
+        name: "endScale",
+        control: "text",
+        description: "Scale the pinned image shrinks to.",
+      },
+    ],
+    assets: pinnedShrinkCardsAssetDocs,
+    api: [
+      {
+        name: "images",
+        type: "string[]",
+        default: "6 BLANK images",
+        description:
+          "All but the last pin; the final one scrolls over the stack to release it.",
+      },
+      {
+        name: "endScale",
+        type: "number",
+        default: "0.5",
+        description:
+          "How far the image shrinks before the next section takes the line.",
       },
       {
         name: "embedded",

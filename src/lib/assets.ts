@@ -2515,7 +2515,21 @@ const carouselDiscScrollAssets = Array.from({ length: 15 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const pinnedShrinkCardsAssets = Array.from({ length: 6 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `pinned-shrink-cards-img-${n}`,
+    label: `Pinned Shrink Cards image ${n}`,
+    provider: "vercel-blob",
+    pathname: `pinned-shrink-cards/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/pinned-shrink-cards/img${n}.jpg`,
+    role: "Full-bleed card image that shrinks to half size while its section is pinned.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...pinnedShrinkCardsAssets,
   ...carouselDiscScrollAssets,
   ...letterGridCarouselAssets,
   ...storyReelViewerAssets,

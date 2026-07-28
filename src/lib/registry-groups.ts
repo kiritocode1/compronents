@@ -143,6 +143,7 @@ export const componentGroups: RegistryGroup[] = [
       "pushup-card-stack",
       "card-parting-reveal",
       "calendar-pad-cards",
+      "pinned-shrink-cards",
     ],
   },
   {

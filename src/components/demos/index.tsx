@@ -135,6 +135,7 @@ import ParticleFluidHeroDemo from "./particle-fluid-hero";
 import PhotoSphereOrbDemo from "./photo-sphere-orb";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
+import PinnedShrinkCardsDemo from "./pinned-shrink-cards";
 import PixelSmearWordmarkDemo from "./pixel-smear-wordmark";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
 import PoliteChaosPageDemo from "./polite-chaos-page";
@@ -425,4 +426,5 @@ export const demos: Record<string, ComponentType> = {
   "letter-grid-carousel": LetterGridCarouselDemo,
   "lava-particle-field": LavaParticleFieldDemo,
   "carousel-disc-scroll": CarouselDiscScrollDemo,
+  "pinned-shrink-cards": PinnedShrinkCardsDemo,
 };
