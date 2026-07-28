@@ -13531,6 +13531,108 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "liquid-glass-carousel": {
+    demoPath: "src/components/demos/liquid-glass-carousel.tsx",
+    nuance: [
+      {
+        label: "One scroll value, no clones to manage",
+        description:
+          "The row loops by wrapping a single scroll number against the summed slot widths, then pushing each pooled mesh out by its repetition rung. Four copies of the set exist so a wide viewport never runs dry, and any panel copy can be addressed by an unbounded integer index, which is what lets click-to-center and the entry aim at an exact panel.",
+      },
+      {
+        label: "Settle-snap inside the same glide",
+        description:
+          "Snapping redirects the target rather than the scroll. When the wheel has been quiet for 120ms and less than 60px of glide remain, the target moves once onto the nearest panel center, so the row lands on an image without a second easing curve fighting the first.",
+      },
+      {
+        label: "Full-resolution offscreen buffer",
+        description:
+          "The panels render into a render target sized at device pixels, not CSS pixels; a CSS-sized target would rasterize at 1x and upscale, which reads as blur on retina once the lens resamples it.",
+      },
+      {
+        label: "Aspect-driven widths",
+        description:
+          "Every panel is the same height and takes its width from the measured aspect of its texture, so nothing is cropped or stretched. Slot offsets are rebuilt as each image resolves, and the row re-centers itself until the first scroll.",
+      },
+      {
+        label: "Center-out focus wave",
+        description:
+          "Panels leaving for focus are ranked by absolute distance from the focused card and grouped when those distances are within a pixel, so symmetric left and right pairs depart together. Closing reverses the ranking, so the wave returns edges-in.",
+      },
+    ],
+    editable: [
+      {
+        name: "projects",
+        control: "asset-url",
+        description:
+          "The panel images with the brand and project line shown for each.",
+      },
+      {
+        name: "accentColor",
+        control: "color",
+        description: "Ring, aura, and dispersion tint of the lens.",
+      },
+      {
+        name: "background / textColor",
+        control: "color",
+        description: "Page colour behind the panels and the counter colour.",
+      },
+      {
+        name: "panelHeight / gap",
+        control: "tuple",
+        description: "Panel height in px and the gap between slots.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from(
+        { length: 12 },
+        (_, i) => `liquid-glass-carousel-img-${i + 1}`,
+      ),
+    ),
+    api: [
+      {
+        name: "projects",
+        type: "{ src, brand, desc, aspect? }[]",
+        default: "Twelve BLANK editorial stills",
+        description:
+          "Panel images and their overlay copy. Omit aspect to measure it from the loaded image.",
+      },
+      {
+        name: "panelHeight / gap",
+        type: "number / number",
+        default: "450 / 12",
+        description:
+          "Shared panel height in px and the gap between slots. Widths follow each image's aspect.",
+      },
+      {
+        name: "accentColor",
+        type: "string",
+        default: '"#009dff"',
+        description: "Ring, aura, and dispersion tint of the lens.",
+      },
+      {
+        name: "background / textColor",
+        type: "string / string",
+        default: '"#ffffff" / "#000000"',
+        description:
+          "Clear colour behind the panels and the colour of the counter. The overlay heading uses exclusion blending, so it inverts against either.",
+      },
+      {
+        name: "entry",
+        type: "boolean",
+        default: "true",
+        description:
+          "Play the rise-and-grow entry on mount. Set false to start at full size with the lens already on.",
+      },
+      {
+        name: "minWidth / smallScreenText",
+        type: "number / string",
+        default: "1024 / holding copy",
+        description:
+          "Viewport width at or below which WebGL never boots and a holding screen shows instead.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

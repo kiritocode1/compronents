@@ -2628,7 +2628,22 @@ const scatterLetterIntroAssets = [
   } as const satisfies AssetItem,
 ];
 
+const liquidGlassCarouselAssets = Array.from({ length: 12 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `liquid-glass-carousel-img-${n}`,
+    label: `Liquid Glass Carousel image ${n}`,
+    provider: "vercel-blob",
+    pathname: `liquid-glass-carousel/img-${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/liquid-glass-carousel/img-${n}.jpg`,
+    role: "Panel in the looping row; its measured aspect sets the panel width.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...liquidGlassCarouselAssets,
   ...panVideoCanvasAssets,
   ...filmstripVideoPlayerAssets,
   ...scatterLetterIntroAssets,

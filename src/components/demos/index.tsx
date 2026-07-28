@@ -108,6 +108,7 @@ import LegoDitherDemo from "./lego-dither";
 import LemonBureauPageDemo from "./lemon-bureau-page";
 import LetterGridCarouselDemo from "./letter-grid-carousel";
 import LineRiseTextDemo from "./line-rise-text";
+import LiquidGlassCarouselDemo from "./liquid-glass-carousel";
 import LiquidStatGridDemo from "./liquid-stat-grid";
 import LogoMaskZoomScrollDemo from "./logo-mask-zoom-scroll";
 import MagneticSpotlightMarqueeDemo from "./magnetic-spotlight-marquee";
@@ -445,4 +446,5 @@ export const demos: Record<string, ComponentType> = {
   "scatter-letter-intro": ScatterLetterIntroDemo,
   "pixel-cube-avatar": PixelCubeAvatarDemo,
   "pixel-cube-field": PixelCubeFieldDemo,
+  "liquid-glass-carousel": LiquidGlassCarouselDemo,
 };

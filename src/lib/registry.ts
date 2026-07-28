@@ -5021,6 +5021,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "liquid-glass-carousel",
+    title: "Liquid Glass Carousel",
+    description:
+      "An infinite row of image panels drawn through a liquid-glass lens. The carousel renders into an offscreen buffer at device resolution and a fullscreen quad resamples it through a shader that combines an elliptical mask, an inward pull, per-channel chromatic dispersion, a fluid rim wave from two sine harmonics, a central nova, and a shimmering accent ring. Panels share one height and take their width from each image's measured aspect, so nothing is cropped, and the row loops by wrapping a single scroll value against the summed slot widths. Wheel input moves a target the scroll lerps toward, and once the wheel goes quiet the target is redirected onto the nearest panel center so the row settles on an image inside the same glide. Scroll speed shrinks every panel by up to a quarter while it moves. Clicking a panel glides it to center and opens focus: it scales up, the lens distortion fades out, and every other panel sweeps down in a center-out wave. On load the panels rise from below at 80px tall, hold, then grow to full size while the lens blooms in. Three.js with GSAP.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-29",
+    type: "registry:ui",
+    dependencies: ["three", "gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/liquid-glass-carousel.tsx",
+        target: "components/ui/liquid-glass-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
