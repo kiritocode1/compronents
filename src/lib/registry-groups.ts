@@ -65,6 +65,7 @@ export const componentGroups: RegistryGroup[] = [
       "inversa-scroll",
       "ascii-monogram-hero",
       "frame-sequence-hero",
+      "gravity-drop-landing",
     ],
   },
   {

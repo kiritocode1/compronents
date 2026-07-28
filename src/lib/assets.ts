@@ -2426,7 +2426,21 @@ const calendarPadCardsAssets = Array.from({ length: 8 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const gravityDropLandingAssets = Array.from({ length: 12 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `gravity-drop-landing-img-${n}`,
+    label: `Gravity Drop Landing thumbnail ${n}`,
+    provider: "vercel-blob",
+    pathname: `gravity-drop-landing/img${n}.jpg`,
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/gravity-drop-landing/img${n}.jpg`,
+    role: "Thumbnail bound to a Matter.js body that drops and stacks.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem;
+});
+
 export const assetItems = [
+  ...gravityDropLandingAssets,
   ...calendarPadCardsAssets,
   ...wrappedDragIndexAssets,
   ...shaderTunnelSliderAssets,

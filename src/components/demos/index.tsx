@@ -81,6 +81,7 @@ import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import FrameSequenceHeroDemo from "./frame-sequence-hero";
 import GarageScene3DDemo from "./garage-scene-3d";
+import GravityDropLandingDemo from "./gravity-drop-landing";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
@@ -411,4 +412,5 @@ export const demos: Record<string, ComponentType> = {
   "shuffle-panel-menu": ShufflePanelMenuDemo,
   "wrapped-drag-index": WrappedDragIndexDemo,
   "calendar-pad-cards": CalendarPadCardsDemo,
+  "gravity-drop-landing": GravityDropLandingDemo,
 };

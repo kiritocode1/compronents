@@ -670,6 +670,10 @@ const calendarPadCardsAssetDocs = assetsByIds(
   Array.from({ length: 8 }, (_, i) => `calendar-pad-cards-img-${i + 1}`),
 );
 
+const gravityDropLandingAssetDocs = assetsByIds(
+  Array.from({ length: 12 }, (_, i) => `gravity-drop-landing-img-${i + 1}`),
+);
+
 export const componentMeta: Record<string, ComponentMeta> = {
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
@@ -12602,6 +12606,62 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string / string[]",
         default: "BLANK copy",
         description: "Navigation row above the cards.",
+      },
+    ],
+  },
+  "gravity-drop-landing": {
+    demoPath: "src/components/demos/gravity-drop-landing.tsx",
+    nuance: [
+      {
+        label: "Static until released, so the layout is exact",
+        description:
+          "Bodies start static with gravity at zero, which means the resting composition is precisely the CSS positions rather than whatever the solver settles on. The simulation only takes over on the toggle.",
+      },
+      {
+        label: "Raising is not a rewind",
+        description:
+          "Going back re-fixes the bodies and lerps them to their measured start points on an ease-out-quad. Reversing the physics would be non-deterministic and would never land them back on the grid.",
+      },
+      {
+        label: "The random spin is what sells the fall",
+        description:
+          "Each body gets an angular velocity in a small random range at the moment of release. Without it twelve rectangles fall perfectly level and the pile looks authored.",
+      },
+    ],
+    editable: [
+      {
+        name: "wordmark",
+        control: "text",
+        description: "Letters that scale up behind the pile.",
+      },
+      {
+        name: "overlayColor",
+        control: "color",
+        description: "Backdrop the clip-path reveals.",
+      },
+    ],
+    assets: gravityDropLandingAssetDocs,
+    api: [
+      {
+        name: "images / positions",
+        type: "string[] / [number, number][]",
+        default: "12 BLANK thumbnails",
+        description:
+          "Resting composition as top and left percentages. Positions are read back at mount to seed the bodies, so editing them moves both the layout and the physics.",
+      },
+      {
+        name: "columns",
+        type: "GravityDropColumn[]",
+        default: "4 BLANK columns",
+        description:
+          "Heading plus links per column, revealed line by line once the pile has dropped.",
+      },
+      {
+        name: "toggleLabel",
+        type: "string",
+        default: "[ Drop / Raise ]",
+        description:
+          "The only control; it blends against the backdrop with mix-blend-mode.",
       },
     ],
   },

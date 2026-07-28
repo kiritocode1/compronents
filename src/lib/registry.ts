@@ -4681,6 +4681,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "gravity-drop-landing",
+    title: "Gravity Drop Landing",
+    description:
+      "A hero whose scattered thumbnails are Matter.js bodies held static until you press the toggle. Gravity is zero and every body is static at rest, so the layout is exactly the CSS positions until the moment it is released; then each body is un-fixed and given a small random angular velocity so the pile lands untidily rather than in formation. Raising them is not a physics rewind: the bodies go static again and are lerped back to their measured start positions on an ease-out-quad, which is what makes the return read as deliberate. The same toggle re-clips the backdrop, doubles the wordmark, and staggers the link columns in the opposite direction on the way back.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-28",
+    type: "registry:ui",
+    dependencies: ["gsap", "matter-js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/gravity-drop-landing.tsx",
+        target: "components/ui/gravity-drop-landing.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:
