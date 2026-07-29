@@ -217,6 +217,7 @@ import VokuImageSliderDemo from "./voku-image-slider";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WedgeClipWorkScrollDemo from "./wedge-clip-work-scroll";
 import WheelClipSliderDemo from "./wheel-clip-slider";
+import WindDriftFieldDemo from "./wind-drift-field";
 import WordHighlightScrollDemo from "./word-highlight-scroll";
 import WordmarkSpotlightScrollDemo from "./wordmark-spotlight-scroll";
 import WrappedDragIndexDemo from "./wrapped-drag-index";
@@ -449,4 +450,5 @@ export const demos: Record<string, ComponentType> = {
   "pixel-cube-field": PixelCubeFieldDemo,
   "liquid-glass-carousel": LiquidGlassCarouselDemo,
   "elastic-string-field": ElasticStringFieldDemo,
+  "wind-drift-field": WindDriftFieldDemo,
 };

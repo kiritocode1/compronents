@@ -13633,6 +13633,138 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "wind-drift-field": {
+    demoPath: "src/components/demos/wind-drift-field.tsx",
+    nuance: [
+      {
+        label: "Projection is what makes it air",
+        description:
+          "A gust painted straight into a velocity field has divergence: air appears in one cell and vanishes in another, which the eye reads instantly as a stamp rather than a flow. Solving each frame for the pressure whose gradient cancels that divergence, then subtracting it, forces air pushed out of one place to go somewhere. That single step is the difference between blobs and a stroke that rolls up into vortices at its ends.",
+      },
+      {
+        label: "Momentum outlives the gesture",
+        description:
+          "The velocity field is advected along itself, so a stroke keeps travelling and stretching after the pointer has stopped. Nothing replays the pointer path; what you see a second later is where the air it moved has since got to.",
+      },
+      {
+        label: "Turbulence cannot outrun the damping",
+        description:
+          "Vorticity confinement adds energy on purpose, to feed back the small swirls advection smears away. Left free it adds more than viscosity removes and the field churns forever, which is exactly what happened at first. The gain is capped at half the damping headroom, so coming to rest is a property of the solver rather than a lucky pair of constants.",
+      },
+      {
+        label: "Colour is the air speed, not decoration",
+        description:
+          "Each segment is tinted by the speed of the flow that drew it, walked along the ramp on speed rather than speed squared so the low end is not crushed into one colour. A drifting eddy comes out green and a fast sweep saturates to red, so the palette is reading the simulation rather than sitting on top of it.",
+      },
+      {
+        label: "The loop parks itself, on a clean surface",
+        description:
+          "Once the kinetic energy decays past a threshold there is nothing left to compute, so the frame callback coasts four seconds to let the trails clear and then stops. It hard-clears both buffers on the way out: an eight bit fade that mixes seven percent toward the background can never round the last level away, so parking without that clear would freeze faint residue on screen forever.",
+      },
+      {
+        label: "Fixed step, by choice",
+        description:
+          "Semi-Lagrangian advection is stable at any step size, so a variable delta would not blow up, it would just make a stroke travel a different distance per frame on every machine. The solver runs on a fixed 30fps step so the flow looks the same everywhere.",
+      },
+    ],
+    editable: [
+      {
+        name: "turbulence",
+        control: "text",
+        description:
+          "Small-swirl recovery, 0 to 1, as a fraction of what viscosity removes. Default 0.6.",
+      },
+      {
+        name: "viscosity",
+        control: "text",
+        description:
+          "Velocity kept per frame. Lower settles sooner. Default 0.96.",
+      },
+      {
+        name: "gustStrength",
+        control: "text",
+        description: "How hard a sweep pushes the air. Default 1.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description:
+          "Field colour. Trails fade into this, so it is the fade target as much as the backdrop.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "palette",
+        type: "string[]",
+        default: "eight-stop green to red",
+        description:
+          "Trail colours from stillest air to fastest, as hex. Sampled continuously, so any length works and intermediate speeds blend between neighbours.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#0a121b"',
+        description:
+          "Field colour. Trails fade toward it every frame, so it is the fade target as much as the backdrop.",
+      },
+      {
+        name: "particleCount",
+        type: "number",
+        default: "14000",
+        description:
+          "Tracers on the field. Each contributes one line segment per frame, and the whole loop runs on a 30fps gate.",
+      },
+      {
+        name: "turbulence",
+        type: "number",
+        default: "0.6",
+        description:
+          "Vorticity confinement, 0 to 1, expressed as a fraction of the energy viscosity is removing rather than as a raw epsilon. It cannot exceed the damping, so no setting makes the air churn forever. Zero lets the solver smooth a wake into a smear.",
+      },
+      {
+        name: "viscosity",
+        type: "number",
+        default: "0.96",
+        description:
+          "Velocity kept per frame. Lower brings the air to rest sooner and, because turbulence is scaled against it, also shortens how long a wake stays lively.",
+      },
+      {
+        name: "gustStrength",
+        type: "number",
+        default: "1",
+        description:
+          "Multiplier on the pointer's push. Zero leaves the air permanently still, which is the right setting behind dense content.",
+      },
+      {
+        name: "flowSpeed",
+        type: "number",
+        default: "2.9",
+        description:
+          "How far a tracer travels per unit of air speed. Raising it lengthens every streak without changing the shape of the flow.",
+      },
+      {
+        name: "drift",
+        type: "[number, number]",
+        default: "[0, 0]",
+        description:
+          "Even background breeze in field units per second, added at sample time since a uniform flow is already divergence-free. Zero, the default, is what lets the field sit empty and the loop idle; any non-zero value means it never parks.",
+      },
+      {
+        name: "showGrid",
+        type: "boolean",
+        default: "false",
+        description:
+          "A faint survey grid over the field. Off by default so the airflow reads on its own.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        default: "none",
+        description: "Content rendered above the field, full height.",
+      },
+    ],
+  },
   "elastic-string-field": {
     demoPath: "src/components/demos/elastic-string-field.tsx",
     nuance: [

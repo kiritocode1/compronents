@@ -249,6 +249,7 @@ export const componentGroups: RegistryGroup[] = [
       "pixel-cube-avatar",
       "pixel-cube-field",
       "elastic-string-field",
+      "wind-drift-field",
     ],
   },
 ];

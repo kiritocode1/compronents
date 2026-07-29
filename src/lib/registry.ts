@@ -7693,6 +7693,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "wind-drift-field",
+    title: "Wind Drift Field",
+    description:
+      "Still air you stir with the pointer, running on a real fluid solver rather than a painted force field. Fourteen thousand tracers ride the velocity field and leave trails that fade back into the paper, and every trail is coloured by the speed of the air carrying it, so a slow eddy stays green and a hard sweep burns red. The air is a Stable Fluids grid and the three steps in its loop are what make it read as wind rather than as blobs. Self-advection carries the velocity field along itself, so momentum keeps travelling after your hand stops and a stroke moves downstream and stretches instead of sitting where you drew it. Pressure projection solves a Poisson equation each frame and subtracts the gradient to remove divergence, which is the step that makes air behave like air: without it velocity is created and destroyed in place, which is exactly what a stamped gust looks like, and with it the air pushed out of one place has to go somewhere, so a stroke rolls up into vortices at its ends and the flow curves around itself. Vorticity confinement puts back the small swirls the solver own interpolation smears away, and its gain is capped at half the energy viscosity removes, so a wake stays turbulent without the field ever churning forever. Nothing moves on its own: with the air at rest a tracer draws a zero-length segment and the buffer keeps fading, so the surface sits empty until it is touched, and once the kinetic energy decays the loop parks itself on a cleanly cleared buffer rather than on the residue an eight bit fade can never round away. The trail is a ping-pong pair of framebuffers, so it is never stored as history, only as what is left of the last frame. One WebGL canvas, no library and no asset required.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-30",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/wind-drift-field.tsx",
+        target: "components/ui/wind-drift-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "elastic-string-field",
     title: "Elastic String Field",
     description:
