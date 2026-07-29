@@ -144,37 +144,38 @@ interface Base {
   /** kit's CodeBlock + FloatingHighlight: a mono code line rendered under the
    * viz; node tokens inside it light up with the owning node's state */
   code?: string;
-  /**
-   * Type stacks rendered under this archetype's body, advanced by the SAME step
-   * clock, so the runtime picture and the type-level contract that guards it
-   * play together in one view instead of behind a variant toggle.
-   *
-   * One entry per step. A shorter array holds its last entry for the remaining
-   * steps, so a contract that only changes once does not have to be repeated.
-   */
+}
+
+/**
+ * Type stacks rendered under an archetype's body, advanced by the SAME step
+ * clock, so the runtime picture and the type-level contract that guards it play
+ * together in one view instead of behind a variant toggle.
+ *
+ * One entry per step. A shorter array holds its last entry for the remaining
+ * steps, so a contract that only changes once does not have to be repeated.
+ *
+ * Only the archetypes StepBody drives can carry these. `schedule` sweeps a
+ * continuous timeline and `types` is already a stack view, so neither renders
+ * them; having the field there would silently drop whatever a spec put in it.
+ */
+interface WithTypeStacks {
   typeStacks?: TypeStep[];
 }
 
 /** a ref value; `bad` marks a write that should never have landed (red flash) */
 type RefValue = number | string | { v: number | string; bad?: boolean };
 
+/**
+ * The two flanking nodes are plain VizNodeSpecs rather than a leaner inline
+ * shape, so a ref node can carry a `types` badge like any other node. RefViz
+ * composes its own column and ignores the fields it has no room for.
+ */
 interface RefSpec {
   label: string;
   values: RefValue[];
   unit?: string;
-  request?: {
-    label: string;
-    states: TaskState[];
-    result?: string;
-    error?: string;
-    token?: string;
-  };
-  challenger?: {
-    label: string;
-    states: TaskState[];
-    error?: string;
-    token?: string;
-  };
+  request?: VizNodeSpec;
+  challenger?: VizNodeSpec;
 }
 
 type ScopeState = "hidden" | "pending" | "running" | "completed";
@@ -201,9 +202,10 @@ interface ScheduleSpec {
 }
 
 export type VizSpec =
-  | ({ archetype: "flow"; nodes: VizNodeSpec[]; arrowBefore?: number } & Base)
-  | ({ archetype: "ref"; ref: RefSpec } & Base)
-  | ({ archetype: "scope"; scope: ScopeSpec } & Base)
+  | ({ archetype: "flow"; nodes: VizNodeSpec[]; arrowBefore?: number } & Base &
+      WithTypeStacks)
+  | ({ archetype: "ref"; ref: RefSpec } & Base & WithTypeStacks)
+  | ({ archetype: "scope"; scope: ScopeSpec } & Base & WithTypeStacks)
   | ({ archetype: "schedule"; schedule: ScheduleSpec } & Base)
   /**
    * kit's Visual Types vocabulary (types.kitlangton.com) as a fifth archetype:
@@ -697,6 +699,36 @@ function formatMs(ms: number) {
   return ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`;
 }
 
+/**
+ * The type badge belonging to a task node, wherever that node is drawn.
+ *
+ * Every archetype that shows nodes has to render this, or a spec's `types` would
+ * satisfy the completeness rule and draw nothing. It lives here rather than
+ * inside NodeWithLabel because RefViz composes its own leaner column (no timer,
+ * no bubbles) and still owes its nodes a contract.
+ */
+function NodeTypeBadge({
+  n,
+  state,
+  step,
+}: {
+  n: VizNodeSpec;
+  state: TaskState;
+  step?: number;
+}) {
+  // a stable id per mounted node, so two nodes carrying the same type still
+  // morph independently instead of sharing segment identity
+  const typeId = useId();
+  if (!n.types?.length) return null;
+  return (
+    <TypeBadge
+      node={n.types[Math.min(step ?? 0, n.types.length - 1)] as TypeNode}
+      id={`${n.label}-${typeId}`}
+      accent={COLORS[state]}
+    />
+  );
+}
+
 function NodeWithLabel({
   n,
   state,
@@ -710,9 +742,6 @@ function NodeWithLabel({
   onHover?: (token: string | undefined) => void;
 }) {
   const elapsed = useNodeTimer(state);
-  // a stable id per mounted node, so two nodes carrying the same type still
-  // morph independently instead of sharing segment identity
-  const typeId = useId();
   // kit's rule: the error bubble owns a failed/death node, so the notification
   // bubble is suppressed while one is showing (never two dialogues at once).
   // It also auto-hides after 1s so its exit is fully done BEFORE the next step
@@ -756,13 +785,7 @@ function NodeWithLabel({
           n.label
         )}
       </div>
-      {n.types?.length ? (
-        <TypeBadge
-          node={n.types[Math.min(step ?? 0, n.types.length - 1)] as TypeNode}
-          id={`${n.label}-${typeId}`}
-          accent={COLORS[state]}
-        />
-      ) : null}
+      <NodeTypeBadge n={n} state={state} step={step} />
     </div>
   );
 }
@@ -1138,6 +1161,7 @@ function RefViz({ spec, step }: { spec: RefSpec; step: number }) {
             <div className="mt-2 text-xs font-medium text-neutral-500">
               {spec.request.label}
             </div>
+            <NodeTypeBadge n={spec.request} state={reqState} step={step} />
           </div>
           <PiArrowRightFill size={20} className="mb-6 text-neutral-600" />
         </>
@@ -1153,6 +1177,7 @@ function RefViz({ spec, step }: { spec: RefSpec; step: number }) {
           <div className="mt-2 text-xs font-medium text-neutral-500">
             {spec.challenger.label}
           </div>
+          <NodeTypeBadge n={spec.challenger} state={chalState} step={step} />
         </div>
       )}
     </div>
