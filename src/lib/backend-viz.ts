@@ -4568,6 +4568,7 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "schedule",
           caption:
             "Jobs are claimed race-free with UPDATE ... RETURNING so two workers never take the same row; a failure retries with exponential backoff and eventually completes.",
+          code: `const job = q.claim(); q.fail(job, err) // retry at 2^attempts`,
           schedule: {
             durationMs: 6500,
             nodes: [
@@ -4575,11 +4576,29 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "job",
                 result: "done",
                 error: "attempt failed",
+                token: "q.claim()",
                 states: s("running", "failed", "running", "completed"),
+                // the handler map is typed (payload, job) => unknown, so the
+                // queue stores what a job produced without ever knowing its shape
+                types: [
+                  t.raw("Job | null"),
+                  t.raw("{ attempts: 1; max_attempts: 3 }"),
+                  t.raw("Job"),
+                  t.raw("unknown"),
+                ],
               },
               {
                 label: "queue",
                 result: "empty",
+                token: "q.fail(job, err)",
+                // null is the empty queue, and it is in the claim signature, so
+                // a worker cannot forget to handle having nothing to do
+                types: [
+                  t.raw("Database"),
+                  t.raw("Job | null"),
+                  t.raw("Job"),
+                  t.raw("null"),
+                ],
                 states: s("idle", "interrupted", "idle", "completed"),
               },
             ],
@@ -4597,12 +4616,24 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "schedule",
           caption:
             "A job past its max-attempts budget lands in the dead_letters table instead of looping forever; the visibility timeout has already reclaimed it from any crashed worker.",
+          code: `if (job.attempts >= job.max_attempts) insertDeadLetter(job)`,
           schedule: {
             durationMs: 7500,
             nodes: [
               {
                 label: "job",
                 error: "dead_letters",
+                token: "insertDeadLetter(job)",
+                // the budget is two numbers compared at runtime, not a type, so
+                // the row itself has to carry the count that ends the loop
+                types: [
+                  t.raw("Job | null"),
+                  t.raw("{ attempts: 1; max_attempts: 3 }"),
+                  t.raw("Job"),
+                  t.raw("{ attempts: 2; max_attempts: 3 }"),
+                  t.raw("Job"),
+                  t.raw("DeadLetter"),
+                ],
                 states: s(
                   "running",
                   "failed",
@@ -4615,6 +4646,15 @@ export const backendViz: Record<string, VizEntry> = {
               {
                 label: "queue",
                 result: "moved on",
+                token: "job.attempts >= job.max_attempts",
+                types: [
+                  t.raw("Database"),
+                  t.raw("Job | null"),
+                  t.raw("Job"),
+                  t.raw("Job | null"),
+                  t.raw("Job"),
+                  t.raw("null"),
+                ],
                 states: s(
                   "idle",
                   "interrupted",
@@ -4641,6 +4681,7 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "schedule",
     caption:
       "A node:sqlite queue feeds a worker_threads pool; a job is claimed with UPDATE ... RETURNING only when a worker is idle, and a row left running by a crash is re-queued on boot rather than lost.",
+    code: `if (slot.idle) { const job = this.queue.claim(); if (job) slot.run(job) }`,
     schedule: {
       durationMs: 6000,
       nodes: [
@@ -4648,11 +4689,29 @@ export const backendViz: Record<string, VizEntry> = {
           label: "job",
           result: "done",
           error: "worker crashed",
+          token: "this.queue.claim()",
+          // a crashed worker returns nothing at all, so `never` is the honest
+          // type: the row stays marked running and only the boot sweep finds it
+          types: [
+            t.raw("Job | undefined"),
+            t.raw("never"),
+            t.raw("Job"),
+            t.raw("void"),
+          ],
           states: s("running", "failed", "running", "completed"),
         },
         {
           label: "pool",
           result: "idle",
+          token: "slot.idle",
+          // backpressure is `Slot | undefined`: no free slot means there is no
+          // value to claim with, so the queue is never read faster than it drains
+          types: [
+            t.raw("Slot[]"),
+            t.raw("Slot | undefined"),
+            t.raw("Slot"),
+            t.raw("Slot[]"),
+          ],
           states: s("running", "idle", "running", "completed"),
         },
       ],
@@ -4680,6 +4739,11 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "send()",
                 result: "acked",
                 token: "queue.send(msg)",
+                types: [
+                  t.raw("Promise<{ messageId: string }>"),
+                  t.raw("{ messageId: string }"),
+                  t.raw("{ messageId: string }"),
+                ],
                 states: s("running", "completed", "completed"),
               },
               {
@@ -4690,12 +4754,25 @@ export const backendViz: Record<string, VizEntry> = {
                   message: "started before send returned",
                   icon: "⚡",
                 },
+                // the lookup is honestly typed Order | undefined, and here the
+                // undefined is the one that lands: the type allowed for this,
+                // the producer's ordering is what made it happen
+                types: [
+                  t.raw("unknown"),
+                  t.raw("Order | undefined"),
+                  t.raw("undefined"),
+                ],
                 states: s("idle", "running", "failed"),
               },
               {
                 label: "db insert",
                 result: "too late",
                 token: "db.insert(order)",
+                types: [
+                  t.raw("Promise<Order>"),
+                  t.raw("Promise<Order>"),
+                  t.raw("Order"),
+                ],
                 states: s("idle", "idle", "completed"),
               },
             ],
@@ -4720,17 +4797,35 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "db insert",
                 result: "row saved",
                 token: "db.insert(order)",
+                types: [
+                  t.raw("Promise<Order>"),
+                  t.raw("Order"),
+                  t.raw("Order"),
+                ],
                 states: s("running", "completed", "completed"),
               },
               {
                 label: "send()",
                 result: "acked",
                 token: "queue.send(msg)",
+                types: [
+                  t.raw("unknown"),
+                  t.raw("Promise<{ messageId: string }>"),
+                  t.raw("{ messageId: string }"),
+                ],
                 states: s("idle", "running", "completed"),
               },
               {
                 label: "consumer",
                 result: "processed",
+                // the identical Order | undefined as above, resolving the other
+                // way. No type changed between the variants, only the order the
+                // producer wrote in, which is why this bug survives type review
+                types: [
+                  t.raw("unknown"),
+                  t.raw("Order | undefined"),
+                  t.raw("Order"),
+                ],
                 states: s("idle", "running", "completed"),
               },
             ],
@@ -4747,18 +4842,37 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "schedule",
     caption:
       "Client writes land in a durable IndexedDB outbox that survives reload; a paged drain walks the queue to the server in order, and a failed row waits for the next drain instead of being lost.",
+    code: `const { sent, stalled } = await drain(db, { batchSize: 100 })`,
     schedule: {
       durationMs: 6000,
       nodes: [
         {
           label: "outbox",
           result: "drained",
+          token: "drain(db, { batchSize: 100 })",
+          // the compound [status, id] index key is what makes "next page of
+          // pending, in insertion order" one key range instead of a cursor walk
+          types: [
+            t.raw("IDBPDatabase<OutboxSchema>"),
+            t.raw("readonly OutboxRecord[]"),
+            t.raw("[OutboxStatus, number]"),
+            t.raw("DrainResult"),
+          ],
           states: s("running", "completed", "running", "completed"),
         },
         {
           label: "server",
           result: "📤 synced",
           error: "offline",
+          token: "stalled",
+          // offline is a rejected fetch, not a status code, so the drain reports
+          // it as a stalled flag rather than losing the rows that never left
+          types: [
+            t.raw("typeof fetch"),
+            t.raw("TypeError"),
+            t.raw("Promise<Response>"),
+            t.raw("{ sent: 2; failed: 0; dead: 0; stalled: false }"),
+          ],
           states: s("idle", "failed", "running", "completed"),
         },
       ],
@@ -4773,18 +4887,36 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "schedule",
     caption:
       "The timer lives with the entity as a DO alarm, firing exactly when due, instead of a per-minute cron sweeping a due-at query 1,440 times a day whether or not anything is due.",
+    code: `if (current !== next) await this.ctx.storage.setAlarm(next)`,
     schedule: {
       durationMs: 6000,
       nodes: [
         {
           label: "entity",
           result: "scheduled",
+          token: "this.ctx.storage.setAlarm(next)",
+          // there is exactly one alarm per object, so the whole schedule is a
+          // single number | null. The null is the deleteAlarm case: leave a
+          // stale time there and the object bills for a wake with nothing to do
+          types: [
+            t.raw("TaskKind"),
+            t.raw("number | null"),
+            t.raw("number | null"),
+            t.raw("null"),
+          ],
           states: s("running", "completed", "completed", "completed"),
         },
         {
           label: "alarm()",
           result: "⏰ fired",
           notify: { atStep: 3, message: "exactly at due time", icon: "⏰" },
+          token: "current !== next",
+          types: [
+            t.raw("AlarmInvocationInfo | undefined"),
+            t.raw("AlarmInvocationInfo | undefined"),
+            t.raw("Promise<void>"),
+            t.raw("void"),
+          ],
           states: s("idle", "idle", "running", "completed"),
         },
       ],
@@ -4799,12 +4931,24 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "schedule",
     caption:
       "query.live drives an async generator as an SSE stream with a per-process pub/sub hub; the finally block unregisters the listener on disconnect so a dropped client stops the pushes.",
+    code: `query.live("unchecked", (project: string) => watchDeploy(project))`,
     schedule: {
       durationMs: 7000,
       nodes: [
         {
           label: "live query",
           result: "tick",
+          token: "watchDeploy(project)",
+          // the generator yields the phase union, so a client rendering a state
+          // the server can never send is a compile error rather than a blank UI
+          types: [
+            t.raw("AsyncGenerator<DeploySnapshot>"),
+            t.raw('{ phase: "queued" }'),
+            t.raw('{ phase: "building" }'),
+            t.raw('{ phase: "uploading" }'),
+            t.raw('{ phase: "live" }'),
+            t.raw("IteratorResult<DeploySnapshot>"),
+          ],
           states: s(
             "running",
             "completed",
@@ -4843,9 +4987,22 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "A Next.js route handler upgrades to WebSocket via NextResponse.upgrade() on the Node runtime, powered by the bundled crossws, no extra install.",
+    code: `return NextResponse.upgrade({ open(peer) { peer.send(welcome) } })`,
     nodes: [
       {
         label: "upgrade",
+        token: "NextResponse.upgrade",
+        // the file carries @ts-nocheck on purpose: upgrade() is an accepted RFC
+        // that the installed Next.js types do not declare yet, so this is one
+        // of the rare spots where the runtime is ahead of its own contract
+        types: [
+          t.raw("Request"),
+          t.raw("Request"),
+          t.raw("Response"),
+          t.raw("Response"),
+          t.raw("Response"),
+          t.raw("Request"),
+        ],
         states: s(
           "idle",
           "running",
@@ -4858,6 +5015,15 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "socket",
         result: "open",
+        token: "peer.send(welcome)",
+        types: [
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("Peer"),
+          t.raw("Peer"),
+          t.raw("void"),
+          t.raw("unknown"),
+        ],
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
       },
     ],
@@ -4878,6 +5044,14 @@ export const backendViz: Record<string, VizEntry> = {
               label: "fetch jwks",
               result: "120ms",
               token: 'fetch("/api/auth/jwks")',
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("JSONWebKeySet"),
+                t.raw("JSONWebKeySet"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -4890,6 +5064,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "verify",
               result: "121ms total",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Session | null>"),
+                t.raw("Session"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
             },
           ],
@@ -4908,6 +5090,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "read cookie",
               result: "0ms network",
               token: 'readSignedCookie(req, "jwks")',
+              // string | undefined is the cache miss, and it is the only branch
+              // that ever touches the network again
+              types: [
+                t.raw("unknown"),
+                t.raw("string | undefined"),
+                t.raw("JSONWebKeySet"),
+                t.raw("JSONWebKeySet"),
+                t.raw("JSONWebKeySet"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -4920,6 +5112,17 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "verify",
               result: "1ms total",
+              // the same Session | null as the fetching variant, which is the
+              // trade stated plainly: the type cannot tell you this session was
+              // revoked seconds ago, only that cookieCache.maxAge has not elapsed
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Session | null>"),
+                t.raw("Session"),
+                t.raw("Session"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -4944,9 +5147,22 @@ export const backendViz: Record<string, VizEntry> = {
           arrowBefore: 1,
           caption:
             "validateUserInfo runs on every sign-in path; an allowlisted domain is admitted and the tenant membership is provisioned.",
+          code: `if (!allowed.has(domain)) return { error: DENY.domain }`,
           nodes: [
             {
               label: "sign-in",
+              token: "domain",
+              // emailDomain returns string | null, so a provider that sends no
+              // email cannot even be domain checked: the gate fails closed
+              // because the null has to be handled before the Set is consulted
+              types: [
+                t.raw("unknown"),
+                t.raw("string | null"),
+                t.raw("string"),
+                t.raw('"blank.dev"'),
+                t.raw('"blank.dev"'),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -4959,6 +5175,15 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "admit",
               result: "member",
+              token: "allowed.has(domain)",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Set<string>"),
+                t.raw("true"),
+                t.raw("undefined"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -4978,9 +5203,19 @@ export const backendViz: Record<string, VizEntry> = {
           arrowBefore: 1,
           caption:
             "An off-domain or anonymous session is refused at the gate before any user row exists, across create-user, link-account, and SSO sign-in alike.",
+          code: `if (!allowed.has(domain)) return { error: DENY.domain }`,
           nodes: [
             {
               label: "sign-in",
+              token: "domain",
+              types: [
+                t.raw("unknown"),
+                t.raw("string | null"),
+                t.raw("string"),
+                t.raw('"gmail.com"'),
+                t.raw('"gmail.com"'),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -4993,6 +5228,18 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "admit",
               error: "domain not allowed",
+              token: "allowed.has(domain)",
+              // the deny is a literal from the DENY const, not a thrown error,
+              // so every refusal reason is a value the caller can exhaustively
+              // switch on rather than a string it has to parse
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Set<string>"),
+                t.raw("false"),
+                t.raw('{ error: "provisioning_domain_not_allowed" }'),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -5012,9 +5259,22 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "createTestHarness runs the production Worker build in a local preview; a Node test seeds DO SQLite, evicts, and asserts state survives the teardown.",
+    code: `const env = await worker.getEnv(); await env.QUOTA.getByName(id).consume(id, 1)`,
     nodes: [
       {
         label: "seed",
+        token: "worker.getEnv()",
+        // getWorker<QuotaEnv, QuotaModule>() is what makes the test see the
+        // real binding types, so a renamed binding fails the test build rather
+        // than passing against a hand-written mock that drifted
+        types: [
+          t.raw("unknown"),
+          t.raw("Promise<QuotaEnv>"),
+          t.raw("QuotaEnv"),
+          t.raw("DurableObjectNamespace<QuotaCounter>"),
+          t.raw("DurableObjectStub<QuotaCounter>"),
+          t.raw("unknown"),
+        ],
         states: s(
           "idle",
           "running",
@@ -5027,6 +5287,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "assert",
         result: "survived",
+        token: "consume(id, 1)",
+        // the RPC method is called directly, so its Promise<QuotaVerdict> is
+        // the same type production calls: no HTTP round trip to erase it
+        types: [
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("Promise<QuotaVerdict>"),
+          t.raw("QuotaVerdict"),
+          t.raw("{ allowed: true; limit: 3 }"),
+          t.raw("unknown"),
+        ],
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
       },
     ],
