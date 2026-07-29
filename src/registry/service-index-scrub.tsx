@@ -92,7 +92,7 @@ export default function ServiceIndexScrub({
   heroImage = `${ASSET_BASE}/hero.jpg`,
   heroCopy = "Scroll Down",
   outroCopy = "Your next section goes here",
-  serviceHeight = 38,
+  serviceHeight = 50,
   imgHeight = 250,
   accent = "#ff00ff",
   embedded = true,
@@ -104,42 +104,59 @@ export default function ServiceIndexScrub({
     if (!root) return;
     gsap.registerPlugin(ScrollTrigger, SplitText);
 
-    const content = root.querySelector<HTMLElement>(".svx-content");
-    const stickySection = root.querySelector<HTMLElement>(".svx-sticky");
-    const indicator = root.querySelector<HTMLElement>(".svx-indicator");
-    const currentCount = root.querySelector<HTMLElement>(".svx-current-count");
-    const serviceImg = root.querySelector<HTMLElement>(".svx-service-img");
-    const serviceCopy = root.querySelector<HTMLElement>(".svx-service-copy p");
-    const serviceEls = root.querySelectorAll<HTMLElement>(".svx-service");
-    if (
-      !content ||
-      !stickySection ||
-      !indicator ||
-      !currentCount ||
-      !serviceImg ||
-      !serviceCopy
-    )
-      return;
+    // Label widths and line splits are both measured off the display font, so
+    // nothing may run until it has actually loaded; measuring against the
+    // fallback bakes in wrong widths for the life of the component.
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    document.fonts.ready.then(() => {
+      if (!cancelled) cleanup = setup(root);
+    });
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
 
-    const scroller = embedded ? root : undefined;
-    const lenis = embedded
-      ? new Lenis({ wrapper: root, content })
-      : new Lenis();
-    lenis.on("scroll", ScrollTrigger.update);
-    const tickerFn = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tickerFn);
-    gsap.ticker.lagSmoothing(0);
+    function setup(root: HTMLElement) {
+      const content = root.querySelector<HTMLElement>(".svx-content");
+      const stickySection = root.querySelector<HTMLElement>(".svx-sticky");
+      const indicator = root.querySelector<HTMLElement>(".svx-indicator");
+      const currentCount =
+        root.querySelector<HTMLElement>(".svx-current-count");
+      const serviceImg = root.querySelector<HTMLElement>(".svx-service-img");
+      const serviceCopy = root.querySelector<HTMLElement>(
+        ".svx-service-copy p",
+      );
+      const serviceEls = root.querySelectorAll<HTMLElement>(".svx-service");
+      if (
+        !content ||
+        !stickySection ||
+        !indicator ||
+        !currentCount ||
+        !serviceImg ||
+        !serviceCopy
+      )
+        return;
 
-    const viewportHeight = embedded ? root.clientHeight : window.innerHeight;
-    const stickyHeight = viewportHeight * services.length;
+      const scroller = embedded ? root : undefined;
+      const lenis = embedded
+        ? new Lenis({ wrapper: root, content })
+        : new Lenis();
+      lenis.on("scroll", ScrollTrigger.update);
+      const tickerFn = (time: number) => lenis.raf(time * 1000);
+      gsap.ticker.add(tickerFn);
+      gsap.ticker.lagSmoothing(0);
 
-    serviceCopy.textContent = services[0].copy;
-    let currentSplitText = SplitText.create(serviceCopy, { type: "lines" });
+      const viewportHeight = embedded ? root.clientHeight : window.innerHeight;
+      const stickyHeight = viewportHeight * services.length;
 
-    // Widths are measured off-screen at the real display font, so the
-    // indicator hugs each label instead of using a fixed width.
-    const measureContainer = document.createElement("div");
-    measureContainer.style.cssText = `
+      serviceCopy.textContent = services[0].copy;
+      let currentSplitText = SplitText.create(serviceCopy, { type: "lines" });
+
+      // Widths are measured off-screen at the real display font, so the
+      // indicator hugs each label instead of using a fixed width.
+      const measureContainer = document.createElement("div");
+      measureContainer.style.cssText = `
       position: absolute;
       visibility: hidden;
       height: auto;
@@ -147,123 +164,130 @@ export default function ServiceIndexScrub({
       white-space: nowrap;
       font-family: "Bungee", sans-serif;
       font-size: 60px;
-      font-weight: 600;
+      font-weight: 400;
       text-transform: uppercase;
     `;
-    root.appendChild(measureContainer);
+      root.appendChild(measureContainer);
 
-    const serviceWidths = Array.from(serviceEls).map((service) => {
-      measureContainer.textContent =
-        service.querySelector("p")?.textContent ?? "";
-      return measureContainer.offsetWidth + 8;
-    });
-
-    root.removeChild(measureContainer);
-
-    gsap.set(indicator, {
-      width: serviceWidths[0],
-      xPercent: -50,
-      left: "50%",
-    });
-
-    const scrollPerService = viewportHeight;
-    let currentIndex = 0;
-
-    const animateTextChange = (index: number) =>
-      new Promise<void>((resolve) => {
-        gsap.to(currentSplitText.lines, {
-          opacity: 0,
-          y: -20,
-          duration: 0.25,
-          stagger: 0.025,
-          ease: "power3.inOut",
-          onComplete: () => {
-            currentSplitText.revert();
-            serviceCopy.textContent = services[index].copy;
-            currentSplitText = SplitText.create(serviceCopy, {
-              type: "lines",
-            });
-
-            gsap.set(currentSplitText.lines, { opacity: 0, y: 20 });
-            gsap.to(currentSplitText.lines, {
-              opacity: 1,
-              y: 0,
-              duration: 0.25,
-              stagger: 0.025,
-              ease: "power3.out",
-              onComplete: resolve,
-            });
-          },
-        });
+      const serviceWidths = Array.from(serviceEls).map((service) => {
+        measureContainer.textContent =
+          service.querySelector("p")?.textContent ?? "";
+        return measureContainer.offsetWidth + 8;
       });
 
-    const trigger = ScrollTrigger.create({
-      trigger: stickySection,
-      scroller,
-      start: "top top",
-      end: `${stickyHeight}px`,
-      pin: true,
-      invalidateOnRefresh: true,
-      onUpdate: async (self) => {
-        gsap.set(root.querySelector(".svx-progress"), {
-          scaleY: self.progress,
+      root.removeChild(measureContainer);
+
+      gsap.set(indicator, {
+        width: serviceWidths[0],
+        xPercent: -50,
+        left: "50%",
+      });
+
+      const scrollPerService = viewportHeight;
+      let currentIndex = 0;
+
+      const animateTextChange = (index: number) =>
+        new Promise<void>((resolve) => {
+          gsap.to(currentSplitText.lines, {
+            opacity: 0,
+            y: -20,
+            duration: 0.25,
+            stagger: 0.025,
+            ease: "power3.inOut",
+            onComplete: () => {
+              currentSplitText.revert();
+              serviceCopy.textContent = services[index].copy;
+              currentSplitText = SplitText.create(serviceCopy, {
+                type: "lines",
+              });
+
+              gsap.set(currentSplitText.lines, { opacity: 0, y: 20 });
+              gsap.to(currentSplitText.lines, {
+                opacity: 1,
+                y: 0,
+                duration: 0.25,
+                stagger: 0.025,
+                ease: "power3.out",
+                onComplete: resolve,
+              });
+            },
+          });
         });
 
-        const scrollPosition = Math.max(0, self.scroll() - viewportHeight);
-        const activeIndex = Math.floor(scrollPosition / scrollPerService);
+      const trigger = ScrollTrigger.create({
+        trigger: stickySection,
+        scroller,
+        start: "top top",
+        end: `${stickyHeight}px`,
+        pin: true,
+        invalidateOnRefresh: true,
+        onUpdate: async (self) => {
+          gsap.set(root.querySelector(".svx-progress"), {
+            scaleY: self.progress,
+          });
 
-        if (
-          activeIndex >= 0 &&
-          activeIndex < serviceEls.length &&
-          currentIndex !== activeIndex
-        ) {
-          currentIndex = activeIndex;
+          const scrollPosition = Math.max(0, self.scroll() - viewportHeight);
+          const activeIndex = Math.floor(scrollPosition / scrollPerService);
 
-          for (const service of serviceEls)
-            service.classList.remove("svx-active");
-          serviceEls[activeIndex].classList.add("svx-active");
+          if (
+            activeIndex >= 0 &&
+            activeIndex < serviceEls.length &&
+            currentIndex !== activeIndex
+          ) {
+            currentIndex = activeIndex;
 
-          await Promise.all([
-            gsap.to(indicator, {
-              y: activeIndex * serviceHeight,
-              width: serviceWidths[activeIndex],
-              duration: 0.3,
-              ease: "power3.inOut",
-              overwrite: true,
-            }),
-            gsap.to(serviceImg, {
-              y: -(activeIndex * imgHeight),
-              duration: 0.3,
-              ease: "power3.inOut",
-              overwrite: true,
-            }),
-            gsap.to(currentCount, {
-              innerText: activeIndex + 1,
-              snap: { innerText: 1 },
-              duration: 0.3,
-              ease: "power3.out",
-            }),
-            animateTextChange(activeIndex),
-          ]);
-        }
-      },
-    });
+            for (const service of serviceEls)
+              service.classList.remove("svx-active");
+            serviceEls[activeIndex].classList.add("svx-active");
 
-    ScrollTrigger.refresh();
+            await Promise.all([
+              gsap.to(indicator, {
+                y: activeIndex * serviceHeight,
+                width: serviceWidths[activeIndex],
+                duration: 0.3,
+                ease: "power3.inOut",
+                overwrite: true,
+              }),
+              gsap.to(serviceImg, {
+                y: -(activeIndex * imgHeight),
+                duration: 0.3,
+                ease: "power3.inOut",
+                overwrite: true,
+              }),
+              gsap.to(currentCount, {
+                innerText: activeIndex + 1,
+                snap: { innerText: 1 },
+                duration: 0.3,
+                ease: "power3.out",
+              }),
+              animateTextChange(activeIndex),
+            ]);
+          }
+        },
+      });
 
-    return () => {
-      trigger.kill();
-      currentSplitText.revert();
-      gsap.ticker.remove(tickerFn);
-      lenis.destroy();
-      gsap.killTweensOf([indicator, serviceImg, currentCount]);
-    };
+      ScrollTrigger.refresh();
+
+      return () => {
+        trigger.kill();
+        currentSplitText.revert();
+        gsap.ticker.remove(tickerFn);
+        lenis.destroy();
+        gsap.killTweensOf([indicator, serviceImg, currentCount]);
+      };
+    }
   }, [embedded, services, serviceHeight, imgHeight]);
 
   return (
     <div
       className={embedded ? "svx-root svx-embedded" : "svx-root"}
       ref={rootRef}
+      style={
+        {
+          "--svx-row": `${serviceHeight}px`,
+          "--svx-img": `${imgHeight}px`,
+        } as React.CSSProperties
+      }
     >
       <style>{styles}</style>
       <div className="svx-content">
@@ -396,7 +420,7 @@ const styles = `
   text-transform: uppercase;
   font-family: "Bungee", sans-serif;
   font-size: 30px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 18px;
   padding: 4px 2px 0 2px;
   background-color: #000;
@@ -428,7 +452,7 @@ const styles = `
   top: 0;
   left: 0;
   width: 100%;
-  height: 38px;
+  height: var(--svx-row);
   transform: translateY(0px);
   background-color: #000;
   z-index: 0;
@@ -437,16 +461,20 @@ const styles = `
 .svx-service {
   position: relative;
   width: max-content;
-  height: 38px;
+  height: var(--svx-row);
   z-index: 1;
 }
 
+/* The line box must equal the row box, or the glyphs sit lower than the row the
+   indicator is stepping through and the bar frames the label above the active
+   one. */
 .svx-service p {
   margin: 0;
   text-transform: uppercase;
   font-family: "Bungee", sans-serif;
   font-size: 60px;
-  font-weight: 600;
+  line-height: var(--svx-row);
+  font-weight: 400;
   color: #d5d5d5;
   transition: color 0.3s;
 }
@@ -458,7 +486,7 @@ const styles = `
 .svx-service-img-wrapper {
   position: relative;
   width: 60%;
-  height: 250px;
+  height: var(--svx-img);
   overflow: hidden;
   clip-path: polygon(50% 0%, 100% 0, 100% 85%, 90% 100%, 50% 100%, 0 100%, 0 0);
 }
@@ -471,7 +499,7 @@ const styles = `
 
 .svx-img {
   width: 100%;
-  height: 250px;
+  height: var(--svx-img);
 }
 
 .svx-service-copy {
@@ -524,7 +552,7 @@ const styles = `
 .svx-index span {
   font-family: "Bungee", sans-serif;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 12px;
   width: 12px;
   display: flex;
