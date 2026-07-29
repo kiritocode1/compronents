@@ -6249,6 +6249,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "checkout query",
               token: "PrismaPg({ connectionString })",
+              // node-postgres defaults connectionTimeoutMillis to 0, which means
+              // wait forever. The option is optional, so the type never asks
+              types: [
+                t.raw("unknown"),
+                t.raw("PrismaPg"),
+                t.raw("Promise<User[]>"),
+                t.raw("Promise<User[]>"),
+                t.raw("Promise<User[]>"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6261,6 +6271,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "response",
               error: "still waiting",
+              // no rejection type, because there is no timeout to reject with:
+              // the request just occupies its slot until the client gives up
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 3,
                 message: "no timeout, no error, no answer",
@@ -6290,6 +6310,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "checkout query",
               token: "connectionTimeoutMillis: 5000",
+              // the cap is stated, so exhaustion becomes a value that arrives on
+              // a schedule you chose rather than a hang you discover
+              types: [
+                t.raw("unknown"),
+                t.raw("PrismaPg"),
+                t.raw("Promise<User[]>"),
+                t.raw("ConnectionTimeoutError"),
+                t.raw("ConnectionTimeoutError"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6302,6 +6332,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "response",
               result: "failed fast, retried",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("{ status: 503 }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -6330,6 +6368,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "delete",
               token: "prisma.user.delete",
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<User>"),
+                t.raw("User"),
+                t.raw("User"),
+                t.raw("User"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6342,6 +6388,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "the row",
               error: "gone, no audit trail",
+              // delete returns the row it destroyed, which is the only copy that
+              // ever existed: after this call the value has no type anywhere
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("User"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "running", "death", "death", "idle"),
             },
           ],
@@ -6358,6 +6414,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "delete",
               token: "$allOperations",
+              // the extension intercepts at $allModels, so the rewrite is one
+              // rule rather than a convention every call site has to remember
+              types: [
+                t.raw("unknown"),
+                t.raw('{ model: "User"; operation: "delete" }'),
+                t.raw('{ operation: "update" }'),
+                t.raw("User"),
+                t.raw("User"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6370,6 +6436,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "the row",
               result: "hidden, kept",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("{ deletedAt: Date }"),
+                t.raw("User"),
+                t.raw("User"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -6382,6 +6456,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "audit",
               result: "who, what, when",
+              // the actor is bound when the client is built (prismaFor(actor)),
+              // so an audit row cannot be written without one
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("AuditActor"),
+                t.raw("AuditEntry"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
             },
           ],
@@ -6394,9 +6478,25 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "A sql fragment stays inert until an outer query consumes it, renumbering placeholders in traversal order, so optional filters compose safely.",
+    // a plain string, not a template: the displayed line is itself tagged
+    // template syntax, so the ${} here is neon's, not this file's
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: displayed source, not an interpolation
+    code: "const f = status ? sql`AND status = ${status}` : sql``; await sql`SELECT * FROM incidents ${f}`",
     nodes: [
       {
         label: "fragment",
+        token: "AND status = ",
+        // before 1.0.0 a fragment compiled eagerly and numbered its own $1, so
+        // nesting collided. Now it is inert until an outer query consumes it,
+        // which is what makes an optional filter a value instead of a string
+        types: [
+          t.raw("IncidentFilters"),
+          t.raw("SqlTemplate"),
+          t.raw("SqlTemplate"),
+          t.raw("SqlTemplate"),
+          t.raw("SqlTemplate"),
+          t.raw("IncidentFilters"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6409,6 +6509,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "query",
         result: "rows",
+        token: "SELECT * FROM incidents ",
+        // toParameterizedQuery walks the whole tree at query time and assigns
+        // $n in traversal order, so the nested fragment renumbers correctly
+        types: [
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("ParameterizedQuery"),
+          t.raw("IncidentRow[]"),
+          t.raw("IncidentRow[]"),
+          t.raw("unknown"),
+        ],
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
       },
     ],
@@ -6417,10 +6528,22 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "flow",
     caption:
       "withLock is a distributed compare-and-swap with an expireIn lease; candidates contend, one wins the lock, and the losers are held off rather than the lock wedging if the holder dies.",
+    code: `const lease: Lease | null = await tryAcquire(kv, name, { ttlMs })`,
     nodes: [
       {
         label: "node A",
         result: "👑 leader",
+        token: "tryAcquire(kv, name, { ttlMs })",
+        // the versionstamp is the whole mechanism: the atomic check writes only
+        // if the value has not moved, so exactly one caller can win
+        types: [
+          t.raw("unknown"),
+          t.raw("Promise<Lease | null>"),
+          t.raw("Lease"),
+          t.raw("{ versionstamp: string }"),
+          t.raw("{ versionstamp: string }"),
+          t.raw("unknown"),
+        ],
         notify: { atStep: 2, message: "lease acquired", icon: "👑" },
         states: s(
           "idle",
@@ -6434,6 +6557,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "node B",
         error: "held",
+        token: "Lease | null",
+        // null is the honest answer for a loser, and it is in the return type,
+        // so a caller cannot treat a failed acquisition as a held lock
+        types: [
+          t.raw("unknown"),
+          t.raw("Promise<Lease | null>"),
+          t.raw("null"),
+          t.raw("null"),
+          t.raw("null"),
+          t.raw("unknown"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6446,6 +6580,14 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "node C",
         error: "held",
+        types: [
+          t.raw("unknown"),
+          t.raw("Promise<Lease | null>"),
+          t.raw("null"),
+          t.raw("null"),
+          t.raw("null"),
+          t.raw("unknown"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6462,9 +6604,21 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "Every table is one KV document streamed over SSE via kv.watch; a client disconnect cancels the watch through stream teardown, no bookkeeping.",
+    code: `if (cur.versionstamp !== m.expect) return conflict(); kv.watch([tableKey(name)])`,
     nodes: [
       {
         label: "mutate",
+        token: "cur.versionstamp !== m.expect",
+        // the caller sends the versionstamp it read, so a stale write is a
+        // comparison rather than a lost update discovered later
+        types: [
+          t.raw("Mutation"),
+          t.raw("Deno.KvEntryMaybe<TableDoc>"),
+          t.raw("string | null"),
+          t.raw("TableDoc"),
+          t.raw("TableDoc"),
+          t.raw("Mutation"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6477,6 +6631,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "subscribers",
         result: "🔄 synced",
+        token: "kv.watch([tableKey(name)])",
+        // watch is a ReadableStream, so fan-out is the runtime's job: every
+        // subscriber gets the same typed doc without a broadcast list to keep
+        types: [
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("ReadableStream<[KvEntryMaybe<TableDoc>]>"),
+          t.raw("TableDoc"),
+          t.raw("TableDoc"),
+          t.raw("unknown"),
+        ],
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
       },
     ],
@@ -6485,10 +6650,20 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "flow",
     caption:
       "A plugin runs in a child process under the permission model; a whitelisted read succeeds, an out-of-scope write gets ERR_ACCESS_DENIED.",
+    code: `spawn(node, ["--permission", "--allow-fs-read", dir]) // deniedPermission on refusal`,
     nodes: [
       {
         label: "read data",
         result: "ok",
+        token: "--allow-fs-read",
+        types: [
+          t.raw("SandboxOptions"),
+          t.raw("Promise<SandboxOutcome>"),
+          t.raw("{ ok: true }"),
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("SandboxOptions"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6501,6 +6676,18 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "write /etc",
         error: "DENIED",
+        token: "deniedPermission",
+        // the denial is a field on the outcome, not a thrown error, so the
+        // caller reads WHICH permission was refused instead of parsing stderr.
+        // `result?: unknown` is the honest part: plugin output is untrusted
+        types: [
+          t.raw("SandboxOptions"),
+          t.raw("Promise<SandboxOutcome>"),
+          t.raw("SandboxOutcome"),
+          t.raw('{ ok: false; deniedPermission: "FileSystemWrite" }'),
+          t.raw('"FileSystemWrite"'),
+          t.raw("SandboxOptions"),
+        ],
         states: s("idle", "running", "running", "failed", "failed", "idle"),
       },
     ],
@@ -6510,9 +6697,21 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "Requests are observed from outside through Node's diagnostics channels, so there is no instrumentation code in the handlers at all.",
+    code: `subscribe("http.server.request.start", (msg) => store.enterWith(randomUUID()))`,
     nodes: [
       {
         label: "request",
+        token: "http.server.request.start",
+        // the app is not instrumented at all: the channel name is the seam, so
+        // a handler's own types never mention tracing
+        types: [
+          t.raw("IncomingMessage"),
+          t.raw("{ request: IncomingMessage }"),
+          t.raw("string"),
+          t.raw("string"),
+          t.raw("string"),
+          t.raw("IncomingMessage"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6525,6 +6724,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "channel",
         result: "traced",
+        token: "subscribe",
+        // AsyncLocalStorage carries the id into every async continuation, so
+        // the correlation type survives awaits without being threaded by hand
+        types: [
+          t.raw("unknown"),
+          t.raw("AsyncLocalStorage<string>"),
+          t.raw("string"),
+          t.raw("string"),
+          t.raw("{ traceId: string; durationMs: number }"),
+          t.raw("unknown"),
+        ],
         states: s(
           "idle",
           "running",
@@ -6543,6 +6753,7 @@ export const backendViz: Record<string, VizEntry> = {
         name: "healthy",
         spec: {
           archetype: "flow",
+          code: `.action<[string], string>({ name: "run", args: [subject] })`,
           arrowBefore: 1,
           caption:
             "One dynamic definition backs every workspace; the load hook resolves the tenant's actor source per key and it runs inside a memory-capped Node process.",
@@ -6550,6 +6761,17 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "load",
               result: "source",
+              token: 'name: "run"',
+              // a dynamic actor has no compile time action map, so the name is
+              // just a string: nothing checks it resolves until the call lands
+              types: [
+                t.raw("string"),
+                t.raw("ActorHandle"),
+                t.raw('"run"'),
+                t.raw('"run"'),
+                t.raw('"run"'),
+                t.raw("string"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6562,6 +6784,18 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "isolate",
               result: "sandboxed",
+              token: "action<[string], string>",
+              // the two generics are an ASSERTION about source loaded at
+              // runtime, not a check of it: this is the escape hatch, and it
+              // is worth showing that the safety here is a promise, not a proof
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<string>"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -6578,6 +6812,7 @@ export const backendViz: Record<string, VizEntry> = {
         name: "oom kill",
         spec: {
           archetype: "flow",
+          code: `.action<[string], string>({ name: "run", args: [subject] })`,
           arrowBefore: 1,
           caption:
             "A tenant that leaks memory hits the process cap and dies alone: the runtime kills that isolate instead of the host, and the other workspaces never notice.",
@@ -6585,6 +6820,15 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "load",
               result: "source",
+              token: 'name: "run"',
+              types: [
+                t.raw("string"),
+                t.raw("ActorHandle"),
+                t.raw('"run"'),
+                t.raw('"run"'),
+                t.raw('"run"'),
+                t.raw("string"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6597,6 +6841,18 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "isolate",
               error: "OOM killed",
+              token: "action<[string], string>",
+              // the asserted return type was string. The isolate died instead,
+              // and no generic could have predicted that, which is exactly the
+              // ceiling of asserting a contract you did not compile against
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<string>"),
+                t.raw("Promise<string>"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "running", "running", "death", "idle"),
             },
           ],
@@ -6618,6 +6874,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "rename + build",
               token: "PUBLIC_STRIPE_KEY",
+              // visibility is inferred from a PREFIX, so a secret and a public
+              // key have the identical type: string
+              types: [
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6630,6 +6896,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "client bundle",
               error: "secret shipped to browsers",
+              // nothing in the type system was consulted: renaming the variable
+              // moved it across a trust boundary and the build agreed
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 2,
                 message: "view-source shows the key",
@@ -6653,6 +6929,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "manifest",
               result: "server-only, enforced",
               token: 'visibility: "server"',
+              // visibility is a declared literal, so "can the client import
+              // this" is a property of the value rather than of its name
+              types: [
+                t.raw("EnvVarDeclaration"),
+                t.raw('{ visibility: "server" }'),
+                t.raw('"server"'),
+                t.raw('"server"'),
+                t.raw('"server"'),
+                t.raw("EnvVarDeclaration"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -6665,6 +6951,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "client bundle",
               result: "no secrets",
+              // the client half is a narrower record, so a server-only import
+              // from client code is a build error, not a shipped secret
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw('Record<"publicKey", string>'),
+                t.raw('Record<"publicKey", string>'),
+                t.raw('Record<"publicKey", string>'),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -6752,6 +7048,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "1 batch",
               result: "[p1 ... p20]",
               token: "query.batch",
+              // one invocation returns the whole page, and the per-call getter
+              // still hands each caller its own ComponentStats
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<ComponentStats[]>"),
+                t.raw("ComponentStats[]"),
+                t.raw("ComponentStats"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
