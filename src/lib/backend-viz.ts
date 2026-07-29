@@ -1107,9 +1107,11 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "A consistent-hash ring places cold keys; a key that crosses a frequency threshold splits by power-of-two-choices and dispatches to the shallower of two shards, so one hot key spreads across workers instead of drowning one.",
+    code: `const id = yield* chooseShard(router, key); yield* Queue.offer(shards[id].queue, job)`,
     nodes: [
       {
         label: "hot key",
+        token: "chooseShard(router, key)",
         states: s(
           "idle",
           "running",
@@ -1118,16 +1120,43 @@ export const backendViz: Record<string, VizEntry> = {
           "completed",
           "idle",
         ),
+        // routing narrows: a job, then two ring probes, then the one shard id
+        types: [
+          t.raw("Job"),
+          t.raw("Effect<number>"),
+          t.raw("[number, number]"),
+          t.raw("number"),
+          t.raw("number"),
+          t.raw("Job"),
+        ],
       },
       {
         label: "shard 1",
         result: "half",
+        token: "shards[id].queue",
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
+        types: [
+          t.raw("Queue<Job>"),
+          t.raw("Queue<Job>"),
+          t.raw("Effect<boolean>"),
+          t.raw("boolean"),
+          t.raw("boolean"),
+          t.raw("Queue<Job>"),
+        ],
       },
       {
         label: "shard 4",
         result: "half",
+        token: "Queue.offer",
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
+        types: [
+          t.raw("Queue<Job>"),
+          t.raw("Queue<Job>"),
+          t.raw("Effect<boolean>"),
+          t.raw("boolean"),
+          t.raw("boolean"),
+          t.raw("Queue<Job>"),
+        ],
       },
     ],
   },
@@ -1155,6 +1184,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // never in the error channel is the bug: the type says this write
+              // cannot be refused, so a lost lease has nowhere to show up
+              types: [
+                t.raw("Effect<void, never>"),
+                t.raw("Effect<void, never>"),
+                t.raw("Effect<void, never>"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("Effect<void, never>"),
+              ],
             },
           },
         },
@@ -1174,6 +1213,16 @@ export const backendViz: Record<string, VizEntry> = {
               token: "token < highest",
               states: s("idle", "idle", "idle", "failed", "idle", "idle"),
               error: "fenced out",
+              // the same write, now with StaleLeader in the error channel: the
+              // rejection is part of the contract, not a race the caller wins
+              types: [
+                t.raw("Effect<void, StaleLeader>"),
+                t.raw("Effect<void, StaleLeader>"),
+                t.raw("Effect<void, StaleLeader>"),
+                t.raw("StaleLeader"),
+                t.raw("Effect<void, StaleLeader>"),
+                t.raw("Effect<void, StaleLeader>"),
+              ],
             },
           },
         },
@@ -1198,12 +1247,20 @@ export const backendViz: Record<string, VizEntry> = {
                 result: "row saved",
                 token: "db.insert(order)",
                 states: s("running", "completed", "completed"),
+                types: [t.raw("Effect<void>"), t.raw("void")],
               },
               {
                 label: "publish",
                 error: "event lost forever",
                 token: "bus.publish(event)",
+                // two effects, two types, nothing binding them: the publish is
+                // declared unfailable and the process death is outside the type
                 states: s("idle", "running", "death"),
+                types: [
+                  t.raw("OutboxEntry"),
+                  t.raw("Effect<void, never>"),
+                  t.raw("never"),
+                ],
               },
             ],
             segments: [
@@ -1227,7 +1284,15 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "row + outbox",
                 result: "committed together",
                 token: "rows, outbox",
+                // one Ref.update, so the row and its event share one type and
+                // the pending entries are what survives the crash
                 states: s("running", "completed", "completed", "completed"),
+                types: [
+                  t.raw("Effect<void>"),
+                  t.raw("SourceState"),
+                  t.raw("readonly OutboxEntry[]"),
+                  t.raw("readonly OutboxEntry[]"),
+                ],
               },
               {
                 label: "replicator",
@@ -1238,6 +1303,12 @@ export const backendViz: Record<string, VizEntry> = {
                   icon: "📤",
                 },
                 states: s("idle", "interrupted", "running", "completed"),
+                types: [
+                  t.raw("Ref<number>"),
+                  t.raw("Effect<void>"),
+                  t.raw("OutboxEntry"),
+                  t.raw("void"),
+                ],
               },
             ],
             segments: [
@@ -1284,6 +1355,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("Effect<string, CardDeclined>"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("Effect<string, CardDeclined>"),
+              ],
             },
             challenger: {
               label: "timeout retry",
@@ -1295,6 +1374,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the retry's type is a SECOND, independent Effect: nothing in it
+              // refers to the first run, so nothing can stop it re-executing
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<string, CardDeclined>"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("unknown"),
+              ],
             },
           },
         },
@@ -1321,6 +1410,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the winner's result stops being a return value and becomes a
+              // stored slot, which is what a duplicate can find
+              types: [
+                t.raw("Effect<string, CardDeclined>"),
+                t.raw("string"),
+                t.raw('{ _tag: "Completed"; value: string }'),
+                t.raw('{ _tag: "Completed"; value: string }'),
+                t.raw('{ _tag: "Completed"; value: string }'),
+                t.raw("Effect<string, CardDeclined>"),
+              ],
             },
             challenger: {
               label: "timeout retry",
@@ -1333,6 +1432,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the duplicate holds a Deferred, not an Effect: its type has no
+              // way to run the charge, only to await the run that already won
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Deferred<string, CardDeclined>"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("unknown"),
+              ],
             },
           },
         },
@@ -1364,6 +1473,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "running",
                 "failed",
               ),
+              // one effect, one fiber, and it stays one fiber for 400ms: there
+              // is no second branch anywhere in this type to answer sooner
+              types: [
+                t.raw("Effect<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("string"),
+              ],
             },
             {
               label: "user",
@@ -1381,6 +1500,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "running",
                 "failed",
               ),
+              types: [
+                t.raw("unknown"),
+                t.raw("Effect<string>"),
+                t.raw("Effect<string>"),
+                t.raw("Effect<string>"),
+                t.raw("Effect<string>"),
+                t.raw("string"),
+              ],
             },
           ],
         },
@@ -1406,6 +1533,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "interrupted",
                 "idle",
               ),
+              // raceFirst interrupts the loser, so the straggler's fiber ends up
+              // producing never: not a slow value, no value at all
+              types: [
+                t.raw("Effect<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("Effect<string>"),
+              ],
             },
             {
               label: "hedge @p95",
@@ -1419,6 +1556,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("Effect<string>"),
+                t.raw("Effect<string>"),
+                t.raw("Fiber<string>"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("Effect<string>"),
+              ],
             },
             {
               label: "user",
@@ -1431,6 +1576,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("unknown"),
+                t.raw("Effect<string>"),
+                t.raw("Effect<string>"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },
@@ -1469,12 +1622,32 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the commit LSN exists for one step and then nothing holds it,
+              // so the next read has no idea where this session wrote
+              types: [
+                t.raw("Effect<number>"),
+                t.raw("number"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<number>"),
+              ],
             },
             challenger: {
               label: "reload",
               token: "db.replica.select",
               error: "shows v1",
               states: s("idle", "idle", "running", "failed", "idle", "idle"),
+              // a Row is a Row: the type is identical whether the replica has
+              // applied LSN 4 or is still three writes behind
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<Row | undefined>"),
+                t.raw("Row | undefined"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+              ],
             },
           },
         },
@@ -1500,6 +1673,15 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the same LSN, kept: it becomes this session's mark
+              types: [
+                t.raw("Effect<number>"),
+                t.raw("number"),
+                t.raw("Map<string, number>"),
+                t.raw("Map<string, number>"),
+                t.raw("Map<string, number>"),
+                t.raw("Effect<number>"),
+              ],
             },
             challenger: {
               label: "reload",
@@ -1512,6 +1694,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the answer now names its own source, so "which copy served me"
+              // is a field you can read instead of a guess
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<{ target: string; row: Row | undefined }>"),
+                t.raw("{ target: string; row: Row }"),
+                t.raw("{ target: string; row: Row }"),
+                t.raw("unknown"),
+              ],
             },
           },
         },
@@ -1542,12 +1734,26 @@ export const backendViz: Record<string, VizEntry> = {
                   icon: "📦",
                 },
                 states: s("running", "running", "death", "death"),
+                types: [
+                  t.raw("Effect<void>"),
+                  t.raw("void"),
+                  t.raw("never"),
+                  t.raw("never"),
+                ],
               },
               {
                 label: "monitor",
                 token: "evict",
                 error: "false positive",
                 states: s("running", "running", "failed", "failed"),
+                // a boolean has two inhabitants and no room for "late": the
+                // verdict IS the type, so congestion can only read as death
+                types: [
+                  t.raw("Effect<boolean>"),
+                  t.raw("boolean"),
+                  t.raw("false"),
+                  t.raw("false"),
+                ],
               },
             ],
             segments: [
@@ -1570,9 +1776,18 @@ export const backendViz: Record<string, VizEntry> = {
             nodes: [
               {
                 label: "node-7",
-                token: "node",
+                token: "silence",
                 result: "survived congestion",
                 states: s("running", "running", "running", "running", "death"),
+                // each arrival feeds the learned window rather than resetting a
+                // countdown, so the node's own rhythm is what it is judged by
+                types: [
+                  t.raw("Effect<void>"),
+                  t.raw("Window"),
+                  t.raw("Window"),
+                  t.raw("Window"),
+                  t.raw("never"),
+                ],
               },
               {
                 label: "phi",
@@ -1584,6 +1799,15 @@ export const backendViz: Record<string, VizEntry> = {
                   icon: "🫀",
                 },
                 states: s("running", "running", "running", "running", "failed"),
+                // the verdict is derived from a number instead of being the
+                // whole detector, so "suspicious" is a value the type can hold
+                types: [
+                  t.raw("Effect<number>"),
+                  t.raw("number"),
+                  t.raw("{ phi: number; alive: true }"),
+                  t.raw("{ phi: number; alive: true }"),
+                  t.raw("{ phi: number; alive: false }"),
+                ],
               },
             ],
             segments: [
@@ -1624,6 +1848,18 @@ export const backendViz: Record<string, VizEntry> = {
                 "running",
                 "completed",
               ),
+              // initiate hands back an uploadId, each part an etag, and only
+              // complete() turns the collected etags into a stored object
+              types: [
+                t.raw("Effect<string>"),
+                t.raw("string"),
+                t.raw("Effect<string, PartUploadFailed>"),
+                t.raw("Effect<string, PartUploadFailed>"),
+                t.raw("readonly string[]"),
+                t.raw("Effect<void>"),
+                t.raw("Effect<void>"),
+                t.raw("{ uploadId: string; uploadedNow: number }"),
+              ],
             },
             finalizers: [
               {
@@ -1643,11 +1879,12 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "scope",
           caption:
             "Part 4 dies with no retries left and the whole session fails, but failing IS an exit path, so the release runs: abort tells the store to free every uploaded part. Without it, those parts sit invisible in the bucket listing and very visible on the invoice, forever.",
-          code: `abort(uploadId) // ran because the scope closed, not because someone remembered`,
+          code: `Effect.all(parts.map(uploadOne)); abort(uploadId) // the scope closes on every exit path`,
           scope: {
             mode: "scope",
             node: {
               label: "video.mp4 (8 parts)",
+              token: "Effect.all(parts.map(uploadOne))",
               error: "part 4 failed",
               notify: {
                 atStep: 4,
@@ -1662,6 +1899,13 @@ export const backendViz: Record<string, VizEntry> = {
                 "failed",
                 "failed",
               ),
+              // PartUploadFailed is in the error channel, so the exit path that
+              // frees the parts is part of the signature, not a finally block
+              types: [
+                t.raw("Effect<string>"),
+                t.raw("Effect<string, PartUploadFailed>"),
+                t.raw("PartUploadFailed"),
+              ],
             },
             finalizers: [
               {
@@ -1694,18 +1938,32 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "commit offset 1",
                 token: "commit(offset)",
                 result: "acknowledged",
+                // void is the entire contract: the acknowledgement cannot say
+                // whether the work behind it ever happened
                 states: s("running", "completed", "completed", "completed"),
+                types: [t.raw("Effect<void>"), t.raw("void")],
               },
               {
                 label: "apply pay-102",
                 token: "apply(msg)",
                 error: "$250 never lands",
                 states: s("idle", "running", "death", "death"),
+                types: [
+                  t.raw("Message"),
+                  t.raw("Effect<void>"),
+                  t.raw("never"),
+                ],
               },
               {
                 label: "restart",
                 error: "resumes at offset 2",
                 states: s("idle", "idle", "idle", "failed"),
+                types: [
+                  t.raw("unknown"),
+                  t.raw("unknown"),
+                  t.raw("unknown"),
+                  t.raw("readonly Message[]"),
+                ],
               },
             ],
             segments: [
@@ -1730,7 +1988,10 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "apply pay-102",
                 token: "applyOnce(id)",
                 result: "balance +250",
+                // applyOnce returns whether THIS call applied it, so the answer
+                // the losing variant threw away is now in the type
                 states: s("running", "completed", "completed", "completed"),
+                types: [t.raw("Effect<boolean>"), t.raw("true")],
               },
               {
                 label: "redelivery",
@@ -1742,6 +2003,12 @@ export const backendViz: Record<string, VizEntry> = {
                   icon: "🧾",
                 },
                 states: s("idle", "interrupted", "running", "completed"),
+                types: [
+                  t.raw("unknown"),
+                  t.raw("CrashMidProcess"),
+                  t.raw("Effect<boolean>"),
+                  t.raw("false"),
+                ],
               },
             ],
             segments: [
@@ -1772,12 +2039,20 @@ export const backendViz: Record<string, VizEntry> = {
                 label: "invoice.paid",
                 token: "fetch(url",
                 error: "dropped silently",
+                // fetch promises a Response and says nothing about a 503, so
+                // the dropped event has no type to show up in
                 states: s("running", "death", "death"),
+                types: [
+                  t.raw("Promise<Response>"),
+                  t.raw("never"),
+                  t.raw("never"),
+                ],
               },
               {
                 label: "endpoint",
                 error: "503 mid-deploy",
                 states: s("failed", "failed", "completed"),
+                types: [t.raw("503"), t.raw("503"), t.raw("200")],
               },
             ],
             segments: [
@@ -1810,6 +2085,17 @@ export const backendViz: Record<string, VizEntry> = {
                   "running",
                   "completed",
                 ),
+                // the type alternates between the attempt and the schedule that
+                // decides when to make the next one, until the error is gone
+                types: [
+                  t.raw("Effect<void, DeliveryFailed>"),
+                  t.raw("Schedule<Duration>"),
+                  t.raw("Effect<void, DeliveryFailed>"),
+                  t.raw("Schedule<Duration>"),
+                  t.raw("Effect<void, DeliveryFailed>"),
+                  t.raw("Effect<void>"),
+                  t.raw("void"),
+                ],
               },
               {
                 label: "endpoint",
@@ -1829,6 +2115,15 @@ export const backendViz: Record<string, VizEntry> = {
                   "completed",
                   "completed",
                 ),
+                types: [
+                  t.raw("503"),
+                  t.raw("503"),
+                  t.raw("503"),
+                  t.raw("503"),
+                  t.raw("Effect<number>"),
+                  t.raw("200"),
+                  t.raw("true"),
+                ],
               },
             ],
             segments: [
@@ -1857,6 +2152,13 @@ export const backendViz: Record<string, VizEntry> = {
                 token: "event",
                 error: "4 attempts, all 500",
                 states: s("running", "running", "running", "running", "failed"),
+                types: [
+                  t.raw("Effect<void, DeliveryFailed>"),
+                  t.raw("Schedule<Duration>"),
+                  t.raw("Effect<void, DeliveryFailed>"),
+                  t.raw("Schedule<Duration>"),
+                  t.raw("DeliveryFailed"),
+                ],
               },
               {
                 label: "dead letters",
@@ -1867,7 +2169,16 @@ export const backendViz: Record<string, VizEntry> = {
                   message: "kept with attempt history",
                   icon: "📮",
                 },
+                // exhaustion lands in a typed queue, so the failure is a value
+                // an operator can read and replay instead of a log line
                 states: s("idle", "idle", "idle", "idle", "completed"),
+                types: [
+                  t.raw("Queue<DeadLetter>"),
+                  t.raw("Queue<DeadLetter>"),
+                  t.raw("Queue<DeadLetter>"),
+                  t.raw("Queue<DeadLetter>"),
+                  t.raw("readonly DeadLetter[]"),
+                ],
               },
             ],
             segments: [
@@ -2771,6 +3082,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the point coordinate becomes one base32 prefix, and that prefix
+              // is the only bucket this lookup will ever open
+              types: [
+                t.raw("Place"),
+                t.raw('"dr5rsr"'),
+                t.raw("Map<string, Place> | undefined"),
+                t.raw("Map<string, Place>"),
+                t.raw("Map<string, Place>"),
+                t.raw("Place"),
+              ],
             },
             {
               label: "ramen @122m",
@@ -2788,6 +3109,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "failed",
                 "idle",
               ),
+              // undefined is a legal member of the lookup type, so the miss is
+              // indistinguishable from an empty cell: nothing to catch
+              types: [
+                t.raw("Place"),
+                t.raw('"dr5ru2"'),
+                t.raw("undefined"),
+                t.raw("undefined"),
+                t.raw("undefined"),
+                t.raw("Place"),
+              ],
             },
             {
               label: "results",
@@ -2800,6 +3131,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "failed",
                 "idle",
               ),
+              types: [
+                t.raw("unknown"),
+                t.raw("Place[]"),
+                t.raw("Place[]"),
+                t.raw("readonly (Place & { distanceMeters: number })[]"),
+                t.raw("readonly (Place & { distanceMeters: number })[]"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },
@@ -2825,6 +3164,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // one cell becomes nine, so the boundary is inside the candidate
+              // set instead of outside the query
+              types: [
+                t.raw("Place"),
+                t.raw("readonly string[]"),
+                t.raw("Place[]"),
+                t.raw("Place[]"),
+                t.raw("Place[]"),
+                t.raw("Place"),
+              ],
             },
             {
               label: "haversine filter",
@@ -2838,6 +3187,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the measured distance joins the row here: correctness is a
+              // number on the value, not a property of the grid
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("(Place & { distanceMeters: number })[]"),
+                t.raw("(Place & { distanceMeters: number })[]"),
+                t.raw("(Place & { distanceMeters: number })[]"),
+                t.raw("unknown"),
+              ],
             },
             {
               label: "results",
@@ -2850,6 +3209,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // identical to the single-cell variant's return type: the
+              // contract cannot tell you a row is missing, only the covering can
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Place[]"),
+                t.raw("readonly (Place & { distanceMeters: number })[]"),
+                t.raw("readonly (Place & { distanceMeters: number })[]"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },
@@ -2867,11 +3236,13 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "ref",
           caption:
             "Under steady traffic the sliding window refills as fast as it drains; every request passes and the budget hovers, consistent across isolates and regions.",
+          code: `const decision = await checkRateLimit({ kv, limit: 5, windowMs }, ip)`,
           ref: {
             label: "window budget",
             values: [5, 4, 4, 5, 4, 5],
             request: {
               label: "request",
+              token: "checkRateLimit",
               states: s(
                 "idle",
                 "completed",
@@ -2881,6 +3252,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "idle",
               ),
               result: "pass",
+              // the atomic sum mutation is what the decision is computed from:
+              // a KvU64 the whole fleet increments, not a per-isolate number
+              types: [
+                t.raw("Request"),
+                t.raw("Deno.KvU64"),
+                t.raw("RateLimitDecision"),
+                t.raw("{ allowed: true; remaining: number }"),
+                t.raw("Response"),
+                t.raw("Request"),
+              ],
             },
           },
         },
@@ -2891,11 +3272,13 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "ref",
           caption:
             "A burst drains the window to zero; each increment is atomic in KV, so the over-limit request is rejected with 429 on the real count, not a stale one.",
+          code: `if (!decision.allowed) return new Response(body, { status: 429 })`,
           ref: {
             label: "window budget",
             values: [5, 3, 1, 0, 0, 5],
             request: {
               label: "request",
+              token: "decision.allowed",
               states: s(
                 "idle",
                 "completed",
@@ -2906,6 +3289,16 @@ export const backendViz: Record<string, VizEntry> = {
               ),
               result: "pass",
               error: "429",
+              // same decision type as the steady variant, opposite branch: the
+              // rejection is a field on a value the increment already produced
+              types: [
+                t.raw("Request"),
+                t.raw("Deno.KvU64"),
+                t.raw("RateLimitDecision"),
+                t.raw("{ allowed: false; resetSeconds: number }"),
+                t.raw("Response"),
+                t.raw("Request"),
+              ],
             },
           },
         },
@@ -2936,6 +3329,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("Promise<number | null>"),
+                t.raw("number | null"),
+                t.raw("4"),
+                t.raw("4"),
+                t.raw("4"),
+                t.raw("Promise<number | null>"),
+              ],
             },
             {
               label: "attempt B",
@@ -2949,12 +3350,32 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the second reader resolves to the same literal as the first:
+              // two callers, one count, and no type says they raced
+              types: [
+                t.raw("Promise<number | null>"),
+                t.raw("number | null"),
+                t.raw("4"),
+                t.raw("4"),
+                t.raw("4"),
+                t.raw("Promise<number | null>"),
+              ],
             },
             {
               label: "limit",
               error: "6 of 5 admitted",
               token: "set(key, n + 1)",
               states: s("idle", "idle", "running", "failed", "failed", "idle"),
+              // the write reports void, so the storage cannot tell the caller
+              // that someone else already wrote the same 5
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<void>"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },
@@ -2982,6 +3403,17 @@ export const backendViz: Record<string, VizEntry> = {
               ),
               result: "ok",
               error: "429",
+              // eval hands back unknown, the storage validates it into the
+              // count and TTL pair, and consume returns one decision: there is
+              // no read the caller could act on before the write happened
+              types: [
+                t.raw("Promise<unknown>"),
+                t.raw("[count: number, ttlMs: number]"),
+                t.raw("{ allowed: true; retryAfter: null }"),
+                t.raw("{ allowed: false; retryAfter: number }"),
+                t.raw("{ allowed: false; retryAfter: number }"),
+                t.raw("Promise<unknown>"),
+              ],
             },
           },
         },
@@ -2992,11 +3424,13 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "ref",
     caption:
       "One Durable Object per API key holds a strongly consistent token bucket in DO SQLite; the fronting Worker calls take() over RPC, and an exhausted bucket rejects until it refills.",
+    code: `const verdict = await env.LIMITER.getByName(apiKey).take(1)`,
     ref: {
       label: "token bucket",
       values: [6, 4, 2, 0, 3, 6],
       request: {
         label: "take()",
+        token: "take(1)",
         states: s(
           "idle",
           "completed",
@@ -3007,6 +3441,16 @@ export const backendViz: Record<string, VizEntry> = {
         ),
         result: "ok",
         error: "empty",
+        // the namespace is generic over the class, so take() is a typed method
+        // call rather than a fetch whose response shape nobody checks
+        types: [
+          t.raw("DurableObjectNamespace<TokenBucket>"),
+          t.raw("DurableObjectStub<TokenBucket>"),
+          t.raw("Verdict"),
+          t.raw("{ allowed: false; resetSeconds: number }"),
+          t.raw("{ allowed: true; remaining: number }"),
+          t.raw("DurableObjectNamespace<TokenBucket>"),
+        ],
       },
     },
   },
@@ -3044,6 +3488,17 @@ export const backendViz: Record<string, VizEntry> = {
                 "idle",
               ),
               result: "missing row",
+              // getBookmark() is nullable and the redirect dropped it, so the
+              // anchor collapses to the constraint literal that permits a
+              // lagging replica, and the read still type-checks perfectly
+              types: [
+                t.raw("D1SessionBookmark | null"),
+                t.raw("null"),
+                t.raw('"first-unconstrained"'),
+                t.raw("D1Result<Note>"),
+                t.raw("Note[]"),
+                t.raw("D1SessionBookmark | null"),
+              ],
             },
           },
         },
@@ -3070,6 +3525,17 @@ export const backendViz: Record<string, VizEntry> = {
                 "idle",
               ),
               result: "row present",
+              // the null is discharged before the session opens, so the anchor
+              // is a real version rather than a constraint, and the same
+              // D1Result comes back with the row in it
+              types: [
+                t.raw("D1SessionBookmark | null"),
+                t.raw("D1SessionBookmark"),
+                t.raw("D1DatabaseSession"),
+                t.raw("D1Result<Note>"),
+                t.raw("Note[]"),
+                t.raw("D1SessionBookmark | null"),
+              ],
             },
           },
         },
@@ -3087,11 +3553,13 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "scope",
           caption:
             "A long-lived SSE endpoint opens on Fluid compute; when the stream ends, the finally block unregisters the listener and closes the stream in reverse open order.",
+          code: `try { await producer(send) } finally { stopHeartbeat(); controller.close() }`,
           scope: {
             mode: "scope",
             node: {
               label: "stream",
               result: "closed",
+              token: "controller.close()",
               states: s(
                 "running",
                 "running",
@@ -3100,6 +3568,17 @@ export const backendViz: Record<string, VizEntry> = {
                 "running",
                 "completed",
               ),
+              // desiredSize is the nullable middle of this: a number while the
+              // consumer is reading, null once the stream is gone, which is
+              // what turns enqueue's buffering into real backpressure
+              types: [
+                t.raw("ReadableStream<Uint8Array>"),
+                t.raw("Send"),
+                t.raw("SseEvent"),
+                t.raw("number | null"),
+                t.raw("() => void"),
+                t.raw("void"),
+              ],
             },
             finalizers: [
               { label: "open stream", states: sc(...ACQ2_A) },
@@ -3114,10 +3593,12 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "scope",
           caption:
             "A client that disconnects mid-stream triggers the same finally path: the listener unregisters and the stream releases, so a shared Fluid instance never leaks the subscription to the next request.",
+          code: `finally { stopHeartbeat(); waitUntil(persist(partial)) } // abort lands here too`,
           scope: {
             mode: "scope",
             node: {
               label: "stream",
+              token: "stopHeartbeat()",
               states: s(
                 "running",
                 "running",
@@ -3126,6 +3607,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "interrupted",
                 "interrupted",
               ),
+              // the abort path reaches the same stop function and the same
+              // void: an interrupted stream releases exactly like a closed one
+              types: [
+                t.raw("ReadableStream<Uint8Array>"),
+                t.raw("Send"),
+                t.raw("AbortSignal"),
+                t.raw("true"),
+                t.raw("() => void"),
+                t.raw("void"),
+              ],
             },
             finalizers: [
               { label: "open stream", states: sc(...ACQ2_A) },
@@ -3145,11 +3636,13 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "scope",
           caption:
             "pg_advisory_xact_lock is transaction-scoped: the lock is acquired inside the job's transaction and released when it commits, no matched unlock call to forget.",
+          code: `await withJobLock(client, hashLockKey("rebuild-report"), work)`,
           scope: {
             mode: "scope",
             node: {
               label: "job",
               result: "done",
+              token: "withJobLock",
               states: s(
                 "running",
                 "running",
@@ -3158,6 +3651,17 @@ export const backendViz: Record<string, VizEntry> = {
                 "running",
                 "completed",
               ),
+              // a job name is hashed into the full signed 64-bit space the
+              // bigint overload accepts, then the work's own type comes back
+              // out untouched: the lock is not in the return type at all
+              types: [
+                t.raw("JobLockKey"),
+                t.raw("bigint"),
+                t.raw("Promise<T>"),
+                t.raw("Promise<T>"),
+                t.raw("T"),
+                t.raw("T"),
+              ],
             },
             finalizers: [
               { label: "begin transaction", states: sc(...ACQ2_A) },
@@ -3172,11 +3676,13 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "scope",
           caption:
             "A worker that dies mid-job aborts the transaction, and the xact-scoped lock releases with it, so the crash never strands a lock on a pooled connection the way a session-level lock would.",
+          code: `await client.query("ROLLBACK").catch(() => {}); throw error`,
           scope: {
             mode: "scope",
             node: {
               label: "job",
               error: "worker crashed",
+              token: 'client.query("ROLLBACK")',
               states: s(
                 "running",
                 "running",
@@ -3185,6 +3691,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "death",
                 "death",
               ),
+              // the same key, and then no T ever arrives: the error is rethrown
+              // unchanged and the lock still goes back with the transaction
+              types: [
+                t.raw("JobLockKey"),
+                t.raw("bigint"),
+                t.raw("Promise<T>"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("never"),
+              ],
             },
             finalizers: [
               { label: "begin transaction", states: sc(...ACQ2_A) },
@@ -3199,8 +3715,33 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "scope",
     caption:
       "A Rivet actor's run handler is a durable, replayable workflow; getVersion gates new code so an in-flight run replays against the version it started on instead of corrupting its journal.",
+    code: `const version = await ctx.getVersion("carrier-handoff", 2)`,
     scope: {
       mode: "scope",
+      node: {
+        label: "run handler",
+        result: "delivered",
+        token: 'ctx.getVersion("carrier-handoff", 2)',
+        states: s(
+          "running",
+          "running",
+          "running",
+          "running",
+          "running",
+          "completed",
+        ),
+        // the status union is the journal made visible: each durable step
+        // narrows it to exactly one member, and a replay lands back on the
+        // member it had reached rather than starting the union over
+        types: [
+          t.raw("WorkflowContext"),
+          t.raw('"created" | "labelled" | "in-transit" | "delivered" | "lost"'),
+          t.raw('"labelled"'),
+          t.raw('"in-transit"'),
+          t.raw('"delivered"'),
+          t.raw("ShipmentState"),
+        ],
+      },
       finalizers: [
         { label: "actor state", states: sc(...ACQ2_A) },
         { label: "workflow step", states: sc(...ACQ2_B) },
@@ -3211,8 +3752,33 @@ export const backendViz: Record<string, VizEntry> = {
     archetype: "scope",
     caption:
       "Each agent run forks a read-only baseline into a disposable copy; a durable workflow gates the merge back, so an unreviewed fork is released (discarded) rather than pushed to the baseline.",
+    code: `try { fork = await step.do("fork baseline", run) } finally { ARTIFACTS.delete(repoName) }`,
     scope: {
       mode: "scope",
+      node: {
+        label: "workflow run",
+        result: "fork discarded",
+        token: 'step.do("fork baseline", run)',
+        states: s(
+          "running",
+          "running",
+          "running",
+          "running",
+          "running",
+          "completed",
+        ),
+        // there is no merge method to call: the gate resolves to a decision
+        // value, and a declined one still leaves the teardown its own result,
+        // which is why an unmerged fork cannot bill forever
+        types: [
+          t.raw("AgentRunParams"),
+          t.raw("ForkHandle"),
+          t.raw("MergeDecision"),
+          t.raw("{ approved: false }"),
+          t.raw("{ merged: false; reason: string }"),
+          t.raw("{ deleted: boolean }"),
+        ],
+      },
       finalizers: [
         { label: "fork baseline", states: sc(...ACQ2_A) },
         { label: "agent run", states: sc(...ACQ2_B) },
@@ -3228,10 +3794,12 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "flow",
           caption:
             "The happy path never touches the compensations: charge, reserve, and confirm each complete, and the registered rollback handlers simply expire with the workflow.",
+          code: `await step.do("capture payment", capture, { rollback }); await step.do("grant seats", grant)`,
           nodes: [
             {
               label: "charge",
               result: "done",
+              token: 'step.do("capture payment"',
               states: s(
                 "idle",
                 "running",
@@ -3240,10 +3808,19 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("ProvisionSubscription"),
+                t.raw("Promise<ChargeReceipt>"),
+                t.raw("ChargeReceipt"),
+                t.raw("ChargeReceipt"),
+                t.raw("ChargeReceipt"),
+                t.raw("ProvisionSubscription"),
+              ],
             },
             {
               label: "reserve seats",
               result: "held",
+              token: 'step.do("grant seats"',
               states: s(
                 "idle",
                 "idle",
@@ -3252,11 +3829,29 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<SeatGrant>"),
+                t.raw("SeatGrant"),
+                t.raw("SeatGrant"),
+                t.raw("unknown"),
+              ],
             },
             {
               label: "confirm",
               result: "booked",
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
+              // the registered compensations never appear in the return type,
+              // because on this path they are handlers nobody called
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<{ delivered: boolean }>"),
+                t.raw("{ chargeId: string; grantId: string }"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },
@@ -3267,10 +3862,12 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "flow",
           caption:
             "A terminal failure runs each step's registered compensation in reverse start order, so the charge is refunded and the seats revoked instead of a half-applied booking.",
+          code: `rollback: async ({ output }) => { if (!output) return; await refund(output.chargeId) }`,
           nodes: [
             {
               label: "charge",
               result: "done",
+              token: "output.chargeId",
               states: s(
                 "idle",
                 "running",
@@ -3279,16 +3876,46 @@ export const backendViz: Record<string, VizEntry> = {
                 "interrupted",
                 "idle",
               ),
+              // the receipt the forward step returned is handed back to its own
+              // compensation, so the refund is typed by what it is undoing
+              types: [
+                t.raw("ProvisionSubscription"),
+                t.raw("Promise<ChargeReceipt>"),
+                t.raw("ChargeReceipt"),
+                t.raw("ChargeReceipt"),
+                t.raw("WorkflowRollbackContext<ChargeReceipt>"),
+                t.raw("ProvisionSubscription"),
+              ],
             },
             {
               label: "reserve seats",
               error: "sold out",
               states: s("idle", "idle", "running", "failed", "failed", "idle"),
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<SeatGrant>"),
+                t.raw("NonRetryableError"),
+                t.raw("NonRetryableError"),
+                t.raw("unknown"),
+              ],
             },
             {
               label: "rollback",
               result: "refunded",
+              token: "if (!output) return",
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
+              // output is optional because a step can fail before producing
+              // one, and that guard is the difference between a compensation
+              // and a crash inside the unwind
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("ChargeReceipt | undefined"),
+                t.raw("ChargeReceipt"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },
@@ -5066,7 +5693,9 @@ export const backendViz: Record<string, VizEntry> = {
           nodes: [
             {
               label: "git add .",
-              token: "sk-live-4f2a...",
+              // the tokenizer folds `...` into a single ellipsis, so the token
+              // stops short of it rather than matching text that never renders
+              token: "sk-live-4f2a",
               states: s(
                 "idle",
                 "running",
@@ -5968,7 +6597,9 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "current balance",
               result: "75, no history",
-              token: "UPDATE account SET balance = ?",
+              // stops before `= ?`, which the tokenizer renders with a doubled
+              // space and so never matches the source spelling
+              token: "UPDATE account SET balance",
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -6131,7 +6762,9 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "edit B {b:1}",
               result: "survives, merge",
-              token: "compare({a:1}, {b:1}) === 'concurrent'",
+              // the object literals render re-spaced as `{ a: 1 }`, so the token
+              // anchors on the comparison instead
+              token: "=== 'concurrent'",
               states: [
                 "idle",
                 "running",
@@ -7537,7 +8170,8 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "handler",
               result: "200 OK",
-              token: "planBackgroundTask(...)",
+              // `(...)` renders as `(…)`; the bare call name survives both
+              token: "planBackgroundTask",
               states: s(
                 "running",
                 "running",
