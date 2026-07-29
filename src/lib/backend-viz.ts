@@ -5317,6 +5317,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "product page",
               error: "MISS, 480ms",
               token: "purgeEverything()",
+              // purgeEverything takes no argument, which is the whole problem
+              // stated as a signature: there is no value that could narrow it
+              types: [
+                t.raw("unknown"),
+                t.raw("Response"),
+                t.raw("Promise<void>"),
+                t.raw("void"),
+                t.raw("undefined"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "completed",
@@ -5329,6 +5339,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "home page",
               error: "MISS, 512ms",
+              // an untouched page, cold anyway: nothing in the purge call could
+              // have expressed that this entry was unrelated to the write
+              types: [
+                t.raw("unknown"),
+                t.raw("Response"),
+                t.raw("Promise<void>"),
+                t.raw("void"),
+                t.raw("undefined"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "completed",
@@ -5341,6 +5361,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "origin",
               error: "full traffic at once",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: { atStep: 3, message: "every key went cold", icon: "🧊" },
               states: s("idle", "idle", "running", "running", "death", "idle"),
             },
@@ -5359,6 +5387,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "product page",
               result: "refilled",
               token: 'purgeTags(["product-42"])',
+              // the tag list IS the argument, so the blast radius is a value
+              // the caller states rather than a global the caller cannot narrow
+              types: [
+                t.raw("unknown"),
+                t.raw("Response"),
+                t.raw('readonly ["product-42"]'),
+                t.raw("Response"),
+                t.raw("Response"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "completed",
@@ -5371,6 +5409,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "home page",
               result: "HIT 2ms",
+              types: [
+                t.raw("unknown"),
+                t.raw("Response"),
+                t.raw("Response"),
+                t.raw("Response"),
+                t.raw("Response"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "completed",
@@ -5383,6 +5429,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "origin",
               result: "1 refill",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Product"),
+                t.raw("Product"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -5413,6 +5467,14 @@ export const backendViz: Record<string, VizEntry> = {
               {
                 label: "chat room DO",
                 error: "billed 40 idle min",
+                // a live Map pins the object in memory: the sessions exist only
+                // in the heap, so sleeping would lose them
+                types: [
+                  t.raw("Map<WebSocket, Session>"),
+                  t.raw("Map<WebSocket, Session>"),
+                  t.raw("Map<WebSocket, Session>"),
+                  t.raw("Map<WebSocket, Session>"),
+                ],
                 token: "this.sessions.set(ws, meta)",
                 states: s("running", "running", "running", "failed"),
               },
@@ -5438,6 +5500,16 @@ export const backendViz: Record<string, VizEntry> = {
               {
                 label: "chat room DO",
                 result: "woke on message",
+                // serializeAttachment moves the session out of the heap and into
+                // the runtime, so the object can sleep and still know who is here.
+                // deserializeAttachment hands back a COPY, so mutating it persists
+                // nothing, which is the trap worth showing in the type
+                types: [
+                  t.raw("Session"),
+                  t.raw("void"),
+                  t.raw("Session"),
+                  t.raw("Inbound"),
+                ],
                 token: "acceptWebSocket(ws)",
                 notify: { atStep: 2, message: "idle time cost $0", icon: "😴" },
                 states: s("running", "idle", "running", "completed"),
@@ -5468,6 +5540,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "tenant A query",
               token: "db.select().from(invoices)",
+              // one shared table, so the row type is identical for every tenant
+              // and the tenant id is just a column you can forget to filter on
+              types: [
+                t.raw("unknown"),
+                t.raw("PgSelect<Invoice>"),
+                t.raw("PgSelect<Invoice>"),
+                t.raw("Invoice[]"),
+                t.raw("Invoice[]"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5480,6 +5562,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "response",
               error: "tenant B's rows leaked",
+              // Invoice[] either way: the leak is well typed, which is exactly
+              // why neither the compiler nor the reviewer stopped it
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Invoice[]"),
+                t.raw("Invoice[]"),
+                t.raw("Invoice[]"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 2,
                 message: "isolation was a code review promise",
@@ -5502,6 +5594,17 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "tenant A query",
               token: 'exec("SELECT * FROM invoices")',
+              // the same Invoice[], reached through this object's OWN sql handle.
+              // Isolation moved out of the query text and into which database
+              // the code can address at all
+              types: [
+                t.raw("unknown"),
+                t.raw("SqlStorage"),
+                t.raw("SqlStorageCursor<Invoice>"),
+                t.raw("Invoice[]"),
+                t.raw("Invoice[]"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5514,6 +5617,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "response",
               result: "A's rows, locally",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Invoice[]"),
+                t.raw("Invoice[]"),
+                t.raw("Invoice[]"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -5542,6 +5653,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "getCart",
               result: "180ms",
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Cart"),
+                t.raw("Cart"),
+                t.raw("Cart"),
+                t.raw("unknown"),
+              ],
               token: 'fetch("/cart")',
               states: s(
                 "idle",
@@ -5555,6 +5674,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "cart.items",
               result: "360ms",
+              // every hop lands back on the caller as JSON, so each step has to
+              // be awaited before the next one can name anything
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("CartItem[]"),
+                t.raw("CartItem[]"),
+                t.raw("unknown"),
+              ],
               token: 'fetch("/items")',
               states: s(
                 "idle",
@@ -5568,6 +5697,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "item.product",
               result: "540ms total",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Response>"),
+                t.raw("Product | null"),
+                t.raw("unknown"),
+              ],
               token: 'fetch("/product")',
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
             },
@@ -5586,6 +5723,17 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "chained stubs",
               token: "env.SHOP.getCart()",
+              // the stub is the point: calling a method on a not-yet-resolved
+              // RpcStub is legal, so the whole chain is one type expression and
+              // therefore one round trip
+              types: [
+                t.raw("unknown"),
+                t.raw("RpcStub<CatalogSession>"),
+                t.raw("RpcStub<CartItem[]>"),
+                t.raw("RpcStub<Product | null>"),
+                t.raw("RpcStub<Product | null>"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5598,6 +5746,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "result",
               result: "product, 1 hop",
+              // await collapses the whole chain at once, and `using` disposes
+              // the stub, so the identical Product | null costs one hop
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<Product | null>"),
+                t.raw("Product | null"),
+                t.raw("Product"),
+                t.raw("unknown"),
+              ],
               token: "cart.items[0].product",
               states: s(
                 "idle",
@@ -5618,10 +5776,22 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "The control plane creates versioned Git repos at fleet scale, provisioning one per agent from a template instead of by hand.",
+    code: `const name = nameTaskRepo(task); catch (e) { if (e.code === "ALREADY_EXISTS") reuse() }`,
     nodes: [
       {
         label: "template",
         result: "ready",
+        token: "nameTaskRepo(task)",
+        // the name is DERIVED from the task, which is what makes the whole
+        // thing idempotent: no lock, no side table, just a deterministic string
+        types: [
+          t.raw("AgentTask"),
+          t.raw("string"),
+          t.raw("string"),
+          t.raw("string"),
+          t.raw("string"),
+          t.raw("AgentTask"),
+        ],
         states: s(
           "idle",
           "completed",
@@ -5634,6 +5804,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "repo",
         result: "provisioned",
+        token: "ALREADY_EXISTS",
+        // a collision is not an error here, it is the answer: `reused: true`
+        // says a previous attempt won, so five retries provision one repo
+        types: [
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("Promise<ProvisionResult>"),
+          t.raw("{ reused: true; ops: 1 }"),
+          t.raw("ProvisionResult"),
+          t.raw("unknown"),
+        ],
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
       },
     ],
@@ -5661,6 +5842,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "add score later",
               token: "--amend",
+              // amend re-mints the SHA, so the identifier every review, CI run
+              // and note already pointed at stops existing
+              types: [
+                t.raw("AgentAttribution"),
+                t.raw("AgentAttribution"),
+                t.raw('"f9e8d7c"'),
+                t.raw('"f9e8d7c"'),
+                t.raw("never"),
+                t.raw("AgentAttribution"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -5694,6 +5885,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "add score later",
               token: "git notes add",
+              // the note is a separate ref keyed BY the sha, so attribution can
+              // arrive after the fact and the commit id stays the stable join key
+              types: [
+                t.raw("AgentAttribution"),
+                t.raw("AgentAttribution"),
+                t.raw('{ sha: "a1b2c3d"; score: 0.92 }'),
+                t.raw('{ sha: "a1b2c3d"; score: 0.92 }'),
+                t.raw('"approved"'),
+                t.raw("AgentAttribution"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -5714,9 +5915,21 @@ export const backendViz: Record<string, VizEntry> = {
     arrowBefore: 1,
     caption:
       "Prepared statements bound at module scope with sql.placeholder skip re-planning; opt-in JIT mappers shape rows on the way out.",
+    code: `const q = db.query.packages.findFirst({ where: { slug: sql.placeholder("slug") } }).prepare("package_detail")`,
     nodes: [
       {
         label: "prepared",
+        token: 'sql.placeholder("slug")',
+        // hoisted to module scope, so the plan and the JIT row mapper are built
+        // once per process rather than once per request
+        types: [
+          t.raw("PgRelationalQuery<Package>"),
+          t.raw("PreparedQuery<Package>"),
+          t.raw("PreparedQuery<Package>"),
+          t.raw("PreparedQuery<Package>"),
+          t.raw("PreparedQuery<Package>"),
+          t.raw("PgRelationalQuery<Package>"),
+        ],
         states: s(
           "idle",
           "completed",
@@ -5729,6 +5942,17 @@ export const backendViz: Record<string, VizEntry> = {
       {
         label: "query",
         result: "rows",
+        token: 'prepare("package_detail")',
+        // the placeholder names are bound per call, so only the values change
+        // between executions; the shape was settled at prepare time
+        types: [
+          t.raw("unknown"),
+          t.raw("unknown"),
+          t.raw("{ slug: string; handle: string }"),
+          t.raw("Package & { publisher: Publisher }"),
+          t.raw("Package & { publisher: Publisher }"),
+          t.raw("unknown"),
+        ],
         states: s("idle", "idle", "running", "completed", "completed", "idle"),
       },
     ],
@@ -5742,10 +5966,23 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "flow",
           caption:
             "CI asserts the schema and the committed migration folder agree; a no_changes result is the pass condition and the gate stays green.",
+          code: `const result = await generate({ ...config, hints: approvedHints })`,
           nodes: [
             {
               label: "schema check",
               result: "no_changes",
+              // `...config` renders as `…config`, so the token stops at the call name
+              token: "generate(",
+              // the result is a discriminated union, so "did CI generate a
+              // migration" is a tag to switch on rather than a diff to parse
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<GenerateResult>"),
+                t.raw("GenerateResult"),
+                t.raw('{ status: "no_changes" }'),
+                t.raw('"no_changes"'),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5764,10 +6001,23 @@ export const backendViz: Record<string, VizEntry> = {
           archetype: "flow",
           caption:
             "A schema edit without a committed migration fails the gate in CI, so drift is caught in review instead of at deploy time.",
+          code: `const result = await generate({ ...config, hints: approvedHints })`,
           nodes: [
             {
               label: "schema check",
               error: "uncommitted drift",
+              // `...config` renders as `…config`, so the token stops at the call name
+              token: "generate(",
+              // the same union, landing on the other tag: `ok` means CI itself
+              // produced a migration, which is exactly the thing that must fail
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<GenerateResult>"),
+                t.raw("GenerateResult"),
+                t.raw('{ status: "ok" }'),
+                t.raw("Error"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5798,6 +6048,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "query",
               error: "42P01 relation missing",
               token: "db.select().from(users)",
+              // the driver's error is undeclared, so it travels as a defect and
+              // surfaces wherever it happens to land
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<User[]>"),
+                t.raw("PostgresError"),
+                t.raw("PostgresError"),
+                t.raw("PostgresError"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5810,6 +6070,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "response",
               error: "500 with raw SQL",
+              // `never` in the error channel is the lie: nothing was declared,
+              // so the handler had no case to write and the SQL reached the wire
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<User[], never>"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "running", "death", "death", "idle"),
             },
           ],
@@ -5827,6 +6097,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "query",
               error: "query failed",
+              types: [
+                t.raw("unknown"),
+                t.raw("Effect<User[], EffectDrizzleQueryError>"),
+                t.raw("EffectDrizzleQueryError"),
+                t.raw("EffectDrizzleQueryError"),
+                t.raw("EffectDrizzleQueryError"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -5839,12 +6117,32 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "repository",
               error: "UserNotFound",
+              // catchTag can only be written because the tag is IN the type, and
+              // it swaps the infrastructure failure for a domain one right here
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("EffectDrizzleQueryError"),
+                t.raw("UserNotFound"),
+                t.raw("Effect<User[], UserNotFound>"),
+                t.raw("unknown"),
+              ],
               token: 'catchTag("EffectDrizzleQueryError"',
               states: s("idle", "idle", "running", "failed", "failed", "idle"),
             },
             {
               label: "response",
               result: "404, no internals",
+              // the handler sees UserNotFound and nothing else, so a 404 is the
+              // only thing it CAN return: the SQL never had a path to the client
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<User[], UserNotFound>"),
+                t.raw("{ status: 404 }"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
             },
           ],
@@ -5875,6 +6173,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "UPDATE price = 80",
               token: "findFirst()",
+              // the cached read is typed exactly like a fresh one, so nothing in
+              // the signature marks the 60 seconds where it is confidently wrong
+              types: [
+                t.raw("Product"),
+                t.raw("Product"),
+                t.raw("{ price: 100 }"),
+                t.raw("{ price: 100 }"),
+                t.raw("{ price: 80 }"),
+                t.raw("Product"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -5901,6 +6209,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "UPDATE + purge tag",
               token: '$withCache({ tag: "product-42" })',
+              // the tag ties the cached read to the rows it came from, so the
+              // write that changes them is what expires it, not a timer
+              types: [
+                t.raw("Product"),
+                t.raw("Product"),
+                t.raw('{ tag: "product-42" }'),
+                t.raw("{ price: 80 }"),
+                t.raw("{ price: 80 }"),
+                t.raw("Product"),
+              ],
               states: s(
                 "idle",
                 "idle",
