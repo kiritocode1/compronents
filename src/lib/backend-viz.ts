@@ -9018,6 +9018,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "write + commit",
               result: "logged",
+              // the commit record is a value in the log, so durability is something
+              // the recovery pass can read rather than something it has to assume
+              types: [
+                t.raw("Write"),
+                t.raw("LogRecord"),
+                t.raw('{ lsn: 7; kind: "commit" }'),
+                t.raw('{ lsn: 7; kind: "commit" }'),
+                t.raw('{ lsn: 7; kind: "commit" }'),
+                t.raw("Write"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9031,6 +9041,14 @@ export const backendViz: Record<string, VizEntry> = {
               label: "crash + recover",
               result: "balance 100 restored",
               token: "log commit -> crash -> redo from log",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("readonly LogRecord[]"),
+                t.raw('{ lsn: 7; kind: "commit" }'),
+                t.raw("{ balance: 100 }"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -9054,6 +9072,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "write (no commit)",
               result: "in log only",
+              types: [
+                t.raw("Write"),
+                t.raw("LogRecord"),
+                t.raw('{ lsn: 8; kind: "update" }'),
+                t.raw('{ lsn: 8; kind: "update" }'),
+                t.raw('{ lsn: 8; kind: "update" }'),
+                t.raw("Write"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9067,6 +9093,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "crash + recover",
               result: "discarded",
               token: "no commit record -> not replayed",
+              // no commit record means the redo pass finds undefined where it looks
+              // for one, so the partial write is discarded rather than half applied
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("readonly LogRecord[]"),
+                t.raw("undefined"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -9095,6 +9131,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "urgent stream (p9)",
               result: "always first",
+              types: [
+                t.raw("Task"),
+                t.raw("{ priority: 9 }"),
+                t.raw("{ priority: 9 }"),
+                t.raw("{ priority: 9 }"),
+                t.raw("{ priority: 9 }"),
+                t.raw("Task"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9108,6 +9152,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "backup (p1)",
               result: "starved",
               token: "always pop max priority",
+              // priority is a fixed number, so a low one can never become the max:
+              // starvation is not a bug in the comparison, it is what the type allows
+              types: [
+                t.raw("Task"),
+                t.raw("{ priority: 1 }"),
+                t.raw("{ priority: 1 }"),
+                t.raw("{ priority: 1 }"),
+                t.raw("never"),
+                t.raw("Task"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -9125,6 +9179,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "urgent stream (p9)",
               result: "runs first, at first",
+              types: [
+                t.raw("Task"),
+                t.raw("{ base: 9; waited: 0 }"),
+                t.raw("{ effective: 9 }"),
+                t.raw("{ effective: 9 }"),
+                t.raw("{ effective: 9 }"),
+                t.raw("Task"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9138,6 +9200,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "backup (aged)",
               result: "runs at round 7",
               token: "base + floor(waited / agePerTick)",
+              // effective priority is DERIVED from time waited, so the same task
+              // climbs: the value the scheduler compares is no longer a constant
+              types: [
+                t.raw("Task"),
+                t.raw("{ base: 1; waited: 0 }"),
+                t.raw("{ base: 1; waited: 4 }"),
+                t.raw("{ effective: 3 }"),
+                t.raw("{ effective: 9 }"),
+                t.raw("Task"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -9167,6 +9239,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "compare 64 keys",
               result: "64 comparisons",
               token: "for k in allKeys: compare(a[k], b[k])",
+              // the only type available is the full key set, so the cost of finding
+              // one difference is the cost of shipping everything
+              types: [
+                t.raw("readonly Key[]"),
+                t.raw("readonly Key[]"),
+                t.raw("readonly Key[]"),
+                t.raw("readonly [Key, Key][]"),
+                t.raw("Key[]"),
+                t.raw("readonly Key[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9191,6 +9273,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "roots differ",
               result: "descend",
+              types: [
+                t.raw("MerkleNode"),
+                t.raw("{ hash: string }"),
+                t.raw("boolean"),
+                t.raw("false"),
+                t.raw("MerkleNode[]"),
+                t.raw("MerkleNode"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9204,6 +9294,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "diff",
               result: "k37, 13 nodes visited",
               token: "x.hash === y.hash -> prune subtree",
+              // an equal hash proves a whole subtree matches, so one boolean stands
+              // in for every key underneath it: that is the entire saving
+              types: [
+                t.raw("MerkleNode"),
+                t.raw("MerkleNode"),
+                t.raw("boolean"),
+                t.raw("true"),
+                t.raw('["k37"]'),
+                t.raw("MerkleNode"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -9228,6 +9328,17 @@ export const backendViz: Record<string, VizEntry> = {
       node: {
         label: "12 requests",
         result: "peak 3 in use",
+        token: "take(idle)",
+        // the permit count IS the ceiling, enforced by the runtime rather than
+        // by every caller remembering to release what it took
+        types: [
+          t.raw("readonly Request[]"),
+          t.raw("Semaphore"),
+          t.raw("Effect<Conn, never>"),
+          t.raw("Conn"),
+          t.raw("{ peakInUse: 3 }"),
+          t.raw("readonly Request[]"),
+        ],
         states: [
           "running",
           "running",
@@ -9289,6 +9400,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "coordinator",
               result: "32 pushes, one node",
               token: "for node in cluster: coordinator.push(node)",
+              // one sender owns every push, so the coordinator's own failure type is
+              // the failure type of the whole cluster's convergence
+              types: [
+                t.raw("readonly Node[]"),
+                t.raw("Effect<void, PushFailed>"),
+                t.raw("readonly Node[]"),
+                t.raw("readonly Node[]"),
+                t.raw("never"),
+                t.raw("readonly Node[]"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -9306,6 +9427,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "node 0 writes",
               result: "tells 3 peers",
+              types: [
+                t.raw("Update"),
+                t.raw("{ version: 1 }"),
+                t.raw("readonly Node[]"),
+                t.raw("readonly Node[]"),
+                t.raw("readonly Node[]"),
+                t.raw("Update"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9319,6 +9448,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "converge",
               result: "all 32, 3 rounds",
               token: "gossip to random peers; merge by max version",
+              // merge is max over versions, which is associative and idempotent, so
+              // the same update arriving twice by different paths is harmless
+              types: [
+                t.raw("Update"),
+                t.raw("{ version: 1 }"),
+                t.raw("{ version: 1 }"),
+                t.raw("Map<NodeId, number>"),
+                t.raw("{ converged: 32 }"),
+                t.raw("Update"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -9365,6 +9504,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "100 queries",
               token: "posts.map(p => db.author(p.authorId))",
+              // map over posts gives an array of independent Promises, and nothing in
+              // that type says the hundred of them could have been one query
+              types: [
+                t.raw("readonly Post[]"),
+                t.raw("readonly Promise<Author>[]"),
+                t.raw("readonly Promise<Author>[]"),
+                t.raw("readonly Author[]"),
+                t.raw("readonly Author[]"),
+                t.raw("readonly Post[]"),
+              ],
             },
           },
         },
@@ -9398,6 +9547,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "1 query, 3 ids",
               token: "flush tick -> db.authors(WHERE id IN dedup(keys))",
+              // the keys become a Set before the query runs, so deduplication is a
+              // property of the value rather than something the database absorbs
+              types: [
+                t.raw("readonly Post[]"),
+                t.raw("readonly AuthorId[]"),
+                t.raw("ReadonlySet<AuthorId>"),
+                t.raw("readonly Author[]"),
+                t.raw("Map<AuthorId, Author>"),
+                t.raw("readonly Post[]"),
+              ],
             },
           },
         },
@@ -9436,6 +9595,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               error: "buried",
               token: "const LIMIT = 64",
+              // a literal, so it is the same number whatever the dependency is doing:
+              // the type cannot narrow because there is nothing to narrow from
+              types: [
+                t.raw("64"),
+                t.raw("64"),
+                t.raw("64"),
+                t.raw("64"),
+                t.raw("64"),
+                t.raw("64"),
+              ],
             },
           },
         },
@@ -9469,6 +9638,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "settled ~capacity",
               token: "overloaded ? floor(limit/2) : limit + 1",
+              // the limit is computed FROM measured latency, so it is a number that
+              // moves: additive increase, multiplicative decrease, both from feedback
+              types: [
+                t.raw("number"),
+                t.raw("{ inFlight: number; rtt: number }"),
+                t.raw("boolean"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+              ],
             },
           },
         },
@@ -9500,6 +9679,16 @@ export const backendViz: Record<string, VizEntry> = {
               states: ["idle", "running", "running", "death", "death", "idle"],
               error: "lost +1",
               token: "read 10 -> write 11 (x2)",
+              // one cell holds one number, so two concurrent increments produce the
+              // identical 11 and the second is indistinguishable from a repeat
+              types: [
+                t.raw("number"),
+                t.raw("10"),
+                t.raw("11"),
+                t.raw("11"),
+                t.raw("11"),
+                t.raw("number"),
+              ],
             },
           },
         },
@@ -9533,6 +9722,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "converged 10",
               token: "merge = element-wise max; value = sum(slots)",
+              // a slot per writer, so two increments live in different fields and
+              // merging is max per slot: the sum cannot lose one of them
+              types: [
+                t.raw("Record<NodeId, number>"),
+                t.raw("{ a: 6; b: 0 }"),
+                t.raw("{ a: 6; b: 4 }"),
+                t.raw("{ a: 6; b: 4 }"),
+                t.raw("10"),
+                t.raw("Record<NodeId, number>"),
+              ],
             },
           },
         },
@@ -9571,6 +9770,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "2x leaked",
               token: "count >= limit ? deny : admit",
+              // the window resets to zero and the type has no memory of the previous
+              // one, so the boundary admits a full limit twice in quick succession
+              types: [
+                t.raw("{ count: number }"),
+                t.raw("{ count: 99 }"),
+                t.raw("{ count: 100 }"),
+                t.raw("{ count: 0 }"),
+                t.raw("{ count: 100 }"),
+                t.raw("{ count: number }"),
+              ],
             },
           },
         },
@@ -9604,6 +9813,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "burst blocked",
               token: "estimate = current + previous * overlap",
+              // the previous window stays in the value, so the estimate is a weighted
+              // blend rather than a reset: the boundary has nothing to exploit
+              types: [
+                t.raw("{ current: number; previous: number }"),
+                t.raw("{ current: 99; previous: 0 }"),
+                t.raw("{ current: 0; previous: 100 }"),
+                t.raw("number"),
+                t.raw("boolean"),
+                t.raw("{ current: number; previous: number }"),
+              ],
             },
           },
         },
@@ -9624,6 +9843,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "3 fast shards",
               result: "10ms each",
+              types: [
+                t.raw("readonly Shard[]"),
+                t.raw("Effect<Row, ShardFailed>"),
+                t.raw("readonly Row[]"),
+                t.raw("readonly Row[]"),
+                t.raw("readonly Row[]"),
+                t.raw("readonly Shard[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9637,6 +9864,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "wait for all 5",
               result: "502ms (straggler)",
               token: "Effect.all(shards)",
+              // Effect.all returns ALL results, so the tuple type itself requires the
+              // straggler: the latency floor is the slowest element of that type
+              types: [
+                t.raw("readonly Shard[]"),
+                t.raw("Effect<readonly Row[], ShardFailed>"),
+                t.raw("Effect<readonly Row[], ShardFailed>"),
+                t.raw("Effect<readonly Row[], ShardFailed>"),
+                t.raw("readonly Row[]"),
+                t.raw("readonly Shard[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9661,6 +9898,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "5 shards scattered",
               result: "race",
+              types: [
+                t.raw("readonly Shard[]"),
+                t.raw("readonly Fiber<Row>[]"),
+                t.raw("readonly Fiber<Row>[]"),
+                t.raw("readonly Fiber<Row>[]"),
+                t.raw("readonly Fiber<Row>[]"),
+                t.raw("readonly Shard[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9674,6 +9919,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "3-of-5 quorum",
               result: "16ms, stragglers cut",
               token: "quorumMet.await race timeout -> interrupt rest",
+              // three of five is a smaller type than all of five, so the answer is
+              // complete before the straggler matters, and the rest are interrupted
+              types: [
+                t.raw("unknown"),
+                t.raw("Deferred<readonly Row[]>"),
+                t.raw("Deferred<readonly Row[]>"),
+                t.raw("readonly [Row, Row, Row]"),
+                t.raw("readonly [Row, Row, Row]"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -9703,6 +9958,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "upload 100MB",
               result: "corrupt, accepted",
               token: "PUT wholeFile",
+              // a 200 carrying no digest: the response type cannot distinguish stored
+              // what you sent from stored something
+              types: [
+                t.raw("ReadableStream<Uint8Array>"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("{ status: 200 }"),
+                t.raw("{ status: 200 }"),
+                t.raw("ReadableStream<Uint8Array>"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -9720,6 +9985,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "9 chunks",
               result: "each verified",
+              types: [
+                t.raw("ReadableStream<Uint8Array>"),
+                t.raw("readonly Chunk[]"),
+                t.raw("{ index: number; checksum: string }"),
+                t.raw("{ index: number; checksum: string }"),
+                t.raw("readonly Chunk[]"),
+                t.raw("ReadableStream<Uint8Array>"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -9733,6 +10006,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "reassemble",
               result: "object digest OK",
               token: "digest(chunk) !== chunk.checksum -> ChecksumMismatch",
+              // the checksum travels WITH the chunk, so corruption is a declared
+              // failure a caller must handle, not a 200 that happens to be wrong
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<void, ChecksumMismatch>"),
+                t.raw("ChecksumMismatch"),
+                t.raw("{ digest: string }"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
