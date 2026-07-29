@@ -10054,6 +10054,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "action run 1",
               token: "crypto.randomUUID",
+              // a fresh random string per run, so the retry's key has the same type as
+              // the original and Stripe has no way to recognise it as the same intent
+              types: [
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+              ],
               result: "charge $49.99",
               states: s(
                 "running",
@@ -10098,6 +10108,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "action run 1",
               token: "providerKeyFor",
+              // the key is DERIVED from the action's own id and reserved before the
+              // call, so a swept retry rebuilds the identical key rather than a new one
+              types: [
+                t.raw("ActionId"),
+                t.raw("IdempotencyKey"),
+                t.raw("IdempotencyKey"),
+                t.raw("IdempotencyKey"),
+                t.raw("IdempotencyKey"),
+                t.raw("ActionId"),
+              ],
               result: "charge $49.99",
               states: s(
                 "running",
@@ -10140,6 +10160,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "increment A",
               token: "ctx.db.patch",
+              // one document means one read set, so every writer conflicts with every
+              // other: the type gives OCC nothing to tell the two increments apart
+              types: [
+                t.raw('Doc<"counters">'),
+                t.raw("{ likes: 10 }"),
+                t.raw("{ likes: 11 }"),
+                t.raw("{ likes: 11 }"),
+                t.raw("{ likes: 11 }"),
+                t.raw('Doc<"counters">'),
+              ],
               result: "committed",
               states: s(
                 "running",
@@ -10178,6 +10208,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "increment A -> shard 3",
               token: "pickShard",
+              // the shard index is part of the document identity, so two writers touch
+              // different read sets and the rollup is a sum over slots
+              types: [
+                t.raw('Doc<"shards">'),
+                t.raw("3"),
+                t.raw("{ shard: 3; count: 4 }"),
+                t.raw("{ shard: 3; count: 5 }"),
+                t.raw("{ total: 11 }"),
+                t.raw('Doc<"shards">'),
+              ],
               result: "committed",
               states: s(
                 "running",
@@ -10220,6 +10260,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "unit test",
               result: "green",
               token: "createTransfers: async () => []",
+              // the mock's return type is never[], so no status value exists to test
+              // against: the empty array type-checks and asserts nothing
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<never[]>"),
+                t.raw("never[]"),
+                t.raw("never[]"),
+                t.raw("never[]"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10232,11 +10282,29 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "status handling",
               error: "never exercised",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("never[]"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "idle", "failed", "idle"),
             },
             {
               label: "production",
               error: "exceeds_credits ignored",
+              // the real client returns real statuses, and the branch that should have
+              // read them was never written because nothing ever produced one
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("CreateTransferStatus[]"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 4,
                 message: "overdrawn, order booked",
@@ -10260,6 +10328,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "unit test",
               error: "red, correctly",
               token: "CreateTransferStatus.exceeds_credits",
+              // a real ledger returns the real enum, so the failing status exists as a
+              // value the test can assert on and the handler must branch over
+              types: [
+                t.raw("unknown"),
+                t.raw("Promise<CreateTransferStatus[]>"),
+                t.raw("CreateTransferStatus[]"),
+                t.raw("CreateTransferStatus.exceeds_credits"),
+                t.raw("CreateTransferStatus.exceeds_credits"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10272,6 +10350,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "status handling",
               result: "reads every index",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("CreateTransferStatus[]"),
+                t.raw("readonly [number, CreateTransferStatus][]"),
+                t.raw("readonly [number, CreateTransferStatus][]"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -10284,6 +10370,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "production",
               result: "rejection handled",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("CreateTransferStatus[]"),
+                t.raw("{ rejected: 1 }"),
+                t.raw("unknown"),
+              ],
               notify: { atStep: 4, message: "overdraw declined", icon: "🐅" },
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
             },
@@ -10316,6 +10410,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "checkout A",
               token: "if (balance >= amount)",
+              // a read then a write, with nothing binding them: both checkouts see 100
+              // and the comparison is stale by the time either debit lands
+              types: [
+                t.raw("{ balance: number }"),
+                t.raw("{ balance: 100 }"),
+                t.raw("boolean"),
+                t.raw("true"),
+                t.raw("{ balance: 40 }"),
+                t.raw("{ balance: number }"),
+              ],
               result: "debited $60",
               states: s(
                 "running",
@@ -10354,6 +10458,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "authorize A",
               token: "debits_pending",
+              // the hold is a field on the account, so available funds are a derived
+              // number the ledger itself computes rather than one a caller asserts
+              types: [
+                t.raw("Account"),
+                t.raw("{ debits_pending: 0 }"),
+                t.raw("{ debits_pending: 60 }"),
+                t.raw("{ debits_pending: 60 }"),
+                t.raw("{ debits_pending: 60 }"),
+                t.raw("Account"),
+              ],
               result: "held $60",
               states: s(
                 "running",
@@ -10367,6 +10481,16 @@ export const backendViz: Record<string, VizEntry> = {
             challenger: {
               label: "authorize B",
               token: "exceeds_credits",
+              // the invariant is enforced inside the ledger, so the second authorize
+              // comes back as a status value: no read-then-write window exists at all
+              types: [
+                t.raw("Account"),
+                t.raw("Transfer"),
+                t.raw("CreateTransferStatus"),
+                t.raw("CreateTransferStatus.exceeds_credits"),
+                t.raw("CreateTransferStatus.exceeds_credits"),
+                t.raw("Account"),
+              ],
               error: "exceeds_credits",
               states: s(
                 "running",
@@ -10405,6 +10529,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "GET after POST",
               token: "syncInterval: 60",
+              // an interval is a duration, not a position: the type says how often to
+              // sync and nothing at all about whether YOUR write has arrived
+              types: [
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+              ],
               states: s(
                 "idle",
                 "completed",
@@ -10431,6 +10565,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "GET after POST",
               token: "frame: 42",
+              // the frame is a watermark the write returns and the read requires, so
+              // read-your-writes is a comparison rather than a hope about timing
+              types: [
+                t.raw("Frame"),
+                t.raw("{ frame: 42 }"),
+                t.raw("{ frame: 41 }"),
+                t.raw("{ frame: 42 }"),
+                t.raw("{ frame: 42 }"),
+                t.raw("Frame"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10461,6 +10605,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "acme .. wayne",
               token: "tenants.map(migrateOne)",
+              // Promise.all rejects on the first failure and discards the rest, so the
+              // result type cannot describe a partially migrated fleet
+              types: [
+                t.raw("readonly Tenant[]"),
+                t.raw("readonly Promise<void>[]"),
+                t.raw("readonly Promise<void>[]"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("readonly Tenant[]"),
+              ],
               result: "v3",
               states: s(
                 "idle",
@@ -10474,6 +10628,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "globex",
               error: "table exists",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<void>"),
+                t.raw("SqliteError"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10486,6 +10648,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "deploy report",
               error: "fleet version unknown",
+              // nothing to report from: the throw took the successes with it, so which
+              // tenants actually moved is not recoverable from the type
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 3,
                 message: "9,999 outcomes discarded",
@@ -10508,6 +10680,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "acme .. wayne",
               token: "fanOut",
+              // each tenant produces a RESULT rather than a rejection, so one failure
+              // is a value in the array instead of the end of the run
+              types: [
+                t.raw("readonly Tenant[]"),
+                t.raw("readonly Tenant[]"),
+                t.raw("Effect<MigrationResult, never>"),
+                t.raw('{ tenant: "acme"; version: 3 }'),
+                t.raw('{ tenant: "acme"; version: 3 }'),
+                t.raw("readonly Tenant[]"),
+              ],
               result: "v3",
               states: s(
                 "idle",
@@ -10521,6 +10703,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "globex",
               error: "rolled back to v2",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<MigrationResult, never>"),
+                t.raw('{ tenant: "globex"; version: 2; error: SqliteError }'),
+                t.raw('{ tenant: "globex"; version: 2; error: SqliteError }'),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10533,6 +10723,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "deploy report",
               result: "4 at v3, 1 behind",
+              // the whole fleet's state is one array of results, so the report is a
+              // fold over it rather than an inference from what did not throw
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("readonly MigrationResult[]"),
+                t.raw("{ atTarget: 4; behind: 1 }"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 3,
                 message: "retry resumes 1 database",
@@ -10567,6 +10767,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "handler",
               result: "200 OK",
               token: "waitUntil(track(evt))",
+              // waitUntil takes a promise and returns void, so the handler cannot tell
+              // whether the work it handed off ever ran
+              types: [
+                t.raw("Request"),
+                t.raw("Promise<void>"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("{ status: 200 }"),
+                t.raw("Request"),
+              ],
               states: s(
                 "running",
                 "running",
@@ -10579,6 +10789,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "instance",
               result: "frozen",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<void>"),
+                t.raw("Promise<void>"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 3,
                 message: "froze with work in flight",
@@ -10596,6 +10814,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "analytics write",
               error: "never landed",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<void>"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10621,6 +10847,16 @@ export const backendViz: Record<string, VizEntry> = {
               result: "200 OK",
               // `(...)` renders as `(…)`; the bare call name survives both
               token: "planBackgroundTask",
+              // the plan is a value, so whether the work runs inline or after the
+              // response is a decision the handler states rather than one it assumes
+              types: [
+                t.raw("Request"),
+                t.raw("BackgroundPlan"),
+                t.raw("{ inline: false }"),
+                t.raw("{ inline: false }"),
+                t.raw("{ status: 200 }"),
+                t.raw("Request"),
+              ],
               states: s(
                 "running",
                 "running",
@@ -10633,6 +10869,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "instance",
               result: "drained",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("BackgroundPlan"),
+                t.raw("Promise<void>"),
+                t.raw("void"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10645,6 +10889,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "analytics write",
               result: "row saved",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<void>"),
+                t.raw("{ saved: true }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10675,6 +10927,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "buyer A",
               token: `"deferred"`,
+              // deferred starts as a reader and upgrades on first write, so two
+              // transactions can both read before either takes the write lock
+              types: [
+                t.raw("TransactionMode"),
+                t.raw('"deferred"'),
+                t.raw("{ seats: 1 }"),
+                t.raw("{ seats: 0 }"),
+                t.raw("SqliteError"),
+                t.raw("TransactionMode"),
+              ],
               result: "booked",
               states: s(
                 "running",
@@ -10713,6 +10975,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "buyer A",
               token: `"write"`,
+              // write takes the lock up front, so the mode literal is what decides
+              // whether a read-then-write window exists at all
+              types: [
+                t.raw("TransactionMode"),
+                t.raw('"write"'),
+                t.raw("{ seats: 1 }"),
+                t.raw("{ seats: 0 }"),
+                t.raw("{ seats: 0 }"),
+                t.raw("TransactionMode"),
+              ],
               result: "booked",
               states: s(
                 "running",
@@ -10753,6 +11025,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "client asks",
               token: "onBeforeGenerateToken",
+              // the pathname arrives as a bare string and is handed straight to the
+              // minter: no type here distinguishes your prefix from anyone else's
+              types: [
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("ClientToken"),
+                t.raw("ClientToken"),
+                t.raw("string"),
+              ],
               result: "u_9999.webp",
               states: s(
                 "running",
@@ -10766,6 +11048,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "token minted",
               result: "write allowed",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("ClientToken"),
+                t.raw("ClientToken"),
+                t.raw("{ url: string }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10778,6 +11068,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "victim's avatar",
               error: "overwritten",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Blob"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "running", "failed", "failed", "idle"),
             },
           ],
@@ -10794,6 +11092,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "client asks",
               token: "ownsPathname",
+              // the check takes the session AND the pathname, so ownership is a
+              // predicate over both rather than a property of the string alone
+              types: [
+                t.raw("string"),
+                t.raw("{ userId: string; pathname: string }"),
+                t.raw("boolean"),
+                t.raw("false"),
+                t.raw("PathnameNotOwned"),
+                t.raw("string"),
+              ],
               result: "u_9999.webp",
               states: s(
                 "running",
@@ -10807,6 +11115,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "prefix check",
               error: "pathname_not_owned",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("boolean"),
+                t.raw("false"),
+                t.raw("PathnameNotOwned"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -10819,6 +11135,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "victim's avatar",
               result: "untouched",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -10856,6 +11180,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "attempt 1",
               token: "provider.charge",
+              // the charge id only ever existed in the dead attempt's stack frame, so
+              // the replay has no value to recognise and starts a second charge
+              types: [
+                t.raw("ChargeIntent"),
+                t.raw("Promise<Charge>"),
+                t.raw('{ id: "ch_1" }'),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("ChargeIntent"),
+              ],
               result: "charged, then died",
               states: s(
                 "running",
@@ -10893,6 +11227,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "attempt 1",
               token: "provider.recover",
+              // the key is reserved before the call, so a replay can ASK the provider
+              // what happened rather than guessing from its own lost state
+              types: [
+                t.raw("ChargeIntent"),
+                t.raw("IdempotencyKey"),
+                t.raw('{ id: "ch_1" }'),
+                t.raw('{ id: "ch_1" }'),
+                t.raw('{ id: "ch_1" }'),
+                t.raw("ChargeIntent"),
+              ],
               result: "charged, then died",
               states: s(
                 "running",
@@ -10933,6 +11277,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "hop 11 state",
               result: "lastSentAt",
+              // the in-flight state was written by the OLD code, so its type is what
+              // that deploy believed, and nothing records which deploy that was
+              types: [
+                t.raw("unknown"),
+                t.raw("{ lastSentAt: number }"),
+                t.raw("{ lastSentAt: number }"),
+                t.raw("{ lastSentAt: number }"),
+                t.raw("{ lastSentAt: number }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "running",
                 "completed",
@@ -10945,6 +11299,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "deploy 12 reads",
               token: "state.lastDigestAt",
+              // the renamed field reads as undefined, which coerces to 0, which means
+              // since the epoch: a missing property became a year-long time range
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("undefined"),
+                t.raw("undefined"),
+                t.raw("0"),
+                t.raw("unknown"),
+              ],
               result: "undefined",
               states: s(
                 "idle",
@@ -10974,6 +11338,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "hop 11 state",
               result: "v1 stamped",
+              // the version is stamped INTO the state, so a reader can discriminate on
+              // it rather than guessing which shape it received
+              types: [
+                t.raw("unknown"),
+                t.raw("{ v: 1; lastSentAt: number }"),
+                t.raw("{ v: 1; lastSentAt: number }"),
+                t.raw("{ v: 1; lastSentAt: number }"),
+                t.raw("{ v: 1; lastSentAt: number }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "running",
                 "completed",
@@ -10986,6 +11360,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "migrate v1 to v2",
               token: "decodeState",
+              // a tagged union, so migrating v1 to v2 is a total function the compiler
+              // checks rather than an optional chain that silently yields undefined
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("StateV1 | StateV2"),
+                t.raw("StateV1"),
+                t.raw("{ v: 2; lastDigestAt: number }"),
+                t.raw("unknown"),
+              ],
               result: "lastDigestAt",
               states: s(
                 "idle",
@@ -11036,6 +11420,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "gpt-5 attempt",
               token: "ledger.release",
+              // releasing on error assumes an error means no spend, but a 504 arrives
+              // after the tokens were generated: the budget forgets money it owes
+              types: [
+                t.raw("Reservation"),
+                t.raw("{ committed: 0.018 }"),
+                t.raw("Effect<void, GatewayError>"),
+                t.raw("GatewayError"),
+                t.raw("{ committed: 0 }"),
+                t.raw("Reservation"),
+              ],
               error: "504, billed anyway",
               states: s(
                 "running",
@@ -11080,6 +11474,16 @@ export const backendViz: Record<string, VizEntry> = {
             request: {
               label: "gpt-5 attempt",
               token: "ledger.recordGeneration",
+              // the failed attempt still books what it burned, so the committed total
+              // is what was actually spent rather than what happened to succeed
+              types: [
+                t.raw("Reservation"),
+                t.raw("{ committed: 0.018 }"),
+                t.raw("Effect<void, GatewayError>"),
+                t.raw("GatewayError"),
+                t.raw("{ committed: 0.018 }"),
+                t.raw("Reservation"),
+              ],
               error: "504, booked $0.0180",
               states: s(
                 "running",
