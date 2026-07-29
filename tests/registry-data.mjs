@@ -33,6 +33,17 @@ export const PEER_DEPS = new Set([
 const RUNTIME_PREFIXES = ["node:", "cloudflare:", "bun:"];
 
 /**
+ * Bare specifiers the runtime provides itself, with no npm package to declare.
+ * `bun` is Bun's own module (Bun.secrets, Bun.password), the unprefixed sibling
+ * of `bun:sqlite`. Declaring it as a dependency would tell a consumer to npm
+ * install the Bun binary, which is not what the import needs.
+ *
+ * Matched exactly rather than by prefix, so a real package like `bun-types`
+ * still has to be declared.
+ */
+const RUNTIME_MODULES = new Set(["bun"]);
+
+/**
  * Virtual modules a framework synthesises at build time. They are not packages,
  * but they only resolve when the owning package is installed, so they still have
  * to satisfy the dependency check through that owner.
@@ -135,7 +146,10 @@ export function analyzeFile(filePath, src, shippedPaths, dependencies) {
       problems.push(
         `imports alias "${spec}" which will not resolve after install`,
       );
-    } else if (RUNTIME_PREFIXES.some((p) => spec.startsWith(p))) {
+    } else if (
+      RUNTIME_MODULES.has(spec) ||
+      RUNTIME_PREFIXES.some((p) => spec.startsWith(p))
+    ) {
       // Runtime builtin: nothing to install, nothing to declare.
     } else {
       const owner = VIRTUAL_MODULE_OWNERS.find(([p]) => spec.startsWith(p));
