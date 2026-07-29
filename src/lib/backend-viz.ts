@@ -8134,6 +8134,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "origin storm",
               token: "each POP -> origin.fetch(obj)",
+              // every POP holds its own independent Promise, so nothing in the
+              // type relates one miss to another
+              types: [
+                t.raw("string"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("Promise<Response>"),
+                t.raw("Response"),
+                t.raw("string"),
+              ],
             },
           },
         },
@@ -8167,6 +8177,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "5 coalesced",
               token: "first miss fetches; the rest await the Deferred",
+              // one Deferred shared by every waiter: the coalescing is the type,
+              // so five misses cannot become five origin fetches
+              types: [
+                t.raw("string"),
+                t.raw("Deferred<Response>"),
+                t.raw("Deferred<Response>"),
+                t.raw("Response"),
+                t.raw("Response"),
+                t.raw("string"),
+              ],
             },
           },
         },
@@ -8205,6 +8225,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "123 hops",
               token: "resolve(name)",
+              // no negative entry, so NXDOMAIN is indistinguishable from a miss
+              // and the same dead name is chased upstream every time
+              types: [
+                t.raw("string"),
+                t.raw("Promise<Address[]>"),
+                t.raw("Address[]"),
+                t.raw("Address[]"),
+                t.raw("Address[]"),
+                t.raw("string"),
+              ],
             },
           },
         },
@@ -8238,6 +8268,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "3 total",
               token: "cache.hit && held.expires > now -> 0 hops",
+              // NXDOMAIN is cached as a value of its own, so "known not to
+              // exist" is a type the resolver can answer from memory
+              types: [
+                t.raw("string"),
+                t.raw("CacheEntry | undefined"),
+                t.raw('{ kind: "nxdomain"; expires: number }'),
+                t.raw("Address[]"),
+                t.raw("Address[]"),
+                t.raw("string"),
+              ],
             },
           },
         },
@@ -8258,6 +8298,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "prepare (vote)",
               result: "all yes",
+              types: [
+                t.raw("Participant[]"),
+                t.raw("Effect<Vote, PrepareFailed>"),
+                t.raw("readonly Vote[]"),
+                t.raw('readonly [{ vote: "yes" }, { vote: "yes" }]'),
+                t.raw('readonly [{ vote: "yes" }, { vote: "yes" }]'),
+                t.raw("Participant[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8271,6 +8319,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "commit",
               result: "wallet 40 | bank 60",
               token: "votes.every(yes) -> log decision -> commit all",
+              // the decision is logged BEFORE any commit, so the durable record
+              // of what was agreed is a value, not an inference from state
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Decision"),
+                t.raw('{ decision: "commit" }'),
+                t.raw("{ wallet: 40; bank: 60 }"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -8295,6 +8353,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "prepare (vote)",
               result: "wallet: no",
               token: "one no -> abort -> nobody commits",
+              // a single "no" is enough, and it is the same Vote type as a yes:
+              // unanimity is a fold over the votes, not a special error path
+              types: [
+                t.raw("Participant[]"),
+                t.raw("Effect<Vote, PrepareFailed>"),
+                t.raw("readonly Vote[]"),
+                t.raw('readonly [{ vote: "no" }, { vote: "yes" }]'),
+                t.raw('{ decision: "abort" }'),
+                t.raw("Participant[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8307,6 +8375,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "abort all",
               result: "wallet 100 | bank 0",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw('{ decision: "abort" }'),
+                t.raw("Effect<void>"),
+                t.raw("{ wallet: 100; bank: 0 }"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -8353,6 +8429,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "2x leaked",
               token: "if (now - windowStart >= 1000) count = 0",
+              // a counter and a window start: the type carries no notion of
+              // rate, so two adjacent windows can pass double the limit
+              types: [
+                t.raw("{ count: number; windowStart: number }"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("{ count: 0 }"),
+                t.raw("number"),
+                t.raw("{ count: number; windowStart: number }"),
+              ],
             },
           },
         },
@@ -8387,6 +8473,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "shaped",
               token: "refilled = min(cap, tokens + elapsed * rate)",
+              // tokens are continuous and capped, so the burst ceiling and the
+              // sustained rate are two separate numbers in one value
+              types: [
+                t.raw("{ tokens: number; cap: number; rate: number }"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("boolean"),
+                t.raw("{ tokens: number; cap: number; rate: number }"),
+              ],
             },
           },
         },
@@ -8403,6 +8499,17 @@ export const backendViz: Record<string, VizEntry> = {
       node: {
         label: "book trip",
         error: "issue-ticket fails",
+        token: "issue-ticket fails",
+        // each step registers its own compensation as it succeeds, so the
+        // rollback is built from the same values that did the work
+        types: [
+          t.raw("TripRequest"),
+          t.raw("Effect<Charge, PaymentFailed>"),
+          t.raw("Charge"),
+          t.raw("IssueTicketFailed"),
+          t.raw("Effect<never, IssueTicketFailed>"),
+          t.raw("TripRequest"),
+        ],
         states: ["running", "running", "running", "failed", "failed", "failed"],
       },
       finalizers: [
@@ -8466,6 +8573,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "lost +50",
               token: "both read 100 -> both write 150",
+              // the write carries no record of what was read, so two writers
+              // producing the same number is indistinguishable from one
+              types: [
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+                t.raw("number"),
+              ],
             },
           },
         },
@@ -8500,6 +8617,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "conflict retried",
               token: "written key changed after snapshot -> WriteConflict",
+              // the snapshot version travels with the write, so a stale one is
+              // a typed conflict rather than a silently accepted overwrite
+              types: [
+                t.raw("Snapshot"),
+                t.raw("{ value: 100; version: 7 }"),
+                t.raw("Effect<number, WriteConflict>"),
+                t.raw("WriteConflict"),
+                t.raw("{ value: 150; version: 8 }"),
+                t.raw("Snapshot"),
+              ],
             },
           },
         },
@@ -8523,6 +8650,16 @@ export const backendViz: Record<string, VizEntry> = {
               // stops before `= ?`, which the tokenizer renders with a doubled
               // space and so never matches the source spelling
               token: "UPDATE account SET balance",
+              // the row holds only the latest number, so every earlier value
+              // has no type left: the history is not merely lost, it never was
+              types: [
+                t.raw("Account"),
+                t.raw("{ balance: 100 }"),
+                t.raw("{ balance: 75 }"),
+                t.raw("{ balance: 75 }"),
+                t.raw("never"),
+                t.raw("Account"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -8539,6 +8676,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "event log",
               result: "4 facts kept",
+              // the events are a discriminated union, so what happened is a tag
+              // the reader can exhaustively handle rather than a diff to guess
+              types: [
+                t.raw("readonly AccountEvent[]"),
+                t.raw("Opened"),
+                t.raw("Deposited"),
+                t.raw("Withdrew"),
+                t.raw("readonly AccountEvent[]"),
+                t.raw("readonly AccountEvent[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8552,6 +8699,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "fold",
               result: "balance 75, v4",
               token: "fold([Opened, Deposited, Withdrew]) -> state",
+              // state is derived, so it can be rebuilt at any version: the
+              // number is a function of the log rather than the only copy
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("readonly AccountEvent[]"),
+                t.raw("AccountState"),
+                t.raw("{ balance: 75; version: 4 }"),
+                t.raw("unknown"),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -8591,6 +8748,16 @@ export const backendViz: Record<string, VizEntry> = {
               states: ["idle", "running", "running", "death", "death", "idle"],
               error: "split brain",
               token: "resource.write(staleValue)",
+              // the write carries no epoch, so a resumed zombie leader is
+              // indistinguishable from the real one at the type level
+              types: [
+                t.raw("Effect<void, never>"),
+                t.raw("Effect<void, never>"),
+                t.raw("Effect<void, never>"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("Effect<void, never>"),
+              ],
             },
           },
         },
@@ -8624,6 +8791,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               error: "fenced",
               token: "if (token < seen) -> FencedOut",
+              // the fencing token is a monotonic number in the write's own type,
+              // so the resource can refuse an older epoch on sight
+              types: [
+                t.raw("Effect<void, FencedOut>"),
+                t.raw("{ epoch: 7 }"),
+                t.raw("{ epoch: 6 }"),
+                t.raw("FencedOut"),
+                t.raw("FencedOut"),
+                t.raw("Effect<void, FencedOut>"),
+              ],
             },
           },
         },
@@ -8644,6 +8821,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "edit A {a:1}",
               result: "kept (fast clock)",
+              // a timestamp is one number, so it always compares: the type
+              // cannot represent "these two edits are unordered"
+              types: [
+                t.raw("{ at: number }"),
+                t.raw("{ at: 1699 }"),
+                t.raw("{ at: 1699 }"),
+                t.raw("{ a: 1 }"),
+                t.raw("{ a: 1 }"),
+                t.raw("{ at: number }"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8657,6 +8844,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "edit B {b:1}",
               result: "deleted",
               token: "wallClockA > wallClockB ? a : b",
+              // the loser resolves to never: a comparison that always returns a
+              // winner has no way to keep both, so B's edit is simply gone
+              types: [
+                t.raw("{ at: number }"),
+                t.raw("{ at: 1698 }"),
+                t.raw("{ at: 1698 }"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("{ at: number }"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -8673,6 +8870,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "edit A {a:1}",
               result: "survives",
+              types: [
+                t.raw("VectorClock"),
+                t.raw("{ a: 1; b: 0 }"),
+                t.raw("{ a: 1; b: 0 }"),
+                t.raw("{ a: 1 }"),
+                t.raw("{ a: 1 }"),
+                t.raw("VectorClock"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8688,6 +8893,16 @@ export const backendViz: Record<string, VizEntry> = {
               // the object literals render re-spaced as `{ a: 1 }`, so the token
               // anchors on the comparison instead
               token: "=== 'concurrent'",
+              // compare returns a four-member union, and "concurrent" is the
+              // member a single timestamp could never express: that is the fix
+              types: [
+                t.raw("VectorClock"),
+                t.raw("{ a: 0; b: 1 }"),
+                t.raw('"before" | "after" | "equal" | "concurrent"'),
+                t.raw('"concurrent"'),
+                t.raw("{ a: 1; b: 1 }"),
+                t.raw("VectorClock"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8717,6 +8932,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "get k (deleted)",
               result: "returns 'alive'",
               token: "read old SSTable -> deleted key comes back",
+              // absence is modelled as undefined, so an older segment that still
+              // holds the key is indistinguishable from a live value
+              types: [
+                t.raw("string"),
+                t.raw("Value | undefined"),
+                t.raw("undefined"),
+                t.raw('"alive"'),
+                t.raw('"alive"'),
+                t.raw("string"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
           ],
@@ -8734,6 +8959,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "3 segments",
               result: "newest first",
+              types: [
+                t.raw("readonly Segment[]"),
+                t.raw("readonly Segment[]"),
+                t.raw("Segment"),
+                t.raw("Segment"),
+                t.raw("readonly Segment[]"),
+                t.raw("readonly Segment[]"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -8747,6 +8980,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "get k",
               result: "miss (tombstoned)",
               token: "first hit wins; tombstone -> absent",
+              // a tombstone is a VALUE, not a missing entry, so "deleted" beats
+              // an older live copy instead of losing to it
+              types: [
+                t.raw("string"),
+                t.raw("Value | Tombstone | undefined"),
+                t.raw("Tombstone"),
+                t.raw("Tombstone"),
+                t.raw("undefined"),
+                t.raw("string"),
+              ],
               states: [
                 "idle",
                 "idle",
