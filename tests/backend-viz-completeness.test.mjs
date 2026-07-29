@@ -3,11 +3,11 @@
 //
 //   node --import ./tests/alias-hooks.mjs --test tests/backend-viz-completeness.test.mjs
 //
-// This is a RATCHET, not a pass/fail gate. Most specs predate the rule, so they
-// are listed in KNOWN_GAPS. The test enforces two things: a spec outside the
-// list must be complete (so new items cannot ship half-built), and a spec
-// inside it must still be incomplete (so fixing one forces you to delete its
-// line, and the backlog can only shrink).
+// This began as a RATCHET over a 113-item backlog. The backlog is now empty, so
+// it reads as a plain gate: every spec must be complete. The two-sided check is
+// kept because it is what stopped the list being repopulated on the way down. A
+// spec outside KNOWN_GAPS must be complete, and a spec inside it must still be
+// incomplete, so a name can only ever be removed.
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -52,121 +52,16 @@ export function gapsFor(entry) {
 }
 
 /** specs written before convention 5. Delete a line when you fix that item. */
-const KNOWN_GAPS = new Set([
-  "effect-service-lifecycle-runtime",
-  "effect-sql-transactional-repository",
-  "effect-durable-activity-workflow",
-  "effect-cluster-entity-sharding",
-  "effect-durable-workflow-queue",
-  "effect-workflow-v4-migration",
-  "alchemy-cloudflare-access-gateway",
-  "effect-cloudflare-event-api",
-  "effect-cache-stampede-guard",
-  "effect-circuit-breaker-budget",
-  "effect-shard-router-backpressure",
-  "effect-fencing-token-hlc",
-  "effect-outbox-replicator",
-  "effect-idempotency-key-store",
-  "effect-hedged-request-race",
-  "effect-read-replica-router",
-  "effect-heartbeat-failure-detector",
-  "effect-multipart-upload-resume",
-  "effect-exactly-once-consumer",
-  "effect-webhook-dispatcher",
-  "effect-consistent-hash-ring",
-  "effect-snowflake-id-generator",
-  "effect-bulkhead-isolation",
-  "effect-payment-reconciliation",
-  "effect-hot-account-ledger",
-  "effect-bloom-url-frontier",
-  "effect-password-hash-vault",
-  "effect-quorum-read-repair",
-  "effect-optimistic-lock-retry",
-  "effect-deadlock-detector",
-  "effect-geohash-proximity",
-  "deno-kv-rate-limit",
-  "better-auth-atomic-rate-limit",
-  "durable-object-rpc-rate-limit",
-  "d1-session-read-replica",
-  "fluid-stream-lifecycle",
-  "pg-advisory-lock-keyset-scan",
-  "rivet-durable-workflow-actor",
-  "artifacts-fork-run-workflow",
-  "cloudflare-workflow-saga-rollback",
-  "bun-sqlite-job-queue",
-  "node-sqlite-worker-pool",
-  "vercel-queue-consumer-groups",
-  "indexeddb-sync-outbox",
-  "durable-object-alarm-scheduler",
-  "sveltekit-live-query-stream",
-  "websocket-route-handler",
-  "better-auth-jwks-cookie-cache",
-  "better-auth-provisioning-gate",
-  "cloudflare-worker-test-harness",
-  "cloudflare-worker-cache-tags",
-  "durable-object-websocket-hibernation",
-  "durable-object-sql-tenant-db",
-  "worker-rpc-promise-pipelining",
-  "artifacts-repo-provisioner",
-  "artifacts-agent-commit-notes",
-  "drizzle-pg-jit-query-layer",
-  "drizzle-kit-migration-gate",
-  "drizzle-effect-pg-repository",
-  "drizzle-cache-tag-invalidation",
-  "prisma-driver-adapter-runtime",
-  "prisma-client-extension-audit",
-  "neon-http-composable-sql",
-  "deno-kv-leader-election",
-  "deno-kv-realtime-sync",
-  "node-permission-sandbox",
-  "node-diagnostics-telemetry",
-  "rivet-dynamic-actor-registry",
-  "sveltekit-explicit-env-vars",
-  "sveltekit-batched-query-refresh",
-  "elysia-plugin-scope-model",
-  "elysia-aot-build-manifest",
-  "elysia-standard-schema-guard",
-  "bun-secrets-vault",
-  "bun-auth-gateway",
-  "fluid-compute-instance-safety",
-  "effect-weighted-load-balancer",
-  "effect-lru-cache-eviction",
-  "effect-write-behind-cache",
-  "effect-cache-penetration-shield",
-  "effect-cdn-origin-shield",
-  "effect-dns-resolver-cache",
-  "effect-two-phase-commit",
-  "effect-token-bucket-shaper",
-  "effect-saga-payment-orchestrator",
-  "effect-mvcc-snapshot-isolation",
-  "effect-event-sourced-aggregate",
-  "effect-leader-lease-election",
-  "effect-vector-clock-causality",
-  "effect-lsm-memtable-compaction",
-  "effect-wal-crash-recovery",
-  "effect-fair-priority-scheduler",
-  "effect-merkle-anti-entropy",
-  "effect-connection-pool-fair",
-  "effect-gossip-dissemination",
-  "effect-dataloader-batch",
-  "effect-adaptive-concurrency-limit",
-  "effect-crdt-counter-merge",
-  "effect-sliding-window-rate-limit",
-  "effect-scatter-gather-quorum",
-  "effect-chunked-upload-integrity",
-  "convex-exactly-once-action",
-  "convex-occ-sharded-counter",
-  "tigerbeetle-test-ledger",
-  "tigerbeetle-two-phase-reservation",
-  "turso-replica-read-your-writes",
-  "turso-tenant-migration-fanout",
-  "vercel-waituntil-drain-guard",
-  "turso-transaction-mode-guard",
-  "vercel-blob-client-upload-tokens",
-  "vercel-workflow-step-idempotency",
-  "vercel-workflow-continuation-versioning",
-  "vercel-ai-gateway-failover-budget",
-]);
+/**
+ * Specs written before convention 5. This list is now EMPTY: every spec in
+ * src/lib/backend-viz.ts shows what it does, the code that does it, and the
+ * type it travels under.
+ *
+ * The ratchet still runs. A new item that ships incomplete fails the first
+ * test, and re-adding a name here fails the second one the moment that item is
+ * complete. Do not repopulate this to silence a failure; finish the spec.
+ */
+const KNOWN_GAPS = new Set([]);
 
 test("a spec outside the backlog shows code, tokens and types", () => {
   const broken = Object.entries(backendViz)

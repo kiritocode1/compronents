@@ -42,3 +42,6 @@ next-env.d.ts
 .lamalama-analysis/
 .types-analysis/
 runtime-lab/
+
+# transient agent worktrees
+.claude/worktrees/

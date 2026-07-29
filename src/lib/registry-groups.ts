@@ -132,6 +132,7 @@ export const componentGroups: RegistryGroup[] = [
       "letter-grid-carousel",
       "split-plate-slider",
       "diagonal-plate-carousel",
+      "liquid-glass-carousel",
     ],
   },
   {
@@ -245,6 +246,8 @@ export const componentGroups: RegistryGroup[] = [
       "shader-tunnel-slider",
       "lava-particle-field",
       "scatter-photo-physics",
+      "pixel-cube-avatar",
+      "pixel-cube-field",
     ],
   },
 ];
