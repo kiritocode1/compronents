@@ -7073,10 +7073,104 @@ export const backendViz: Record<string, VizEntry> = {
     ],
   },
   "elysia-plugin-scope-model": {
-    archetype: "flow",
-    caption:
-      "An Elysia 2.0 auth plugin encodes the four renames stale code trips over, so scope and lifecycle hooks resolve under the new argument order.",
-    nodes: [{ label: "plugin", result: "scoped", states: s(...OK) }],
+    control: "view",
+    variants: [
+      {
+        name: "at runtime",
+        spec: {
+          archetype: "flow",
+          caption:
+            "An Elysia 2.0 auth plugin encodes the four renames stale code trips over, so scope and lifecycle hooks resolve under the new argument order. The 'plugin' scope reaches the app that opted in without infecting sibling instances.",
+          code: `.derive("plugin", async ({ cookie }) => ({ actor: await lookupActor(cookie.session) }))`,
+          nodes: [
+            {
+              label: "plugin",
+              result: "scoped",
+              token: '.derive("plugin"',
+              // the scope is the FIRST argument in 2.0, and the derived actor
+              // is what the parent instance actually gains
+              types: [
+                t.raw("EventScope"),
+                t.raw('"plugin"'),
+                t.raw("Promise<Actor | null>"),
+                t.raw("Actor"),
+                t.raw('{ actor: Actor; tier: "team" }'),
+                t.raw("EventScope"),
+              ],
+              states: s(...OK),
+            },
+          ],
+        },
+      },
+      {
+        // The failure this component prevents is a COMPILE error, not a runtime
+        // one: stale code says as('scoped') and there is no such overload left.
+        // That belongs in the type vocabulary rather than in a task node.
+        name: "at the type level",
+        spec: {
+          archetype: "types",
+          caption:
+            "EventScope replaced LifeCycleType in 2.0 and the 'scoped' member is gone, so code carrying the old spelling stops compiling instead of silently downgrading to local scope. scopeOrder is declared `as const satisfies readonly EventScope[]`, which is what makes a future rename break this file rather than the routes that depend on it.",
+          steps: [
+            {
+              definition: `type EventScope = "global" | "local" | "plugin"`,
+              stacks: [
+                { kind: "expr", expression: t.raw("EventScope") },
+                {
+                  kind: "result",
+                  result: t.raw('"global" | "local" | "plugin"'),
+                },
+              ],
+              transitions: [{ label: "resolves" }],
+              note: "Three members, and `scoped` is not one of them. The rename is the whole migration.",
+            },
+            {
+              stacks: [
+                { kind: "expr", expression: t.raw('"scoped"') },
+                {
+                  kind: "subset",
+                  leftType: '"scoped"',
+                  rightType: '"global" | "local" | "plugin"',
+                  result: false,
+                },
+              ],
+              transitions: [{ label: "extends?" }],
+              note: "`\"scoped\"` is not a member of the union, so the old `as('scoped')` call has no overload to resolve against.",
+            },
+            {
+              definition: `.derive("scoped", handler)`,
+              stacks: [
+                { kind: "expr", expression: t.raw('derive<"scoped">') },
+                {
+                  kind: "result",
+                  display: {
+                    message:
+                      "Argument of type '\"scoped\"' is not assignable to parameter of type 'EventScope'",
+                    status: "error",
+                  },
+                },
+              ],
+              note: "A **compile error**, which is the point. The alternative was a silent downgrade to local scope, where the auth hook quietly stops applying to the parent app and every route it guarded is open.",
+            },
+            {
+              definition: `const scopeOrder = ["local", "plugin", "global"] as const satisfies readonly EventScope[]`,
+              stacks: [
+                { kind: "expr", expression: t.raw("typeof scopeOrder") },
+                {
+                  kind: "result",
+                  result: t.raw('readonly ["local", "plugin", "global"]'),
+                  display: {
+                    message: "satisfies readonly EventScope[]",
+                    status: "success",
+                  },
+                },
+              ],
+              note: "Encoding the widening ladder as a value keeps it honest: `satisfies` checks every member against `EventScope`, so the next rename breaks this one array instead of the routes downstream of it.",
+            },
+          ],
+        },
+      },
+    ],
   },
   "elysia-aot-build-manifest": {
     control: "sucrose runs",
@@ -7094,6 +7188,14 @@ export const backendViz: Record<string, VizEntry> = {
               label: "cold boot",
               result: "312ms of codegen",
               token: "listen(3000)",
+              types: [
+                t.raw("Elysia"),
+                t.raw("Elysia"),
+                t.raw("Promise<Server>"),
+                t.raw("Promise<Server>"),
+                t.raw("Server"),
+                t.raw("Elysia"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7106,6 +7208,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "first request",
               result: "waited for it",
+              // the handler type was known at build time all along; only the
+              // generated code was not, so the wait buys nothing new
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Response"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "idle", "completed", "idle"),
             },
           ],
@@ -7124,6 +7236,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "build step",
               result: "codegen baked in",
               token: "aot({ strip: true })",
+              // the same Server type, reached by compiling ahead: the contract
+              // did not change, only when the codegen bill is paid
+              types: [
+                t.raw("BunPlugin"),
+                t.raw("BuildOutput"),
+                t.raw("BuildArtifact[]"),
+                t.raw("Server"),
+                t.raw("Server"),
+                t.raw("BunPlugin"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7136,6 +7258,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "cold boot",
               result: "4ms",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Server"),
+                t.raw("Response"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "running", "completed", "idle"),
             },
           ],
@@ -7151,12 +7281,24 @@ export const backendViz: Record<string, VizEntry> = {
         spec: {
           archetype: "flow",
           arrowBefore: 1,
+          code: `.post("/", handler, { body: zodSchema, response: typeboxSchema })`,
           caption:
             "One route validates with Zod inbound and TypeBox outbound; a valid deployment body passes both schemas and the response is shaped on the way out.",
           nodes: [
             {
               label: "Zod in",
               result: "valid",
+              token: "body: zodSchema",
+              // Standard Schema is the seam: Zod validates in, TypeBox shapes
+              // out, and Elysia only needs the shared interface to accept both
+              types: [
+                t.raw("unknown"),
+                t.raw("StandardSchemaV1<Deployment>"),
+                t.raw("Deployment"),
+                t.raw("Deployment"),
+                t.raw("Deployment"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7169,6 +7311,15 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "TypeBox out",
               result: "shaped",
+              token: "response: typeboxSchema",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("TSchema"),
+                t.raw("DeploymentView"),
+                t.raw("DeploymentView"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -7186,12 +7337,24 @@ export const backendViz: Record<string, VizEntry> = {
         spec: {
           archetype: "flow",
           arrowBefore: 1,
+          code: `.post("/", handler, { body: zodSchema, response: typeboxSchema })`,
           caption:
             "An invalid body fails the Zod guard before the handler runs, returning 422; the TypeBox response schema never executes.",
           nodes: [
             {
               label: "Zod in",
               error: "422",
+              token: "body: zodSchema",
+              // the failure is a StandardSchemaV1.FailureResult, one shape no
+              // matter which library produced it, so the 422 handler is generic
+              types: [
+                t.raw("unknown"),
+                t.raw("StandardSchemaV1<Deployment>"),
+                t.raw("readonly StandardSchemaV1.Issue[]"),
+                t.raw("readonly StandardSchemaV1.Issue[]"),
+                t.raw("{ status: 422 }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7203,6 +7366,17 @@ export const backendViz: Record<string, VizEntry> = {
             },
             {
               label: "TypeBox out",
+              token: "response: typeboxSchema",
+              // never runs, so it never has a value: the response contract is
+              // unreachable once the request contract rejected
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "idle", "idle", "idle", "idle"),
             },
           ],
@@ -7226,6 +7400,16 @@ export const backendViz: Record<string, VizEntry> = {
               // the tokenizer folds `...` into a single ellipsis, so the token
               // stops short of it rather than matching text that never renders
               token: "sk-live-4f2a",
+              // a plaintext file is just a string on disk: nothing about its
+              // type marks it as a credential, so `git add .` treats it as text
+              types: [
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+                t.raw("string"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7238,6 +7422,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "the key",
               error: "in history forever",
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("string"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("unknown"),
+              ],
               notify: {
                 atStep: 2,
                 message: "rotate it, deleting won't help",
@@ -7260,6 +7452,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "vault set",
               token: "secrets.set({ service, name, value })",
+              // the secret never becomes a file: set takes the value and returns
+              // nothing, so there is no path on disk for git to find
+              types: [
+                t.raw("{ service: string; name: string; value: string }"),
+                t.raw("Promise<void>"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("{ service: string; name: string; value: string }"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7272,6 +7474,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "keychain",
               result: "🔒 sealed, no file",
+              // get returns string | null, so "this secret is not provisioned"
+              // is a case the caller must handle rather than an empty string
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Promise<string | null>"),
+                t.raw("string | null"),
+                t.raw("string"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -7293,12 +7505,24 @@ export const backendViz: Record<string, VizEntry> = {
         name: "valid login",
         spec: {
           archetype: "flow",
+          code: `if (!(await Bun.password.verify(pw, hash))) return 401; Bun.CSRF.verify(token, { sid })`,
           arrowBefore: 1,
           caption:
             "Bun.password verifies the argon2id hash, Bun.CSRF checks the token bound to the session id, and Bun.CookieMap sets the session cookie automatically.",
           nodes: [
             {
               label: "login",
+              token: "Bun.password.verify",
+              // argon2id verify is async and returns a boolean, so a wrong
+              // password is a value rather than a thrown error to catch
+              types: [
+                t.raw("{ email: string; password: string }"),
+                t.raw("Promise<boolean>"),
+                t.raw("boolean"),
+                t.raw("true"),
+                t.raw("true"),
+                t.raw("{ email: string; password: string }"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7311,6 +7535,17 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "session",
               result: "cookie set",
+              token: "Bun.CSRF.verify(token, { sid })",
+              // the token is generated FROM the session id, so the binding
+              // between them is in the value rather than in a side table
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("string"),
+                t.raw("{ sid: string; expiresAt: number }"),
+                t.raw("{ sid: string; expiresAt: number }"),
+                t.raw("unknown"),
+              ],
               states: s(
                 "idle",
                 "idle",
@@ -7327,12 +7562,22 @@ export const backendViz: Record<string, VizEntry> = {
         name: "csrf mismatch",
         spec: {
           archetype: "flow",
+          code: `if (!(await Bun.password.verify(pw, hash))) return 401; Bun.CSRF.verify(token, { sid })`,
           arrowBefore: 1,
           caption:
             "A token that does not match the session id fails Bun.CSRF verification and the request is rejected before the password check spends any argon2id work.",
           nodes: [
             {
               label: "login",
+              token: "Bun.password.verify",
+              types: [
+                t.raw("{ email: string; password: string }"),
+                t.raw("Promise<boolean>"),
+                t.raw("boolean"),
+                t.raw("true"),
+                t.raw("true"),
+                t.raw("{ email: string; password: string }"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7345,6 +7590,17 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "session",
               error: "csrf mismatch",
+              token: "Bun.CSRF.verify(token, { sid })",
+              // verify takes the sid too, so a token minted for another session
+              // cannot type check as valid for this one: it returns false
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("string"),
+                t.raw("false"),
+                t.raw("{ status: 403 }"),
+                t.raw("unknown"),
+              ],
               states: s("idle", "idle", "running", "failed", "failed", "idle"),
             },
           ],
@@ -7367,6 +7623,17 @@ export const backendViz: Record<string, VizEntry> = {
               label: "user A",
               result: "cart: A",
               token: "let currentUser",
+              // module scope outlives the invocation, so the variable's type is
+              // the same whichever request wrote it last: nothing marks it as
+              // belonging to a caller
+              types: [
+                t.raw("User | undefined"),
+                t.raw("User"),
+                t.raw('{ id: "A" }'),
+                t.raw("Cart"),
+                t.raw('{ owner: "A" }'),
+                t.raw("User | undefined"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7379,6 +7646,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "user B",
               result: "cart: A",
+              // B reads a well typed User that simply is not B. The leak is
+              // invisible to the compiler because identity is not in the type
+              types: [
+                t.raw("User | undefined"),
+                t.raw("User"),
+                t.raw('{ id: "A" }'),
+                t.raw("Cart"),
+                t.raw('{ owner: "A" }'),
+                t.raw("User | undefined"),
+              ],
               notify: { atStep: 3, message: "B got A's data", icon: "🚨" },
               states: s(
                 "idle",
@@ -7404,6 +7681,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "user A",
               result: "cart: A",
               token: "const user",
+              // bound inside the handler, so the binding cannot outlive the
+              // request that created it
+              types: [
+                t.raw("Request"),
+                t.raw("User"),
+                t.raw('{ id: "A" }'),
+                t.raw("Cart"),
+                t.raw('{ owner: "A" }'),
+                t.raw("Request"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7416,6 +7703,14 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "user B",
               result: "cart: B",
+              types: [
+                t.raw("Request"),
+                t.raw("User"),
+                t.raw('{ id: "B" }'),
+                t.raw("Cart"),
+                t.raw('{ owner: "B" }'),
+                t.raw("Request"),
+              ],
               states: s(
                 "idle",
                 "running",
@@ -7463,6 +7758,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "b3 buried",
               token: "backends[i % backends.length]",
+              // the index is all the router knows: a counter cannot express
+              // load, so a slow backend keeps its share of the rotation
+              types: [
+                t.raw("Backend[]"),
+                t.raw("number"),
+                t.raw("Backend"),
+                t.raw("Backend"),
+                t.raw("Backend"),
+                t.raw("Backend[]"),
+              ],
             },
           },
         },
@@ -7497,6 +7802,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "b3 spared",
               token: "la <= lb ? backends[a] : backends[b]",
+              // two probes and a comparison, so the choice is made FROM the
+              // measured depth rather than from position in a list
+              types: [
+                t.raw("Backend[]"),
+                t.raw("[number, number]"),
+                t.raw("number"),
+                t.raw("Backend"),
+                t.raw("Backend"),
+                t.raw("Backend[]"),
+              ],
             },
           },
         },
@@ -7518,11 +7833,29 @@ export const backendViz: Record<string, VizEntry> = {
               label: "4 hot keys",
               result: "0/4 survive",
               token: "lru.set(scanKey)",
+              // one flat map, so a hot key and a scan key have the identical
+              // type and recency is the only thing the cache can rank by
+              types: [
+                t.raw("Map<string, Entry>"),
+                t.raw("Entry"),
+                t.raw("Entry"),
+                t.raw("undefined"),
+                t.raw("undefined"),
+                t.raw("Map<string, Entry>"),
+              ],
               states: ["idle", "running", "running", "death", "death", "idle"],
             },
             {
               label: "scan (100 cold)",
               result: "flushes cache",
+              types: [
+                t.raw("Map<string, Entry>"),
+                t.raw("Entry"),
+                t.raw("Entry"),
+                t.raw("Entry"),
+                t.raw("Entry"),
+                t.raw("Map<string, Entry>"),
+              ],
               states: [
                 "idle",
                 "running",
@@ -7547,6 +7880,16 @@ export const backendViz: Record<string, VizEntry> = {
             {
               label: "scan (100 cold)",
               result: "churns probation",
+              // the segment is part of the entry, so a once-seen key is a
+              // different kind of value from a twice-seen one
+              types: [
+                t.raw('{ segment: "probation" }'),
+                t.raw('{ segment: "probation" }'),
+                t.raw('{ segment: "probation" }'),
+                t.raw('{ segment: "probation" }'),
+                t.raw("undefined"),
+                t.raw('{ segment: "probation" }'),
+              ],
               states: [
                 "idle",
                 "running",
@@ -7560,6 +7903,16 @@ export const backendViz: Record<string, VizEntry> = {
               label: "4 hot keys",
               result: "4/4 survive",
               token: "second hit -> promote to protected",
+              // promotion changes the type, which is what lets the scan churn
+              // probation without ever being able to reach the protected set
+              types: [
+                t.raw('{ segment: "probation" }'),
+                t.raw('{ segment: "probation" }'),
+                t.raw('{ segment: "protected" }'),
+                t.raw('{ segment: "protected" }'),
+                t.raw('{ segment: "protected" }'),
+                t.raw('{ segment: "probation" }'),
+              ],
               states: [
                 "idle",
                 "idle",
@@ -7599,6 +7952,16 @@ export const backendViz: Record<string, VizEntry> = {
               states: ["idle", "running", "running", "death", "death", "idle"],
               error: "buffer lost",
               token: "crash before flush",
+              // the buffer only ever existed as a Map in memory, so after the
+              // crash the pending writes have no type anywhere on disk
+              types: [
+                t.raw("Map<string, Write>"),
+                t.raw("Write"),
+                t.raw("Map<string, Write>"),
+                t.raw("never"),
+                t.raw("never"),
+                t.raw("Map<string, Write>"),
+              ],
             },
           },
         },
@@ -7632,6 +7995,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "replayed",
               token: "append journal -> then coalesce -> flush",
+              // the journal entry is durable before the buffer is touched, so
+              // recovery reads a real type back rather than reconstructing one
+              types: [
+                t.raw("Map<string, Write>"),
+                t.raw("JournalEntry"),
+                t.raw("readonly JournalEntry[]"),
+                t.raw("readonly JournalEntry[]"),
+                t.raw("{ replayed: 2 }"),
+                t.raw("Map<string, Write>"),
+              ],
             },
           },
         },
@@ -7670,6 +8043,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "db buried",
               token: "cache.miss -> db.fetch(fakeKey)",
+              // a miss and a nonexistent key are the same undefined, so the
+              // cache cannot tell a cold key from one that never existed
+              types: [
+                t.raw("string"),
+                t.raw("Row | undefined"),
+                t.raw("undefined"),
+                t.raw("undefined"),
+                t.raw("undefined"),
+                t.raw("string"),
+              ],
             },
           },
         },
@@ -7703,6 +8086,16 @@ export const backendViz: Record<string, VizEntry> = {
               ],
               result: "0 db hits",
               token: "!bloom.mightExist(key) -> reject in memory",
+              // the filter answers before the row type is ever reached: false
+              // is definitive, so the database is never asked at all
+              types: [
+                t.raw("string"),
+                t.raw("boolean"),
+                t.raw("false"),
+                t.raw("false"),
+                t.raw("undefined"),
+                t.raw("string"),
+              ],
             },
           },
         },
