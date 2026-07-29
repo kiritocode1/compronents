@@ -26,36 +26,49 @@ import {
   useTransform,
   useVelocity,
 } from "motion/react";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
-  PiArrowCounterClockwiseBold,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
   PiArrowRightFill,
   PiSkullFill,
   PiStarFourFill,
-  PiStopFill,
   PiWarningOctagonFill,
 } from "react-icons/pi";
 import { useSoundSetting } from "@/components/site/sound-provider";
+import {
+  DEFAULT_TYPE_THEME,
+  MorphingSegments,
+  Prose,
+  TYPE_BORDER,
+  TypeBadge,
+  TypeStacks,
+  type TypeStep,
+} from "@/components/site/types-viz";
+import {
+  COLORS,
+  type TaskState,
+  useStepClock,
+  Controls as VizControls,
+  SegmentedControl as VizSegmentedControl,
+} from "@/components/site/viz-chrome";
 import { setVizSoundsEnabled, vizSounds } from "@/lib/effect-viz-sounds";
+import { segmentType, type TypeNode } from "@/lib/type-tokens";
+import { setTypeSoundsEnabled, typeSounds } from "@/lib/types-viz-sounds";
 
 // ---------------------------------------------------------------------------
 // shared tokens (exact values from the source)
 // ---------------------------------------------------------------------------
-export type TaskState =
-  | "idle"
-  | "running"
-  | "completed"
-  | "failed"
-  | "death"
-  | "interrupted";
-
-const COLORS: Record<TaskState, string> = {
-  idle: "#475569",
-  running: "#3b82f6",
-  completed: "#15803d",
-  failed: "#ef4444",
-  death: "#991b1b",
-  interrupted: "#f97316",
+export type { TaskState };
+export {
+  VizControls as Controls,
+  VizSegmentedControl as SegmentedControl,
+  useStepClock,
 };
 
 const S_DEFAULT = {
@@ -112,6 +125,13 @@ export interface VizNodeSpec {
   result?: string;
   error?: string;
   states: TaskState[];
+  /**
+   * The type this node carries, one entry per step (a shorter array holds its
+   * last entry). Rendered as a badge inside the node's own column, tinted with
+   * the node's state, so the runtime value and the type it travels under are
+   * one unit rather than two diagrams.
+   */
+  types?: TypeNode[];
   /** kit's NotificationBubble: shown (with a chime) while at this step */
   notify?: { atStep: number; message: string; icon?: string };
   /** substring of the spec's code line that lights up with this node's state */
@@ -124,6 +144,15 @@ interface Base {
   /** kit's CodeBlock + FloatingHighlight: a mono code line rendered under the
    * viz; node tokens inside it light up with the owning node's state */
   code?: string;
+  /**
+   * Type stacks rendered under this archetype's body, advanced by the SAME step
+   * clock, so the runtime picture and the type-level contract that guards it
+   * play together in one view instead of behind a variant toggle.
+   *
+   * One entry per step. A shorter array holds its last entry for the remaining
+   * steps, so a contract that only changes once does not have to be repeated.
+   */
+  typeStacks?: TypeStep[];
 }
 
 /** a ref value; `bad` marks a write that should never have landed (red flash) */
@@ -175,7 +204,15 @@ export type VizSpec =
   | ({ archetype: "flow"; nodes: VizNodeSpec[]; arrowBefore?: number } & Base)
   | ({ archetype: "ref"; ref: RefSpec } & Base)
   | ({ archetype: "scope"; scope: ScopeSpec } & Base)
-  | ({ archetype: "schedule"; schedule: ScheduleSpec } & Base);
+  | ({ archetype: "schedule"; schedule: ScheduleSpec } & Base)
+  /**
+   * kit's Visual Types vocabulary (types.kitlangton.com) as a fifth archetype:
+   * a column of type stacks that morph step to step. Use it when the thing a
+   * component prevents is a *type-level* mistake rather than a runtime one, so
+   * the failure shows up in the contract instead of in a task node. Stacks and
+   * steps are documented in src/components/site/types-viz.tsx.
+   */
+  | ({ archetype: "types"; steps: TypeStep[] } & Base);
 
 /** a registry entry: one spec, or a kit-style segmented-control variant set */
 export type VizEntry =
@@ -185,176 +222,6 @@ export type VizEntry =
 // ---------------------------------------------------------------------------
 // step clock + controls
 // ---------------------------------------------------------------------------
-export function useStepClock(len: number, intervalMs = 1400) {
-  const [step, setStep] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  useEffect(() => {
-    if (!playing) return;
-    const id = setInterval(() => setStep((s) => (s + 1) % len), intervalMs);
-    return () => clearInterval(id);
-  }, [playing, len, intervalMs]);
-  return {
-    step,
-    playing,
-    toggle: () => setPlaying((p) => !p),
-    restart: () => setStep(0),
-    goto: (n: number) => {
-      setPlaying(false);
-      setStep(n);
-    },
-  };
-}
-
-export function Controls({
-  step,
-  len,
-  playing,
-  toggle,
-  restart,
-  goto,
-}: {
-  step: number;
-  len: number;
-  playing: boolean;
-  toggle: () => void;
-  restart: () => void;
-  goto: (n: number) => void;
-}) {
-  // kit's HeaderView action button, one control cycling run -> stop -> reset:
-  // idle (sparkle, slate) click runs; running (stop, blue) click interrupts;
-  // stopped mid-run (restart arrow, green) click resets back to idle
-  const mode: "run" | "stop" | "reset" = playing
-    ? "stop"
-    : step === 0
-      ? "run"
-      : "reset";
-  const bg =
-    mode === "stop"
-      ? COLORS.running
-      : mode === "reset"
-        ? COLORS.completed
-        : COLORS.idle;
-  const icon =
-    mode === "stop" ? (
-      <PiStopFill size={16} color="rgba(255,255,255,0.95)" />
-    ) : mode === "reset" ? (
-      <PiArrowCounterClockwiseBold size={16} color="rgba(255,255,255,0.95)" />
-    ) : (
-      <PiStarFourFill size={16} color="rgba(255,255,255,0.95)" />
-    );
-  const label = mode === "stop" ? "Stop" : mode === "reset" ? "Reset" : "Run";
-  return (
-    <div className="flex items-center gap-3">
-      <motion.button
-        type="button"
-        onClick={() => {
-          if (mode === "reset") {
-            vizSounds.playReset();
-            restart();
-          } else {
-            toggle();
-          }
-        }}
-        aria-label={label}
-        className="flex size-8 items-center justify-center rounded-lg border border-white/10"
-        animate={{ backgroundColor: bg }}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        transition={{ backgroundColor: { duration: 0.15 }, scale: S_CONTENT }}
-      >
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
-            key={mode}
-            initial={{ scale: 0, rotate: -180, filter: "blur(8px)" }}
-            animate={{ scale: 1, rotate: 0, filter: "blur(0px)" }}
-            exit={{ scale: 0, rotate: 180, filter: "blur(8px)" }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="flex"
-          >
-            {icon}
-          </motion.span>
-        </AnimatePresence>
-      </motion.button>
-      <div className="flex items-center gap-1.5">
-        {Array.from({ length: len }, (_, i) => (
-          <button
-            // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length step ticks, never reordered
-            key={i}
-            type="button"
-            aria-label={`Step ${i + 1}`}
-            onClick={() => goto(i)}
-            className="h-1.5 rounded-full transition-all"
-            style={{
-              width: i === step ? 20 : 8,
-              background: i === step ? "#3b82f6" : "rgba(115,115,115,0.4)",
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// kit's SegmentedControl (sliding blue indicator, mono labels)
-// ---------------------------------------------------------------------------
-export function SegmentedControl({
-  value,
-  onChange,
-  options,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  options: string[];
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
-  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
-
-  useEffect(() => {
-    const btn = buttonRefs.current.get(value);
-    const box = containerRef.current;
-    if (btn && box) {
-      const a = box.getBoundingClientRect();
-      const b = btn.getBoundingClientRect();
-      setIndicator({ left: b.left - a.left, width: b.width });
-    }
-  }, [value]);
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative flex items-center rounded-lg border border-neutral-700/30 bg-neutral-800/50 p-1"
-    >
-      {options.map((option) => (
-        <button
-          type="button"
-          key={option}
-          ref={(el) => {
-            if (el) buttonRefs.current.set(option, el);
-            else buttonRefs.current.delete(option);
-          }}
-          onClick={() => onChange(option)}
-          className={`relative z-10 flex-1 cursor-pointer whitespace-nowrap rounded-md px-3 py-1.5 text-center font-mono text-sm transition-colors duration-200 ${
-            value === option
-              ? "font-medium text-white"
-              : "text-neutral-400 hover:text-neutral-300"
-          }`}
-        >
-          {option}
-        </button>
-      ))}
-      <motion.div
-        className="absolute top-1 bottom-1 rounded-md bg-blue-600 shadow-md"
-        initial={false}
-        animate={{ left: indicator.left, width: indicator.width }}
-        transition={{ type: "spring", visualDuration: 0.3, bounce: 0 }}
-        style={{ zIndex: 0 }}
-      />
-    </div>
-  );
-}
-
 // ---------------------------------------------------------------------------
 // primitive: the task node
 // ---------------------------------------------------------------------------
@@ -843,6 +710,9 @@ function NodeWithLabel({
   onHover?: (token: string | undefined) => void;
 }) {
   const elapsed = useNodeTimer(state);
+  // a stable id per mounted node, so two nodes carrying the same type still
+  // morph independently instead of sharing segment identity
+  const typeId = useId();
   // kit's rule: the error bubble owns a failed/death node, so the notification
   // bubble is suppressed while one is showing (never two dialogues at once).
   // It also auto-hides after 1s so its exit is fully done BEFORE the next step
@@ -886,6 +756,13 @@ function NodeWithLabel({
           n.label
         )}
       </div>
+      {n.types?.length ? (
+        <TypeBadge
+          node={n.types[Math.min(step ?? 0, n.types.length - 1)] as TypeNode}
+          id={`${n.label}-${typeId}`}
+          accent={COLORS[state]}
+        />
+      ) : null}
     </div>
   );
 }
@@ -1008,16 +885,33 @@ function FloatingHighlight({
       scale.set(0.9);
       return;
     }
-    const target = pre.querySelector<HTMLElement>(
-      `[data-token="${CSS.escape(token)}"]`,
+    // a token now spans several segments, so the rect is their union
+    const parts = pre.querySelectorAll<HTMLElement>(
+      `[data-mark="${CSS.escape(token)}"]`,
     );
-    if (!target) {
+    if (parts.length === 0) {
       animate(opacity, 0, { ease: "linear", duration: 0.2 });
       scale.set(0.95);
       return;
     }
     const outer = pre.getBoundingClientRect();
-    const inner = target.getBoundingClientRect();
+    let left = Number.POSITIVE_INFINITY;
+    let top = Number.POSITIVE_INFINITY;
+    let right = Number.NEGATIVE_INFINITY;
+    let bottom = Number.NEGATIVE_INFINITY;
+    for (const part of parts) {
+      const box = part.getBoundingClientRect();
+      left = Math.min(left, box.left);
+      top = Math.min(top, box.top);
+      right = Math.max(right, box.right);
+      bottom = Math.max(bottom, box.bottom);
+    }
+    const inner = {
+      left,
+      top,
+      width: right - left,
+      height: bottom - top,
+    };
     // first placement should not slide in from the origin
     if (opacity.get() === 0) {
       x.jump(inner.left - outer.left + pre.scrollLeft);
@@ -1053,6 +947,15 @@ function FloatingHighlight({
   );
 }
 
+/**
+ * The code line under the boxes, drawn with the same segment engine as the type
+ * badges and stacks.
+ *
+ * That unification is the point: one tokenizer, one palette. The line itself is
+ * fixed per spec (it reads as the code, not as an animation), so it only morphs
+ * when a variant switch replaces it. What moves within a step is the tinting:
+ * the tokens owned by a node light with that node's state.
+ */
 function CodeLine({
   code,
   marks,
@@ -1063,43 +966,61 @@ function CodeLine({
   hovered?: string;
 }) {
   const preRef = useRef<HTMLPreElement>(null);
-  // split the code into plain and token segments (first occurrence wins)
-  const segments: { text: string; state?: TaskState }[] = [];
-  let rest = code;
-  while (rest.length > 0) {
-    let best: { at: number; mark: CodeMark } | null = null;
+
+  const segments = useMemo(
+    () => segmentType(code, DEFAULT_TYPE_THEME, "code"),
+    [code],
+  );
+
+  /**
+   * Which segments belong to which mark. The tokenizer re-spaces its input, so
+   * matching happens against the *rendered* text rather than the source string;
+   * a mark that no longer appears simply goes untinted rather than mis-tinting.
+   */
+  const decoration = useMemo(() => {
+    const byId = new Map<string, { state: TaskState; token: string }>();
+    const rendered = segments.map((s) => s.content).join("");
+    // segment start offsets in the rendered string
+    const offsets: number[] = [];
+    let at = 0;
+    for (const segment of segments) {
+      offsets.push(at);
+      at += segment.content.length;
+    }
     for (const mark of marks) {
-      const at = rest.indexOf(mark.token);
-      if (at >= 0 && (best === null || at < best.at)) best = { at, mark };
+      const start = rendered.indexOf(mark.token);
+      if (start < 0) continue;
+      const end = start + mark.token.length;
+      segments.forEach((segment, i) => {
+        const from = offsets[i] ?? 0;
+        const to = from + segment.content.length;
+        if (from < end && to > start) {
+          byId.set(segment.id, { state: mark.state, token: mark.token });
+        }
+      });
     }
-    if (!best) {
-      segments.push({ text: rest });
-      break;
-    }
-    if (best.at > 0) segments.push({ text: rest.slice(0, best.at) });
-    segments.push({ text: best.mark.token, state: best.mark.state });
-    rest = rest.slice(best.at + best.mark.token.length);
-  }
+    return byId;
+  }, [segments, marks]);
+
   return (
     <pre
       ref={preRef}
-      className="relative overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/70 p-3 font-mono text-[13px] leading-relaxed text-neutral-300"
+      className="relative overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/70 p-3 font-mono text-[13px] leading-relaxed"
     >
       <FloatingHighlight containerRef={preRef} token={hovered} />
-      {segments.map((seg, i) => (
-        <span
-          // biome-ignore lint/suspicious/noArrayIndexKey: static segmentation of a fixed string
-          key={i}
-          data-token={seg.state ? seg.text : undefined}
-          className="relative rounded px-0.5 transition-colors duration-200"
-          style={{
-            backgroundColor: seg.state ? MARK_BG[seg.state] : "transparent",
-            color: seg.state && seg.state !== "idle" ? "#fff" : undefined,
-          }}
-        >
-          {seg.text}
-        </span>
-      ))}
+      <MorphingSegments
+        segments={segments}
+        className="font-mono text-[13px] leading-relaxed"
+        decorate={(segment) => {
+          const hit = decoration.get(segment.id);
+          if (!hit) return undefined;
+          return {
+            backgroundColor: MARK_BG[hit.state],
+            color: hit.state === "idle" ? undefined : "#fff",
+            mark: hit.token,
+          };
+        }}
+      />
     </pre>
   );
 }
@@ -1426,7 +1347,7 @@ function ScheduleViz({ spec, code }: { spec: ScheduleSpec; code?: string }) {
 
   return (
     <div className="flex flex-col gap-5">
-      <Controls
+      <VizControls
         step={segIdx}
         len={len}
         playing={playing}
@@ -1643,7 +1564,7 @@ function StepBody({
   spec,
   onDeath,
 }: {
-  spec: Exclude<VizSpec, { archetype: "schedule" }>;
+  spec: Exclude<VizSpec, { archetype: "schedule" | "types" }>;
   /** reports whether any node is dead this step, so the card can go into death mode */
   onDeath?: (dead: boolean) => void;
 }) {
@@ -1665,6 +1586,7 @@ function StepBody({
 
   const len = Math.max(
     2,
+    spec.typeStacks?.length ?? 0,
     spec.archetype === "flow"
       ? Math.max(...spec.nodes.map((n) => n.states.length))
       : spec.archetype === "ref"
@@ -1751,7 +1673,7 @@ function StepBody({
         }
         onDeath={onDeath}
       />
-      <Controls
+      <VizControls
         step={clock.step}
         len={len}
         playing={clock.playing}
@@ -1760,8 +1682,119 @@ function StepBody({
         goto={clock.goto}
       />
       <div className="min-h-[120px] py-2">{body}</div>
+      <InlineTypeStacks
+        steps={spec.typeStacks}
+        step={clock.step}
+        playing={clock.playing}
+      />
       {spec.code && (
         <CodeLine code={spec.code} marks={marks} hovered={hovered} />
+      )}
+    </div>
+  );
+}
+
+/**
+ * The type contract shown underneath a runtime archetype, on the same clock.
+ *
+ * This is the composition the `types` archetype cannot do on its own: nodes
+ * running above, the type that guards them morphing below, one play button, no
+ * click required to see both. A steps array shorter than the run holds its last
+ * entry, so a contract that changes once does not need padding out.
+ */
+function InlineTypeStacks({
+  steps,
+  step,
+  playing,
+}: {
+  steps: TypeStep[] | undefined;
+  step: number;
+  playing: boolean;
+}) {
+  if (!steps?.length) return null;
+  const active = steps[Math.min(step, steps.length - 1)];
+  if (!active) return null;
+  return (
+    <div className="-mx-6 overflow-hidden border-t border-border/60">
+      <TypeStacks
+        step={active}
+        theme={DEFAULT_TYPE_THEME}
+        borderColor={playing ? TYPE_BORDER.active : TYPE_BORDER.inactive}
+      />
+      {active.note && (
+        <Prose
+          text={active.note}
+          className="px-6 pb-5 text-xs leading-relaxed text-muted-foreground"
+        />
+      )}
+    </div>
+  );
+}
+
+/**
+ * The `types` archetype: kit's type stacks driven by the same clock and the
+ * same run button as every other archetype, so a backend item can explain a
+ * type-level contract without the page growing a second set of controls.
+ *
+ * A step's `note` renders under the stacks and its `definition` above them, in
+ * place of the flow archetype's code line.
+ */
+function TypesBody({
+  steps,
+  spec,
+}: {
+  steps: TypeStep[];
+  spec: Extract<VizSpec, { archetype: "types" }>;
+}) {
+  const clock = useStepClock(
+    Math.max(steps.length, 1),
+    spec.intervalMs ?? 2600,
+  );
+  const active = steps[clock.step % steps.length];
+  const borderColor = clock.playing ? TYPE_BORDER.active : TYPE_BORDER.inactive;
+
+  // a step change is the moment worth hearing in a type lesson: it is the only
+  // thing that happens. kit plays one wandering pentatonic note per advance.
+  useEffect(() => {
+    typeSounds.playExampleAdvance();
+  }, []);
+  const lastStep = useRef(clock.step);
+  useEffect(() => {
+    if (lastStep.current === clock.step) return;
+    lastStep.current = clock.step;
+    typeSounds.playExampleAdvance();
+    if (clock.step === steps.length - 1) typeSounds.playCompletion();
+  }, [clock.step, steps.length]);
+
+  if (!active) return null;
+
+  return (
+    <div className="flex flex-col gap-4">
+      <VizControls
+        step={clock.step}
+        len={steps.length}
+        playing={clock.playing}
+        toggle={clock.toggle}
+        restart={clock.restart}
+        goto={clock.goto}
+      />
+      {active.definition && (
+        <pre className="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/70 p-3 font-mono text-[13px] leading-relaxed text-neutral-300">
+          {active.definition}
+        </pre>
+      )}
+      <div className="-mx-6 overflow-hidden">
+        <TypeStacks
+          step={active}
+          theme={DEFAULT_TYPE_THEME}
+          borderColor={borderColor}
+        />
+      </div>
+      {active.note && (
+        <Prose
+          text={active.note}
+          className="text-xs leading-relaxed text-muted-foreground"
+        />
       )}
     </div>
   );
@@ -1793,14 +1826,20 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
     : entry;
 
   const [dead, setDead] = useState(false);
-  // a variant switch can move away from the dying spec, so clear the card
-  useEffect(() => setDead(false), []);
+  // A variant switch can move away from the dying spec, and the archetype it
+  // moves to may never report at all (only flow has a death state), so the card
+  // has to clear itself rather than wait to be told.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: keyed on the variant switch, not on `dead`
+  useEffect(() => setDead(false), [selected]);
 
   // gate kit's cues on the site sound toggle + prefers-reduced-motion
   const { enabled: soundEnabled } = useSoundSetting();
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setVizSoundsEnabled(soundEnabled && !mql.matches);
+    const sync = () => {
+      setVizSoundsEnabled(soundEnabled && !mql.matches);
+      setTypeSoundsEnabled(soundEnabled && !mql.matches);
+    };
     sync();
     mql.addEventListener("change", sync);
     return () => mql.removeEventListener("change", sync);
@@ -1828,7 +1867,7 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
           <span className="text-xs uppercase tracking-[0.18em] text-neutral-500">
             {entry.control}
           </span>
-          <SegmentedControl
+          <VizSegmentedControl
             value={selected}
             options={names}
             onChange={(v) => {
@@ -1845,6 +1884,8 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
             spec={active.schedule}
             code={active.code}
           />
+        ) : active.archetype === "types" ? (
+          <TypesBody key={selected} steps={active.steps} spec={active} />
         ) : (
           <StepBody key={selected} spec={active} onDeath={setDead} />
         )}

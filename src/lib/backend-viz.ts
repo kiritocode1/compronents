@@ -1,4 +1,5 @@
 import type { VizEntry } from "@/components/site/effect-viz";
+import { t } from "@/lib/type-tokens";
 
 /**
  * Effect-style visualization specs, one per backend registry item.
@@ -311,6 +312,75 @@ export const backendViz: Record<string, VizEntry> = {
           ],
         },
       },
+      {
+        // The same drift seen in the type system rather than at runtime: this
+        // is what the `types` archetype is for. The flow variants above show
+        // the 3am pager; this one shows the compile that prevents it.
+        name: "at the type level",
+        spec: {
+          archetype: "types",
+          caption:
+            "Derivation moves the rename from a runtime surprise to a compile error. Because the client type is computed from the HttpApi declaration, renaming title to headline changes what .title means: the derived client rejects it, while the hand-written one keeps type-checking a field the server stopped sending.",
+          steps: [
+            {
+              definition:
+                "const client = yield* HttpApiClient.make(ContentApi)",
+              stacks: [
+                {
+                  kind: "call",
+                  name: "HttpApiClient.make",
+                  args: [t.raw("ContentApi")],
+                },
+                {
+                  kind: "result",
+                  result: t.raw(
+                    "{ getPost: () => Effect<{ headline: string }> }",
+                  ),
+                },
+              ],
+              transitions: [{ label: "derives" }],
+              note: "The client type is not written down anywhere. It is computed from the `ContentApi` declaration, so it cannot disagree with it.",
+            },
+            {
+              stacks: [
+                { kind: "expr", expression: t.raw('Post["headline"]') },
+                { kind: "result", result: t.raw("string") },
+              ],
+              note: "Reading the field the server actually sends resolves to `string`.",
+            },
+            {
+              stacks: [
+                { kind: "expr", expression: t.raw('Post["title"]') },
+                {
+                  kind: "result",
+                  display: {
+                    message:
+                      "Property 'title' does not exist on type '{ headline: string }'",
+                    status: "error",
+                  },
+                },
+              ],
+              note: "After the rename, every call site that still says `title` is a **compile error**. That is the whole point: the drift cannot reach production.",
+            },
+            {
+              definition:
+                "type HandSdk = { getPost: () => Promise<{ title: string }> }",
+              stacks: [
+                { kind: "expr", expression: t.raw('HandSdkPost["title"]') },
+                {
+                  kind: "result",
+                  result: t.raw("string"),
+                  display: {
+                    message: "type-checks, and is wrong",
+                    status: "error",
+                  },
+                },
+              ],
+              note: "The hand-written SDK still resolves `title` to `string`. Nothing checks that claim against the server, so it compiles clean and returns `undefined` at runtime.",
+            },
+          ],
+        },
+      },
     ],
   },
   "effect-rpc-contract-transport": {
@@ -337,6 +407,16 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              // the type resolves as the node runs: declaration, then the shape
+              // both sides derive from it
+              types: [
+                t.raw("JobsRpc"),
+                t.raw('JobsRpc["enqueue"]'),
+                t.raw('Rpc<"enqueue", JobPayload, Job>'),
+                t.raw('Rpc<"enqueue", JobPayload, Job>'),
+                t.raw('Rpc<"enqueue", JobPayload, Job>'),
+                t.raw("JobsRpc"),
+              ],
             },
             {
               label: "call over http",
@@ -350,6 +430,14 @@ export const backendViz: Record<string, VizEntry> = {
                 "completed",
                 "idle",
               ),
+              types: [
+                t.raw("unknown"),
+                t.raw("unknown"),
+                t.raw("Effect<Job, JobError>"),
+                t.raw("Job"),
+                t.raw("string"),
+                t.raw("unknown"),
+              ],
             },
           ],
         },

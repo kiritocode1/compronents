@@ -46,23 +46,43 @@ lorem ipsum or throwaway filler. Never use em dashes (the long dash). Use commas
 colons, periods, semicolons, or parentheses instead. This applies to component
 copy, headings, labels, preset names, and UX strings.
 
-## 5. Backend items get a kit-style Effect visualization
+## 5. Backend items get a kit-style visualization that shows code AND behaviour
 
 Every backend registry item (section "backend") ships with an animated
 visualization on its `/backend/<name>` detail page, built strictly from Kit
-Langton's visual-effect vocabulary (effect.kitlangton.com): the stateful task
-node, arrow connectors, the odometer ref cell, the sliding finalizer scope
-stack, the schedule timeline, the segmented outcome toggle, notification and
-error bubbles, and the pentatonic sound cues. Never invent new infographic
+Langton's visual vocabulary: the stateful task node, arrow connectors, the
+odometer ref cell, the sliding finalizer scope stack, the schedule timeline, the
+segmented outcome toggle, notification and error bubbles, the type stacks from
+types.kitlangton.com, and the pentatonic sound cues. Never invent new infographic
 styles (no bar meters, hash rings, or station lanes).
 
-- Engine: `src/components/site/effect-viz.tsx` (archetypes: flow, ref, scope,
-  schedule). Specs: `src/lib/backend-viz.ts`, one `VizEntry` keyed by item name.
+**A spec is not done until it shows all three of these together.** Behaviour
+alone is a cartoon; code alone is a snippet. The pairing is the whole point:
+
+1. **What it does**: nodes (or ref / scope / schedule) running the real
+   sequence, with results that carry real data (values, balances, latencies).
+2. **The code that does it**: a `code` line under the boxes. Every node that
+   corresponds to a piece of that line sets `token` to the matching substring,
+   so the token lights with its owner's state and hovering the node slides the
+   highlight onto it. A code line with no wired tokens is half-built.
+3. **The type it travels under**: `types` on each node: one `TypeNode` per
+   step, rendered as a badge in the node's own column, tinted with the node's
+   state. This is what makes the runtime value and its contract one unit instead
+   of two diagrams.
+
+Prefer a with/without variant toggle that shows the failure the component
+prevents, and `{ v, bad: true }` ref values for writes that should not land.
+
+- Engine: `src/components/site/effect-viz.tsx`. Archetypes: flow, ref, scope,
+  schedule, types. Specs: `src/lib/backend-viz.ts`, one entry per item name.
+- Type stacks and badges: `src/components/site/types-viz.tsx`. Shared chrome
+  (run button, step ticks, segmented control): `src/components/site/viz-chrome.tsx`.
+- One vocabulary: node badges, type stacks, and the code line all render through
+  the same segmenter (`src/lib/type-tokens.ts`) and the same `MorphingSegments`
+  renderer, so they share a palette and a morph. Never add a second syntax
+  highlighter to the viz path.
 - Adding a backend item means adding its spec too, or the page ships without a
   visualization. Pick the archetype that fits the concept.
-- The animation must teach, not decorate: prefer a with/without variant toggle
-  that shows the failure the component prevents, results that carry real data
-  (values, balances, latencies), a `code` line whose tokens light with node
-  state, and `{ v, bad: true }` ref values for writes that should not land.
-- Reverse-engineered mechanics (exact springs, colors, per-state recipes) live
-  in `docs/effect-visualization-guide.md`. Match those values; do not restyle.
+- Reverse-engineered mechanics (exact springs, colors, per-state recipes) live in
+  `docs/effect-visualization-guide.md` and `docs/types-visualization-guide.md`.
+  Match those values; do not restyle.

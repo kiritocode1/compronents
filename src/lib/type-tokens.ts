@@ -32,6 +32,8 @@ export interface TokenTheme {
   valueKeyword: string;
   valueConstructor: string;
   valuePunctuation: string;
+  /** line and block comments; only reached when segmenting real code */
+  comment: string;
 }
 
 /** kit ships six; github-dark is the one the site actually renders */
@@ -49,6 +51,7 @@ export const TOKEN_THEMES = {
     valueKeyword: "#FF7B72",
     valueConstructor: "#79C0FF",
     valuePunctuation: "#E1E4E8",
+    comment: "#6A737D",
   },
   "github-light": {
     typeKeyword: "#CF222E",
@@ -63,6 +66,7 @@ export const TOKEN_THEMES = {
     valueKeyword: "#CF222E",
     valueConstructor: "#6639BA",
     valuePunctuation: "#24292F",
+    comment: "#6A737D",
   },
 } satisfies Record<string, TokenTheme>;
 
@@ -78,7 +82,8 @@ type RawKind =
   | "number"
   | "identifier"
   | "punctuation"
-  | "operator";
+  | "operator"
+  | "comment";
 
 interface RawToken {
   kind: RawKind;
@@ -222,6 +227,22 @@ function lex(input: string): RawToken[] {
       continue;
     }
 
+    // comments first: `//` would otherwise lex as two divide operators
+    if (input.startsWith("//", i)) {
+      const end = input.indexOf("\n", i);
+      const stop = end === -1 ? input.length : end;
+      out.push({ kind: "comment", value: input.slice(i, stop) });
+      i = stop;
+      continue;
+    }
+    if (input.startsWith("/*", i)) {
+      const end = input.indexOf("*/", i + 2);
+      const stop = end === -1 ? input.length : end + 2;
+      out.push({ kind: "comment", value: input.slice(i, stop) });
+      i = stop;
+      continue;
+    }
+
     const multi = MULTI_OPS.find((op) => input.startsWith(op, i));
     if (multi) {
       out.push({ kind: "operator", value: multi });
@@ -290,6 +311,7 @@ function lex(input: string): RawToken[] {
 // ---------------------------------------------------------------------------
 
 type TokenClass =
+  | "comment"
   | "keyword"
   | "primitive"
   | "parameter"
@@ -354,6 +376,7 @@ function classify(
   at: number,
   brackets: string[],
 ): TokenClass {
+  if (token.kind === "comment") return "comment";
   if (token.kind === "string") return "string";
   if (token.kind === "number") return "number";
   if (token.kind === "operator")
@@ -370,6 +393,8 @@ function classify(
 
 function colorFor(cls: TokenClass, theme: TokenTheme): string {
   switch (cls) {
+    case "comment":
+      return theme.comment;
     case "keyword":
       return theme.typeKeyword;
     case "primitive":
@@ -775,6 +800,17 @@ export function segmentType(
         pendingConditionals.push({ depth: brackets.length });
       }
       i = nextAt - 1;
+      continue;
+    }
+
+    if (token.kind === "comment") {
+      emit(
+        out,
+        prefix,
+        `comment-${bump(counts, "comment")}`,
+        token.value,
+        theme.comment,
+      );
       continue;
     }
 
