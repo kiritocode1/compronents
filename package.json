@@ -9,7 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck:registry": "tsc --noEmit -p tsconfig.check.json",
-    "test": "node --test tests/registry-integrity.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs",
+    "test": "node --test tests/registry-integrity.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/type-tokens.test.mjs",
     "test:install": "node --test tests/shadcn-install.test.mjs"
   },
   "dependencies": {

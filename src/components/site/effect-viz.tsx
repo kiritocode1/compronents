@@ -185,7 +185,7 @@ export type VizEntry =
 // ---------------------------------------------------------------------------
 // step clock + controls
 // ---------------------------------------------------------------------------
-function useStepClock(len: number, intervalMs = 1400) {
+export function useStepClock(len: number, intervalMs = 1400) {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(true);
   useEffect(() => {
@@ -205,7 +205,7 @@ function useStepClock(len: number, intervalMs = 1400) {
   };
 }
 
-function Controls({
+export function Controls({
   step,
   len,
   playing,
@@ -298,7 +298,7 @@ function Controls({
 // ---------------------------------------------------------------------------
 // kit's SegmentedControl (sliding blue indicator, mono labels)
 // ---------------------------------------------------------------------------
-function SegmentedControl({
+export function SegmentedControl({
   value,
   onChange,
   options,
@@ -834,10 +834,13 @@ function NodeWithLabel({
   n,
   state,
   step,
+  onHover,
 }: {
   n: VizNodeSpec;
   state: TaskState;
   step?: number;
+  /** kit links node to code: hovering a node lights its token in the code line */
+  onHover?: (token: string | undefined) => void;
 }) {
   const elapsed = useNodeTimer(state);
   // kit's rule: the error bubble owns a failed/death node, so the notification
@@ -861,7 +864,12 @@ function NodeWithLabel({
     return () => clearTimeout(t);
   }, [notifyActive]);
   return (
-    <div className="relative flex flex-col items-center">
+    // biome-ignore lint/a11y/noStaticElementInteractions: hover only moves a decorative highlight over the code line; the same node/token pairing is already conveyed by the token's background colour, so there is nothing here for a keyboard or screen reader to reach
+    <div
+      className="relative flex flex-col items-center"
+      onMouseEnter={() => onHover?.(n.token)}
+      onMouseLeave={() => onHover?.(undefined)}
+    >
       <AnimatePresence>
         {showNotify && n.notify && (
           <NotificationBubble message={n.notify.message} icon={n.notify.icon} />
@@ -969,7 +977,92 @@ const MARK_BG: Record<TaskState, string> = {
   interrupted: "rgba(249,115,22,0.35)",
 };
 
-function CodeLine({ code, marks }: { code: string; marks: CodeMark[] }) {
+/**
+ * kit's FloatingHighlight: one rounded rect that springs between code tokens
+ * rather than a per-token background that pops on and off. It measures the
+ * target span against the `<pre>` and animates x/y/width/height, fading out
+ * (and shrinking slightly) when nothing is targeted.
+ */
+function FloatingHighlight({
+  containerRef,
+  token,
+}: {
+  containerRef: React.RefObject<HTMLPreElement | null>;
+  token: string | undefined;
+}) {
+  const spring = { bounce: 0, visualDuration: 0.2 };
+  const x = useSpring(0, spring);
+  const y = useSpring(0, spring);
+  const width = useSpring(0, spring);
+  const height = useSpring(0, spring);
+  const opacity = useMotionValue(0);
+  const scale = useSpring(1, { stiffness: 300, damping: 20 });
+  // the rect blurs as it fades, so it never reads as a hard edge mid-flight
+  const blur = useTransform(opacity, [0, 1], [4, 0]);
+  const filter = useTransform(blur, (b) => `blur(${b}px)`);
+
+  useEffect(() => {
+    const pre = containerRef.current;
+    if (!pre || !token) {
+      animate(opacity, 0, { ease: "linear", duration: 0.2 });
+      scale.set(0.9);
+      return;
+    }
+    const target = pre.querySelector<HTMLElement>(
+      `[data-token="${CSS.escape(token)}"]`,
+    );
+    if (!target) {
+      animate(opacity, 0, { ease: "linear", duration: 0.2 });
+      scale.set(0.95);
+      return;
+    }
+    const outer = pre.getBoundingClientRect();
+    const inner = target.getBoundingClientRect();
+    // first placement should not slide in from the origin
+    if (opacity.get() === 0) {
+      x.jump(inner.left - outer.left + pre.scrollLeft);
+      y.jump(inner.top - outer.top);
+      width.jump(inner.width);
+      height.jump(inner.height);
+    } else {
+      x.set(inner.left - outer.left + pre.scrollLeft);
+      y.set(inner.top - outer.top);
+      width.set(inner.width);
+      height.set(inner.height);
+    }
+    scale.set(1);
+    animate(opacity, 1, { ease: "linear", duration: 0.15 });
+  }, [token, containerRef, opacity, scale, x, y, width, height]);
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none absolute top-0 left-0 rounded"
+      style={{
+        x,
+        y,
+        width,
+        height,
+        opacity,
+        scale,
+        filter,
+        background: "rgba(255,255,255,0.16)",
+        boxShadow: "0 0 0 1px rgba(255,255,255,0.18)",
+      }}
+    />
+  );
+}
+
+function CodeLine({
+  code,
+  marks,
+  hovered,
+}: {
+  code: string;
+  marks: CodeMark[];
+  hovered?: string;
+}) {
+  const preRef = useRef<HTMLPreElement>(null);
   // split the code into plain and token segments (first occurrence wins)
   const segments: { text: string; state?: TaskState }[] = [];
   let rest = code;
@@ -988,12 +1081,17 @@ function CodeLine({ code, marks }: { code: string; marks: CodeMark[] }) {
     rest = rest.slice(best.at + best.mark.token.length);
   }
   return (
-    <pre className="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/70 p-3 font-mono text-[13px] leading-relaxed text-neutral-300">
+    <pre
+      ref={preRef}
+      className="relative overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/70 p-3 font-mono text-[13px] leading-relaxed text-neutral-300"
+    >
+      <FloatingHighlight containerRef={preRef} token={hovered} />
       {segments.map((seg, i) => (
         <span
           // biome-ignore lint/suspicious/noArrayIndexKey: static segmentation of a fixed string
           key={i}
-          className="rounded px-0.5 transition-colors duration-200"
+          data-token={seg.state ? seg.text : undefined}
+          className="relative rounded px-0.5 transition-colors duration-200"
           style={{
             backgroundColor: seg.state ? MARK_BG[seg.state] : "transparent",
             color: seg.state && seg.state !== "idle" ? "#fff" : undefined,
@@ -1543,9 +1641,28 @@ function ScheduleViz({ spec, code }: { spec: ScheduleSpec; code?: string }) {
 // ---------------------------------------------------------------------------
 function StepBody({
   spec,
+  onDeath,
 }: {
   spec: Exclude<VizSpec, { archetype: "schedule" }>;
+  /** reports whether any node is dead this step, so the card can go into death mode */
+  onDeath?: (dead: boolean) => void;
 }) {
+  // kit's node/code linkage: the highlight lingers 500ms after mouse-out, so
+  // sweeping across nodes reads as one continuous slide rather than a flicker
+  const [hovered, setHovered] = useState<string | undefined>();
+  const clearTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+  const hover = (token: string | undefined) => {
+    if (clearTimer.current) clearTimeout(clearTimer.current);
+    if (token) {
+      setHovered(token);
+      return;
+    }
+    clearTimer.current = setTimeout(() => setHovered(undefined), 500);
+  };
+  useEffect(() => () => clearTimeout(clearTimer.current), []);
+
   const len = Math.max(
     2,
     spec.archetype === "flow"
@@ -1576,6 +1693,7 @@ function StepBody({
                 n={n}
                 state={n.states[clock.step % n.states.length] ?? "idle"}
                 step={clock.step}
+                onHover={hover}
               />
             </div>
           ))}
@@ -1624,6 +1742,15 @@ function StepBody({
 
   return (
     <div className="flex flex-col gap-4">
+      <DeathReporter
+        dead={
+          spec.archetype === "flow" &&
+          spec.nodes.some(
+            (n) => n.states[clock.step % n.states.length] === "death",
+          )
+        }
+        onDeath={onDeath}
+      />
       <Controls
         step={clock.step}
         len={len}
@@ -1633,9 +1760,25 @@ function StepBody({
         goto={clock.goto}
       />
       <div className="min-h-[120px] py-2">{body}</div>
-      {spec.code && <CodeLine code={spec.code} marks={marks} />}
+      {spec.code && (
+        <CodeLine code={spec.code} marks={marks} hovered={hovered} />
+      )}
     </div>
   );
+}
+
+/** lifts the current step's death flag to the card without re-rendering it */
+function DeathReporter({
+  dead,
+  onDeath,
+}: {
+  dead: boolean;
+  onDeath?: (dead: boolean) => void;
+}) {
+  useEffect(() => {
+    onDeath?.(dead);
+  }, [dead, onDeath]);
+  return null;
 }
 
 export function EffectViz({ spec: entry }: { spec: VizEntry }) {
@@ -1649,6 +1792,10 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
       ({ archetype: "flow", nodes: [] } as VizSpec))
     : entry;
 
+  const [dead, setDead] = useState(false);
+  // a variant switch can move away from the dying spec, so clear the card
+  useEffect(() => setDead(false), []);
+
   // gate kit's cues on the site sound toggle + prefers-reduced-motion
   const { enabled: soundEnabled } = useSoundSetting();
   useEffect(() => {
@@ -1660,7 +1807,22 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
   }, [soundEnabled]);
 
   return (
-    <div className="flex flex-col rounded-2xl border border-border/60 bg-card/40">
+    // kit's death mode: an unrecoverable defect takes the whole card, not just
+    // the node. Background goes black-to-blood, the border reddens and a wide
+    // red glow spills out, so a defect is unmissable at a glance.
+    <motion.div
+      className="flex flex-col rounded-2xl border"
+      animate={{
+        backgroundImage: dead
+          ? "linear-gradient(to bottom right, rgb(0,0,0), rgba(127,29,29,0.2))"
+          : "linear-gradient(to bottom right, rgba(23,23,23,0.5), rgba(23,23,23,0.2))",
+        borderColor: dead ? "rgba(127,29,29,0.5)" : "rgba(64,64,64,0.5)",
+        boxShadow: dead
+          ? "0 0 40px rgba(220,38,38,0.3)"
+          : "0 0 0px rgba(220,38,38,0)",
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
       {hasVariants && (
         <div className="flex flex-wrap items-center gap-4 border-b border-border/60 px-6 py-4">
           <span className="text-xs uppercase tracking-[0.18em] text-neutral-500">
@@ -1684,7 +1846,7 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
             code={active.code}
           />
         ) : (
-          <StepBody key={selected} spec={active} />
+          <StepBody key={selected} spec={active} onDeath={setDead} />
         )}
         {active.caption && (
           <p className="text-xs leading-relaxed text-muted-foreground">
@@ -1692,6 +1854,6 @@ export function EffectViz({ spec: entry }: { spec: VizEntry }) {
           </p>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

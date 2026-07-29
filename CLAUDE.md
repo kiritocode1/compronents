@@ -32,6 +32,29 @@ item is not done until its spec exists). Mechanics reference:
 `docs/effect-visualization-guide.md`. The animation must teach the failure the
 component prevents, not just decorate the page.
 
+# Type Visualizations
+
+`/types` is the Visual Types section: a 1:1 port of
+[types.kitlangton.com](https://types.kitlangton.com), which is NOT open source
+(reverse-engineered from its bundle; extraction notes in `.types-analysis/`,
+gitignored).
+
+It is **additive to the effect vocabulary, not a parallel one**. The card shell,
+run/stop button, step ticks and segmented control are imported from
+`src/components/site/effect-viz.tsx`; never grow a second set of controls.
+
+- Engine: `src/components/site/types-viz.tsx` (stack kinds: expr, set, call,
+  result, subset).
+- Segmenter: `src/lib/type-tokens.ts`. Its whole job is **stable segment ids**,
+  which is what makes one type morph into the next instead of flickering.
+  `tests/type-tokens.test.mjs` guards that; run it after touching the lexer.
+- Lessons: `src/lib/types-viz.ts`, 24 of them in 5 groups.
+- Mechanics reference: `docs/types-visualization-guide.md`.
+
+Definition snippets are statements, so they go through `highlight()` from
+`@/lib/shiki` server-side, never through the segmenter (which only lays out
+types and mis-spaces assignments).
+
 # Registry Asset Uploads
 
 Assets for installable registry components belong in Vercel Blob and should be
