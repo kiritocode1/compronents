@@ -14,7 +14,6 @@ const links = [
   { href: "/components", label: "Components" },
   { href: "/pages", label: "Pages" },
   { href: "/backend", label: "Backend" },
-  { href: "/types", label: "Types" },
   { href: "/inspiration", label: "Inspiration" },
 ];
 

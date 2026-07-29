@@ -1,13 +1,14 @@
 "use client";
 
 /**
- * Visual Types engine.
+ * Visual Types vocabulary.
  *
- * A port of Kit Langton's types.kitlangton.com vocabulary, sitting on top of
- * the effect-viz chrome rather than beside it: the card shell, the run/stop
- * button, the step ticks and the segmented control all come from
- * src/components/site/effect-viz.tsx. What this file adds is the type-stack
- * vocabulary itself.
+ * A port of Kit Langton's types.kitlangton.com stacks, with no chrome of its
+ * own. It exports one renderer, TypeStacks, which draws a single step's column
+ * of stacks; effect-viz.tsx owns the card, the run button and the clock that
+ * advances it. That is what lets a type contract play underneath a flow of task
+ * nodes, or stand alone as the `types` archetype, without a second set of
+ * controls appearing on the page.
  *
  * The whole illusion rests on one mechanic. A stack renders its type as
  * segments carrying stable ids (src/lib/type-tokens.ts); between steps the
@@ -21,8 +22,8 @@
  * success/error status colour), set (a type's inhabitants as a value set), and
  * subset (the Venn diagram for `A extends B`).
  *
- * Specs live in src/lib/types-viz.ts. Mechanics reference:
- * docs/types-visualization-guide.md
+ * Specs live in src/lib/backend-viz.ts, alongside every other archetype.
+ * Mechanics reference: docs/types-visualization-guide.md
  */
 
 import {
@@ -35,7 +36,6 @@ import {
 } from "motion/react";
 import { Fragment, useEffect, useId, useMemo, useRef } from "react";
 import { PiArrowDownBold } from "react-icons/pi";
-import { Controls, useStepClock } from "@/components/site/effect-viz";
 import {
   nodeToSegments,
   segmentsKey,
@@ -49,12 +49,27 @@ import {
 // shared tokens (exact values from the source)
 // ---------------------------------------------------------------------------
 
-/** kit's four springs; every motion in this file uses one of them */
+/**
+ * kit's four springs; every motion in this file uses one of them.
+ *
+ * `smooth` is slower than his 0.4. His lessons are keyboard-stepped, so each
+ * morph is something you asked for and 0.4s reads as responsive. Ours run on a
+ * loop, where the same speed reads as a flicker you have to catch. The exit is
+ * kept a little under the enter so tokens clear out before their replacements
+ * finish arriving.
+ */
 const SPRINGS = {
   fast: { type: "spring" as const, visualDuration: 0.2, bounce: 0 },
   default: { type: "spring" as const, visualDuration: 0.3, bounce: 0 },
-  smooth: { type: "spring" as const, visualDuration: 0.4, bounce: 0 },
+  smooth: { type: "spring" as const, visualDuration: 0.75, bounce: 0 },
   bouncy: { type: "spring" as const, visualDuration: 0.3, bounce: 0.3 },
+};
+
+/** how a segment leaves; slower than kit's 0.2 for the same reason */
+const SEGMENT_EXIT = {
+  type: "spring" as const,
+  visualDuration: 0.45,
+  bounce: 0,
 };
 
 /** the whole site is two greys: a lit border and an unlit one */
@@ -137,17 +152,6 @@ export interface TypeStep {
   note?: string;
 }
 
-export interface TypeLesson {
-  name: string;
-  title: string;
-  group: string;
-  /** markdown-ish prose: `code` and **bold** are supported */
-  explainer: string;
-  steps: TypeStep[];
-  /** a TS snippet shown for every step unless a step overrides it */
-  code?: string;
-}
-
 // ---------------------------------------------------------------------------
 // primitive: morphing segments (kit's TypeSegments)
 // ---------------------------------------------------------------------------
@@ -160,48 +164,70 @@ export interface TypeLesson {
  * `mode="sync"` matters: entering and leaving segments must animate at the same
  * time, or the line would jump as it re-flows.
  */
-function MorphingSegments({
+export function MorphingSegments({
   segments,
   className = "",
+  decorate,
 }: {
   segments: TypeSegment[];
   className?: string;
+  /**
+   * Per-segment overrides, so a caller can tint a run of segments without
+   * wrapping them in an element (a wrapper would break the AnimatePresence
+   * keying that the whole morph depends on). Used by the code line to light the
+   * tokens belonging to a running node.
+   */
+  decorate?: (segment: TypeSegment) =>
+    | {
+        backgroundColor?: string;
+        color?: string;
+        mark?: string;
+      }
+    | undefined;
 }) {
   return (
     <div className="relative inline-flex flex-wrap items-center">
       <div className={`inline-flex flex-wrap items-center ${className}`}>
         <AnimatePresence mode="sync" initial={false}>
-          {segments.map((segment) => (
-            <motion.span
-              key={segment.id}
-              initial={{ filter: "blur(4px)", width: 0 }}
-              animate={{
-                filter: "blur(0px)",
-                width: "auto",
-                transition: SPRINGS.smooth,
-              }}
-              exit={{
-                filter: "blur(4px)",
-                width: 0,
-                transition: { ...SPRINGS.smooth, visualDuration: 0.2 },
-              }}
-              className={
-                segment.isEllipsis
-                  ? "inline-flex items-center"
-                  : "whitespace-pre-wrap sm:whitespace-pre"
-              }
-              style={{
-                overflow: "hidden",
-                color: segment.color,
-                opacity: segment.isEllipsis ? 0.7 : 1,
-                willChange: "opacity, filter",
-                backfaceVisibility: "hidden",
-                WebkitFontSmoothing: "antialiased",
-              }}
-            >
-              {segment.content}
-            </motion.span>
-          ))}
+          {segments.map((segment) => {
+            const extra = decorate?.(segment);
+            return (
+              <motion.span
+                key={segment.id}
+                data-mark={extra?.mark}
+                initial={{ filter: "blur(4px)", width: 0 }}
+                animate={{
+                  filter: "blur(0px)",
+                  width: "auto",
+                  transition: SPRINGS.smooth,
+                }}
+                exit={{
+                  filter: "blur(4px)",
+                  width: 0,
+                  transition: SEGMENT_EXIT,
+                }}
+                className={
+                  segment.isEllipsis
+                    ? "inline-flex items-center"
+                    : "whitespace-pre-wrap sm:whitespace-pre"
+                }
+                style={{
+                  overflow: "hidden",
+                  color: extra?.color ?? segment.color,
+                  backgroundColor: extra?.backgroundColor,
+                  transition: extra
+                    ? "background-color 400ms, color 400ms"
+                    : undefined,
+                  opacity: segment.isEllipsis ? 0.7 : 1,
+                  willChange: "opacity, filter",
+                  backfaceVisibility: "hidden",
+                  WebkitFontSmoothing: "antialiased",
+                }}
+              >
+                {segment.content}
+              </motion.span>
+            );
+          })}
         </AnimatePresence>
       </div>
     </div>
@@ -1133,7 +1159,13 @@ function StackArrow({ label }: { label?: string }) {
  * two-rule subset of markdown that actually appears in them. A full parser
  * would be a dependency for something a split can do.
  */
-function Prose({ text, className = "" }: { text: string; className?: string }) {
+export function Prose({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
   const parts = useMemo(
     () => text.split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)/g),
     [text],
@@ -1181,109 +1213,88 @@ function Prose({ text, className = "" }: { text: string; className?: string }) {
  * types and would mis-space an assignment. The HTML is produced server-side and
  * handed down; without it we still render the raw snippet.
  */
-function DefinitionBlock({ code, html }: { code: string; html?: string }) {
+export function TypeStacks({
+  step,
+  theme,
+  borderColor,
+}: {
+  step: TypeStep;
+  theme: (typeof TOKEN_THEMES)[ThemeName];
+  borderColor: string;
+}) {
   return (
     <div
-      className="overflow-x-auto border-y bg-neutral-950 px-6 py-5 text-xs leading-relaxed sm:text-sm [&_pre]:!bg-transparent"
-      style={{ borderColor: BORDER.inactive }}
+      className="px-6 py-8"
+      style={{ backgroundImage: DOT_PATTERN, backgroundSize: "12px 12px" }}
     >
-      {html ? (
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: shiki output built server-side from a literal in src/lib/types-viz.ts
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-      ) : (
-        <pre className="font-mono">{code}</pre>
-      )}
+      <div className="mx-auto flex max-w-4xl flex-col items-stretch gap-0">
+        {step.stacks.map((spec, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: stacks are positional within a step
+          <div key={i} className="flex flex-col items-stretch">
+            <Stack
+              spec={spec}
+              theme={theme}
+              borderColor={borderColor}
+              stackId={`stack-${i}`}
+            />
+            {i < step.stacks.length - 1 && (
+              <div className="flex justify-center">
+                <StackArrow label={step.transitions?.[i]?.label} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-// ---------------------------------------------------------------------------
-// the lesson card
-// ---------------------------------------------------------------------------
-
-export function TypesViz({
-  lesson,
-  definitionHtml,
-  themeName = "github-dark",
-  intervalMs = 2600,
+/**
+ * A type attached to a single task node, drawn small enough to sit in the
+ * node's own column rather than in a diagram of its own.
+ *
+ * This is what makes the two vocabularies one picture instead of two stacked
+ * ones: the box is the runtime value, the badge under it is the type that value
+ * is travelling under, and both are driven by the same node's state. The badge
+ * borrows the node's state colour, so when the node runs the type lights blue
+ * with it and when it completes they go green together.
+ */
+export function TypeBadge({
+  node,
+  id,
+  theme = DEFAULT_TYPE_THEME,
+  accent,
 }: {
-  lesson: TypeLesson;
-  /** shiki HTML per definition snippet, keyed by the raw snippet */
-  definitionHtml?: Record<string, string>;
-  themeName?: ThemeName;
-  intervalMs?: number;
+  node: TypeNode;
+  /** stable per-node prefix, so two nodes showing `string` still morph apart */
+  id: string;
+  theme?: (typeof TOKEN_THEMES)[ThemeName];
+  /** the owning node's state colour */
+  accent: string;
 }) {
-  const theme = TOKEN_THEMES[themeName];
-  const steps = lesson.steps;
-  const { step, playing, toggle, restart, goto } = useStepClock(
-    Math.max(steps.length, 1),
-    intervalMs,
+  const segments = useMemo(
+    () => nodeToSegments(node, theme, `badge-${id}`),
+    [node, theme, id],
   );
-  const active = steps[Math.min(step, steps.length - 1)];
-  // the border lifts from #222 to #333 while the lesson is actually running
-  const borderColor = playing ? BORDER.active : BORDER.inactive;
-  const definition = active?.definition ?? lesson.code;
-
-  if (!active) return null;
-
+  const key = useMemo(() => segmentsKey(segments), [segments]);
   return (
-    <div className="flex flex-col rounded-2xl border border-border/60 bg-card/40">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 px-6 py-4">
-        <span className="font-mono text-sm uppercase tracking-[0.18em] text-neutral-300">
-          {lesson.title}
-        </span>
-        <Controls
-          step={step}
-          len={steps.length}
-          playing={playing}
-          toggle={toggle}
-          restart={restart}
-          goto={goto}
-        />
-      </div>
-
-      <Prose
-        text={lesson.explainer}
-        className="border-b border-border/60 px-6 py-5 text-sm leading-relaxed text-neutral-300"
+    <FlashBox
+      triggerKey={key}
+      className="mt-2 flex items-center justify-center border px-2.5 py-1"
+      style={{
+        borderColor: accent,
+        backgroundColor: "rgb(10,10,10)",
+        transition: "border-color 300ms ease",
+      }}
+    >
+      <MorphingSegments
+        segments={segments}
+        className="font-mono text-[11px] leading-none"
       />
-
-      {definition && (
-        <DefinitionBlock
-          code={definition}
-          html={definitionHtml?.[definition]}
-        />
-      )}
-
-      <div
-        className="px-6 py-8"
-        style={{ backgroundImage: DOT_PATTERN, backgroundSize: "12px 12px" }}
-      >
-        <div className="mx-auto flex max-w-4xl flex-col items-stretch gap-0">
-          {active.stacks.map((spec, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: stacks are positional within a step
-            <div key={i} className="flex flex-col items-stretch">
-              <Stack
-                spec={spec}
-                theme={theme}
-                borderColor={borderColor}
-                stackId={`stack-${i}`}
-              />
-              {i < active.stacks.length - 1 && (
-                <div className="flex justify-center">
-                  <StackArrow label={active.transitions?.[i]?.label} />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {active.note && (
-        <Prose
-          text={active.note}
-          className="border-t border-border/60 px-6 py-4 text-sm leading-relaxed text-neutral-400"
-        />
-      )}
-    </div>
+    </FlashBox>
   );
 }
+
+/** the default theme, for callers that do not pick one */
+export const DEFAULT_TYPE_THEME = TOKEN_THEMES["github-dark"];
+export const TYPE_BORDER = BORDER;

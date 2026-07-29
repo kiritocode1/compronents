@@ -138,3 +138,27 @@ test("repeated tokens within one stack get distinct ids", () => {
   const segments = segmentType("[boolean, boolean]", theme);
   assert.equal(new Set(ids(segments)).size, segments.length);
 });
+
+test("code lines keep their comments intact", () => {
+  // backend viz code lines carry trailing comments; `//` must not lex as two
+  // divide operators, and the comment text must survive re-spacing verbatim
+  const segments = segmentType(
+    "sdk.getPost().title // server renamed it weeks ago",
+    theme,
+  );
+  assert.equal(
+    text(segments),
+    "sdk.getPost().title // server renamed it weeks ago",
+  );
+  const comment = segments.find((s) => s.content.startsWith("//"));
+  assert.equal(comment.color, theme.comment);
+
+  // block comments too, and a lone slash is still an operator
+  assert.equal(text(segmentType("a /* note */ b", theme)), "a /* note */ b");
+  assert.equal(text(segmentType("a / b", theme)), "a / b");
+});
+
+test("method chains do not gain stray spaces", () => {
+  const code = "RpcServer.layer(JobsRpc).pipe(Layer.provide(HttpTransport))";
+  assert.equal(text(segmentType(code, theme)), code);
+});

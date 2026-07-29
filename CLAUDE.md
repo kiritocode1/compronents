@@ -34,26 +34,60 @@ component prevents, not just decorate the page.
 
 # Type Visualizations
 
-`/types` is the Visual Types section: a 1:1 port of
-[types.kitlangton.com](https://types.kitlangton.com), which is NOT open source
-(reverse-engineered from its bundle; extraction notes in `.types-analysis/`,
+The `types` archetype is kit's Visual Types vocabulary
+([types.kitlangton.com](https://types.kitlangton.com)) as a fifth backend viz
+archetype, next to flow/ref/scope/schedule. That site is NOT open source; it was
+reverse-engineered from its bundle (extraction notes in `.types-analysis/`,
 gitignored).
 
-It is **additive to the effect vocabulary, not a parallel one**. The card shell,
-run/stop button, step ticks and segmented control are imported from
-`src/components/site/effect-viz.tsx`; never grow a second set of controls.
+Use it when the failure a component prevents is **type-level** rather than
+runtime: the mistake shows up in the contract instead of in a task node.
 
-- Engine: `src/components/site/types-viz.tsx` (stack kinds: expr, set, call,
-  result, subset).
+It composes with the runtime archetypes two ways, and both matter:
+
+- **As a variant.** A `VizEntry` variant set can mix archetypes, so a segmented
+  control can switch between a `flow` and a `types` view of the same item (see
+  `effect-httpapi-derived-client`).
+- **Inline, on the same clock.** Any spec can carry `typeStacks?: TypeStep[]` on
+  its `Base`, rendered under the body and advanced by the same step clock, so
+  the runtime picture and the contract that guards it play together with no
+  click (see `effect-rpc-contract-transport`). A steps array shorter than the
+  run holds its last entry. Supported for flow/ref/scope; `schedule` sweeps
+  continuously and has no per-step index to sync to.
+
+- Renderer: `src/components/site/types-viz.tsx` exports `TypeStacks`,
+  `TypeBadge` and `MorphingSegments`, and owns no chrome. Stack kinds: expr,
+  set, call, result, subset.
+- **One vocabulary everywhere.** Node type badges (`node.types`), type stacks,
+  and the code line under the boxes all render through the same segmenter and
+  the same `MorphingSegments` renderer, so they share a palette and a morph.
+  `code` accepts an array for per-step code, which then rewrites itself token by
+  token as the run advances. Do not add a second syntax highlighter for viz
+  code; `segmentType` handles comments and method chains.
+- Shared chrome (run button, step ticks, segmented control):
+  `src/components/site/viz-chrome.tsx`, used by both engines so neither imports
+  the other.
 - Segmenter: `src/lib/type-tokens.ts`. Its whole job is **stable segment ids**,
   which is what makes one type morph into the next instead of flickering.
   `tests/type-tokens.test.mjs` guards that; run it after touching the lexer.
-- Lessons: `src/lib/types-viz.ts`, 24 of them in 5 groups.
+- Sounds: `src/lib/types-viz-sounds.ts`, kit's Tone.js voices rebuilt on
+  `@web-kits/audio` (same approach as `effect-viz-sounds.ts`, no new dependency).
 - Mechanics reference: `docs/types-visualization-guide.md`.
 
-Definition snippets are statements, so they go through `highlight()` from
-`@/lib/shiki` server-side, never through the segmenter (which only lays out
-types and mis-spaces assignments).
+# Backend Viz Completeness
+
+Convention 5 in `AGENTS.md` is enforced by
+`tests/backend-viz-completeness.test.mjs`: every spec must show what it does
+(nodes), the code that does it (a `code` line with node `token`s wired), and the
+type it travels under (`types` badges on nodes, or a `types` variant).
+
+It is a **ratchet**, not a gate. 113 of 115 specs predate the rule and sit in
+`KNOWN_GAPS`. New items must be complete; fixing an old one means deleting its
+line from that list, and the test fails if a listed item is already complete. So
+the backlog can only shrink.
+
+`tests/alias-hooks.mjs` teaches `node --test` the `@/` alias, so tests import
+app modules directly instead of grepping them as text.
 
 # Registry Asset Uploads
 

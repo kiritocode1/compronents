@@ -168,35 +168,37 @@ Running statements through the type segmenter is the tempting shortcut and it is
 wrong: the segmenter's layout rules only know about types, so assignments come
 out mis-spaced.
 
-## 7. The catalogue
+## 7. Where it is used
 
-24 lessons in 5 groups, all ported to `src/lib/types-viz.ts`:
+There is no lessons section. The vocabulary exists so a **backend registry item**
+can explain a type-level idea with the same engine that draws its runtime
+behaviour, which is the only reason it was ported.
 
-**Foundation** — Types as Sets, Literal Types, Union Types, Subtypes as Subsets,
-Tuple Types, Object Types, Intersection Types.
+Two composition points:
 
-**Basics II** — Type Aliases, Generic Types, typeof, as const, unknown vs any.
+- **As a variant** of a `VizEntry`, so a segmented control switches between a
+  `flow` view and a `types` view of the same item.
+  `effect-httpapi-derived-client` does this: two flow variants show the drift
+  paging someone at 3am, and a third shows the compile error that prevents it.
+- **Inline via `typeStacks` on a spec's `Base`**, rendered under the body and
+  advanced by the same step clock, so no click is needed to see both.
+  `effect-rpc-contract-transport` does this: nodes carry the call while the
+  contract resolves underneath them.
 
-**Object Patterns** — keyof, Indexed Access, Mapped Types.
+Three stack shapes carry most of the weight:
 
-**Conditional Types** — Conditional Types, Reflexivity, Conditional Unions,
-Conditional Non-Distribution, Conditional Filters, infer.
-
-**Utility Types** — Pick, Return Type, Parameters.
-
-Three lessons carry their own shape rather than the two-stack default:
-
-- **Subtypes as Subsets** is the Venn diagram. Circle radii are *not* to scale;
-  the steps are exaggerated so containment reads (`never` is a 10px dot, an
-  infinite set is the maximum radius). When `A extends B` holds, A nests inside
-  B; otherwise the two are offset and overlap.
-- **unknown vs any** has three stacks: the expression, what the type checker
-  says, then what the runtime does, with the arrows labelled. The whole point is
-  the disagreement, so a step the compiler rejected renders its runtime stack as
-  a ghost reading "Not executed".
-- **Mapped Types**, **Conditional Unions** and **Pick** use `intermediateSteps`:
-  a column of muted mini call/result rows under the parent call, showing the
-  per-member evaluation (`K = "name"` → `name: string`).
+- **subset** is the Venn diagram. Radii are a hand-tuned per-type lookup, not a
+  function of cardinality; most of these sets are infinite so there is nothing
+  to compute. Shapes are rounded rects rather than circles, which is what lets
+  `any` animate its corner radius to 0 and become a square: the universal set
+  reads as the box everything sits inside. The relationship (perfect overlap,
+  containment either way, disjoint, partial) is inferred from the radii, and the
+  overlap is hatched green or red through a masked circle. Labels sit outside
+  the frame on leader lines drawn from each shape's edge.
+- **result** with a `display` shows a compiler message instead of a type, tinted
+  by status. That is how a `Property 'title' does not exist` step is drawn.
+- **call** with `intermediateSteps` shows per-member evaluation as a column of
+  muted mini rows, for anything that distributes.
 
 ## 8. Minimal reproduction checklist
 
