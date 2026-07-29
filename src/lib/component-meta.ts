@@ -13633,6 +13633,111 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "elastic-string-field": {
+    demoPath: "src/components/demos/elastic-string-field.tsx",
+    nuance: [
+      {
+        label: "Two spring sets, not one",
+        description:
+          "Neighbour springs alone give a limp chain that collapses into a knot. The second set runs between every point and the one two along, and resisting that longer span is what stops the ribbon folding onto itself. Bend resistance is the dial between a noodle and a stiff band.",
+      },
+      {
+        label: "A ribbon is tossed by its own compression",
+        description:
+          "Points spawn a tenth of a rest length apart along a sine wave, so a new ribbon is a coiled spring holding thirty five points on top of each other. The structural springs unpack it over the next few frames, which is where the flip and the loop come from. The toss velocity only decides which way it travels.",
+      },
+      {
+        label: "Nothing collides, everything cushions",
+        description:
+          "There is no contact test. Points inside the repulsion radius push apart with a force that falls off linearly to zero at the edge, and the walls apply the identical cushion inward. Ribbons never overlap because they never get close enough to, and the field spaces itself without any packing pass.",
+      },
+      {
+        label: "Frame-capped on purpose",
+        description:
+          "Forces are added straight to velocities in pixels per frame with no delta time anywhere, so the source's 60fps cap is part of the physics. The loop reproduces that gate rather than running free, or a 120Hz display would run the field at double speed.",
+      },
+    ],
+    editable: [
+      {
+        name: "lineWidth",
+        control: "text",
+        description: "Ribbon thickness, 10 to 150.",
+      },
+      {
+        name: "bendingResistance",
+        control: "text",
+        description: "Stiffness, 0 to 1. Near zero the ribbons go limp.",
+      },
+      {
+        name: "repulsionRadius",
+        control: "text",
+        description: "Spacing between ribbons and off the walls, 10 to 150.",
+      },
+      {
+        name: "gravity",
+        control: "text",
+        description: "Weightless at 0. Negative floats the field up.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description:
+          "Field colour. Unset, one palette entry is drawn per mount.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "palette / background",
+        type: "string[] / string",
+        default: "eight-colour set / one of them",
+        description:
+          "Ribbon colours. Left unset, background takes a random palette entry and that entry is dropped from the ribbon colours, so the field never paints a ribbon in its own colour.",
+      },
+      {
+        name: "elasticity / bendingResistance",
+        type: "number / number",
+        default: "0.8 / 0.1",
+        description:
+          "Spring constants for adjacent points and for points two apart. The second is the ribbon's stiffness.",
+      },
+      {
+        name: "repulsionStrength / repulsionRadius",
+        type: "number / number",
+        default: "2 / 60",
+        description:
+          "Push between points inside the radius, which is also the width of the cushion along each wall.",
+      },
+      {
+        name: "damping / gravity",
+        type: "number / number",
+        default: "0.85 / 0",
+        description:
+          "Velocity kept per frame, and downward acceleration. Below about 0.8 damping the field never settles.",
+      },
+      {
+        name: "lineWidth / restLength",
+        type: "number / number",
+        default: "60 / 15",
+        description:
+          "Stroke weight of a ribbon and the target distance between its points, so together they set how fat and how long it reads.",
+      },
+      {
+        name: "autoSpawn / spawnClearance / spawnInterval / maxStrings",
+        type: "boolean / number / number / number",
+        default: "true / 75 / 100 / 24",
+        description:
+          "Keep dropping ribbons into any spot that clears every existing point by spawnClearance, waiting spawnInterval between attempts. Every point tests every other point each frame, so maxStrings is the cap that keeps that quadratic honest.",
+      },
+      {
+        name: "initialVelocity",
+        type: "number",
+        default: "15",
+        description:
+          "Ceiling on the toss speed a new ribbon is thrown in with.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

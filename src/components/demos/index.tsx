@@ -64,6 +64,7 @@ import DriftingCardMarqueeDemo from "./drifting-card-marquee";
 import DroneFleetDemo from "./drone-fleet";
 import EdgeWarpRailDemo from "./edge-warp-rail";
 import ElasticCurtainMenuDemo from "./elastic-curtain-menu";
+import ElasticStringFieldDemo from "./elastic-string-field";
 import EmojiTrailPreloaderDemo from "./emoji-trail-preloader";
 import EndlessSideStoryDemo from "./endless-side-story";
 import ExpandingNavbarRevealDemo from "./expanding-navbar-reveal";
@@ -447,4 +448,5 @@ export const demos: Record<string, ComponentType> = {
   "pixel-cube-avatar": PixelCubeAvatarDemo,
   "pixel-cube-field": PixelCubeFieldDemo,
   "liquid-glass-carousel": LiquidGlassCarouselDemo,
+  "elastic-string-field": ElasticStringFieldDemo,
 };

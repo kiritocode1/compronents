@@ -7692,6 +7692,26 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "elastic-string-field",
+    title: "Elastic String Field",
+    description:
+      "A field of fat rubber ribbons that toss themselves in, shove each other apart, and settle into a packed arrangement. Each ribbon is thirty five mass points wired by two spring sets: structural springs between neighbours hold its length, and bending springs between every point and the one two along resist folding, which is what keeps it reading as a stiff band instead of a limp chain. Every point in the field also repels every other point inside the repulsion radius, walls included, so ribbons never overlap and the field distributes itself along its own cushions. A ribbon is born compressed, its points a tenth of a rest length apart along a sine wave, so the springs unpack it into a loop the moment it spawns and it arrives with a toss velocity in a random direction. New ribbons keep dropping wherever there is clearance until the field is full. Press an empty spot to add one, press a ribbon to drag it. Canvas 2D with no physics library.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-07-29",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/elastic-string-field.tsx",
+        target: "components/ui/elastic-string-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
