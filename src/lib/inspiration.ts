@@ -915,6 +915,20 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Liveline",
+        href: "https://benji.org/liveline",
+        dateAdded: "2026-07-30",
+        description:
+          'React component for real-time animated line charts: a single canvas element, no dependencies beyond React 18, wired up with just two props (`data` and `value`). Install via `npm install liveline`; the default renders at 60fps with an 8% lerp speed per frame, and ships momentum arrows, three time-window selector styles, a candlestick toggle, multi-series overlays with toggle chips, orderbook streaming labels, crosshair scrubbing, and a "degen mode" with particles and chart shake. Released February 16, 2026, with early review from Shayne Coplan and credited inspiration from Polymarket\'s real-time prediction charts.',
+      },
+      {
+        title: "Drawesome",
+        href: "https://benji.org/drawesome",
+        dateAdded: "2026-07-30",
+        description:
+          'React drawing toolbar component: seven pen types (pencil, pen, fineliner, marker, highlighter, brush, fountain pen) plus an eraser, with a toolbar that morphs shape instead of swapping panels. Install via `npm install drawesome`, described as two lines to drop into an app; it fills its parent container and ships SVG and PNG export, draggable and repositionable toolbar placement (bottom, left, right), light, dark, or auto themes, keyboard shortcuts, stroke-level erasing, and speed-responsive pen thickness on some tools. No dependencies beyond React. Published July 29, 2026, with the creator calling the opinionated defaults "the version you ship."',
+      },
+      {
         title: "Toolcraft",
         href: "https://toolcraft.sh/",
         dateAdded: "2026-07-29",
@@ -1388,6 +1402,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Morphing Icons with Claude",
+        href: "https://benji.org/morphing-icons-with-claude",
+        dateAdded: "2026-07-30",
+        description:
+          "Write-up of an icon system where any of 21 icons (menu, cross, plus, minus, equals, asterisk, more, check, play, pause, download, upload, external, four directional arrows, four chevrons) morphs into any other through actual shape tweening rather than a crossfade, animated with Motion.dev. The trick: every icon is built from exactly three SVG lines, with unused lines collapsed to invisible center points, and icons that share a rotation group (arrows at 90 degree increments, chevrons, plus and cross at 45 degrees) swap by rotating instead of moving coordinates, which reads smoother. Built with Claude Code, including a custom interactive sequencer for testing transitions; the author notes Claude nailed the functional morphs but needed human feedback to fix the visual quality of the rotation-based approach. Published January 13, 2026.",
+      },
       {
         title: "On Repeat",
         href: "https://on-repeat-tau.vercel.app/demo/index.html",
@@ -4330,6 +4351,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Agentation",
+        href: "https://benji.org/agentation",
+        dateAdded: "2026-07-30",
+        description:
+          "Visual feedback toolbar for AI coding agents: click, multi-select, or draw an area around any UI element, including empty space, to annotate it, or pause CSS animations to annotate a specific frame, then export plain markdown that Claude Code, Cursor, and other agents can act on directly. Built by Benji Taylor with Dennis Jin and Alex Vanderzon as a single React component (`npm install agentation`), dev-environment only, now at v1 with four output verbosity modes: Compact, Standard, Detailed, and Forensic. The documentation site itself was built using the tool, through hundreds of annotation iterations. Published January 21, 2026.",
+      },
+      {
         title: "devtools.sh",
         href: "https://devtools.sh/",
         dateAdded: "2026-07-25",
@@ -7185,6 +7213,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Engineering essays and culture",
     links: [
+      {
+        title: "Honk",
+        href: "https://benji.org/honkish",
+        dateAdded: "2026-07-30",
+        description:
+          'Retrospective on Honk, a real-time messaging app built around live character-by-character typing, no send button, no chat history, and interactive mini-games (Trivia, Tic-Tac-Toe, True/False, Four-in-a-Row, Rock-Paper-Scissors) layered into the chat itself. Built by a twelve-person team including Alex Vanderzon, Miles Vinson, Chris Lang, and Benjamin Mayo, with custom typefaces (Honk Sans, Honk Chat) and sound design by Ethan Mueller; at its peak the app logged 2.6 billion characters typed and 170 million "Honks" (notifications) sent. Other features included presence indicators for partial attention, emoji battles with physics collisions, and customizable "Magic Words" emoji triggers. The team pivoted to build Family (family.co), which later acquired the Honk IP; the product is sunset.',
+      },
       {
         title: "Claude Is Not a Compiler",
         href: "https://blog.exe.dev/claude-is-not-a-compiler",
