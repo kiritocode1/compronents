@@ -1896,6 +1896,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Motionimo",
+        href: "https://motionimo.xyz/",
+        dateAdded: "2026-07-30",
+        description:
+          "Free gallery of motion design reference videos, for studying how commercials, product launches and explainers handle motion before shooting your own. Built and maintained since late 2022 by Mathis Fournier, a motion and web designer from Valence, France; submissions come from agencies, studios, freelancers and students and go through selective review before inclusion. Browsable by Inspirations and Studios, with a free account unlocking saving, notes and the full library plus a weekly newsletter of picks.",
+      },
+      {
         title: "404s",
         href: "https://www.404s.design/",
         dateAdded: "2026-07-29",
