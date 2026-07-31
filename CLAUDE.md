@@ -1,32 +1,43 @@
 @AGENTS.md
 
+# BLANK direction (directing AI)
+
+When choosing UI, components, motion, type, craft, or libraries:
+
+1. **`/direction?q=`** (preferred): registry installables + wall picks together.
+2. **`/registry/search?q=`** or frontend/backend `llms.txt`: installables only.
+3. **`/inspiration/recommend?q=`**: wall only (max 3 picks, `insp_*` ids).
+4. Training memory last, labeled `outside-second-brain: …`.
+
+Cite every pick:
+
+```
+From registry: Title (reg_name)
+From wall: Title (insp_slug) — why
+outside-second-brain: Name — why
+```
+
+MCP: `mcp/blank-direction/server.mjs` tools `direction_lookup`,
+`inspiration_recommend`, `registry_search`. Skill: `blank-direction`.
+
 # Inspiration Search
 
 The inspiration wall is 1100+ links. Agents should **recommend**, not dump.
 
-- `/inspiration/recommend?q=<question>`: at most 3 picks with a why (~2KB).
-  **Default for recommendations.** Multi-query expansion, facet boosts
-  (kind/stack/useFor + category defaults), weak-match cutoff.
-  Engine: `src/lib/inspiration-recommend.ts` + `inspiration-meta.ts`.
-- `/inspiration/search?q=<question>`: ~12 ranked candidates (~4KB). Wider pool
-  when recommend feels thin. Also `?category=<name>`, `?limit=`.
-- `/inspiration/llms.txt`: ~3–6KB index (how to recommend, category counts).
-  Safe to read whole. Test fails above 8KB. Foreign agents learn the protocol
-  from this file.
-- `/inspiration/llms-full.txt`: complete ~400KB dump. Never read to answer a
-  question; it truncates and you recommend from a fragment.
+- `/direction?q=<question>`: joint registry + wall. **Default for directing AI.**
+- `/inspiration/recommend?q=<question>`: at most 3 wall picks with id + why.
+  Multi-query expansion, facet/style boosts, weak-match cutoff.
+  Engine: `inspiration-recommend.ts` + `inspiration-meta.ts` + `inspiration-id.ts`.
+- `/inspiration/search?q=<question>`: ~12 candidates. Wider pool if recommend is thin.
+- `/inspiration/llms.txt`: small index. Test fails above 8KB.
+- `/inspiration/llms-full.txt`: ~400KB dump. Never use to answer a question.
 
-Every link gets per-link facets at resolve time (`deriveLinkFacets` in
-`inspiration-meta.ts`): title, host, named products, stack detection, plus
-`CATEGORY_DEFAULTS`. Optional `kind` / `stack` / `useFor` on `InspirationLink`
-are overrides only; you do not need to hand-tag new entries.
+Every link gets per-link facets (`deriveLinkFacets`): kind, stack, useFor, style.
+Optional fields on `InspirationLink` are overrides only.
 
-Agent contract (also in the global `second-brain` skill and the
-`aryank-ui-inspiration` rule): call recommend before answering, cite only
-Picks (max 3), say "nothing fits" rather than inventing off-wall junk.
+Regression suite: `tests/direction-regression.test.mjs`.
 
-Adding links to `src/lib/inspiration.ts` needs no separate indexing step; the
-index is derived from `inspirationGroups` at runtime.
+Adding links to `src/lib/inspiration.ts` needs no separate indexing step.
 
 # Backend Visualizations
 

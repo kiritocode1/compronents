@@ -154,9 +154,10 @@ test("search still works and carries facets", () => {
   assert.ok(hits[0].kind?.length || hits[0].useFor?.length);
 });
 
-test("llms.txt points at recommend and stays small", () => {
+test("llms.txt points at direction/recommend and stays small", () => {
   const index = inspirationIndexToMarkdown();
   assert.ok(index.length < 8_000, `index is ${index.length} bytes`);
   assert.match(index, /inspiration\/recommend\?q=/);
-  assert.match(index, /Recommend \(default for agents\)/);
+  assert.match(index, /direction\?q=/);
+  assert.match(index, /Direction \(default for agents\)/);
 });

@@ -7,9 +7,11 @@
  */
 
 import { inspirationGroups } from "./inspiration.ts";
+import { inspirationPickId } from "./inspiration-id.ts";
 import {
   expandQuery,
   inferCategoryHints,
+  inferStyleHints,
   resolveFacets,
 } from "./inspiration-meta.ts";
 import {
@@ -19,6 +21,8 @@ import {
 } from "./inspiration-search.ts";
 
 export interface RecommendPick {
+  /** Stable citation id, e.g. insp_lucide-animated. */
+  id: string;
   title: string;
   href: string;
   description?: string;
@@ -27,8 +31,11 @@ export interface RecommendPick {
   kind: string[];
   stack: string[];
   useFor: string[];
+  style: string[];
   /** One-line reason this pick survived ranking. */
   why: string;
+  /** Ready-to-paste citation line for agent answers. */
+  cite: string;
 }
 
 export interface RecommendResult {
@@ -53,6 +60,7 @@ const USE_FOR_EXACT_BOOST = 6.5;
 /** Every token of a useFor phrase appears somewhere in the query. */
 const USE_FOR_TOKEN_BOOST = 2.2;
 const KIND_HINT_BOOST = 1.8;
+const STYLE_HINT_BOOST = 5.5;
 
 function findLink(href: string) {
   for (const group of inspirationGroups) {
@@ -67,6 +75,7 @@ function facetBoost(
   hit: SearchHit,
   query: string,
   categoryHints: string[],
+  styleHints: string[],
 ): { boost: number; reasons: string[] } {
   const found = findLink(hit.href);
   if (!found) return { boost: 0, reasons: [] };
@@ -79,6 +88,12 @@ function facetBoost(
   if (categoryHints.includes(hit.category)) {
     boost += CATEGORY_HINT_BOOST;
     reasons.push(`category match (${hit.category})`);
+  }
+
+  const styleOverlap = facets.style.filter((s) => styleHints.includes(s));
+  if (styleOverlap.length) {
+    boost += STYLE_HINT_BOOST * styleOverlap.length;
+    reasons.push(`style:${styleOverlap.join("+")}`);
   }
 
   // Prefer the longest useFor phrase contained in the query. Short phrases
@@ -194,7 +209,7 @@ function toPick(
   const found = findLink(hit.href);
   const facets = found
     ? resolveFacets(found.group.title, found.link)
-    : { kind: [], stack: [], useFor: [] };
+    : { kind: [], stack: [], useFor: [], style: [] };
 
   const whyParts = [
     ...reasons.slice(0, 2),
@@ -203,7 +218,10 @@ function toPick(
       : null,
   ].filter(Boolean);
 
+  const id = inspirationPickId(hit.title, hit.href);
+  const why = whyParts.join("; ") || "strong lexical match";
   return {
+    id,
     title: hit.title,
     href: hit.href,
     description: hit.description,
@@ -212,7 +230,9 @@ function toPick(
     kind: facets.kind,
     stack: facets.stack,
     useFor: facets.useFor,
-    why: whyParts.join("; ") || "strong lexical match",
+    style: facets.style,
+    why,
+    cite: `From wall: ${hit.title} (${id}) — ${why}`,
   };
 }
 
@@ -234,6 +254,7 @@ export function recommendInspiration(
 
   const variants = expandQuery(trimmed);
   const categoryHints = inferCategoryHints(trimmed);
+  const styleHints = inferStyleHints(trimmed);
   const unmatched = unmatchedTerms(trimmed);
 
   type Acc = {
@@ -275,7 +296,12 @@ export function recommendInspiration(
     if (acc.variants.length > 1) {
       acc.score *= 1 + 0.08 * Math.min(acc.variants.length - 1, 4);
     }
-    const { boost, reasons } = facetBoost(acc.hit, trimmed, categoryHints);
+    const { boost, reasons } = facetBoost(
+      acc.hit,
+      trimmed,
+      categoryHints,
+      styleHints,
+    );
     acc.score += boost;
     acc.reasons = reasons;
   }
@@ -344,14 +370,17 @@ export function recommendToMarkdown(result: RecommendResult): string {
   lines.push("## Picks (use these)", "");
   for (const [i, pick] of result.picks.entries()) {
     const meta = [
+      pick.id,
       pick.category,
       pick.kind.length ? `kind: ${pick.kind.join("/")}` : null,
+      pick.style.length ? `style: ${pick.style.join("+")}` : null,
       `score ${pick.score}`,
     ]
       .filter(Boolean)
       .join(" · ");
     lines.push(`${i + 1}. **[${pick.title}](${pick.href})** _(${meta})_`);
     lines.push(`   - why: ${pick.why}`);
+    lines.push(`   - cite: \`${pick.cite}\``);
     if (pick.description) lines.push(`   - ${pick.description}`);
     lines.push("");
   }
@@ -360,7 +389,7 @@ export function recommendToMarkdown(result: RecommendResult): string {
     lines.push("## Also consider", "");
     for (const pick of result.alsoConsider) {
       lines.push(
-        `- [${pick.title}](${pick.href}) _(${pick.category}, ${pick.score})_ — ${pick.why}`,
+        `- [${pick.title}](${pick.href}) \`${pick.id}\` _(${pick.category}, ${pick.score})_ — ${pick.why}`,
       );
     }
     lines.push("");
@@ -368,9 +397,10 @@ export function recommendToMarkdown(result: RecommendResult): string {
 
   lines.push(
     "---",
-    "Agent rules: recommend only from Picks (at most 3). Cite name + link.",
-    "If none fit the user's intent, say so; do not invent off-wall alternatives",
-    "unless you explicitly mark them as outside the second brain.",
+    "Agent rules: recommend only from Picks (at most 3).",
+    "Every recommendation MUST include the cite line with the insp_ id.",
+    "Format: `From wall: <Title> (insp_<slug>) — <why>`",
+    "If none fit: say so, then off-wall options as `outside-second-brain: <name> — <why>`.",
     "",
   );
 

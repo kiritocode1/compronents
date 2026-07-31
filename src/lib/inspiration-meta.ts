@@ -6,16 +6,106 @@
  * object always win as overrides. recommend + BM25 both read resolveFacets().
  */
 
-import type { InspirationKind, InspirationLink } from "./inspiration.ts";
+import type {
+  InspirationKind,
+  InspirationLink,
+  StyleTag,
+} from "./inspiration.ts";
 
 export interface InspirationFacets {
   kind: InspirationKind[];
   stack: string[];
   useFor: string[];
+  style: StyleTag[];
 }
 
-/** Category-level defaults. Per-link kind/stack/useFor override or extend these. */
-export const CATEGORY_DEFAULTS: Record<string, InspirationFacets> = {
+/** Category-level style defaults (vibe). */
+export const CATEGORY_STYLE_DEFAULTS: Record<string, StyleTag[]> = {
+  "Design inspiration galleries": ["product-dense", "marketing-motion"],
+  "Portfolios and studios": ["editorial", "restrained-motion"],
+  "Interface design guidelines and craft": ["minimal", "product-dense"],
+  "Component libraries and blocks": ["marketing-motion", "soft-ui"],
+  "UI kit directories": ["marketing-motion", "soft-ui"],
+  "Animation and motion": ["marketing-motion", "restrained-motion"],
+  "WebGL, shaders and creative coding": ["maximalist"],
+  "Branding and logo archives": ["minimal", "editorial"],
+  "Free typefaces": ["editorial", "minimal"],
+  "ASCII art and diagram tools": ["terminal"],
+  "Developer tools and utilities": ["terminal", "minimal"],
+};
+
+/**
+ * Query → style tags. Used by expandQuery boosts and recommend facet boost.
+ */
+export const STYLE_PHRASE_MAP: {
+  match: RegExp;
+  styles: StyleTag[];
+  queries: string[];
+}[] = [
+  {
+    match: /\blinear\b|issue tracker|dense product|saas (ui|interface|design)/i,
+    styles: ["product-dense", "minimal"],
+    queries: [
+      "product dense ui gallery",
+      "saas interface inspiration",
+      "dense product design",
+    ],
+  },
+  {
+    match: /\b(like\s+apple|apple[\s-]?like|liquid\s*glass|ios\s*design)\b/i,
+    styles: ["liquid-glass", "restrained-motion", "minimal"],
+    queries: [
+      "liquid glass interface",
+      "restrained motion portfolio",
+      "apple inspired design",
+    ],
+  },
+  {
+    match: /\b(vibe\s*cod\w*|ai\s*slop|generic\s*ai\s*ui|less\s+vibe)\b/i,
+    styles: ["restrained-motion", "product-dense", "minimal"],
+    queries: [
+      "interface design craft guidelines",
+      "polished product ui",
+      "restrained motion",
+    ],
+  },
+  {
+    match: /\b(brutalist|raw\s+web|anti-?design)\b/i,
+    styles: ["brutalist"],
+    queries: ["brutalist web design", "raw portfolio"],
+  },
+  {
+    match: /\b(editorial|magazine|serif\s+layout)\b/i,
+    styles: ["editorial"],
+    queries: ["editorial web design", "magazine layout"],
+  },
+  {
+    match: /\b(terminal|cli\s+aesthetic|hacker\s+ui|monospace\s+ui)\b/i,
+    styles: ["terminal"],
+    queries: ["terminal ui", "developer tool interface"],
+  },
+  {
+    match: /\b(soft\s+ui|glassmorphism|neumorphism|pastel\s+ui)\b/i,
+    styles: ["soft-ui"],
+    queries: ["soft ui", "glassmorphism interface"],
+  },
+  {
+    match: /\b(marketing\s+site|landing\s+page\s+motion|flashy\s+animation)\b/i,
+    styles: ["marketing-motion"],
+    queries: ["marketing motion components", "animated landing page"],
+  },
+  {
+    match: /\b(restrained\s+motion|subtle\s+motion|quiet\s+animation)\b/i,
+    styles: ["restrained-motion"],
+    queries: ["restrained motion design", "subtle animation craft"],
+  },
+];
+
+/** Category-level defaults (style lives in CATEGORY_STYLE_DEFAULTS). */
+export const CATEGORY_DEFAULTS: Record<
+  string,
+  Omit<InspirationFacets, "style">
+> = {
   React: {
     kind: ["library", "essay"],
     stack: ["react"],
@@ -427,8 +517,6 @@ const QUERY_FLUFF = new Set(
   ),
 );
 
-const EMPTY_FACETS: InspirationFacets = { kind: [], stack: [], useFor: [] };
-
 /** Known stack tokens scanned in title/description/href. */
 const STACK_PATTERNS: { re: RegExp; tag: string }[] = [
   { re: /\breact native\b/, tag: "react-native" },
@@ -526,7 +614,71 @@ export function deriveLinkFacets(
     kind: deriveKind(blob, category),
     stack: deriveStack(blob),
     useFor: deriveUseFor(link, category),
+    style: deriveStyle(blob, category, link),
   };
+}
+
+const STYLE_DERIV_RULES: { re: RegExp; style: StyleTag }[] = [
+  {
+    re: /\b(linear|issue tracker|dense|saas|product ui|dashboard)\b/,
+    style: "product-dense",
+  },
+  {
+    re: /\b(landing|marketing|particles|beams|sparkle|flashy)\b/,
+    style: "marketing-motion",
+  },
+  {
+    re: /\b(editorial|magazine|serif|typography-led)\b/,
+    style: "editorial",
+  },
+  { re: /\b(brutalist|raw|anti-design|harsh)\b/, style: "brutalist" },
+  {
+    re: /\b(restraint|restrained|subtle motion|quiet|understated)\b/,
+    style: "restrained-motion",
+  },
+  {
+    re: /\b(liquid glass|glassmorphism|visionos|ios 2[67])\b/,
+    style: "liquid-glass",
+  },
+  { re: /\b(terminal|cli|monospace|hacker)\b/, style: "terminal" },
+  { re: /\b(soft ui|pastel|neumorphism|rounded)\b/, style: "soft-ui" },
+  { re: /\b(maximal|expressive|chaotic|clutter)\b/, style: "maximalist" },
+  { re: /\b(minimal|minimalist|pared-back|clean)\b/, style: "minimal" },
+];
+
+function deriveStyle(
+  blob: string,
+  category: string,
+  link: InspirationLink,
+): StyleTag[] {
+  const found: StyleTag[] = [];
+  for (const rule of STYLE_DERIV_RULES) {
+    if (rule.re.test(blob) && !found.includes(rule.style)) {
+      found.push(rule.style);
+    }
+    if (found.length >= 3) break;
+  }
+  const cat = CATEGORY_STYLE_DEFAULTS[category] ?? [];
+  for (const s of cat) {
+    if (!found.includes(s)) found.push(s);
+    if (found.length >= 4) break;
+  }
+  // Explicit on link handled in resolveFacets
+  void link;
+  return found;
+}
+
+/** Style tags implied by a user query. */
+export function inferStyleHints(query: string): StyleTag[] {
+  const styles: StyleTag[] = [];
+  for (const row of STYLE_PHRASE_MAP) {
+    if (row.match.test(query)) {
+      for (const s of row.styles) {
+        if (!styles.includes(s)) styles.push(s);
+      }
+    }
+  }
+  return styles;
 }
 
 function deriveKind(blob: string, category: string): InspirationKind[] {
@@ -638,12 +790,17 @@ export function resolveFacets(
   category: string,
   link: InspirationLink,
 ): InspirationFacets {
-  const base = CATEGORY_DEFAULTS[category] ?? EMPTY_FACETS;
+  const base = CATEGORY_DEFAULTS[category] ?? {
+    kind: [],
+    stack: [],
+    useFor: [],
+  };
   const derived = deriveLinkFacets(category, link);
 
   const explicitKind = normalizeList(link.kind);
   const explicitStack = link.stack ?? [];
   const explicitUseFor = link.useFor ?? [];
+  const explicitStyle = normalizeStyleList(link.style);
 
   const kind = explicitKind.length
     ? explicitKind
@@ -665,7 +822,13 @@ export function resolveFacets(
     ...base.useFor.slice(0, 2),
   ]).slice(0, 12);
 
-  return { kind, stack, useFor };
+  const style = uniqueStyles([
+    ...explicitStyle,
+    ...derived.style,
+    ...(CATEGORY_STYLE_DEFAULTS[category] ?? []),
+  ]).slice(0, 6);
+
+  return { kind, stack, useFor, style };
 }
 
 function normalizeList(
@@ -673,6 +836,17 @@ function normalizeList(
 ): InspirationKind[] {
   if (!value) return [];
   return Array.isArray(value) ? value : [value];
+}
+
+function normalizeStyleList(
+  value: StyleTag | StyleTag[] | undefined,
+): StyleTag[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function uniqueStyles(items: StyleTag[]): StyleTag[] {
+  return [...new Set(items)];
 }
 
 /** Case-preserving dedupe (category titles, etc.). */
@@ -735,6 +909,12 @@ export function expandQuery(query: string): string[] {
   for (const { match, queries } of PHRASE_EXPANSIONS) {
     if (match.test(query)) {
       for (const q of queries) variants.add(q);
+    }
+  }
+
+  for (const row of STYLE_PHRASE_MAP) {
+    if (row.match.test(query)) {
+      for (const q of row.queries) variants.add(q);
     }
   }
 

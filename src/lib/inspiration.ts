@@ -16,6 +16,19 @@ export type InspirationKind =
   | "asset"
   | "skill";
 
+/** Controlled vibe vocabulary for "like Linear / restrained motion" direction. */
+export type StyleTag =
+  | "product-dense"
+  | "marketing-motion"
+  | "editorial"
+  | "brutalist"
+  | "restrained-motion"
+  | "liquid-glass"
+  | "terminal"
+  | "soft-ui"
+  | "maximalist"
+  | "minimal";
+
 export interface InspirationLink {
   title: string;
   href: string;
@@ -28,6 +41,8 @@ export interface InspirationLink {
   stack?: string[];
   /** Optional use-for phrases; merged ahead of derived title/host phrases. */
   useFor?: string[];
+  /** Optional style tags; merged with derived + category defaults. */
+  style?: StyleTag | StyleTag[];
 }
 
 export interface InspirationGroup {
@@ -2318,6 +2333,7 @@ export const inspirationGroups: InspirationGroup[] = [
         dateAdded: "2026-07-22",
         kind: "portfolio",
         stack: ["motion", "design"],
+        style: ["restrained-motion", "liquid-glass", "minimal"],
         useFor: [
           "motion designer portfolio",
           "motion design",
@@ -8277,21 +8293,26 @@ This index is small on purpose. Do not fetch the full dump to answer a
 question: it is ~400KB, your fetch will truncate it, and you will recommend
 from whatever fraction survived.
 
-## Recommend (default for agents)
+## Direction (default for agents)
 
-When the user asks for a resource, library, gallery, portfolio, or technique
-from this directory, call recommend first. Do not answer from memory.
+When choosing UI, libraries, taste, or installables, call direction first:
+
+    curl -s "${SITE}/direction?q=scroll+driven+animation"
+
+Returns registry installables (\`reg_*\`) and wall picks (\`insp_*\`). Cite both.
+
+Wall-only:
 
     curl -s "${SITE}/inspiration/recommend?q=scroll+driven+animation"
 
-Returns at most 3 picks with a why (~2KB). Server expands the query, merges
-variants, boosts category/kind/use-for facets, and drops weak matches.
+Returns at most 3 picks with id + why (~2KB). Server expands the query, merges
+variants, boosts category/kind/style/use-for facets, and drops weak matches.
 
 Rules for the agent:
-1. Recommend only from the Picks section (max 3). Cite name + link + why.
-2. If picks miss the intent, say nothing in the directory fits. Do not invent
-   off-wall alternatives unless you explicitly mark them as outside this list.
-3. Never dump the full catalog or recommend from a truncated llms-full fetch.
+1. Prefer /direction. Wall-only recommend is fine for pure reference asks.
+2. Recommend only from Picks (max 3). Cite \`From wall: Title (insp_…) — why\`.
+3. If picks miss, say so; off-wall only as \`outside-second-brain: …\`.
+4. Never dump the full catalog or fetch llms-full to answer a question.
 
 ## Wider search
 

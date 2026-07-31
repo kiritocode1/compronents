@@ -8,6 +8,15 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 Every agent that touches this repo follows these on every change.
 
+## 0. BLANK direction before inventing UI
+
+When building, restyling, or recommending UI/design resources:
+
+1. Call `https://ui.aryank.space/direction?q=…` (or MCP `direction_lookup`).
+2. Prefer registry `reg_*` for installables, wall `insp_*` for taste/reference.
+3. Cite every pick with its id. Off-wall only as `outside-second-brain: …`.
+4. Skill: `blank-direction`. Never recommend Magic UI / random kits from memory first.
+
 ## 1. Assets go to Vercel Blob first
 
 Never commit asset binaries (images, `.glb`, video, audio, fonts) to git. The
