@@ -1,9 +1,33 @@
+/**
+ * Retrieval facets. Every link gets per-link facets at resolve time from its
+ * title/description/host (`deriveLinkFacets` in inspiration-meta.ts), plus
+ * category defaults. Set these fields only to override the derived values.
+ */
+export type InspirationKind =
+  | "library"
+  | "essay"
+  | "gallery"
+  | "portfolio"
+  | "tool"
+  | "course"
+  | "video"
+  | "directory"
+  | "demo"
+  | "asset"
+  | "skill";
+
 export interface InspirationLink {
   title: string;
   href: string;
   description?: string;
   /** ISO `YYYY-MM-DD` date this link entered the registry (from git history). */
   dateAdded: string;
+  /** Optional kind override; otherwise derived from description + category. */
+  kind?: InspirationKind | InspirationKind[];
+  /** Optional stack tags; merged with derived + category defaults. */
+  stack?: string[];
+  /** Optional use-for phrases; merged ahead of derived title/host phrases. */
+  useFor?: string[];
 }
 
 export interface InspirationGroup {
@@ -560,6 +584,9 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Animate UI icons",
         href: "https://animate-ui.com/docs/icons?icon=volume-1",
         dateAdded: "2026-07-13",
+        kind: "library",
+        stack: ["react", "motion", "icons"],
+        useFor: ["animated icons", "hover icons", "lucide animated"],
         description:
           "Animated icon set from the Animate UI component library, each icon with a built-in hover/trigger animation instead of a static SVG. Built by Skyleen (imskyleen) on top of Lucide's icon set, open-sourced as animate-ui on GitHub with per-icon persistence and trigger controls.",
       },
@@ -581,6 +608,13 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Heroicons Animated",
         href: "https://www.heroicons-animated.com/",
         dateAdded: "2026-07-13",
+        kind: "library",
+        stack: ["react", "motion", "icons"],
+        useFor: [
+          "animated icons",
+          "heroicons animated",
+          "react animated icons",
+        ],
         description:
           "Open-source set of 316 icons that adds smooth Motion-powered animation on top of the original Heroicons, free under MIT for React projects. Built solo by developer Aniket-508 on GitHub as an unofficial add-on, not maintained by Tailwind Labs' official Heroicons team.",
       },
@@ -619,6 +653,26 @@ export const inspirationGroups: InspirationGroup[] = [
         description:
           "Bundler plugin (Vite, Webpack, Rollup, esbuild) that turns any Iconify icon set into an importable component on demand, no icon font or sprite sheet needed. Built by Anthony Fu; pairs with unplugin-vue-components or unplugin-auto-import so icon components need zero manual imports.",
       },
+      {
+        title: "Eva Icons",
+        href: "https://akveo.github.io/eva-icons",
+        dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["svg", "icons"],
+        useFor: ["static icons", "outline icons", "filled icons"],
+        description:
+          "Open-source pack of carefully designed UI icons covering common interface actions and items, free to use in any project. Made by Akveo, the team behind the Nebular/ngx-admin design system; ships 480+ icons in matched outline and filled variants. Static set, not animated.",
+      },
+      {
+        title: "Lineicons",
+        href: "https://lineicons.com",
+        dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["svg", "icons"],
+        useFor: ["line icons", "static icons", "icon pack"],
+        description:
+          "Free line-style icon pack with a large, consistent set of outline icons for interfaces and marketing sites. Ships 27,988+ premium icons across 10 unique styles and 60+ categories, free tier included, rated 4.9/5 on Product Hunt by 200k+ users. Static icon pack, not an animation library.",
+      },
     ],
   },
   {
@@ -628,6 +682,12 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Icon Animator",
         href: "https://www.iconanimator.app/",
         dateAdded: "2026-07-16",
+        kind: "tool",
+        useFor: [
+          "animate svg icons",
+          "export lottie icons",
+          "icon motion tool",
+        ],
         description:
           "Web app for turning SVG icons into animated ones, adjusting motion, easing and timing in the browser, then exporting the result as code or Lottie for use in interfaces. Its Lottie export makes it the pick when you need the same animated icon to run natively in a mobile app, not just the browser.",
       },
@@ -635,20 +695,19 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Lucide Animated",
         href: "https://lucide-animated.com",
         dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["react", "motion", "icons"],
+        useFor: ["animated icons", "lucide animated", "react animated icons"],
         description:
           "Free, open-source collection of 435+ animated React icons built on Lucide and Motion. Copy-paste ready, installable via the shadcn CLI, MIT licensed, with ports for Svelte, Vue, Angular and Flutter. Built by @pqoqubbw, it exposes an MCP server at lucide-animated.com/mcp so AI agents like Claude can search and fetch icons directly.",
-      },
-      {
-        title: "Eva Icons",
-        href: "https://akveo.github.io/eva-icons",
-        dateAdded: "2026-07-14",
-        description:
-          "Open-source pack of carefully designed UI icons covering common interface actions and items, free to use in any project. Made by Akveo, the team behind the Nebular/ngx-admin design system; ships 480+ icons in matched outline and filled variants.",
       },
       {
         title: "Moving Icons",
         href: "https://www.movingicons.dev",
         dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["svelte", "icons", "motion"],
+        useFor: ["animated icons", "svelte animated icons"],
         description:
           "500+ hand-crafted, interaction-ready animated Lucide icons for Svelte 5. Tree-shakeable, zero dependencies, installable via npm or the shadcn-svelte registry, with animations controllable through props and hover states. Built solo by developer jis3r and MIT-licensed, with a default 24px size, 2px stroke, and a single `animate` boolean prop driving each icon.",
       },
@@ -656,6 +715,9 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "useAnimations",
         href: "https://useanimations.com",
         dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["lottie", "react", "icons"],
+        useFor: ["lottie icons", "animated icons", "react animated icons"],
         description:
           "Free library of 90+ handcrafted animated icons built on the Lottie framework, working across React, iOS and Android, with both looping and click-triggered playback. Authored by Patrik Svoboda; icons are optimized for a 32px grid and ship as both SVG and Lottie JSON via the react-useanimations npm package.",
       },
@@ -663,6 +725,9 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Blendy",
         href: "https://blendy.tahazsh.com",
         dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["svg", "motion"],
+        useFor: ["icon morph", "svg morph", "icon transition"],
         description:
           "Library for morphing shapes smoothly from one icon or SVG into another, useful for animated icon-swap transitions instead of a hard cut. Solo project by Taha Shashtari offering 'dynamic' and 'spring' transition types, with framework-agnostic integration examples for React, Vue, and Svelte.",
       },
@@ -670,15 +735,11 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Animate Icons",
         href: "https://animateicons.vercel.app",
         dateAdded: "2026-07-14",
+        kind: "library",
+        stack: ["react", "motion", "icons"],
+        useFor: ["animated icons", "react animated icons", "hover icons"],
         description:
           "Collection of animated icon components for React, ready to drop into a project for hover and state-change micro-interactions. Made by Avijit Dey, packs 281 icons from Lucide and Huge on scoped subpaths, and installs as the @animateicons/react npm package built on Motion rather than copy-paste files.",
-      },
-      {
-        title: "Lineicons",
-        href: "https://lineicons.com",
-        dateAdded: "2026-07-14",
-        description:
-          "Free line-style icon pack with a large, consistent set of outline icons for interfaces and marketing sites. Ships 27,988+ premium icons across 10 unique styles and 60+ categories, free tier included, rated 4.9/5 on Product Hunt by 200k+ users.",
       },
     ],
   },
@@ -1406,6 +1467,14 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Animating icons",
         href: "https://www.bakai.me/lab/animating-icons",
         dateAdded: "2026-07-31",
+        kind: ["demo", "essay"],
+        stack: ["css", "icons", "motion"],
+        useFor: [
+          "animated icons",
+          "css icon animation",
+          "meaning driven icon motion",
+          "icon morph",
+        ],
         description:
           "Lab write-up by Bakai Tolondu uulu (Jul 23, 2026) on CSS-only icon animation where each gesture is the verb the icon already means, once: a key rotates, a stack gains a layer by occlusion rather than morphing, a plane leaves and returns by clipping instead of fading. Covers five mechanisms with live examples: true path morphs for hands (Muscle, OK, Sign, Palm, Love), keyframes for rigid parts (Stack, Database, CPU, Tree), travel-and-return (Airplane, Planet, Cash), stroke draw-on (Git branch, Truck), and animating holes via masks (Chat, Robot, Funnel). Timing rule is roughly one second per beat with a breath before play and a sped-up finish if you leave mid-gesture, not the sub-300ms UI-state rule. Ships the icons and an agent skill installable with `npx github:kai956/animating-icons`, plus prompt recipes for deriving the verb before writing keyframes.",
       },
@@ -2247,6 +2316,14 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "creatoroly",
         href: "https://creatoroly.com/",
         dateAdded: "2026-07-22",
+        kind: "portfolio",
+        stack: ["motion", "design"],
+        useFor: [
+          "motion designer portfolio",
+          "motion design",
+          "apple inspired motion",
+          "restrained motion",
+        ],
         description:
           "Portfolio of Oly (@creatoroly), a motion designer whose whole pitch is restraint: the tagline literally spells out motion that feels c, l, e, a, n. Clients include Whop, Moonshot, ether.fi, Tradezella and Jigsaw; named pieces include an Apple-inspired fintech concept called Pool, a 30 second Moonshot x Bone spot built around rhythm and pacing, and an iOS 27 Liquid Glass fan concept. Also sells an Apple PF Pack V2 and project files via Gumroad, so you can dissect the actual comps behind the work.",
       },
@@ -6552,6 +6629,8 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "PNG to ICO",
         href: "https://png-to-ico.com",
         dateAdded: "2026-07-14",
+        kind: "tool",
+        useFor: ["favicon convert", "png to ico", "make favicon"],
         description:
           "Converts PNG images into ICO favicons directly in the browser. Lets you style the icon differently for browser tabs versus Google search results, generating six sizes in one download.",
       },
@@ -8198,21 +8277,32 @@ This index is small on purpose. Do not fetch the full dump to answer a
 question: it is ~400KB, your fetch will truncate it, and you will recommend
 from whatever fraction survived.
 
-## Search it
+## Recommend (default for agents)
+
+When the user asks for a resource, library, gallery, portfolio, or technique
+from this directory, call recommend first. Do not answer from memory.
+
+    curl -s "${SITE}/inspiration/recommend?q=scroll+driven+animation"
+
+Returns at most 3 picks with a why (~2KB). Server expands the query, merges
+variants, boosts category/kind/use-for facets, and drops weak matches.
+
+Rules for the agent:
+1. Recommend only from the Picks section (max 3). Cite name + link + why.
+2. If picks miss the intent, say nothing in the directory fits. Do not invent
+   off-wall alternatives unless you explicitly mark them as outside this list.
+3. Never dump the full catalog or recommend from a truncated llms-full fetch.
+
+## Wider search
 
     curl -s "${SITE}/inspiration/search?q=scroll+driven+animation"
 
-Returns about 12 ranked entries (~4KB), each with name, link, category and a
-full description.
+Returns about 12 ranked candidates when you need a broader pool. Prefer
+recommend for final answers.
 
 - \`&limit=25\` widens the pool when the first pass looks thin.
 - \`?category=Free+typefaces\` returns one category in full.
-- Matching is lexical, so shared vocabulary decides the ranking. Ask two or
-  three differently worded questions and merge the results.
-- The response flags any word of yours that appears nowhere in the collection.
-  When you see that, reword instead of trusting the order.
-- Treat the results as candidates and pick by meaning. The top hit is not
-  automatically the answer.
+- Matching is lexical; recommend does multi-query expansion for you.
 
 ## Categories (${groups.length})
 
@@ -8223,6 +8313,8 @@ ${categories}
 
 ## Everything
 
+- [Recommend](${SITE}/inspiration/recommend?q=): opinionated top picks
+- [Search](${SITE}/inspiration/search?q=): wider candidate pool
 - [Full catalog](${SITE}/inspiration/llms-full.txt): all ${total} links with
   full descriptions, ~400KB. Fetch only if you genuinely need the whole corpus
   rather than an answer to a question.
@@ -8243,9 +8335,10 @@ export function inspirationGroupsToMarkdown(
     `${groups.length} categories, ${total} links.`,
     "",
     "This is the complete catalog, ~400KB. To answer a question, do not read",
-    `it all: ${SITE}/inspiration/search?q=your+question returns about 12`,
-    "ranked matches with descriptions (~4KB), and ?category=Free+typefaces",
-    `returns one category. The small index is ${SITE}/inspiration/llms.txt.`,
+    `it all: ${SITE}/inspiration/recommend?q=your+question returns at most 3`,
+    "picks with a why. Prefer that. Wider pool:",
+    `${SITE}/inspiration/search?q=... (~12). Category browse:`,
+    `?category=Free+typefaces. The small index is ${SITE}/inspiration/llms.txt.`,
     "",
     "---",
     "",

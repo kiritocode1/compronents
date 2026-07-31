@@ -15,6 +15,7 @@
 // Relative + extension so `node --test` can import this directly, as
 // registry.ts does with search-time.ts.
 import { type InspirationLink, inspirationGroups } from "./inspiration.ts";
+import { resolveFacets } from "./inspiration-meta.ts";
 
 export interface SearchHit {
   title: string;
@@ -22,6 +23,9 @@ export interface SearchHit {
   description?: string;
   category: string;
   score: number;
+  kind?: string[];
+  stack?: string[];
+  useFor?: string[];
 }
 
 const STOP_WORDS = new Set(
@@ -89,6 +93,13 @@ function buildIndex(): Index {
         1,
       );
 
+      // Facets: category defaults + per-link overrides. Weighted like body text
+      // so "animated icons" hits useFor phrases without drowning titles.
+      const facets = resolveFacets(group.title, link);
+      add(tokenize(facets.kind.join(" ")), 2);
+      add(tokenize(facets.stack.join(" ")), 2);
+      add(tokenize(facets.useFor.join(" ")), 2);
+
       let length = 0;
       for (const [term, count] of freq) {
         length += count;
@@ -121,6 +132,25 @@ export function searchInspiration(
   const wanted = category?.toLowerCase().trim();
   const hits: SearchHit[] = [];
 
+  // Generic English that often appears in catalog blurbs ("designed by",
+  // "case study"). When the query also has a content term (llm, react, …),
+  // down-weight these so they cannot outrank the real signal alone.
+  const WEAK_QUERY_TERMS = new Set(
+    "designed built made using based create creating study studies internally actually really simple free best great useful popular modern".split(
+      " ",
+    ),
+  );
+  const hasStrongTerm = terms.some((term) => !WEAK_QUERY_TERMS.has(term));
+
+  const termIdf = new Map<string, number>();
+  for (const term of terms) {
+    const docFreq = index.df.get(term) ?? 0;
+    const idf = Math.log(
+      1 + (index.docs.length - docFreq + 0.5) / (docFreq + 0.5),
+    );
+    termIdf.set(term, idf);
+  }
+
   for (const doc of index.docs) {
     if (wanted && !doc.category.toLowerCase().includes(wanted)) continue;
 
@@ -128,27 +158,23 @@ export function searchInspiration(
     for (const term of terms) {
       const freq = doc.freq.get(term);
       if (!freq) continue;
-      const docFreq = index.df.get(term) ?? 0;
-      const idf = Math.log(
-        1 + (index.docs.length - docFreq + 0.5) / (docFreq + 0.5),
-      );
+      const idf = termIdf.get(term) ?? 0;
       const norm = 1 - B + (B * doc.length) / index.avgLength;
-      score += idf * ((freq * (K1 + 1)) / (freq + K1 * norm));
+      const weak = hasStrongTerm && WEAK_QUERY_TERMS.has(term) ? 0.18 : 1;
+      score += weak * idf * ((freq * (K1 + 1)) / (freq + K1 * norm));
     }
 
-    // ponytail: no query-coverage multiplier. Tried one; it measurably hurt,
-    // because a doc matching only the rare term ("llm") is usually the right
-    // answer and coverage punishes exactly that. idf already does this job.
-    // Vocabulary mismatch is the real ceiling here, and the fix is the caller
-    // asking twice in different words, not a scoring knob.
-
     if (score > 0) {
+      const facets = resolveFacets(doc.category, doc.link);
       hits.push({
         title: doc.link.title,
         href: doc.link.href,
         description: doc.link.description,
         category: doc.category,
         score: Number(score.toFixed(3)),
+        kind: facets.kind,
+        stack: facets.stack,
+        useFor: facets.useFor,
       });
     }
   }

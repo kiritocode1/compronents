@@ -9,16 +9,16 @@ import {
 const USAGE = [
   "# Inspiration search",
   "",
-  "Retrieval over the curated inspiration wall, so you never have to read the",
-  "whole 400KB feed at /inspiration/llms.txt.",
+  "Wider candidate pool over the curated inspiration wall. For a final",
+  "recommendation, prefer /inspiration/recommend?q=... (top 3 with a why).",
   "",
-  "- `/inspiration/search?q=scroll+driven+animation`: ranked matches",
+  "- `/inspiration/recommend?q=animated+icons`: opinionated top picks (default)",
+  "- `/inspiration/search?q=scroll+driven+animation`: ranked matches (~12)",
   "- `/inspiration/search?q=grain+texture&limit=25`: widen the candidate pool",
   "- `/inspiration/search?category=Typography+tools`: browse one category",
   "- `/inspiration/search`: this page, with every category",
   "",
-  "Run two or three differently worded queries and merge the results; each one",
-  "is cheap, and the vocabulary in these descriptions varies.",
+  "Treat these results as candidates. Do not dump all 12 as the answer.",
   "",
 ].join("\n");
 

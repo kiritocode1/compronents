@@ -54,8 +54,11 @@ function InspirationIndexView({
     return new Fuse(entries, {
       keys: [
         { name: "link.title", weight: 0.5 },
-        { name: "link.description", weight: 0.3 },
-        { name: "groupTitle", weight: 0.2 },
+        { name: "link.description", weight: 0.25 },
+        { name: "groupTitle", weight: 0.15 },
+        { name: "link.useFor", weight: 0.1 },
+        { name: "link.stack", weight: 0.05 },
+        { name: "link.kind", weight: 0.05 },
       ],
       threshold: 0.2,
       ignoreLocation: true,
