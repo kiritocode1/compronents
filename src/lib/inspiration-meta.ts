@@ -995,7 +995,11 @@ export function inferCategoryHints(query: string): string[] {
       test: /container registry|observability|deploy runtime|vercel container/,
       category: "Infrastructure, observability and runtimes",
     },
-    { test: /agent skill|skills\.sh/, category: "Agent skills directories" },
+    {
+      // Bare "skills" is how people ask for the agent-skills shelf.
+      test: /\b(agent\s+)?skills?\b|skills\.sh|claude\s+skills?|codex\s+skills?/,
+      category: "Agent skills directories",
+    },
     { test: /effect-?ts|\beffect\b library/, category: "Effect ecosystem" },
     { test: /database|postgres|orm|sqlite/, category: "Databases and storage" },
     { test: /self[- ]?host/, category: "Self-hosted software" },

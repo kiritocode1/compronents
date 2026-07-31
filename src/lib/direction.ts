@@ -41,13 +41,27 @@ export function directionLookup(
     section: section ?? "all",
   });
   let wall = recommendInspiration(trimmed, { limit: wallLimit });
-  // Drop weak partial matches (score < 22) so direction does not invent wall
-  // citations when registry already answered a build ask.
-  const strongPicks = wall.picks.filter((p) => p.score >= 22);
+  // Keep real wall hits; drop only junk partials. Threshold is adaptive:
+  // short category asks ("skills") land ~18-25; compound junk is usually <12
+  // after multi-term coverage. Prefer category-hint agreement.
+  const bestWall = wall.picks[0]?.score ?? 0;
+  const strongPicks = wall.picks.filter((p) => {
+    if (p.score >= 16) return true;
+    if (
+      bestWall >= 14 &&
+      p.score >= bestWall * 0.8 &&
+      wall.categoryHints.includes(p.category)
+    ) {
+      return true;
+    }
+    return false;
+  });
   wall = {
     ...wall,
     picks: strongPicks,
-    alsoConsider: wall.alsoConsider.filter((p) => p.score >= 22),
+    alsoConsider: wall.alsoConsider.filter(
+      (p) => p.score >= 16 || wall.categoryHints.includes(p.category),
+    ),
   };
   return {
     query: trimmed,
@@ -86,8 +100,7 @@ export function directionToMarkdown(result: DirectionResult): string {
 
   // Suppress weak wall noise when registry already answered a build ask, or
   // when wall scores are junk partial matches (e.g. "animated" only).
-  const wallStrong = result.wall.picks.filter((p) => p.score >= 22);
-  if (wallStrong.length === 0) {
+  if (result.wall.picks.length === 0) {
     lines.push(
       "## Wall picks",
       "",
@@ -97,10 +110,7 @@ export function directionToMarkdown(result: DirectionResult): string {
       "",
     );
   } else {
-    lines.push(
-      recommendToMarkdown({ ...result.wall, picks: wallStrong }).trimEnd(),
-      "",
-    );
+    lines.push(recommendToMarkdown(result.wall).trimEnd(), "");
   }
 
   lines.push(

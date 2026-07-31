@@ -133,3 +133,13 @@ test("animated footer: exact registry hit, not every footer + not icon wall junk
     assert.match(blob, /footer/);
   }
 });
+
+test("skills returns agent-skills wall picks, not empty", () => {
+  const result = directionLookup("skills");
+  assert.ok(result.wall.picks.length > 0, "wall should not be empty for skills");
+  assert.ok(
+    result.wall.picks.every((p) => p.category === "Agent skills directories"),
+    result.wall.picks.map((p) => p.category).join(", "),
+  );
+  assert.match(result.wall.picks[0].id, /^insp_/);
+});
