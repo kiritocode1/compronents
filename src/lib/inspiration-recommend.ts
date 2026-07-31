@@ -9,6 +9,7 @@
 import { inspirationGroups } from "./inspiration.ts";
 import { inspirationPickId } from "./inspiration-id.ts";
 import {
+  cleanQuery,
   expandQuery,
   inferCategoryHints,
   inferStyleHints,
@@ -319,8 +320,37 @@ export function recommendInspiration(
   }
 
   const best = ranked[0].score;
-  const floor = Math.max(ABSOLUTE_FLOOR, best * RELATIVE_FLOOR);
-  const survivors = ranked.filter((acc) => acc.score >= floor);
+  // Absolute floor rises when the best hit is still weak (partial-term junk).
+  const floor = Math.max(
+    ABSOLUTE_FLOOR,
+    best * RELATIVE_FLOOR,
+    best < 25 ? best * 0.85 : 0,
+  );
+  let survivors = ranked.filter((acc) => acc.score >= floor);
+
+  // Drop picks that miss content words of a short compound query.
+  // Stops "animated footer" → animated icon packs. Use cleanQuery so fluff
+  // like "something like" does not force every word onto the document.
+  // Strict compound coverage only when the query is a concrete product phrase
+  // (animated footer), not vibe rewrites that expand into craft synonyms.
+  const strongWords =
+    cleanQuery(trimmed)
+      .match(/[a-z0-9][a-z0-9+#.-]*/g)
+      ?.filter((w) => w.length > 2) ?? [];
+  const isVibeQuery = styleHints.length > 0;
+  if (
+    !isVibeQuery &&
+    strongWords.length >= 2 &&
+    strongWords.length <= 3
+  ) {
+    survivors = survivors.filter((acc) => {
+      const blob =
+        `${acc.hit.title} ${acc.hit.description ?? ""} ${acc.hit.category} ${(acc.hit.useFor ?? []).join(" ")}`.toLowerCase();
+      const hits = strongWords.filter((w) => blob.includes(w));
+      if (hits.length === strongWords.length) return true;
+      return acc.score >= 40 && hits.length >= 1;
+    });
+  }
 
   const picks = survivors
     .slice(0, Math.min(limit, 5))

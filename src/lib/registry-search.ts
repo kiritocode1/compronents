@@ -39,24 +39,65 @@ function tokens(text: string): string[] {
   );
 }
 
-function scoreItem(item: RegistryItem, queryTerms: string[]): number {
+function scoreItem(
+  item: RegistryItem,
+  queryTerms: string[],
+  queryRaw: string,
+): number {
   if (queryTerms.length === 0) return 0;
   const titleT = new Set(tokens(item.title));
   const nameT = new Set(tokens(item.name.replace(/-/g, " ")));
   const descT = tokens(item.description);
   const catT = new Set(tokens(item.category ?? ""));
+  const qNorm = queryRaw.toLowerCase().trim();
+  const qSlug = qNorm.replace(/\s+/g, "-");
   let score = 0;
+
+  // Exact / near-exact name or title wins hard (e.g. "animated footer").
+  if (item.name === qSlug || item.name.replace(/-/g, " ") === qNorm) {
+    score += 50;
+  } else if (item.title.toLowerCase() === qNorm) {
+    score += 48;
+  } else if (
+    item.name.includes(qSlug) ||
+    qSlug.includes(item.name) ||
+    item.title.toLowerCase().includes(qNorm)
+  ) {
+    score += 18;
+  }
+
+  let matched = 0;
   for (const term of queryTerms) {
-    if (nameT.has(term) || item.name.includes(term)) score += 6;
-    if (titleT.has(term)) score += 5;
-    if (catT.has(term)) score += 3;
+    let hit = false;
+    if (nameT.has(term) || item.name.includes(term)) {
+      score += 6;
+      hit = true;
+    }
+    if (titleT.has(term)) {
+      score += 5;
+      hit = true;
+    }
+    if (catT.has(term)) {
+      score += 3;
+      hit = true;
+    }
     const descHits = descT.filter((t) => t === term).length;
-    score += Math.min(descHits, 3) * 1.2;
-    // Prefix / contains soft match on title
+    if (descHits) {
+      score += Math.min(descHits, 3) * 1.2;
+      hit = true;
+    }
     if ([...titleT].some((t) => t.includes(term) || term.includes(t))) {
       score += 1.5;
+      hit = true;
     }
+    if (hit) matched++;
   }
+
+  // Multi-word queries need the whole phrase, not "footer" alone matching every footer.
+  if (queryTerms.length >= 2 && matched < queryTerms.length) {
+    score *= 0.35 + (0.65 * matched) / queryTerms.length;
+  }
+
   return score;
 }
 
@@ -78,7 +119,7 @@ export function searchRegistry(
   const hits: RegistryHit[] = [];
   for (const sec of sections) {
     for (const item of getRegistryItemsBySection(sec)) {
-      const score = scoreItem(item, queryTerms);
+      const score = scoreItem(item, queryTerms, query);
       if (score <= 0) continue;
       hits.push({
         id: `reg_${item.name}`,
@@ -94,7 +135,25 @@ export function searchRegistry(
     }
   }
 
-  return hits.sort((a, b) => b.score - a.score).slice(0, Math.min(limit, 15));
+  hits.sort((a, b) => b.score - a.score);
+
+  // Clear winner (exact name match): do not flood with every other "footer".
+  if (
+    hits.length >= 2 &&
+    hits[0].score >= 40 &&
+    hits[0].score >= hits[1].score * 1.5
+  ) {
+    return hits.slice(0, 1);
+  }
+
+  // Soft floor: drop stragglers far below the best match.
+  if (hits.length >= 2) {
+    const floor = Math.max(hits[0].score * 0.45, 8);
+    const kept = hits.filter((h) => h.score >= floor);
+    return kept.slice(0, Math.min(limit, 15));
+  }
+
+  return hits.slice(0, Math.min(limit, 15));
 }
 
 export function registryHitsToMarkdown(hits: RegistryHit[]): string {

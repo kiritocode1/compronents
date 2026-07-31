@@ -151,10 +151,13 @@ export function searchInspiration(
     termIdf.set(term, idf);
   }
 
+  const strongTerms = terms.filter((term) => !WEAK_QUERY_TERMS.has(term));
+
   for (const doc of index.docs) {
     if (wanted && !doc.category.toLowerCase().includes(wanted)) continue;
 
     let score = 0;
+    const matchedStrong: string[] = [];
     for (const term of terms) {
       const freq = doc.freq.get(term);
       if (!freq) continue;
@@ -162,9 +165,23 @@ export function searchInspiration(
       const norm = 1 - B + (B * doc.length) / index.avgLength;
       const weak = hasStrongTerm && WEAK_QUERY_TERMS.has(term) ? 0.18 : 1;
       score += weak * idf * ((freq * (K1 + 1)) / (freq + K1 * norm));
+      if (!WEAK_QUERY_TERMS.has(term)) matchedStrong.push(term);
     }
 
-    if (score > 0) {
+    // Multi-word asks like "animated footer" must not rank on only one half
+    // ("animated" → icon libraries). Require full strong-term coverage for
+    // short queries; for longer ones require the majority of strong terms.
+    if (score > 0 && strongTerms.length >= 2) {
+      const need =
+        strongTerms.length <= 3
+          ? strongTerms.length
+          : Math.ceil(strongTerms.length * 0.6);
+      if (matchedStrong.length < need) {
+        score *= 0.08;
+      }
+    }
+
+    if (score > 0.5) {
       const facets = resolveFacets(doc.category, doc.link);
       hits.push({
         title: doc.link.title,

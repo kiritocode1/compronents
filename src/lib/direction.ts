@@ -40,7 +40,15 @@ export function directionLookup(
     limit: registryLimit,
     section: section ?? "all",
   });
-  const wall = recommendInspiration(trimmed, { limit: wallLimit });
+  let wall = recommendInspiration(trimmed, { limit: wallLimit });
+  // Drop weak partial matches (score < 22) so direction does not invent wall
+  // citations when registry already answered a build ask.
+  const strongPicks = wall.picks.filter((p) => p.score >= 22);
+  wall = {
+    ...wall,
+    picks: strongPicks,
+    alsoConsider: wall.alsoConsider.filter((p) => p.score >= 22),
+  };
   return {
     query: trimmed,
     protocol: [
@@ -76,7 +84,24 @@ export function directionToMarkdown(result: DirectionResult): string {
     );
   }
 
-  lines.push(recommendToMarkdown(result.wall).trimEnd(), "");
+  // Suppress weak wall noise when registry already answered a build ask, or
+  // when wall scores are junk partial matches (e.g. "animated" only).
+  const wallStrong = result.wall.picks.filter((p) => p.score >= 22);
+  if (wallStrong.length === 0) {
+    lines.push(
+      "## Wall picks",
+      "",
+      result.registry.length
+        ? "_No strong inspiration-wall match for this phrase. Prefer the registry install above; do not invent wall citations._"
+        : "_No strong wall match. Say nothing on the wall covers this, then outside-second-brain if needed._",
+      "",
+    );
+  } else {
+    lines.push(
+      recommendToMarkdown({ ...result.wall, picks: wallStrong }).trimEnd(),
+      "",
+    );
+  }
 
   lines.push(
     "---",

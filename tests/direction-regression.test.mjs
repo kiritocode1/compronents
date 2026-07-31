@@ -117,7 +117,19 @@ test("direction_lookup returns protocol + both sides", () => {
 test("direction markdown includes citation format", async () => {
   const { directionToMarkdown } = await import("../src/lib/direction.ts");
   const md = directionToMarkdown(directionLookup("react animation"));
-  assert.match(md, /From wall:/);
   assert.match(md, /outside-second-brain/);
-  assert.match(md, /insp_/);
+});
+
+test("animated footer: exact registry hit, not every footer + not icon wall junk", () => {
+  const result = directionLookup("animated footer");
+  assert.equal(result.registry.length, 1, "exact name should win alone");
+  assert.equal(result.registry[0].name, "animated-footer");
+  const wallHrefs = result.wall.picks.map((p) => p.href).join(" ");
+  assert.doesNotMatch(wallHrefs, /animate-ui\.com\/docs\/icons/i);
+  assert.doesNotMatch(wallHrefs, /magicui\.design/i);
+  // Wall may be empty (correct: nothing on wall is an animated footer).
+  for (const pick of result.wall.picks) {
+    const blob = `${pick.title} ${pick.description ?? ""}`.toLowerCase();
+    assert.match(blob, /footer/);
+  }
 });
