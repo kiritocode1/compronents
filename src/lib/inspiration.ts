@@ -1479,6 +1479,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "interior.dev",
+        href: "https://www.interior.dev/",
+        dateAdded: "2026-08-01",
+        description:
+          "React micro-interactions built for the half-second after a click, distributed as files you copy rather than a package you install. Made by GitHub user ddoemonn (MIT, repo ddoemonn/interior), with motion.dev as the only runtime dependency; each file exports a headless useX hook that holds the behavior with no class names attached, plus a styled component on top of it as a replaceable example, so restyling means swapping classes instead of rewriting logic. The docs group components by what someone is in the middle of rather than by widget type: Action Feedback, Input, Async, Notification, Overlay, Navigation, Scroll, Data, Gesture and Content, with Poll Results suggested as the starting point. The rules it argues for are the part worth stealing: every reachable state reserves its width in advance so a Save to Saving swap does not shift the row, an interrupted spring resumes from where the element actually is instead of restarting, gestures account for being abandoned, and under prefers-reduced-motion the information still arrives without the animation.",
+      },
+      {
         title: "Animating icons",
         href: "https://www.bakai.me/lab/animating-icons",
         dateAdded: "2026-07-31",
