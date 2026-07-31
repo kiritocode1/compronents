@@ -1403,6 +1403,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Animating icons",
+        href: "https://www.bakai.me/lab/animating-icons",
+        dateAdded: "2026-07-31",
+        description:
+          "Lab write-up by Bakai Tolondu uulu (Jul 23, 2026) on CSS-only icon animation where each gesture is the verb the icon already means, once: a key rotates, a stack gains a layer by occlusion rather than morphing, a plane leaves and returns by clipping instead of fading. Covers five mechanisms with live examples: true path morphs for hands (Muscle, OK, Sign, Palm, Love), keyframes for rigid parts (Stack, Database, CPU, Tree), travel-and-return (Airplane, Planet, Cash), stroke draw-on (Git branch, Truck), and animating holes via masks (Chat, Robot, Funnel). Timing rule is roughly one second per beat with a breath before play and a sped-up finish if you leave mid-gesture, not the sub-300ms UI-state rule. Ships the icons and an agent skill installable with `npx github:kai956/animating-icons`, plus prompt recipes for deriving the verb before writing keyframes.",
+      },
+      {
         title: "Morphing Icons with Claude",
         href: "https://benji.org/morphing-icons-with-claude",
         dateAdded: "2026-07-30",
