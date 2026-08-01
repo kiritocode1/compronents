@@ -1,25 +1,27 @@
 /**
- * Opinionated recommend layer on top of BM25 search.
+ * Opinionated recommend layer on top of the shared ranking engine.
  *
- * searchInspiration returns a wide candidate pool. This does the agent job:
- * expand the query, merge multi-query scores, boost facets/category hints,
- * drop weak matches, return at most a few picks with a short why.
+ * `rankExpanded` (inspiration-rank.ts) does the retrieval: expand the query,
+ * merge multi-query BM25 scores, boost facets and category hints. This module
+ * does the agent job on top of that ranking: drop weak matches, enforce
+ * compound coverage, and return at most a few picks with a short why.
+ *
+ * The website search shares the same `rankExpanded` call and only differs in
+ * the cutoffs it applies, which is the point: an agent wants a strict top 3,
+ * a browsing human wants every match, and neither should disagree with the
+ * other about what is most relevant.
  */
 
-import { inspirationGroups } from "./inspiration.ts";
 import { inspirationPickId } from "./inspiration-id.ts";
+import { cleanQuery } from "./inspiration-meta.ts";
 import {
-  cleanQuery,
-  expandQuery,
-  inferCategoryHints,
-  inferStyleHints,
-  resolveFacets,
-} from "./inspiration-meta.ts";
-import {
+  facetsFor,
+  type InspirationIndex,
+  rankExpanded,
+  type ScoredHit,
   type SearchHit,
-  searchInspiration,
-  unmatchedTerms,
-} from "./inspiration-search.ts";
+} from "./inspiration-rank.ts";
+import { getInspirationIndex } from "./inspiration-search.ts";
 
 export interface RecommendPick {
   /** Stable citation id, e.g. insp_lucide-animated. */
@@ -55,162 +57,20 @@ const CANDIDATE_POOL = 40;
 const RELATIVE_FLOOR = 0.32;
 /** Absolute floor after merge; kills pure fluff matches. */
 const ABSOLUTE_FLOOR = 4.5;
-const CATEGORY_HINT_BOOST = 4.2;
-/** Full useFor phrase appears in the query (best signal). */
-const USE_FOR_EXACT_BOOST = 6.5;
-/** Every token of a useFor phrase appears somewhere in the query. */
-const USE_FOR_TOKEN_BOOST = 2.2;
-const KIND_HINT_BOOST = 1.8;
-const STYLE_HINT_BOOST = 5.5;
-
-function findLink(href: string) {
-  for (const group of inspirationGroups) {
-    for (const link of group.links) {
-      if (link.href === href) return { group, link };
-    }
-  }
-  return null;
-}
-
-function facetBoost(
-  hit: SearchHit,
-  query: string,
-  categoryHints: string[],
-  styleHints: string[],
-): { boost: number; reasons: string[] } {
-  const found = findLink(hit.href);
-  if (!found) return { boost: 0, reasons: [] };
-
-  const facets = resolveFacets(found.group.title, found.link);
-  const q = query.toLowerCase();
-  const reasons: string[] = [];
-  let boost = 0;
-
-  if (categoryHints.includes(hit.category)) {
-    boost += CATEGORY_HINT_BOOST;
-    reasons.push(`category match (${hit.category})`);
-  }
-
-  const styleOverlap = facets.style.filter((s) => styleHints.includes(s));
-  if (styleOverlap.length) {
-    boost += STYLE_HINT_BOOST * styleOverlap.length;
-    reasons.push(`style:${styleOverlap.join("+")}`);
-  }
-
-  // Prefer the longest useFor phrase contained in the query. Short phrases
-  // like "designer portfolio" are substrings of "motion designer portfolio"
-  // and would otherwise tie every portfolio entry at the same boost.
-  let bestUseFor = 0;
-  let bestUseForPhrase = "";
-  for (const phrase of facets.useFor) {
-    const p = phrase.toLowerCase();
-    const words = p.split(/\s+/).filter(Boolean);
-    if (q.includes(p)) {
-      // Length-weighted exact containment.
-      const score = USE_FOR_EXACT_BOOST + words.length * 2.4;
-      if (score > bestUseFor) {
-        bestUseFor = score;
-        bestUseForPhrase = phrase;
-      }
-      continue;
-    }
-    const tokens = words.filter((w) => w.length > 2);
-    // Loose token overlap only when no containment match exists yet, and only
-    // for phrases of 3+ tokens so two-word category defaults do not flood.
-    if (
-      bestUseFor === 0 &&
-      tokens.length >= 3 &&
-      tokens.every((w) => q.includes(w))
-    ) {
-      bestUseFor = USE_FOR_TOKEN_BOOST;
-      bestUseForPhrase = phrase;
-    }
-  }
-  if (bestUseFor > 0) {
-    boost += bestUseFor;
-    reasons.push(`use-for "${bestUseForPhrase}"`);
-  }
-
-  // Kind-shaped asks.
-  if (
-    /\b(essay|article|guide|write-?up)\b/.test(q) &&
-    facets.kind.includes("essay")
-  ) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:essay");
-  }
-  if (
-    /\b(library|package|kit|components?)\b/.test(q) &&
-    facets.kind.includes("library")
-  ) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:library");
-  }
-  if (
-    /\b(gallery|inspiration|showcase)\b/.test(q) &&
-    facets.kind.includes("gallery")
-  ) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:gallery");
-  }
-  if (/\b(portfolio|studio)\b/.test(q) && facets.kind.includes("portfolio")) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:portfolio");
-  }
-  if (/\b(tool|cli|utility)\b/.test(q) && facets.kind.includes("tool")) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:tool");
-  }
-  if (/\b(video|youtube|talk)\b/.test(q) && facets.kind.includes("video")) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:video");
-  }
-  if (
-    /\b(course|tutorial series|learning path)\b/.test(q) &&
-    facets.kind.includes("course")
-  ) {
-    boost += KIND_HINT_BOOST;
-    reasons.push("kind:course");
-  }
-
-  for (const s of facets.stack) {
-    if (q.includes(s.toLowerCase())) {
-      boost += 1.2;
-      reasons.push(`stack:${s}`);
-      break;
-    }
-  }
-
-  // Title/description phrase echo: if the user asked for a specific role
-  // ("motion designer") and the entry states it, that beats category defaults.
-  const blob = `${hit.title} ${hit.description ?? ""}`.toLowerCase();
-  for (const phrase of [
-    "motion designer",
-    "motion design",
-    "design engineer",
-    "creative developer",
-    "product designer",
-  ]) {
-    if (q.includes(phrase) && blob.includes(phrase)) {
-      boost += 9;
-      reasons.push(`echo "${phrase}"`);
-      break;
-    }
-  }
-
-  return { boost, reasons };
-}
 
 function toPick(
+  index: InspirationIndex,
   hit: SearchHit,
   score: number,
   reasons: string[],
   variantsHit: string[],
 ): RecommendPick {
-  const found = findLink(hit.href);
-  const facets = found
-    ? resolveFacets(found.group.title, found.link)
-    : { kind: [], stack: [], useFor: [], style: [] };
+  const facets = facetsFor(index, hit.href) ?? {
+    kind: [],
+    stack: [],
+    useFor: [],
+    style: [],
+  };
 
   const whyParts = [
     ...reasons.slice(0, 2),
@@ -253,61 +113,10 @@ export function recommendInspiration(
     };
   }
 
-  const variants = expandQuery(trimmed);
-  const categoryHints = inferCategoryHints(trimmed);
-  const styleHints = inferStyleHints(trimmed);
-  const unmatched = unmatchedTerms(trimmed);
+  const index = getInspirationIndex();
+  const { variants, categoryHints, styleHints, unmatched, ranked } =
+    rankExpanded(index, trimmed, { candidatePool: CANDIDATE_POOL });
 
-  type Acc = {
-    hit: SearchHit;
-    score: number;
-    variants: string[];
-    reasons: string[];
-  };
-  const byHref = new Map<string, Acc>();
-
-  for (const variant of variants) {
-    // Primary phrasing counts more; synonym rewrites are supporting evidence.
-    // Without this, "motion" → "micro-interaction" floods out the true best hit.
-    const isPrimary =
-      variant === trimmed ||
-      variant === variants[0] ||
-      variant === trimmed.toLowerCase();
-    const weight = isPrimary ? 1.6 : 0.55;
-    const hits = searchInspiration(variant, { limit: CANDIDATE_POOL });
-    for (const hit of hits) {
-      const prev = byHref.get(hit.href);
-      const add = hit.score * weight;
-      if (prev) {
-        prev.score += add;
-        if (!prev.variants.includes(variant)) prev.variants.push(variant);
-      } else {
-        byHref.set(hit.href, {
-          hit,
-          score: add,
-          variants: [variant],
-          reasons: [],
-        });
-      }
-    }
-  }
-
-  // Multi-variant hits get a small cohesion bonus (same entry, different words).
-  for (const acc of byHref.values()) {
-    if (acc.variants.length > 1) {
-      acc.score *= 1 + 0.08 * Math.min(acc.variants.length - 1, 4);
-    }
-    const { boost, reasons } = facetBoost(
-      acc.hit,
-      trimmed,
-      categoryHints,
-      styleHints,
-    );
-    acc.score += boost;
-    acc.reasons = reasons;
-  }
-
-  const ranked = [...byHref.values()].sort((a, b) => b.score - a.score);
   if (ranked.length === 0) {
     return {
       query: trimmed,
@@ -354,10 +163,10 @@ export function recommendInspiration(
 
   const picks = survivors
     .slice(0, Math.min(limit, 5))
-    .map((acc) => toPick(acc.hit, acc.score, acc.reasons, acc.variants));
+    .map((acc) => toPick(index, acc.hit, acc.score, acc.reasons, acc.variants));
   const alsoConsider = survivors
     .slice(picks.length, picks.length + 3)
-    .map((acc) => toPick(acc.hit, acc.score, acc.reasons, acc.variants));
+    .map((acc) => toPick(index, acc.hit, acc.score, acc.reasons, acc.variants));
 
   return {
     query: trimmed,

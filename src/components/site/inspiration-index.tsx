@@ -2,18 +2,46 @@
 
 import { useSound } from "@web-kits/audio/react";
 import { Calligraph } from "calligraph";
-import Fuse from "fuse.js";
 import { ArrowUpRight, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { Suspense, useMemo } from "react";
-import type { InspirationGroup, InspirationLink } from "@/lib/inspiration";
+import { Suspense, useDeferredValue, useMemo } from "react";
+import type { InspirationGroup } from "@/lib/inspiration";
+import {
+  buildInspirationIndex,
+  type InspirationIndex,
+  rankExpanded,
+} from "@/lib/inspiration-rank";
 import { matchesDateRange, parseTimeQuery } from "@/lib/search-time";
 import { uiHover } from "@/lib/sounds";
 
-interface SearchEntry {
-  groupTitle: string;
-  link: InspirationLink;
+/**
+ * The page already ships every link to the client as props, so the browser can
+ * index what it holds and run the same ranking the MCP does, rather than a
+ * weaker client-side approximation. Keyed on the array identity so the index is
+ * built once, lazily, on the first real query, and survives a remount.
+ */
+const indexCache = new WeakMap<InspirationGroup[], InspirationIndex>();
+
+function indexFor(groups: InspirationGroup[]): InspirationIndex {
+  let index = indexCache.get(groups);
+  if (!index) {
+    index = buildInspirationIndex(groups);
+    indexCache.set(groups, index);
+  }
+  return index;
 }
+
+/** Per-variant BM25 pool. Wide, because a person browsing wants every match. */
+const CANDIDATE_POOL = 300;
+/**
+ * How far below the best match a link can still show.
+ *
+ * `recommendInspiration` cuts hard because it owes an agent three picks. Here
+ * the floor exists only to drop partial-term noise, not to curate: someone who
+ * knows a link is on the wall should be able to find it.
+ */
+const RELATIVE_FLOOR = 0.1;
+const ABSOLUTE_FLOOR = 2.5;
 
 export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
   // Reading the URL opts this subtree out of prerendering, so the fallback
@@ -46,48 +74,49 @@ function InspirationIndexView({
   onQueryChange?: (value: string) => void;
 }) {
   const playHover = useSound(uiHover);
-
-  const fuse = useMemo(() => {
-    const entries: SearchEntry[] = groups.flatMap((group) =>
-      group.links.map((link) => ({ groupTitle: group.title, link })),
-    );
-    return new Fuse(entries, {
-      keys: [
-        { name: "link.title", weight: 0.5 },
-        { name: "link.description", weight: 0.25 },
-        { name: "groupTitle", weight: 0.15 },
-        { name: "link.useFor", weight: 0.1 },
-        { name: "link.stack", weight: 0.05 },
-        { name: "link.kind", weight: 0.05 },
-      ],
-      threshold: 0.2,
-      ignoreLocation: true,
-      minMatchCharLength: 2,
-    });
-  }, [groups]);
+  // Ranking 1100+ links runs per keystroke; this keeps the input itself smooth.
+  const deferredQuery = useDeferredValue(query);
 
   const visible = useMemo(() => {
-    const { query: q, date, words } = parseTimeQuery(query);
+    const { query: q, date, words } = parseTimeQuery(deferredQuery);
     if (!q) return groups;
 
-    const wordsQuery = words.join(" ");
-    const textMatchedHrefs = wordsQuery
-      ? new Set(fuse.search(wordsQuery).map((result) => result.item.link.href))
-      : null;
+    const inRange = (group: InspirationGroup) => ({
+      ...group,
+      links: group.links.filter((link) =>
+        matchesDateRange(link.dateAdded, date),
+      ),
+    });
+    const nonEmpty = (group: InspirationGroup) => group.links.length > 0;
+
+    // Date-only ask ("added last week"): the whole wall, narrowed to the range.
+    const text = words.join(" ");
+    if (!text) return groups.map(inRange).filter(nonEmpty);
+
+    // Naming a shelf outright shows that shelf, whole and in registry order.
+    const shelf = groups.find((group) => group.title.toLowerCase() === text);
+    if (shelf) return [inRange(shelf)].filter(nonEmpty);
+
+    const { ranked } = rankExpanded(indexFor(groups), text, {
+      candidatePool: CANDIDATE_POOL,
+    });
+    if (ranked.length === 0) return [];
+
+    const floor = Math.max(ABSOLUTE_FLOOR, ranked[0].score * RELATIVE_FLOOR);
+    const matched = new Set(
+      ranked.filter((hit) => hit.score >= floor).map((hit) => hit.hit.href),
+    );
 
     return groups
       .map((group) => ({
         ...group,
-        links: group.links.filter((link) => {
-          if (!matchesDateRange(link.dateAdded, date)) return false;
-          if (!textMatchedHrefs) return true;
-          if (group.title.toLowerCase().includes(wordsQuery.toLowerCase()))
-            return true;
-          return textMatchedHrefs.has(link.href);
-        }),
+        links: group.links.filter(
+          (link) =>
+            matched.has(link.href) && matchesDateRange(link.dateAdded, date),
+        ),
       }))
-      .filter((group) => group.links.length > 0);
-  }, [groups, fuse, query]);
+      .filter(nonEmpty);
+  }, [groups, deferredQuery]);
 
   return (
     <main className="mx-auto w-full max-w-[40rem] pb-32">
@@ -105,7 +134,7 @@ function InspirationIndexView({
           type="text"
           value={query}
           onChange={(event) => onQueryChange?.(event.target.value)}
-          placeholder="Search titles or dates…"
+          placeholder="Search by idea, tech, or date…"
           aria-label="Search inspiration"
           className="w-full bg-transparent py-1 text-sm text-foreground placeholder:text-faint focus:outline-none"
         />
