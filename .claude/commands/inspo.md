@@ -38,13 +38,45 @@ For each URL:
    someone would actually use this link. Do not create a new group; if nothing
    fits, ask the user before adding one.
 
-5. **Insert at the top** of that group's `links` array, in the existing shape:
+5. **Set the facets.** Facets are what `/direction` and `/inspiration/recommend`
+   rank on. Every link already gets facets derived from its title, description
+   and host by `deriveLinkFacets` (`src/lib/inspiration-meta.ts`) and merged with
+   its category defaults, so no entry is facet-less. Set a field only to correct
+   or extend what derivation produces:
+
+   - **`useFor`** is the highest-leverage field. Set it on every new link.
+     A phrase scores 6.5 points plus 2.4 per word when it appears **verbatim as a
+     substring of the query**, so write short lowercase fragments a person would
+     literally type ("background thread", "off the main thread", "icon morph"),
+     not sentences. Aim for five to eight phrases of two to four words, one per
+     distinct intent that should land here. Derivation only ever yields the
+     title, host, repo slug and capitalized names lifted from the description, so
+     every phrase that is not the product's own name has to come from you.
+     Explicit phrases are kept ahead of derived ones and survive the 12-item cap.
+   - **`stack`** merges with derived tags. `deriveStack` regex-matches a fixed
+     list (react, next, motion, three, webgl, effect, llm, mcp, and so on), so
+     add tags that list does not know ("hermes", "metro") or that are true but
+     never appear in your copy.
+   - **`kind`** replaces derivation entirely when set. Derivation takes the first
+     two `KIND_RULES` regex hits over title, description and href, so a library
+     whose description happens to say "guide" gets labelled `essay`. Set it when
+     the copy would mislabel it; otherwise leave it off.
+   - **`style`** is vibe only, for links someone picks by look: galleries,
+     portfolios, component libraries, marketing sites. Leave it unset for
+     libraries, infra and reference material. Category defaults already cover the
+     visual groups, so set it only when this link is an exception, such as a
+     brutalist entry in a restrained group.
+
+6. **Insert at the top** of that group's `links` array, in the existing shape:
 
    ```ts
    {
      title: "Name",
      href: "https://example.com/",
      dateAdded: "YYYY-MM-DD",
+     kind: "library",
+     stack: ["react", "motion"],
+     useFor: ["what someone types", "another intent"],
      description:
        "...",
    },
@@ -52,11 +84,45 @@ For each URL:
 
    `title` is the site or project's own name, not a slogan. `dateAdded` is
    today's date. Keep the trailing slash and any query string exactly as the
-   user pasted, unless it is a tracking-only param you can drop cleanly.
+   user pasted, unless it is a tracking-only param you can drop cleanly. Omit any
+   facet field you decided not to override.
+
+7. **Verify retrieval, do not assume it.** Write a scratch script to `/tmp` (never
+   into the repo) that prints the resolved facets and runs the queries this link
+   should win, then run it with the alias hooks:
+
+   ```bash
+   cat > /tmp/inspo-check.mjs <<'EOF'
+   import { inspirationGroups } from "@/lib/inspiration";
+   import { resolveFacets } from "@/lib/inspiration-meta";
+   import { recommendInspiration } from "@/lib/inspiration-recommend";
+
+   const HREF = "https://example.com/";
+   const QUERIES = ["intent one", "a full sentence a user would type"];
+
+   let found = null;
+   for (const g of inspirationGroups)
+     for (const l of g.links) if (l.href === HREF) found = { g, l };
+   if (!found) throw new Error("link not found");
+   console.log(JSON.stringify(resolveFacets(found.g.title, found.l), null, 2));
+   for (const q of QUERIES) {
+     const titles = recommendInspiration(q).picks.map((p) => p.title);
+     console.log(`${q} -> ${titles.join(" | ") || "(none)"}`);
+   }
+   EOF
+   node --import ./tests/alias-hooks.mjs /tmp/inspo-check.mjs
+   ```
+
+   The link should place first for its own name and for at least the intents you
+   wrote `useFor` phrases for. If an intent misses, the phrase does not match how
+   the query reads: fix the phrase, do not pad the description. Then check you did
+   not buy those hits with false positives, by running two or three adjacent
+   queries this link should **not** win and confirming it stays out of `picks`.
 
 After all URLs are in: run `pnpm biome check --write src/lib/inspiration.ts`
-(fall back to `npx biome check --write` if pnpm is unhappy), then
+(fall back to `npx biome check --write` if pnpm is unhappy) and `pnpm test`, then
 `git add src/lib/inspiration.ts && git commit` with the message
 `feat: add <Name>, <Name> inspirations`. Do not push unless asked.
 
-Report one line per link: name, group it landed in, or "already present".
+Report one line per link: name, group it landed in, and the queries it now wins,
+or "already present".
