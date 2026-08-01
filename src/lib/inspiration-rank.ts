@@ -24,9 +24,9 @@
 import type { InspirationGroup, InspirationLink } from "./inspiration.ts";
 import {
   expandQuery,
+  type InspirationFacets,
   inferCategoryHints,
   inferStyleHints,
-  type InspirationFacets,
   resolveFacets,
 } from "./inspiration-meta.ts";
 
@@ -118,7 +118,10 @@ export function buildInspirationIndex(
       add(categoryTokens, CATEGORY_BOOST);
       add(tokenize(link.description ?? ""), 1);
       // The host carries signal too ("reactbits.dev", "fonts.google.com").
-      add(tokenize(link.href.replace(/https?:\/\//, "").replace(/\//g, " ")), 1);
+      add(
+        tokenize(link.href.replace(/https?:\/\//, "").replace(/\//g, " ")),
+        1,
+      );
 
       // Facets: category defaults + per-link overrides. Weighted like body text
       // so "animated icons" hits useFor phrases without drowning titles.

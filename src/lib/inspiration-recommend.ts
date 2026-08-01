@@ -18,7 +18,6 @@ import {
   facetsFor,
   type InspirationIndex,
   rankExpanded,
-  type ScoredHit,
   type SearchHit,
 } from "./inspiration-rank.ts";
 import { getInspirationIndex } from "./inspiration-search.ts";
@@ -147,11 +146,7 @@ export function recommendInspiration(
       .match(/[a-z0-9][a-z0-9+#.-]*/g)
       ?.filter((w) => w.length > 2) ?? [];
   const isVibeQuery = styleHints.length > 0;
-  if (
-    !isVibeQuery &&
-    strongWords.length >= 2 &&
-    strongWords.length <= 3
-  ) {
+  if (!isVibeQuery && strongWords.length >= 2 && strongWords.length <= 3) {
     survivors = survivors.filter((acc) => {
       const blob =
         `${acc.hit.title} ${acc.hit.description ?? ""} ${acc.hit.category} ${(acc.hit.useFor ?? []).join(" ")}`.toLowerCase();

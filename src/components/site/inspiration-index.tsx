@@ -6,42 +6,8 @@ import { ArrowUpRight, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { Suspense, useDeferredValue, useMemo } from "react";
 import type { InspirationGroup } from "@/lib/inspiration";
-import {
-  buildInspirationIndex,
-  type InspirationIndex,
-  rankExpanded,
-} from "@/lib/inspiration-rank";
-import { matchesDateRange, parseTimeQuery } from "@/lib/search-time";
+import { browseInspiration } from "@/lib/inspiration-browse";
 import { uiHover } from "@/lib/sounds";
-
-/**
- * The page already ships every link to the client as props, so the browser can
- * index what it holds and run the same ranking the MCP does, rather than a
- * weaker client-side approximation. Keyed on the array identity so the index is
- * built once, lazily, on the first real query, and survives a remount.
- */
-const indexCache = new WeakMap<InspirationGroup[], InspirationIndex>();
-
-function indexFor(groups: InspirationGroup[]): InspirationIndex {
-  let index = indexCache.get(groups);
-  if (!index) {
-    index = buildInspirationIndex(groups);
-    indexCache.set(groups, index);
-  }
-  return index;
-}
-
-/** Per-variant BM25 pool. Wide, because a person browsing wants every match. */
-const CANDIDATE_POOL = 300;
-/**
- * How far below the best match a link can still show.
- *
- * `recommendInspiration` cuts hard because it owes an agent three picks. Here
- * the floor exists only to drop partial-term noise, not to curate: someone who
- * knows a link is on the wall should be able to find it.
- */
-const RELATIVE_FLOOR = 0.1;
-const ABSOLUTE_FLOOR = 2.5;
 
 export function InspirationIndex({ groups }: { groups: InspirationGroup[] }) {
   // Reading the URL opts this subtree out of prerendering, so the fallback
@@ -77,46 +43,10 @@ function InspirationIndexView({
   // Ranking 1100+ links runs per keystroke; this keeps the input itself smooth.
   const deferredQuery = useDeferredValue(query);
 
-  const visible = useMemo(() => {
-    const { query: q, date, words } = parseTimeQuery(deferredQuery);
-    if (!q) return groups;
-
-    const inRange = (group: InspirationGroup) => ({
-      ...group,
-      links: group.links.filter((link) =>
-        matchesDateRange(link.dateAdded, date),
-      ),
-    });
-    const nonEmpty = (group: InspirationGroup) => group.links.length > 0;
-
-    // Date-only ask ("added last week"): the whole wall, narrowed to the range.
-    const text = words.join(" ");
-    if (!text) return groups.map(inRange).filter(nonEmpty);
-
-    // Naming a shelf outright shows that shelf, whole and in registry order.
-    const shelf = groups.find((group) => group.title.toLowerCase() === text);
-    if (shelf) return [inRange(shelf)].filter(nonEmpty);
-
-    const { ranked } = rankExpanded(indexFor(groups), text, {
-      candidatePool: CANDIDATE_POOL,
-    });
-    if (ranked.length === 0) return [];
-
-    const floor = Math.max(ABSOLUTE_FLOOR, ranked[0].score * RELATIVE_FLOOR);
-    const matched = new Set(
-      ranked.filter((hit) => hit.score >= floor).map((hit) => hit.hit.href),
-    );
-
-    return groups
-      .map((group) => ({
-        ...group,
-        links: group.links.filter(
-          (link) =>
-            matched.has(link.href) && matchesDateRange(link.dateAdded, date),
-        ),
-      }))
-      .filter(nonEmpty);
-  }, [groups, deferredQuery]);
+  const visible = useMemo(
+    () => browseInspiration(groups, deferredQuery),
+    [groups, deferredQuery],
+  );
 
   return (
     <main className="mx-auto w-full max-w-[40rem] pb-32">
