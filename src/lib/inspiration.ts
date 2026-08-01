@@ -246,6 +246,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "React Native and mobile",
     links: [
       {
+        title: "React Native Workers",
+        href: "https://github.com/ammarahm-ed/react-native-workers",
+        dateAdded: "2026-08-01",
+        kind: "library",
+        stack: ["react-native", "hermes", "metro", "ios", "android"],
+        useFor: [
+          "react native worker",
+          "background thread",
+          "off the main thread",
+          "multithreading react native",
+          "web worker api",
+          "shared memory",
+          "offload parsing",
+        ],
+        description:
+          "Real threads for React Native from Ammar Ahmed: each worker gets its own Hermes runtime with its own heap and event loop behind a Web Worker style API (postMessage, onmessage, terminate), so parsing, crypto, database and image work stops blocking the UI thread. A worker is its own Metro bundle graph rather than a serialized closure, so normal npm imports work inside it and it debugs as its own DevTools target with console.log forwarded to the host tagged by worker name. Ships SharedStore, SharedValue and SharedBuffer for C++ backed memory shared across runtimes, a UIWorker whose runtime sits on the platform main thread for UI-affine native calls, and typed two-way RPC through defineModule. MIT, 93 stars, requires the New Architecture with Hermes on React Native 0.81.4 or newer; UI exports like View and Animated throw inside a worker, and the README positions workers as complementary to Reanimated worklets rather than a replacement.",
+      },
+      {
         title: "The real cost of React Native animations",
         href: "https://expo.dev/blog/the-real-cost-of-react-native-animations-benchmarking-every-approach",
         dateAdded: "2026-07-19",
