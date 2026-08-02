@@ -56,10 +56,39 @@ cases("one-sided ranges", [
   ["since july", ["2026-07-01", "9999-12-31"]],
   ["since 2026-07-15", ["2026-07-15", "9999-12-31"]],
   ["after last week", ["2026-07-20", "9999-12-31"]],
-  ["before 2026", ["0001-01-01", "2026-12-31"]],
   ["until last week", ["0001-01-01", "2026-07-26"]],
   ["up to friday", ["0001-01-01", "2026-07-31"]],
 ]);
+
+test("before excludes its period, until includes it", () => {
+  // "before 2026" returning everything in 2026 is the bug this guards: the
+  // end bound has to be the day before the period starts, not its last day.
+  assert.deepEqual(range("before 2026"), ["0001-01-01", "2025-12-31"]);
+  assert.deepEqual(range("before july 2026"), ["0001-01-01", "2026-06-30"]);
+  assert.deepEqual(range("before 2026-07-15"), ["0001-01-01", "2026-07-14"]);
+
+  assert.deepEqual(range("until 2026"), ["0001-01-01", "2026-12-31"]);
+  assert.deepEqual(range("up to july 2026"), ["0001-01-01", "2026-07-31"]);
+});
+
+test("a cue word lets a guarded date work mid-query", () => {
+  // The cue is the only thing separating these two: without it a bare year
+  // next to other words is a version number, not a date.
+  for (const [query, expected, text] of [
+    ["shaders in 2025", ["2025-01-01", "2025-12-31"], ["shaders"]],
+    ["icons in may", ["2026-05-01", "2026-05-31"], ["icons"]],
+    ["components from 2024", ["2024-01-01", "2024-12-31"], ["components"]],
+  ]) {
+    const { date, words } = parseTimeQuery(query, NOW);
+    assert.deepEqual([date?.start, date?.end], expected, `"${query}"`);
+    assert.deepEqual(words, text, `"${query}" text`);
+  }
+
+  // Same shape, no cue: stays text.
+  for (const query of ["tailwind 2024", "react 19", "shaders 2025"]) {
+    assert.equal(searchDate(query, NOW), null, `"${query}" parsed as a date`);
+  }
+});
 
 cases("calendar periods name the whole period", [
   ["last week", ["2026-07-20", "2026-07-26"]],

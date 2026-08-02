@@ -16,10 +16,11 @@
  * vocabulary (4+ letter words only).
  *
  * Patterns are ordered most specific first, so a day always wins over the
- * month containing it. The counterweight to all this reach is
- * `isDateOnlyQuery`: month names and four-digit numbers are also ordinary
- * English and version numbers, and a date filter that fires on prose hides
- * most of the results with nothing on screen to explain why.
+ * month containing it. The counterweight to all this reach is `isGuardedDate`:
+ * month names and four-digit numbers are also ordinary English and version
+ * numbers, and a date filter that fires on prose hides most of the results
+ * with nothing on screen to explain why. So "may" and bare years read as dates
+ * only when they stand alone or a cue word introduces them ("in 2025").
  */
 
 export interface DateMatch {
