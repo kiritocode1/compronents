@@ -2030,6 +2030,13 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Bento Grids",
+        href: "https://bentogrids.com/?category=ui",
+        dateAdded: "2026-08-03",
+        description:
+          "Curated gallery of bento-grid layouts from shipped products and independent designers, with this link opening its UI-focused collection. Browse examples from Apple, Linear, Vercel, Attio, Raycast and many others, filter the wall by web design, graphic design or animation and by light or dark treatment, then follow each card back to its original source.",
+      },
+      {
         title: "Motionimo",
         href: "https://motionimo.xyz/",
         dateAdded: "2026-07-30",
@@ -7042,6 +7049,13 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Docs, slides and content tools",
     links: [
+      {
+        title: "Underleaf",
+        href: "https://underleaf.xyz/",
+        dateAdded: "2026-08-03",
+        description:
+          "Document editor for turning written work into polished PDFs, either manually or through an AI agent that applies plain-English changes after review. Includes starting points for lab reports, academic reports, technical documentation and essays; imports DOCX, PDF and code; supports drag-and-drop media, image cropping and styling, PDF compression, paper-size controls and DOCX export.",
+      },
       {
         title: "Presentations.AI",
         href: "https://presentations.ai",
