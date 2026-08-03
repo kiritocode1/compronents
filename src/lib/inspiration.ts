@@ -511,6 +511,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Frontend architecture and patterns",
     links: [
       {
+        title: "Effective HTML",
+        href: "https://www.effectivehtml.com/",
+        dateAdded: "2026-08-03",
+        kind: "directory",
+        stack: ["html"],
+        useFor: [
+          "agent html artifacts",
+          "html wireframes",
+          "interactive html prototype",
+          "implementation plan",
+          "system diagram",
+          "code review artifact",
+          "visual design directions",
+        ],
+        description:
+          "Reference site by Plannotator for building visual and interactive HTML artifacts with coding agents, useful when markdown cannot make structure, state or relationships inspectable. Its catalog contains 38 artifacts across nine subjects, including 20 references, 10 wireframes and mockups, and six reusable skills. Examples cover implementation plans, annotated pull requests, design systems, clickable flows, system diagrams, reports and focused editing tools, with live HTML and source links for the first-party artifacts.",
+      },
+      {
         title: "Editable Website",
         href: "https://editable.website/",
         dateAdded: "2026-07-19",
