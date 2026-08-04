@@ -1027,6 +1027,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Bearnie table",
+        href: "https://bearnie.dev/docs/components/table/",
+        dateAdded: "2026-08-05",
+        stack: ["astro", "tailwind"],
+        useFor: [
+          "astro components",
+          "astro component library",
+          "astro tailwind",
+          "table component",
+          "html table markup",
+          "bearnie",
+        ],
+        description:
+          "Docs page for Bearnie's table: eight structural components (Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption) that wrap native HTML table elements instead of a data engine, so there is no sorting, pagination or column API to learn and the only documented prop is class. Bearnie is an accessible Astro and Tailwind component library by Michael Andreuzza, MIT licensed at michael-andreuzza/bearnie with 290 stars, spanning roughly 49 components from Accordion to Typography. Install one at a time with npx bearnie add table (or the bunx, pnpm dlx and yarn dlx equivalents), which copies the code into your project so you own and edit it rather than importing a package. Worked examples cover a captioned invoice list, a totals footer row and badges inside cells; every docs page offers View as Markdown plus Open in Claude and Open in ChatGPT, and the site documents an MCP server for pulling components into an agent.",
+      },
+      {
         title: "Liveline",
         href: "https://benji.org/liveline",
         dateAdded: "2026-07-30",
