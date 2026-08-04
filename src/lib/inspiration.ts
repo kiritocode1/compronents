@@ -3990,6 +3990,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Unicorn Studio Inspiration",
+        href: "https://www.unicorn.studio/inspiration",
+        dateAdded: "2026-08-05",
+        useFor: [
+          "unicorn studio",
+          "no code webgl",
+          "shader inspiration",
+          "webgl without glsl",
+          "framer webgl",
+          "embed a shader",
+          "webgl scene reference",
+        ],
+        description:
+          "Gallery of scenes built in Unicorn Studio, the no-code WebGL editor, for seeing what shader work looks like in a real layout before writing any GLSL. Unicorn Studio is a bootstrapped one-person product by George Hastings, previously at AREA 17 and IDEO and the maker of Khroma, who dates the idea to finding The Book of Shaders in October 2020; the editor stacks layers where each layer is a shader pass, driven by scroll, hover, cursor or element appearance, then publishes an embed for Framer, Webflow or a custom site. Free covers all 75+ effects with 8 branded publishes and personal use only, while Legend at $168 a year or $20 monthly adds a commercial license, JSON export, custom 3D models and fonts, versioning and 200 monthly Unicorn AI credits during the open beta. The gallery renders client-side with nothing in the static HTML, and community scenes circulate as remix links that open the whole project file, layer stack and effect settings included.",
+      },
+      {
         title: "InkField",
         href: "https://ileivoivm.github.io/inkField/",
         dateAdded: "2026-07-24",
