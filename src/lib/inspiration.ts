@@ -2030,6 +2030,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Footer",
+        href: "https://www.footer.design/",
+        dateAdded: "2026-08-04",
+        useFor: [
+          "footer design",
+          "footer inspiration",
+          "website footers",
+          "footer layout",
+          "site footer reference",
+          "big footer",
+          "footer navigation",
+        ],
+        description:
+          "Gallery devoted entirely to website footers, for the strip of a page that usually gets designed last and looked at least. Run in their spare time by Benten Woodring, Devin Fountain and Matt Cram, who also work together at NOOON Studio; the logo is by Fons Mans. Entries are sorted by visual approach rather than industry: Typographic, Small Type, Large Type, Illustrative, Grid, Flat, Animated, Cards, Bright, Dark and Bold. The wall paginates to 63 pages, Editor's Choice picks include Yummygum, Turion Space and Marina Rachello, and each entry credits both the submitter and the designer.",
+      },
+      {
         title: "Bento Grids",
         href: "https://bentogrids.com/?category=ui",
         dateAdded: "2026-08-03",
