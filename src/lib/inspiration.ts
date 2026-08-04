@@ -3803,6 +3803,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Theatre.js sequences manual",
+        href: "https://www.theatrejs.com/docs/latest/manual/sequences",
+        dateAdded: "2026-08-05",
+        stack: ["theatre"],
+        useFor: [
+          "theatre.js",
+          "keyframe animation",
+          "animation timeline",
+          "scrub animation",
+          "tween editor",
+          "animate three.js",
+          "sequence editor",
+        ],
+        description:
+          "Manual page for Theatre.js sequences, the part of the library that turns a prop into a keyframed animation you scrub in a timeline instead of hand-tuning numbers in code. Covers right-clicking a prop to Sequence it (Sequence all on a compound prop, undone with Make static), aggregate keyframes that move a parent's children and their connectors together, the tween editor whose timing functions mirror CSS transition-timing-function down to fuzzy search for quad-in-out and custom cubic Beziers, focus ranges drawn with Shift to loop playback over a section, and the multi-track curve editor. The runtime side is sheet.sequence: play with repeats and direction, pause, position, pointer for watching changes as they happen, and attachAudio. Published by Theatre.js Oy in Helsinki, docs version 0.5, last edited February 1, 2024; the worked example wires a three.js DirectionalLight through types.number with a range of 0 to 30 and syncs back via onValuesChange.",
+      },
+      {
         title: "Hyperiux Vault",
         href: "https://vault.hyperiux.com/",
         dateAdded: "2026-07-24",
@@ -5826,6 +5843,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Courses and learning paths",
     links: [
       {
+        title: "Zerodha Varsity",
+        href: "https://zerodha.com/varsity/modules/",
+        dateAdded: "2026-08-05",
+        kind: "course",
+        stack: ["finance", "trading"],
+        useFor: [
+          "stock market basics",
+          "learn trading",
+          "technical analysis",
+          "options trading",
+          "investing course",
+          "personal finance",
+          "financial modelling",
+        ],
+        description:
+          "Stock market education from Zerodha, the Indian brokerage, structured as 17 modules you work through in order rather than a blog to skim. It starts at Introduction to Stock Markets (15 chapters) and Technical Analysis (22), goes deep on derivatives through Options Theory for Professional Trading (25) and Option Strategies (14), then covers Markets and Taxation, Risk Management and Trading Psychology, Trading Systems, Sector Analysis, Integrated Financial Modelling and personal finance tracks for mutual funds (33 chapters), insurance and the National Pension System. The outlier is Innerworth at 603 chapters, a run of trading psychology newsletters published between 2002 and 2007 by Marketwise, a US broking firm. Modules 1 to 11 have Hindi versions, the first five carry video series, there is a Varsity app on both mobile stores, and the footer notes that reproducing the text and images is not permitted.",
+      },
+      {
         title: "Tech Interview Handbook",
         href: "https://www.techinterviewhandbook.org/software-engineering-interview-guide/",
         dateAdded: "2026-07-14",
@@ -5969,6 +6004,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Vite+",
+        href: "https://viteplus.dev/",
+        dateAdded: "2026-08-05",
+        stack: ["vite", "rolldown", "oxc", "vitest"],
+        useFor: [
+          "vite plus",
+          "unified toolchain",
+          "replace eslint",
+          "monorepo task runner",
+          "oxlint",
+          "rolldown",
+          "one cli for lint test build",
+        ],
+        description:
+          "Single CLI (vp) that folds runtime, package manager, dev server, linter, formatter, test runner, task runner and bundler into one tool, so a project stops assembling six separate configs to cover those jobs. Built by VoidZero, the company behind Vite, Vitest, Rolldown and Oxc, currently in beta and MIT licensed at voidzero-dev/vite-plus. Commands span env, install, dev, check, build, run, test and pack: dev and build ride Vite and Rolldown with an opt-in full-bundle dev mode, check runs Oxlint and Oxfmt plus tsgo for type-aware linting with 750+ ESLint-compatible rules and Prettier-compatible formatting, test is Vitest including Browser Mode and visual regression, run is a caching monorepo task runner, and pack uses tsdown for DTS bundling, automatic package exports and standalone binaries. Claimed numbers are up to 40x faster builds than webpack, 50x to 100x faster linting than ESLint and up to 30x faster formatting than Prettier; install is a curl script from vite.plus rather than an npm package.",
+      },
       {
         title: "shieldcn",
         href: "https://shieldcn.dev",
@@ -6735,6 +6787,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "File sharing and conversion tools",
     links: [
+      {
+        title: "SVG Genie PNG to SVG",
+        href: "https://www.svggenie.com/tools/png-to-svg",
+        dateAdded: "2026-08-05",
+        useFor: [
+          "png to svg",
+          "raster to vector",
+          "vectorize an image",
+          "image to svg",
+          "trace a logo",
+          "convert to svg",
+        ],
+        description:
+          "Raster tracer that turns an image into vector paths, aimed at logos, icons and line art rather than photographs, which the page tells you to send to its AI generator instead. It accepts PNG, JPG and WebP despite the name, allows three conversions a day without an account, and puts higher-quality AI conversion behind a paid plan. No tracing controls are exposed, no color count, threshold or path smoothing, just a drop zone and a convert button, though the FAQ says you can describe the image in text for better results; output opens in Illustrator, Figma or the site's own SVG editor. The page claims it works in your browser while also describing an AI processing step, so assume the upload leaves your machine; no maker or company is named anywhere on the site, and sibling tools cover JPG to SVG, SVG to PNG, an SVG editor and an offline desktop app for batches.",
+      },
       {
         title: "FileMock",
         href: "https://filemock.com",
@@ -7982,6 +8049,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Mockups, textures and patterns",
     links: [
+      {
+        title: "Lottielab animated mockups",
+        href: "https://www.lottielab.com/templates/mockups",
+        dateAdded: "2026-08-05",
+        stack: ["lottie"],
+        useFor: [
+          "animated mockup",
+          "lottie mockup",
+          "phone mockup",
+          "billboard mockup",
+          "product mockup animation",
+          "lottie templates",
+        ],
+        description:
+          "Set of 18 free animated mockup templates in Lottie form, for putting a product on a phone, a billboard or a card without opening After Effects to build one from scratch. They cover floating and in-hand phone shots against dried flower, grey and black backgrounds, phone carousels in vertical, horizontal and radial arrangements, billboards at a metro station, an underpass and a roadside, plus a lanyard drop, a ticket rip and card CVV animations. Each opens in Lottielab, a browser-based Lottie editor whose surrounding tools include Figma to Lottie, SVG to Lottie, a dotLottie converter, a file size optimizer and exports to GIF, MP4 and WebM. The page sits under a Marketing grouping next to Logos, Showreels and Social media; no company or maker is named on the site beyond a hello@lottielab.com address.",
+      },
       {
         title: "mckp",
         href: "https://mckp.live",
