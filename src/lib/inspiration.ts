@@ -4828,6 +4828,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "CopilotKit Channels SDK",
+        href: "https://github.com/CopilotKit/channels-sdk",
+        dateAdded: "2026-08-05",
+        stack: ["slack", "copilotkit", "ag-ui"],
+        useFor: [
+          "agent in slack",
+          "bring my agent to slack",
+          "slack block kit",
+          "teams adaptive cards",
+          "teams agent",
+          "discord agent",
+          "ag-ui",
+          "human approval",
+        ],
+        description:
+          "SDK for putting an existing AI agent into Slack, Microsoft Teams and Discord with native platform UI, so it answers where the conversation already happens instead of behind its own chat window. It takes any AG-UI-compatible agent, CopilotKit's built-in one plus LangGraph, CrewAI, Mastra, Pydantic AI and Google ADK, and renders through Slack Block Kit and Teams Adaptive Cards, covering streaming, tool calls, file handling and pausing for human approval. Install @copilotkit/channels alongside @copilotkit/runtime, which ship as a tested pair, then define a channel with createChannel and handle turns in onMessage through thread.runAgent; it needs Node 22 or later and a long-running process, plus a channel code and project API key from CopilotKit Intelligence, which owns platform credentials, ingress and reconnects and can be self-hosted for enterprise. MIT and early, at 31 stars and 43 commits with no tagged releases; the reference app is OpenTag, an on-call triage assistant on a Python LangGraph agent that asks for approval before writing to Linear or Notion.",
+      },
+      {
         title: "BackSearch",
         href: "https://www.gr.inc/releases/introducing-backsearch",
         dateAdded: "2026-07-25",
@@ -6020,6 +6038,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "terminal-browser",
+        href: "https://terminal-browser.com/",
+        dateAdded: "2026-08-05",
+        stack: ["rust", "chromium", "terminal"],
+        useFor: [
+          "browser in terminal",
+          "terminal browser",
+          "preview localhost in terminal",
+          "agent controlled browser",
+          "kitty graphics protocol",
+          "ghostty",
+          "browse over ssh",
+        ],
+        description:
+          "Real Chromium browser rendered inside a terminal tab, for keeping a coding agent and the site it is editing side by side without leaving the terminal. It reads pixels from Chromium's Electron offscreen rendering API straight off the GPU and paints them through the kitty graphics protocol, with a Rust engine compositing browser chrome and page content onto one canvas, so it needs a kitty-graphics-capable terminal such as Ghostty, kitty, cmux or WezTerm. The agent angle is the point: terminal-browser action is an agent-browser compatible CLI, so an agent can drive any open browser, while --split right parks a live localhost view or a generated HTML plan beside the conversation, and it works over SSH so a remote dev server needs no port forwarding. Built by zenbu-labs, MIT with 806 stars, installed by curl script; macOS is the working platform today, helped by a background Swift app reading trackpad and scroll input the terminal cannot supply, while the site lists Linux but the repo still has it as an open roadmap item.",
+      },
       {
         title: "Vite+",
         href: "https://viteplus.dev/",
