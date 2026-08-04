@@ -1515,6 +1515,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Framer University Resources",
+        href: "https://framer.university/resources",
+        dateAdded: "2026-08-04",
+        kind: ["library", "demo"],
+        stack: ["framer"],
+        useFor: [
+          "framer components",
+          "framer code override",
+          "framer animation",
+          "framer effects",
+          "copy paste framer",
+          "framer site rebuild",
+          "learn framer",
+        ],
+        description:
+          "Free library of copy-and-paste Framer resources: components, code overrides, animations and effects you drop into a Framer site rather than a React project. Run by Nandi Muzsik, who started posting Framer tutorials daily in January 2023 and took Best Framer Creator at the 2024 Framer Awards; it is an independent project, not an official Framer product, and the paid course sits separately at app.frameruniversity.com. Browse by Animations, Components, Effects, Interactions or Websites, and by tags including Tutorial, Copy & paste, Scroll animation, Site rebuild, Code override, 3D and Integration. Entries include a shader button, an Apple-style tooltip interaction, a blinds text reveal, a gooey dropdown, an x-ray hover effect, a depth globe and mobile haptics, each with a quick preview; the page loads 20 at a time and shows no total.",
+      },
+      {
         title: "interior.dev",
         href: "https://www.interior.dev/",
         dateAdded: "2026-08-01",
@@ -4523,6 +4541,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "LogoCreator",
+        href: "https://www.logo-creator.io/",
+        dateAdded: "2026-08-04",
+        useFor: [
+          "logo generator",
+          "generate a logo",
+          "ai logo maker",
+          "make a logo",
+          "logo ideas",
+          "brand kit export",
+        ],
+        description:
+          "Open source AI logo generator: enter a company name, pick a style, and get logo variations back. Built by GitHub user Nutlope (repo Nutlope/logocreator, 7.4k stars) on FLUX.2 pro through Together AI for generation and FLUX.1 Kontext for edits, in Next.js App Router with Radix and Tailwind. Clerk auth and Upstash rate limiting are both optional, so a self-hosted copy runs account-less on your own Together AI key, while the hosted site gates generation behind sign-in with two free credits. It offers 14 industry quick starts, eight styles (Minimal, Geometric, Gradient, Mascot, Hand-drawn, Luxury, Retro, 3D) and 1, 2 or 4 variations per run; exports are PNG only today, with SVG on the stated roadmap and no LICENSE file in the repo.",
+      },
       {
         title: "Agentation",
         href: "https://benji.org/agentation",
