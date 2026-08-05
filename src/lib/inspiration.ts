@@ -730,6 +730,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animated icon libraries",
     links: [
       {
+        title: "morphicons",
+        href: "https://www.morphicons.com/",
+        dateAdded: "2026-08-05",
+        kind: "library",
+        stack: ["react", "vue", "svelte", "react-native", "icons", "motion"],
+        useFor: [
+          "icon morph",
+          "morph one icon into another",
+          "animated icon transition",
+          "menu to close icon",
+          "svg path morphing",
+          "hamburger menu animation",
+          "cross library icon animation",
+        ],
+        description:
+          "SVG icon morphing library for React, Vue, Svelte and React Native: pass a different icon and it animates the path transition, with no from/to pairs, wrapper components or keys. Built by Guillermo (guillermolg.com, repo guillermolg00/morphicons), it ships no icons of its own and instead consumes any stroke set as a `d` attribute or Lucide `IconNode`, so Lucide, Tabler, Heroicons, Iconoir, Akar, Untitled UI and Hugeicons interoperate on the shared 24x24 grid. The interesting part is the math: it solves shape correspondence in closed form with 2D Procrustes, so icons that are congruent under rotation simply rotate rather than morph, and rotation groups never have to be declared by hand. MIT with zero runtime dependencies; the project claims a 6.5 KB gzipped core, sub-millisecond morph planning and one shared rAF loop for every icon on screen.",
+      },
+      {
         title: "Icon Animator",
         href: "https://www.iconanimator.app/",
         dateAdded: "2026-07-16",
@@ -1026,6 +1044,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component libraries and blocks",
     links: [
+      {
+        title: "crd-ui",
+        href: "https://crd-ui.juanda.co/",
+        dateAdded: "2026-08-05",
+        kind: "library",
+        stack: ["react", "vue", "svelte", "javascript", "stripe"],
+        useFor: [
+          "credit card component",
+          "card preview",
+          "payment form card",
+          "checkout card ui",
+          "credit card input",
+          "stripe elements preview",
+          "card brand detection",
+        ],
+        description:
+          "Single-purpose credit and debit card preview component for React, Vue, Svelte and vanilla JS, dependency free and themeable entirely through CSS custom properties. Built by Juan David Garcia (JuandaGarcia/crd-ui): one Card with props for number, name, expiry, cvc and focus, live brand detection across 10 networks including Elo and Hipercard, and two layouts, a form preview that flips the card on CVC focus and a display layout for saved cards that moves expiry and CVC to the front with no flip. Display only by design, which is the point: it pairs with Stripe Elements so digits stay inside Stripe's iframes while only brand and focus metadata drive the preview, with a brandFromStripe() helper and a Vite example app. Ships 6 variants, an optional pointer-tracked tilt with glare, 45 CC0 background images cut to the card aspect ratio, and deliberately generic brand marks since no trademarked artwork is bundled.",
+      },
       {
         title: "Bearnie table",
         href: "https://bearnie.dev/docs/components/table/",
@@ -2421,6 +2457,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Poetic",
+        href: "https://poetic.com/",
+        dateAdded: "2026-08-05",
+        kind: "portfolio",
+        style: ["minimal", "product-dense"],
+        useFor: [
+          "clean enterprise site",
+          "ai company landing page",
+          "dark marketing site",
+          "enterprise saas design",
+          "b2b landing page",
+          "stat heavy landing page",
+        ],
+        description:
+          "Marketing site for Poetic (legal entity Lever AI), an enterprise AI company whose product learns a business process from videos, operating procedures and historical examples, tightens it through an expert feedback loop, then self-heals when the underlying apps change. Worth saving for the design more than the pitch: dark, high contrast and quiet, with layered compositions that set an inner image (a SoFi Mastercard, a data-grid globe, curved architecture) behind oversized statistic numerals, and feature cards carrying simulated product UI down to browser chrome reading ellisonbank.internal/disputes. The proof points are unusually concrete for the genre, naming SoFi, Chime at 500,000 disputes handled and AIG, with quotes from Anthony Noto and Peter Zaffino, over a footer row of SOC 2 Type II and PCI DSS badges.",
+      },
+      {
         title: "Bakai Tolondu uulu",
         href: "https://www.bakai.me/lab",
         dateAdded: "2026-07-28",
@@ -2829,6 +2882,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Holosticker",
+        href: "https://www.holosticker.dev/",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        stack: ["three", "webgl", "react", "vite"],
+        useFor: [
+          "holographic sticker",
+          "holo foil effect",
+          "holographic effect",
+          "iridescent sticker",
+          "trading card foil",
+          "make a holo sticker",
+          "foil texture png",
+        ],
+        description:
+          "Holographic sticker studio: upload an SVG or PNG, tune the foil, tilt it with your cursor, and export the result as a transparent PNG. Source is at jal-co/holosticker, a static Vite build on React, TypeScript, Tailwind v4, shadcn/ui and three.js, rendering view-dependent diffraction bands, thin-film iridescence, metallic flakes and studio environment reflections in real time, so the rainbow sweeps across the foil the way it does on a real holo card rather than sitting on it as a fixed gradient. The controls reach well past a preset filter: a die-cut border derived from a euclidean distance transform, an ink control that fades artwork into the foil or densifies it into opaque print, refractor overlays with triangle, square and stripe facet patterns, and a 3D peel with conical curl.",
+      },
       {
         title: "Ladybug",
         href: "https://app.theladybug.app/",
@@ -3751,6 +3822,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design essays and culture",
     links: [
       {
+        title: "95 reasons for having your own website",
+        href: "https://bellkiosk.website/blog/reasons-to-website.html",
+        dateAdded: "2026-08-05",
+        kind: "essay",
+        useFor: [
+          "why have a personal website",
+          "personal website",
+          "indie web",
+          "small web",
+          "why build a website",
+          "personal site ideas",
+          "web as a medium",
+        ],
+        description:
+          "List of 95 short reasons to run a personal site, hosted on Bell Kiosk, each one a fragment starting with 'to': to keep memories, to learn how the web works, to own your own instagram grid, to keep the like counter at 0, to remember that a website is just files and folders, to become an archipelago with your friends. It argues for the web as an artistic medium rather than a distribution channel, on the grounds that nothing else holds images, audio, video, text, time and hyperlinks at once, and it closes on a question instead of a thesis: do we need a reason to website? The 23 footnotes are the real payload, pointing at Elliott Cost's Memory and One Minute Park, Kristoffer Tjalve's Naive Weekly, Laurel Schwulst's 'My website is a shifting house next to a river of knowledge', and Anna Marl's everythingthathappened.today. No byline or date; a plain-text version, a random ordering and a companion 111-reasons page sit alongside it.",
+      },
+      {
         title: "Start Anywhere",
         href: "https://www.figma.com/blog/start-anywhere/",
         dateAdded: "2026-07-29",
@@ -4378,6 +4466,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "LLMs and AI engineering",
     links: [
       {
+        title: "local.ai",
+        href: "https://local.ai/",
+        dateAdded: "2026-08-05",
+        kind: "directory",
+        stack: ["llm", "local-llm", "inference", "hardware", "benchmarks"],
+        useFor: [
+          "local ai benchmarks",
+          "run llm locally",
+          "local llm hardware",
+          "what hardware for local llm",
+          "cost per task",
+          "local inference benchmarks",
+          "energy use of local models",
+        ],
+        description:
+          "Independent benchmark index charting the transition from cloud AI to local AI, measuring agentic capability, task time and energy end to end on the same workload across hardware you can actually buy. Its headline number is the local.ai index, one score per model derived from five agentic benchmarks (tau-squared, GAIA, GDPEval, terminal-bench-2 and swe-bench-pro), and it pointedly refuses tokens per second: a task is one whole benchmark problem solved start to finish, a research question or a real GitHub issue, and cost is cents per task once you amortize the cheapest machine that fits the model over a three year life. Charts read better up and to the right, one node per model, with ringed nodes expanding to show their quantization trade-offs. Sections cover Hardware, Models, Energy and a Wall. Currently an early access developer preview behind an access code, and whoever runs it is not named on the site.",
+      },
+      {
         title: "vLLM documentation",
         href: "https://docs.vllm.ai/en/latest/",
         dateAdded: "2026-07-29",
@@ -4590,6 +4696,41 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Litter",
+        href: "https://kittylitter.app",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        stack: ["ios", "android", "agents", "claude-code", "codex"],
+        useFor: [
+          "coding agent on phone",
+          "claude code from phone",
+          "mobile agent client",
+          "run agents remotely",
+          "voice coding agent",
+          "agent client app",
+        ],
+        description:
+          "Native iOS and Android client for driving command-line coding agents from a phone, so a session running on a desktop or a server follows you around instead of staying pinned to one terminal. Open source under dnakov/litter and free, it connects three ways: local network auto-discovery with no IP addresses to enter, an 'alleycat' QR code peer-to-peer pairing that reaches through NATs and corporate firewalls without a VPN or port forwarding, and plain SSH to a remote box where it starts the agent on the server for you. Supports Codex, Claude, OpenCode, Pi and Droid, one at a time or in parallel, with live voice transcription for talking to an agent while walking, and 70+ themes ported from editor color schemes including Catppuccin, Dracula, Nord, Gruvbox and Solarized. Local Studio lists it as its phone companion; there is a TestFlight beta alongside the App Store and Play builds.",
+      },
+      {
+        title: "Local Studio",
+        href: "http://localstudio.ai",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        stack: ["llm", "local-llm", "vllm", "mlx", "llama.cpp", "macos"],
+        useFor: [
+          "run models locally",
+          "local ai workspace",
+          "local inference server",
+          "self host llm",
+          "openai compatible api",
+          "local model desktop app",
+          "vllm sglang mlx llama.cpp",
+        ],
+        description:
+          "Desktop AI workspace for running models on your own machine, pitched on keeping the model, the runtime and the hardware together rather than hidden behind a provider abstraction. It unifies four inference backends, vLLM, SGLang, MLX and llama.cpp, under a single OpenAI-compatible API, with Hugging Face model search that flags hardware fit before you download, plus live status, launch state, logs and metrics across local and remote controllers. A combined session surface puts models, providers, browser, files, terminal and agents in one workbench, and phones pair through the companion app Litter to continue sessions remotely across Codex, Claude, OpenCode, Pi and Droid. Public repo under sybil-solutions/local-studio; only a macOS download is offered, and no pricing or license is stated on the page.",
+      },
       {
         title: "LogoCreator",
         href: "https://www.logo-creator.io/",
@@ -7562,6 +7703,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Engineering essays and culture",
     links: [
+      {
+        title: "Fast",
+        href: "https://patrickcollison.com/fast",
+        dateAdded: "2026-08-05",
+        kind: "essay",
+        useFor: [
+          "build things fast",
+          "shipping speed",
+          "why projects take so long",
+          "historical build times",
+          "moving fast",
+          "why we cannot build things anymore",
+          "infrastructure delays",
+        ],
+        description:
+          "Patrick Collison's running list of people quickly accomplishing ambitious things together, roughly 24 entries, each with a cited source. Brendan Eich prototyped JavaScript in 10 days, Torvalds had Git self-hosting in 4 and shipped it in 17, Ken Thompson wrote the first Unix in three weeks, Amazon Prime went from idea to announcement in about six weeks, and Kelly Johnson's team delivered the P-80 jet fighter in 143 days; the longer builds run from the Empire State Building at 410 days to the Pentagon at 491, the Eiffel Tower at 793 and the Boeing 747 at about 930. The counterweights are the point: San Francisco's Van Ness bus lane took roughly 7,600 days and $346 million, about $110,000 per meter, against $793 per meter for the 1,700 mile Alaska Highway built in 234 days. A closing 'What's going on?' section observes the physical feats cluster before 1970 and links to explanations from Marc Dunkelman, Alon Levy, Philip Howard, Mancur Olson and Fukuyama's notion of vetocracy. Collison takes submissions by email, so the list keeps growing.",
+      },
       {
         title: "Honk",
         href: "https://benji.org/honkish",
