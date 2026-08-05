@@ -246,6 +246,78 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "React Native and mobile",
     links: [
       {
+        title: "Voltra",
+        href: "https://github.com/callstackincubator/voltra",
+        dateAdded: "2026-08-06",
+        kind: "library",
+        stack: ["react-native", "expo", "ios", "android", "swiftui"],
+        useFor: [
+          "live activities react native",
+          "dynamic island react native",
+          "android home screen widgets",
+          "jsx live activity",
+          "activitykit push",
+          "react native widgets",
+          "voltra",
+        ],
+        description:
+          "React Native library that turns JSX into SwiftUI and Jetpack Compose Glance so you can ship iOS Live Activities, Dynamic Island layouts, and Android home-screen widgets without writing Swift or Kotlin UI. Open source from Callstack incubator (Saúl Sharma and Szymon Chmal), MIT, about 805 stars; packages are `@use-voltra/ios-client` and `@use-voltra/android-client` with Expo config plugins that wire native extension targets after `npx expo prebuild`. Supports hot reload, ActivityKit and FCM push updates, RN style props plus native modifiers, and TypeScript hooks such as `useLiveActivity`. Docs live at use-voltra.dev; Expo Go is not supported, use a Dev Client or bare RN.",
+      },
+      {
+        title: "react-native-system-navigation-bar",
+        href: "https://github.com/kadiraydinli/react-native-system-navigation-bar",
+        dateAdded: "2026-08-06",
+        kind: "library",
+        stack: ["react-native", "android", "ios", "turbo-module"],
+        useFor: [
+          "system navigation bar",
+          "hide status bar android",
+          "immersive mode react native",
+          "edge to edge android",
+          "home indicator ios",
+          "system bar color",
+          "fullscreen react native",
+        ],
+        description:
+          "React Native TurboModule for system chrome: hide and show navigation and status bars, immersive lean-back sticky and immersive modes, bar colors and icon styles, edge-to-edge layout, plus iOS home-indicator auto-hide and deferred system gestures. By Kadir Aydinli, MIT, about 292 stars on npm as `react-native-system-navigation-bar`. Version 3 is New Architecture only and needs React Native 0.76+; stay on 2.8.0 for the old architecture. Android is the full surface (including `getNavigationMode` and edge-to-edge checks for Android 15 color quirks); iOS APIs for the home indicator are dedicated methods rather than no-ops of the Android bar APIs.",
+      },
+      {
+        title: "react-native-purchases",
+        href: "https://github.com/RevenueCat/react-native-purchases",
+        dateAdded: "2026-08-06",
+        kind: "library",
+        stack: ["react-native", "expo", "ios", "android", "billing"],
+        useFor: [
+          "react native in app purchases",
+          "react native subscriptions",
+          "revenuecat react native",
+          "storekit react native",
+          "google play billing",
+          "iap react native",
+          "subscription status tracking",
+        ],
+        description:
+          "RevenueCat's open-source React Native client for in-app purchases and subscriptions across iOS, Android, and web billing, wrapping StoreKit, Google Play Billing, and the RevenueCat backend for products, purchases, entitlements, webhooks, and analytics. MIT, about 1,200 stars; minimum React Native 0.73 and Kotlin 1.8 on Android. Install with `npx expo install react-native-purchases`; Expo Go runs a Preview API Mode with mocks, so real purchases need a development build. Ships companion UI and store packages in-repo, docs at docs.revenuecat.com, and a MagicWeather sample under examples.",
+      },
+      {
+        title: "react-native-ease",
+        href: "https://github.com/appandflow/react-native-ease",
+        dateAdded: "2026-08-06",
+        kind: "library",
+        stack: ["react-native", "ios", "android", "fabric", "nativewind"],
+        useFor: [
+          "react native ease",
+          "lightweight react native animation",
+          "declarative native animation",
+          "easeview",
+          "reanimated alternative simple",
+          "core animation react native",
+          "fabric only animation",
+        ],
+        description:
+          "Lightweight declarative animations for React Native powered by Core Animation on iOS and Animator or SpringAnimation on Android, with no JS animation loop, worklets, or shared values. From Montreal studio App and Flow, MIT, about 950 stars; New Architecture / Fabric only (RN 0.76+, iOS 15.1+, minSdk 24). `EaseView` takes `animate` and `transition` (timing, spring, or none), supports enter animations via `initialAnimate`, per-property transition maps, looping, delays, and hardware layers on Android. Aimed at fade, slide, and scale on state change rather than gesture-driven or layout animations; includes an agent skill (`npx skills add appandflow/react-native-ease`) to migrate Reanimated or RN Animated, plus NativeWind and Uniwind entry points.",
+      },
+      {
         title: "React Native Workers",
         href: "https://github.com/ammarahm-ed/react-native-workers",
         dateAdded: "2026-08-01",
@@ -5799,6 +5871,42 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Databases and storage",
     links: [
       {
+        title: "turbopuffer",
+        href: "https://turbopuffer.com/",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["vector", "search", "s3", "ai"],
+        useFor: [
+          "vector search database",
+          "full text search object storage",
+          "hybrid search",
+          "cheap vector database",
+          "s3 backed search",
+          "semantic search production",
+          "turbopuffer",
+        ],
+        description:
+          "Vector and full-text search engine built from first principles on object storage (S3), with a memory and SSD cache in front, aimed at large AI and product search workloads at lower cost than traditional vector DBs. Claims production scale of 1T+ documents, 10M+ writes per second, and 25k+ queries per second, with sub-10ms p50 on warm namespaces in their published benchmarks, hybrid search, metadata filters, and copy-on-write namespace branching. Customers called out on the site include Notion, Linear, Anthropic, Cognition, Atlassian, and Ramp; docs cover vector, FTS, hybrid, write, and query APIs, with a public cost calculator and tpuf-benchmark on GitHub.",
+      },
+      {
+        title: "MariaDB",
+        href: "https://mariadb.com/",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["sql", "mysql", "database"],
+        useFor: [
+          "mariadb",
+          "open source mysql compatible",
+          "enterprise open source database",
+          "mysql alternative",
+          "managed mariadb cloud",
+          "vector search sql",
+          "high availability database",
+        ],
+        description:
+          "Enterprise open-source relational database, MySQL-compatible, offered as Community Server, Enterprise Server, MaxScale proxy, and MariaDB Cloud for self-managed or fully managed deployments. Marketing numbers on the homepage: 3B+ downloads and use at 75% of Fortune 500 companies, with up to five-nines HA messaging and migration tooling from proprietary databases. Current lines called out include MariaDB Enterprise Platform 2026 (Exa analytics, native vector search, RAG and AI copilots), Enterprise Server 11.8, MaxScale 25.10, and Community Server 12.3. Headquartered in Milpitas, CA per the site schema.",
+      },
+      {
         title: "Databasemaxxing",
         href: "https://pthorpe92.dev/databasemaxxing/",
         dateAdded: "2026-07-14",
@@ -8893,6 +9001,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "skilltune",
+        href: "https://www.skilltune.dev/",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["agents", "llm", "eval"],
+        useFor: [
+          "test agent skills",
+          "skill.md eval",
+          "benchmark skill.md",
+          "tune coding agent skills",
+          "lab tested skills",
+          "export skill to claude code",
+          "skill versioning",
+        ],
+        description:
+          "Lab for creating, evaluating, and versioning SKILL.md files so agent skills are scored against locked eval cases instead of shipped on trust. Founded by CJ Zafir; the loop drafts evals, runs them on your target harness and model, keeps only versions that improve the score, and aims past 90 before export. Claims tuned skills can lift base models by about 15 to 20% from their testing on 500+ skills and 20+ models. Exports one-click to Claude Code, Codex, Cursor, opencode, and other harnesses. Pricing: web app at $24.99/month, or early-bird CLI plus web at $149/year for the first 500 accounts (runs on your Claude or ChatGPT subscription, skills stay local on that plan).",
+      },
       {
         title: "agent-skills",
         href: "https://skills.addy.ie/",
