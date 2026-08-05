@@ -18,11 +18,7 @@
  * shadcn CLI drops the file in a consumer project.
  */
 
-import {
-  matchesDateRange,
-  matchesSearchWord,
-  parseTimeQuery,
-} from "./search-time.ts";
+import { rankRegistryItems } from "./registry-search.ts";
 
 export const REGISTRY_NAME = "Compronents";
 export const REGISTRY_NAMESPACE = "@compronents";
@@ -140,33 +136,17 @@ export interface RegistryDesignGuidance {
   avoid: string;
 }
 
+/**
+ * Whether one item survives the ranked catalog search for `rawQuery`.
+ * Implemented via `rankRegistryItems` so the boolean filter and the searchbar
+ * never disagree about relevance.
+ */
 export function matchesRegistrySearch(
   item: RegistryItem,
   rawQuery: string,
   now = new Date(),
 ) {
-  const { query, date, words } = parseTimeQuery(rawQuery, now);
-  if (!query) return true;
-  if (!matchesDateRange(item.date, date)) return false;
-  if (words.length === 0) return Boolean(date?.start && date.end);
-
-  const [, month, day] = item.date.split("-");
-  // Tokenize once; matchesSearchWord scores whole tokens (and controlled
-  // prefixes/typos), not raw substrings of the description blob.
-  const haystackWords = [
-    item.title,
-    item.name,
-    item.description,
-    item.category,
-    item.section,
-    item.date,
-    `${Number(month)}/${Number(day)}`,
-  ]
-    .join(" ")
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter(Boolean);
-  return words.every((word) => matchesSearchWord(word, haystackWords));
+  return rankRegistryItems([item], rawQuery, now).length > 0;
 }
 
 export const registryItems: RegistryItem[] = [

@@ -6,11 +6,12 @@
  * link that is actually relevant. Keeping both on one ranking is the point, so
  * the website cannot quietly drift into being worse at search than the agents.
  *
- * Groups and their link order are preserved exactly: this narrows the wall, it
- * does not reorder it.
+ * Empty query / shelf name: groups and link order stay as on the wall.
+ * Text query: the wall is narrowed AND reordered by relevance score, so the
+ * best hit is not buried under an older link that merely shares a word.
  */
 
-import type { InspirationGroup } from "./inspiration.ts";
+import type { InspirationGroup, InspirationLink } from "./inspiration.ts";
 import {
   buildInspirationIndex,
   type InspirationIndex,
@@ -60,8 +61,8 @@ const FLOOR_REFERENCE_RANK = 4;
 /**
  * Narrow the wall to a query, which may carry a date phrase ("react added last
  * week"), be date-only ("last week"), name a shelf outright ("typography
- * tools"), or be plain text. Returns groups in their original order, each
- * holding only its surviving links, with empty groups dropped.
+ * tools"), or be plain text. Empty / date-only / shelf keep wall order. Text
+ * search reorders links (and groups) by rank score.
  */
 export function browseInspiration(
   groups: InspirationGroup[],
@@ -93,17 +94,35 @@ export function browseInspiration(
   const reference =
     ranked[Math.min(FLOOR_REFERENCE_RANK, ranked.length - 1)].score;
   const floor = Math.max(ABSOLUTE_FLOOR, reference * RELATIVE_FLOOR);
-  const matched = new Set(
-    ranked.filter((scored) => scored.score >= floor).map((s) => s.hit.href),
-  );
 
-  return groups
+  // href → score for survivors only; used to sort within and across groups.
+  const scoreByHref = new Map<string, number>();
+  for (const scored of ranked) {
+    if (scored.score >= floor) scoreByHref.set(scored.hit.href, scored.score);
+  }
+
+  const byScore = (a: InspirationLink, b: InspirationLink) =>
+    (scoreByHref.get(b.href) ?? 0) - (scoreByHref.get(a.href) ?? 0);
+
+  const narrowed = groups
     .map((group) => ({
       ...group,
-      links: group.links.filter(
-        (link) =>
-          matched.has(link.href) && matchesDateRange(link.dateAdded, date),
-      ),
+      links: group.links
+        .filter(
+          (link) =>
+            scoreByHref.has(link.href) &&
+            matchesDateRange(link.dateAdded, date),
+        )
+        .sort(byScore),
     }))
     .filter(nonEmpty);
+
+  // Strongest group first (its best remaining link).
+  narrowed.sort((a, b) => {
+    const aBest = Math.max(...a.links.map((l) => scoreByHref.get(l.href) ?? 0));
+    const bBest = Math.max(...b.links.map((l) => scoreByHref.get(l.href) ?? 0));
+    return bBest - aBest;
+  });
+
+  return narrowed;
 }

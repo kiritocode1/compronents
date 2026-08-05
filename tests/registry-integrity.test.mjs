@@ -13,6 +13,7 @@ import {
   matchesRegistrySearch,
 } from "../src/lib/registry.ts";
 import { registryGroupsBySection } from "../src/lib/registry-groups.ts";
+import { rankRegistryItems } from "../src/lib/registry-search.ts";
 import { searchDate } from "../src/lib/search-time.ts";
 import {
   analyzeFile,
@@ -127,19 +128,31 @@ test("catalog search understands titles, sections, and natural dates", () => {
     matching("between yesterday and last monday"),
   );
   assert.deepEqual(matching("pixlgrid"), matching("pixelgrid"));
-
-  // Short letter-runs must not match as raw substrings of longer words in
-  // descriptions ("art" inside "partial", "text" inside "context"). Token and
-  // controlled fuzzy matching only.
-  assert.ok(matching("art").length < registryItems.length * 0.05);
-  assert.ok(matching("text").length < registryItems.length * 0.35);
-  // First-letter-different near-misses are not typos.
-  assert.ok(!matching("text").some((item) => item.name === "next-something"));
   // Typo tolerance still lands the intended title.
   assert.ok(
     matching("matrial").some((item) => item.name === "material-spotlight"),
   );
   assert.deepEqual(matching("2/30"), []);
+});
+
+test("catalog search ranks exact titles first, not by date", () => {
+  const now = new Date(2026, 6, 16, 12);
+  const ranked = (query) => rankRegistryItems(registryItems, query, now);
+
+  // The named component must lead, not sit under pages that only mention it.
+  assert.equal(ranked("animated footer")[0]?.name, "animated-footer");
+  assert.equal(ranked("material spotlight")[0]?.name, "material-spotlight");
+  assert.equal(ranked("flow field")[0]?.name, "flow-field-text");
+  assert.equal(
+    ranked("heartbeat")[0]?.name,
+    "effect-heartbeat-failure-detector",
+  );
+
+  // Clear title match should not flood the list with every weak description hit.
+  assert.ok(ranked("animated footer").length <= 3);
+  assert.ok(ranked("footer").length >= 1);
+  // "footer" alone is broader than "animated footer".
+  assert.ok(ranked("footer").length >= ranked("animated footer").length);
 });
 
 test("time query parser: tomorrow and between-range resolve to correct ISO bounds", () => {

@@ -1,6 +1,14 @@
 /**
  * Lexical search over BLANK registry installables (components, pages, backend).
- * Used by /registry/search and the blank-direction MCP / direction_lookup.
+ *
+ * One scorer, two consumers:
+ * - `/registry/search` + blank-direction MCP (`searchRegistry`)
+ * - the site catalog search bar (`rankRegistryItems`)
+ *
+ * Both paths must agree on what is most relevant. The bug that made the
+ * searchbar feel "inaccurate" was the site doing a boolean filter and keeping
+ * date order, while this module already knew "animated footer" is a clear
+ * winner. Ranking lives here so that cannot drift again.
  */
 
 import {
@@ -9,6 +17,11 @@ import {
   type RegistryItem,
   registryItemUrl,
 } from "./registry.ts";
+import {
+  closestWord,
+  matchesDateRange,
+  parseTimeQuery,
+} from "./search-time.ts";
 
 const REGISTRY_BASE = "https://ui.aryank.space";
 
@@ -30,7 +43,7 @@ const STOP = new Set(
   ),
 );
 
-function tokens(text: string): string[] {
+export function tokens(text: string): string[] {
   return (
     text
       .toLowerCase()
@@ -39,7 +52,34 @@ function tokens(text: string): string[] {
   );
 }
 
-function scoreItem(
+/** Title + name tokens only: the vocabulary used for typo expansion. */
+function nameVocab(items: Iterable<RegistryItem>): string[] {
+  const set = new Set<string>();
+  for (const item of items) {
+    for (const t of tokens(item.title)) set.add(t);
+    for (const t of tokens(item.name.replace(/-/g, " "))) set.add(t);
+  }
+  return [...set];
+}
+
+/**
+ * Expand query terms against title/name vocabulary so "pixlgrid" scores like
+ * "pixelgrid". Description blobs are deliberately not in the vocab: fuzzy
+ * against long prose is what made short queries inaccurate.
+ */
+function expandQueryTerms(terms: string[], vocab: string[]): string[] {
+  if (vocab.length === 0) return terms;
+  return terms.map((term) => {
+    const hit = closestWord(term, vocab);
+    return hit !== term ? hit : term;
+  });
+}
+
+/**
+ * Score one item for one query. Higher is better. Exact name/title wins hard;
+ * description hits are soft evidence and cannot outrank a true title match.
+ */
+export function scoreRegistryItem(
   item: RegistryItem,
   queryTerms: string[],
   queryRaw: string,
@@ -49,6 +89,7 @@ function scoreItem(
   const nameT = new Set(tokens(item.name.replace(/-/g, " ")));
   const descT = tokens(item.description);
   const catT = new Set(tokens(item.category ?? ""));
+  const sectionT = new Set(tokens(item.section));
   const qNorm = queryRaw.toLowerCase().trim();
   const qSlug = qNorm.replace(/\s+/g, "-");
   let score = 0;
@@ -77,7 +118,7 @@ function scoreItem(
       score += 5;
       hit = true;
     }
-    if (catT.has(term)) {
+    if (catT.has(term) || sectionT.has(term)) {
       score += 3;
       hit = true;
     }
@@ -86,7 +127,14 @@ function scoreItem(
       score += Math.min(descHits, 3) * 1.2;
       hit = true;
     }
-    if ([...titleT].some((t) => t.includes(term) || term.includes(t))) {
+    // Soft prefix on title/name only (not description).
+    if (
+      [...titleT, ...nameT].some(
+        (t) =>
+          t.startsWith(term) ||
+          (term.startsWith(t) && t.length >= 4 && term.length <= t.length + 2),
+      )
+    ) {
       score += 1.5;
       hit = true;
     }
@@ -98,7 +146,72 @@ function scoreItem(
     score *= 0.35 + (0.65 * matched) / queryTerms.length;
   }
 
+  // Prefer title/name hits over description-only noise.
+  const titleOrNameHit = queryTerms.some(
+    (term) =>
+      titleT.has(term) ||
+      nameT.has(term) ||
+      item.name.includes(term) ||
+      [...titleT, ...nameT].some((t) => t.startsWith(term) && term.length >= 3),
+  );
+  if (!titleOrNameHit && score > 0) {
+    score *= 0.45;
+  }
+
   return score;
+}
+
+/**
+ * Rank a provided list of registry items for the site search bar.
+ * Honours natural-language dates from parseTimeQuery, then sorts by score.
+ */
+export function rankRegistryItems(
+  items: RegistryItem[],
+  rawQuery: string,
+  now = new Date(),
+): RegistryItem[] {
+  const { query, date, words } = parseTimeQuery(rawQuery, now);
+  if (!query) return items;
+
+  const dated = items.filter((item) => matchesDateRange(item.date, date));
+  // Date-only ask ("last week"): keep list order (usually date sort).
+  if (words.length === 0) return dated;
+
+  const qText = words.join(" ");
+  const rawTerms = tokens(qText);
+  if (rawTerms.length === 0) return dated;
+
+  const vocab = nameVocab(dated);
+  const queryTerms = expandQueryTerms(rawTerms, vocab);
+
+  const scored = dated
+    .map((item) => ({
+      item,
+      score: scoreRegistryItem(item, queryTerms, qText),
+    }))
+    .filter((row) => row.score > 0)
+    .sort(
+      (a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title),
+    );
+
+  if (scored.length === 0) return [];
+
+  // Clear winner (exact name/title): do not flood with every other "footer".
+  if (
+    scored.length >= 2 &&
+    scored[0].score >= 40 &&
+    scored[0].score >= scored[1].score * 1.5
+  ) {
+    return [scored[0].item];
+  }
+
+  // Soft floor: drop stragglers far below the best match.
+  if (scored.length >= 2) {
+    const floor = Math.max(scored[0].score * 0.45, 8);
+    return scored.filter((row) => row.score >= floor).map((row) => row.item);
+  }
+
+  return scored.map((row) => row.item);
 }
 
 export function searchRegistry(
@@ -116,28 +229,33 @@ export function searchRegistry(
       ? ["components", "pages", "backend"]
       : [section];
 
-  const hits: RegistryHit[] = [];
+  const pool: RegistryItem[] = [];
   for (const sec of sections) {
-    for (const item of getRegistryItemsBySection(sec)) {
-      const score = scoreItem(item, queryTerms, query);
-      if (score <= 0) continue;
-      hits.push({
-        id: `reg_${item.name}`,
-        name: item.name,
-        title: item.title,
-        description: item.description,
-        section: item.section,
-        category: item.category,
-        pageUrl: `${REGISTRY_BASE}/${item.section}/${item.name}`,
-        install: `npx shadcn@latest add ${registryItemUrl(item.name)}`,
-        score: Number(score.toFixed(3)),
-      });
-    }
+    pool.push(...getRegistryItemsBySection(sec));
+  }
+
+  const vocab = nameVocab(pool);
+  const expanded = expandQueryTerms(queryTerms, vocab);
+
+  const hits: RegistryHit[] = [];
+  for (const item of pool) {
+    const score = scoreRegistryItem(item, expanded, query);
+    if (score <= 0) continue;
+    hits.push({
+      id: `reg_${item.name}`,
+      name: item.name,
+      title: item.title,
+      description: item.description,
+      section: item.section,
+      category: item.category,
+      pageUrl: `${REGISTRY_BASE}/${item.section}/${item.name}`,
+      install: `npx shadcn@latest add ${registryItemUrl(item.name)}`,
+      score: Number(score.toFixed(3)),
+    });
   }
 
   hits.sort((a, b) => b.score - a.score);
 
-  // Clear winner (exact name match): do not flood with every other "footer".
   if (
     hits.length >= 2 &&
     hits[0].score >= 40 &&
@@ -146,7 +264,6 @@ export function searchRegistry(
     return hits.slice(0, 1);
   }
 
-  // Soft floor: drop stragglers far below the best match.
   if (hits.length >= 2) {
     const floor = Math.max(hits[0].score * 0.45, 8);
     const kept = hits.filter((h) => h.score >= floor);

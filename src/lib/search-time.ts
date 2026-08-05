@@ -156,42 +156,6 @@ export function closestWord(word: string, candidates: string[]) {
   return closest;
 }
 
-/**
- * Whether a single query word hits a tokenized haystack.
- *
- * Prefer exact tokens and real prefixes over raw substring includes, so short
- * queries ("art", "text", "icon") stop matching every description that merely
- * contains those letters inside a longer word.
- */
-export function matchesSearchWord(word: string, tokens: string[]): boolean {
-  if (tokens.includes(word)) return true;
-
-  // Prefix / extension for compound names:
-  // - query is a prefix of a token ("pixel" → "pixelgrid") — typing a short stem
-  // - token is a near-prefix of the query ("icon" → "icons") — plural / suffix
-  // Do NOT let a long query match every short stem it contains ("pixelgrid"
-  // must not hit every token that is just "pixel").
-  if (word.length >= 3) {
-    for (const token of tokens) {
-      if (token.length < 3) continue;
-      if (token.startsWith(word)) {
-        // Shared stem of at least 3; short queries need a close-length token.
-        if (word.length >= 4 || token.length <= word.length + 2) return true;
-        continue;
-      }
-      if (
-        word.startsWith(token) &&
-        token.length >= 4 &&
-        word.length <= token.length + 2
-      ) {
-        return true;
-      }
-    }
-  }
-
-  return closestWord(word, tokens) !== word;
-}
-
 export function fuzzyDateQuery(query: string) {
   return query.replace(/[a-z]+/g, (word) => closestWord(word, DATE_WORDS));
 }

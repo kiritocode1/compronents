@@ -6,8 +6,9 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import { useQueryState } from "nuqs";
 import { type ReactNode, Suspense } from "react";
-import { matchesRegistrySearch, type RegistryItem } from "@/lib/registry";
+import type { RegistryItem } from "@/lib/registry";
 import type { RegistryGroup } from "@/lib/registry-groups";
+import { rankRegistryItems } from "@/lib/registry-search";
 import { uiHover } from "@/lib/sounds";
 
 interface RegistryIndexProps {
@@ -29,7 +30,9 @@ export function RegistryIndex(props: RegistryIndexProps) {
 
 function RegistryIndexFiltered(props: RegistryIndexProps) {
   const [query, setQuery] = useQueryState("q", { defaultValue: "" });
-  return <RegistryIndexView {...props} query={query} onQueryChange={setQuery} />;
+  return (
+    <RegistryIndexView {...props} query={query} onQueryChange={setQuery} />
+  );
 }
 
 function RegistryIndexView({
@@ -44,13 +47,15 @@ function RegistryIndexView({
   onQueryChange?: (value: string) => void;
 }) {
   const playHover = useSound(uiHover);
-  const q = query.trim().toLowerCase();
-  const visible = q
-    ? items.filter((item) => matchesRegistrySearch(item, q))
-    : items;
+  const q = query.trim();
+  // Ranked search: same scorer as /registry/search and blank-direction.
+  // Empty query keeps the incoming list order (date / group order).
+  const visible = q ? rankRegistryItems(items, q) : items;
+  const searching = Boolean(q);
 
-  // Bucket the visible items into their group, preserving the incoming order
-  // (date sort). Anything ungrouped lands in a trailing "More" section.
+  // Bucket the visible items into their group. With an active query, items
+  // inside each bucket stay in relevance order (rankRegistryItems), and groups
+  // are ordered by their best hit. Without a query, group order is stable.
   const grouped = groups
     ? (() => {
         const groupOf = new Map<string, string>();
@@ -68,6 +73,19 @@ function RegistryIndexView({
           .map((g) => ({ title: g.title, items: buckets.get(g.title) ?? [] }))
           .filter((g) => g.items.length > 0);
         if (more.length) out.push({ title: "More", items: more });
+        if (searching) {
+          // Groups with stronger top hits first; item order already ranked.
+          const rankOf = new Map(visible.map((item, i) => [item.name, i]));
+          out.sort((a, b) => {
+            const aBest = Math.min(
+              ...a.items.map((item) => rankOf.get(item.name) ?? 9999),
+            );
+            const bBest = Math.min(
+              ...b.items.map((item) => rankOf.get(item.name) ?? 9999),
+            );
+            return aBest - bBest;
+          });
+        }
         return out;
       })()
     : null;

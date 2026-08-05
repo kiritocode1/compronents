@@ -61,25 +61,17 @@ test("naming a shelf returns that shelf whole, in registry order", () => {
   );
 });
 
-test("groups and link order are preserved, never resorted", () => {
-  const result = browseInspiration(inspirationGroups, "icons");
-  const order = result.map((group) => group.title);
-  const expected = inspirationGroups
-    .filter((group) => order.includes(group.title))
-    .map((group) => group.title);
-  assert.deepEqual(order, expected, "groups came back out of wall order");
-
-  for (const group of result) {
-    const source = inspirationGroups.find((g) => g.title === group.title);
-    const positions = group.links.map((link) =>
-      source.links.findIndex((l) => l.href === link.href),
-    );
-    assert.deepEqual(
-      positions,
-      [...positions].sort((a, b) => a - b),
-      `${group.title} links came back out of registry order`,
-    );
-  }
+test("text search leads with the best hit, not wall order", () => {
+  // Text search reorders by rank score so the agent's top pick is first,
+  // not buried under an older wall entry that only shares a word.
+  const pick = recommendInspiration("animated icons").picks[0];
+  assert.ok(pick, "recommend returned no pick for animated icons");
+  const found = flat(browseInspiration(inspirationGroups, "animated icons"));
+  assert.equal(
+    found[0]?.href,
+    pick.href,
+    `best hit should lead results, got ${found[0]?.title} ahead of ${pick.title}`,
+  );
 });
 
 test("a date-only query returns the wall narrowed to the range", () => {
