@@ -1,27 +1,24 @@
 /**
- * Lexical search over BLANK registry installables (components, pages, backend).
+ * Fuzzy search over BLANK registry installables (components, pages, backend).
  *
- * One scorer, two consumers:
- * - `/registry/search` + blank-direction MCP (`searchRegistry`)
+ * Powered by Fuse.js (Bitap / approximate string matching) with weighted
+ * fields so title/name typos still hit and description noise does not drown
+ * them. One engine for:
  * - the site catalog search bar (`rankRegistryItems`)
+ * - `/registry/search` + blank-direction MCP (`searchRegistry`)
  *
- * Both paths must agree on what is most relevant. The bug that made the
- * searchbar feel "inaccurate" was the site doing a boolean filter and keeping
- * date order, while this module already knew "animated footer" is a clear
- * winner. Ranking lives here so that cannot drift again.
+ * Natural-language dates still come from `parseTimeQuery`; Fuse only ranks
+ * the surviving pool.
  */
 
+import Fuse from "fuse.js";
 import {
   getRegistryItemsBySection,
   type LibrarySectionId,
   type RegistryItem,
   registryItemUrl,
 } from "./registry.ts";
-import {
-  closestWord,
-  matchesDateRange,
-  parseTimeQuery,
-} from "./search-time.ts";
+import { matchesDateRange, parseTimeQuery } from "./search-time.ts";
 
 const REGISTRY_BASE = "https://ui.aryank.space";
 
@@ -34,136 +31,195 @@ export interface RegistryHit {
   category?: string;
   pageUrl: string;
   install: string;
+  /** Higher is better. Derived from Fuse (0 perfect → 1 miss) as 1 - fuseScore. */
   score: number;
 }
 
-const STOP = new Set(
-  "a an and the for with from that this into your our their is are be to of in on or".split(
-    " ",
-  ),
-);
-
-export function tokens(text: string): string[] {
-  return (
-    text
-      .toLowerCase()
-      .match(/[a-z0-9][a-z0-9+#.-]*/g)
-      ?.filter((w) => w.length > 1 && !STOP.has(w)) ?? []
-  );
-}
-
-/** Title + name tokens only: the vocabulary used for typo expansion. */
-function nameVocab(items: Iterable<RegistryItem>): string[] {
-  const set = new Set<string>();
-  for (const item of items) {
-    for (const t of tokens(item.title)) set.add(t);
-    for (const t of tokens(item.name.replace(/-/g, " "))) set.add(t);
-  }
-  return [...set];
+/** Flat document Fuse indexes; item is the original registry row. */
+interface FuseDoc {
+  item: RegistryItem;
+  title: string;
+  name: string;
+  nameSpaces: string;
+  category: string;
+  section: string;
+  description: string;
 }
 
 /**
- * Expand query terms against title/name vocabulary so "pixlgrid" scores like
- * "pixelgrid". Description blobs are deliberately not in the vocab: fuzzy
- * against long prose is what made short queries inaccurate.
+ * Fuse score: 0 = perfect, 1 = no match. Keep results at or under this unless
+ * the best hit is looser (then we widen slightly so a weak query still shows).
  */
-function expandQueryTerms(terms: string[], vocab: string[]): string[] {
-  if (vocab.length === 0) return terms;
-  return terms.map((term) => {
-    const hit = closestWord(term, vocab);
-    return hit !== term ? hit : term;
+const FUSE_THRESHOLD = 0.38;
+
+const FUSE_KEYS = [
+  { name: "title", weight: 0.38 },
+  { name: "nameSpaces", weight: 0.28 },
+  { name: "name", weight: 0.14 },
+  { name: "category", weight: 0.08 },
+  { name: "section", weight: 0.04 },
+  { name: "description", weight: 0.08 },
+];
+
+function toDocs(items: RegistryItem[]): FuseDoc[] {
+  return items.map((item) => ({
+    item,
+    title: item.title,
+    name: item.name,
+    nameSpaces: item.name.replace(/-/g, " "),
+    category: item.category ?? "",
+    section: item.section,
+    description: item.description,
+  }));
+}
+
+function buildFuse(items: RegistryItem[]) {
+  return new Fuse(toDocs(items), {
+    keys: FUSE_KEYS,
+    threshold: FUSE_THRESHOLD,
+    // Whole-string match: titles are short, descriptions are long; location
+    // bias would punish a hit near the end of a description unfairly.
+    ignoreLocation: true,
+    minMatchCharLength: 2,
+    includeScore: true,
+    shouldSort: true,
+    // Default field-length norm boosts short fields (good for titles).
+    ignoreFieldNorm: false,
+    fieldNormWeight: 0.8,
   });
 }
 
-/**
- * Score one item for one query. Higher is better. Exact name/title wins hard;
- * description hits are soft evidence and cannot outrank a true title match.
- */
-export function scoreRegistryItem(
-  item: RegistryItem,
-  queryTerms: string[],
-  queryRaw: string,
-): number {
-  if (queryTerms.length === 0) return 0;
-  const titleT = new Set(tokens(item.title));
-  const nameT = new Set(tokens(item.name.replace(/-/g, " ")));
-  const descT = tokens(item.description);
-  const catT = new Set(tokens(item.category ?? ""));
-  const sectionT = new Set(tokens(item.section));
-  const qNorm = queryRaw.toLowerCase().trim();
-  const qSlug = qNorm.replace(/\s+/g, "-");
-  let score = 0;
+/** Cache Fuse indexes by the source array identity (the full section list). */
+const fuseCache = new WeakMap<RegistryItem[], Fuse<FuseDoc>>();
 
-  // Exact / near-exact name or title wins hard (e.g. "animated footer").
-  if (item.name === qSlug || item.name.replace(/-/g, " ") === qNorm) {
-    score += 50;
-  } else if (item.title.toLowerCase() === qNorm) {
-    score += 48;
-  } else if (
-    item.name.includes(qSlug) ||
-    qSlug.includes(item.name) ||
-    item.title.toLowerCase().includes(qNorm)
-  ) {
-    score += 18;
+function fuseFor(items: RegistryItem[]): Fuse<FuseDoc> {
+  let fuse = fuseCache.get(items);
+  if (!fuse) {
+    fuse = buildFuse(items);
+    fuseCache.set(items, fuse);
   }
+  return fuse;
+}
 
-  let matched = 0;
-  for (const term of queryTerms) {
-    let hit = false;
-    if (nameT.has(term) || item.name.includes(term)) {
-      score += 6;
-      hit = true;
-    }
-    if (titleT.has(term)) {
-      score += 5;
-      hit = true;
-    }
-    if (catT.has(term) || sectionT.has(term)) {
-      score += 3;
-      hit = true;
-    }
-    const descHits = descT.filter((t) => t === term).length;
-    if (descHits) {
-      score += Math.min(descHits, 3) * 1.2;
-      hit = true;
-    }
-    // Soft prefix on title/name only (not description).
-    if (
-      [...titleT, ...nameT].some(
-        (t) =>
-          t.startsWith(term) ||
-          (term.startsWith(t) && t.length >= 4 && term.length <= t.length + 2),
-      )
-    ) {
-      score += 1.5;
-      hit = true;
-    }
-    if (hit) matched++;
-  }
-
-  // Multi-word queries need the whole phrase, not "footer" alone matching every footer.
-  if (queryTerms.length >= 2 && matched < queryTerms.length) {
-    score *= 0.35 + (0.65 * matched) / queryTerms.length;
-  }
-
-  // Prefer title/name hits over description-only noise.
-  const titleOrNameHit = queryTerms.some(
-    (term) =>
-      titleT.has(term) ||
-      nameT.has(term) ||
-      item.name.includes(term) ||
-      [...titleT, ...nameT].some((t) => t.startsWith(term) && term.length >= 3),
+function isExactNameOrTitle(item: RegistryItem, qText: string): boolean {
+  const q = qText.toLowerCase().trim();
+  const slug = q.replace(/\s+/g, "-");
+  return (
+    item.name === slug ||
+    item.name.replace(/-/g, " ") === q ||
+    item.title.toLowerCase() === q
   );
-  if (!titleOrNameHit && score > 0) {
-    score *= 0.45;
+}
+
+/**
+ * Multi-term Fuse rank: search the full phrase and each word, OR-merge with a
+ * coverage bonus so "flow feild" still lands Flow Field Text when "flow" is
+ * exact and "feild" is a near-miss on "field".
+ *
+ * Fuse scores: lower is better. We invert to a higher-is-better `score`.
+ */
+function fuseRank(
+  items: RegistryItem[],
+  qText: string,
+): { item: RegistryItem; score: number; fuseScore: number }[] {
+  if (items.length === 0 || !qText.trim()) return [];
+
+  const fuse = fuseFor(items);
+  const text = qText.trim();
+  const terms = text
+    .toLowerCase()
+    .split(/[^a-z0-9+#.-]+/)
+    .filter((t) => t.length > 1);
+
+  type Acc = {
+    item: RegistryItem;
+    /** best fuse score per term; 1 = unmatched */
+    termBest: number[];
+    phrase: number;
+  };
+  const byName = new Map<string, Acc>();
+
+  const ensure = (item: RegistryItem): Acc => {
+    let row = byName.get(item.name);
+    if (!row) {
+      row = {
+        item,
+        termBest: Array.from({ length: Math.max(terms.length, 1) }, () => 1),
+        phrase: 1,
+      };
+      byName.set(item.name, row);
+    }
+    return row;
+  };
+
+  const TERM_CUT = 0.55;
+  const PHRASE_CUT = FUSE_THRESHOLD;
+
+  for (let i = 0; i < terms.length; i++) {
+    for (const hit of fuse.search(terms[i])) {
+      const s = hit.score ?? 1;
+      if (s > TERM_CUT) continue;
+      const row = ensure(hit.item.item);
+      row.termBest[i] = Math.min(row.termBest[i], s);
+    }
+  }
+  for (const hit of fuse.search(text)) {
+    const s = hit.score ?? 1;
+    if (s > PHRASE_CUT) continue;
+    const row = ensure(hit.item.item);
+    row.phrase = Math.min(row.phrase, s);
   }
 
-  return score;
+  const ranked: { item: RegistryItem; score: number; fuseScore: number }[] = [];
+  const n = Math.max(terms.length, 1);
+
+  for (const row of byName.values()) {
+    const matched = row.termBest.filter((s) => s < TERM_CUT);
+    const hasPhrase = row.phrase < PHRASE_CUT;
+    if (matched.length === 0 && !hasPhrase) continue;
+
+    // Multi-word: need at least half the terms, or a solid phrase hit.
+    const need = terms.length <= 1 ? 1 : Math.ceil(terms.length * 0.5);
+    if (matched.length < need && !hasPhrase) continue;
+
+    let termSum = 0;
+    for (const s of row.termBest) {
+      if (s < TERM_CUT) termSum += 1 - s;
+    }
+    const termPart = termSum / n;
+    const phrasePart = hasPhrase ? 1 - row.phrase : 0;
+    const coverage = matched.length / n;
+    const score =
+      Math.max(termPart, phrasePart) *
+      (0.65 + 0.35 * Math.max(coverage, hasPhrase ? 1 : 0));
+    // Represent fuseScore as inverted score for clear-winner checks.
+    ranked.push({
+      item: row.item,
+      score: Number(score.toFixed(4)),
+      fuseScore: Number((1 - score).toFixed(4)),
+    });
+  }
+
+  ranked.sort((a, b) => b.score - a.score);
+  if (ranked.length === 0) return [];
+
+  // Exact name/title always wins alone when present near the top.
+  const exact = ranked.filter((row) => isExactNameOrTitle(row.item, text));
+  if (exact.length >= 1 && exact[0].score >= 0.75) {
+    exact.sort((a, b) => b.score - a.score);
+    return [exact[0]];
+  }
+
+  // Soft floor relative to the best hit. A clear leader (e.g. typo of a
+  // specific title) should not drag every sibling that only shares one word.
+  const best = ranked[0].score;
+  const floor = Math.max(0.28, best * (best >= 0.75 ? 0.55 : 0.45));
+  return ranked.filter((row) => row.score >= floor);
 }
 
 /**
  * Rank a provided list of registry items for the site search bar.
- * Honours natural-language dates from parseTimeQuery, then sorts by score.
+ * Honours natural-language dates, then Fuse-ranks free text.
  */
 export function rankRegistryItems(
   items: RegistryItem[],
@@ -177,41 +233,11 @@ export function rankRegistryItems(
   // Date-only ask ("last week"): keep list order (usually date sort).
   if (words.length === 0) return dated;
 
-  const qText = words.join(" ");
-  const rawTerms = tokens(qText);
-  if (rawTerms.length === 0) return dated;
-
-  const vocab = nameVocab(dated);
-  const queryTerms = expandQueryTerms(rawTerms, vocab);
-
-  const scored = dated
-    .map((item) => ({
-      item,
-      score: scoreRegistryItem(item, queryTerms, qText),
-    }))
-    .filter((row) => row.score > 0)
-    .sort(
-      (a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title),
-    );
-
-  if (scored.length === 0) return [];
-
-  // Clear winner (exact name/title): do not flood with every other "footer".
-  if (
-    scored.length >= 2 &&
-    scored[0].score >= 40 &&
-    scored[0].score >= scored[1].score * 1.5
-  ) {
-    return [scored[0].item];
-  }
-
-  // Soft floor: drop stragglers far below the best match.
-  if (scored.length >= 2) {
-    const floor = Math.max(scored[0].score * 0.45, 8);
-    return scored.filter((row) => row.score >= floor).map((row) => row.item);
-  }
-
-  return scored.map((row) => row.item);
+  // Fuse over the full list (stable WeakMap cache), then keep dated survivors.
+  const datedNames = new Set(dated.map((item) => item.name));
+  return fuseRank(items, words.join(" "))
+    .filter((row) => datedNames.has(row.item.name))
+    .map((row) => row.item);
 }
 
 export function searchRegistry(
@@ -221,8 +247,8 @@ export function searchRegistry(
     section,
   }: { limit?: number; section?: LibrarySectionId | "all" } = {},
 ): RegistryHit[] {
-  const queryTerms = tokens(query);
-  if (queryTerms.length === 0) return [];
+  const trimmed = query.trim();
+  if (!trimmed) return [];
 
   const sections: LibrarySectionId[] =
     !section || section === "all"
@@ -234,43 +260,33 @@ export function searchRegistry(
     pool.push(...getRegistryItemsBySection(sec));
   }
 
-  const vocab = nameVocab(pool);
-  const expanded = expandQueryTerms(queryTerms, vocab);
-
-  const hits: RegistryHit[] = [];
-  for (const item of pool) {
-    const score = scoreRegistryItem(item, expanded, query);
-    if (score <= 0) continue;
-    hits.push({
-      id: `reg_${item.name}`,
-      name: item.name,
-      title: item.title,
-      description: item.description,
-      section: item.section,
-      category: item.category,
-      pageUrl: `${REGISTRY_BASE}/${item.section}/${item.name}`,
-      install: `npx shadcn@latest add ${registryItemUrl(item.name)}`,
-      score: Number(score.toFixed(3)),
-    });
+  // Dates in the MCP query string still work.
+  const { date, words } = parseTimeQuery(trimmed);
+  const dated = pool.filter((item) => matchesDateRange(item.date, date));
+  const text = words.join(" ") || trimmed;
+  // Pure date → no Fuse text; return dated slice by recency (name order).
+  if (words.length === 0 && date) {
+    return dated.slice(0, Math.min(limit, 15)).map((item) => toHit(item, 1));
   }
 
-  hits.sort((a, b) => b.score - a.score);
+  const ranked = fuseRank(dated.length ? dated : pool, text);
+  return ranked
+    .slice(0, Math.min(limit, 15))
+    .map((row) => toHit(row.item, row.score));
+}
 
-  if (
-    hits.length >= 2 &&
-    hits[0].score >= 40 &&
-    hits[0].score >= hits[1].score * 1.5
-  ) {
-    return hits.slice(0, 1);
-  }
-
-  if (hits.length >= 2) {
-    const floor = Math.max(hits[0].score * 0.45, 8);
-    const kept = hits.filter((h) => h.score >= floor);
-    return kept.slice(0, Math.min(limit, 15));
-  }
-
-  return hits.slice(0, Math.min(limit, 15));
+function toHit(item: RegistryItem, score: number): RegistryHit {
+  return {
+    id: `reg_${item.name}`,
+    name: item.name,
+    title: item.title,
+    description: item.description,
+    section: item.section,
+    category: item.category,
+    pageUrl: `${REGISTRY_BASE}/${item.section}/${item.name}`,
+    install: `npx shadcn@latest add ${registryItemUrl(item.name)}`,
+    score: Number(score.toFixed(3)),
+  };
 }
 
 export function registryHitsToMarkdown(hits: RegistryHit[]): string {

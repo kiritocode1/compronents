@@ -155,6 +155,15 @@ test("catalog search ranks exact titles first, not by date", () => {
   assert.ok(ranked("footer").length >= ranked("animated footer").length);
 });
 
+test("catalog search is real Fuse fuzzy: typos still land the title", () => {
+  const ranked = (query) => rankRegistryItems(registryItems, query);
+  // One-edit / near typos on title tokens.
+  assert.equal(ranked("animted footer")[0]?.name, "animated-footer");
+  assert.equal(ranked("matrial spotlight")[0]?.name, "material-spotlight");
+  assert.equal(ranked("pixlgrid")[0]?.name, "pixelgrid-studio-page");
+  assert.equal(ranked("flow feild")[0]?.name, "flow-field-text");
+});
+
 test("time query parser: tomorrow and between-range resolve to correct ISO bounds", () => {
   const now = new Date(2026, 6, 16, 12);
   const tomorrow = searchDate("tomorrow", now);

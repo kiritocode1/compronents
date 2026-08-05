@@ -74,6 +74,16 @@ test("text search leads with the best hit, not wall order", () => {
   );
 });
 
+test("inspiration search is real Fuse fuzzy: title typos still hit", () => {
+  const sprites = flat(browseInspiration(inspirationGroups, "spriteshet"));
+  assert.ok(
+    sprites.some((l) => /spritesheet/i.test(l.title)),
+    "spriteshet should fuzzy-match the spritesheet demo",
+  );
+  const grain = flat(browseInspiration(inspirationGroups, "grann texture"));
+  assert.ok(grain.length >= 3, "grann texture should still find grain assets");
+});
+
 test("a date-only query returns the wall narrowed to the range", () => {
   const now = new Date("2026-07-20T12:00:00Z");
   const found = flat(browseInspiration(inspirationGroups, "last week", now));
