@@ -2457,6 +2457,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Robert Borghesi",
+        href: "https://robertborghesi.is/",
+        dateAdded: "2026-08-05",
+        kind: "portfolio",
+        stack: ["webgl", "three", "react-three-fiber"],
+        style: ["terminal", "minimal"],
+        useFor: [
+          "webgl developer portfolio",
+          "creative coder portfolio",
+          "immersive web experiences",
+          "terminal style portfolio",
+          "award winning webgl site",
+          "generative art portfolio",
+        ],
+        description:
+          "Portfolio of Robert Borghesi, an economist turned creative coder specialising in WebGL and immersive experiences, freelance since 2018 across generative art, creative coding and some web3. The client list carries it: Gucci across Horsebit, Let Girls Dream and 24 Hour Ace, Google's Medusae Art Project, Zulu for Longines, plus Adidas, SAP, Valentino, LG and MaxMara, agency work through Immersive Garden, OddCommon, Demodern, Dentsu and Antinomy, and a What is Missing build for Maya Lin carrying a triple Webby. Tallies run 1 FWA Site of the Month, 17 FWA Site of the Day, 10 Awwwards Site of the Day and 7 Webbys. The site itself is dry and technical rather than cinematic: a status readout reading READY beside the line PRETENDING TO LOAD, a version stamp, navigation compressed to bracketed triplets like (PRJ) (WHO) (MSG), and projects indexed by slashed year against client name, closer to a ledger than a case study reel. He also teaches at Harbour Space in Barcelona and wrote up procedural clouds with Three.js sprites for Codrops.",
+      },
+      {
         title: "Poetic",
         href: "https://poetic.com/",
         dateAdded: "2026-08-05",
@@ -4144,6 +4162,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "junkiyoshi",
+        href: "https://junkiyoshi.com/",
+        dateAdded: "2026-08-05",
+        kind: "demo",
+        stack: ["openframeworks", "cpp", "creative-coding"],
+        useFor: [
+          "openframeworks examples",
+          "creative coding sketches",
+          "generative art source code",
+          "daily sketch blog",
+          "generative geometry",
+          "c++ creative coding",
+          "perlin noise sketches",
+        ],
+        description:
+          "Daily creative coding sketch blog, titled Doodling with Programming, where every post ships the full openFrameworks source next to the animation, so a sketch you like is immediately readable rather than only watchable. Run by junkiyoshi in C++ rather than a browser sketch stack, one post a day across 1,078 pages of archive at three posts a page, still publishing. Each entry is rigidly templated: an embedded video, a one-line description in Japanese, complete ofApp.h and ofApp.cpp listings, and a GitHub permalink pinned to the exact commit in junkiyoshi/DoodleDeProgramming. The sketches share a house style worth studying on its own, with ofNoise driving parameters, ofEasyCam for 3D, torus and ring geometry assembled by hand into ofMesh with wireframe overlays, and a palette pinned to 39 and 239, near-black and near-white; the number 39 recurs everywhere, including the fixed ofSeedRandom(39) that keeps each piece reproducible.",
+      },
+      {
         title: "Unicorn Studio Inspiration",
         href: "https://www.unicorn.studio/inspiration",
         dateAdded: "2026-08-05",
@@ -4729,6 +4765,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Reve",
+        href: "https://app.reve.com/",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        stack: ["ai", "image-generation", "design"],
+        useFor: [
+          "ai image generation",
+          "ai image editor",
+          "edit a generated image",
+          "text in ai images",
+          "ai design tool",
+          "product photography ai",
+          "change aspect ratio of an image",
+        ],
+        description:
+          "Image model paired with a real editing surface, so generation and art direction happen in one place instead of re-rolling a prompt until it lands. From Reve AI in Palo Alto, founded in 2023 by Michael Gharbi, Mike Speiser and Taesung Park; the model first circulated under the codename Halfmoon and topped the Artificial Analysis image rankings before the company announced itself. The editing side is the point: move, resize or recolor individual objects, sketch annotations straight onto the canvas, apply references split into Style, Person and Place, stack live layers combining text and images, apply preset or custom shader effects, and reframe a scene to any aspect ratio. It describes the approach as images as code, a structured layout representation that keeps elements addressable, which is the stated reason typography and spatial composition hold up better than usual; billing is credit based with a free daily allowance alongside subscriptions and an API, and users keep rights to what they generate.",
+      },
       {
         title: "Litter",
         href: "https://kittylitter.app",
