@@ -2138,6 +2138,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "save.design",
+        href: "https://save.design/",
+        dateAdded: "2026-08-05",
+        kind: ["gallery", "tool"],
+        useFor: [
+          "save design inspiration",
+          "website tech stack",
+          "tech stack detection",
+          "website design gallery",
+          "analyze website stack",
+          "curated website inspiration",
+          "design inspiration mcp",
+          "organize design bookmarks",
+        ],
+        description:
+          "Personal design-inspiration library for whole sites, not just screenshots: browse a curated feed, save what you like, then re-open it with the stack attached (framework, animation libraries, fonts, CMS, hosting). The analyzer is the product hook, aimed at designers and devs, and it claims to catch modern front-end pieces such as Next.js, Astro, Framer Motion, GSAP, Three.js, Spline and Lenis rather than a pretty still alone. Explore filters by framework, animation library, category and industry; there is a dedicated /analyze paste flow, a Chrome extension (Save Design on the Web Store) for bulk-saving tabs, and a membership tier that unlocks a curated Elements feed, natural search and your own MCP endpoint. Free core use; paid plans on the pricing page start around $3 and $10 a month with a 7-day trial on the higher tier. X handle is @AISaveDesign.",
+      },
+      {
         title: "11x11",
         href: "https://networked.art/11x11",
         dateAdded: "2026-08-05",
