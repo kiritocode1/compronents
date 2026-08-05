@@ -2210,6 +2210,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "movin.design",
+        href: "https://movin.design/",
+        dateAdded: "2026-08-06",
+        kind: "gallery",
+        stack: ["motion"],
+        style: "marketing-motion",
+        useFor: [
+          "motion design inspiration",
+          "ui motion gallery",
+          "web animation inspiration",
+          "motion clips from x",
+          "interface animation examples",
+          "css easing gallery",
+          "motion design feed",
+        ],
+        description:
+          "Curated gallery of motion design clips pulled from X, for browsing product UI and marketing motion rather than static site screenshots. Meta claims daily updates; the home feed is video-first with save buttons, pagination (page 2+), and a CDN at cdn.movin.design, built on Astro 7. Beyond the feed it ships a CSS easing and cubic-bezier gallery at /easings/ and an icons section at /icons/. Homepage alone lists dozens of named clips (spritesheet characters, liquid-glass footers, carousels, onboarding, page transitions); count unique video slugs on the first page around 32, with more on later pages. Free to browse; the site runs Google Analytics and AdSense.",
+      },
+      {
         title: "save.design",
         href: "https://save.design/",
         dateAdded: "2026-08-05",
