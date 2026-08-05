@@ -1585,6 +1585,26 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Spritesheet pointer translate (jhey)",
+        href: "https://x.com/jh3yy/status/2085007349232665023",
+        dateAdded: "2026-08-05",
+        kind: "demo",
+        stack: ["css"],
+        style: "marketing-motion",
+        useFor: [
+          "css spritesheet",
+          "spritesheet animation",
+          "pointer position css",
+          "translate based on pointer",
+          "hover frame scrub",
+          "cursor driven frames",
+          "css background position",
+          "interactive spritesheet",
+        ],
+        description:
+          "X post by jhey (@jh3yy, Shopify brand design studio) showing a CSS spritesheet character that scrubs frames by translating with pointer position, with a short blink as a grace-note idle. Published 5 Aug 2026 with a ~30s square 2160 video demo (no CodePen link in the post itself). Steal the technique: one sheet, CSS transform/background offset driven by clientX/Y, not a JS timeline of frame indices. Replies mention related site work such as pete.design mood sprites with easter-egg mouse hypnosis.",
+      },
+      {
         title: "Framer University Resources",
         href: "https://framer.university/resources",
         dateAdded: "2026-08-04",
