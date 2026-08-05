@@ -3730,6 +3730,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Branding and logo archives",
     links: [
       {
+        title: "BRRRANDING",
+        href: "https://www.brrranding.com/",
+        dateAdded: "2026-08-05",
+        useFor: [
+          "branding inspiration",
+          "brand identity examples",
+          "visual identity reference",
+          "logo design inspiration",
+          "branding case studies",
+          "identity design work",
+        ],
+        description:
+          "Curated gallery of branding projects collected from around the internet, for when you want identity work as reference rather than one studio's own portfolio. Run by Vadim Carazan on an explicitly human editorial line, put on the page as no algorithm, no AI, just great work, and on no fixed schedule beyond updating whenever something turns up worth the time. Projects arrive both from the curator and through an open Submit for Feature form, alongside a single sponsor slot. The page surfaces no project counts or client roster and browsing is a load-more feed, so it reads as a running stream to scroll rather than an indexed archive to search.",
+      },
+      {
         title: "Coverjunkie",
         href: "https://coverjunkie.com",
         dateAdded: "2026-07-29",
