@@ -127,6 +127,18 @@ test("catalog search understands titles, sections, and natural dates", () => {
     matching("between yesterday and last monday"),
   );
   assert.deepEqual(matching("pixlgrid"), matching("pixelgrid"));
+
+  // Short letter-runs must not match as raw substrings of longer words in
+  // descriptions ("art" inside "partial", "text" inside "context"). Token and
+  // controlled fuzzy matching only.
+  assert.ok(matching("art").length < registryItems.length * 0.05);
+  assert.ok(matching("text").length < registryItems.length * 0.35);
+  // First-letter-different near-misses are not typos.
+  assert.ok(!matching("text").some((item) => item.name === "next-something"));
+  // Typo tolerance still lands the intended title.
+  assert.ok(
+    matching("matrial").some((item) => item.name === "material-spotlight"),
+  );
   assert.deepEqual(matching("2/30"), []);
 });
 

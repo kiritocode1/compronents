@@ -19,8 +19,8 @@
  */
 
 import {
-  closestWord,
   matchesDateRange,
+  matchesSearchWord,
   parseTimeQuery,
 } from "./search-time.ts";
 
@@ -151,7 +151,9 @@ export function matchesRegistrySearch(
   if (words.length === 0) return Boolean(date?.start && date.end);
 
   const [, month, day] = item.date.split("-");
-  const haystack = [
+  // Tokenize once; matchesSearchWord scores whole tokens (and controlled
+  // prefixes/typos), not raw substrings of the description blob.
+  const haystackWords = [
     item.title,
     item.name,
     item.description,
@@ -161,12 +163,10 @@ export function matchesRegistrySearch(
     `${Number(month)}/${Number(day)}`,
   ]
     .join(" ")
-    .toLowerCase();
-  const haystackWords = haystack.split(/[^a-z0-9]+/).filter(Boolean);
-  return words.every(
-    (word) =>
-      haystack.includes(word) || closestWord(word, haystackWords) !== word,
-  );
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+  return words.every((word) => matchesSearchWord(word, haystackWords));
 }
 
 export const registryItems: RegistryItem[] = [
