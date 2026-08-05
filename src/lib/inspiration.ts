@@ -5674,7 +5674,7 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://vercel.com/docs/sandbox",
         dateAdded: "2026-07-15",
         description:
-          "MicroVM compute primitive for running untrusted or agent-generated code with persistent filesystem state, available through the standard Vercel CLI. Each sandbox is its own Firecracker microVM that boots in milliseconds and offers node26/24/22 or python3.13 with full root/sudo access.",
+          "MicroVM compute primitive for running untrusted or agent-generated code with persistent filesystem state, available through the standard Vercel CLI. Each sandbox is its own Firecracker microVM that boots in milliseconds and offers node26/24/22 or python3.13 with full root/sudo access. As of August 5, 2026 the Pro and Enterprise default quota rose from 2,000 to 10,000 concurrent sandboxes, and the vCPU allocation rate became dynamic: it starts at 150 vCPUs per minute and climbs by 500 per minute as you keep creating sandboxes, up to 5,000 per minute.",
       },
       {
         title: "Cloudflare Workers AI and AI Gateway",
@@ -6674,6 +6674,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Web Dev Resources",
+        href: "https://web-dev-resources.com/#resources",
+        dateAdded: "2026-08-06",
+        kind: "directory",
+        useFor: [
+          "free dev tools",
+          "web development resources",
+          "curated developer tools",
+          "free web dev ebooks",
+          "css button generator",
+          "beginner web dev resources",
+          "small browser utilities",
+        ],
+        description:
+          "One-person directory of small free web development tools, articles and ebooks, curated by Marko Denic. It lists 19 tools (CSS button generator, glassmorphism generator, QR code generator, Open Graph and Twitter card generators, code minifier and beautifier, password generator, tech acronym lookup, SSL certificate monitor), 11 articles and newsletter issues dated through June 2026, and 3 free ebooks including 'HTML Tips: The Hidden Gems' and 'Modern HTML & CSS'. Every listed item is free; the only paid link is a $49 one-time community. There is no submission form, so treat it as one developer's picks rather than a crowdsourced index.",
+      },
       {
         title: "Boron",
         href: "https://boron.sh/",
