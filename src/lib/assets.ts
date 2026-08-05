@@ -3700,6 +3700,16 @@ export const assetItems = [
     role: "Van Gogh's The Starry Night, sampled into the dithered particle field.",
     notes: "Served from Vercel Blob at the stable registry pathname.",
   } as const satisfies AssetItem,
+  {
+    id: "starry-night-flow-regions",
+    label: "Starry Night Flow region map",
+    provider: "vercel-blob",
+    pathname: "starry-night-flow/starry-night-regions.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/starry-night-flow/starry-night-regions.png`,
+    role: "Five flat colors marking cypress, village, night sky, swirls and stars, so a click can wake one part of the painting.",
+    notes:
+      "Lossless PNG on purpose: the flat colors are region ids, and lossy compression would smear them into unmatchable values.",
+  } as const satisfies AssetItem,
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

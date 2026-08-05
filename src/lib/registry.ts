@@ -3199,7 +3199,7 @@ export const registryItems: RegistryItem[] = [
     name: "starry-night-flow",
     title: "Starry Night Flow",
     description:
-      "Van Gogh's Starry Night rendered as a living particle field. The painting is Floyd-Steinberg dithered into a WebGL point cloud, a structure tensor recovers brushstroke direction and coherence from the pixels, and coherent particles drift along their strokes in staggered lifecycles under traveling wind gusts. Moving the pointer bends nearby strokes toward the cursor. Works with any painterly image; inspired by Joshua Garcia's Still Night.",
+      "Van Gogh's Starry Night as a painting that sleeps until you wake it. At rest it hangs dim and desaturated, Floyd-Steinberg dithered into a WebGL point cloud pinned to its own pixels. Click any part (the cypress, the village, the swirls, the stars) and light spreads outward from the exact pixel you hit: color comes back, and as the front passes, those brushstrokes lift off and travel along the direction a structure tensor recovered from the paint. Click again to put that part back to sleep. Inspired by Joshua Garcia's Still Night.",
     section: "components",
     category: "Animations",
     pro: true,

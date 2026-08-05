@@ -11340,9 +11340,24 @@ export const componentMeta: Record<string, ComponentMeta> = {
     demoPath: "src/components/demos/starry-night-flow.tsx",
     nuance: [
       {
+        label: "The painting sleeps until you click it",
+        description:
+          "At rest every particle sits on its home pixel at half brightness, so the field reads as the painting itself: dark, still, whole. Nothing drifts until a region is woken, which is what makes the first click feel like striking a match rather than adjusting a slider.",
+      },
+      {
+        label: "Light spreads from the exact pixel you hit",
+        description:
+          "A click stores its own UV as that region's bloom origin, and a front expands outward from it. Each particle joins the flow only once the front reaches it, so the region dissolves into motion progressively instead of switching on all at once.",
+      },
+      {
+        label: "Every region fills in the same time",
+        description:
+          "The front is normalized by the distance from the click to the farthest pixel of that region, measured at click time. A tap on the moon and a tap on the whole sky both finish their bloom in revealDuration, so small parts never feel instant and large ones never feel slow.",
+      },
+      {
         label: "The flow field comes from the pixels",
         description:
-          "The original Still Night ships a hand-baked flow texture for one painting. This port computes brushstroke direction and coherence at load time with a structure tensor over the luminance field, so any painterly image produces its own flow.",
+          "Only the region split is authored. Brushstroke direction and coherence are computed at load with a structure tensor over the luminance field, so the drift follows Van Gogh's actual strokes rather than a hand-baked flow texture.",
       },
       {
         label: "Dither decides who exists",
@@ -11352,12 +11367,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         label: "Only coherent strokes move",
         description:
-          "Particles below the coherence threshold hold still at full opacity, anchoring the painting. Strong strokes cycle through staggered drift lifecycles (fade in, S-curve drift along the stroke, fade out), with wind gust noise traveling along the flow direction.",
-      },
-      {
-        label: "The cursor is a wind source",
-        description:
-          "While the pointer moves, painted flow near it bends toward the cursor's direction of travel and particles take shorter, denser trips. Influence eases in and decays when the pointer rests.",
+          "Particles below the coherence threshold hold still, anchoring the painting even inside a woken region. Strong strokes cycle through staggered drift lifecycles (fade in, S-curve drift along the stroke, fade out), with wind gust noise traveling along the flow direction.",
       },
     ],
     editable: [
@@ -11387,6 +11397,15 @@ export const componentMeta: Record<string, ComponentMeta> = {
         fallbackPath:
           "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/starry-night-flow/starry-night.webp",
         role: "Van Gogh's The Starry Night, sampled into the dithered particle field.",
+      },
+      {
+        id: "starry-night-flow-regions",
+        label: "Starry Night Flow region map",
+        provider: "vercel-blob",
+        pathname: "starry-night-flow/starry-night-regions.png",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/starry-night-flow/starry-night-regions.png",
+        role: "Five flat colors marking cypress, village, night sky, swirls and stars, so a click can wake one part of the painting.",
       },
     ],
     api: [
@@ -11437,11 +11456,39 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Blend toward peak-normalized luminous color, and particle size multiplier.",
       },
       {
-        name: "cursorRadius / interactive",
-        type: "number / boolean",
-        default: "0.14 / true",
+        name: "regionMap",
+        type: "string | null",
+        default: "hosted region png",
         description:
-          "Pointer steering radius in UV units, and whether steering is enabled.",
+          "Lossless map whose five flat colors mark the clickable parts. Pass null to treat the whole painting as one region.",
+      },
+      {
+        name: "dormantDim / wakeGain",
+        type: "number",
+        default: "0.5 / 1.18",
+        description:
+          "Brightness of a sleeping region and of a woken one, as fractions of the painted color.",
+      },
+      {
+        name: "revealDuration",
+        type: "number",
+        default: "1.1",
+        description:
+          "Seconds for the bloom to travel from the click to the far edge of its region.",
+      },
+      {
+        name: "hoverLift / interactive",
+        type: "number / boolean",
+        default: "0.09 / true",
+        description:
+          "Brightness lift on the region under the cursor, and whether clicking and hovering are enabled.",
+      },
+      {
+        name: "hint",
+        type: "string | null",
+        default: '"Click a part of the painting to wake it"',
+        description:
+          "Caption shown until the first region is woken. Pass null to hide it.",
       },
     ],
   },
