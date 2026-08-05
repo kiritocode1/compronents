@@ -2883,6 +2883,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "Ortho",
+        href: "https://ortho.brdrck.me/",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        stack: ["svg", "webgl", "motion"],
+        useFor: [
+          "isometric svg",
+          "orthographic projection",
+          "extrude svg",
+          "3d svg",
+          "rotate svg in 3d",
+          "isometric illustration",
+          "svg to mp4",
+        ],
+        description:
+          "Browser-based isometric and orthographic SVG renderer: import a flat SVG from Figma, Illustrator or the clipboard, orbit it in orthographic space, extrude it into thickness, and export as SVG, PNG or MP4 with the video encoded client side. Built by Jeff (@brdrck), with nothing to install, no watermark and no server round trip. Rotation runs on quaternions so orbiting on every axis never hits gimbal lock, and the extruded volume stays vector instead of rasterizing. Past the projection it is a full editor: a keyframe timeline for rotation, position and thickness with six easing presets or a custom curve, direct vertex and bezier handle editing in 2D against a live 3D preview, and WebGL post-processing for bloom, chromatic aberration, scanlines and vignette.",
+      },
+      {
         title: "Holosticker",
         href: "https://www.holosticker.dev/",
         dateAdded: "2026-08-05",
