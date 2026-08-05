@@ -6321,6 +6321,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Distributed systems and computer science",
     links: [
       {
+        title: "Rocq Prover",
+        href: "https://rocq-prover.org/",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        useFor: [
+          "theorem prover",
+          "proof assistant",
+          "formal verification",
+          "dependently typed",
+          "interactive theorem proving",
+          "formal proofs",
+          "program extraction",
+          "mechanised reasoning",
+        ],
+        description:
+          "Interactive theorem prover and dependently typed programming language for mechanised proofs in mathematics and computer science, formerly the Coq Proof Assistant. You write formal specifications and proofs that programs meet them, then extract executable OCaml or Haskell from those specs; the kernel is a small OCaml core with MetaRocq as a verified reference checker. Flagship work includes the CompCert verified C compiler, Mathematical Components proofs of the Four-Color and Feit-Thompson theorems, Homotopy Type Theory developments, and Iris for separation-logic reasoning about effectful code including Rust. Latest Prover is 9.2.0 and Platform 2025.08.3; ACM Software System Award winner, open source, taught via Software Foundations, used across academia and industry (Inria, MIT, Google, AbsInt).",
+      },
+      {
         title: "Diving Deep on S3 Consistency",
         href: "https://www.allthingsdistributed.com/2021/04/s3-strong-consistency.html",
         dateAdded: "2026-07-27",
