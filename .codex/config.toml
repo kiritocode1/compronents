@@ -1,0 +1,3 @@
+[mcp_servers.blank-direction]
+command = "node"
+args = ["/Users/blank/Desktop/CREATE/compronents/mcp/blank-direction/server.mjs"]
