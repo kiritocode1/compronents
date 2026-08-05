@@ -816,6 +816,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "UI kit directories",
     links: [
       {
+        title: "BestWebsiteTemplate.com",
+        href: "https://bestwebsitetemplate.com/",
+        dateAdded: "2026-08-05",
+        kind: "directory",
+        stack: ["webflow", "framer", "shopify"],
+        useFor: [
+          "webflow template",
+          "framer template",
+          "shopify theme",
+          "website template",
+          "landing page template",
+          "template directory",
+          "buy a template",
+        ],
+        description:
+          "Curated directory of website templates for Webflow, Framer and Shopify, useful when you want a vetted starting point instead of trawling a marketplace's own bestseller list. It is a discovery layer rather than a storefront: several reviewers independently assign each template a Design and a Dev score, the published number is the average of those, and nothing below an Overall Score of 7.0 gets listed, with creator reputation and sales volume ruled out as factors. Clicking a template sends you to the original creator's marketplace to buy, and each platform splits into free and paid. Supporting pages cover the scoring methodology, the review team, a platform comparison, a glossary and a build cost calculator, and the site is published in English, Spanish and Portuguese.",
+      },
+      {
         title: "Native Bloom",
         href: "https://nativebloom.dev/",
         dateAdded: "2026-07-24",
@@ -2100,6 +2118,57 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Abduzeedo",
+        href: "https://abduzeedo.com/",
+        dateAdded: "2026-08-05",
+        kind: "gallery",
+        useFor: [
+          "branding inspiration",
+          "visual identity inspiration",
+          "graphic design inspiration",
+          "typography inspiration",
+          "packaging design",
+          "editorial design",
+          "design blog",
+        ],
+        description:
+          "Long-running design inspiration blog, publishing since 2006 and still posting daily, weighted toward branding, visual identity, packaging, editorial and typography rather than web UI. Every post credits the studio or designer behind the work, so a single day's front page can run Pentagram's health branding for Rugiet next to a monospaced typeface specimen, a Middle Eastern street food packaging system and Landor Australia's Petbarn identity, with a Best of the Week roundup pulling the strongest together. Sections cover 3D, Books, Branding, Editorial Design, Graphic Design, Illustration, Tutorials, Typography, UI/UX and Collections, and there is a Get Featured route for submissions. The site has a Typography Laboratory behind the F key that reskins its own type as you read, swapping the site, heading and body faces between Mundial, Inter, Outfit, Bricolage, Libre Caslon, Playfair, Lora, Merriweather and EB Garamond, and adjusting measure. Ad supported.",
+      },
+      {
+        title: "CSS Design Awards",
+        href: "https://www.cssdesignawards.com/",
+        dateAdded: "2026-08-05",
+        kind: "gallery",
+        useFor: [
+          "web design awards",
+          "award winning websites",
+          "site of the day",
+          "submit my site to awards",
+          "agency website inspiration",
+          "award gallery",
+          "high craft websites",
+        ],
+        description:
+          "Awards site running since 2009 that scores submitted websites on UI, UX and innovation and publishes the winners as a browsable wall, worth using when you want the heavily art directed end of studio and agency work. The tiers state their own thresholds: Website of the Day needs a panel average above 8.00, which moves with the quality of the pool, anything else averaging above 6 gets a Special Kudos certificate, and the public UI, UX and Innovation awards need more than 20 public votes alongside a judge average above 6. Monthly winners and selected daily winners feed into Website of the Year, while Designer of the Year splits by team size into Solo (one person plus a collaborator), Studio (two to ten) and Agency (ten and up), with Best In Class for runners up. Submission guidance asks for a quality screenshot and finished original work, and the site reserves the right to reject entries with errors or poorly executed design.",
+      },
+      {
+        title: "Wall of Portfolios",
+        href: "https://www.wallofportfolios.in/",
+        dateAdded: "2026-08-05",
+        kind: ["gallery", "directory"],
+        useFor: [
+          "designer portfolio gallery",
+          "portfolio inspiration",
+          "ux portfolio",
+          "ux designer portfolios",
+          "portfolio examples",
+          "portfolio case studies",
+          "dark themed portfolio",
+        ],
+        description:
+          "Wall of designer portfolios covering UX, UI and product design, for when you are rebuilding your own and want to see how people in the same role structure a case study. Built by Praneeth Jonnala, it claims 30,000 designers and sorts by look, with 710+ minimal, 350+ dark themed, 280+ interactive, 170+ creative and 90+ modern layout, then filters by years of experience and by title from Product Design Intern up through Creative Director and Head of Design. Each month it names five Portfolios of the Month with a written rationale for each pick; the July 2026 set is Aanchal Maratha, Parul Aggarwal, Smriti Rawat, Raghav Dua and Mohd Bilal. It is India based and the featured designers come from that scene, and alongside the wall there are separate Case Studies and Job Tracker sections plus free submission, accounts and bookmarks.",
+      },
+      {
         title: "Footer",
         href: "https://www.footer.design/",
         dateAdded: "2026-08-04",
@@ -2456,6 +2525,59 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Portfolios and studios",
     links: [
+      {
+        title: "WeGrow",
+        href: "https://www.wegrow.design/",
+        dateAdded: "2026-08-05",
+        kind: "portfolio",
+        useFor: [
+          "design subscription",
+          "ai startup branding",
+          "b2b brand identity",
+          "startup design partner",
+          "pitch deck design",
+          "outsourced design team",
+        ],
+        description:
+          "Studio selling itself as a subscription in-house design team for B2B AI companies, covering brand strategy, naming, visual identity, web, decks, motion, 3D, illustration and development under a single plan rather than per project quotes. The pitch leans on outcomes over craft language, leading with Noxtua raising 80.7 million euros after a rebrand and site launch with them, and a founder quote from Mark OS. Terms are stated plainly on the page: senior designers only, revisions until the client signs off, regular status updates, work starting within 24 hours of one strategy call and no ticket queue. Useful as a reference for how the productized design subscription model is positioned right now, and the site itself is a tidy example of the genre, built in Framer.",
+      },
+      {
+        title: "Applied Archive Atelier",
+        href: "https://www.appliedarchiveatelier.com/",
+        dateAdded: "2026-08-05",
+        kind: "portfolio",
+        stack: ["sanity", "mux"],
+        useFor: [
+          "nonprofit branding",
+          "cultural institution website",
+          "mission driven studio",
+          "social impact design",
+          "studio manifesto page",
+          "bilingual website",
+          "charity website design",
+        ],
+        description:
+          "Site for Applied Archive Atelier, a bilingual Montreal creative studio working with non-profits, cultural institutions and social businesses, on the stated position that a mission deserves the same strategy and craft as any commercial brand. The manifesto page is the reason to open it: the studio's stance is set out as five verbs, Welcome, Cultivate, Illuminate, Craft and Amplify, each carrying a single line, including a promise to fashion living archives equal to the desires of the age. Work is shown as seven specific projects rather than a reel, covering Routes to Rootz, MAPP_MTL 9.5, Brique par Brique, chimie, CTRL+ALT, Leadership for the Ecozoic and Ellipse Magazine across identity, campaign, editorial and web. The people page is the unusual part, listing 38 names whose roles run from Colorist and Sound Editing through to the Director of Brique par Brique, a Concordia design professor and an analyst at Microcredit Montreal, so it reads as a network of collaborators, clients and named creative mentors rather than a staff list; Jean-Julien Hazoume appears there under creative direction, design and web development. The studio also runs its own initiatives, among them Gia, which translates the work an organization already does into language a grant application will recognize.",
+      },
+      {
+        title: "ISKRA.GRAPHICS",
+        href: "https://iskra.graphics/",
+        dateAdded: "2026-08-05",
+        kind: "portfolio",
+        stack: ["canvas", "webaudio"],
+        style: ["editorial", "maximalist"],
+        useFor: [
+          "digital design studio",
+          "print inspired web design",
+          "cmyk aesthetic",
+          "webgl wordmark",
+          "file drawer interaction",
+          "ink and paper aesthetic",
+          "branding studio site",
+        ],
+        description:
+          "Site for ISKRA.GRAPHICS, a digital design studio covering web design, branding, UI/UX and launch videos for startups and founders, working worldwide from London and booking 15 minute intros over Telegram rather than a contact form. The page is staged as a CMYK print job: cyan, magenta and yellow registration squares in the kicker, sections alternating between paper and ink, and a WebGL steel wordmark behind a tilted metal star whose blade crosses over the final A. Work is filed rather than listed, in a drawer of folders numbered ISK-2601 to ISK-2605 that you pull open one at a time, each flooding the drawer with its own ink color and showing stack, timeline and result, so you get Next with R3F and GSAP in 5 days for a live-3D portfolio and Vite with Canvas and WebAudio in 4 days for a scratch-ticket promo, with two of the five still marked in production. It closes on a Lab of miniature experiments that load on scroll and pause off-screen, and an access pass you tilt to catch the foil.",
+      },
       {
         title: "Robert Borghesi",
         href: "https://robertborghesi.is/",
@@ -3873,6 +3995,38 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design essays and culture",
     links: [
       {
+        title: "Designers and Machines",
+        href: "https://www.designers-machines.com/",
+        dateAdded: "2026-08-05",
+        kind: "directory",
+        useFor: [
+          "design meetup",
+          "sf design event",
+          "designers using ai",
+          "ai design community",
+          "design dinner",
+          "demo night",
+        ],
+        description:
+          "Monthly dinner in San Francisco where five designers each demo what they are building with AI, five minutes apiece. The site is a single page holding the format, the next date and a spot count, with links to the people, a chat and a play section, so it functions as an invitation rather than a publication. Worth tracking if you want to see what designers are actually shipping with these tools in a room that keeps the demos short, rather than reading another think piece about it.",
+      },
+      {
+        title: "Sidebar",
+        href: "https://sidebar.io/",
+        dateAdded: "2026-08-05",
+        kind: "directory",
+        useFor: [
+          "design links",
+          "design newsletter",
+          "daily design reading",
+          "curated design links",
+          "design news",
+          "design reading list",
+        ],
+        description:
+          "Five hand-picked design links published every weekday, worth subscribing to when you want a small edited feed instead of a firehose. It has been collecting links since October 2012, is maintained by Fabricio Teixeira after being created by Sacha Greif, and its code is open source on GitHub. Each day's five are numbered and tagged, and the mix is deliberately wide: a single day can run an essay on the plateau of sad gray icons next to a free image dithering tool, a Stack Overflow piece on why developers grow attached to their tools, and a write-up on the AI productivity gap. Anything can be submitted, including your own work, with published guidelines that steer away from low-effort posts; one slot per day is a paid sponsor placement and is labelled as such.",
+      },
+      {
         title: "95 reasons for having your own website",
         href: "https://bellkiosk.website/blog/reasons-to-website.html",
         dateAdded: "2026-08-05",
@@ -4607,6 +4761,24 @@ export const inspirationGroups: InspirationGroup[] = [
         dateAdded: "2026-07-14",
         description:
           "Plain-language explainer of how large language models work under the hood, aimed at engineers who use LLMs daily but haven't studied the internals. Walks through nine components end to end, down to specifics like Mixtral 8x7B's 46.7B total but only 12.9B active parameters per token.",
+      },
+      {
+        title: "How to Scale Your Model",
+        href: "https://jax-ml.github.io/scaling-book/",
+        dateAdded: "2026-08-05",
+        kind: "essay",
+        stack: ["jax", "tpu", "gpu", "llm"],
+        useFor: [
+          "model parallelism",
+          "how tpus work",
+          "llm inference cost",
+          "roofline analysis",
+          "scaling transformers",
+          "kv cache memory",
+          "training cost estimate",
+        ],
+        description:
+          "Free online book on the systems side of large language models, by Jacob Austin, Sholto Douglas, Roy Frostig, Anselm Levskaya, Reiner Pope and seven other authors at Google DeepMind, published February 2025 and still revised. It answers the questions sitting between research and infrastructure: what a matrix multiply of a given size should take, when you are compute bound rather than memory or communication bound, how to choose among data, tensor, pipeline and expert parallelism, and what it would actually cost to train or serve a model yourself. Twelve chapters run from roofline analysis and TPU internals through Transformer parameter and FLOP math into training and inference, then two practical walkthroughs train and serve LLaMA 3 on TPUs with real latency and throughput tradeoffs, followed by chapters on programming TPUs in JAX, profiling the JAX and XLA stack, and a bonus chapter on how GPU rooflines and networking differ. It assumes you know the Transformer architecture but not how it behaves at scale, and sets worked problems throughout.",
       },
       {
         title: "LLM Visualization",
@@ -6105,6 +6277,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Courses and learning paths",
     links: [
       {
+        title: "Daily UI",
+        href: "https://www.dailyui.co/",
+        dateAdded: "2026-08-05",
+        kind: "course",
+        useFor: [
+          "ui design challenge",
+          "daily design challenge",
+          "daily design practice",
+          "ui exercises",
+          "ui design prompts",
+          "learn ui design",
+          "100 day design challenge",
+        ],
+        description:
+          "Free email challenge that sends one interface design prompt at a time for 100 days, aimed at building a habit and a portfolio at once rather than teaching through lessons. Prompts are single screens or components, starting with a sign up page on day one and a credit card checkout on day two, and you interpret each one yourself then post the result with the dailyui tag. The site says the challenge has run since 2016 and that more than 500,000 people across over 190 countries have shared upwards of 20 million designs; it also hands out surprise rewards such as design resources and product discounts. Credited on the site to Remote Jobs, though the challenge has changed hands over the years and attribution elsewhere is inconsistent.",
+      },
+      {
         title: "Zerodha Varsity",
         href: "https://zerodha.com/varsity/modules/",
         dateAdded: "2026-08-05",
@@ -6266,6 +6455,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "anydoc",
+        href: "https://github.com/firecrawl/anydoc",
+        dateAdded: "2026-08-05",
+        kind: "library",
+        stack: ["rust", "node", "python", "wasm"],
+        useFor: [
+          "docx to markdown",
+          "pdf to markdown",
+          "convert documents",
+          "office files to markdown",
+          "document parsing",
+          "llm ready markdown",
+          "epub to markdown",
+        ],
+        description:
+          "Rust library that converts Word, PowerPoint, Excel, OpenDocument, RTF, EPUB, CSV and PDF into GitHub-flavored Markdown, with one consistent output shape regardless of which format went in. Built by Firecrawl to get office documents into an LLM-readable form in single-digit milliseconds, and it backs their hosted Parse product, so the managed route adds OCR for scanned pages that the library cannot read alone. Ships bindings for Node, Python and the browser through WebAssembly, plus a CLI you can run straight through npx, and an agent skill installable with `npx skills add firecrawl/anydoc` so a coding agent can read any document it encounters. MIT licensed, published to crates.io, npm and PyPI, and the demo page runs the WebAssembly build locally so files never leave the machine. Very new: opened 3 August 2026 and already past 3,400 stars.",
+      },
       {
         title: "terminal-browser",
         href: "https://terminal-browser.com/",
@@ -7708,6 +7915,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer profiles and socials",
     links: [
+      {
+        title: "Aristide Benoist on X",
+        href: "https://x.com/AristideBenoist",
+        dateAdded: "2026-08-05",
+        kind: "portfolio",
+        stack: ["webgl", "glsl", "javascript", "three"],
+        useFor: [
+          "creative developer",
+          "webgl developer",
+          "vanilla webgl",
+          "interaction developer",
+          "webgl without libraries",
+          "motion and interaction",
+          "creative dev to follow",
+        ],
+        description:
+          "X account of Aristide Benoist, a French independent developer specialising in motion and interaction who works with agencies, startups and companies worldwide; his own site is at aristidebenoist.com. The reason to follow him is the build discipline rather than the visuals alone: his Portfolio 2021, which took Awwwards Site of the Day at 8.01 and then Site of the Month for June 2021 under the tags Experimental, Interaction Design, WebGL, GLSL and JavaScript, was written from scratch with no framework or library, bundled through a hand-rolled rollup, postcss and csso setup, and shipped at roughly 67 KB of JavaScript before gzip, with homepage imagery drawn through the WebGL API directly and content managed in flat JSON. Earlier iterations also took Site of the Day, including a 2017 Three.js build and a 2018 Swiss-styled portfolio, both designed by Ben Mingo, with Jon Way designing the 2021 one.",
+      },
       {
         title: "CatsJuice",
         href: "https://oooo.so/",
