@@ -7732,6 +7732,26 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "prism-light-instrument",
+    title: "Prism Light Instrument",
+    description:
+      "A lighting rig you play with a pointer, where the light lands on a height field instead of on empty space. Typed letters, a ruled grid and a fine tooth are pressed into the surface, and every lamp rakes across that relief at a shallow angle, because grazing light is what makes an emboss read. The beam is measured rather than painted: three angular gaussians per lamp, one per wavelength, offset by a fixed chromatic amount around an achromatic core, multiplied by a two-term radial throw and gelled from tungsten through neutral to daylight. Standing on the surface is a real triangle of glass. Rays are traced through it in the vertex shader with a wavelength-dependent index, refracting in one face and out another, following the bounce when a ray hits the far wall too steeply to leave, so the spectrum is the actual dispersion of that geometry and not a gradient laid over it. Each pair of adjacent rays spans a quad rather than drawing a line, so the fan is watertight in a single frame instead of filling in over time, and a flat-topped profile across each slice sums to one however wide it spreads, which is what keeps a widening fan from banding at every seam. The glass casts a soft shadow because the lamp is a disc rather than a point: the penumbra falls out of the silhouette geometry, so it carries no temporal noise at all. Both the direct beams and the refracted spectrum answer to the same baked normal and openness map, so the colour carves the letters and finds the ruling rather than sitting on top of the picture. Letters slide to re-centre and sink to depth on their own clocks, a running average converges the image over twenty-six samples, and an ordered dither keeps the long dark falloff from banding into eight bits. One WebGL2 canvas, no library and no asset required.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-05",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/prism-light-instrument.tsx",
+        target: "components/ui/prism-light-instrument.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

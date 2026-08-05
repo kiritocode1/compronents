@@ -149,6 +149,7 @@ import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
 import PreloaderRevealDemo from "./preloader-reveal";
+import PrismLightInstrumentDemo from "./prism-light-instrument";
 import ProceduralComputerPageDemo from "./procedural-computer-page";
 import PushDownOverlayMenuDemo from "./push-down-overlay-menu";
 import PushupCardStackDemo from "./pushup-card-stack";
@@ -451,4 +452,5 @@ export const demos: Record<string, ComponentType> = {
   "liquid-glass-carousel": LiquidGlassCarouselDemo,
   "elastic-string-field": ElasticStringFieldDemo,
   "wind-drift-field": WindDriftFieldDemo,
+  "prism-light-instrument": PrismLightInstrumentDemo,
 };

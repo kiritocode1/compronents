@@ -13870,6 +13870,128 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "prism-light-instrument": {
+    demoPath: "src/components/demos/prism-light-instrument.tsx",
+    nuance: [
+      {
+        label: "The light lands on relief, not on a backdrop",
+        description:
+          "Type, a ruled grid, a slow swell and a fine tooth are pressed into a height field, and its normals plus an openness term are baked to a texture whenever the surface changes. Both the lamps and the refracted spectrum read that same map, so the colour carves the letters instead of sitting on top of them, and the foot of a letter goes dark because its own walls are in the way rather than because it was shaded darker.",
+      },
+      {
+        label: "The spectrum is traced, not painted",
+        description:
+          "A triangle of glass stands on the surface and rays are refracted through it in the vertex shader with a wavelength-dependent index, following total internal reflection when a ray cannot leave through the far wall. Adjacent rays span a quad rather than a line, so the fan is complete in one frame, and two edge rays are only allowed to bound a slice when they took the same path through the glass.",
+      },
+      {
+        label: "A finite source, so the shadow has a real penumbra",
+        description:
+          "The lamp is a disc rather than a point, and the softness is solved from the silhouette geometry instead of sampled over time. The blur is identical every frame, converged or not, so dragging the glass never shows the noise a stochastic soft shadow would.",
+      },
+      {
+        label: "Converged over time, but never stalled",
+        description:
+          "A running average accumulates twenty-six jittered samples and restarts on any input. While letters are still sinking the wavelength count drops to eight, since every band is full-screen overdraw, and the caustic renders at half resolution because a blurred spectrum survives it perfectly well.",
+      },
+      {
+        label: "Scoped to its own box",
+        description:
+          "The original was a whole-page instrument bound to window. This version sizes from a ResizeObserver on its own root and takes keyboard only while focused, so it fills a bounded demo stage or the full screen with no branch between the two.",
+      },
+    ],
+    editable: [
+      {
+        name: "text",
+        control: "text",
+        description:
+          "The word embossed into the surface. Up to five lines and ninety characters; it re-centres and sinks to depth on its own clock.",
+      },
+      {
+        name: "accent",
+        control: "color",
+        description:
+          "Colour of the gizmo overlay: the aim line, the cone edges, and the lamp rings.",
+      },
+      {
+        name: "prism",
+        control: "text",
+        description:
+          "The glass: on, disp, gain, len and blur drive the refracted fan, while position and rotation belong to the pointer once it is on the surface.",
+      },
+      {
+        name: "lamps",
+        control: "text",
+        description:
+          "Opening rig, seeded in fractional coordinates so it survives any viewport. Defaults to a three-point key, fill and accent aimed at the word.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "text",
+        type: "string",
+        default: '"LIGHT"',
+        description:
+          "Text pressed into the surface. Typing on the focused component edits it live; Escape clears, Enter adds a line.",
+      },
+      {
+        name: "lamps",
+        type: "LampSeed[]",
+        default: "three-point rig",
+        description:
+          "Lamps present on load. Each seed carries fractional x/y, an aimAt target or an aim angle, plus spread, inten, throwR and tint (negative is tungsten, positive is daylight).",
+      },
+      {
+        name: "prism",
+        type: "PrismConfig",
+        default:
+          "{ on: true, x: 0.375, y: 0.53, radius: 0.062, rot: 0.62, disp: 6.5, gain: 1, len: 1.9, blur: 2.6 }",
+        description:
+          "The glass triangle. disp pulls the wavelengths apart, gain sets the fan's brightness, len how far it is drawn past the glass, blur how fast a slice softens as it leaves.",
+      },
+      {
+        name: "ramp / rampDepth",
+        type: "boolean / number",
+        default: "true / 5",
+        description:
+          "Raked letters sink to their own pool floor, each following its own glyph shape, at rampDepth times the stamped depth. Set ramp false for a flat stamp where only the rim catches the light.",
+      },
+      {
+        name: "rayAngles / rayBands",
+        type: "number",
+        default: "84 / 24",
+        description:
+          "Angular samples across the glass per wavelength, and wavelength samples. Bands are full-screen overdraw, so this is the main cost dial; while type is animating the component drops to eight on its own.",
+      },
+      {
+        name: "maxLamps",
+        type: "number",
+        default: "8",
+        description:
+          "Ceiling on placed lamps, clamped to 8 by the shader's uniform array. Past the cap the oldest lamp is retired.",
+      },
+      {
+        name: "accent",
+        type: "string",
+        default: '"#e8bf4b"',
+        description: "Colour of the gizmo overlay drawn on the 2D layer.",
+      },
+      {
+        name: "mark / showLegend / legend",
+        type: "string / boolean / LegendEntry[]",
+        default: '"blank_graphics" / true / four gestures',
+        description:
+          "The mono signature bottom-left and the affordance legend bottom-right, which fades out after 2.6 seconds without input.",
+      },
+      {
+        name: "allowTyping / autoFocus",
+        type: "boolean",
+        default: "true / false",
+        description:
+          "Keyboard is scoped to the component and needs focus, which a click on the surface grants. Set autoFocus for a full-screen presentation where typing should work immediately.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

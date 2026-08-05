@@ -31,6 +31,7 @@ import MosaicFlipPreview from "./mosaic-flip";
 import OverlayMenuPreview from "./overlay-menu";
 import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
+import PrismLightInstrumentPreview from "./prism-light-instrument";
 import ProceduralComputerPagePreview from "./procedural-computer-page";
 import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
 import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
@@ -81,4 +82,5 @@ export const previews: Record<string, ComponentType> = {
   "dark-catalog-page": DarkCatalogPagePreview,
   "deadspace-page": DeadspacePagePreview,
   "march-2025-template": March2025TemplatePreview,
+  "prism-light-instrument": PrismLightInstrumentPreview,
 };
