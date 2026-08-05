@@ -2118,6 +2118,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "11x11",
+        href: "https://networked.art/11x11",
+        dateAdded: "2026-08-05",
+        kind: ["demo", "gallery"],
+        stack: ["ethereum"],
+        useFor: [
+          "11x11 pixel art",
+          "collaborative pixel art",
+          "participatory web art",
+          "creative coding inspiration",
+          "ethereum birthday artwork",
+          "onchain art project",
+          "pixel grid experience",
+        ],
+        description:
+          "Participatory pixel-art project and public gallery made for Ethereum's eleventh birthday, useful as a reference for turning a tiny creative constraint into a shared web experience. Each visitor makes an image on an 11 by 11 grid with 11 colors, then shares a referral link that connects both canvases to one public network. Built by Ethlabs and networked.art with its participants, the live page reports 35,245 pieces made and 11,639 collected, with separate views for the timeline, network, groups and leaderboard.",
+      },
+      {
         title: "Abduzeedo",
         href: "https://abduzeedo.com/",
         dateAdded: "2026-08-05",
@@ -5228,6 +5246,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "nmemo",
+        href: "https://nmemo.cloud/",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        stack: ["slack", "notion", "github", "qdrant"],
+        useFor: [
+          "context layer for agents",
+          "agent context retrieval",
+          "context with citations",
+          "prompt context package",
+          "multi source retrieval",
+          "token budget context",
+          "inspect retrieval diagnostics",
+        ],
+        description:
+          "Multi-source context engine for AI agents, used to select the evidence a task needs and return it as one inspectable prompt package instead of handing a model raw search results or an entire chat history. It connects documents, memory, Slack, Notion, GitHub and Qdrant, then exposes citations, source health, token usage, ranking scores and discarded results so developers can see why context was selected. Built by Nikhil Rajpurohit and currently in beta, it works through a Context API or SDK with getContext() and getContextFast(), leaving the model and agent framework in the application's control.",
+      },
+      {
         title: "CopilotKit Channels SDK",
         href: "https://github.com/CopilotKit/channels-sdk",
         dateAdded: "2026-08-05",
@@ -6455,6 +6491,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Boron",
+        href: "https://boron.sh/",
+        dateAdded: "2026-08-05",
+        kind: "tool",
+        useFor: [
+          "terminal screenshot",
+          "editable terminal screenshot",
+          "code screenshot",
+          "share terminal output",
+          "save terminal as png",
+          "terminal image generator",
+          "style terminal capture",
+        ],
+        description:
+          "Browser tool for turning pasted terminal output into an editable, presentation-ready image, useful for documentation, launch posts and bug reports. Built by Colin McDonnell, it includes seven syntax themes and nine backdrops, plus controls for the title bar, corner radius, shadow, padding, minimum width, text and fill colors, and ANSI-style text formatting. The result can be copied as an image or saved as PNG directly from the page.",
+      },
       {
         title: "anydoc",
         href: "https://github.com/firecrawl/anydoc",
