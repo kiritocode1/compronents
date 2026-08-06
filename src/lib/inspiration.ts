@@ -246,6 +246,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "React Native and mobile",
     links: [
       {
+        title: "Laminar",
+        href: "https://github.com/cajaun/laminar",
+        dateAdded: "2026-08-06",
+        kind: "library",
+        stack: ["react-native", "reanimated", "expo", "typescript"],
+        useFor: [
+          "laminar",
+          "animate changing text",
+          "animate numbers",
+          "morphing text",
+          "rolling digits",
+          "animated counter",
+          "odometer",
+          "number transition",
+        ],
+        description:
+          "React Native component that animates changing text and numbers while preserving the identity of characters that stay on screen, so a label or counter rewrites itself in place instead of cross-fading the whole string. By Cajaun Campbell (cajaun), MIT, about 57 stars, published as `react-native-laminar` at 1.4.4 with peers React 18+, React Native 0.74+ and Reanimated 3+. `Laminar` is the only component export and covers three jobs: `text` reconciles grapheme clusters with a longest common subsequence pass over the changed middle of a string, `number` left-pads and aligns digits by place value so only changed lanes animate, and `slots` rolls digits through a vertical reel. Four motion presets (default bezier at 380ms, smooth spring at 400ms, snappy at 350ms, bouncy at 500ms) with text defaulting to `default` and number and slots to `snappy`, plus props for stagger, autoSize, clipToBounds and align; the repo carries an Expo example app and a quality gate of 92 automated cases at 100% function coverage.",
+      },
+      {
         title: "Voltra",
         href: "https://github.com/callstackincubator/voltra",
         dateAdded: "2026-08-06",
