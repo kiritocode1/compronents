@@ -1154,6 +1154,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "emailcn",
+        href: "https://emailcn.run",
+        dateAdded: "2026-08-06",
+        kind: "library",
+        stack: ["react", "email", "shadcn", "mjml", "typescript"],
+        useFor: [
+          "email components",
+          "html email template",
+          "react email blocks",
+          "transactional email ui",
+          "marketing email layout",
+          "email hero section",
+          "responsive email",
+        ],
+        description:
+          "Ready-made email sections distributed through the shadcn CLI, so a campaign or transactional email starts from installed components instead of hand-written table markup. It targets three renderers, React Email, MJML React and JSX Email, and you pick which one at install time: pnpm dlx shadcn@latest add @emailcn/react-email/image-grid-hero drops the source into your repo to own and edit. Blocks are whole sections rather than primitives (header with logo and menu, image grid hero, product list, call to action, navigation footer), grouped by marketing and ecommerce use, with built-in themes matching Vercel, Linear, Stripe, GitHub, Notion, Raycast, Twitch, Airbnb and Slack. Built by Aniket Pawar under the shadcn-labs org, MIT licensed, around 128 stars since April 2026.",
+      },
+      {
         title: "crd-ui",
         href: "https://crd-ui.juanda.co/",
         dateAdded: "2026-08-05",
@@ -2229,6 +2247,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Macapp Supply",
+        href: "https://macapp.supply",
+        dateAdded: "2026-08-06",
+        kind: "directory",
+        stack: ["macos"],
+        useFor: [
+          "mac app design",
+          "macos app inspiration",
+          "native app ui reference",
+          "desktop app design",
+          "beautiful mac apps",
+          "app icon inspiration",
+          "find a mac app",
+        ],
+        description:
+          "Manually curated shelf of macOS apps picked for design quality, worth browsing when you want to see how native Mac software is being styled right now rather than find the most popular tool for a job. Roughly 35 apps sit in the main grid across 16 categories (AI, Analytics, Audio, Business, Communication, Design, Dev, Entertainment, Finance, Lifestyle, Marketing, Photography, Productivity, Utility, Video, Writing), sorted by Hot or Latest, with a separate icons section, a Supply Pick editorial badge, an RSS feed and an open submission flow. Curated by Solt Wagner, who also ships Supaste and Cooldock. Some outgoing links are affiliate links, no total app count is published, and the site is not affiliated with Apple.",
+      },
+      {
         title: "movin.design",
         href: "https://movin.design/",
         dateAdded: "2026-08-06",
@@ -3188,6 +3224,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Lummi",
+        href: "https://lummi.ai",
+        dateAdded: "2026-08-06",
+        kind: "asset",
+        stack: ["figma"],
+        useFor: [
+          "ai stock photos",
+          "free stock images",
+          "stock illustrations",
+          "3d assets",
+          "royalty free images",
+          "unsplash alternative",
+          "hero image",
+          "background removal",
+        ],
+        description:
+          "Free stock library of AI-generated photos, illustrations and 3D assets, contributed by a community of AI artists rather than produced in house, and built explicitly against the stiff corporate look of traditional stock. The FAQ cites over 16,000 royalty-free images. The license permits unlimited personal and commercial use with no credit required, on free and Pro images alike, and forbids only reselling the files or rebundling them into a competing stock service. A Pro tier adds exclusive images, higher resolutions and editing tools: Reframe extends an image into a new aspect ratio by generating new pixels instead of stretching, alongside Restyle, Retouch, background removal and Ultra upscaling. Integrates directly with Figma, Canva, Webflow, Framer and Adobe Express. Founded by designer Pablo Stanley.",
+      },
       {
         title: "Ortho",
         href: "https://ortho.brdrck.me/",
@@ -4709,6 +4764,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Audio, video and media",
     links: [
+      {
+        title: "Screen Movie",
+        href: "https://screen.movie",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["macos"],
+        useFor: [
+          "screen recorder mac",
+          "record screen and edit",
+          "screen recording app",
+          "product demo video",
+          "animated captions",
+          "motion templates video",
+        ],
+        description:
+          "Native macOS screen recorder that keeps going into an editor: capture the screen or a screenshot, then cut scenes together, add animated text, captions and music, and run them through motion templates before a 4K export. The pitch is covering capture and polish in one app instead of handing a raw recording to a separate editor. Still unreleased as of August 2026, with the page reading 'Launch soon' and committing only to macOS 15 or later and a one-time purchase with no price attached. The page names no developer, but it is listed in the same product family as Supaste and Cooldock.",
+      },
       {
         title: "Pixlo",
         href: "https://pixlo.me",
@@ -7457,6 +7529,61 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Productivity and business tools",
     links: [
       {
+        title: "Supaste",
+        href: "https://supaste.com",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["macos"],
+        useFor: [
+          "clipboard history",
+          "clipboard manager",
+          "paste history",
+          "screenshot history",
+          "mac clipboard app",
+          "text expander",
+          "ocr screenshot",
+        ],
+        description:
+          "Local-first clipboard and screenshot history for macOS: a notch shelf, quick search and inline paste over everything you have copied, with OCR run on screenshots so text sitting inside an image is searchable too. Past plain history it does multi-clip copy that folds several items into one card, inline shortcuts where typing ;welcome expands saved text, clip reminders, grouping by source app, custom categories and sensitive-content detection, plus a built-in color picker, text capture and quick notes. Opens on control-command-V, with control-command-0 through 9 for the last ten clips. Needs macOS Sonoma 14 or later, syncs over iCloud and hooks into Apple Intelligence for rewrite and summarize. Shipped by Solt Wagner next to Cooldock and Screen Movie, sold as a one-time purchase rather than a subscription.",
+      },
+      {
+        title: "Vehla",
+        href: "https://vehla.app",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["macos", "mcp", "llm", "ollama", "mlx"],
+        useFor: [
+          "mac launcher",
+          "command palette app",
+          "spotlight replacement",
+          "keyboard launcher",
+          "local llm on mac",
+          "window snapping",
+          "ai actions on selected text",
+          "mac dictation",
+        ],
+        description:
+          "Native macOS command center on option-space: one keyboard-driven palette that launches apps, searches files, snaps windows, holds clipboard history and runs AI actions without switching context. Over 100 native commands sit beside roughly 75 curated AI actions (the page says 73 in one place and 79 in another), plus hold-to-talk dictation, a local index that answers with citations, menu bar hiding, an app uninstaller, a signed extension store and MCP server support. Models are bring your own key across OpenAI, Anthropic, Google, DeepSeek and OpenRouter, or fully local through MLX, Ollama and LM Studio, with keys kept in the macOS Keychain and no inference proxied through Vehla's own servers. Built by Kaila Consulting in Ottawa for Apple Silicon on macOS 15 or later, one-time license covering two Macs.",
+      },
+      {
+        title: "Cooldock",
+        href: "https://dock.cool",
+        dateAdded: "2026-08-06",
+        kind: "tool",
+        stack: ["macos"],
+        useFor: [
+          "mac dock replacement",
+          "dock widgets",
+          "macos widgets",
+          "second dock",
+          "customize mac dock",
+          "desktop dashboard mac",
+          "revenue widget",
+        ],
+        description:
+          "Second macOS dock that sits alongside the system one and fills with live widgets instead of app icons. The set covers system stats, quick toggles, audio controls, clipboard, screenshots, weather and now playing, a pomodoro, water reminder, calendar, reminders and notes, a file shelf and app switcher, and a founder-facing row wired to revenue, social followers, website analytics, Shopify, Resend, Dub, Dodo Payments, Polar, Plausible and DataFast, with GitHub, Linear and Supabase for developers. Supports multiple dock profiles, floating layouts and multiple displays, and needs macOS Sonoma 14 or later. Shipped by Solt Wagner alongside Supaste and Screen Movie as a one-time purchase.",
+      },
+      {
         title: "Invoicely",
         href: "https://invoicely.gg/",
         dateAdded: "2026-07-19",
@@ -8842,6 +8969,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Mockups, textures and patterns",
     links: [
+      {
+        title: "Backgrounds Supply",
+        href: "https://backgrounds.supply",
+        dateAdded: "2026-08-06",
+        kind: "asset",
+        useFor: [
+          "gradient backgrounds",
+          "background pack",
+          "abstract backgrounds",
+          "hero background image",
+          "wallpaper pack",
+          "animated backgrounds",
+          "mesh gradient",
+        ],
+        description:
+          "Paid vault of ready-made background images: handcrafted gradients plus AI-generated visuals, sold as themed packs to drop straight into a layout. Around 27 named collections are listed, among them Gradient BGs (165), Smudge (112), Perplex (104), Zephyr (83), Surrealis (82) and an Animated Backgrounds pack (36), though the counts on the page disagree with each other: the header claims 1,273 backgrounds across 29 collections while the FAQ says 1,167 across 24. Built by Kailash (@kail.designs) and sold through Lemon Squeezy for a single $49 payment with lifetime access and monthly drops included, no subscription and no refunds. The license covers client work, apps, ads and motion projects but not reselling the files as a standalone product. Formats and resolutions are never stated on the page.",
+      },
       {
         title: "Lottielab animated mockups",
         href: "https://www.lottielab.com/templates/mockups",
