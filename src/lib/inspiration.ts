@@ -2745,6 +2745,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Mirage at Apple Park",
+        href: "https://mirage.place/map/",
+        dateAdded: "2026-08-07",
+        stack: ["lottie", "scroll"],
+        useFor: [
+          "scroll driven map",
+          "interactive world map",
+          "art installation site",
+          "map based navigation",
+          "scrollytelling site",
+          "place based storytelling",
+          "editorial project site",
+        ],
+        description:
+          "Project site for Mirage, a permanent sculpture by Katie Paterson and architecture studio Zeller & Moye at Apple Park, worth the visit for how its map page carries a large set of places without collapsing into a list. Scrolling drives a Lottie world map projection while a Select view type control swaps between the map and an Installation View, so the same 70 desert sources read either as geography or as their position in the piece. The work itself is 448 cast glass columns standing two metres in the olive grove by the Visitor Center, each poured from wild sand gathered from a single desert, with per sand glass recipes worked out at Delft University of Technology and casting by John Lewis Glass in Oakland. The rest of the site holds the same restraint, down to a Sand Catalogue whose 70 entries carry only a thumbnail and a place name before opening onto their own pages; no studio is credited for the build.",
+      },
+      {
         title: "WeGrow",
         href: "https://www.wegrow.design/",
         dateAdded: "2026-08-05",
@@ -2836,8 +2853,21 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Bakai Tolondu uulu",
         href: "https://www.bakai.me/lab",
         dateAdded: "2026-07-28",
+        kind: "portfolio",
+        stack: ["ios", "mobile", "ui"],
+        style: ["product-dense", "minimal"],
+        useFor: [
+          "mobile app design",
+          "ios app design",
+          "app design inspiration",
+          "mobile ui inspiration",
+          "ios app screens",
+          "mobile screen design",
+          "expense tracking app",
+          "sidebar design",
+        ],
         description:
-          "Lab shelf of Bakai Tolondu uulu, a design engineer in San Francisco, originally from Kyrgyzstan, working at an AI agency while studying at Minerva University. Around sixteen interface screens across four named pieces: Sidebars, a study of navigation panel variants; Oymo and Spina, two iOS apps covering scanning and expense tracking; and FOHE, an admissions CRM whose applicant board is worth the visit on its own, splitting a pipeline into Waiting, Ready for review, Ready for decision and Decided with live counts on each column. No case study text, just the screens, so it reads as a working shelf rather than a portfolio narrative.",
+          "Mobile app design reference: a lab shelf of app and interface screens by Bakai Tolondu uulu, a design engineer in San Francisco, originally from Kyrgyzstan, working at an AI agency while studying at Minerva University. Around sixteen screens across four named pieces: Sidebars, a study of navigation panel variants; Oymo and Spina, two iOS apps covering scanning and expense tracking; and FOHE, an admissions CRM whose applicant board is worth the visit on its own, splitting a pipeline into Waiting, Ready for review, Ready for decision and Decided with live counts on each column. No case study text, just the screens, so it reads as a working shelf rather than a portfolio narrative.",
       },
       {
         title: "creatoroly",
@@ -5501,6 +5531,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "ego (lite)",
+        href: "https://lite.ego.app/",
+        dateAdded: "2026-08-07",
+        kind: "tool",
+        stack: ["chromium", "cdp", "browser-automation", "agents"],
+        useFor: [
+          "browser for ai agents",
+          "agent web automation",
+          "logged in browser",
+          "browser automation",
+          "agent browser",
+          "share browser session",
+          "drive a real browser",
+          "chrome profile",
+        ],
+        description:
+          "Chromium browser you hand to a coding agent so it drives the web through sessions you are already logged into, rather than a clean headless profile. Onboarding installs an ego-browser skill into the agent's skill directory, after which the agent runs in-page JavaScript for snapshot, fill, click, wait, navigate and capture, batching several steps into one script instead of one tool call each; Spaces isolate agent tasks from your own tabs, and one click imports Chrome tabs, bookmarks, passwords, extensions and cookies. The snapshot lives in the custom Chromium engine rather than an injected shim, so it reaches cross-origin iframes, shadow DOM and third-party widgets such as Stripe and Intercom, addressing elements by stable @N refs. Built by Citro Labs, free, Mac only with a Windows signup, MIT at citrolabs/ego-lite with 9,100+ stars, and it claims complex tasks finish up to 3.45x faster than agent-browser on fewer tokens.",
+      },
       {
         title: "Rivet",
         href: "https://rivet.dev/",
