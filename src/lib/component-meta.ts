@@ -726,8 +726,144 @@ const filmstripVideoPlayerAssetDocs = assetsByIds([
   "filmstrip-video-player-video",
 ]);
 const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
+const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  sunlit: {
+    demoPath: "src/components/demos/sunlit.tsx",
+    studioPath: "src/components/studios/sunlit.tsx",
+    nuance: [
+      {
+        label: "Light is geometry, not a photo",
+        description:
+          "Horizontal shutters and vertical bars sit on a derived matrix3d plane so the dappled pattern reads as a window wall. Day and night swap shutter gap, shutter height, plane opacity, and the homography itself over a shared easing curve.",
+      },
+      {
+        label: "Progressive blur sells depth",
+        description:
+          "Four stacked backdrop-filter layers, each masked with a linear gradient, keep the near wall sharp while the far canopy softens. Without the stack the leaves either look pasted on or dissolve into mush.",
+      },
+      {
+        label: "Sunrise instead of a hard cut",
+        description:
+          "Toggling night runs a short color keyframe through dawn, morning, evening, and dusk, with a floor bounce glow that swaps from warm amber to cool blue. The leaf canopy keeps billowing under an SVG turbulence displacement filter.",
+      },
+    ],
+    editable: [
+      {
+        name: "dark / defaultDark",
+        control: "text",
+        description:
+          "Night mode. Pass dark for controlled mode, or defaultDark for an uncontrolled start.",
+      },
+      {
+        name: "dayColor / nightColor",
+        control: "color",
+        description: "Backdrop colors at day and night.",
+      },
+      {
+        name: "bounceLightDay / bounceLightNight",
+        control: "color",
+        description: "Floor bounce glow at each time of day.",
+      },
+      {
+        name: "leavesSrc",
+        control: "asset-url",
+        description: `Leaf canopy texture, hosted through ${getHostedAssetUrl(
+          "sunlit/leaves.png",
+        )}.`,
+      },
+      {
+        name: "shutterCount",
+        control: "text",
+        description: "How many horizontal shutters to stack.",
+      },
+    ],
+    assets: sunlitAssetDocs,
+    api: [
+      {
+        name: "dark",
+        type: "boolean",
+        default: "undefined",
+        description:
+          "Controlled night mode. When set, the component no longer owns dark state.",
+      },
+      {
+        name: "defaultDark",
+        type: "boolean",
+        default: "false",
+        description: "Initial night mode when uncontrolled.",
+      },
+      {
+        name: "onDarkChange",
+        type: "(dark: boolean) => void",
+        default: "undefined",
+        description: "Fires after day/night flips.",
+      },
+      {
+        name: "toggleOnClick",
+        type: "boolean",
+        default: "true",
+        description:
+          "Click the scene (outside interactive children) to toggle day/night.",
+      },
+      {
+        name: "leavesSrc",
+        type: "string",
+        default: '"…/sunlit/leaves.png"',
+        description: "Leaf canopy texture URL.",
+      },
+      {
+        name: "dayColor",
+        type: "string",
+        default: '"#fffdfa"',
+        description: "Daytime backdrop color.",
+      },
+      {
+        name: "nightColor",
+        type: "string",
+        default: '"#0f131c"',
+        description: "Nighttime backdrop color.",
+      },
+      {
+        name: "bounceLightDay",
+        type: "string",
+        default: '"#f5d7a6"',
+        description: "Warm floor bounce at day.",
+      },
+      {
+        name: "bounceLightNight",
+        type: "string",
+        default: '"#1b293f"',
+        description: "Cool floor bounce at night.",
+      },
+      {
+        name: "shadowColor",
+        type: "string",
+        default: "auto per mode",
+        description: "Shutter and bar color. Defaults track day/night shadows.",
+      },
+      {
+        name: "shutterCount",
+        type: "number",
+        default: "23",
+        description: "How many horizontal shutters to stack.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        default: "undefined",
+        description:
+          "Content above the light plane. Links and buttons keep pointer events; the rest of the scene stays clickable for the day/night toggle.",
+      },
+      {
+        name: "className",
+        type: "string",
+        default: "undefined",
+        description: "Extra classes on the root.",
+      },
+    ],
+  },
   "clip-mask-transition-page": {
     demoPath: "src/components/demos/clip-mask-transition-page.tsx",
     nuance: [

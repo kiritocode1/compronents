@@ -43,6 +43,7 @@ import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SorenPageStudio from "./soren-page";
 import SpiralGalleryStudio from "./spiral-gallery";
+import SunlitStudio from "./sunlit";
 import UnusualStudioPageStudio from "./unusual-studio-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
 import WuWeiPageStudio from "./wu-wei-page";
@@ -78,6 +79,7 @@ export const studios: Record<string, StudioComponent> = {
   "falling-tag-list": FallingTagListStudio,
   "frame-scroll": FrameScrollStudio,
   "spiral-gallery": SpiralGalleryStudio,
+  sunlit: SunlitStudio,
   "archive-commerce-page": ArchiveCommercePageStudio,
   "interior-studio-page": InteriorStudioPageStudio,
   "dining-room-page": DiningRoomPageStudio,

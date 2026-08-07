@@ -1,0 +1,28 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>sunlit diff</title>
+<style>
+  body { margin:0; background:#000; color:#aaa; font:11px ui-monospace,monospace; }
+  h2 { font:11px ui-monospace,monospace; letter-spacing:.1em; text-transform:uppercase; margin:8px; color:#888; }
+  .stack { position:relative; width:948px; height:680px; margin:0 8px 16px; isolation:isolate; }
+  .stack iframe { position:absolute; inset:0; border:0; width:948px; height:680px; }
+  .stack iframe.top { mix-blend-mode:difference; }
+</style>
+<h2>difference blend &mdash; black = identical (upstream vs ours, 948&times;680)</h2>
+<div class="stack">
+  <iframe id="a" src="/_sunlit-orig/index.html"></iframe>
+  <iframe id="b" class="top" src="/components/sunlit/preview"></iframe>
+</div>
+<script>
+  addEventListener('load', () => setTimeout(() => {
+    for (const id of ['a','b']) {
+      const d = document.getElementById(id).contentDocument;
+      const leaf = d.querySelector('#leaves, .sunlit-leaves');
+      if (leaf) leaf.style.animation = 'none';
+      d.querySelectorAll('svg').forEach(s => { try { s.setCurrentTime(0); s.pauseAnimations(); } catch(e){} });
+      // hide upstream's article text and our demo content so only the light effect is compared
+      const txt = d.querySelector('article, .sunlit-content');
+      if (txt) txt.style.display = 'none';
+    }
+  }, 1200));
+</script>

@@ -187,6 +187,7 @@ export const componentGroups: RegistryGroup[] = [
       "cursor-image-trail",
       "smudge-cursor-reveal",
       "sandy-grain-background",
+      "sunlit",
       "accordion-frames",
     ],
   },

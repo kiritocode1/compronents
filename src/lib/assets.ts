@@ -3710,6 +3710,15 @@ export const assetItems = [
     notes:
       "Lossless PNG on purpose: the flat colors are region ids, and lossy compression would smear them into unmatchable values.",
   } as const satisfies AssetItem,
+  {
+    id: "sunlit-leaves",
+    label: "Sunlit leaves",
+    provider: "vercel-blob",
+    pathname: "sunlit/leaves.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/sunlit/leaves.png`,
+    role: "Soft leaf canopy billowing in front of the blinds; blurred and displaced by the wind filter.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

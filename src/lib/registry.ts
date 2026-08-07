@@ -151,6 +151,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "sunlit",
+    title: "Sunlit",
+    description:
+      "Pure CSS dappled light through window blinds and a billowing leaf canopy: progressive blur for depth, a warm floor bounce glow, a derived matrix3d light plane, and a clickable day/night switch that walks through hand-picked sunrise and sunset colors instead of a hard cut. No dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-08-07",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/sunlit.tsx",
+        target: "components/ui/sunlit.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "flow-field-text",
     title: "Flow Field Text",
     description:

@@ -199,6 +199,7 @@ import StoryReelViewerDemo from "./story-reel-viewer";
 import StretchTextScrollDemo from "./stretch-text-scroll";
 import StripMergeRevealDemo from "./strip-merge-reveal";
 import StrokeWipeSpotlightDemo from "./stroke-wipe-spotlight";
+import SunlitDemo from "./sunlit";
 import SurpriseBoxDemo from "./surprise-box";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import SwingInWorkGridDemo from "./swing-in-work-grid";
@@ -291,6 +292,7 @@ export const demos: Record<string, ComponentType> = {
   "folding-panel-menu": FoldingPanelMenuDemo,
   "drone-fleet": DroneFleetDemo,
   "starry-night-flow": StarryNightFlowDemo,
+  sunlit: SunlitDemo,
   "surprise-box": SurpriseBoxDemo,
   "sticky-stack-cards": StickyStackCardsDemo,
   "sticky-flip-cards": StickyFlipCardsDemo,
