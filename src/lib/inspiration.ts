@@ -6911,6 +6911,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer tools and utilities",
     links: [
       {
+        title: "next-dev-bridge",
+        href: "https://next-dev-bridge.labs.vercel.dev/",
+        dateAdded: "2026-08-07",
+        stack: ["next", "node", "hmr", "dev-server", "agents"],
+        useFor: [
+          "next.js dev server",
+          "dev server events",
+          "build errors",
+          "watch build errors",
+          "runtime errors",
+          "hmr events",
+          "dev overlay",
+          "agent watch dev server",
+          "compiler errors",
+        ],
+        description:
+          "Connects to a running Next.js dev server and normalizes its noisy HMR traffic into a small set of readable events, so a CLI, preview shell, or agent can follow build state without opening a browser. The event set is just build:ready, build:error, build:recovered and runtime:error, the last carrying source-mapped frames when available. Ships a `connect-next http://localhost:3000` CLI that prints lines like `>>> [ERROR] count=1 change=shown`, plus a `connect()` function taking a url and an (event, state) callback with .stop() to tear down. From vercel-labs: ESM, Node 18 or newer, and it targets the HMR endpoints of Next.js 16.2 and 16.3, so expect it to track recent releases rather than hold across versions.",
+      },
+      {
         title: "Web Dev Resources",
         href: "https://web-dev-resources.com/#resources",
         dateAdded: "2026-08-06",
