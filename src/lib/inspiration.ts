@@ -5917,6 +5917,28 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Backend engineering",
     links: [
       {
+        title: "Sent",
+        href: "https://www.sent.dm/en",
+        dateAdded: "2026-08-07",
+        kind: "library",
+        stack: ["messaging", "sms", "whatsapp", "rcs", "api"],
+        useFor: [
+          "send sms",
+          "sms api",
+          "whatsapp api",
+          "whatsapp business",
+          "send whatsapp messages",
+          "sms notifications",
+          "rcs messaging",
+          "messaging api",
+          "twilio alternative",
+          "send otp",
+          "10dlc",
+        ],
+        description:
+          "Unified messaging API that reaches users over SMS, WhatsApp and RCS through one integration, routing each message to the channel most likely to land and falling back automatically when one fails. The useful part is what you would otherwise build yourself: a contact object holding per-channel preferences, a pre-send availability check, one template that renders to channel-specific payloads, and automated 10DLC registration plus WhatsApp template submission with auto-resubmit on rejection. Founded in 2024 by Daniel Vataj and Betim Drenica, Sent is an FCC-registered carrier with direct interconnects rather than a reseller, and raised a $12M Series A led by Companyon Ventures in July 2026. SDKs for TypeScript, Python, Java, C#, Go, PHP and Ruby; pricing is $0.015 per contact per month with carrier fees passed through at cost.",
+      },
+      {
         title: "Next.js WebSocket upgrade in route handlers",
         href: "https://github.com/vercel/next.js/discussions/95514",
         dateAdded: "2026-07-15",
