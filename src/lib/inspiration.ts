@@ -4554,6 +4554,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Experiments in procedural dappled light shaders",
+        href: "https://jzhao.xyz/posts/dappled-light",
+        dateAdded: "2026-08-07",
+        kind: "essay",
+        stack: ["shaders", "canvas"],
+        useFor: [
+          "dappled light",
+          "procedural light shader",
+          "komorebi shader",
+          "l-system tree",
+          "tree shader",
+          "site lighting effect",
+          "penumbra shader",
+          "dithered light",
+        ],
+        description:
+          "Write-up by Jacky Zhao on rebuilding the lighting of jzhao.xyz as a procedural dappled-light scene, after a Chrome zoom compositing bug forced him to drop his earlier open-source CSS Sunlit effect. Posted 2026-08-02 as a 33-minute technical essay walking from multi-octave thresholded Perlin noise and Bayer dithering on a low-resolution pixelated canvas, through a warm gold fringe painted only on mid-tone sharp gradients, to probabilistic L-system trees with da Vinci branch-area conservation and golden-angle phyllotaxis when pure fragment-shader noise and Voronoi edges failed as branches. Depth comes from penumbral blur by focal distance plus a leaf-layer threshold gradient, with mouse parallax by depth; the page embeds reseed and reshuffle controls. Framed as making a personal site feel like a digital home with komorebi (sunlight through leaves), citing Katherine, Henry and Michael's sites as references.",
+      },
+      {
         title: "junkiyoshi",
         href: "https://junkiyoshi.com/",
         dateAdded: "2026-08-05",
