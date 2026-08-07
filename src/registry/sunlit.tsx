@@ -13,6 +13,12 @@
  * plane reads as a window wall rather than a flat affine skew. Leaf motion
  * combines a slow billow keyframe with an SVG turbulence displacement filter.
  *
+ * Embedding caveat: the depth effect relies on backdrop-filter. Do not put a
+ * rounded clip (border-radius together with overflow: hidden) on any ancestor
+ * of this component. Chrome breaks backdrop-filter compositing inside such a
+ * clip, which flattens the progressive blur into a plain wash and hides the
+ * blinds and leaves completely. Round a wrapper that does not clip instead.
+ *
  * BLANK, aryank.space
  */
 

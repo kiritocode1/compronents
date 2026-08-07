@@ -68,8 +68,11 @@ export default function SunlitStudio() {
   }
 
   return (
-    <div className="flex w-full flex-col rounded-lg border bg-surface">
-      <div className="relative h-[680px] w-full overflow-hidden rounded-t-lg xl:h-[760px]">
+    <div className="flex w-full flex-col rounded-b-lg border bg-surface">
+      {/* No border-radius on this wrapper: a rounded clip on an ancestor breaks
+          backdrop-filter compositing in Chrome, which flattens Sunlit's
+          progressive blur and hides the light plane entirely. */}
+      <div className="relative h-[680px] w-full overflow-hidden xl:h-[760px]">
         <Link
           href="/components/sunlit/preview"
           target="_blank"
