@@ -5483,6 +5483,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "Rivet",
+        href: "https://rivet.dev/",
+        dateAdded: "2026-08-07",
+        kind: "library",
+        stack: ["bun", "wasm", "agents"],
+        useFor: [
+          "durable actors",
+          "actor per agent",
+          "rivet actors",
+          "agent scale to zero",
+          "durable agent compute",
+          "self host agents",
+          "agent actor runtime",
+          "stateful actor agents",
+        ],
+        description:
+          "Open-source actor runtime for AI agents and realtime apps, used when you want durable stateful compute (one actor per agent, session, or user) inside an existing Node.js or Bun backend rather than a separate orchestrator. Actors keep state in memory, hibernate when idle, burst under load, and ship WebSockets, workflows, queues and timers; install with npm install rivetkit for local library mode, or run Rivet Cloud or a self-hosted engine (Docker, single Rust binary, Postgres, filesystem, or FoundationDB). Also ships agentOS, a Wasm virtual OS for agents without containers or VMs, with site claims of roughly 92x faster cold starts and 47x less memory than sandbox microVMs. Backed by Y Combinator and a16z Speedrun; clients for React, Next.js, Svelte, Hono, Express and tRPC.",
+      },
+      {
         title: "Kitesurf",
         href: "https://blog.cloudflare.com/kitesurf/",
         dateAdded: "2026-08-07",
