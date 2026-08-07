@@ -2247,6 +2247,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Headers Club",
+        href: "https://www.headers.club/",
+        dateAdded: "2026-08-07",
+        kind: "gallery",
+        useFor: [
+          "website header design",
+          "header design gallery",
+          "hero header inspiration",
+          "landing page headers",
+          "website headers",
+          "header images",
+          "top of page design",
+        ],
+        description:
+          "Curated gallery of website header designs, useful when you want visual reference for heroes and top-of-page treatments rather than full-site screenshots. Meta and third-party listings describe it as browsing the hottest header images on the internet, with a share prompt for headers that are too hot to handle, and older write-ups called out daily updates. As of August 2026 the live site is a holding page that says a new version is incoming, with only the tagline and 2026 copyright visible, so the archive itself is offline while the rebuild is in progress.",
+      },
+      {
         title: "Macapp Supply",
         href: "https://macapp.supply",
         dateAdded: "2026-08-06",
@@ -5466,6 +5483,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "Kitesurf",
+        href: "https://blog.cloudflare.com/kitesurf/",
+        dateAdded: "2026-08-07",
+        kind: "essay",
+        stack: ["cloudflare", "workers", "wasm", "rust", "cdp", "agents"],
+        useFor: [
+          "agent browser",
+          "agent first browser",
+          "browser for agents",
+          "headless browser agents",
+          "browser on workers",
+          "browser run kitesurf",
+          "cheap agent browser",
+          "cdp for agents",
+        ],
+        description:
+          "Cloudflare launch post for Kitesurf, an agent-first browser that runs entirely on Workers V8 isolates, for screenshots, HTML extraction and automation without the memory cost of a full Chromium instance. Free in beta through Browser Run: point Puppeteer, Playwright or chrome-remote-interface at the CDP endpoint with browser=kitesurf, or hit quick-action screenshot and extract APIs the same way. Built in about twelve weeks from a May 2026 first commit, it splits Engine, PageScript and PageRenderer across isolates, parses markup and styles with Blitz and Stylo (Rust to Wasm), rasterizes via blitz-paint, and uses Boa for evals Workers cannot run natively. Claims 215,000+ Web Platform Tests passing, and on a 14-URL corpus about 3-7x less CPU and memory than Chromium for screenshot and HTML extraction, at roughly 1.7x slower wall time. Playground at kitesurf.cloudflare.app with Chrome DevTools injected; skips video, 3D canvas, bot-challenge TLS fingerprints and long authenticated sessions for now. Posted 2026-08-06 by Celso Martinho; open source planned later.",
+      },
+      {
         title: "nmemo",
         href: "https://nmemo.cloud/",
         dateAdded: "2026-08-05",
@@ -7853,6 +7889,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Marketing and growth tools",
     links: [
+      {
+        title: "H1 Gallery",
+        href: "https://h1gallery.com/",
+        dateAdded: "2026-08-07",
+        kind: "gallery",
+        useFor: [
+          "marketing headlines",
+          "landing page headlines",
+          "product headlines",
+          "headline inspiration",
+          "marketing copy examples",
+          "saas headlines",
+          "copywriting reference",
+          "homepage headlines",
+        ],
+        description:
+          "Curated archive of marketing H1 headlines, useful when you need real product copy examples rather than abstract copywriting tips. Catalogued as numbered entries from H-1 (Basecamp) through at least H-220 (EasyCircuit), each pairing the headline with the product name, spanning SaaS, consumer apps and hardware. Curated by Corey Haines and team (Conversion Factory); a free Friday email sends three headlines with analysis and founder comments, and the project is on X as @h1gallery.",
+      },
       {
         title: "Post Window for X",
         href: "https://postwindow.vercel.app/",
