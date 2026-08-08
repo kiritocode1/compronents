@@ -7752,6 +7752,36 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "monogram-morph-page",
+    title: "Monogram Morph Page",
+    description:
+      "A single-viewport portfolio home where the wordmark is liquid. The mark is HTML text run through a goo filter, a gaussian blur followed by a steep alpha threshold, so crowding the letters fuses them into one blob and spreading them tears that blob into droplets which snap back into glyphs. One effect carries the whole site: on load a monogram melts and spreads into the full wordmark, and on every route change the current word melts and resolves into the next one, the swap hidden inside the mass while it is fully liquid. The mark is built as two passes of the same word through two goo filters: behind, a fat same-colour stroke that becomes the bright smear; in front, the letterforms themselves, solid and set light, sitting inside it. Each filter repaints its thresholded silhouette with a flat flood, because a gaussian blur works on premultiplied alpha and boosting alpha alone leaves the colour channels part-way to transparent. Around it, all running text is pre-split to characters and faded on a baked GSAP CustomBounce curve with a randomised stagger, so text does not fade, it flickers out and stutters back in. The bottom bar blends in exclusion and inverts, staying legible as the yellow mark passes beneath it, its active pill fills on a 1.2 second ease while its own letters flicker, and the landing route scatters draggable tags along the edges of the mark with collision rejection. Set in PangeaAfrikan where licensed, falling back to Hanken Grotesk, the one free grotesque sharing its binocular double-storey g. Live clock, container-query layout, GSAP only.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-07",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/monogram-morph-page/index.tsx",
+        target: "components/ui/monogram-morph-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/monogram-morph-page/styles.ts",
+        target: "components/ui/monogram-morph-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/monogram-morph-page/bounce-ease.ts",
+        target: "components/ui/monogram-morph-page/bounce-ease.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

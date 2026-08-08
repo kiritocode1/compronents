@@ -27,6 +27,7 @@ import InversaScrollPreview from "./inversa-scroll";
 import LegoDitherPreview from "./lego-dither";
 import March2025TemplatePreview from "./march-2025-template";
 import MaterialSpotlightPreview from "./material-spotlight";
+import MonogramMorphPagePreview from "./monogram-morph-page";
 import MosaicFlipPreview from "./mosaic-flip";
 import OverlayMenuPreview from "./overlay-menu";
 import PortfolioPagePreview from "./portfolio-page";
@@ -55,6 +56,7 @@ export const previews: Record<string, ComponentType> = {
   "detroit-paris-slider": DetroitParisSliderPreview,
   "ascii-logo": AsciiLogoPreview,
   "overlay-menu": OverlayMenuPreview,
+  "monogram-morph-page": MonogramMorphPagePreview,
   "mosaic-flip": MosaicFlipPreview,
   "image-reveal": ImageRevealPreview,
   "award-list": AwardListPreview,

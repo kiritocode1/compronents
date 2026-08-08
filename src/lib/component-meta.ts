@@ -14175,6 +14175,145 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "monogram-morph-page": {
+    demoPath: "src/components/demos/monogram-morph-page.tsx",
+    nuance: [
+      {
+        label: "One liquid mark does the loading and the routing",
+        description:
+          "The wordmark is HTML text pushed through a goo filter: a gaussian blur, then an alpha matrix steep enough to snap the soft edges back to a hard silhouette. Crowd the letters and they fuse into one blob; spread them and the blob tears into droplets that resolve into glyphs. The loader is that effect run from a monogram to the full wordmark, and a route change is the same effect run from one word to the next. There is no second transition vocabulary anywhere on the page.",
+      },
+      {
+        label: "Two passes, two filters, and a flat flood",
+        description:
+          "Behind sits a fat same-colour stroke that the goo turns into the bright smear; in front sit the letterforms themselves, solid and set light, not an outline. They need separate filters because one blur radius wide enough to fuse the smear would dissolve the letters inside it, so the ink runs at roughly a third of the halo's blur. Each filter then repaints its thresholded silhouette with a flat flood: a gaussian blur operates on premultiplied alpha, so boosting alpha alone leaves the colour channels part-way to transparent and the mark composites washed out.",
+      },
+      {
+        label: "The swap hides inside the melt",
+        description:
+          "Outgoing and incoming words cross over between 44 and 56 percent of the morph, which sits inside the plateau where blur is at maximum. Their alphas composite above the filter's threshold across the overlap, so the mass never thins at the handover: it reads as one body reshaping rather than as two words dissolving through each other.",
+      },
+      {
+        label: "Text flickers rather than fades",
+        description:
+          "Every character fade eases on GSAP's CustomBounce at strength 0.8, applied to opacity rather than to position, so a character overshoots to solid, drops back to 36 percent, and stutters to rest. CustomBounce is a paid Club plugin but only a generator, so its output path is baked into bounce-ease.ts and evaluated directly. Same curve, nothing to register.",
+      },
+      {
+        label: "The bar reads over anything beneath it",
+        description:
+          "The bottom nav blends in exclusion and inverts, so it stays legible whether the yellow mark, the white ground, or a droplet mid-flight is passing under it. The active pill fills over 1.2 seconds while its own letters flicker in on a tighter per-character stagger, and the inactive pills roll a fill up from below that flattens its corners on the way in.",
+      },
+      {
+        label: "Sized to its container, not to the viewport",
+        description:
+          "The root declares container-type: inline-size and every length is in cqw, so the same component fills a bounded demo card and a full screen with no branch between them. That containment also makes the root the containing block for its own chrome, so the nav and the mark stay inside the component instead of escaping to the document.",
+      },
+    ],
+    editable: [
+      {
+        name: "monogram",
+        control: "text",
+        description:
+          "The mark the loader melts from. Keep it to one or two characters: it has to read as a single blob before it spreads.",
+      },
+      {
+        name: "coordinates",
+        control: "text",
+        description:
+          "Mono line above the nav, printed opposite the live clock.",
+      },
+      {
+        name: "about",
+        control: "text",
+        description: "Centre column copy, balanced to a narrow measure.",
+      },
+      {
+        name: "loaderHold",
+        control: "text",
+        description:
+          "Seconds the monogram sits before it melts. The source holds for one second; drop it for a snappier demo.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "monogram",
+        type: "string",
+        default: '"B"',
+        description:
+          "Mark the loader melts from, before it spreads into the landing route's word.",
+      },
+      {
+        name: "routes",
+        type: "MonogramMorphRoute[]",
+        default: "Home, Projects, Archive",
+        description:
+          "Nav pills across the bottom. Each carries an id, a label, and the word the goo layer resolves to while it is active. The first route is the landing route and is the one that renders tags instead of rows.",
+      },
+      {
+        name: "initialRoute",
+        type: "string",
+        default: "first route id",
+        description:
+          "Route to open on. The loader always morphs the monogram into this route's word.",
+      },
+      {
+        name: "loaderHold / skipLoader",
+        type: "number / boolean",
+        default: "1 / false",
+        description:
+          "Seconds the monogram holds before melting, and an escape hatch that opens straight on the resolved wordmark with the text already placed.",
+      },
+      {
+        name: "coordinates / timeZone",
+        type: "string / string",
+        default: '"51.5072°N 0.1276°W" / visitor',
+        description:
+          "The mono line above the nav and the IANA zone the clock reads in. Leaving timeZone unset uses the visitor's own.",
+      },
+      {
+        name: "practiceLabel / practice",
+        type: "string / string[]",
+        default: '"Practice:" / five lines',
+        description: "Label and list filling the left column of the header.",
+      },
+      {
+        name: "aboutLabel / about",
+        type: "string / string",
+        default: '"About" / studio copy',
+        description:
+          "Italic serif label and the copy under it in the centre column.",
+      },
+      {
+        name: "contactLabel / contact / email",
+        type: "string / string[] / string",
+        default: '"Contact" / two lines / hello@ui.aryank.space',
+        description:
+          "Right column. Lines print above a mail link built from email.",
+      },
+      {
+        name: "tags",
+        type: "MonogramMorphTag[]",
+        default: "five tags",
+        description:
+          "Dashed chips scattered over the mark on the landing route. Placement is random along the top and bottom edges of their box, rejecting any slot that overlaps one already taken, and each chip is draggable afterwards.",
+      },
+      {
+        name: "projects / archive",
+        type: "MonogramMorphEntry[]",
+        default: "five rows each",
+        description:
+          "Rows listed on the second and third routes. Each carries a title, a kind, and a year.",
+      },
+      {
+        name: "primaryLinks / secondaryLinks",
+        type: "MonogramMorphLink[]",
+        default: "BE, DRI, Linkedin / IG, FB",
+        description:
+          "The two link clusters in the bottom bar, set uppercase in the nav's blended layer.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

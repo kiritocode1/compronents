@@ -121,6 +121,7 @@ import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
 import ModelMenu3DDemo from "./model-menu-3d";
+import MonogramMorphPageDemo from "./monogram-morph-page";
 import MontageRevealHeroDemo from "./montage-reveal-hero";
 import MosaicFlipDemo from "./mosaic-flip";
 import MotionTrackingDemo from "./motion-tracking";
@@ -248,6 +249,7 @@ export const demos: Record<string, ComponentType> = {
   "detroit-paris-slider": DetroitParisSliderDemo,
   "ascii-logo": AsciiLogoDemo,
   "overlay-menu": OverlayMenuDemo,
+  "monogram-morph-page": MonogramMorphPageDemo,
   "mosaic-flip": MosaicFlipDemo,
   "motion-tracking": MotionTrackingDemo,
   "image-reveal": ImageRevealDemo,
