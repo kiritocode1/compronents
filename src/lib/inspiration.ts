@@ -2247,6 +2247,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Inspora",
+        href: "https://www.inspora.design/",
+        dateAdded: "2026-08-08",
+        kind: "gallery",
+        useFor: [
+          "curated design archive",
+          "visual design inspiration",
+          "recent design work",
+          "design work from x",
+          "creative work archive",
+          "print design inspiration",
+          "designers to follow",
+        ],
+        description:
+          "Curated archive of recent visual design and creative work, worth browsing when you want a fast scan of what designers are shipping right now across disciplines rather than full-site screenshots. Posts filter across seven categories (Web, Branding, Product, Motion, Illustration, 3D, Print) with a Latest and Featured toggle, and each entry is one image plus a title, the creator's X handle, and a View original link back to their post. Around 24 items were live in August 2026, and post slugs run in numbered batches of nine, though those batches are not labeled anywhere in the interface. There is no about page, submission form, or maker credit, and the only subscription option is a weekly email.",
+      },
+      {
         title: "Headers Club",
         href: "https://www.headers.club/",
         dateAdded: "2026-08-07",
