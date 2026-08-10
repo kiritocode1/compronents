@@ -2216,6 +2216,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "fluid-mosaic",
+    title: "Fluid Mosaic",
+    description:
+      "An editorial bento grid whose rows and columns are sized by a gaussian lens centered on the cursor, so the tile you approach swells while its neighbours give up their space. Photographs counter-drift inside their tiles, captions lift on hover, and the area map re-cuts itself for one to twelve items and again on narrow screens. No dependencies.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-08-10",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fluid-mosaic.tsx",
+        target: "components/ui/fluid-mosaic.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "overlay-menu",
     title: "Overlay Menu",
     description:

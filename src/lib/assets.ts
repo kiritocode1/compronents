@@ -1717,6 +1717,13 @@ const curvedLetterPathScrollAssets = simpleAssets(
   Array.from({ length: 7 }, (_, i) => `img${i + 1}.jpg`),
 );
 
+const fluidMosaicAssets = simpleAssets(
+  "fluid-mosaic",
+  "Fluid Mosaic",
+  "Photograph filling one mosaic tile, over-sized so it can parallax inside its cell.",
+  Array.from({ length: 8 }, (_, i) => `img${i + 1}.jpg`),
+);
+
 const carouselRingGalleryAssets = simpleAssets(
   "carousel-ring-gallery",
   "Carousel Ring Gallery",
@@ -2806,6 +2813,7 @@ export const assetItems = [
   ...nestedMaskBannerAssets,
   ...pinnedScaleMosaicAssets,
   ...curvedLetterPathScrollAssets,
+  ...fluidMosaicAssets,
   ...carouselRingGalleryAssets,
   ...infiniteDragCanvasAssets,
   ...cardFanLandingRevealAssets,

@@ -79,6 +79,7 @@ import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlipTileBoardDemo from "./flip-tile-board";
 import FloatingModelScrollDemo from "./floating-model-scroll";
 import FlowFieldTextDemo from "./flow-field-text";
+import FluidMosaicDemo from "./fluid-mosaic";
 import FlyingCubeScrollDemo from "./flying-cube-scroll";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
@@ -291,6 +292,7 @@ export const demos: Record<string, ComponentType> = {
   "client-hover-preview": ClientHoverPreviewDemo,
   "filter-scrub-gallery": FilterScrubGalleryDemo,
   "flow-field-text": FlowFieldTextDemo,
+  "fluid-mosaic": FluidMosaicDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
   "drone-fleet": DroneFleetDemo,
   "starry-night-flow": StarryNightFlowDemo,

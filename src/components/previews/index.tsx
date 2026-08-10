@@ -20,6 +20,7 @@ import EdgeWarpRailPreview from "./edge-warp-rail";
 import FallingTagListPreview from "./falling-tag-list";
 import FilmStudioPagePreview from "./film-studio-page";
 import FlowFieldTextPreview from "./flow-field-text";
+import FluidMosaicPreview from "./fluid-mosaic";
 import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
 import InteriorStudioPagePreview from "./interior-studio-page";
@@ -74,6 +75,7 @@ export const previews: Record<string, ComponentType> = {
   "falling-tag-list": FallingTagListPreview,
   "edge-warp-rail": EdgeWarpRailPreview,
   "flow-field-text": FlowFieldTextPreview,
+  "fluid-mosaic": FluidMosaicPreview,
   "frame-scroll": FrameScrollPreview,
   "spiral-gallery": SpiralGalleryPreview,
   "surprise-box": SurpriseBoxPreview,

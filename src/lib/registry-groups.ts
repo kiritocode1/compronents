@@ -82,6 +82,7 @@ export const componentGroups: RegistryGroup[] = [
       "spotlight-gallery-scroll",
       "spotlight-index-scroll",
       "mosaic-flip",
+      "fluid-mosaic",
       "ascii-image-reveal",
       "image-reveal",
       "liquid-stat-grid",

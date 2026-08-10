@@ -524,6 +524,10 @@ const curvedLetterPathScrollAssetDocs = assetsByIds(
   Array.from({ length: 7 }, (_, i) => `curved-letter-path-scroll-img${i + 1}`),
 );
 
+const fluidMosaicAssetDocs = assetsByIds(
+  Array.from({ length: 8 }, (_, i) => `fluid-mosaic-img${i + 1}`),
+);
+
 const carouselRingGalleryAssetDocs = assetsByIds(
   Array.from({ length: 20 }, (_, i) => `carousel-ring-gallery-img${i + 1}`),
 );
@@ -2053,6 +2057,135 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "true",
         description:
           "Own the scroll container so it fits a bounded box. Set false to drive it from the window scroll.",
+      },
+    ],
+  },
+  "fluid-mosaic": {
+    demoPath: "src/components/demos/fluid-mosaic.tsx",
+    nuance: [
+      {
+        label: "A gaussian lens sizes the tracks, not the tiles",
+        description:
+          "Every column and row gets a weight of 1 + e^(-d^2/2r^2) x strength, where d is the distance from the cursor to that track's centre. Nothing is animated per tile: the whole layout is two lists of fr values, so a swelling tile automatically takes its space from its neighbours and the gaps stay exact.",
+      },
+      {
+        label: "A 0.18fr floor stops far tracks collapsing",
+        description:
+          "At high strength the untouched tracks would shrink until their images turned into slivers. Clamping each weight to a minimum keeps the grid legible at the far edge no matter how hard the lens pulls.",
+      },
+      {
+        label: "The cursor is eased, the tracks are written raw",
+        description:
+          "A rAF loop moves the pointer toward its target by a fixed fraction each frame, then writes gridTemplateColumns and gridTemplateRows imperatively. React never re-renders for motion, so the loop costs two style writes a frame regardless of tile count.",
+      },
+      {
+        label: "Images are oversized by the parallax distance",
+        description:
+          "Each photograph is inset by -parallax on all sides and drifts against the cursor, so the counter-movement never exposes an edge. That drift is what makes a growing tile feel like it reveals more of the picture instead of stretching one crop.",
+      },
+      {
+        label: "The area map is chosen by item count",
+        description:
+          "One table of grid-template-areas per count from one to twelve, each keeping a two-by-two hero in the top left. A ResizeObserver on the root swaps in a one or two column map below the breakpoint, so the component reflows on its own width rather than the viewport's.",
+      },
+    ],
+    editable: [
+      {
+        name: "strength",
+        control: "text",
+        description:
+          "How hard the lens pulls. 0 is an even grid, 2.4 is the default swell.",
+      },
+      {
+        name: "radius",
+        control: "text",
+        description:
+          "Lens width as a fraction of the grid. Small values move one track, large values bend everything.",
+      },
+    ],
+    assets: fluidMosaicAssetDocs,
+    api: [
+      {
+        name: "items",
+        type: "FluidMosaicItem[]",
+        default: "Eight editorial photographs",
+        description:
+          "Up to twelve tiles, each an image plus an optional title, caption, and link. A tile with a link renders as an anchor.",
+      },
+      {
+        name: "strength",
+        type: "number",
+        default: "2.4",
+        description:
+          "Peak track weight added at the cursor. 0 freezes the grid even.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        default: "0.24",
+        description:
+          "Standard deviation of the lens as a fraction of the axis, so how many tracks respond.",
+      },
+      {
+        name: "smoothness",
+        type: "number",
+        default: "0.11",
+        description:
+          "Fraction of the remaining distance covered each frame. Clamped to 0.015 to 0.35.",
+      },
+      {
+        name: "parallax",
+        type: "number",
+        default: "18",
+        description:
+          "Pixels the photographs counter-drift, and the amount each is oversized by so no edge shows.",
+      },
+      {
+        name: "imageScale",
+        type: "number",
+        default: "1.08",
+        description: "Constant zoom on every photograph.",
+      },
+      {
+        name: "gap / radiusCorners / background",
+        type: "number | number | string",
+        default: "10, 18, #0D0D0D",
+        description:
+          "Grid gutter (also used as the outer padding), tile corner radius, and the colour behind the tiles.",
+      },
+      {
+        name: "overlayColor / overlayOpacity",
+        type: "string | number",
+        default: "#000000, 46",
+        description:
+          "Scrim over each photograph, at 34% of this opacity at rest and 72% on the hovered tile.",
+      },
+      {
+        name: "showText / textColor / textGap / textPadding",
+        type: "boolean | string | number | number",
+        default: "true, #FFFFFF, 5, 22",
+        description:
+          "The caption and title block in the corner of each tile. Turning it off also removes the scrim.",
+      },
+      {
+        name: "titleFont / captionFont",
+        type: "CSSProperties",
+        default: "Inter 28/600 and Inter 11/500 uppercase",
+        description: "Style objects spread onto the two text lines.",
+      },
+      {
+        name: "mobileBreakpoint / mobileColumns",
+        type: "number | 1 | 2",
+        default: "620, 2",
+        description:
+          "Root width at or below which the compact area map takes over, and how many columns it uses.",
+      },
+      {
+        name: "animate",
+        type: "boolean",
+        default: "true",
+        description:
+          "Set false for an even grid with no rAF loop, for static rendering or reduced motion.",
       },
     ],
   },
