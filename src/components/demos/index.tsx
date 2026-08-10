@@ -98,6 +98,7 @@ import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InfiniteDragCanvasDemo from "./infinite-drag-canvas";
 import InkCoreLayoutDemo from "./ink-core-layout";
+import InkFieldDemo from "./ink-field";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InterlockTitleScrollDemo from "./interlock-title-scroll";
 import InversaScrollDemo from "./inversa-scroll";
@@ -254,6 +255,7 @@ export const demos: Record<string, ComponentType> = {
   "mosaic-flip": MosaicFlipDemo,
   "motion-tracking": MotionTrackingDemo,
   "image-reveal": ImageRevealDemo,
+  "ink-field": InkFieldDemo,
   "ink-core-layout": InkCoreLayoutDemo,
   "ascii-monogram-hero": AsciiMonogramHeroDemo,
   "ascii-tv-hero": AsciiTvHeroDemo,

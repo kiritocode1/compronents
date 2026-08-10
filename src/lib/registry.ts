@@ -2136,6 +2136,61 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "ink-field",
+    title: "Ink Field",
+    description:
+      "A sumi-e ink field you can paint into, rebuilt from the InkField engine's mark-making pipeline. A spring-damped brush stamps grayscale geometry, an animated wind map decides which way ink creeps, and a diffusion shader spreads it under a rule that lets ink darken a pixel but never brighten one, so strokes accumulate instead of washing out. Colour only exists at commit time, which is why the same geometry can be replayed in any of 36 pigments with optional Kubelka-Munk mixing. Seven brush modes, six diffusion behaviours, five post effects, eight flow displacement styles and a six-material metallic etching pass. All ten GLSL shaders are the originals, transcribed byte-exact.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-10",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/ink-field/index.tsx",
+        target: "components/ui/ink-field/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/ink-field/engine.ts",
+        target: "components/ui/ink-field/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/ink-field/shaders.ts",
+        target: "components/ui/ink-field/shaders.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/ink-field/brush.ts",
+        target: "components/ui/ink-field/brush.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/ink-field/rng.ts",
+        target: "components/ui/ink-field/rng.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/ink-field/palette.ts",
+        target: "components/ui/ink-field/palette.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/ink-field/bugs.ts",
+        target: "components/ui/ink-field/bugs.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/ink-field/autoplay.ts",
+        target: "components/ui/ink-field/autoplay.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "inversa-scroll",
     title: "Inversa Scroll",
     description:

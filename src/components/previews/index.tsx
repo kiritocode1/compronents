@@ -23,6 +23,7 @@ import FlowFieldTextPreview from "./flow-field-text";
 import FluidMosaicPreview from "./fluid-mosaic";
 import FrameScrollPreview from "./frame-scroll";
 import ImageRevealPreview from "./image-reveal";
+import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
 import LegoDitherPreview from "./lego-dither";
@@ -60,6 +61,7 @@ export const previews: Record<string, ComponentType> = {
   "monogram-morph-page": MonogramMorphPagePreview,
   "mosaic-flip": MosaicFlipPreview,
   "image-reveal": ImageRevealPreview,
+  "ink-field": InkFieldPreview,
   "award-list": AwardListPreview,
   "inversa-scroll": InversaScrollPreview,
   "material-spotlight": MaterialSpotlightPreview,

@@ -23,6 +23,7 @@ import FallingTagListStudio from "./falling-tag-list";
 import FilmStudioPageStudio from "./film-studio-page";
 import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
+import InkFieldStudio from "./ink-field";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
 import IsochromePageStudio from "./isochrome-page";
@@ -65,6 +66,7 @@ export const studios: Record<string, StudioComponent> = {
   "overlay-menu": OverlayMenuStudio,
   "mosaic-flip": MosaicFlipStudio,
   "image-reveal": ImageRevealStudio,
+  "ink-field": InkFieldStudio,
   "award-list": AwardListStudio,
   "inversa-scroll": InversaScrollStudio,
   "material-spotlight": MaterialSpotlightStudio,

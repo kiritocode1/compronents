@@ -4248,6 +4248,168 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "ink-field": {
+    demoPath: "src/components/demos/ink-field.tsx",
+    studioPath: "src/components/studios/ink-field.tsx",
+    assets: [],
+    nuance: [
+      {
+        label: "Ink can darken a pixel but never brighten one",
+        description:
+          "Every diffusion step takes min(here, upwind). That single rule is the whole physics: density only ever increases, so strokes accumulate and overlap instead of washing each other out, and spreading ink can never invent pigment that was not painted.",
+      },
+      {
+        label: "The stroke is grayscale until you let go",
+        description:
+          "Diffusion runs on one channel so spreading ink cannot drift in hue, and colour is a separate mapping applied at commit. A live preview pass tints the draft meanwhile, which is why you see colour before the stroke has actually been encoded.",
+      },
+      {
+        label: "The wind map is re-rendered every frame",
+        description:
+          "Ink does not creep in a fixed direction; it follows an animated force field regenerated against a moving clock. A mark made now diffuses along a different field than the same mark made ten seconds later.",
+      },
+      {
+        label: "Diffusion runs last, so it shows up next frame",
+        description:
+          "The feedback pass is the final step of the frame, after the passes that display it. The simulation is always one step ahead of the picture, which is inherent to a ping-pong feedback system.",
+      },
+      {
+        label: "Speed is subtracted from size, not multiplied",
+        description:
+          "brushSizeNow = brushSize - brushSpeed. Move fast enough on a small brush and the width goes negative, breaking the mark into the dry gaps calligraphers call flying white.",
+      },
+      {
+        label: "Brush identity is stored per pixel",
+        description:
+          "On white paper a white stroke and bare paper are the same value, so a second buffer records which brush laid down each pixel. It is also why displacement runs twice: colour and identity must move together or the two drift apart.",
+      },
+    ],
+    editable: [
+      {
+        name: "brushMode / brushSize / inkMode",
+        control: "text",
+        description:
+          "Seven brush behaviours, seven size presets, and the six diffusion modes that decide how ink spreads and textures.",
+      },
+      {
+        name: "colorIndex / customColor / blendMode / spectralMix",
+        control: "text",
+        description:
+          "36-pigment palette with two dynamic slots, three composite modes, and optional Kubelka-Munk reflectance mixing.",
+      },
+      {
+        name: "background / paperTexture / paperGrain",
+        control: "text",
+        description:
+          "Paper colour and procedural fibre grain. Ink multiplies on neutral sheets and mixes directly on saturated ones.",
+      },
+      {
+        name: "distortEnabled / resonanceEnabled / cellularEnabled / whiteDotEnabled / grainEnabled",
+        control: "text",
+        description:
+          "Five independent post effects, each with its own parameters, applied only where there is something between paper and full ink.",
+      },
+      {
+        name: "flowType / metalTint",
+        control: "text",
+        description:
+          "Eight displacement styles for the long-press flow pass, and six materials for the bug-bite etching overlay.",
+      },
+    ],
+    api: [
+      {
+        name: "brushMode / brushSize",
+        type: "1 | 2 | 3 | 4 | 5 | 6 | 7 / number",
+        default: "1 / 2",
+        description:
+          "Ink Brush, Marker, Spray Paint, Dry Brush, Spray Dots, Flat Brush, Deckle Edge. Sizes run 0.1 to 5. The Ink Brush settles for three times as long after release as every other mode, which is why it reads as the wet one.",
+      },
+      {
+        name: "inkMode / diffusionStrength",
+        type: "number / number",
+        default: "4 / 0.45",
+        description:
+          "Diffusion behaviour 0-5: Fly White, Squeeze, Marker, Salt, Bleed, Fiber. Fiber is Bleed at a third the speed on a clock that never wraps. diffusionStrength is the blend weight for Fly White.",
+      },
+      {
+        name: "colorIndex / customColor",
+        type: "number / string",
+        default: "0 / #FF6A3D",
+        description:
+          "Palette index 0-35. 0 is black, 1 is the white brush, 29 paints with the paper colour to erase, and 33 resolves to customColor.",
+      },
+      {
+        name: "blendMode / spectralMix",
+        type: "number / boolean",
+        default: "0 / false",
+        description:
+          "0 Mix, 1 Multiply, 2 Darken. spectralMix routes colour through a 38-band reflectance curve so red over yellow makes orange rather than drifting toward black.",
+      },
+      {
+        name: "hueShift / satShift / briShift / whiteMaxOpacity",
+        type: "number",
+        default: "-0.01 / 0.02 / 0.02 / 0.78",
+        description:
+          "Per-stroke HSB jitter applied to non-black pigments, and the opacity ceiling for the white brush.",
+      },
+      {
+        name: "background / paperTexture / paperGrain",
+        type: "string / boolean / number",
+        default: "#F4F1EA / true / 0.06",
+        description:
+          "Paper colour and its procedural fibre grain. No image asset is fetched.",
+      },
+      {
+        name: "distortEnabled / displacementB / displacementC",
+        type: "boolean / number / number",
+        default: "false / 20 / 50",
+        description:
+          "Domain-warped FBM displacement with a faint enlarged ghost tap, plus hue rotation proportional to force.",
+      },
+      {
+        name: "resonanceEnabled / rsFrequency / rsStrength / rsGradientMix / rsScale",
+        type: "boolean / number",
+        default: "false / 300 / 0.5 / 0.1 / 100",
+        description:
+          "Treats sixteen force-map samples as wave sources and displaces along the interference gradient, like stones dropped in a pond.",
+      },
+      {
+        name: "cellularEnabled / cellularScale / whiteDotEnabled / whiteDotDensity / grainEnabled / grainAmount",
+        type: "boolean / number",
+        default: "false / 15 / false / 0.1 / false / 0.3",
+        description:
+          "Voronoi border displacement, three scales of paper flaw with a heavy-tailed size distribution, and per-region film grain strongest in dark active areas.",
+      },
+      {
+        name: "flowType / flowStrength / flowStyle / flowOnLongPress",
+        type: "number / number / number / boolean",
+        default: "0 / 100 / 0 / true",
+        description:
+          "Displacement styles: 0 Basic, 2 Concentric, 3 Vertical, 4 Horizontal, 5 Crack, 6 Mosaic, 7 Vortex, 8 Cellular. Holding the pointer still displaces the artwork under it rather than marking it.",
+      },
+      {
+        name: "metalTint / metallicStrength / biteSize / biteCount",
+        type: "string / number / number / number",
+        default: "gold / 85 / 7 / 10",
+        description:
+          "Bug-bite etching. A strided scan picks dark points weighted toward the darkest with minimum-distance rejection, then a metallic pass with per-channel dispersion lights them. Materials: gold, silver, copper, rose, iron, diamond.",
+      },
+      {
+        name: "seed / autoplay / autoplaySpeed / interactive / maxPixelRatio",
+        type: "number / boolean / number / boolean / number",
+        default: "20260722 / true / 1 / true / 2",
+        description:
+          "The same seed reproduces the same demo composition and the same brush character. Autoplay hands control over on the first pointer press.",
+      },
+      {
+        name: "ref",
+        type: "InkFieldHandle",
+        default: "-",
+        description:
+          "clear(), playDemo(), applyFlow(), applyEtching(), reseedForceMap() and toDataURL() for driving the canvas from outside.",
+      },
+    ],
+  },
   "interior-studio-page": {
     demoPath: "src/components/demos/interior-studio-page.tsx",
     studioPath: "src/components/studios/interior-studio-page.tsx",
