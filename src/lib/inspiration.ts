@@ -1713,7 +1713,7 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
-        title: "Pattern Cards (Whitespace Playground)",
+        title: "Pattern Cards (Whitespace)",
         href: "https://experiments.thisiswhitespace.com/pattern-cards",
         dateAdded: "2026-08-10",
         kind: "demo",
@@ -1731,6 +1731,230 @@ export const inspirationGroups: InspirationGroup[] = [
         ],
         description:
           'Three tall feature cards from the Whitespace studio playground, each filled with a dot pattern (arrow wedge, diagonal cascade, plus) that reacts to the cursor: dots swell into rings within a radius of the pointer, the hovered card tilts, and the other two fade back. Cards run black, orange (#ff6e00) and warm gray on a #e0dfdd ground, with real product copy such as "Instant: every action lands in under a second, no spinners". The site\'s own manifest files it as a direct port of a Figma layout, dated 19 May 2026, but the shipped version is fully parameterized through their DialKit panel: pattern size and dot scale, tilt perspective and pack iterations, particle spawn rate and fall speed. One of 30 experiments there, alongside Trace Cards, Shape Cards and Dot Hover Cards.',
+      },
+      {
+        title: "Dot Sphere Card (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/dot-sphere-card",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["three", "canvas", "css"],
+        useFor: [
+          "css 3d card",
+          "dot sphere",
+          "hover reveal layers",
+          "dithered background",
+          "gradient banding fix",
+          "cursor spotlight",
+        ],
+        description:
+          "HUD card in CSS 3D where a cursor-reactive dot sphere floats over a tinted video layer and two textured asteroid GLBs orbit out from behind the card on hover. Carries real shadow-mapped shadows, a center-pinned cursor-tracking spotlight, per-layer hover choreography, and a TPDF-dithered background that removes gradient banding. The newest experiment on the Whitespace playground, dated 7 August 2026.",
+      },
+      {
+        title: "Action Wheel (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/action-wheel",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "radial menu",
+          "action wheel",
+          "press and hold menu",
+          "quadrant selector",
+          "game style ui",
+          "circular control",
+        ],
+        description:
+          "Game-style radial action wheel: click and hold to summon a layered circular control built from a noise-animated dot grid, a segmented variable-stroke ring, and four quadrants that light as a cursor-chasing glow orbits the rim. The wheel tilts in 3D toward the pointer, and releasing over a quadrant confirms the choice. From the Whitespace playground, 3 July 2026, with live DialKit parameters.",
+      },
+      {
+        title: "Cuboid Chain (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/cuboid-chain",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "3d card carousel",
+          "barrel roll cards",
+          "staggered rotation",
+          "rounded cuboid",
+          "card chain",
+          "three point lighting",
+        ],
+        description:
+          "Horizontal chain of rounded cuboids whose front faces carry task-card art, each barrel-rolling on the horizontal axis with a staggered phase under a top, bottom and side key light rig. Cuboid dimensions, gap, rotation speed, stagger and every light are exposed as live DialKit controls. From the Whitespace playground, 5 June 2026.",
+      },
+      {
+        title: "Trace Cards (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/trace-cards",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "wireframe cards",
+          "card tilt",
+          "depth sculpt",
+          "duplicate layer trail",
+          "3d card hover",
+        ],
+        description:
+          "Pyramid and diamond cards with cursor-driven tilt, depth sculpts and streaming duplicate layers, an R3F formation sitting over HTML chrome with DialKit controls. From the Whitespace playground, 24 May 2026, and the closest sibling to Pattern Cards on the same page.",
+      },
+      {
+        title: "Dot Form 3D (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/dot-form",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f", "shadcn"],
+        useFor: [
+          "3d form",
+          "extruded input",
+          "form focus animation",
+          "dot relief text",
+          "tilted form",
+        ],
+        description:
+          "A shadcn-style form that lifts into a tilted 3D scene on focus: inputs and checkboxes become extruded outlines, the button gains thickness, and typed characters render as a dot relief at varying heights. From the Whitespace playground, 27 April 2026, built with React Three Fiber and html-in-canvas.",
+      },
+      {
+        title: "Dot Phone Carousel (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/dot-phone-carousel",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas"],
+        useFor: [
+          "phone mockup carousel",
+          "scan transition",
+          "dotted preview",
+          "device frame carousel",
+          "image cycle",
+        ],
+        description:
+          "Centered phone mockup with a crisp screen while dotted preview images glide behind it on a horizontal carousel, each pulled through the phone with a scan transition as you cycle left and right. From the Whitespace playground, 22 April 2026.",
+      },
+      {
+        title: "Cursor Nav (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/cursor-nav",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        useFor: [
+          "custom cursor nav",
+          "cursor menu",
+          "fake cursor",
+          "pointer driven navigation",
+          "steer with cursor",
+        ],
+        description:
+          "A fake cursor that moves normally, then blooms into a 3D navigation mode on click, with selections steered by moving up and down. From the Whitespace playground, 21 April 2026, a reference for hanging navigation off pointer state rather than a fixed menu.",
+      },
+      {
+        title: "Dot Hover Cards (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/dot-hover-cards",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas"],
+        useFor: [
+          "dot reveal hover",
+          "halftone hover",
+          "dots to html",
+          "silhouette hover",
+          "canvas to dom handoff",
+        ],
+        description:
+          "Page filled with gray dots where hovering a card region turns those dots white to reveal its silhouette, then a click transitions the dots into sharp HTML. From the Whitespace playground, 17 April 2026, and the clearest demo of their dot-to-DOM handoff.",
+      },
+      {
+        title: "Curtain Sidebar (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/curtain-sidebar",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas", "webgl"],
+        useFor: [
+          "sidebar reveal",
+          "curtain effect",
+          "page fold drag",
+          "edge drag gesture",
+          "paper fold transition",
+        ],
+        description:
+          "Music streaming page whose sidebar reveals through a curtain deformation: drag from the left edge and the page folds like paper, rendered with html-in-canvas and WebGL. From the Whitespace playground, 16 April 2026.",
+      },
+      {
+        title: "Shape Cards (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/shape-cards",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["svg"],
+        useFor: [
+          "generative cards",
+          "random composition",
+          "svg shape collage",
+          "generated cover art",
+          "palette regenerate",
+        ],
+        description:
+          "Randomized geometric card compositions built from overlapping SVG shapes with curated palettes and glass-effect accents, regenerated on demand through DialKit controls. From the Whitespace playground, 4 April 2026, useful when you want generated cover art rather than hand-placed layouts.",
+      },
+      {
+        title: "Folder Gallery (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/folder-gallery",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        useFor: [
+          "folder open animation",
+          "image grid expand",
+          "gallery reveal",
+          "collect and scatter",
+          "folder ui",
+        ],
+        description:
+          "Click a folder to launch its images into a grid, hover to see it open with a glowing light beam, then click again to recall them. From the Whitespace playground, 31 March 2026, a compact reference for expand and collapse gallery choreography.",
+      },
+      {
+        title: "Clay Toggle (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/clay-toggle",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["three"],
+        useFor: [
+          "3d toggle switch",
+          "clay material ui",
+          "soft toggle",
+          "tactile switch",
+          "weighty control",
+        ],
+        description:
+          "Soft 3D toggle switch rendered in three.js with clay-like materials, subtle shadows and an eased flip on click. One of the smallest experiments on the Whitespace playground, 29 March 2026, and a reference for giving a binary control physical weight instead of a flat slide.",
+      },
+      {
+        title: "Creativity Dial (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/creativity-dial",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        useFor: [
+          "temperature control",
+          "ai parameter dial",
+          "hud dial",
+          "circular drag control",
+          "precise to creative",
+        ],
+        description:
+          "Circular HUD control for adjusting an AI temperature value, dragged between precise and creative while a particle field reacts in real time. From the Whitespace playground, 28 March 2026, and a compact reference for turning an abstract model parameter into something physical.",
+      },
+      {
+        title: "Elastic Bars (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/elastic-bars",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas"],
+        useFor: [
+          "elastic bars",
+          "rubber wave",
+          "bar deformation",
+          "mouse physics",
+          "springy bars",
+        ],
+        description:
+          "Vertical bars that deform elastically as the mouse moves, producing a rubber-like wave. One of the two oldest experiments on the Whitespace playground, 27 March 2026, and the one that spawned two productized variants there: Feature Cards, which uses the bar art as visual identity, and Elastic Dropdown, where the bars bend to fit unfolding content.",
       },
       {
         title: "Spritesheet pointer translate (jhey)",
@@ -4639,6 +4863,248 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "Jungle Cursor Canopy (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/jungle-cursor-canopy",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["three", "gsap"],
+        useFor: [
+          "procedural foliage",
+          "cursor parts leaves",
+          "generative canopy",
+          "gsap camera sequence",
+          "depth of field particles",
+        ],
+        description:
+          "Dense procedural jungle canopy that parts around the cursor, then lifts and spirals past the camera in a GSAP-choreographed landing sequence. Three.js leaves combine generated species silhouettes, physical materials, spatial gusts, depth of field and a configurable field of glowing air motes. From the Whitespace playground, 16 July 2026.",
+      },
+      {
+        title: "Pendant Lamp (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/pendant-lamp",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f", "webgl"],
+        useFor: [
+          "light reveals page",
+          "pendulum physics",
+          "spotlight mask",
+          "halftone crt filter",
+          "interactive lamp",
+          "dark until lit",
+        ],
+        description:
+          "Pendant lamp on a real pendulum that physically lights an HTML page rendered into WebGL through html-in-canvas. Outside the beam the page falls dark, running dim grayscale with blur, stroked outline, halftone, CRT and dither, and the swinging light reveals the true page. Grab and throw the lamp, or hover a button and the beam aims at it. From the Whitespace playground, 14 July 2026.",
+      },
+      {
+        title: "Twisting Ribbons (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/twisting-ribbons",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "twisting ribbons",
+          "material blend band",
+          "vesica negative space",
+          "staggered twist",
+          "ribbon geometry",
+        ],
+        description:
+          "Row of thin vertical ribbons twisting around their Y axis, progressing from edge-on at the left to face-on and past it at the right. A twist band blends two materials top to bottom, and the negative space between neighbors forms vesica-shaped voids. From the Whitespace playground, 16 May 2026.",
+      },
+      {
+        title: "Devtools Demo (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/devtools-demo",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "r3f devtools",
+          "scene edit mode",
+          "light rig helper",
+          "copy values gizmo",
+          "three.js tooling",
+        ],
+        description:
+          "Reference scene exercising every r3f-devtools helper the Whitespace playground is built on: ExperimentCanvas, DialLightRig, DialCamera, useDialPhysicalMaterial and useDialTween, plus edit-mode wireframe, helpers, orbit, gizmo and copy-values. Read this one for the tooling behind the other experiments rather than for an effect. Dated 4 May 2026.",
+      },
+      {
+        title: "Glass Hero (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/glass-hero",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "glass refraction",
+          "dispersion material",
+          "chromatic fringe",
+          "glass over html",
+          "ior and thickness",
+          "refracting hero",
+        ],
+        description:
+          "Live HTML hero section sitting behind floating glass shapes that refract and split light into chromatic fringes, with real-time dispersion through MeshPhysicalMaterial. Drag to reposition the glass and tune IOR, thickness and dispersion in DialKit. From the Whitespace playground, 1 May 2026.",
+      },
+      {
+        title: "Shader Deck (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/shader-deck",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "3d carousel ring",
+          "portal transition",
+          "volumetric light",
+          "bloom and chromatic aberration",
+          "slide deck in 3d",
+        ],
+        description:
+          "3D carousel of HTML slides arranged on a ring, scrolling through a glowing portal plane with volumetric light, fog, bloom and chromatic aberration. Built with R3F, drei and html-in-canvas. From the Whitespace playground, 26 April 2026.",
+      },
+      {
+        title: "Code Slice Hero (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/code-slice-hero",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "three", "r3f"],
+        useFor: [
+          "page shatter",
+          "tile grid transition",
+          "hero reveal",
+          "slice effect",
+          "landing page transition",
+        ],
+        description:
+          "Landing page that hovers, lifts and shatters into a grid of tiles to reveal an agent surface document and a working terminal underneath. From the Whitespace playground, 23 April 2026, built with three.js, R3F and html-in-canvas.",
+      },
+      {
+        title: "Particle Phones (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/particle-phones",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas"],
+        useFor: [
+          "particles form image",
+          "scroll triggered particles",
+          "particle resolve",
+          "sticky column scroll",
+          "image dissolve",
+        ],
+        description:
+          "Three-column scroll page whose middle column holds a cloud of particles in organic drift, resolving crisply into a phone screenshot as each new section headline arrives. From the Whitespace playground, 20 April 2026.",
+      },
+      {
+        title: "Mobius Strip (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/mobius-strip",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas", "webgl"],
+        useFor: [
+          "mobius strip",
+          "page on geometry",
+          "scroll rotates mesh",
+          "html mapped to 3d",
+          "curved page",
+        ],
+        description:
+          "HTML landing page mapped onto a 3D Mobius strip with html-in-canvas, where scrolling rotates the strip and traverses the page content. From the Whitespace playground, 13 April 2026.",
+      },
+      {
+        title: "Shader Cards (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/shader-cards",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas", "webgl"],
+        useFor: [
+          "particles collide with text",
+          "luminance collision map",
+          "rain over page",
+          "effects over html",
+          "scrollable canvas page",
+        ],
+        description:
+          "Scrollable HTML rendered into canvas with particles that rain down and collide with page elements using a luminance-based collision map. From the Whitespace playground, 11 April 2026.",
+      },
+      {
+        title: "HTML in Canvas (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/html-in-canvas",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas", "webgl"],
+        useFor: [
+          "drawelementimage",
+          "html into canvas",
+          "wicg api",
+          "dom in webgl",
+          "canvas page effects",
+        ],
+        description:
+          "Demo of rendering real, interactive HTML into canvas through the experimental WICG drawElementImage API, then running wave, kaleidoscope, shatter, melt, glitch and WebGL shader effects over it. From the Whitespace playground, 10 April 2026, and the technique most of the later experiments there are built on.",
+      },
+      {
+        title: "Viewport Transition (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/viewport-transition",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["three"],
+        useFor: [
+          "2d to 3d transition",
+          "wireframe scene",
+          "extruded text",
+          "page becomes scene",
+          "immersive transition",
+        ],
+        description:
+          "A 2D marketing page that transforms into an immersive 3D wireframe scene with extruded text, bloom and chromatic aberration. From the Whitespace playground, 2 April 2026.",
+      },
+      {
+        title: "Neural Burst (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/neural-burst",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas"],
+        useFor: [
+          "3d node graph",
+          "radial graph",
+          "network visualization",
+          "expandable nodes",
+          "data viz canvas",
+        ],
+        description:
+          "3D radial node graph with labeled endpoints where nodes flow and rotate in space, hover inspects one and clicking expands a detail panel. From the Whitespace playground, 29 March 2026, and the only data-visualization piece there.",
+      },
+      {
+        title: "Morph Blob (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/morph-blob",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["canvas"],
+        useFor: [
+          "morphing blobs",
+          "perlin noise shape",
+          "organic blob",
+          "attract and repel",
+          "blob merge",
+        ],
+        description:
+          "Organic blobs that morph with Perlin noise and drift on their own, deforming and merging when you hover to attract or repel them. From the Whitespace playground, 29 March 2026.",
+      },
+      {
+        title: "Microchip Viewer (Whitespace)",
+        href: "https://experiments.thisiswhitespace.com/microchip-viewer",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["three"],
+        useFor: [
+          "3d product viewer",
+          "exploded view",
+          "togglable parts",
+          "tone mapping controls",
+          "hardware viewer",
+        ],
+        description:
+          "Interactive 3D microchip prototype with togglable parts, configurable lighting and tone mapping controls. One of the two oldest experiments on the Whitespace playground, 27 March 2026, and the base for its Product Card application, which embeds the chip in a card that explodes on click.",
+      },
       {
         title: "Experiments in procedural dappled light shaders",
         href: "https://jzhao.xyz/posts/dappled-light",
