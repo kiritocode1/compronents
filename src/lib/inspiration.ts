@@ -1718,6 +1718,7 @@ export const inspirationGroups: InspirationGroup[] = [
         dateAdded: "2026-08-10",
         kind: "demo",
         stack: ["react", "next"],
+        style: "marketing-motion",
         useFor: [
           "dot pattern card",
           "feature card row",
@@ -1729,7 +1730,7 @@ export const inspirationGroups: InspirationGroup[] = [
           "falling particles card",
         ],
         description:
-          'Three tall feature cards from the Whitespace studio playground, each filled with a dot pattern (arrow wedge, diagonal cascade, plus) that reacts to the cursor: dots swell into rings within a radius of the pointer, the hovered card tilts, and the other two fade back. Cards run black, orange (#ff6e00) and warm gray on a #e0dfdd ground, with real product copy such as "Instant: every action lands in under a second, no spinners". The site\'s own manifest files it as a direct port of a Figma layout, dated 19 May 2026, but the shipped version is fully parameterized through their DialKit panel: pattern size and dot scale, tilt perspective and pack iterations, particle spawn rate and fall speed. One of 33 experiments there, alongside Trace Cards, Shader Cards and Shape Cards.',
+          'Three tall feature cards from the Whitespace studio playground, each filled with a dot pattern (arrow wedge, diagonal cascade, plus) that reacts to the cursor: dots swell into rings within a radius of the pointer, the hovered card tilts, and the other two fade back. Cards run black, orange (#ff6e00) and warm gray on a #e0dfdd ground, with real product copy such as "Instant: every action lands in under a second, no spinners". The site\'s own manifest files it as a direct port of a Figma layout, dated 19 May 2026, but the shipped version is fully parameterized through their DialKit panel: pattern size and dot scale, tilt perspective and pack iterations, particle spawn rate and fall speed. One of 30 experiments there, alongside Trace Cards, Shape Cards and Dot Hover Cards.',
       },
       {
         title: "Spritesheet pointer translate (jhey)",
