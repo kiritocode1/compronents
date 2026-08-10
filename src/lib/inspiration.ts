@@ -444,6 +444,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "JavaScript and TypeScript",
     links: [
       {
+        title: "Sugar High",
+        href: "https://sugar-high.vercel.app/",
+        dateAdded: "2026-08-10",
+        kind: "library",
+        stack: ["react", "remark", "markdown", "syntax-highlighting"],
+        useFor: [
+          "syntax highlighter",
+          "highlight code blocks",
+          "code block highlighting",
+          "lightweight syntax highlighting",
+          "zero dependency highlighter",
+          "highlight code in react",
+          "shiki alternative",
+          "highlight fenced code",
+        ],
+        description:
+          "Zero-dependency syntax highlighter by huozhi that returns HTML without touching the DOM, so it works in the browser, in Node and in server-rendered code blocks. Covers 25 built-in languages from TypeScript and Python to SQL, YAML and diff, folding dialects like JSX, TSX and Bash into their parent. Theming is plain CSS custom properties (--sh-keyword, --sh-string, --sh-comment) with a .sh__line class per line, so there is no theme file to load, and companion packages add a React Code and Editor pair plus a remark plugin that highlights fenced blocks from their fence metadata. MIT.",
+      },
+      {
         title:
           "Choosing a JavaScript Logging Library: The 2026 Definitive Guide",
         href: "https://blog.sentry.io/javascript-logging-library-definitive-guide/",
@@ -8265,6 +8284,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Docs, slides and content tools",
     links: [
+      {
+        title: "Writer",
+        href: "https://writer.computer/",
+        dateAdded: "2026-08-10",
+        kind: "tool",
+        stack: ["tauri", "rust", "react", "codemirror", "zustand", "markdown"],
+        useFor: [
+          "markdown editor",
+          "local first markdown",
+          "edit markdown files",
+          "desktop markdown app",
+          "markdown app for mac",
+          "mermaid in markdown",
+          "notes next to code",
+          "markdown editor for a repo",
+        ],
+        description:
+          "Local-first desktop markdown editor that opens an existing folder of .md files instead of importing them into its own library, so notes can sit inside a git repo next to the code. Built with Tauri v2, React, Zustand, CodeMirror and Rust; it honors the workspace's .gitignore, opens multiple windows for switching between workspaces, and renders extended markdown including tables and Mermaid diagrams. Open source as joelbqz/writer-computer under GPL-3.0 with signed macOS builds, and no Windows or Linux release is published.",
+      },
       {
         title: "Underleaf",
         href: "https://underleaf.xyz/",
