@@ -1713,6 +1713,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Pattern Cards (Whitespace Playground)",
+        href: "https://experiments.thisiswhitespace.com/pattern-cards",
+        dateAdded: "2026-08-10",
+        kind: "demo",
+        stack: ["react", "next"],
+        useFor: [
+          "dot pattern card",
+          "feature card row",
+          "cursor driven dots",
+          "dots scale toward cursor",
+          "hover fade siblings",
+          "card tilt on hover",
+          "halftone card background",
+          "falling particles card",
+        ],
+        description:
+          'Three tall feature cards from the Whitespace studio playground, each filled with a dot pattern (arrow wedge, diagonal cascade, plus) that reacts to the cursor: dots swell into rings within a radius of the pointer, the hovered card tilts, and the other two fade back. Cards run black, orange (#ff6e00) and warm gray on a #e0dfdd ground, with real product copy such as "Instant: every action lands in under a second, no spinners". The site\'s own manifest files it as a direct port of a Figma layout, dated 19 May 2026, but the shipped version is fully parameterized through their DialKit panel: pattern size and dot scale, tilt perspective and pack iterations, particle spawn rate and fall speed. One of 33 experiments there, alongside Trace Cards, Shader Cards and Shape Cards.',
+      },
+      {
         title: "Spritesheet pointer translate (jhey)",
         href: "https://x.com/jh3yy/status/2085007349232665023",
         dateAdded: "2026-08-05",
