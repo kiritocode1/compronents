@@ -4807,8 +4807,20 @@ export const inspirationGroups: InspirationGroup[] = [
         title: "Whitespace Experiments",
         href: "https://experiments.thisiswhitespace.com/",
         dateAdded: "2026-07-14",
+        kind: ["demo", "gallery"],
+        stack: ["react", "next", "three", "r3f", "webgl", "canvas", "shaders"],
+        useFor: [
+          "creative coding playground",
+          "r3f experiments",
+          "three.js experiments",
+          "interaction experiments",
+          "webgl demo gallery",
+          "html in canvas",
+          "studio playground",
+          "live parameter controls",
+        ],
         description:
-          "Playground of creative coding experiments from design studio Whitespace. Hosted on its own subdomain apart from Whitespace's client portfolio, marking these as raw technical explorations rather than polished case-study work.",
+          "Playground of 30 interaction experiments from design studio Whitespace, hosted on its own subdomain apart from the client portfolio, so these read as raw technical explorations rather than polished case-study work. Most are built on React Three Fiber and three.js, with a canvas and WebGL shader strand alongside, and many expose a live parameter panel (their in-house DialKit) for retuning each piece in the browser. Dated 27 March to 7 August 2026, with Glass Hero for dispersion, HTML in Canvas, Pendant Lamp physics and Jungle Cursor Canopy among the highlights. Several experiments also carry productized applications, for example Elastic Bars becoming Feature Cards and an Elastic Dropdown.",
       },
       {
         title: "Shaders hero section",
