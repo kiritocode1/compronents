@@ -5795,6 +5795,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "GetLayers",
+        href: "https://www.getlayers.ai/",
+        dateAdded: "2026-08-11",
+        kind: ["tool", "directory"],
+        stack: ["ai", "prompts", "landing-page", "3d", "mcp"],
+        useFor: [
+          "landing page prompt",
+          "ai prompt library",
+          "hero section prompt",
+          "3d scene prompt",
+          "look ai generated",
+          "animated background",
+          "landing page template",
+          "web design prompts",
+        ],
+        description:
+          "Library of AI prompts for landing pages and web design elements: copy a prompt, paste it into a coding agent, and the result is meant to avoid the default AI-generated look. Built by textura.agency, 211 layers at time of adding, split into 83 3D scenes, 78 backgrounds, 40 templates and 10 sections, filterable by tone (148 dark, 63 light) and by mood such as Luxe, Technical, Organic or Calm, with new drops on Fridays. Free covers a curated set with no usage cap; Unlimited is $14 a month under a fair use limit of 3 prompt copies a week, and Full Stack is $19 and adds source code, video downloads and a private Discord, both carrying a commercial license for client work. An MCP server and a matching Claude skill let an agent pull a section or generate a 3D scene without leaving the editor, via `claude mcp add --transport http getlayers https://mcp.getlayers.ai/mcp` or the plugin marketplace at textura-agency/getlayers-plugin, though MCP access is gated behind the Full Stack Lifetime plan.",
+      },
+      {
         title: "Rikyū",
         href: "https://rikyu.ai/",
         dateAdded: "2026-08-11",
