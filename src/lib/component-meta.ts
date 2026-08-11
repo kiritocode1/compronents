@@ -9574,6 +9574,11 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Repulsion is aimed between straight away from the cursor and the point's own normal projected to screen, then bent along a curl noise flow read in the surface frame, and motion across that flow is damped. Points therefore gather into strands that run along the form. A plain radial push would move the same points the same distance and look like a hole being blown in a wall.",
       },
       {
+        label: "Relative size is kept, not flattened",
+        description:
+          "Models in a set are authored at different sizes on purpose, and scaling each to a common radius throws that away: a subject that should tower over the others arrives the same size as them. One scale is applied to the whole set instead, and the camera is fitted to the median shape rather than the largest, so the typical subject fills the frame and a genuinely oversized one is allowed to overflow. Fitting to the largest would let a single wide outlier push the camera back until everything else is a detail in an empty frame.",
+      },
+      {
         label: "One flat point size",
         description:
           "Points are drawn at a constant size in device pixels, not scaled by depth. Perspective scaling looks obviously right and is a trap: the near face swells into heavy overdraw while the far face shrinks under one pixel, and a point under a pixel is not drawn faintly, it is not rasterized at all. The cloud loses its back half and reads as a solid crust. Depth is carried by the lighting instead.",
@@ -9618,7 +9623,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
     api: [
       {
         name: "shapes",
-        type: "{ label: string; model?: string }[]",
+        type: "{ label: string; model?: string; yaw?: number }[]",
         default: "Four labelled parametric shapes",
         description:
           "Shapes cycled through in order. Two or more to have anything to morph between. Give a shape a model URL to use instead of the built-in geometry: the file is dispatched on its magic bytes, so a glTF binary is sampled into a cloud and a PCLD/PCL2/PCL4 point cloud is decoded directly. A model that fails to load falls back to its parametric slot. Host your own models, nothing is bundled.",
@@ -9626,7 +9631,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "count",
         type: "number",
-        default: "700000",
+        default: "240000",
         description:
           "Points drawn on every shape. The single biggest cost lever; still one draw call at any value. Density is what makes a cloud read as a volume rather than as grain, so lower this for weaker hardware before lowering anything else.",
       },

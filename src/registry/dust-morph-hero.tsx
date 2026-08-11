@@ -55,6 +55,12 @@ export interface DustMorphShape {
    * file cannot be loaded.
    */
   model?: string;
+  /**
+   * Degrees to turn this shape about Y before it is used, so a set of models
+   * that were not authored facing the same way can be pointed at the camera
+   * consistently.
+   */
+  yaw?: number;
 }
 
 export interface DustMorphLighting {
@@ -788,14 +794,18 @@ function resample(
 }
 
 /**
- * Center a cloud and scale it to a common radius, so every shape in the set
- * occupies the same volume. Without this a morph reads as a zoom as much as a
- * change of form. Normals are untouched: a uniform scale about the centre does
- * not turn them.
+ * Centre a cloud on its own bounding box and report the radius it needs.
+ *
+ * Deliberately does not scale. Models in a set are authored at different sizes
+ * on purpose, and forcing each to a common radius throws that away: a subject
+ * that should tower over the others arrives the same size as them, and the set
+ * stops being a group of objects and becomes a sequence of equally sized
+ * silhouettes. One scale is chosen later for the whole set, so relative size
+ * survives while the group as a whole still fits the frame.
  */
-function normalise(positions: Float32Array, target: number) {
+function centreCloud(positions: Float32Array): number {
   const count = positions.length / 3;
-  if (count === 0) return;
+  if (count === 0) return 0;
 
   // Centre on the bounding box, not the centroid. A centroid is weighted by
   // where the points happen to be dense, so a shape with a heavy base would sit
@@ -829,11 +839,40 @@ function normalise(positions: Float32Array, target: number) {
     const sq = dx * dx + dy * dy + dz * dz;
     if (sq > maxSq) maxSq = sq;
   }
-  const scale = maxSq > 0 ? target / Math.sqrt(maxSq) : 1;
   for (let i = 0; i < count; i += 1) {
-    positions[i * 3] = (positions[i * 3] - cx) * scale;
-    positions[i * 3 + 1] = (positions[i * 3 + 1] - cy) * scale;
-    positions[i * 3 + 2] = (positions[i * 3 + 2] - cz) * scale;
+    positions[i * 3] -= cx;
+    positions[i * 3 + 1] -= cy;
+    positions[i * 3 + 2] -= cz;
+  }
+  return Math.sqrt(maxSq);
+}
+
+/** Scale in place. Normals are untouched: a uniform scale does not turn them. */
+function scaleCloud(positions: Float32Array, scale: number) {
+  for (let i = 0; i < positions.length; i += 1) positions[i] *= scale;
+}
+
+/**
+ * Turn a cloud about Y. Models in a set rarely face the same way, and the
+ * normals have to turn with the positions or the lighting comes off the shape
+ * it had before.
+ */
+function yawCloud(
+  positions: Float32Array,
+  normals: Float32Array,
+  degrees: number,
+) {
+  if (!degrees) return;
+  const angle = (degrees * Math.PI) / 180;
+  const c = Math.cos(angle);
+  const sn = Math.sin(angle);
+  for (const array of [positions, normals]) {
+    for (let i = 0; i < array.length; i += 3) {
+      const x = array[i];
+      const z = array[i + 2];
+      array[i] = x * c + z * sn;
+      array[i + 2] = -x * sn + z * c;
+    }
   }
 }
 
@@ -1631,7 +1670,7 @@ function makeRandom(seed: number) {
 
 export default function DustMorphHero({
   shapes = DEFAULT_SHAPES,
-  count = 700000,
+  count = 240000,
   dwell = 4.2,
   morphDuration = 1.9,
   disperse = 0.47,
@@ -1709,6 +1748,7 @@ export default function DustMorphHero({
 
       const random = makeRandom(0x9e3779b9);
       const extent = { xz: 0, y: 0 };
+      const radii: number[] = [];
 
       // Seeds double as the fallback wipe order, so "none" still staggers.
       const seedRandom = makeRandom(0x517cc1b7);
@@ -1737,19 +1777,44 @@ export default function DustMorphHero({
           geometry.dispose();
         }
         if (cancelled) return;
-        normalise(sampled.positions, CLOUD_RADIUS);
-        // Framing is measured across the whole set, never per shape: a camera
-        // that refitted on each one would zoom on every morph.
-        const shapeExtent = measureExtent(sampled.positions);
-        extent.xz = Math.max(extent.xz, shapeExtent.xz);
-        extent.y = Math.max(extent.y, shapeExtent.y);
+        yawCloud(sampled.positions, sampled.normals, shapes[i]?.yaw ?? 0);
+        radii.push(centreCloud(sampled.positions));
         clouds.push({
           positions: sampled.positions,
           normals: sampled.normals,
-          rank: computeRank(sampled.positions, wipe, seeds),
+          rank: new Float32Array(0),
         });
       }
       if (cancelled) return;
+
+      // One scale for the set, so relative size survives. Rank is computed
+      // after scaling so the wipe measures the shape as it will be drawn.
+      const setScale = CLOUD_RADIUS / Math.max(...radii, 1e-6);
+      const shapeExtents: Array<{ xz: number; y: number }> = [];
+      for (const cloud of clouds) {
+        scaleCloud(cloud.positions, setScale);
+        cloud.rank = computeRank(cloud.positions, wipe, seeds);
+        shapeExtents.push(measureExtent(cloud.positions));
+      }
+
+      // Frame on the median shape, not the largest.
+      //
+      // The camera is fixed for the whole set, since one that refitted per
+      // shape would zoom on every morph. Fitting it to the largest would then
+      // let a single outlier govern everything: one very wide subject pushes
+      // the camera back until every other shape is a detail in the middle of an
+      // empty frame. The median keeps the typical shape filling the frame and
+      // lets a genuinely oversized one overflow, which is the point of keeping
+      // relative scale in the first place.
+      const median = (values: number[]) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        const mid = Math.floor(sorted.length / 2);
+        return sorted.length % 2
+          ? sorted[mid]
+          : (sorted[mid - 1] + sorted[mid]) / 2;
+      };
+      extent.xz = median(shapeExtents.map((e) => e.xz));
+      extent.y = median(shapeExtents.map((e) => e.y));
 
       buildScene(clouds, seeds, shapeCount, reduceMotion, extent);
     };
