@@ -9564,6 +9564,11 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Each point is delayed by its rank along an axis rather than by its seed, so the change travels through the form as a direction you can follow. The seed only jitters that slightly; let it dominate and the move dissolves into noise.",
       },
       {
+        label: "Drag turns it, hover disturbs it",
+        description:
+          "The pointer does two different jobs and they are kept apart. Held down it orbits the subject, so you can look under and behind it, with the turn coasting after release and the tip clamped short of the poles where the drag would otherwise reverse under your hand. Merely hovering never steers anything, because an unasked-for lean toward the cursor reads as the object being handled when you only meant to look at it. The idle spin continues underneath either way, so a turned view drifts on instead of freezing where it was let go.",
+      },
+      {
         label: "The cursor is simulated, not applied",
         description:
           "The pointer never displaces a point directly. It drives two simulation passes whose state persists between frames: a screen space brush field that is advected along itself, diffused into its neighbours and decayed, and a spring damper per point carrying an offset and a velocity in its own texel. That persistence is the whole effect. Forces accumulate into velocity and velocity into offset, so dust keeps moving after the cursor has passed, trails behind it, and is drawn home by a spring rather than snapping back the instant the cursor leaves.",
@@ -9676,6 +9681,13 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "3 / 1.25",
         description:
           "Point size in device pixels, flat, and how many device pixels are drawn per CSS pixel (capped by the screen's own ratio). Both are density controls: raise the ratio for a crisper but thinner cloud, lower it and spend the budget on count instead.",
+      },
+      {
+        name: "orbit / orbitSensitivity",
+        type: "boolean / number",
+        default: "true / 1",
+        description:
+          "Drag to turn the subject. Sensitivity is turns per full drag across the viewport, so 1 means the subject follows the cursor one-to-one. Pitch is clamped short of vertical.",
       },
       {
         name: "pointerStrength / pointerRadius",

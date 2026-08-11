@@ -130,7 +130,14 @@ export interface DustMorphHeroProps {
   background?: string;
   /** Lighting model applied per point. */
   lighting?: DustMorphLighting;
-  /** How hard the pointer pushes points aside. 0 disables it. */
+  /**
+   * Drag to turn the subject, so you can look under and behind it. The idle
+   * spin continues underneath, so a dragged view drifts rather than freezing.
+   */
+  orbit?: boolean;
+  /** Turns per full drag across the viewport. */
+  orbitSensitivity?: number;
+  /** How hard the pointer pushes points aside while hovering. 0 disables it. */
   pointerStrength?: number;
   /** Reach of the pointer, in normalized screen units. */
   pointerRadius?: number;
@@ -192,6 +199,8 @@ const CLOUD_RADIUS = 1.5;
 const FOV = 44;
 /** Turn rate about Y, radians per second. Roughly 8.7 degrees per second. */
 const SPIN = 0.152;
+/** How far a drag may tip the subject, radians. Kept short of the poles. */
+const ORBIT_PITCH_LIMIT = 1.25;
 
 /**
  * Cursor simulation constants.
@@ -1684,6 +1693,8 @@ export default function DustMorphHero({
   color = DEFAULT_COLOR,
   background = DEFAULT_BACKGROUND,
   lighting,
+  orbit = true,
+  orbitSensitivity = 1,
   pointerStrength = 1.3,
   pointerRadius = 0.46,
   eyebrow = "BLANK",
@@ -1713,6 +1724,8 @@ export default function DustMorphHero({
     color,
     light,
     fit,
+    orbit,
+    orbitSensitivity,
   });
   live.current = {
     dwell,
@@ -1727,6 +1740,8 @@ export default function DustMorphHero({
     color,
     light,
     fit,
+    orbit,
+    orbitSensitivity,
   };
 
   useEffect(() => {
@@ -2182,8 +2197,67 @@ export default function DustMorphHero({
       let cursorInfluence = 0;
       let lastPointerTime = 0;
 
+      // Orbit. Held drag turns the subject; released, the turn keeps going and
+      // slows, so letting go coasts instead of stopping dead.
+      let dragging = false;
+      let dragX = 0;
+      let dragY = 0;
+      let yawOffset = 0;
+      let pitchOffset = 0;
+      let yawVelocity = 0;
+      let pitchVelocity = 0;
+
+      const onPointerDown = (event: PointerEvent) => {
+        if (!live.current.orbit || event.button !== 0) return;
+        dragging = true;
+        dragX = event.clientX;
+        dragY = event.clientY;
+        yawVelocity = 0;
+        pitchVelocity = 0;
+        // Capture, or a drag that leaves the canvas stops turning mid gesture.
+        renderer.domElement.setPointerCapture(event.pointerId);
+        renderer.domElement.style.cursor = "grabbing";
+        // The brush and the orbit must not both claim the same gesture: dust
+        // being shoved aside while the whole form turns reads as neither.
+        cursorInfluenceTarget = 0;
+      };
+
+      const endDrag = (event: PointerEvent) => {
+        if (!dragging) return;
+        dragging = false;
+        if (renderer.domElement.hasPointerCapture(event.pointerId)) {
+          renderer.domElement.releasePointerCapture(event.pointerId);
+        }
+        renderer.domElement.style.cursor = live.current.orbit ? "grab" : "";
+      };
+
       const onPointerMove = (event: PointerEvent) => {
         const rect = renderer.domElement.getBoundingClientRect();
+
+        if (dragging) {
+          const width = Math.max(1, rect.width);
+          const height = Math.max(1, rect.height);
+          const sensitivity = live.current.orbitSensitivity;
+          // A full drag across the viewport is one turn, which is the ratio
+          // that makes the subject feel attached to the cursor.
+          const dYaw =
+            ((event.clientX - dragX) / width) * Math.PI * 2 * sensitivity;
+          const dPitch =
+            ((event.clientY - dragY) / height) * Math.PI * sensitivity;
+          dragX = event.clientX;
+          dragY = event.clientY;
+          yawOffset += dYaw;
+          // Clamped short of the poles: past vertical the subject rolls over
+          // and the drag reverses under the hand.
+          pitchOffset = Math.min(
+            ORBIT_PITCH_LIMIT,
+            Math.max(-ORBIT_PITCH_LIMIT, pitchOffset + dPitch),
+          );
+          yawVelocity = dYaw;
+          pitchVelocity = dPitch;
+          return;
+        }
+
         const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
         const now = elapsed;
@@ -2371,14 +2445,26 @@ export default function DustMorphHero({
         uniforms.uInteractionState.value = stateA.texture;
         uniforms.uViewportAspect.value = aspect;
 
-        // One constant turn about Y, and nothing else.
+        // A constant turn about Y, plus whatever the drag has added.
         //
-        // Leaning or nodding the whole cloud toward the cursor reads as
-        // dragging the object around the frame: the subject stops being a thing
-        // that stands there and turns into something being handled. The
-        // pointer's business is displacing the points it passes, which happens
-        // per point in the shader, and it should not also steer the form.
-        cloud.rotation.y = time * SPIN;
+        // The idle spin is never cancelled by a drag, so a turned view drifts
+        // on rather than freezing wherever it was let go. Hovering alone still
+        // does not steer anything: an unasked-for lean toward the cursor reads
+        // as the object being handled when you only meant to look at it.
+        if (!dragging) {
+          // Coast, then settle. Decay is per second rather than per frame so
+          // the glide is the same length whatever the refresh rate.
+          const coast = Math.exp(-3.4 * dt);
+          yawOffset += yawVelocity;
+          pitchOffset = Math.min(
+            ORBIT_PITCH_LIMIT,
+            Math.max(-ORBIT_PITCH_LIMIT, pitchOffset + pitchVelocity),
+          );
+          yawVelocity *= coast;
+          pitchVelocity *= coast;
+        }
+        cloud.rotation.y = time * SPIN + yawOffset;
+        cloud.rotation.x = pitchOffset;
 
         renderer.render(scene, camera);
       };
@@ -2423,6 +2509,13 @@ export default function DustMorphHero({
       element.addEventListener("pointerleave", onPointerLeave, {
         passive: true,
       });
+      element.addEventListener("pointerdown", onPointerDown);
+      element.addEventListener("pointerup", endDrag);
+      element.addEventListener("pointercancel", endDrag);
+      // Without this a touch drag scrolls the page instead of turning the
+      // subject, and the gesture is lost before it starts.
+      element.style.touchAction = "none";
+      if (orbit) element.style.cursor = "grab";
 
       disposers.push(() => {
         running = false;
@@ -2431,6 +2524,9 @@ export default function DustMorphHero({
         intersectionObserver.disconnect();
         element.removeEventListener("pointermove", onPointerMove);
         element.removeEventListener("pointerleave", onPointerLeave);
+        element.removeEventListener("pointerdown", onPointerDown);
+        element.removeEventListener("pointerup", endDrag);
+        element.removeEventListener("pointercancel", endDrag);
         advanceRef.current = null;
         geometry.dispose();
         material.dispose();
