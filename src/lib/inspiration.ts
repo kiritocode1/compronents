@@ -8631,6 +8631,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Effect ecosystem",
     links: [
       {
+        title: "Crosshatch",
+        href: "https://crosshatch.dev/",
+        dateAdded: "2026-08-11",
+        kind: "library",
+        stack: ["x402", "evm", "solana", "stablecoin"],
+        useFor: [
+          "x402",
+          "http 402",
+          "pay per request",
+          "charge per request",
+          "paid api endpoint",
+          "pay for llm inference",
+          "stablecoin micropayments",
+          "agent payments",
+        ],
+        description:
+          "Effect-native toolkit for x402, Coinbase's revival of the HTTP 402 status code, covering both sides of a paid request: a client layer that answers payment challenges on its own, and merchant routes that state a requirement, check the payload, then settle it and attach a settlement header. Published by Crosshatch Labs as a single `crosshatch` package, and Effect-shaped throughout, so accepted assets, signing schemes and mnemonic-backed keys compose as layers (`Payer.layerLocal`, `Erc3009Scheme`, `Permit2Scheme`) instead of arriving as a configured client object, with the payer signing USD stablecoin payloads across EVM and Solana chains from one MNEMONIC variable. The AI client is the sharpest example: piping an `effect/unstable/ai` LanguageModel through the x402 HTTP client bills inference call by call with no account and no API key, shown against Blockrun. Apache-2.0, v0.0.16 and 26 GitHub stars at time of adding, so read the API as unstable.",
+      },
+      {
         title: "effect-torch",
         href: "https://github.com/mikearnaldi/effect-torch/tree/main",
         dateAdded: "2026-07-27",
