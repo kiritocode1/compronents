@@ -8,9 +8,21 @@ Add each URL in `$ARGUMENTS` to the inspiration registry at
 `src/lib/inspiration.ts`. If `$ARGUMENTS` is empty, use the URLs the user pasted
 most recently in this conversation.
 
-Repo: `/Users/blank/Desktop/CREATE/compronents`. Read `AGENTS.md` conventions:
-never use em dashes, never surface another studio's internal name, real specific
-copy only.
+**This command always targets one fixed repo, no matter where you invoke it
+from.** Before anything else:
+
+```bash
+cd /Users/blank/Desktop/CREATE/compronents
+```
+
+Every path below (`src/lib/inspiration.ts`, `./tests/alias-hooks.mjs`) is
+relative to that directory, and every `pnpm`, `biome`, `git add` and `git commit`
+runs there. If you were invoked from some other repo, that repo is not the
+target: read nothing from it, change nothing in it, and never commit to it. The
+only file you may write outside compronents is the scratch script in `/tmp`.
+
+Read `AGENTS.md` (in that repo) conventions: never use em dashes, never surface
+another studio's internal name, real specific copy only.
 
 For each URL:
 
