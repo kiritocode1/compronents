@@ -9535,6 +9535,89 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "dust-morph-hero": {
+    demoPath: "src/components/demos/dust-morph-hero.tsx",
+    nuance: [
+      {
+        label: "One cloud, many shapes",
+        description:
+          "Every shape is sampled into the same number of points up front, so index i on one shape is the same point as index i on the next. A change of subject is therefore a journey per point rather than a swap of two objects, which is what lets the form survive the move.",
+      },
+      {
+        label: "Area-weighted, not vertex-weighted",
+        description:
+          "Triangles are drawn in proportion to their area from a cumulative table, so density stays even instead of bunching wherever the source mesh happens to be finely tessellated. This is what keeps a sampled cone from looking like a wireframe of its own topology.",
+      },
+      {
+        label: "Bowed, staggered, and faded",
+        description:
+          "Each point starts a little after the one before it and bows off its path along a random direction, peaking halfway. Points also fade while dispersed, which is the difference between a cloud that comes apart and noise sprayed across the frame.",
+      },
+    ],
+    editable: [
+      {
+        name: "shapes",
+        control: "textarea",
+        description:
+          "The labels cycled through. Each entry gets its own parametric shape and its own per character reveal.",
+      },
+      {
+        name: "count / pointSize / disperse",
+        control: "slider",
+        description:
+          "Points sampled per shape, their drawn size, and how far they bow off the path mid morph.",
+      },
+      {
+        name: "color / background",
+        control: "color",
+        description: "Ink of the cloud and the paper behind it.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "shapes",
+        type: "{ label: string }[]",
+        default: "Four labelled shapes",
+        description:
+          "Shapes cycled through in order. Two or more to have anything to morph between.",
+      },
+      {
+        name: "count",
+        type: "number",
+        default: "90000",
+        description:
+          "Points sampled onto every shape. The single biggest cost lever; still one draw call at any value.",
+      },
+      {
+        name: "dwell / morphDuration",
+        type: "number",
+        default: "4.2 / 1.9",
+        description:
+          "Seconds a shape holds before advancing on its own, and seconds a morph takes end to end. Set dwell to 0 to advance only on input.",
+      },
+      {
+        name: "disperse",
+        type: "number",
+        default: "0.85",
+        description:
+          "How far points bow off their path mid morph, in world units. 0 gives a straight interpolation with no dust.",
+      },
+      {
+        name: "pointerStrength / pointerRadius",
+        type: "number",
+        default: "0.42 / 0.42",
+        description:
+          "How hard the pointer pushes points aside and how far its influence reaches, in normalized screen units. 0 strength disables it.",
+      },
+      {
+        name: "color / background",
+        type: "string",
+        default: '"#171512" / "#dedbd2"',
+        description: "Ink of the cloud and the paper behind it.",
+      },
+    ],
+  },
   "halftone-wave-hero": {
     demoPath: "src/components/demos/halftone-wave-hero.tsx",
     nuance: [

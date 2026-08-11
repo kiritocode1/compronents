@@ -1756,6 +1756,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "dust-morph-hero",
+    title: "Dust Morph Hero",
+    description:
+      "A hero whose subject is a point cloud rather than a mesh: every shape is area-weighted surface sampled into the same set of points, so moving between shapes carries each point from its old surface to its new one, staggered and bowed outward so the form comes apart into dust halfway and reforms on arrival. The pointer pushes points aside in screen space and the label reveals per character on each change.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-08-11",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/dust-morph-hero.tsx",
+        target: "components/ui/dust-morph-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "halftone-wave-hero",
     title: "Halftone Wave Hero",
     description:

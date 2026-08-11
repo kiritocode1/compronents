@@ -62,6 +62,7 @@ import DragTimelineScrollDemo from "./drag-timeline-scroll";
 import DrawnPathFeaturesDemo from "./drawn-path-features";
 import DriftingCardMarqueeDemo from "./drifting-card-marquee";
 import DroneFleetDemo from "./drone-fleet";
+import DustMorphHeroDemo from "./dust-morph-hero";
 import EdgeWarpRailDemo from "./edge-warp-rail";
 import ElasticCurtainMenuDemo from "./elastic-curtain-menu";
 import ElasticStringFieldDemo from "./elastic-string-field";
@@ -278,6 +279,7 @@ export const demos: Record<string, ComponentType> = {
   "halftone-interface-hero": HalftoneInterfaceHeroDemo,
   "halftone-scene-footer": HalftoneSceneFooterDemo,
   "halftone-wave-hero": HalftoneWaveHeroDemo,
+  "dust-morph-hero": DustMorphHeroDemo,
   "sandy-grain-background": SandyGrainBackgroundDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
   "slit-reveal-hero": SlitRevealHeroDemo,
