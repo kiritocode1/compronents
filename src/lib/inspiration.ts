@@ -1713,6 +1713,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Lab by Tobi",
+        href: "https://lab.tobi.computer/",
+        dateAdded: "2026-08-11",
+        kind: "demo",
+        stack: ["canvas", "webgl"],
+        useFor: [
+          "ui experiments",
+          "ui lab",
+          "craft demos",
+          "ui demos",
+          "coverflow",
+          "album stack",
+          "stack to grid",
+          "css experiments",
+        ],
+        description:
+          "Personal lab of small UI demos and experiments by Tobi B., a frontend and UI engineer, for when you want a single interaction studied in isolation. The index counts five crafts and describes itself as a work in progress. The author's portfolio at tobi.computer lists the experiments individually, each on its own subdomain: a vertical coverflow album stack, a stack to grid transition, and a Baby Reindeer title screen recreation, alongside a mini tools project built with Canvas and WebGL. Recent frontend work credited there is Equal IQ and Cisco Systems.",
+      },
+      {
         title: "Pattern Cards (Whitespace)",
         href: "https://experiments.thisiswhitespace.com/pattern-cards",
         dateAdded: "2026-08-10",
@@ -5776,6 +5795,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Rikyū",
+        href: "https://rikyu.ai/",
+        dateAdded: "2026-08-11",
+        kind: "tool",
+        stack: ["ai", "design", "image-generation"],
+        useFor: [
+          "ai design tool",
+          "ai brand identity",
+          "brand assets",
+          "generate a logo",
+          "visual identity",
+          "app store screenshots",
+          "poster design",
+          "design without a designer",
+        ],
+        description:
+          "AI design tool that takes one sentence about a business and returns a whole visual identity, for when you need brand assets and have no designer. From a prompt such as launching a coat label from Antwerp it produces a monogram, app icon, App Store screenshots, app screens, landing and product pages, city posters, a lookbook spread, social stories and OGP images, then iterates through a describe what you want to change field. It connects to Claude and Codex over MCP, billed as creating without spending Rikyū credits, and includes an asset library of more than 3 million items. Pricing is $5 a month for MCP and commercial use, $20 for 16,000 monthly credits with design generation, image generation and background removal, and $50 for 48,000 credits; the developer is credited only as @kaiseisuzuk on X.",
+      },
+      {
         title: "Reve",
         href: "https://app.reve.com/",
         dateAdded: "2026-08-05",
@@ -6065,6 +6103,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "Blume Sidecar",
+        href: "https://blume.codes/",
+        dateAdded: "2026-08-11",
+        kind: "tool",
+        stack: ["agents", "claude-code", "codex", "cursor", "desktop"],
+        useFor: [
+          "monitor coding agents",
+          "watch multiple agents",
+          "review agent changes",
+          "agent oversight",
+          "agent rules and hooks",
+          "steering coding agents",
+          "agent usage tracking",
+        ],
+        description:
+          "Desktop app that sits beside your coding agents and shows what each one is doing, for when several run at once and steering them by watching terminals stops working. It tracks Cursor, Claude Code, Codex, omp and Pi in one Agents view with per run status, the git branch a run sits on, and the diff before it lands, and it surfaces the hidden files that shape agent behaviour: rules, hooks and skills. Conversation history is stored locally on your device. Shipping now are the agent overview, hidden files and rules, and usage tracking, with auto-fixes, analytics and a local domain model marked soon, and a central domain model, team conflict resolution and auto-improve mode marked next.",
+      },
       {
         title: "ego (lite)",
         href: "https://lite.ego.app/",
