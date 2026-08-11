@@ -494,6 +494,10 @@ export const backendGroups: RegistryGroup[] = [
     ],
   },
   {
+    title: "Browser runtime and messaging",
+    names: ["effect-browser-peer-channel"],
+  },
+  {
     title: "API servers and routing",
     names: [
       "effect-httpapi-derived-client",

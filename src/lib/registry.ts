@@ -7857,6 +7857,29 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "effect-browser-peer-channel",
+    title: "Effect Browser Peer Channel",
+    description:
+      "A popup, a hidden iframe, or a dedicated worker as one scoped Effect Stream, built on effect@4.0.0-beta.98 and @effect/platform-browser. The message listener is attached by an acquireRelease step before the context is opened, because a Stream subscribes only when it is run: forking a drain of BrowserStream.fromEventListenerWindow leaves zero listeners attached when the next statement executes, so the ordinary listen-then-open fix does not actually close the boot race. Every event is then pinned to that one peer by both source and origin, so the party line that is window.onmessage becomes a channel, and each payload is decoded through a schema at the edge, so a malformed frame fails the channel instead of a reducer. The context is acquired inside the stream's own scope, so completion, failure, interruption, and the opener page unloading all release it on one path, and a popup the user closed or a worker that crashed on boot becomes a typed PeerGone rather than a stream that waits forever. Includes a one-shot askPeer that sends its request on the back of the peer's first message, since the child is running the same race in the other direction, and closes the context with the same step that produces the answer.",
+    section: "backend",
+    category: "Backend",
+    pro: false,
+    date: "2026-08-11",
+    type: "registry:lib",
+    dependencies: [
+      "@effect/platform-browser@4.0.0-beta.98",
+      "effect@4.0.0-beta.98",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/effect-browser-peer-channel/browser-channel.ts",
+        target: "src/browser/browser-channel.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(
@@ -7888,6 +7911,17 @@ export function getRegistryDesignGuidance(
       pair: "Pair it with authentication at the HTTP boundary, a durable store when KV consistency is insufficient, and the target project's existing telemetry exporter.",
       avoid:
         "Avoid it for a tiny stateless endpoint or a project that does not use Effect, because the service and layer model would add ceremony without leverage.",
+    };
+  }
+
+  if (item.name === "effect-browser-peer-channel") {
+    return {
+      style:
+        "One browser file, heavy on comments that name the exact race each step removes and why the obvious version of the fix does not remove it. Ships with a fake page, popup, and worker so the ordering claims are proved rather than asserted.",
+      use: `Use ${item.title} when a page has to talk to a popup, a hidden iframe, or a worker and cannot afford a lost handshake, a message from the wrong frame, or a context that outlives the code that opened it.`,
+      pair: "Pair it with a schema shared by both sides of the channel, and with askPeer when the flow is a single question such as a signature or a consent grant. On the child side, post nothing until its own listener is attached, which is the same discipline this file applies to the parent.",
+      avoid:
+        'Avoid "*" as the origin for anything on the window message bus: it is correct only for a worker, which has no shared bus. Avoid onOpen for a request the peer could miss, and avoid reaching for BrowserStream when a listener has to be provably live before another side effect runs.',
     };
   }
 

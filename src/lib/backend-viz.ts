@@ -429,6 +429,186 @@ export const backendViz: Record<string, VizEntry> = {
       },
     ],
   },
+  "effect-browser-peer-channel": {
+    control: "listener",
+    variants: [
+      {
+        name: "open, then listen",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "The ordinary shape. The popup boots in the gap between the two statements and posts ready into a window that is not listening yet, and the platform drops an event nobody is waiting for. Nothing throws and nothing is logged: the bug lives in the semicolon, and it only shows up on a cold cache or a slow machine.",
+          code: `const popup = open(url); window.addEventListener("message", onMessage)`,
+          nodes: [
+            {
+              label: "open popup",
+              result: "window handle",
+              token: "open(url)",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "idle",
+              ),
+              types: [
+                t.raw("Window | null"),
+                t.raw("Window | null"),
+                t.raw("Window"),
+              ],
+            },
+            {
+              label: "popup posts ready",
+              error: "dropped, no listener",
+              notify: {
+                atStep: 3,
+                message: "no error, no event",
+                icon: "🕳️",
+              },
+              states: s("idle", "idle", "running", "death", "death", "idle"),
+              // the event exists, briefly, and then there is no value at all:
+              // the consumer is left waiting on a type it will never receive
+              types: [
+                t.raw("MessageEvent"),
+                t.raw("MessageEvent"),
+                t.raw("MessageEvent"),
+                t.raw("never"),
+              ],
+            },
+            {
+              label: "attach listener",
+              result: "live, too late",
+              token: 'window.addEventListener("message", onMessage)',
+              states: s("idle", "idle", "idle", "running", "completed", "idle"),
+              types: [
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("void"),
+                t.raw("Stream<MessageEvent>"),
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "listen, then open",
+        spec: {
+          archetype: "flow",
+          arrowBefore: 1,
+          caption:
+            "Attaching through acquireRelease is what makes the order real: the next statement cannot run until the listener is on. Forking a drain of the Stream would not do it, because a Stream subscribes when it runs and the fork has not run yet. Now the popup may boot as fast as it likes, since the gate that pins it reads the peer handle at delivery time and is therefore correct while that handle is still null.",
+          code: `yield* attach(gate); peer = yield* Effect.acquireRelease(open, release)`,
+          nodes: [
+            {
+              label: "attach listener",
+              result: "live",
+              token: "attach(gate)",
+              states: s(
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+                "completed",
+              ),
+              // the Scope in the requirements is the listener's removal, still
+              // unpaid, which is why this cannot be a plain sync call
+              types: [
+                t.raw("Effect<void, never, Scope>"),
+                t.raw("Effect<void, never, Scope>"),
+                t.raw("void"),
+              ],
+            },
+            {
+              label: "open popup",
+              result: "peer pinned",
+              token: "Effect.acquireRelease(open, release)",
+              states: s(
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+                "completed",
+              ),
+              types: [
+                t.raw("Effect<BrowserPeer, ContextBlocked, Scope>"),
+                t.raw("Effect<BrowserPeer, ContextBlocked, Scope>"),
+                t.raw("Effect<BrowserPeer, ContextBlocked, Scope>"),
+                t.raw("BrowserPeer"),
+              ],
+            },
+            {
+              label: "ready arrives",
+              result: "wallet/1",
+              states: s(
+                "idle",
+                "idle",
+                "idle",
+                "running",
+                "completed",
+                "completed",
+              ),
+              // source and origin pass, then the schema turns the platform's
+              // any into the only shape the consumer has to handle
+              types: [
+                t.raw("MessageEvent"),
+                t.raw("MessageEvent"),
+                t.raw("MessageEvent"),
+                t.raw("unknown"),
+                t.raw("Wallet"),
+              ],
+            },
+          ],
+        },
+      },
+      {
+        name: "interrupt",
+        spec: {
+          archetype: "scope",
+          caption:
+            "The popup is acquired inside the stream's own scope, so there is one teardown path and every ending takes it. Here the consumer is interrupted mid-flow: the finalizers still run in reverse, closing the window before the listener that fed it comes off, so no orphaned popup is left on screen and no handler is left on the page.",
+          code: `peer = yield* Effect.acquireRelease(open, (p) => Effect.sync(() => p.release()))`,
+          scope: {
+            mode: "scope",
+            node: {
+              label: "channel",
+              error: "interrupted",
+              token: "Effect.acquireRelease(open,",
+              states: s(
+                "idle",
+                "running",
+                "running",
+                "interrupted",
+                "interrupted",
+                "interrupted",
+              ),
+              // Stream.callback excludes Scope from the stream's requirements,
+              // which is the type-level statement that this value now OWNS the
+              // popup's teardown rather than owing it to a caller
+              types: [
+                t.raw("Stream<Wallet, ChannelError>"),
+                t.raw("Stream<Wallet, ChannelError>"),
+                t.raw("Wallet"),
+                t.raw("Exit<void, ChannelError>"),
+                t.raw("void"),
+              ],
+            },
+            finalizers: [
+              { label: "message listener", states: sc(...ACQ2_A) },
+              {
+                label: "popup window",
+                token: "p.release()",
+                states: sc(...ACQ2_B),
+              },
+            ],
+          },
+        },
+      },
+    ],
+  },
   "effect-rpc-contract-transport": {
     control: "transport",
     variants: [
