@@ -81,19 +81,125 @@ const DEFAULT_SHAPES: DustMorphShape[] = [
 ];
 
 const DEFAULT_COLOR = "#171512";
-const DEFAULT_BACKGROUND = "#dedbd2";
+/** Cool grey-green paper, sampled rather than guessed. */
+const DEFAULT_BACKGROUND = "#d4d5cd";
+
+/**
+ * Concatenate geometries into one position-only buffer. The cloud never shades,
+ * so normals and UVs are dropped, which also means parts with mismatched
+ * attributes still merge without complaint.
+ */
+function mergePositions(parts: THREE.BufferGeometry[]): THREE.BufferGeometry {
+  let total = 0;
+  const chunks: Float32Array[] = [];
+  for (const part of parts) {
+    const source = part.index ? part.toNonIndexed() : part;
+    const position = source.getAttribute("position");
+    const copy = new Float32Array(position.array as ArrayLike<number>);
+    chunks.push(copy);
+    total += copy.length;
+    if (source !== part) source.dispose();
+    part.dispose();
+  }
+  const merged = new Float32Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.length;
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(merged, 3));
+  return geometry;
+}
+
+/**
+ * A run of interlocking links following a gentle S. Consecutive links are
+ * spaced under their own diameter and rotated a quarter turn about the run, so
+ * they actually pass through one another rather than sitting in a row. Sampled
+ * as a cloud the interlock is the whole point: it gives the silhouette holes
+ * that survive the morph, which is what a solid blob cannot do.
+ */
+function chainGeometry(links = 5): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [];
+  const ring = 0.46;
+  const tube = 0.125;
+  /** Elongation along the run, which is what makes a link a link. */
+  const stretch = 1.7;
+  const half = ring * stretch;
+  // Half a link's length, so consecutive loops overlap rather than abut.
+  const pitch = half;
+
+  for (let i = 0; i < links; i += 1) {
+    const link = new THREE.TorusGeometry(ring, tube, 20, 96);
+    // Stretch in the ring's own plane before any rotation, so the long axis
+    // ends up along the run no matter which plane the link is turned into.
+    link.scale(stretch, 1, 1);
+
+    const t = i - (links - 1) / 2;
+    const position = new THREE.Vector3(
+      t * pitch,
+      Math.sin((t / links) * Math.PI * 1.5) * 0.42,
+      Math.cos((t / links) * Math.PI * 1.1) * 0.2,
+    );
+    // A torus is rotationally symmetric about its own hole axis, so turning a
+    // link about the run would do nothing at all. The alternation has to swing
+    // the whole plane instead: even links lie in the run's horizontal plane,
+    // odd ones stand upright in it, and that crossing is the interlock.
+    const rotation = new THREE.Euler(
+      i % 2 === 0 ? 0 : Math.PI / 2,
+      0,
+      (t / links) * 0.55,
+    );
+    link.applyMatrix4(
+      new THREE.Matrix4().compose(
+        position,
+        new THREE.Quaternion().setFromEuler(rotation),
+        new THREE.Vector3(1, 1, 1),
+      ),
+    );
+    parts.push(link);
+  }
+  return mergePositions(parts);
+}
+
+/**
+ * A lathed, noise-displaced form: something with a silhouette rather than a
+ * primitive's obvious profile, so the settled cloud reads as a subject instead
+ * of a demo of a built-in geometry.
+ */
+function sculptGeometry(): THREE.BufferGeometry {
+  const sphere = new THREE.SphereGeometry(1.3, 128, 96);
+  const position = sphere.getAttribute("position");
+  const vertex = new THREE.Vector3();
+  for (let i = 0; i < position.count; i += 1) {
+    vertex.fromBufferAttribute(position, i);
+    const direction = vertex.clone().normalize();
+    // Layered trig standing in for noise: cheap, seamless on a sphere, and
+    // deterministic, which keeps the shape identical between renders.
+    const swell =
+      0.34 * Math.sin(direction.y * 3.1 + 0.6) +
+      0.16 * Math.sin(direction.x * 5.2 + direction.z * 3.7) +
+      0.09 * Math.sin(direction.z * 8.4 - direction.y * 6.1);
+    // Taper toward the base so it stands rather than floats.
+    const taper = 1 + 0.22 * direction.y;
+    vertex.copy(direction).multiplyScalar((1.3 + swell) * taper);
+    position.setXYZ(i, vertex.x, vertex.y, vertex.z);
+  }
+  position.needsUpdate = true;
+  return sphere;
+}
 
 /** Built-in geometry, one per slot, used when a shape carries no model URL. */
 function parametricGeometry(slot: number): THREE.BufferGeometry {
   switch (slot % 4) {
     case 0:
-      return new THREE.TorusKnotGeometry(1, 0.34, 260, 32);
+      return chainGeometry();
     case 1:
-      return new THREE.IcosahedronGeometry(1.35, 3);
+      return sculptGeometry();
     case 2:
-      return new THREE.TorusGeometry(1.15, 0.42, 64, 160);
+      return new THREE.TorusKnotGeometry(1, 0.32, 320, 40);
     default:
-      return new THREE.ConeGeometry(1.15, 2.3, 96, 40, false);
+      return new THREE.TorusGeometry(1.15, 0.4, 48, 200);
   }
 }
 
@@ -323,7 +429,7 @@ function makeRandom(seed: number) {
 
 export default function DustMorphHero({
   shapes = DEFAULT_SHAPES,
-  count = 90000,
+  count = 65000,
   dwell = 4.2,
   morphDuration = 1.9,
   disperse = 0.85,

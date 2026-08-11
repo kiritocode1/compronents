@@ -9585,7 +9585,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "count",
         type: "number",
-        default: "90000",
+        default: "65000",
         description:
           "Points sampled onto every shape. The single biggest cost lever; still one draw call at any value.",
       },
@@ -9613,7 +9613,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "color / background",
         type: "string",
-        default: '"#171512" / "#dedbd2"',
+        default: '"#171512" / "#d4d5cd"',
         description: "Ink of the cloud and the paper behind it.",
       },
     ],
