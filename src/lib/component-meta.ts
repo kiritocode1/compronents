@@ -9535,6 +9535,129 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "halftone-wave-hero": {
+    demoPath: "src/components/demos/halftone-wave-hero.tsx",
+    nuance: [
+      {
+        label: "The black is subtractive, not painted",
+        description:
+          "Every column holds the same dots in the same palette order. Where the envelope collapses, those dots land on each other and the multiply blend takes the stack to near-black. Nothing in the code names that color, which is why the approach into it reads as a run of muddy darks instead of a swap.",
+      },
+      {
+        label: "Half a cycle across the frame",
+        description:
+          "One sine at half a cycle puts a single node on screen with its antinode in the right third and the previous peak off the left edge. The whole composition, moderate left shoulder and broad right swell, falls out of where that node happens to sit, so no separate bias is needed. Drifting the phase walks the node across without any keyframes.",
+      },
+      {
+        label: "A sixth of overlap, and no more",
+        description:
+          "Rows sit about 1.7 radii apart, so neighbours overlap by roughly a sixth: enough of each dot is left uncovered for its color to read at full strength, while the joins darken into seams. Columns sit slightly further apart than a dot is wide, leaving a hairline of paper so the dots stay countable. Push the row pitch under one radius and every dot is multiplied by three neighbours at once, which turns the swell to mud.",
+      },
+      {
+        label: "The pointer parts the wave",
+        description:
+          "One gaussian of pointer influence drives both hover responses, so the column that opens widest is also the one whose dots swell most. Because the lift blends toward full spread, it bites hardest inside a node, where there is the most black to prise open.",
+      },
+    ],
+    editable: [
+      {
+        name: "palette",
+        control: "color",
+        description:
+          "The color cycled down each column. Colors that multiply toward black give the strongest node contrast.",
+      },
+      {
+        name: "amplitude / floor / swell",
+        control: "slider",
+        description:
+          "Widest column height, how far a node collapses, and how much louder the right side runs than the left.",
+      },
+      {
+        name: "headline / standfirst / actions",
+        control: "textarea",
+        description: "The copy block and its two call to action pills.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "palette",
+        type: "string[]",
+        default: "Cyan, blue, pink, red, amber, green",
+        description:
+          "Colors cycled down each column, one per row, in the order they run top to bottom. Length need not match rows.",
+      },
+      {
+        name: "rows",
+        type: "number",
+        default: "11",
+        description:
+          "Dots per column. Just under two palette cycles, so no color sits directly above itself.",
+      },
+      {
+        name: "columnGap / dotRadius",
+        type: "number",
+        default: "34.8 / 16.3",
+        description:
+          "Column spacing and dot radius in px, authored against a 1440px viewport and scaled from there. Keep the radius under half the gap or the columns fuse.",
+      },
+      {
+        name: "amplitude",
+        type: "number",
+        default: "0.9",
+        description:
+          "Ceiling on column height as a share of half the canvas, 0 to 1. Only bites on a short canvas; the row pitch sets the height otherwise.",
+      },
+      {
+        name: "floor",
+        type: "number",
+        default: "0.006",
+        description:
+          "Column height at a node as a share of the widest column. At this value the stack collapses to a single dot.",
+      },
+      {
+        name: "swell",
+        type: "number",
+        default: "0",
+        description:
+          "Optional lean, off by default: how much wider the right side runs than the left, 0 to 1. The asymmetry already comes from where the node sits.",
+      },
+      {
+        name: "introDuration",
+        type: "number",
+        default: "1.7",
+        description:
+          "Seconds for the opening sweep, which unpacks the wave left to right out of its collapsed state. 0 starts at the resting wave.",
+      },
+      {
+        name: "hoverStrength",
+        type: "number",
+        default: "0.75",
+        description:
+          "How far the pointer parts the wave toward full spread, 0 to 1. 0 disables hover entirely.",
+      },
+      {
+        name: "hoverGrowth",
+        type: "number",
+        default: "0.34",
+        description:
+          "How much the dots swell under the pointer, as a share of their radius.",
+      },
+      {
+        name: "hoverRadius",
+        type: "number",
+        default: "190",
+        description:
+          "Reach of the pointer's influence in px, at a 1440px viewport.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        default: "1",
+        description: "Envelope travel speed. 0 freezes the wave in place.",
+      },
+    ],
+  },
   "halftone-interface-hero": {
     demoPath: "src/components/demos/halftone-interface-hero.tsx",
     nuance: [

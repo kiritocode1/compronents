@@ -87,12 +87,13 @@ import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import FrameSequenceHeroDemo from "./frame-sequence-hero";
 import GarageScene3DDemo from "./garage-scene-3d";
-import GravityDropLandingDemo from "./gravity-drop-landing";
 import GrainGradientFieldDemo from "./grain-gradient-field";
 import GrainGradientNavDemo from "./grain-gradient-nav";
+import GravityDropLandingDemo from "./gravity-drop-landing";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
+import HalftoneWaveHeroDemo from "./halftone-wave-hero";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
 import ImageExplosionFooterDemo from "./image-explosion-footer";
@@ -276,6 +277,7 @@ export const demos: Record<string, ComponentType> = {
   "frame-scroll": FrameScrollDemo,
   "halftone-interface-hero": HalftoneInterfaceHeroDemo,
   "halftone-scene-footer": HalftoneSceneFooterDemo,
+  "halftone-wave-hero": HalftoneWaveHeroDemo,
   "sandy-grain-background": SandyGrainBackgroundDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
   "slit-reveal-hero": SlitRevealHeroDemo,

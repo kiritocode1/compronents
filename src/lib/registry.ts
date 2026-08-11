@@ -1756,6 +1756,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "halftone-wave-hero",
+    title: "Halftone Wave Hero",
+    description:
+      "A hero built around a travelling waveform of halftone dot columns: a sine envelope stretches each column until the palette reads at full saturation, then collapses it so the multiply blend drives the whole stack to black at the node. The pointer parts the wave and swells the dots, and an opening sweep unpacks it left to right.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-08-11",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/halftone-wave-hero.tsx",
+        target: "components/ui/halftone-wave-hero.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "sandy-grain-background",
     title: "Sandy Grain Background",
     description:
