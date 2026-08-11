@@ -23,7 +23,14 @@ export interface NuanceDoc {
 
 export interface EditableDoc {
   name: string;
-  control: "text" | "textarea" | "color" | "tuple" | "links" | "asset-url";
+  control:
+    | "text"
+    | "textarea"
+    | "color"
+    | "tuple"
+    | "links"
+    | "asset-url"
+    | "slider";
   description: string;
 }
 
