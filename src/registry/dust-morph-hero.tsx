@@ -187,6 +187,57 @@ const FOV = 44;
 /** Turn rate about Y, radians per second. Roughly 8.7 degrees per second. */
 const SPIN = 0.152;
 
+/**
+ * Cursor simulation constants.
+ *
+ * The pointer does not displace points directly. It drives a two pass
+ * simulation whose state persists between frames, which is the whole reason the
+ * cloud can be dragged: a point pushed aside stays aside, carries momentum, and
+ * is pulled home by a spring rather than snapping back the instant the cursor
+ * leaves. Strengths are accelerations in brush space, radii are ratios of the
+ * cursor radius, and the decay terms are what hold the trail open behind a
+ * moving cursor.
+ */
+const CURSOR = {
+  /** Reach of the brush, as a fraction of half the viewport height. */
+  radius: 0.46,
+  /** Divides the falloff powers. Higher is a softer edge. */
+  softness: 1.12,
+  /** Multiplies every force, so one number scales the whole response. */
+  strength: 1.3,
+  /** How much further points fall off with view depth. */
+  depthFalloff: 0.45,
+  coreRadiusRatio: 0.36,
+  coreStrength: 10.5,
+  tailStrength: 1.4,
+  coreFalloff: 4.2,
+  tailFalloff: 3,
+  /** Pull back toward rest, and the drag that stops it oscillating. */
+  springStrength: 13,
+  damping: 4.6,
+  maxVelocity: 8.5,
+  maxOffset: 0.86,
+  /** Swirl around the cursor, scaled by how fast the cursor is moving. */
+  curlStrength: 2.3,
+  curlRadiusRatio: 0.78,
+  curlFalloff: 2.4,
+  /** How much points flee along their own normal rather than radially. */
+  normalDirectionInfluence: 0.78,
+  repelRandomness: 0.08,
+  /** Filament structure: dust clumps into strands rather than a smooth push. */
+  clumpScale: 3.2,
+  clumpContrast: 0.74,
+  clumpBoost: 2.4,
+  tipBias: 0.62,
+  /** How long displacement is remembered. This is the drag. */
+  clusterMemory: 0.38,
+  /** How strongly neighbouring points chain into the same strand. */
+  chainCoherence: 0.72,
+} as const;
+
+/** Resolution of the screen space brush field. */
+const FIELD_SIZE = 192;
+
 /** A cloud is the only currency here: positions, normals, and a wipe order. */
 interface Cloud {
   positions: Float32Array;
@@ -904,9 +955,6 @@ const VERTEX_SHADER = /* glsl */ `
   uniform float uSpike;
   uniform float uSize;
   uniform float uTime;
-  uniform vec2  uPointer;
-  uniform float uPointerStrength;
-  uniform float uPointerRadius;
 
   uniform vec3  uLightDirection;
   uniform float uAmbient;
@@ -915,12 +963,16 @@ const VERTEX_SHADER = /* glsl */ `
   uniform float uRim;
   uniform float uRimPower;
 
+  uniform sampler2D uInteractionState;
+  uniform float uViewportAspect;
+
   attribute vec3  aFrom;
   attribute vec3  aTo;
   attribute vec3  aFromNormal;
   attribute vec3  aToNormal;
   attribute float aRank;
   attribute float aSeed;
+  attribute vec2  aInteractionUv;
 
   varying float vAlpha;
   varying float vLight;
@@ -982,15 +1034,17 @@ const VERTEX_SHADER = /* glsl */ `
     vec4 viewPos = modelViewMatrix * vec4(pos, 1.0);
     vec4 clip = projectionMatrix * viewPos;
 
-    // Push points away from the cursor in screen space, so the response reads
-    // the same wherever the cloud happens to be in depth.
-    vec2 ndc = clip.xy / clip.w;
-    vec2 away = ndc - uPointer;
-    float dist = length(away);
-    float influence = exp(-pow(dist / uPointerRadius, 2.0) * 2.0) * uPointerStrength;
-    viewPos.xy += normalize(away + vec2(1e-5)) * influence;
+    // The cursor offset is simulated elsewhere and only read here. Each point
+    // owns one texel of the state texture, so this is a single fetch of a
+    // displacement that has been accumulating across frames. Applying it in
+    // clip space, scaled by w, keeps the push the same apparent size whatever
+    // depth the point sits at.
+    vec4 state = texture2D(uInteractionState, aInteractionUv);
+    float safeW = max(clip.w, 0.00001);
+    vec2 offsetNdc = vec2(state.x / max(uViewportAspect, 0.0001), state.y);
+    clip.xy += offsetNdc * safeW;
 
-    gl_Position = projectionMatrix * viewPos;
+    gl_Position = clip;
 
     // Lighting is evaluated per point and passed down as a single scalar. The
     // light sits in view space, so it does not turn with the cloud: the shading
@@ -1045,6 +1099,527 @@ const FRAGMENT_SHADER = /* glsl */ `
   }
 `;
 
+/**
+ * Shared noise, used by both simulation passes so the filaments the field lays
+ * down and the strands the particles chain into agree with one another.
+ */
+const SIM_NOISE = /* glsl */ `
+  float inverseSquareMask(float distance, float radius, float falloffPower) {
+    float safeRadius = max(radius, 0.0001);
+    float normalized = distance / safeRadius;
+    float invSq = 1.0 / (1.0 + normalized * normalized);
+    float shaped = pow(invSq, max(falloffPower, 0.0001));
+    float outerCutoff = 1.0 - smoothstep(1.0, 1.35, normalized);
+    return shaped * outerCutoff;
+  }
+
+  float hash12(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+  }
+
+  float hash13(vec3 p) {
+    p = fract(p * 0.1031);
+    p += dot(p, p.yzx + 33.33);
+    return fract((p.x + p.y) * p.z);
+  }
+
+  float valueNoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    float a = hash12(i);
+    float b = hash12(i + vec2(1.0, 0.0));
+    float c = hash12(i + vec2(0.0, 1.0));
+    float d = hash12(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+  }
+`;
+
+/** Full screen triangle for both simulation passes. */
+const PASS_VERTEX_SHADER = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = vec4(position.xy, 0.0, 1.0);
+  }
+`;
+
+/**
+ * Pass one: the brush field, in screen space.
+ *
+ * This is what a cursor leaves behind. Flow is advected along itself and
+ * diffused into its neighbours, so a stroke keeps moving and spreading after
+ * the cursor has gone, and both flow and strength decay exponentially at a rate
+ * set by clusterMemory. Injection is aimed between the cursor's direction of
+ * travel and the tangent, which is what curls the trail rather than shoving
+ * straight out, and it is masked by a ridged noise so the disturbance arrives
+ * as strands instead of a smooth blob.
+ */
+const FIELD_SHADER = /* glsl */ `
+  uniform sampler2D uFieldTex;
+  uniform vec2  uTexelSize;
+  uniform float uDelta;
+  uniform vec2  uCursorNdc;
+  uniform vec2  uCursorVelocity;
+  uniform float uCursorInfluence;
+  uniform float uViewportAspect;
+  uniform float uViewportHeightPx;
+  uniform float uCoreRadius;
+  uniform float uTailRadius;
+  uniform float uClumpScale;
+  uniform float uClumpContrast;
+  uniform float uTipBias;
+  uniform float uClusterMemory;
+  uniform float uChainCoherence;
+  uniform float uTime;
+  varying vec2 vUv;
+
+  ${SIM_NOISE}
+
+  float fbm3(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    for (int i = 0; i < 3; i += 1) {
+      value += amplitude * valueNoise(p);
+      p = p * 2.03 + vec2(14.7, -9.5);
+      amplitude *= 0.5;
+    }
+    return value / 0.875;
+  }
+
+  void main() {
+    vec2 uv = vUv;
+    vec4 previous = texture2D(uFieldTex, uv);
+    vec2 previousFlow = previous.xy;
+
+    float dt = clamp(uDelta, 0.0001, 0.05);
+    float advectionStrength = 0.06 + 0.16 * clamp(uChainCoherence, 0.0, 1.5);
+    vec2 advectedUv = clamp(uv - previousFlow * advectionStrength * dt, vec2(0.0), vec2(1.0));
+    vec4 advected = texture2D(uFieldTex, advectedUv);
+
+    vec4 north = texture2D(uFieldTex, clamp(uv + vec2(0.0, uTexelSize.y), vec2(0.0), vec2(1.0)));
+    vec4 south = texture2D(uFieldTex, clamp(uv - vec2(0.0, uTexelSize.y), vec2(0.0), vec2(1.0)));
+    vec4 east  = texture2D(uFieldTex, clamp(uv + vec2(uTexelSize.x, 0.0), vec2(0.0), vec2(1.0)));
+    vec4 west  = texture2D(uFieldTex, clamp(uv - vec2(uTexelSize.x, 0.0), vec2(0.0), vec2(1.0)));
+    vec4 neighbors = (north + south + east + west) * 0.25;
+
+    float diffusion = mix(0.03, 0.09, 1.0 - clamp(uChainCoherence, 0.0, 1.0));
+    vec2 flow = mix(advected.xy, neighbors.xy, diffusion);
+    float fieldStrength = mix(advected.z, neighbors.z, diffusion * 0.9);
+
+    vec2 cursorUv = uCursorNdc * 0.5 + 0.5;
+    vec2 uvDelta = uv - cursorUv;
+    vec2 deltaBrush = vec2(uvDelta.x * uViewportAspect, uvDelta.y);
+    float distancePx = length(deltaBrush) * max(uViewportHeightPx, 1.0) * 0.5;
+    float coreMask = inverseSquareMask(distancePx, uCoreRadius, 2.6);
+    float tailMask = inverseSquareMask(distancePx, uTailRadius, 2.0);
+    float localInject = clamp((coreMask + tailMask * 0.35) * uCursorInfluence, 0.0, 1.0);
+    localInject = pow(localInject, 1.6);
+
+    vec2 cursorVelocityBrush = vec2(uCursorVelocity.x * uViewportAspect, uCursorVelocity.y);
+    float cursorSpeed = length(cursorVelocityBrush);
+    vec2 cursorDirBrush = cursorSpeed > 0.0001 ? cursorVelocityBrush / cursorSpeed : vec2(0.0);
+    vec2 radialDir = length(deltaBrush) > 0.0001 ? normalize(deltaBrush) : vec2(0.0, 1.0);
+    vec2 tangentDir = vec2(-radialDir.y, radialDir.x);
+    float swirlSign = sign(cursorVelocityBrush.x * radialDir.y - cursorVelocityBrush.y * radialDir.x);
+    if (abs(swirlSign) < 0.001) swirlSign = 1.0;
+
+    vec2 injectDirBrush = normalize(mix(cursorDirBrush, tangentDir * swirlSign, 0.25));
+    if (length(injectDirBrush) <= 0.0001) injectDirBrush = tangentDir;
+    vec2 injectDirNdc = vec2(injectDirBrush.x / max(uViewportAspect, 0.0001), injectDirBrush.y);
+
+    float clumpScale = max(uClumpScale, 0.05);
+    float clumpContrast = clamp(uClumpContrast, 0.0, 1.0);
+    float tipBias = clamp(uTipBias, 0.0, 1.0);
+    float noiseDomainScale = 7.0 + clumpScale * 7.0;
+    vec2 noiseDomain = uv * noiseDomainScale + vec2(uTime * 0.23, -uTime * 0.17);
+    float ridgeNoise = fbm3(noiseDomain);
+    float ridgePhase = (uv.x + uv.y) * (26.0 + clumpScale * 7.5) + ridgeNoise * 6.2831;
+    float ridge = pow(clamp(0.5 + 0.5 * sin(ridgePhase), 0.0, 1.0), mix(1.8, 6.8, clumpContrast));
+    float tipThreshold = mix(0.48, 0.9, 0.55 * tipBias + 0.45 * clumpContrast);
+    float tipMask = smoothstep(tipThreshold, 1.0, ridge);
+    float injectMask = mix(0.75, 1.0, ridge) * mix(0.78, 1.0, tipMask);
+    float injectAmount = localInject * injectMask;
+
+    float memory = clamp(uClusterMemory, 0.0, 1.2);
+    float flowDecay = exp(-mix(4.6, 1.7, memory) * dt);
+    float strengthDecay = exp(-mix(6.0, 2.2, memory) * dt);
+    flow = flow * flowDecay + injectDirNdc * injectAmount * (0.08 + 0.14 * clamp(uChainCoherence, 0.0, 1.5));
+    fieldStrength = fieldStrength * strengthDecay + injectAmount * (0.46 + 0.32 * clumpContrast);
+
+    float maxFlow = 0.015;
+    float flowMagnitude = length(flow);
+    if (flowMagnitude > maxFlow) flow *= maxFlow / max(flowMagnitude, 0.0001);
+
+    gl_FragColor = vec4(flow, clamp(fieldStrength, 0.0, 1.0), 1.0);
+  }
+`;
+
+/**
+ * Pass two: one spring-damper per point, integrated in its own texel.
+ *
+ * The state carried between frames is an offset and a velocity, which is what
+ * makes this a drag rather than a push: forces accumulate into velocity,
+ * velocity into offset, and a spring pulls the offset back to zero while
+ * damping keeps it from ringing. Release the cursor and the cloud recovers over
+ * time instead of snapping.
+ *
+ * The point's own screen position has to be known to know how far it is from
+ * the cursor, so the morph is evaluated here exactly as the render pass
+ * evaluates it. Repulsion is aimed between straight-away-from-cursor and the
+ * point's own normal projected to screen, then bent along a curl-noise flow so
+ * displaced dust gathers into strands rather than spraying evenly.
+ */
+const STATE_SHADER = /* glsl */ `
+  uniform sampler2D uStateTex;
+  uniform sampler2D uFieldTex;
+  uniform sampler2D uSourcePositionTex;
+  uniform sampler2D uTargetPositionTex;
+  uniform sampler2D uSourceNormalTex;
+  uniform sampler2D uTargetNormalTex;
+  uniform sampler2D uTimingTex;
+  uniform float uPointCount;
+  uniform float uTextureSize;
+  uniform float uDelta;
+  uniform float uProgress;
+  uniform float uStagger;
+  uniform float uBurst;
+  uniform float uSettleOffset;
+  uniform float uSpike;
+  uniform mat4  uModelViewMatrix;
+  uniform mat4  uProjectionMatrix;
+  uniform mat3  uNormalMatrix;
+  uniform vec2  uCursorNdc;
+  uniform vec2  uCursorVelocity;
+  uniform float uCursorInfluence;
+  uniform float uViewportAspect;
+  uniform float uViewportHeightPx;
+  uniform float uCoreRadius;
+  uniform float uTailRadius;
+  uniform float uCoreStrength;
+  uniform float uTailStrength;
+  uniform float uCoreFalloff;
+  uniform float uTailFalloff;
+  uniform float uDepthFalloff;
+  uniform float uSpringStrength;
+  uniform float uDamping;
+  uniform float uMaxVelocity;
+  uniform float uMaxOffset;
+  uniform float uCurlStrength;
+  uniform float uCurlRadius;
+  uniform float uCurlFalloff;
+  uniform float uNormalDirectionInfluence;
+  uniform float uRepelRandomness;
+  uniform float uClumpScale;
+  uniform float uClumpContrast;
+  uniform float uClumpBoost;
+  uniform float uTipBias;
+  uniform float uClusterMemory;
+  uniform float uChainCoherence;
+  varying vec2 vUv;
+
+  ${SIM_NOISE}
+
+  float fbm3(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    for (int i = 0; i < 3; i += 1) {
+      value += amplitude * valueNoise(p);
+      p = p * 2.02 + vec2(17.13, -9.41);
+      amplitude *= 0.5;
+    }
+    return value / 0.875;
+  }
+
+  float easeOutCubic(float t) { float inv = 1.0 - t; return 1.0 - inv * inv * inv; }
+  float easeInOutCubic(float t) {
+    return t < 0.5 ? 4.0 * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 3.0) * 0.5;
+  }
+  float phase(float t, float start, float duration) {
+    return clamp((t - start) / max(duration, 0.00001), 0.0, 1.0);
+  }
+
+  void main() {
+    vec2 cell = floor(gl_FragCoord.xy - vec2(0.5));
+    float index = cell.y * uTextureSize + cell.x;
+    if (index >= uPointCount) { gl_FragColor = vec4(0.0); return; }
+
+    vec4 state = texture2D(uStateTex, vUv);
+    vec2 offsetBrush = state.xy;
+    vec2 velocityBrush = state.zw;
+
+    vec3 source = texture2D(uSourcePositionTex, vUv).xyz;
+    vec3 target = texture2D(uTargetPositionTex, vUv).xyz;
+    vec3 sourceNormal = normalize(texture2D(uSourceNormalTex, vUv).xyz);
+    vec3 targetNormal = normalize(texture2D(uTargetNormalTex, vUv).xyz);
+    vec4 timing = texture2D(uTimingTex, vUv);
+    float aSeed = timing.x;
+    float aRank = timing.y;
+
+    // Identical to the render pass, so the simulation pushes the point that is
+    // actually on screen rather than one a frame behind it.
+    float stagger = clamp(uStagger, 0.0, 0.95);
+    float jitter = (aSeed - 0.5) * (0.08 * stagger);
+    float delay = clamp(aRank * stagger + jitter, 0.0, 0.98);
+    float window = max(1.0 - stagger, 0.00001);
+    float localT = clamp((uProgress - delay) / window, 0.0, 1.0);
+
+    float burstT  = phase(localT, ${BURST_START.toFixed(3)} + aRank * stagger * ${BURST_STAGGER.toFixed(3)}, ${BURST_DURATION.toFixed(3)});
+    float crossT  = phase(localT, ${CROSS_START.toFixed(3)}, ${CROSS_DURATION.toFixed(3)});
+    float settleT = phase(localT, ${SETTLE_START.toFixed(3)}, ${SETTLE_DURATION.toFixed(3)});
+
+    float spike = mix(1.0 - uSpike, 1.0 + uSpike, hash13(source * 18.0));
+    vec3 burstPos  = source + sourceNormal * (uBurst * spike);
+    vec3 targetPos = target + targetNormal * (uSettleOffset * spike);
+
+    vec3 basePosition = source;
+    basePosition = mix(basePosition, burstPos,  easeOutCubic(burstT));
+    basePosition = mix(basePosition, targetPos, easeInOutCubic(crossT));
+    basePosition = mix(basePosition, target,    easeOutCubic(settleT));
+    vec3 baseNormal = normalize(mix(sourceNormal, targetNormal, easeInOutCubic(localT)));
+
+    vec4 mvPosition = uModelViewMatrix * vec4(basePosition, 1.0);
+    vec4 clipPosition = uProjectionMatrix * mvPosition;
+    float safeW = max(clipPosition.w, 0.00001);
+    float safeAspect = max(uViewportAspect, 0.0001);
+    vec2 offsetNdc = vec2(offsetBrush.x / safeAspect, offsetBrush.y);
+    vec2 particleNdc = clipPosition.xy / safeW + offsetNdc;
+
+    vec2 fieldUv = clamp(particleNdc * 0.5 + 0.5, vec2(0.0), vec2(1.0));
+    vec4 fieldSample = texture2D(uFieldTex, fieldUv);
+    vec2 fieldFlowRaw = vec2(fieldSample.x * safeAspect, fieldSample.y);
+    vec2 fieldFlowBrush = length(fieldFlowRaw) > 0.0001 ? normalize(fieldFlowRaw) : vec2(0.0);
+    float fieldStrength = clamp(fieldSample.z, 0.0, 1.2);
+
+    vec2 ndcDelta = particleNdc - uCursorNdc;
+    vec2 brushDelta = vec2(ndcDelta.x * uViewportAspect, ndcDelta.y);
+    float brushDistance = length(brushDelta);
+    float distancePx = brushDistance * max(uViewportHeightPx, 1.0) * 0.5;
+    vec2 radialDir = brushDistance > 0.0001 ? normalize(brushDelta) : vec2(0.0);
+
+    vec3 viewNormal = normalize(uNormalMatrix * baseNormal);
+    vec2 normalScreenRaw = vec2(viewNormal.x, viewNormal.y);
+    float normalScreenLength = length(normalScreenRaw);
+    vec2 normalScreenDir = normalScreenLength > 0.0001 ? normalScreenRaw / normalScreenLength : radialDir;
+    float viewDepth = max(-mvPosition.z, 0.0001);
+    float depthMask = 1.0 / (1.0 + uDepthFalloff * viewDepth);
+
+    float coreMask = inverseSquareMask(distancePx, uCoreRadius, uCoreFalloff);
+    float tailMask = inverseSquareMask(distancePx, uTailRadius, uTailFalloff);
+    float localFieldWeight = clamp((coreMask + tailMask) * 0.9, 0.0, 1.0);
+    float cursorFocus = pow(localFieldWeight, 1.45);
+    float fieldInfluence = fieldStrength * cursorFocus;
+
+    // A surface frame, so the filaments run along the form rather than across
+    // the screen: two curl-noise fields crossed give the strand direction.
+    vec3 normalObject = normalize(baseNormal);
+    vec3 referenceAxis = abs(normalObject.y) < 0.92 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0);
+    vec3 tangentObject = normalize(cross(referenceAxis, normalObject));
+    vec3 bitangentObject = normalize(cross(normalObject, tangentObject));
+    vec2 localSurface = vec2(dot(basePosition, tangentObject), dot(basePosition, bitangentObject));
+
+    float clumpScale = max(uClumpScale, 0.05);
+    float clumpContrast = clamp(uClumpContrast, 0.0, 1.0);
+    float tipBias = clamp(uTipBias, 0.0, 1.0);
+    float clusterMemory = clamp(uClusterMemory, 0.0, 1.2);
+    float chainCoherence = clamp(uChainCoherence, 0.0, 1.5);
+
+    float flowDensity = 1.4 + clumpScale * 1.55;
+    vec2 flowDomain = localSurface * flowDensity + vec2(aSeed * 5.9, -aSeed * 4.1) + offsetBrush * 2.8;
+    float flowEps = 0.03;
+    vec2 flowGradA = vec2(
+      fbm3(flowDomain + vec2(flowEps, 0.0)) - fbm3(flowDomain - vec2(flowEps, 0.0)),
+      fbm3(flowDomain + vec2(0.0, flowEps)) - fbm3(flowDomain - vec2(0.0, flowEps))
+    ) / (2.0 * flowEps);
+    vec2 flowA = length(flowGradA) > 0.0001 ? normalize(vec2(-flowGradA.y, flowGradA.x)) : vec2(1.0, 0.0);
+
+    vec2 flowDomainB = flowDomain * 1.91 + vec2(13.7, -8.3);
+    vec2 flowGradB = vec2(
+      fbm3(flowDomainB + vec2(flowEps, 0.0)) - fbm3(flowDomainB - vec2(flowEps, 0.0)),
+      fbm3(flowDomainB + vec2(0.0, flowEps)) - fbm3(flowDomainB - vec2(0.0, flowEps))
+    ) / (2.0 * flowEps);
+    vec2 flowB = length(flowGradB) > 0.0001 ? normalize(vec2(-flowGradB.y, flowGradB.x)) : vec2(-flowA.y, flowA.x);
+
+    vec2 flowSurface = normalize(mix(flowA, flowB, 0.42 + 0.34 * clumpContrast));
+    if (length(flowSurface) <= 0.0001) flowSurface = vec2(1.0, 0.0);
+    vec2 flowPerpSurface = vec2(-flowSurface.y, flowSurface.x);
+
+    float alongFlow = dot(localSurface, flowSurface);
+    float acrossFlow = dot(localSurface, flowPerpSurface);
+    float ridgeFreq = 2.7 + clumpScale * 6.4;
+    float ridgeA = pow(
+      0.5 + 0.5 * sin(alongFlow * ridgeFreq + fbm3(flowDomain * 0.63 + vec2(5.0, 3.0)) * 6.2831),
+      mix(2.0, 9.0, clumpContrast)
+    );
+    float ridgeB = pow(
+      0.5 + 0.5 * sin(acrossFlow * (ridgeFreq * 0.62) + aSeed * 6.2831),
+      mix(1.4, 5.5, clumpContrast)
+    );
+    float filamentSeed = clamp(ridgeA * 0.8 + ridgeA * ridgeB * 0.6, 0.0, 1.0);
+
+    float localDrive = localFieldWeight * uCursorInfluence;
+    float offsetMemory = smoothstep(0.01, 0.28, length(offsetBrush));
+    float magnetization = clamp(localDrive + offsetMemory * mix(0.2, 1.0, clusterMemory), 0.0, 1.25);
+    float activation = clamp(magnetization * mix(0.62, 1.18, clumpContrast), 0.0, 1.0);
+    float bodyField = smoothstep(0.28, 0.92, filamentSeed) * activation;
+    float tipThreshold = mix(0.52, 0.9, 0.6 * tipBias + 0.4 * clumpContrast);
+    float tipField = smoothstep(tipThreshold, 1.0, filamentSeed) * pow(activation, mix(0.9, 0.45, clumpContrast));
+    bodyField = clamp(max(bodyField, fieldInfluence * (0.28 + 0.24 * clusterMemory)), 0.0, 1.0);
+    tipField = clamp(max(tipField, fieldInfluence * bodyField * (0.32 + 0.38 * tipBias)), 0.0, 1.0);
+    float clumpField = clamp(max(bodyField, tipField), 0.0, 1.0);
+
+    float normalBlend = clamp(uNormalDirectionInfluence * (0.62 + 0.32 * bodyField), 0.0, 1.0);
+    vec2 baseRepulseDir = normalize(mix(radialDir, normalScreenDir, normalBlend));
+    if (length(baseRepulseDir) <= 0.0001) baseRepulseDir = radialDir;
+    if (length(radialDir) > 0.0001 && dot(baseRepulseDir, radialDir) < 0.0) baseRepulseDir *= -1.0;
+
+    vec2 cursorVelocityBrush = vec2(uCursorVelocity.x * safeAspect, uCursorVelocity.y);
+    float cursorSpeed = length(cursorVelocityBrush);
+
+    vec3 flowObject = normalize(tangentObject * flowSurface.x + bitangentObject * flowSurface.y);
+    vec3 flowView = normalize(uNormalMatrix * flowObject);
+    vec2 flowScreenRaw = vec2(flowView.x, flowView.y);
+    vec2 flowScreen = length(flowScreenRaw) > 0.0001
+      ? normalize(flowScreenRaw)
+      : vec2(-baseRepulseDir.y, baseRepulseDir.x);
+    if (length(fieldFlowBrush) > 0.0001) {
+      flowScreen = normalize(mix(flowScreen, fieldFlowBrush, clamp(0.18 + 0.32 * fieldInfluence, 0.0, 0.72)));
+    }
+    if (cursorSpeed > 0.0001) {
+      vec2 cursorDir = cursorVelocityBrush / max(cursorSpeed, 0.0001);
+      if (dot(flowScreen, cursorDir) < 0.0) flowScreen *= -1.0;
+    }
+
+    float flowBlend = clamp(0.1 + 0.34 * bodyField + 0.34 * tipField + 0.28 * fieldInfluence, 0.0, 0.82);
+    vec2 flowBiasedDir = normalize(
+      baseRepulseDir + flowScreen * (0.16 + 0.92 * tipField) + fieldFlowBrush * (0.08 + 0.42 * fieldInfluence)
+    );
+    vec2 repulseDir = length(flowBiasedDir) > 0.0001
+      ? normalize(mix(baseRepulseDir, flowBiasedDir, flowBlend))
+      : baseRepulseDir;
+    if (length(radialDir) > 0.0001 && dot(repulseDir, radialDir) < 0.0) repulseDir *= -1.0;
+
+    float randomStrength = clamp(uRepelRandomness, 0.0, 1.5);
+    float perParticleBoost = mix(0.12, 1.0, aSeed);
+    float domainNoise = hash13(basePosition * 11.0 + vec3(offsetBrush * 2.6, aSeed * 3.1));
+    float randomProfile = mix(0.8 + 0.2 * perParticleBoost, perParticleBoost * mix(0.6, 1.0, domainNoise), 0.25);
+    float randomGain = 1.0 + randomStrength * cursorFocus * randomProfile;
+    float bodySuppression = mix(0.1, 1.0, max(bodyField, fieldInfluence * 0.6));
+    float spikeGain = 1.0 + max(uClumpBoost, 0.0) * localFieldWeight *
+      (0.42 * bodyField + 2.8 * tipField + 0.55 * fieldInfluence);
+    vec2 repulseForce = repulseDir *
+      ((uCoreStrength * coreMask + uTailStrength * tailMask) * depthMask * uCursorInfluence *
+       randomGain * bodySuppression * spikeGain);
+
+    vec2 flowForce = flowScreen *
+      ((uCoreStrength * 0.06 + uTailStrength * 0.18) * cursorFocus * depthMask * uCursorInfluence *
+       (0.2 * bodyField + 0.62 * tipField + 0.55 * fieldInfluence) * (0.2 + 0.5 * chainCoherence));
+    vec2 fieldForce = fieldFlowBrush *
+      ((uCoreStrength * 0.04 + uTailStrength * 0.1) * cursorFocus * depthMask * uCursorInfluence *
+       fieldInfluence * (0.24 + 0.36 * chainCoherence));
+
+    vec2 tangentDir = vec2(-repulseDir.y, repulseDir.x);
+    float curlMask = inverseSquareMask(distancePx, uCurlRadius, uCurlFalloff);
+    float swirlSign = sign(cursorVelocityBrush.x * repulseDir.y - cursorVelocityBrush.y * repulseDir.x);
+    float curlSuppression = 1.0 - clamp(
+      chainCoherence * (0.2 * bodyField + 0.66 * tipField + 0.25 * fieldInfluence), 0.0, 0.95);
+    vec2 curlForce = tangentDir * swirlSign *
+      (uCurlStrength * curlMask * cursorSpeed * depthMask * uCursorInfluence *
+       (1.0 + 0.32 * randomStrength * localFieldWeight * perParticleBoost) *
+       (0.2 + 0.8 * clumpField) * curlSuppression);
+
+    // The spring is what makes this recoverable rather than cumulative.
+    vec2 springForce = -offsetBrush * uSpringStrength;
+    vec2 acceleration = repulseForce + flowForce + fieldForce + curlForce + springForce;
+
+    // Damp motion across the strand so points travel along it, which is what
+    // makes displaced dust chain instead of spraying.
+    float filingCoherence = clamp(
+      chainCoherence * (0.24 * bodyField + tipField + 0.24 * fieldInfluence), 0.0, 1.1);
+    vec2 flowPerpScreen = vec2(-flowScreen.y, flowScreen.x);
+    acceleration -= flowPerpScreen * dot(acceleration, flowPerpScreen) *
+      clamp(filingCoherence * 0.5, 0.0, 0.85);
+
+    float dt = clamp(uDelta, 0.0001, 0.05);
+    velocityBrush += acceleration * dt;
+    velocityBrush *= exp(-max(uDamping, 0.0) * dt);
+    velocityBrush -= flowPerpScreen * dot(velocityBrush, flowPerpScreen) *
+      clamp(filingCoherence * (0.42 + 0.2 * clumpContrast), 0.0, 0.85);
+
+    float velocityMagnitude = length(velocityBrush);
+    if (velocityMagnitude > uMaxVelocity) {
+      velocityBrush *= uMaxVelocity / max(velocityMagnitude, 0.0001);
+    }
+
+    offsetBrush += velocityBrush * dt;
+    float offsetMagnitude = length(offsetBrush);
+    if (offsetMagnitude > uMaxOffset) {
+      offsetBrush *= uMaxOffset / max(offsetMagnitude, 0.0001);
+      velocityBrush *= 0.45;
+    }
+
+    gl_FragColor = vec4(offsetBrush, velocityBrush);
+  }
+`;
+
+/**
+ * Pack per point data into a square texture, one texel per point.
+ *
+ * The simulation runs as a fragment shader, so every point needs an address it
+ * can be found at. A square grid indexed by point id gives it one, and the same
+ * grid coordinate becomes the point's `aInteractionUv` so the render pass can
+ * read its own result back.
+ */
+function packDataTexture(
+  source: Float32Array | null,
+  count: number,
+  size: number,
+  stride: number,
+): THREE.DataTexture {
+  const data = new Float32Array(size * size * 4);
+  if (source) {
+    for (let i = 0; i < count; i += 1) {
+      const from = i * stride;
+      const to = i * 4;
+      data[to] = source[from];
+      data[to + 1] = stride > 1 ? source[from + 1] : 0;
+      data[to + 2] = stride > 2 ? source[from + 2] : 0;
+      data[to + 3] = 1;
+    }
+  }
+  const texture = new THREE.DataTexture(
+    data,
+    size,
+    size,
+    THREE.RGBAFormat,
+    THREE.FloatType,
+  );
+  texture.minFilter = THREE.NearestFilter;
+  texture.magFilter = THREE.NearestFilter;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+/** Write per point values into an existing data texture and flag it. */
+function writeDataTexture(
+  texture: THREE.DataTexture,
+  source: Float32Array,
+  count: number,
+  stride: number,
+) {
+  const data = texture.image.data as Float32Array;
+  for (let i = 0; i < count; i += 1) {
+    const from = i * stride;
+    const to = i * 4;
+    data[to] = source[from];
+    data[to + 1] = stride > 1 ? source[from + 1] : 0;
+    data[to + 2] = stride > 2 ? source[from + 2] : 0;
+  }
+  texture.needsUpdate = true;
+}
+
 /** Deterministic RNG, so the cloud is identical between server and client. */
 function makeRandom(seed: number) {
   let state = seed >>> 0;
@@ -1070,8 +1645,8 @@ export default function DustMorphHero({
   color = DEFAULT_COLOR,
   background = DEFAULT_BACKGROUND,
   lighting,
-  pointerStrength = 0.42,
-  pointerRadius = 0.42,
+  pointerStrength = 1.3,
+  pointerRadius = 0.46,
   eyebrow = "BLANK",
   className,
 }: DustMorphHeroProps) {
@@ -1239,9 +1814,8 @@ export default function DustMorphHero({
         uSpike: { value: spike },
         uSize: { value: pointSize },
         uTime: { value: 0 },
-        uPointer: { value: new THREE.Vector2(10, 10) },
-        uPointerStrength: { value: 0 },
-        uPointerRadius: { value: pointerRadius },
+        uInteractionState: { value: null as THREE.Texture | null },
+        uViewportAspect: { value: 1 },
         uColor: { value: new THREE.Color(color) },
         uLightDirection: {
           value: new THREE.Vector3(...light.direction).normalize(),
@@ -1262,7 +1836,198 @@ export default function DustMorphHero({
       });
 
       const cloud = new THREE.Points(geometry, material);
+      cloud.frustumCulled = false;
       scene.add(cloud);
+
+      /* ---------------------------------------------------------------- */
+      /* Cursor simulation                                                 */
+      /* ---------------------------------------------------------------- */
+
+      // One texel per point, so the grid is the smallest square that holds them.
+      const stateSize = Math.max(
+        2,
+        Math.ceil(Math.sqrt(geometry.getAttribute("position").count)),
+      );
+      const pointCount = geometry.getAttribute("position").count;
+
+      const interactionUv = new Float32Array(pointCount * 2);
+      for (let i = 0; i < pointCount; i += 1) {
+        interactionUv[i * 2] = ((i % stateSize) + 0.5) / stateSize;
+        interactionUv[i * 2 + 1] =
+          (Math.floor(i / stateSize) + 0.5) / stateSize;
+      }
+      geometry.setAttribute(
+        "aInteractionUv",
+        new THREE.BufferAttribute(interactionUv, 2),
+      );
+
+      const sourcePositionTex = packDataTexture(
+        clouds[0].positions,
+        pointCount,
+        stateSize,
+        3,
+      );
+      const targetPositionTex = packDataTexture(
+        clouds[0].positions,
+        pointCount,
+        stateSize,
+        3,
+      );
+      const sourceNormalTex = packDataTexture(
+        clouds[0].normals,
+        pointCount,
+        stateSize,
+        3,
+      );
+      const targetNormalTex = packDataTexture(
+        clouds[0].normals,
+        pointCount,
+        stateSize,
+        3,
+      );
+      // Seed and rank share one texel, since both are per point timing.
+      const timingTex = packDataTexture(null, pointCount, stateSize, 1);
+      {
+        const data = timingTex.image.data as Float32Array;
+        for (let i = 0; i < pointCount; i += 1) {
+          data[i * 4] = seeds[i];
+          data[i * 4 + 1] = clouds[0].rank[i];
+        }
+        timingTex.needsUpdate = true;
+      }
+
+      const makeTarget = (size: number, smooth: boolean) =>
+        new THREE.WebGLRenderTarget(size, size, {
+          format: THREE.RGBAFormat,
+          type: THREE.FloatType,
+          minFilter: smooth ? THREE.LinearFilter : THREE.NearestFilter,
+          magFilter: smooth ? THREE.LinearFilter : THREE.NearestFilter,
+          depthBuffer: false,
+          stencilBuffer: false,
+        });
+
+      // Both passes read the previous frame while writing the next, so each
+      // needs two targets to swap between: a shader cannot sample the buffer it
+      // is drawing into.
+      let stateA = makeTarget(stateSize, false);
+      let stateB = makeTarget(stateSize, false);
+      let fieldA = makeTarget(FIELD_SIZE, true);
+      let fieldB = makeTarget(FIELD_SIZE, true);
+
+      const sizeScratch = new THREE.Vector2();
+      const passCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      const passGeometry = new THREE.PlaneGeometry(2, 2);
+
+      const fieldUniforms = {
+        uFieldTex: { value: fieldA.texture },
+        uTexelSize: {
+          value: new THREE.Vector2(1 / FIELD_SIZE, 1 / FIELD_SIZE),
+        },
+        uDelta: { value: 1 / 60 },
+        uCursorNdc: { value: new THREE.Vector2(2, 2) },
+        uCursorVelocity: { value: new THREE.Vector2() },
+        uCursorInfluence: { value: 0 },
+        uViewportAspect: { value: 1 },
+        uViewportHeightPx: { value: 1 },
+        uCoreRadius: { value: 1 },
+        uTailRadius: { value: 1 },
+        uClumpScale: { value: CURSOR.clumpScale },
+        uClumpContrast: { value: CURSOR.clumpContrast },
+        uTipBias: { value: CURSOR.tipBias },
+        uClusterMemory: { value: CURSOR.clusterMemory },
+        uChainCoherence: { value: CURSOR.chainCoherence },
+        uTime: { value: 0 },
+      };
+      const fieldMaterial = new THREE.ShaderMaterial({
+        uniforms: fieldUniforms,
+        vertexShader: PASS_VERTEX_SHADER,
+        fragmentShader: FIELD_SHADER,
+        depthTest: false,
+        depthWrite: false,
+      });
+      const fieldScene = new THREE.Scene();
+      const fieldQuad = new THREE.Mesh(passGeometry, fieldMaterial);
+      fieldQuad.frustumCulled = false;
+      fieldScene.add(fieldQuad);
+
+      const stateUniforms = {
+        uStateTex: { value: stateA.texture },
+        uFieldTex: { value: fieldA.texture },
+        uSourcePositionTex: { value: sourcePositionTex },
+        uTargetPositionTex: { value: targetPositionTex },
+        uSourceNormalTex: { value: sourceNormalTex },
+        uTargetNormalTex: { value: targetNormalTex },
+        uTimingTex: { value: timingTex },
+        uPointCount: { value: pointCount },
+        uTextureSize: { value: stateSize },
+        uDelta: { value: 1 / 60 },
+        uProgress: { value: 0 },
+        uStagger: { value: stagger },
+        uBurst: { value: disperse },
+        uSettleOffset: { value: settleOffset },
+        uSpike: { value: spike },
+        uModelViewMatrix: { value: new THREE.Matrix4() },
+        uProjectionMatrix: { value: new THREE.Matrix4() },
+        uNormalMatrix: { value: new THREE.Matrix3() },
+        uCursorNdc: { value: new THREE.Vector2(2, 2) },
+        uCursorVelocity: { value: new THREE.Vector2() },
+        uCursorInfluence: { value: 0 },
+        uViewportAspect: { value: 1 },
+        uViewportHeightPx: { value: 1 },
+        uCoreRadius: { value: 1 },
+        uTailRadius: { value: 1 },
+        uCoreStrength: { value: 0 },
+        uTailStrength: { value: 0 },
+        uCoreFalloff: { value: CURSOR.coreFalloff / CURSOR.softness },
+        uTailFalloff: { value: CURSOR.tailFalloff / CURSOR.softness },
+        uDepthFalloff: { value: CURSOR.depthFalloff },
+        uSpringStrength: { value: CURSOR.springStrength },
+        uDamping: { value: CURSOR.damping },
+        uMaxVelocity: { value: CURSOR.maxVelocity },
+        uMaxOffset: { value: CURSOR.maxOffset },
+        uCurlStrength: { value: 0 },
+        uCurlRadius: { value: 1 },
+        uCurlFalloff: { value: CURSOR.curlFalloff },
+        uNormalDirectionInfluence: {
+          value: CURSOR.normalDirectionInfluence,
+        },
+        uRepelRandomness: { value: CURSOR.repelRandomness },
+        uClumpScale: { value: CURSOR.clumpScale },
+        uClumpContrast: { value: CURSOR.clumpContrast },
+        uClumpBoost: { value: CURSOR.clumpBoost },
+        uTipBias: { value: CURSOR.tipBias },
+        uClusterMemory: { value: CURSOR.clusterMemory },
+        uChainCoherence: { value: CURSOR.chainCoherence },
+      };
+      const stateMaterial = new THREE.ShaderMaterial({
+        uniforms: stateUniforms,
+        vertexShader: PASS_VERTEX_SHADER,
+        fragmentShader: STATE_SHADER,
+        depthTest: false,
+        depthWrite: false,
+      });
+      const stateScene = new THREE.Scene();
+      const stateQuad = new THREE.Mesh(passGeometry, stateMaterial);
+      stateQuad.frustumCulled = false;
+      stateScene.add(stateQuad);
+
+      // Both histories start empty, or the first frame reads whatever the
+      // driver left in the buffer and the cloud jumps. They must clear to zero
+      // rather than to the paper colour: these buffers hold offsets and
+      // velocities, and clearing them to the background would seed every point
+      // with a displacement it never earned.
+      {
+        const clearColor = new THREE.Color();
+        renderer.getClearColor(clearColor);
+        const clearAlpha = renderer.getClearAlpha();
+        renderer.setClearColor(0x000000, 0);
+        for (const target of [stateA, stateB, fieldA, fieldB]) {
+          renderer.setRenderTarget(target);
+          renderer.clear(true, false, false);
+        }
+        renderer.setRenderTarget(null);
+        renderer.setClearColor(clearColor, clearAlpha);
+      }
 
       let current = 0;
       let morphing = false;
@@ -1270,6 +2035,7 @@ export default function DustMorphHero({
       let holdUntil = 0;
       let frame = 0;
       let running = true;
+      let elapsed = 0;
       const clock = new THREE.Clock();
 
       const fromAttr = geometry.getAttribute("aFrom") as THREE.BufferAttribute;
@@ -1298,9 +2064,42 @@ export default function DustMorphHero({
         fromNormalAttr.needsUpdate = true;
         toNormalAttr.needsUpdate = true;
         rankAttr.needsUpdate = true;
+        // The simulation resolves screen positions from its own textures, so
+        // they have to follow the morph as well. Skip this and the cursor keeps
+        // shoving the shape the cloud has already left.
+        writeDataTexture(
+          sourcePositionTex,
+          clouds[current].positions,
+          pointCount,
+          3,
+        );
+        writeDataTexture(
+          targetPositionTex,
+          clouds[target].positions,
+          pointCount,
+          3,
+        );
+        writeDataTexture(
+          sourceNormalTex,
+          clouds[current].normals,
+          pointCount,
+          3,
+        );
+        writeDataTexture(
+          targetNormalTex,
+          clouds[target].normals,
+          pointCount,
+          3,
+        );
+        {
+          const data = timingTex.image.data as Float32Array;
+          const rank = clouds[current].rank;
+          for (let i = 0; i < pointCount; i += 1) data[i * 4 + 1] = rank[i];
+          timingTex.needsUpdate = true;
+        }
         uniforms.uProgress.value = 0;
         morphing = true;
-        morphStart = clock.getElapsedTime();
+        morphStart = elapsed;
         current = target;
         setActive(target);
         setSettled(false);
@@ -1308,20 +2107,31 @@ export default function DustMorphHero({
 
       advanceRef.current = () => beginMorph(current + 1);
 
-      const pointerTarget = new THREE.Vector2(10, 10);
-      let pointerWeightTarget = 0;
-      let pointerWeight = 0;
+      // The simulation needs where the cursor is, how fast it is moving, and
+      // whether it is on the canvas at all. Velocity is what drives the swirl,
+      // so it is measured per event and decays on its own: a cursor that stops
+      // should stop stirring even though it is still hovering.
+      const cursorNdc = new THREE.Vector2(2, 2);
+      const cursorVelocity = new THREE.Vector2();
+      let cursorInfluenceTarget = 0;
+      let cursorInfluence = 0;
+      let lastPointerTime = 0;
 
       const onPointerMove = (event: PointerEvent) => {
         const rect = renderer.domElement.getBoundingClientRect();
-        pointerTarget.set(
-          ((event.clientX - rect.left) / rect.width) * 2 - 1,
-          -(((event.clientY - rect.top) / rect.height) * 2 - 1),
-        );
-        pointerWeightTarget = 1;
+        const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+        const now = elapsed;
+        const dt = Math.min(0.05, Math.max(1 / 240, now - lastPointerTime));
+        if (cursorNdc.x < 1.5) {
+          cursorVelocity.set((x - cursorNdc.x) / dt, (y - cursorNdc.y) / dt);
+        }
+        lastPointerTime = now;
+        cursorNdc.set(x, y);
+        cursorInfluenceTarget = 1;
       };
       const onPointerLeave = () => {
-        pointerWeightTarget = 0;
+        cursorInfluenceTarget = 0;
       };
 
       /**
@@ -1363,7 +2173,11 @@ export default function DustMorphHero({
       };
 
       const render = () => {
-        const time = clock.getElapsedTime();
+        // getDelta advances the clock's own marker, so elapsed time is
+        // accumulated here rather than read back from the same clock.
+        const dt = Math.min(0.05, Math.max(0.0001, clock.getDelta()));
+        elapsed += dt;
+        const time = elapsed;
         const s = live.current;
 
         uniforms.uTime.value = time;
@@ -1372,16 +2186,11 @@ export default function DustMorphHero({
         uniforms.uSpike.value = s.spike;
         uniforms.uStagger.value = s.stagger;
         uniforms.uSize.value = s.pointSize;
-        uniforms.uPointerRadius.value = s.pointerRadius;
         uniforms.uAmbient.value = s.light.ambient;
         uniforms.uDiffuse.value = s.light.diffuse;
         uniforms.uWrap.value = s.light.wrap;
         uniforms.uRim.value = s.light.rim;
         uniforms.uRimPower.value = s.light.rimPower;
-
-        pointerWeight += (pointerWeightTarget - pointerWeight) * 0.07;
-        uniforms.uPointer.value.lerp(pointerTarget, 0.12);
-        uniforms.uPointerStrength.value = s.pointerStrength * pointerWeight;
 
         if (morphing) {
           const t = Math.min(
@@ -1395,6 +2204,18 @@ export default function DustMorphHero({
             fromNormalAttr.array.set(clouds[current].normals);
             fromAttr.needsUpdate = true;
             fromNormalAttr.needsUpdate = true;
+            writeDataTexture(
+              sourcePositionTex,
+              clouds[current].positions,
+              pointCount,
+              3,
+            );
+            writeDataTexture(
+              sourceNormalTex,
+              clouds[current].normals,
+              pointCount,
+              3,
+            );
             uniforms.uProgress.value = 0;
             morphing = false;
             holdUntil = time + s.dwell;
@@ -1408,6 +2229,82 @@ export default function DustMorphHero({
         ) {
           beginMorph(current + 1);
         }
+
+        // ------------------------------------------------------------------
+        // Cursor simulation, stepped before the cloud is drawn so the render
+        // pass reads this frame's displacement rather than the last one's.
+        // ------------------------------------------------------------------
+        cursorInfluence += (cursorInfluenceTarget - cursorInfluence) * 0.12;
+        // Velocity decays whether or not events arrive, so a resting cursor
+        // stops swirling instead of stirring forever at its last speed.
+        cursorVelocity.multiplyScalar(Math.exp(-9 * dt));
+
+        const size = renderer.getSize(sizeScratch);
+        const aspect = size.x / Math.max(size.y, 1);
+        const heightPx = size.y;
+        const radiusPx = s.pointerRadius * Math.max(heightPx, 1) * 0.5;
+        const gain = s.pointerStrength;
+
+        fieldUniforms.uDelta.value = dt;
+        fieldUniforms.uTime.value = time;
+        fieldUniforms.uCursorNdc.value.copy(cursorNdc);
+        fieldUniforms.uCursorVelocity.value.copy(cursorVelocity);
+        fieldUniforms.uCursorInfluence.value = cursorInfluence;
+        fieldUniforms.uViewportAspect.value = aspect;
+        fieldUniforms.uViewportHeightPx.value = heightPx;
+        fieldUniforms.uCoreRadius.value = radiusPx * CURSOR.coreRadiusRatio;
+        fieldUniforms.uTailRadius.value = radiusPx;
+        fieldUniforms.uFieldTex.value = fieldA.texture;
+
+        const previousTarget = renderer.getRenderTarget();
+        renderer.setRenderTarget(fieldB);
+        renderer.render(fieldScene, passCamera);
+        const swapField = fieldA;
+        fieldA = fieldB;
+        fieldB = swapField;
+
+        // The simulation resolves the point's screen position itself, so it
+        // needs the same matrices the cloud is about to be drawn with.
+        camera.updateMatrixWorld();
+        cloud.updateMatrixWorld();
+        cloud.modelViewMatrix.multiplyMatrices(
+          camera.matrixWorldInverse,
+          cloud.matrixWorld,
+        );
+        cloud.normalMatrix.getNormalMatrix(cloud.modelViewMatrix);
+
+        stateUniforms.uDelta.value = dt;
+        stateUniforms.uProgress.value = uniforms.uProgress.value;
+        stateUniforms.uStagger.value = s.stagger;
+        stateUniforms.uBurst.value = s.disperse;
+        stateUniforms.uSettleOffset.value = s.settleOffset;
+        stateUniforms.uSpike.value = s.spike;
+        stateUniforms.uModelViewMatrix.value.copy(cloud.modelViewMatrix);
+        stateUniforms.uProjectionMatrix.value.copy(camera.projectionMatrix);
+        stateUniforms.uNormalMatrix.value.copy(cloud.normalMatrix);
+        stateUniforms.uCursorNdc.value.copy(cursorNdc);
+        stateUniforms.uCursorVelocity.value.copy(cursorVelocity);
+        stateUniforms.uCursorInfluence.value = cursorInfluence;
+        stateUniforms.uViewportAspect.value = aspect;
+        stateUniforms.uViewportHeightPx.value = heightPx;
+        stateUniforms.uCoreRadius.value = radiusPx * CURSOR.coreRadiusRatio;
+        stateUniforms.uTailRadius.value = radiusPx;
+        stateUniforms.uCurlRadius.value = radiusPx * CURSOR.curlRadiusRatio;
+        stateUniforms.uCoreStrength.value = gain * CURSOR.coreStrength;
+        stateUniforms.uTailStrength.value = gain * CURSOR.tailStrength;
+        stateUniforms.uCurlStrength.value = gain * CURSOR.curlStrength;
+        stateUniforms.uStateTex.value = stateA.texture;
+        stateUniforms.uFieldTex.value = fieldA.texture;
+
+        renderer.setRenderTarget(stateB);
+        renderer.render(stateScene, passCamera);
+        const swapState = stateA;
+        stateA = stateB;
+        stateB = swapState;
+        renderer.setRenderTarget(previousTarget);
+
+        uniforms.uInteractionState.value = stateA.texture;
+        uniforms.uViewportAspect.value = aspect;
 
         // One constant turn about Y, and nothing else.
         //
@@ -1472,6 +2369,18 @@ export default function DustMorphHero({
         advanceRef.current = null;
         geometry.dispose();
         material.dispose();
+        stateA.dispose();
+        stateB.dispose();
+        fieldA.dispose();
+        fieldB.dispose();
+        fieldMaterial.dispose();
+        stateMaterial.dispose();
+        passGeometry.dispose();
+        sourcePositionTex.dispose();
+        targetPositionTex.dispose();
+        sourceNormalTex.dispose();
+        targetNormalTex.dispose();
+        timingTex.dispose();
         renderer.dispose();
         if (element.parentNode === mount) mount.removeChild(element);
       });

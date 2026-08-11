@@ -9564,6 +9564,16 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Each point is delayed by its rank along an axis rather than by its seed, so the change travels through the form as a direction you can follow. The seed only jitters that slightly; let it dominate and the move dissolves into noise.",
       },
       {
+        label: "The cursor is simulated, not applied",
+        description:
+          "The pointer never displaces a point directly. It drives two simulation passes whose state persists between frames: a screen space brush field that is advected along itself, diffused into its neighbours and decayed, and a spring damper per point carrying an offset and a velocity in its own texel. That persistence is the whole effect. Forces accumulate into velocity and velocity into offset, so dust keeps moving after the cursor has passed, trails behind it, and is drawn home by a spring rather than snapping back the instant the cursor leaves.",
+      },
+      {
+        label: "Displaced dust chains instead of spraying",
+        description:
+          "Repulsion is aimed between straight away from the cursor and the point's own normal projected to screen, then bent along a curl noise flow read in the surface frame, and motion across that flow is damped. Points therefore gather into strands that run along the form. A plain radial push would move the same points the same distance and look like a hole being blown in a wall.",
+      },
+      {
         label: "One flat point size",
         description:
           "Points are drawn at a constant size in device pixels, not scaled by depth. Perspective scaling looks obviously right and is a trap: the near face swells into heavy overdraw while the far face shrinks under one pixel, and a point under a pixel is not drawn faintly, it is not rasterized at all. The cloud loses its back half and reads as a solid crust. Depth is carried by the lighting instead.",
@@ -9665,9 +9675,9 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "pointerStrength / pointerRadius",
         type: "number",
-        default: "0.42 / 0.42",
+        default: "1.3 / 0.46",
         description:
-          "How hard the pointer pushes points aside and how far its influence reaches, in normalized screen units. 0 strength disables it.",
+          "Strength scales every force in the cursor simulation at once (repulsion, curl and flow), and radius is the brush reach as a fraction of half the viewport height. The spring, damping and clamp constants that give the drag its weight are fixed.",
       },
       {
         name: "color / background",
