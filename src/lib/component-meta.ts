@@ -5691,6 +5691,232 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "grain-gradient-field": {
+    demoPath: "src/components/demos/grain-gradient-field.tsx",
+    nuance: [
+      {
+        label: "The grain is a pass, not an overlay",
+        description:
+          "The final shader takes 24 random taps of the frame it just rendered and averages them. Because it samples the image rather than adding a texture, the scatter concentrates where there is contrast and disappears across flat ground, so the grain belongs to the gradient instead of sitting on it.",
+      },
+      {
+        label: "The two blur passes run at different resolutions on purpose",
+        description:
+          "The first noise smear renders at a quarter of the canvas and the second at a half, so a 32-tap blur reaches across the whole frame for the cost of a small one. Running both at full size is slower AND tighter, which reads as a different picture.",
+      },
+      {
+        label: "Nothing loops; only two clocks move",
+        description:
+          "Four of the six layers hold their clock at zero forever. The shape never rotates and the grain pattern never crawls; only the noise smear and the standing wave advance, which is why the field drifts instead of animating.",
+      },
+      {
+        label: "Time is counted in frames, not seconds",
+        description:
+          "Each animating layer advances by a fixed step per rendered frame behind a 30fps gate, never by wall-clock delta. Swapping in a delta-based clock makes the drift speed depend on the display's refresh rate.",
+      },
+      {
+        label: "The trail is stored as hue and value",
+        description:
+          "A ping-pong buffer writes pointer direction into hue and speed into value, decaying every frame. The pass above it converts that back into a displacement, which is how the field keeps bending for a moment after the cursor has gone.",
+      },
+      {
+        label: "The scene has a fixed aspect and the box does not",
+        description:
+          "The field is drawn at a 1440x1800 ratio and anchored to the container's top-left corner, so the lit shape holds its proportions through a reflow instead of stretching with the section.",
+      },
+    ],
+    editable: [
+      {
+        name: "baseColor / shapeColor",
+        control: "color",
+        description:
+          "The flat ground and the flat-shaded colour of the lit shape. Everything else in the picture is those two colours pushed around.",
+      },
+      {
+        name: "config.grainAmount / config.grainQuality",
+        control: "tuple",
+        description:
+          "Scatter radius and how many of the 24 taps are actually sampled. Amount is the grain's size, quality is its smoothness.",
+      },
+      {
+        name: "config.blurAmount / config.blurAngle / config.blurScale",
+        control: "tuple",
+        description:
+          "Distance, direction and frequency of the noise-steered smear that turns the hard shape into a soft field.",
+      },
+      {
+        name: "config.shapeSize / config.shapeX / config.shapeY",
+        control: "tuple",
+        description:
+          "Scale and centre of the raymarched shape, in 0-1 texture space with y counting up from the bottom.",
+      },
+    ],
+    assets: assetsByIds(["grain-gradient-shape-wave"]),
+    api: [
+      {
+        name: "baseColor / shapeColor",
+        type: "string",
+        default: "#f7f8ec / #cdcec4",
+        description:
+          "Flat ground the stack composites over, and the flat-shaded colour of the shape lit by the single key light.",
+      },
+      {
+        name: "aspectWidth / aspectHeight / cover",
+        type: "number / number / boolean",
+        default: "1440 / 1800 / true",
+        description:
+          "Scene aspect and whether it fills the container or fits inside it. The canvas is anchored top-left so the shape keeps its proportions.",
+      },
+      {
+        name: "dpi / fps",
+        type: "number",
+        default: "1.5 / 30",
+        description:
+          "Backing-store multiplier and render gate. The motion is tuned for 30; raising it speeds the drift up because the clocks count frames.",
+      },
+      {
+        name: "interactive / paused",
+        type: "boolean",
+        default: "true / false",
+        description:
+          "Whether the pointer drives the trail and warp, and whether the loop runs at all. Paused holds the first painted frame.",
+      },
+      {
+        name: "config",
+        type: "Partial<GrainFieldConfig>",
+        default: "the scene's own values",
+        description:
+          "Per-knob overrides for all 23 shader parameters: shape placement and lighting, both blur passes, the wave, the pointer trail and the grain.",
+      },
+      {
+        name: "shapeSrc",
+        type: "string",
+        default: "Compronents-hosted PNG",
+        description:
+          "MSDF atlas the shape pass raymarches. RGB carry the multi-channel field and alpha carries a plain SDF; any atlas in that layout changes the silhouette.",
+      },
+      {
+        name: "fadeTopColor / fadeTop / fadeBottomColor / fadeBottom",
+        type: "string / number",
+        default: "#b8b9af / 0.2 / #f7f8ec / 0.2",
+        description:
+          "Edge fades that blend the field into the sections above and below it. Set either fraction to 0 to remove that fade.",
+      },
+    ],
+  },
+  "grain-gradient-nav": {
+    demoPath: "src/components/demos/grain-gradient-nav.tsx",
+    nuance: [
+      {
+        label: "One strip, not four panels",
+        description:
+          "Every panel sits side by side in a single row that slides horizontally, while the wrapper's height animates to the panel you moved to. Both use the same 0.8s cubic-bezier(0.5, 0, 0, 1), which is what fuses a sideways slide and a vertical resize into one gesture instead of two.",
+      },
+      {
+        label: "The slide only animates between panels",
+        description:
+          "Opening from closed snaps the strip into place with no transition. Animating on the way in would drag it across from wherever the last hover left it, which reads as the menu rewinding.",
+      },
+      {
+        label: "The pill is max-content wide, so collapsing centres itself",
+        description:
+          "Scroll collapses the link list to zero width; because the bar is sized by its contents and centred with a transform, it re-centres for free. Deriving the bar's width from its own measured box instead feeds the min-width straight back into the next measurement and the bar grows without bound.",
+      },
+      {
+        label: "The strip is absolutely positioned for a sizing reason",
+        description:
+          "Four panels of nowrap links in a flex row would set the max-content width of the bar to the sum of all of them. Taking the strip out of flow lets it contribute height but never width.",
+      },
+      {
+        label: "Dragging moves position, not a transform",
+        description:
+          "The handle writes into top/left rather than a translate, because the panel below has to recompute how much vertical room is left as the bar moves. A transform would leave that measurement stale.",
+      },
+      {
+        label: "Closing is a hover, not a click",
+        description:
+          "A full-screen overlay sits behind the bar while a panel is open and closes it on mouse-enter; the drag handle closes it too. There is nothing to dismiss and no click target to find.",
+      },
+    ],
+    editable: [
+      {
+        name: "menu",
+        control: "text",
+        description:
+          "Panels in order. The first is opened by the wordmark rather than by a link of its own; contact is always appended last.",
+      },
+      {
+        name: "baseColor / shapeColor",
+        control: "color",
+        description:
+          "The bar's ground and the colour of the crest sweeping through it. Keep them close in value or the crest reads as a highlight rather than as material.",
+      },
+      {
+        name: "panelWidth / expandedWidth",
+        control: "tuple",
+        description:
+          "Width of the bar and its ordinary panels, and the wider width it grows to for contact.",
+      },
+      {
+        name: "formFields",
+        control: "text",
+        description:
+          "Six field types: text, email, textarea, option pills, drag-and-drop file, and consent.",
+      },
+    ],
+    assets: assetsByIds(["grain-gradient-shape-wave"]),
+    api: [
+      {
+        name: "brand / menu / contactLabel",
+        type: "string / NavPanel[] / string",
+        default: "BLANK / 3 panels / Contact",
+        description:
+          "The wordmark, the panels it opens, and the label of the always-last contact panel.",
+      },
+      {
+        name: "contactHeading / contactSections",
+        type: "string / NavContactSection[]",
+        default: "3 sections",
+        description:
+          "Left column of the contact panel: a heading and rule-separated groups of contact lines.",
+      },
+      {
+        name: "formHeading / formText / formFields / onSubmit",
+        type: "string / string / NavFormField[] / function",
+        default: "6 fields",
+        description:
+          "The enquiry form. onSubmit receives the collected values plus the names of any attached files.",
+      },
+      {
+        name: "panelWidth / expandedWidth",
+        type: "number",
+        default: "420 / 996",
+        description:
+          "Minimum bar width (and so the width of every ordinary panel), and the width it animates to when contact opens.",
+      },
+      {
+        name: "draggable / collapseAfter / offsetTop",
+        type: "boolean / number / number",
+        default: "true / 3 / 42",
+        description:
+          "Whether the handle drags the bar, the scroll distance that collapses the links, and the bar's resting distance from the top.",
+      },
+      {
+        name: "surface / baseColor / shapeColor",
+        type: "boolean / string / string",
+        default: "true / #242422 / #5c5d55",
+        description:
+          "Whether to run the shader behind the bar at all, and its two colours. False gives a flat pill with every interaction intact.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        default: "undefined",
+        description:
+          "Replaces the bar's interior. The mega panel is not rendered, so this is the surface-only mode.",
+      },
+    ],
+  },
   "grid-scramble-hover": {
     demoPath: "src/components/demos/grid-scramble-hover.tsx",
     nuance: [

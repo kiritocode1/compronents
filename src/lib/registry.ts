@@ -986,6 +986,66 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "grain-gradient-field",
+    title: "Grain Gradient Field",
+    description:
+      "A section background where the grain lives inside the gradient instead of on top of it. A raymarched signed-distance shape is flat-shaded by one key light, smeared twice by noise-steered blur at quarter and half resolution, warped by a slow standing wave, dragged by a decaying pointer trail, and finally scattered by 24 random taps per pixel. Because that last pass samples the frame rather than overlaying a texture, the grain thickens where the image has contrast and disappears where it is flat, which is the tell no noise PNG can fake. Seven WebGL2 passes plus a ping-pong trail buffer, all eight shaders reproduced byte-for-byte, and every knob art-directable.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-11",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/grain-gradient-field/index.tsx",
+        target: "components/ui/grain-gradient-field/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/grain-gradient-field/engine.ts",
+        target: "components/ui/grain-gradient-field/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/grain-gradient-field/shaders.ts",
+        target: "components/ui/grain-gradient-field/shaders.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "grain-gradient-nav",
+    title: "Grain Gradient Nav",
+    description:
+      "A floating header pill you can drag by its dot handle, that opens into a mega menu. Hovering the wordmark or a link opens a panel beneath the bar; running along the menu slides one strip sideways while its height retargets, so the whole thing reads as a single surface reshaping rather than as panels swapping. Scrolling collapses the links to zero width and shrinks the pill to the wordmark until you hover it again, and the contact panel is wider than the others, so opening it widens and re-centres the bar in the same motion. Ships the two-column link panels with arrow chips, the contact panel with a working enquiry form (text, email, option pills, textarea, drag-and-drop attachments, consent), and the Grain Gradient Field shader as the pill's surface.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-08-11",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/grain-gradient-nav/index.tsx",
+        target: "components/ui/grain-gradient-nav/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/grain-gradient-nav/engine.ts",
+        target: "components/ui/grain-gradient-nav/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/grain-gradient-nav/shaders.ts",
+        target: "components/ui/grain-gradient-nav/shaders.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "grid-scramble-hover",
     title: "Grid Scramble Hover",
     description:

@@ -22,6 +22,8 @@ import FilmStudioPagePreview from "./film-studio-page";
 import FlowFieldTextPreview from "./flow-field-text";
 import FluidMosaicPreview from "./fluid-mosaic";
 import FrameScrollPreview from "./frame-scroll";
+import GrainGradientFieldPreview from "./grain-gradient-field";
+import GrainGradientNavPreview from "./grain-gradient-nav";
 import ImageRevealPreview from "./image-reveal";
 import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
@@ -62,6 +64,8 @@ export const previews: Record<string, ComponentType> = {
   "mosaic-flip": MosaicFlipPreview,
   "image-reveal": ImageRevealPreview,
   "ink-field": InkFieldPreview,
+  "grain-gradient-field": GrainGradientFieldPreview,
+  "grain-gradient-nav": GrainGradientNavPreview,
   "award-list": AwardListPreview,
   "inversa-scroll": InversaScrollPreview,
   "material-spotlight": MaterialSpotlightPreview,

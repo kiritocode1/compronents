@@ -206,6 +206,7 @@ export const componentGroups: RegistryGroup[] = [
       "rotating-halves-menu",
       "shuffle-panel-menu",
       "story-reel-viewer",
+      "grain-gradient-nav",
     ],
   },
   {
@@ -240,6 +241,7 @@ export const componentGroups: RegistryGroup[] = [
       "motion-tracking",
       "lego-dither",
       "ink-field",
+      "grain-gradient-field",
       "prism-light-instrument",
       "starry-night-flow",
       "flying-cube-scroll",

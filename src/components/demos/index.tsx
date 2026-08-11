@@ -88,6 +88,8 @@ import FrameScrollDemo from "./frame-scroll";
 import FrameSequenceHeroDemo from "./frame-sequence-hero";
 import GarageScene3DDemo from "./garage-scene-3d";
 import GravityDropLandingDemo from "./gravity-drop-landing";
+import GrainGradientFieldDemo from "./grain-gradient-field";
+import GrainGradientNavDemo from "./grain-gradient-nav";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
@@ -280,6 +282,8 @@ export const demos: Record<string, ComponentType> = {
   "spiral-gallery": SpiralGalleryDemo,
   "voku-image-slider": VokuImageSliderDemo,
   "threejs-infinite-slider": ThreejsInfiniteSliderDemo,
+  "grain-gradient-field": GrainGradientFieldDemo,
+  "grain-gradient-nav": GrainGradientNavDemo,
   "grid-scramble-hover": GridScrambleHoverDemo,
   "text-displacement-field": TextDisplacementFieldDemo,
   "vinyl-orbit-player": VinylOrbitPlayerDemo,

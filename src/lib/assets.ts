@@ -3068,6 +3068,16 @@ export const assetItems = [
       }) as const satisfies AssetItem,
   ),
   {
+    id: "grain-gradient-shape-wave",
+    label: "Grain Gradient shape atlas",
+    provider: "vercel-blob",
+    pathname: "grain-gradient/shape-wave.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/grain-gradient/shape-wave.png`,
+    role: "Multi-channel signed distance field of the wave silhouette the field raymarches and flat-shades.",
+    notes:
+      "Lossless PNG on purpose: RGB carry the MSDF and alpha carries a plain SDF, so lossy compression would round the silhouette off. Swap it for any MSDF atlas in the same layout to change the shape.",
+  },
+  {
     id: "grid-scramble-hover-img",
     label: "Grid Scramble Hover image",
     provider: "vercel-blob",

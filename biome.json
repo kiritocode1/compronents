@@ -101,6 +101,12 @@
       ],
       "formatter": { "enabled": false },
       "linter": { "enabled": false }
+    },
+    {
+      "includes": ["scripts/gen-grain-shaders.mjs"],
+      "linter": {
+        "rules": { "suspicious": { "noTemplateCurlyInString": "off" } }
+      }
     }
   ]
 }
