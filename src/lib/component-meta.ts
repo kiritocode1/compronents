@@ -9564,6 +9564,16 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Each point is delayed by its rank along an axis rather than by its seed, so the change travels through the form as a direction you can follow. The seed only jitters that slightly; let it dominate and the move dissolves into noise.",
       },
       {
+        label: "One flat point size",
+        description:
+          "Points are drawn at a constant size in device pixels, not scaled by depth. Perspective scaling looks obviously right and is a trap: the near face swells into heavy overdraw while the far face shrinks under one pixel, and a point under a pixel is not drawn faintly, it is not rasterized at all. The cloud loses its back half and reads as a solid crust. Depth is carried by the lighting instead.",
+      },
+      {
+        label: "Resolution is a density control",
+        description:
+          "What makes a cloud read as a volume is points per pixel, so drawing at full retina resolution spreads the same points over four times the area and thins the subject to grain. Capping the pixel ratio and spending the budget on points instead is the better side of that bargain.",
+      },
+      {
         label: "The camera is solved, not tuned",
         description:
           "The cloud spins about one axis, so its silhouette sweeps a cylinder rather than a sphere. Measuring the distance from that axis and the height separately, then placing the camera to satisfy whichever of width or height is tighter, is what makes the subject the same size on a phone as on a desktop without ever cropping. A fitted sphere would reserve width for a depth that is never turned toward the camera.",
@@ -9606,7 +9616,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "count",
         type: "number",
-        default: "200000",
+        default: "700000",
         description:
           "Points drawn on every shape. The single biggest cost lever; still one draw call at any value. Density is what makes a cloud read as a volume rather than as grain, so lower this for weaker hardware before lowering anything else.",
       },
@@ -9620,7 +9630,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "disperse / settleOffset / spike",
         type: "number",
-        default: "0.34 / 0.15 / 0.18",
+        default: "0.47 / 0.21 / 0.18",
         description:
           "How far points burst along their own normal mid morph, how far off the target they gather before settling onto it, and how much that distance varies per point. 0 disperse gives a straight interpolation with no dust.",
       },
@@ -9646,6 +9656,13 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Ambient, wrapped diffuse and rim terms evaluated per point. The light sits in view space so it does not turn with the cloud: the shading sweeps across the form as it rotates, which is what tells you the thing has volume. The wrap softens the terminator, because a hard shadow line across loose points reads as a seam.",
       },
       {
+        name: "pointSize / pixelRatio",
+        type: "number",
+        default: "3 / 1.25",
+        description:
+          "Point size in device pixels, flat, and how many device pixels are drawn per CSS pixel (capped by the screen's own ratio). Both are density controls: raise the ratio for a crisper but thinner cloud, lower it and spend the budget on count instead.",
+      },
+      {
         name: "pointerStrength / pointerRadius",
         type: "number",
         default: "0.42 / 0.42",
@@ -9655,7 +9672,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "color / background",
         type: "string",
-        default: '"#6f7169" / "#d4d5cd"',
+        default: '"#7b7c74" / "#d4d5cd"',
         description:
           "Ink of the cloud at full light, and the paper behind it. The lighting term multiplies the ink, so it needs headroom to darken into: a near-black ink shades to the same near black everywhere and the volume disappears.",
       },

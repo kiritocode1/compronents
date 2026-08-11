@@ -109,6 +109,15 @@ export interface DustMorphHeroProps {
   fit?: number;
   /** Point size in px at the reference distance. */
   pointSize?: number;
+  /**
+   * Device pixels drawn per CSS pixel, capped by the screen's own ratio.
+   *
+   * This is a density control, not a quality one. What makes a cloud read as a
+   * volume is points per pixel, so rendering at full retina resolution spreads
+   * the same points over four times the area and thins the subject to grain.
+   * Trading resolution for points is the better side of that bargain here.
+   */
+  pixelRatio?: number;
   /** Ink the points are drawn in, at full light. */
   color?: string;
   /** Paper behind the cloud. */
@@ -136,8 +145,11 @@ const DEFAULT_SHAPES: DustMorphShape[] = [
  * so the ink needs headroom to darken into: pick something already near black
  * and every point shades to the same near black, which is a flat cloud with
  * extra maths behind it.
+ *
+ * Burst and settle distances are quoted against a cloud normalised to
+ * CLOUD_RADIUS, so they stay in proportion whatever the source model measured.
  */
-const DEFAULT_COLOR = "#6f7169";
+const DEFAULT_COLOR = "#7b7c74";
 /** Cool grey-green paper, sampled rather than guessed. */
 const DEFAULT_BACKGROUND = "#d4d5cd";
 
@@ -172,6 +184,8 @@ const BURST_STAGGER = 0.22;
 const CLOUD_RADIUS = 1.5;
 /** Vertical field of view, degrees. */
 const FOV = 44;
+/** Turn rate about Y, radians per second. Roughly 8.7 degrees per second. */
+const SPIN = 0.152;
 
 /** A cloud is the only currency here: positions, normals, and a wipe order. */
 interface Cloud {
@@ -889,7 +903,6 @@ const VERTEX_SHADER = /* glsl */ `
   uniform float uSettleOffset;
   uniform float uSpike;
   uniform float uSize;
-  uniform float uDepthRef;
   uniform float uTime;
   uniform vec2  uPointer;
   uniform float uPointerStrength;
@@ -995,18 +1008,18 @@ const VERTEX_SHADER = /* glsl */ `
     float rim = pow(clamp(rimBase, 0.0, 1.0), max(uRimPower, 0.0001)) * uRim;
     vLight = clamp(uAmbient + wrapped * uDiffuse + rim, 0.0, 1.0);
 
-    // Size is normalised against the camera distance, so uSize is a size in
-    // pixels at the middle of the cloud rather than a world measurement. Scaling
-    // by raw depth instead would make each point tens of pixels across, and the
-    // cloud would fuse into a silhouette instead of reading as grain.
-    gl_PointSize =
-      uSize * (0.55 + 0.9 * aSeed) * (uDepthRef / max(0.001, -viewPos.z));
+    // One flat size in device pixels, deliberately not scaled by depth or by a
+    // per point factor.
+    //
+    // Perspective scaling seems obviously right and is a trap here: the near
+    // face of the cloud swells into heavy overdraw while the far face shrinks
+    // under one pixel, and a point under a pixel is not drawn faintly, it is not
+    // rasterized at all. The cloud then loses its back half entirely and reads
+    // as a solid crust. A constant size keeps the grain even, and depth is
+    // carried by the lighting instead.
+    gl_PointSize = uSize;
 
-    // Fade while off the surface. Peaks with the burst and returns as the point
-    // settles, which stops the loose middle of a morph reading as noise sprayed
-    // over the frame.
-    float away01 = clamp(easeOutCubic(burstT) - easeOutCubic(settleT), 0.0, 1.0);
-    vAlpha = 0.82 - 0.42 * away01;
+    vAlpha = 0.92;
   }
 `;
 
@@ -1043,16 +1056,17 @@ function makeRandom(seed: number) {
 
 export default function DustMorphHero({
   shapes = DEFAULT_SHAPES,
-  count = 200000,
+  count = 700000,
   dwell = 4.2,
   morphDuration = 1.9,
-  disperse = 0.34,
-  settleOffset = 0.15,
+  disperse = 0.47,
+  settleOffset = 0.21,
   spike = 0.18,
   stagger = 0.25,
   wipe = "y-",
   fit = 0.82,
-  pointSize = 1.9,
+  pointSize = 3,
+  pixelRatio = 1.25,
   color = DEFAULT_COLOR,
   background = DEFAULT_BACKGROUND,
   lighting,
@@ -1176,7 +1190,9 @@ export default function DustMorphHero({
         antialias: true,
         alpha: false,
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio || 1, Math.max(0.5, pixelRatio)),
+      );
       renderer.setClearColor(new THREE.Color(background), 1);
       mount.appendChild(renderer.domElement);
       renderer.domElement.style.display = "block";
@@ -1222,7 +1238,6 @@ export default function DustMorphHero({
         uSettleOffset: { value: settleOffset },
         uSpike: { value: spike },
         uSize: { value: pointSize },
-        uDepthRef: { value: camera.position.z },
         uTime: { value: 0 },
         uPointer: { value: new THREE.Vector2(10, 10) },
         uPointerStrength: { value: 0 },
@@ -1326,17 +1341,15 @@ export default function DustMorphHero({
       const applyFraming = () => {
         const f = Math.min(0.99, Math.max(0.05, live.current.fit));
         const halfTan = Math.tan((FOV * Math.PI) / 360);
-        // A little slack for the idle tilt and the pointer lean, which can turn
-        // a sliver of depth into height that the pure Y-spin measurement misses.
-        const halfHeight = Math.max(extent.y, 1e-3) * 1.06;
+        // A hair of slack for the idle breathing along the normals. The tilt
+        // and lean this used to allow for are gone, so the subject can sit
+        // closer to the edges than it did.
+        const halfHeight = Math.max(extent.y, 1e-3) * 1.02;
         const halfWidth = Math.max(extent.xz, 1e-3) * 1.02;
         const byHeight = halfHeight / (f * halfTan);
         const byWidth =
           halfWidth / (f * halfTan * Math.max(camera.aspect, 0.01));
         camera.position.z = Math.max(byHeight, byWidth);
-        // Point size is measured against this, so it has to follow the camera:
-        // uSize then means pixels at the middle of the cloud at any distance.
-        uniforms.uDepthRef.value = camera.position.z;
       };
 
       const resize = () => {
@@ -1396,12 +1409,14 @@ export default function DustMorphHero({
           beginMorph(current + 1);
         }
 
-        // Slow turn, plus a slight lean toward the pointer.
-        cloud.rotation.y =
-          time * 0.15 + uniforms.uPointer.value.x * 0.25 * pointerWeight;
-        cloud.rotation.x =
-          Math.sin(time * 0.11) * 0.09 -
-          uniforms.uPointer.value.y * 0.18 * pointerWeight;
+        // One constant turn about Y, and nothing else.
+        //
+        // Leaning or nodding the whole cloud toward the cursor reads as
+        // dragging the object around the frame: the subject stops being a thing
+        // that stands there and turns into something being handled. The
+        // pointer's business is displacing the points it passes, which happens
+        // per point in the shader, and it should not also steer the form.
+        cloud.rotation.y = time * SPIN;
 
         renderer.render(scene, camera);
       };
@@ -1470,7 +1485,7 @@ export default function DustMorphHero({
     };
     // Rebuild when the point budget, the shape set, the wipe order, or the paper
     // changes. Everything else is read live by the render loop.
-  }, [count, shapes.length, shapeKey, background, wipe]);
+  }, [count, shapes.length, shapeKey, background, wipe, pixelRatio]);
 
   const label = shapes[active]?.label ?? "";
 
