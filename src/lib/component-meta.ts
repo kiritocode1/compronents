@@ -9544,14 +9544,29 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Every shape is sampled into the same number of points up front, so index i on one shape is the same point as index i on the next. A change of subject is therefore a journey per point rather than a swap of two objects, which is what lets the form survive the move.",
       },
       {
-        label: "Area-weighted, not vertex-weighted",
+        label: "Every point carries a normal",
         description:
-          "Triangles are drawn in proportion to their area from a cumulative table, so density stays even instead of bunching wherever the source mesh happens to be finely tessellated. This is what keeps a sampled cone from looking like a wireframe of its own topology.",
+          "A point knows which way the surface it came from was facing, and that one attribute does three jobs: it lights the cloud, it aims the burst, and it is interpolated through the move so the shading never pops. Without it a point cloud can only ever be flat ink, because there is nothing for a light to be at an angle to.",
       },
       {
-        label: "Bowed, staggered, and faded",
+        label: "Area-weighted, not vertex-weighted",
         description:
-          "Each point starts a little after the one before it and bows off its path along a random direction, peaking halfway. Points also fade while dispersed, which is the difference between a cloud that comes apart and noise sprayed across the frame.",
+          "Triangles are drawn in proportion to their area from a cumulative table, so density stays even instead of bunching wherever the source mesh happens to be finely tessellated. The same barycentric weights interpolate the vertex normals, so a sampled point is lit by the surface it came from rather than by its triangle facet.",
+      },
+      {
+        label: "Out along the surface, in along the next",
+        description:
+          "The morph runs in three overlapping phases: burst out along the source normal, cross to a shell just off the target, settle onto it. Because both offsets follow normals, the cloud reads as the form inflating and deflating rather than as points crossing the middle of the frame.",
+      },
+      {
+        label: "A wipe, not a shuffle",
+        description:
+          "Each point is delayed by its rank along an axis rather than by its seed, so the change travels through the form as a direction you can follow. The seed only jitters that slightly; let it dominate and the move dissolves into noise.",
+      },
+      {
+        label: "The camera is solved, not tuned",
+        description:
+          "The cloud spins about one axis, so its silhouette sweeps a cylinder rather than a sphere. Measuring the distance from that axis and the height separately, then placing the camera to satisfy whichever of width or height is tighter, is what makes the subject the same size on a phone as on a desktop without ever cropping. A fitted sphere would reserve width for a depth that is never turned toward the camera.",
       },
     ],
     editable: [
@@ -9559,13 +9574,19 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "shapes",
         control: "textarea",
         description:
-          "The labels cycled through. Each entry gets its own parametric shape and its own per character reveal.",
+          "The labels cycled through. Each entry gets its own parametric shape and its own per character reveal, or a model URL to sample instead.",
       },
       {
         name: "count / pointSize / disperse",
         control: "slider",
         description:
-          "Points sampled per shape, their drawn size, and how far they bow off the path mid morph.",
+          "Points drawn per shape, their drawn size, and how far they burst along their own normal mid morph.",
+      },
+      {
+        name: "fit / stagger",
+        control: "slider",
+        description:
+          "Share of the frame the subject fills, and how much of the morph is spent handing over from the first point to the last.",
       },
       {
         name: "color / background",
@@ -9580,14 +9601,14 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "{ label: string; model?: string }[]",
         default: "Four labelled parametric shapes",
         description:
-          "Shapes cycled through in order. Two or more to have anything to morph between. Give a shape a model URL to sample a GLB instead of the built-in geometry; only its positions are read, and a model that fails to load falls back to its parametric slot. Host your own models, nothing is bundled.",
+          "Shapes cycled through in order. Two or more to have anything to morph between. Give a shape a model URL to use instead of the built-in geometry: the file is dispatched on its magic bytes, so a glTF binary is sampled into a cloud and a PCLD/PCL2/PCL4 point cloud is decoded directly. A model that fails to load falls back to its parametric slot. Host your own models, nothing is bundled.",
       },
       {
         name: "count",
         type: "number",
-        default: "65000",
+        default: "200000",
         description:
-          "Points sampled onto every shape. The single biggest cost lever; still one draw call at any value.",
+          "Points drawn on every shape. The single biggest cost lever; still one draw call at any value. Density is what makes a cloud read as a volume rather than as grain, so lower this for weaker hardware before lowering anything else.",
       },
       {
         name: "dwell / morphDuration",
@@ -9597,11 +9618,32 @@ export const componentMeta: Record<string, ComponentMeta> = {
           "Seconds a shape holds before advancing on its own, and seconds a morph takes end to end. Set dwell to 0 to advance only on input.",
       },
       {
-        name: "disperse",
+        name: "disperse / settleOffset / spike",
         type: "number",
-        default: "0.85",
+        default: "0.34 / 0.15 / 0.18",
         description:
-          "How far points bow off their path mid morph, in world units. 0 gives a straight interpolation with no dust.",
+          "How far points burst along their own normal mid morph, how far off the target they gather before settling onto it, and how much that distance varies per point. 0 disperse gives a straight interpolation with no dust.",
+      },
+      {
+        name: "fit",
+        type: "number",
+        default: "0.82",
+        description:
+          "Share of the frame the subject fills. The camera is placed to satisfy this against whichever of width or height is tighter, so a portrait viewport pulls back instead of cropping.",
+      },
+      {
+        name: "wipe / stagger",
+        type: '"x+" | "x-" | "y+" | "y-" | "z+" | "z-" | "none" / number',
+        default: '"y-" / 0.25',
+        description:
+          "Axis the morph wipes along and how much of it is spent handing over from the first point to the last. Set wipe to none to stagger by seed instead, which dissolves rather than sweeps.",
+      },
+      {
+        name: "lighting",
+        type: "{ direction; ambient; diffuse; wrap; rim; rimPower }",
+        default: "[0.35, 0.9, 0.45], 0.24, 1.12, 0.64, 0.36, 3.35",
+        description:
+          "Ambient, wrapped diffuse and rim terms evaluated per point. The light sits in view space so it does not turn with the cloud: the shading sweeps across the form as it rotates, which is what tells you the thing has volume. The wrap softens the terminator, because a hard shadow line across loose points reads as a seam.",
       },
       {
         name: "pointerStrength / pointerRadius",
@@ -9613,8 +9655,9 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "color / background",
         type: "string",
-        default: '"#171512" / "#d4d5cd"',
-        description: "Ink of the cloud and the paper behind it.",
+        default: '"#6f7169" / "#d4d5cd"',
+        description:
+          "Ink of the cloud at full light, and the paper behind it. The lighting term multiplies the ink, so it needs headroom to darken into: a near-black ink shades to the same near black everywhere and the volume disappears.",
       },
     ],
   },

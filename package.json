@@ -1,6 +1,7 @@
 {
   "name": "compronents",
   "version": "0.1.0",
+  "portless": "compronents",
   "private": true,
   "scripts": {
     "dev": "next dev",
