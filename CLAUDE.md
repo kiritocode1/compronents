@@ -1,5 +1,29 @@
 @AGENTS.md
 
+# Pre-push gates
+
+**Pushing to `main` is a production release.** The Vercel git integration builds
+every commit on `main` as `target: production` and re-aliases `ui.aryank.space`.
+There is no staging branch and no manual promote step, so the pre-push checks are
+the only checks. Run all four before pushing, not after:
+
+```bash
+npm test                          # 900+ tests: registry integrity, viz completeness
+npm run typecheck:registry
+npx biome check <changed paths>   # repo-wide `npm run lint` has pre-existing
+                                  # errors in old upload scripts; scope it
+npm run build                     # the only gate that type-checks the whole app
+```
+
+`npm run build` is not optional and the first three do not stand in for it.
+`typecheck:registry` runs against `tsconfig.check.json`, which excludes app files
+including `src/lib/component-meta.ts`: a type error there passes every other gate
+and fails only in `next build`.
+
+After pushing, check `vercel ls --yes` rather than the site. A failed build shows
+`● Error` there while `ui.aryank.space` keeps serving the previous deployment, so
+the site looking healthy is not evidence that the push landed.
+
 # BLANK direction (directing AI)
 
 When choosing UI, components, motion, type, craft, or libraries:
