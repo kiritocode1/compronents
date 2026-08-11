@@ -19,10 +19,15 @@
  * Sampling, morphing and pointer response all run on attributes and uniforms, so
  * the per-frame cost is one draw call no matter how many points are in flight.
  *
- * The shapes are parametric, so the component ships with no asset to host. The
- * sampler itself is geometry-agnostic: it only reads a position attribute and an
- * optional index, so pointing it at loaded GLB meshes instead is a matter of
- * handing it their merged geometry, not of changing how any of this works.
+ * Shapes default to parametric geometry, so the component ships with no asset
+ * to host. Give a shape a `model` URL and the GLB is loaded, flattened to
+ * world-space positions and sampled by the same code instead: the sampler only
+ * ever reads a position attribute and an optional index, so a loaded mesh and a
+ * torus knot are the same input to it. A model that fails to load falls back to
+ * its parametric slot rather than leaving a hole in the cycle, and the loader is
+ * imported on demand so the parametric path never pays for it.
+ *
+ * You must have the rights to any model you point this at. Nothing is bundled.
  *
  * BLANK, aryank.space
  */
@@ -33,6 +38,13 @@ import * as THREE from "three";
 export interface DustMorphShape {
   /** Label shown under the cloud while this shape is settled. */
   label: string;
+  /**
+   * URL of a GLB to sample instead of the built-in parametric shape. Only the
+   * position attributes are read, so materials and textures are irrelevant and
+   * a draco-free mesh export is enough. Falls back to the parametric shape if
+   * the file cannot be loaded.
+   */
+  model?: string;
 }
 
 export interface DustMorphHeroProps {
@@ -99,6 +111,57 @@ function normalise(geometry: THREE.BufferGeometry, target = 1.5) {
     target / sphere.radius,
     target / sphere.radius,
   );
+  return geometry;
+}
+
+/**
+ * Load a GLB and reduce it to a single position-only geometry in world space.
+ *
+ * Everything except positions is dropped: the cloud never shades, so materials,
+ * normals and UVs are dead weight, and stripping them means a mesh with several
+ * differently-attributed parts still merges cleanly. Each part is baked through
+ * its own world matrix first, otherwise a model whose parts are placed by node
+ * transforms collapses onto the origin.
+ *
+ * The loader is imported here rather than at module scope so a component using
+ * only parametric shapes never pays for it.
+ */
+async function loadModelGeometry(url: string): Promise<THREE.BufferGeometry> {
+  const { GLTFLoader } = await import(
+    "three/examples/jsm/loaders/GLTFLoader.js"
+  );
+  const gltf = await new GLTFLoader().loadAsync(url);
+  gltf.scene.updateMatrixWorld(true);
+
+  const chunks: Float32Array[] = [];
+  let total = 0;
+  gltf.scene.traverse((node) => {
+    const mesh = node as THREE.Mesh;
+    if (!mesh.isMesh || !mesh.geometry) return;
+    const source = mesh.geometry.index
+      ? mesh.geometry.toNonIndexed()
+      : mesh.geometry.clone();
+    source.applyMatrix4(mesh.matrixWorld);
+    const position = source.getAttribute("position");
+    if (position) {
+      const copy = new Float32Array(position.array as ArrayLike<number>);
+      chunks.push(copy);
+      total += copy.length;
+    }
+    source.dispose();
+  });
+
+  if (total === 0) throw new Error("no mesh geometry in model");
+
+  const merged = new Float32Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.length;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(merged, 3));
   return geometry;
 }
 
@@ -273,6 +336,9 @@ export default function DustMorphHero({
   className,
 }: DustMorphHeroProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  // Model URLs, flattened, so a changed source re-samples but a new array
+  // literal with the same contents does not tear the scene down.
+  const shapeKey = shapes.map((shape) => shape.model ?? "").join("|");
   const [active, setActive] = useState(0);
   const [settled, setSettled] = useState(true);
   const advanceRef = useRef<(() => void) | null>(null);
@@ -301,247 +367,294 @@ export default function DustMorphHero({
     const mount = mountRef.current;
     if (!mount) return;
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const shapeCount = Math.max(1, shapes.length);
-    const points = Math.max(1000, Math.round(count));
+    // Sampling can now involve a network fetch, so setup is async. Everything
+    // disposable registers here, and the cleanup runs whatever exists at the
+    // time: unmounting mid-load must not leave a renderer or a socket behind.
+    let cancelled = false;
+    const disposers: Array<() => void> = [];
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setClearColor(new THREE.Color(background), 1);
-    mount.appendChild(renderer.domElement);
-    renderer.domElement.style.display = "block";
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
+    const setup = async () => {
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const shapeCount = Math.max(1, shapes.length);
+      const points = Math.max(1000, Math.round(count));
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0, 6.2);
-
-    // Sample every shape up front. All clouds share a point count so index i on
-    // one shape is the same point as index i on the next.
-    const random = makeRandom(0x9e3779b9);
-    const clouds: Float32Array[] = [];
-    for (let i = 0; i < shapeCount; i += 1) {
-      const geometry = normalise(parametricGeometry(i));
-      clouds.push(sampleSurface(geometry, points, random));
-      geometry.dispose();
-    }
-
-    const drift = new Float32Array(points * 3);
-    const seeds = new Float32Array(points);
-    for (let i = 0; i < points; i += 1) {
-      // Random unit direction, rejection-free via spherical coordinates.
-      const theta = random() * Math.PI * 2;
-      const z = random() * 2 - 1;
-      const r = Math.sqrt(Math.max(0, 1 - z * z));
-      drift[i * 3] = Math.cos(theta) * r;
-      drift[i * 3 + 1] = Math.sin(theta) * r;
-      drift[i * 3 + 2] = z;
-      seeds[i] = random();
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(clouds[0].slice(), 3),
-    );
-    geometry.setAttribute(
-      "aFrom",
-      new THREE.BufferAttribute(clouds[0].slice(), 3),
-    );
-    geometry.setAttribute(
-      "aTo",
-      new THREE.BufferAttribute(clouds[0].slice(), 3),
-    );
-    geometry.setAttribute("aDrift", new THREE.BufferAttribute(drift, 3));
-    geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
-    geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 4);
-
-    const uniforms = {
-      uProgress: { value: 0 },
-      uStagger: { value: 0.55 },
-      uDisperse: { value: disperse },
-      uSize: { value: pointSize },
-      uDepthRef: { value: camera.position.z },
-      uTime: { value: 0 },
-      uPointer: { value: new THREE.Vector2(10, 10) },
-      uPointerStrength: { value: 0 },
-      uPointerRadius: { value: pointerRadius },
-      uColor: { value: new THREE.Color(color) },
-    };
-
-    const material = new THREE.ShaderMaterial({
-      uniforms,
-      vertexShader: VERTEX_SHADER,
-      fragmentShader: FRAGMENT_SHADER,
-      transparent: true,
-      depthWrite: false,
-    });
-
-    const cloud = new THREE.Points(geometry, material);
-    scene.add(cloud);
-
-    let current = 0;
-    let morphing = false;
-    let morphStart = 0;
-    let holdUntil = 0;
-    let frame = 0;
-    let running = true;
-    const clock = new THREE.Clock();
-
-    const fromAttr = geometry.getAttribute("aFrom") as THREE.BufferAttribute;
-    const toAttr = geometry.getAttribute("aTo") as THREE.BufferAttribute;
-
-    const beginMorph = (next: number) => {
-      if (morphing || shapeCount < 2) return;
-      const target = ((next % shapeCount) + shapeCount) % shapeCount;
-      if (target === current) return;
-      fromAttr.array.set(clouds[current]);
-      toAttr.array.set(clouds[target]);
-      fromAttr.needsUpdate = true;
-      toAttr.needsUpdate = true;
-      uniforms.uProgress.value = 0;
-      morphing = true;
-      morphStart = clock.getElapsedTime();
-      current = target;
-      setActive(target);
-      setSettled(false);
-    };
-
-    advanceRef.current = () => beginMorph(current + 1);
-
-    const pointerTarget = new THREE.Vector2(10, 10);
-    let pointerWeightTarget = 0;
-    let pointerWeight = 0;
-
-    const onPointerMove = (event: PointerEvent) => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      pointerTarget.set(
-        ((event.clientX - rect.left) / rect.width) * 2 - 1,
-        -(((event.clientY - rect.top) / rect.height) * 2 - 1),
-      );
-      pointerWeightTarget = 1;
-    };
-    const onPointerLeave = () => {
-      pointerWeightTarget = 0;
-    };
-
-    const resize = () => {
-      const rect = mount.getBoundingClientRect();
-      const width = Math.max(1, rect.width);
-      const height = Math.max(1, rect.height);
-      renderer.setSize(width, height, false);
-      camera.aspect = width / height;
-      // Pull back on narrow screens so the cloud never crops.
-      camera.position.z = 6.2 * Math.max(1, 1.15 / Math.min(1, width / 900));
-      camera.updateProjectionMatrix();
-      // Point size is measured against this, so it has to follow the pull-back.
-      uniforms.uDepthRef.value = camera.position.z;
-    };
-
-    const render = () => {
-      const time = clock.getElapsedTime();
-      const s = live.current;
-
-      uniforms.uTime.value = time;
-      uniforms.uDisperse.value = s.disperse;
-      uniforms.uSize.value = s.pointSize;
-      uniforms.uPointerRadius.value = s.pointerRadius;
-
-      pointerWeight += (pointerWeightTarget - pointerWeight) * 0.07;
-      uniforms.uPointer.value.lerp(pointerTarget, 0.12);
-      uniforms.uPointerStrength.value = s.pointerStrength * pointerWeight;
-
-      if (morphing) {
-        const t = Math.min(
-          1,
-          (time - morphStart) / Math.max(0.001, s.morphDuration),
-        );
-        uniforms.uProgress.value = t;
-        if (t >= 1) {
-          // Bake the arrival so the next morph starts from a clean baseline.
-          fromAttr.array.set(clouds[current]);
-          fromAttr.needsUpdate = true;
-          uniforms.uProgress.value = 0;
-          morphing = false;
-          holdUntil = time + s.dwell;
-          setSettled(true);
+      // Sample every shape up front. All clouds share a point count so index i
+      // on one shape is the same point as index i on the next.
+      const random = makeRandom(0x9e3779b9);
+      const clouds: Float32Array[] = [];
+      for (let i = 0; i < shapeCount; i += 1) {
+        const url = shapes[i]?.model;
+        let geometry: THREE.BufferGeometry;
+        if (url) {
+          try {
+            geometry = normalise(await loadModelGeometry(url));
+          } catch {
+            // A missing or broken model degrades to its parametric slot rather
+            // than leaving a hole in the cycle.
+            geometry = normalise(parametricGeometry(i));
+          }
+        } else {
+          geometry = normalise(parametricGeometry(i));
         }
-      } else if (
-        s.dwell > 0 &&
-        !reduceMotion &&
-        time > holdUntil &&
-        shapeCount > 1
-      ) {
-        beginMorph(current + 1);
+        if (cancelled) {
+          geometry.dispose();
+          return;
+        }
+        clouds.push(sampleSurface(geometry, points, random));
+        geometry.dispose();
+      }
+      if (cancelled) return;
+
+      buildScene(clouds, points, shapeCount, reduceMotion);
+    };
+
+    const buildScene = (
+      clouds: Float32Array[],
+      points: number,
+      shapeCount: number,
+      reduceMotion: boolean,
+    ) => {
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: false,
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setClearColor(new THREE.Color(background), 1);
+      mount.appendChild(renderer.domElement);
+      renderer.domElement.style.display = "block";
+      renderer.domElement.style.width = "100%";
+      renderer.domElement.style.height = "100%";
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+      camera.position.set(0, 0, 6.2);
+
+      const random = makeRandom(0x517cc1b7);
+      const drift = new Float32Array(points * 3);
+      const seeds = new Float32Array(points);
+      for (let i = 0; i < points; i += 1) {
+        // Random unit direction, rejection-free via spherical coordinates.
+        const theta = random() * Math.PI * 2;
+        const z = random() * 2 - 1;
+        const r = Math.sqrt(Math.max(0, 1 - z * z));
+        drift[i * 3] = Math.cos(theta) * r;
+        drift[i * 3 + 1] = Math.sin(theta) * r;
+        drift[i * 3 + 2] = z;
+        seeds[i] = random();
       }
 
-      // Slow turn, plus a slight lean toward the pointer.
-      cloud.rotation.y =
-        time * 0.14 + uniforms.uPointer.value.x * 0.25 * pointerWeight;
-      cloud.rotation.x =
-        Math.sin(time * 0.11) * 0.09 -
-        uniforms.uPointer.value.y * 0.18 * pointerWeight;
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(clouds[0].slice(), 3),
+      );
+      geometry.setAttribute(
+        "aFrom",
+        new THREE.BufferAttribute(clouds[0].slice(), 3),
+      );
+      geometry.setAttribute(
+        "aTo",
+        new THREE.BufferAttribute(clouds[0].slice(), 3),
+      );
+      geometry.setAttribute("aDrift", new THREE.BufferAttribute(drift, 3));
+      geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+      geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 4);
 
-      renderer.render(scene, camera);
-    };
+      const uniforms = {
+        uProgress: { value: 0 },
+        uStagger: { value: 0.55 },
+        uDisperse: { value: disperse },
+        uSize: { value: pointSize },
+        uDepthRef: { value: camera.position.z },
+        uTime: { value: 0 },
+        uPointer: { value: new THREE.Vector2(10, 10) },
+        uPointerStrength: { value: 0 },
+        uPointerRadius: { value: pointerRadius },
+        uColor: { value: new THREE.Color(color) },
+      };
 
-    const loop = () => {
-      if (!running) return;
-      render();
-      frame = requestAnimationFrame(loop);
-    };
+      const material = new THREE.ShaderMaterial({
+        uniforms,
+        vertexShader: VERTEX_SHADER,
+        fragmentShader: FRAGMENT_SHADER,
+        transparent: true,
+        depthWrite: false,
+      });
 
-    resize();
-    holdUntil = dwell;
-    if (reduceMotion) {
-      render();
-    } else {
-      frame = requestAnimationFrame(loop);
-    }
+      const cloud = new THREE.Points(geometry, material);
+      scene.add(cloud);
 
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(mount);
+      let current = 0;
+      let morphing = false;
+      let morphStart = 0;
+      let holdUntil = 0;
+      let frame = 0;
+      let running = true;
+      const clock = new THREE.Clock();
 
-    // Stop rendering when the hero is not on screen; a point cloud this size is
-    // not something to keep running behind the fold.
-    const intersectionObserver = new IntersectionObserver(
-      ([entry]) => {
-        const visible = entry?.isIntersecting ?? true;
-        if (reduceMotion) return;
-        if (visible && !running) {
-          running = true;
-          frame = requestAnimationFrame(loop);
-        } else if (!visible && running) {
-          running = false;
-          cancelAnimationFrame(frame);
+      const fromAttr = geometry.getAttribute("aFrom") as THREE.BufferAttribute;
+      const toAttr = geometry.getAttribute("aTo") as THREE.BufferAttribute;
+
+      const beginMorph = (next: number) => {
+        if (morphing || shapeCount < 2) return;
+        const target = ((next % shapeCount) + shapeCount) % shapeCount;
+        if (target === current) return;
+        fromAttr.array.set(clouds[current]);
+        toAttr.array.set(clouds[target]);
+        fromAttr.needsUpdate = true;
+        toAttr.needsUpdate = true;
+        uniforms.uProgress.value = 0;
+        morphing = true;
+        morphStart = clock.getElapsedTime();
+        current = target;
+        setActive(target);
+        setSettled(false);
+      };
+
+      advanceRef.current = () => beginMorph(current + 1);
+
+      const pointerTarget = new THREE.Vector2(10, 10);
+      let pointerWeightTarget = 0;
+      let pointerWeight = 0;
+
+      const onPointerMove = (event: PointerEvent) => {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointerTarget.set(
+          ((event.clientX - rect.left) / rect.width) * 2 - 1,
+          -(((event.clientY - rect.top) / rect.height) * 2 - 1),
+        );
+        pointerWeightTarget = 1;
+      };
+      const onPointerLeave = () => {
+        pointerWeightTarget = 0;
+      };
+
+      const resize = () => {
+        const rect = mount.getBoundingClientRect();
+        const width = Math.max(1, rect.width);
+        const height = Math.max(1, rect.height);
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        // Pull back on narrow screens so the cloud never crops.
+        camera.position.z = 6.2 * Math.max(1, 1.15 / Math.min(1, width / 900));
+        camera.updateProjectionMatrix();
+        // Point size is measured against this, so it has to follow the pull-back.
+        uniforms.uDepthRef.value = camera.position.z;
+      };
+
+      const render = () => {
+        const time = clock.getElapsedTime();
+        const s = live.current;
+
+        uniforms.uTime.value = time;
+        uniforms.uDisperse.value = s.disperse;
+        uniforms.uSize.value = s.pointSize;
+        uniforms.uPointerRadius.value = s.pointerRadius;
+
+        pointerWeight += (pointerWeightTarget - pointerWeight) * 0.07;
+        uniforms.uPointer.value.lerp(pointerTarget, 0.12);
+        uniforms.uPointerStrength.value = s.pointerStrength * pointerWeight;
+
+        if (morphing) {
+          const t = Math.min(
+            1,
+            (time - morphStart) / Math.max(0.001, s.morphDuration),
+          );
+          uniforms.uProgress.value = t;
+          if (t >= 1) {
+            // Bake the arrival so the next morph starts from a clean baseline.
+            fromAttr.array.set(clouds[current]);
+            fromAttr.needsUpdate = true;
+            uniforms.uProgress.value = 0;
+            morphing = false;
+            holdUntil = time + s.dwell;
+            setSettled(true);
+          }
+        } else if (
+          s.dwell > 0 &&
+          !reduceMotion &&
+          time > holdUntil &&
+          shapeCount > 1
+        ) {
+          beginMorph(current + 1);
         }
-      },
-      { rootMargin: "96px" },
-    );
-    intersectionObserver.observe(mount);
 
-    const element = renderer.domElement;
-    element.addEventListener("pointermove", onPointerMove, { passive: true });
-    element.addEventListener("pointerleave", onPointerLeave, { passive: true });
+        // Slow turn, plus a slight lean toward the pointer.
+        cloud.rotation.y =
+          time * 0.14 + uniforms.uPointer.value.x * 0.25 * pointerWeight;
+        cloud.rotation.x =
+          Math.sin(time * 0.11) * 0.09 -
+          uniforms.uPointer.value.y * 0.18 * pointerWeight;
+
+        renderer.render(scene, camera);
+      };
+
+      const loop = () => {
+        if (!running) return;
+        render();
+        frame = requestAnimationFrame(loop);
+      };
+
+      resize();
+      holdUntil = dwell;
+      if (reduceMotion) {
+        render();
+      } else {
+        frame = requestAnimationFrame(loop);
+      }
+
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(mount);
+
+      // Stop rendering when the hero is not on screen; a point cloud this size is
+      // not something to keep running behind the fold.
+      const intersectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          const visible = entry?.isIntersecting ?? true;
+          if (reduceMotion) return;
+          if (visible && !running) {
+            running = true;
+            frame = requestAnimationFrame(loop);
+          } else if (!visible && running) {
+            running = false;
+            cancelAnimationFrame(frame);
+          }
+        },
+        { rootMargin: "96px" },
+      );
+      intersectionObserver.observe(mount);
+
+      const element = renderer.domElement;
+      element.addEventListener("pointermove", onPointerMove, { passive: true });
+      element.addEventListener("pointerleave", onPointerLeave, {
+        passive: true,
+      });
+
+      disposers.push(() => {
+        running = false;
+        cancelAnimationFrame(frame);
+        resizeObserver.disconnect();
+        intersectionObserver.disconnect();
+        element.removeEventListener("pointermove", onPointerMove);
+        element.removeEventListener("pointerleave", onPointerLeave);
+        advanceRef.current = null;
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+        if (element.parentNode === mount) mount.removeChild(element);
+      });
+    };
+
+    setup();
 
     return () => {
-      running = false;
-      cancelAnimationFrame(frame);
-      resizeObserver.disconnect();
-      intersectionObserver.disconnect();
-      element.removeEventListener("pointermove", onPointerMove);
-      element.removeEventListener("pointerleave", onPointerLeave);
-      advanceRef.current = null;
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      if (element.parentNode === mount) mount.removeChild(element);
+      cancelled = true;
+      for (const dispose of disposers) dispose();
     };
-    // Rebuild only when the point budget or the shape set actually changes.
-  }, [count, shapes.length, background]);
+    // Rebuild when the point budget, the shape count, or any model URL changes.
+  }, [count, shapes.length, shapeKey, background]);
 
   const label = shapes[active]?.label ?? "";
 

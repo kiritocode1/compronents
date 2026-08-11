@@ -9577,10 +9577,10 @@ export const componentMeta: Record<string, ComponentMeta> = {
     api: [
       {
         name: "shapes",
-        type: "{ label: string }[]",
-        default: "Four labelled shapes",
+        type: "{ label: string; model?: string }[]",
+        default: "Four labelled parametric shapes",
         description:
-          "Shapes cycled through in order. Two or more to have anything to morph between.",
+          "Shapes cycled through in order. Two or more to have anything to morph between. Give a shape a model URL to sample a GLB instead of the built-in geometry; only its positions are read, and a model that fails to load falls back to its parametric slot. Host your own models, nothing is bundled.",
       },
       {
         name: "count",
