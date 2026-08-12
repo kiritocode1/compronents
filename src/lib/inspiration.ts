@@ -9144,6 +9144,52 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer profiles and socials",
     links: [
       {
+        title: "Kalypso on Instagram",
+        href: "https://www.instagram.com/kalypsodesigns/",
+        dateAdded: "2026-08-12",
+        kind: ["directory", "gallery"],
+        stack: [
+          "instagram",
+          "open-source",
+          "self-hosting",
+          "typography",
+          "fonts",
+          "mockups",
+          "design",
+        ],
+        useFor: [
+          "designers to follow",
+          "design instagram",
+          "daily design inspiration",
+          "free design resources",
+          "open source design tools",
+          "daily design carousel",
+          "monospace fonts",
+          "carousel design",
+        ],
+        description:
+          "Instagram account of Kalypso, a product designer based in New Zealand, worth following for a daily carousel of free and open-source resources aimed at designers and developers. He has posted one carousel a day since Jan 1 2023, a streak pinned to the top of his grid as 'It took 3 years to create this post' covering Jan 1 2023 to Dec 31 2025, and the account sits at 2,198 posts and 419K followers. A 52-post sample runs to self-hosted developer tools, free and open-source monospace fonts, where to host a site for free in 2026, new open-source projects, rare free fonts, ascii tools, free app presentation mockups, UI components for developers, and design inspiration sites with MCP tools, with several of those recurring as an ongoing series rather than one-offs. It is all art-directed in near-black and signal red with heavy type; he is also building 72pt, a hand-picked catalogue of free open-source typefaces for iPhone and Mac, and states he does not do collaborations or promotions.",
+      },
+      {
+        title: "Noah Elhadedy on Instagram",
+        href: "https://www.instagram.com/noahelhadedy/",
+        dateAdded: "2026-08-12",
+        kind: "directory",
+        stack: ["instagram", "ui", "ux", "ai", "design"],
+        useFor: [
+          "ui ux resources",
+          "design resource lists",
+          "designers to follow",
+          "icon resources",
+          "mockup resources",
+          "free design tools",
+          "ai design tools",
+          "illustration packs",
+        ],
+        description:
+          "Instagram account of Noah Elhadedy, a product designer working across B2B, B2C and SaaS, worth following for category-labelled carousel round-ups spanning design tooling and AI. A 48-post sample covers free premium mockups (running to Part 10), Mac apps, +150 icon resources, free fonts, illustration packs, SVG pattern websites, gradients and generators, wireframing and whiteboards, extensions every designer needs and Figma Config 2026, alongside a heavy AI seam: AI UI builder websites, AI branding websites, AI meeting note takers, prompt packs and trending agent skills. Covers carry a small category label at the top over a consistent near-black gradient with a byline chip, so the grid reads as one system rather than 133 separate posts. Worth knowing before you follow: the actual links are usually not in the post, he gates them behind commenting a keyword to trigger a DM, and the account sits at 8,904 followers posting close to daily; his portfolio is at noahelhadedy.com.",
+      },
+      {
         title: "Aristide Benoist on X",
         href: "https://x.com/AristideBenoist",
         dateAdded: "2026-08-05",
