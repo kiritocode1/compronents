@@ -2340,6 +2340,33 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Refero Styles",
+        href: "https://styles.refero.design/",
+        dateAdded: "2026-08-12",
+        kind: "directory",
+        stack: [
+          "design",
+          "ai",
+          "llm",
+          "mcp",
+          "design-systems",
+          "design-tokens",
+        ],
+        useFor: [
+          "design.md",
+          "design md",
+          "design system for ai",
+          "ai readable design system",
+          "make it look like linear",
+          "design tokens from a site",
+          "extract a design system",
+          "agent design taste",
+          "design system examples",
+        ],
+        description:
+          "Catalogue of design systems pulled off real product sites and published as a DESIGN.md you can hand to a coding agent before it builds a UI. Each entry breaks a site into colors, typography, spacing and components, with the file pitched for Cursor, Claude Code, Codex, v0 and Lovable, and the header claims 2,000-plus systems, sorted by Trending, Popular or Newest across three sub-sections (DESIGN.md examples, AI design resources, Design prompts). Entries carry a one-line aesthetic read next to the tokens: Linear as a midnight precision instrument, Mercury as Alpine banking at blue hour, Factory as a terminal war room at midnight, alongside Anthropic, ElevenLabs, Wispr Flow, Slush and Monad. Run by Refero, the same team as the refero.design screen reference site and its MCP server; the page is marked Beta, shows no pricing, and never says who authors the files or whether the companies listed are involved, so treat the extraction as unofficial.",
+      },
+      {
         title: "Product Design Psychology",
         href: "https://productdesignpsychology.com/",
         dateAdded: "2026-07-27",
@@ -2547,6 +2574,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Minimal Gallery",
+        href: "https://minimal.gallery/",
+        dateAdded: "2026-08-12",
+        kind: "gallery",
+        style: ["minimal", "editorial"],
+        useFor: [
+          "minimal website design",
+          "website design inspiration",
+          "portfolio site inspiration",
+          "agency website inspiration",
+          "clean website examples",
+          "personal site inspiration",
+          "full site screenshots",
+        ],
+        description:
+          "Curated gallery of restrained website design, running since 2013, for when you want full-site visual reference rather than cropped UI shots. Founded by a designer credited only as Piet, hand-picked, and deep: pagination runs to 129 pages at roughly 22 entries each, and the tag index puts Portfolio at 970 sites, Personal at 791 and Agency at 749, thinning through E-commerce (139), One page (122), Pricing (96) and Type foundry (24) down to single-entry tags like Wedding and Manufacturing. Alongside the Websites feed sit Templates and Tools sections, a bookmarking system with collections, and a weekly email digest, with outbound links carrying a ref parameter. Submission and sponsorship pages both exist, neither lists a price, and sponsored slots run inline in the feed with a label.",
+      },
       {
         title: "The Internet Designs",
         href: "https://www.theinternetdesigns.com/",
@@ -5847,6 +5892,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "VibeIndex",
+        href: "https://vibeindex.dev/",
+        dateAdded: "2026-08-12",
+        kind: "directory",
+        stack: ["ai", "agents", "vibe-coding", "mcp"],
+        useFor: [
+          "vibe coding tools",
+          "ai coding tools",
+          "ai coding agents",
+          "browse ai tools",
+          "ai app builder",
+          "ai code editor",
+          "find an ai tool",
+          "coding agent directory",
+        ],
+        description:
+          "Directory of tools for AI-assisted coding, worth a scan when you want to see what exists in a category before committing to one. The header claims 285 tools across 16 categories while the filter list enumerates 15, the largest being Browser-based App Builders (41), CLI Tools (36), IDE Extensions and Plugins (27) and Learning Resources (26), tailing off through UI Generators (10) and Desktop Apps (8) to MCP Servers and Tooling (4). Each listing gets a screenshot, a category, a domain and its own detail page, and a Most stars sort option implies GitHub stars are tracked as metadata. No maintainer, company or contact appears anywhere on the site, the submit page states no criteria, and dead or acquired entries are kept in place with caveats noting a repo went private or a company folded, so read freshness as unverified.",
+      },
       {
         title: "GetLayers",
         href: "https://www.getlayers.ai/",
