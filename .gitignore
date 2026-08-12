@@ -45,3 +45,4 @@ runtime-lab/
 
 # transient agent worktrees
 .claude/worktrees/
+.instagram-scrape/
