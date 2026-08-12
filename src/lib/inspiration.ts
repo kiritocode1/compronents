@@ -6123,6 +6123,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "Plannotator",
+        href: "https://plannotator.ai/",
+        dateAdded: "2026-08-12",
+        kind: "tool",
+        stack: ["agents", "claude-code", "codex", "code-review", "git"],
+        useFor: [
+          "review agent plans",
+          "annotate a plan",
+          "plan mode review",
+          "review agent diffs",
+          "comment on agent output",
+          "give feedback to an agent",
+          "local diff viewer",
+          "code review for agents",
+        ],
+        description:
+          "Local review surface that sits between you and a coding agent, for the moment a plan comes back and you want to change three lines of it rather than retype the whole thing. You select text in the proposed plan to mark deletions, add inline comments or write replacements, and the structured result goes straight back to the agent; plan review hooks the agent's plan step automatically, and slash commands cover the rest, with /plannotator-annotate for a file, folder or URL, /plannotator-review for local diffs or a GitHub or GitLab PR, and /plannotator-last for the agent's most recent message. Code review renders a PR-style diff over uncommitted changes with side-by-side or unified views, line-level annotations carrying code suggestions, and staging before commit. Built by backnotprop, dual-licensed MIT or Apache 2.0, installed with curl -fsSL https://plannotator.ai/install.sh | bash, running locally with no telemetry and listing Amp, Claude Code, Codex, Copilot, Droid, Gemini, Kiro, OpenCode and Pi plus VS Code, Obsidian and Bear integrations; a hosted Workspaces tier for shared plans and review history is waitlist only, with the local plugin staying free.",
+      },
+      {
         title: "Blume Sidecar",
         href: "https://blume.codes/",
         dateAdded: "2026-08-11",
@@ -9289,6 +9308,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Engineering essays and culture",
     links: [
+      {
+        title: "Everything hackable will get hacked",
+        href: "https://vercel.com/blog/everything-hackable-will-get-hacked",
+        dateAdded: "2026-08-12",
+        kind: "essay",
+        stack: ["security", "llm", "agents", "deepsec"],
+        useFor: [
+          "ai security review",
+          "find vulnerabilities with ai",
+          "codebase security audit",
+          "scan for vulnerabilities",
+          "sandbox escape",
+          "offensive security models",
+          "deepsec",
+          "security posture",
+        ],
+        description:
+          "Vercel CTO Malte Ubl's argument that models have gotten good enough at cybersecurity that defenders should run codebase-scale AI review now instead of waiting for the next release, published August 11, 2026. The threat side is concrete: Kimi K3, a near-frontier open-weight model with no cybersecurity safeguards, leads open-weight models on DeepSec Bench, and when pointed at Vercel Sandbox it mapped the guest-kernel attack surface, found the seccomp filter only blocks socket(AF_VSOCK), built a VM to reproduce its ideas and wrote a fuzzer, stopping short of an escape. The defensive half is deepsec (deepsec.sh), the open-source harness behind it, run with npx deepsec init and self-hostable on your own inference providers, best today at finding IDORs, XSS and SSRF. Vercel runs full reviews on mission-critical repos quarterly and whenever a stronger model ships, at tens of thousands of dollars a pass, and is extending its Sandbox egress firewall to the Hobby plan alongside a planned HackerOne program.",
+      },
       {
         title: "Fast",
         href: "https://patrickcollison.com/fast",
