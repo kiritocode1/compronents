@@ -2649,7 +2649,23 @@ const liquidGlassCarouselAssets = Array.from({ length: 12 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+/**
+ * The desktop clouds carry 700000 points and the `_m` variants 65000, which is
+ * the same subject baked at a density a phone can hold. Both are PCL4, so the
+ * component decodes either without knowing which it was given.
+ */
+const dustMorphHeroAssets = simpleAssets(
+  "dust-morph-hero",
+  "Dust Morph Hero",
+  "Baked PCL4 point cloud the dust resolves into for one subject in the morph cycle.",
+  ["a", "b", "c", "d", "e"].flatMap((shape) => [
+    `shape_${shape}_v4.bin`,
+    `shape_${shape}_m.bin`,
+  ]),
+);
+
 export const assetItems = [
+  ...dustMorphHeroAssets,
   ...liquidGlassCarouselAssets,
   ...panVideoCanvasAssets,
   ...filmstripVideoPlayerAssets,

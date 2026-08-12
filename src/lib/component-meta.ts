@@ -9631,7 +9631,12 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description: "Ink of the cloud and the paper behind it.",
       },
     ],
-    assets: [],
+    assets: assetsByIds([
+      "dust-morph-hero-shape-a-v4",
+      "dust-morph-hero-shape-b-v4",
+      "dust-morph-hero-shape-c-v4",
+      "dust-morph-hero-shape-e-v4",
+    ]),
     api: [
       {
         name: "shapes",
