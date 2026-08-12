@@ -1173,6 +1173,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Beautiful UI",
+        href: "https://www.beautifului.dev/",
+        dateAdded: "2026-08-12",
+        kind: "library",
+        stack: ["ai", "agents", "llm", "chat-ui"],
+        useFor: [
+          "ai chat ui components",
+          "agent ui components",
+          "reasoning trace ui",
+          "streaming text component",
+          "human in the loop ui",
+          "tool call ui",
+          "prompt bar component",
+          "agent task status",
+        ],
+        description:
+          "Copy-paste primitives for the parts of an interface an agent has to talk through, which is exactly the set most component libraries skip. Nineteen components cover the loading state, the expandable thinking trace with Steps, Reasoning, Search and Coding tabs, streamed answers with inline sources and follow-up chips, human-in-the-loop approval cards, tool calls as compact chips, and running, failed or completed agent task rows. Around the chat surface it adds a prompt bar with @ sources, / commands, a model picker and dictation, recommendation cards with a confidence meter, retrieved context cards, a diff table for AI-proposed edits to tabular data, a command palette, and selection actions for explain, improve, shorten, tone and grammar; several ship variants rather than one look, so the loader has Drive, Dots and Orbit and the prompt bar has Rounded and Pill, and every demo runs on the same fictional creamery data. Built by product design studio Turbo, with no framework, licence, price or repository named on the page and an email list as the only next step, so plan on rebuilding from the demos unless a code path turns up.",
+      },
+      {
         title: "emailcn",
         href: "https://emailcn.run",
         dateAdded: "2026-08-06",
@@ -3925,6 +3944,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Type foundries and directories",
     links: [
+      {
+        title: "Luzi Type",
+        href: "https://luzi-type.ch/index",
+        dateAdded: "2026-08-12",
+        kind: "asset",
+        useFor: [
+          "swiss type foundry",
+          "messina sans",
+          "license a typeface",
+          "font superfamily",
+          "font with many weights",
+          "sans serif family",
+          "brand identity typeface",
+        ],
+        description:
+          "Swiss type foundry and design studio whose copyright line dates to 2013, worth browsing when a project needs one family deep enough to carry a whole identity rather than a single display cut. The catalogue runs to 27 families and leans hard on superfamilies: Spezia Serif ships 144 weights across three subfamilies, Spezia 128 across nine, Zeist 108 in a single family and Messina Sans 40 across three, next to smaller faces like Faro, Koper, Nantes and Yport at 7 to 12 weights. Messina Sans is the one you have already read without noticing, since MIT's site is set in it, Tylko's Furniture that fits campaign used it, and Smith & Diction built Superhuman's identity on a customised Messina. A Notes section writes up the thinking behind each release, including Isola as a remake of Venus Grotesk and Valpo's calligraphic roots, and Test Fonts offers trial files, though licence tiers and prices sit behind the Licence Guide and Shop rather than anywhere on the index.",
+      },
       {
         title: "CcTimeline",
         href: "https://cctype.com/typefaces/cc-timeline",
