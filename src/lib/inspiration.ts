@@ -2529,6 +2529,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "The Internet Designs",
+        href: "https://www.theinternetdesigns.com/",
+        dateAdded: "2026-08-12",
+        kind: "gallery",
+        useFor: [
+          "ui inspiration gallery",
+          "brand design inspiration",
+          "dashboard design inspiration",
+          "mobile app ui inspiration",
+          "logo design inspiration",
+          "interaction design examples",
+          "design posts from x",
+        ],
+        description:
+          "Design inspiration gallery whose feed is pulled from posts on X and Pinterest, for a fast scan of interface work people are shipping right now rather than full-site screenshots or code. Eleven filters cover Interfaces, Landing page, Mobile apps, Dashboards, Interactions, Product, Typography, 3D, Brand design, Logo design and Illustration, with a Recently view, and each card is an avif poster or thumbnail carrying the original post text, so the author's handle and links back to the source come along with the image. Around 24 posts were live in August 2026, animation included: a squircle button built on the CSS corner-shape property, a recreation of the Mac OS X genie effect, Wealthsimple's aurora background rebuilt in Skia, and a macOS 27 beta app icon update. There is no about page, submission form, pricing or newsletter, and the only maker signal on the page is a link to the project's GitHub repo.",
+      },
+      {
         title: "Inspora",
         href: "https://www.inspora.design/",
         dateAdded: "2026-08-08",
