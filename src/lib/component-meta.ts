@@ -740,6 +740,173 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "fluid-reveal-carousel": {
+    demoPath: "src/components/demos/fluid-reveal-carousel.tsx",
+    nuance: [
+      {
+        label: "The carousel is the payload, the cover is the interface",
+        description:
+          "Nothing about the ring is hidden by opacity or a clip path. It renders at full strength underneath, and a WebGL canvas painted the page color sits on top. What you are moving is not a spotlight, it is a hole: the field the cursor stirs becomes alpha, so the cover is punched out where you have been and closes back as the density decays.",
+      },
+      {
+        label: "One texture holds the whole simulation",
+        description:
+          "Red carries density, green and blue carry velocity, in a single half-float ping-pong pair. Three passes run it: splat writes the pointer in, the field pass self-advects and diffuses through an fbm-warped sample, and the cover pass reads only red. That is why the edge stays organic without a blur filter anywhere.",
+      },
+      {
+        label: "A smoothstep a hundredth wide",
+        description:
+          "Alpha maps density through smoothstep(0.39, 0.40), a window so narrow the cover is effectively binary. Widen the gap and the hole gains a soft airbrushed halo; keep it tight and the rim reads as torn paper. It is the single most expressive number in the component.",
+      },
+      {
+        label: "The ring travels as a wave",
+        description:
+          "A cycle advances every card exactly one slot, but cards are released in ring order from the front, staggered by three percent of the duration. The ring never rotates rigidly, it ripples. Distance from the front then drives scale, blur, brightness, and z-index off one value, so the back of the ring collapses into a small dark smudge instead of overlapping the front card.",
+      },
+      {
+        label: "Precession, not rotation",
+        description:
+          "The ring container turns a full circle every spin period while each card counter-rotates by the same angle. Card centers sweep around a tilting orbit while the artwork itself never tips, which is what keeps a flat edge-on ring from reading as a plain horizontal slider.",
+      },
+      {
+        label: "Never blank, never stale",
+        description:
+          "A phantom pointer drifts on two incommensurate frequencies once the real one has been still, so a preview is never a solid rectangle. Leaving the block wipes the field and paints one solid frame, so a paused component cannot freeze a hole in the cover.",
+      },
+    ],
+    editable: [
+      {
+        name: "coverColor / revealBackground",
+        control: "color",
+        description:
+          "The cover reads back its own computed color, so a CSS variable works here and survives a theme swap. Match coverColor to the surrounding page and the block disappears until touched; the reveal background is what shows through the hole where no card sits.",
+      },
+      {
+        name: "edgeStart / edgeEnd",
+        control: "text",
+        description:
+          "The alpha window. Keep them close for a hard torn rim, spread them for a soft airbrushed hole.",
+      },
+      {
+        name: "decay / spread / friction",
+        control: "text",
+        description:
+          "How long a trail lives, how far it bleeds sideways, and how fast the flow settles.",
+      },
+      {
+        name: "wobble / grain",
+        control: "text",
+        description:
+          "The two noise terms. Wobble warps the advection sample so the shape crawls; grain modulates decay so the edge dissolves unevenly rather than shrinking cleanly.",
+      },
+      {
+        name: "cycleDuration / stagger / spinDuration",
+        control: "text",
+        description:
+          "Ring timing: seconds per slot, the fraction of that delay between neighbours, and seconds for one full precession.",
+      },
+      {
+        name: "minScale / maxBlur / minBrightness",
+        control: "text",
+        description:
+          "How aggressively the back of the ring recedes. All three are driven by the same distance value.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "items",
+        type: "{ src: string; alt?: string }[]",
+        default: "4 BLANK-hosted spotlight frames",
+        description:
+          "Cards placed around the ring, in orbit order. Dark, high-contrast artwork suits the mechanic best, since the torn rim only reads against the cover when what it exposes is not another pale rectangle.",
+      },
+      {
+        name: "cardWidth / cardAspect / cardRadius",
+        type: "string | number",
+        default: '"clamp(15rem, 30cqw, 32rem)" / 1.333 / "0px"',
+        description:
+          "Card sizing. The width uses container units, so the ring scales to the block rather than the viewport.",
+      },
+      {
+        name: "radius / radiusY",
+        type: "number",
+        default: "1 / 0",
+        description:
+          "Orbit radii as multiples of card width. A zero vertical radius is the edge-on ring the original uses; raise it to open the orbit into an ellipse.",
+      },
+      {
+        name: "minScale / maxBlur / minBrightness",
+        type: "number",
+        default: "0.2 / 0.04 / 0.3",
+        description:
+          "Appearance of the card furthest from the front. Blur is a multiple of card width.",
+      },
+      {
+        name: "cycleDuration / stagger / spinDuration",
+        type: "number",
+        default: "2.5 / 0.03 / 24",
+        description:
+          "Seconds per slot, inter-card delay as a fraction of that, and seconds per precession. Set spinDuration to 0 to hold the orbit plane still.",
+      },
+      {
+        name: "coverColor / revealBackground",
+        type: "string",
+        default: '"#ffffff" / "#f2f2f2"',
+        description:
+          "Cover fill and the colour seen inside the erased trail behind the cards.",
+      },
+      {
+        name: "splatRadius / splatForce / velocityScale / maxVelocity",
+        type: "number",
+        default: "0.004 / 3.5 / 1.6 / 4",
+        description:
+          "Pointer injection: blob size, density added per splat, and how much cursor velocity enters the flow before and after clamping.",
+      },
+      {
+        name: "friction / spread / decay",
+        type: "number",
+        default: "3 / 0.79 / 1.5",
+        description:
+          "Velocity damping, per-frame neighbour mixing, and density falloff, which together set how long a hole stays open.",
+      },
+      {
+        name: "wobble / grain",
+        type: "number",
+        default: "2.6 / 0.7",
+        description:
+          "Amplitude of the fbm warp applied while advecting, and how much noise modulates decay.",
+      },
+      {
+        name: "edgeStart / edgeEnd / bottomFade",
+        type: "number",
+        default: "0.39 / 0.4 / 0.18",
+        description:
+          "The alpha window, plus a noisy fade that stops the trail sticking to the bottom edge.",
+      },
+      {
+        name: "simResolution / maxSimResolution",
+        type: "number",
+        default: "512 / 1440",
+        description:
+          "Short side of the simulation grid and the cap on the long side, so a wide block does not stretch the noise.",
+      },
+      {
+        name: "idle / idleDelay",
+        type: "boolean | number",
+        default: "true / 1.1",
+        description:
+          "Phantom pointer that keeps the cover moving, and the seconds of stillness before it takes over.",
+      },
+      {
+        name: "coverMinWidth",
+        type: "number",
+        default: "992",
+        description:
+          "Below this viewport width the cover is skipped and the carousel plays in the open, matching the original's desktop-only treatment.",
+      },
+    ],
+  },
   sunlit: {
     demoPath: "src/components/demos/sunlit.tsx",
     studioPath: "src/components/studios/sunlit.tsx",

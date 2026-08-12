@@ -21,6 +21,7 @@ import FallingTagListPreview from "./falling-tag-list";
 import FilmStudioPagePreview from "./film-studio-page";
 import FlowFieldTextPreview from "./flow-field-text";
 import FluidMosaicPreview from "./fluid-mosaic";
+import FluidRevealCarouselPreview from "./fluid-reveal-carousel";
 import FrameScrollPreview from "./frame-scroll";
 import GrainGradientFieldPreview from "./grain-gradient-field";
 import GrainGradientNavPreview from "./grain-gradient-nav";
@@ -56,6 +57,7 @@ export const previews: Record<string, ComponentType> = {
   "accordion-frames": AccordionFramesPreview,
   "ascii-image-reveal": AsciiImageRevealPreview,
   "cappen-fluid-simulation": CappenFluidSimulationPreview,
+  "fluid-reveal-carousel": FluidRevealCarouselPreview,
   "depoluxe-sideways-carousel": DepoluxeSidewaysCarouselPreview,
   "detroit-paris-slider": DetroitParisSliderPreview,
   "ascii-logo": AsciiLogoPreview,

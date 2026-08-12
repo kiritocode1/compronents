@@ -151,6 +151,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "fluid-reveal-carousel",
+    title: "Fluid Reveal Carousel",
+    description:
+      "A rebuild of the hidden hero block on bleibtgleich.dev, where two mechanics are stacked into one. Underneath, cards orbit a ring seen edge-on: each card owns a progress value and one cycle advances every card exactly one slot, released in ring order so the turn travels as a wave rather than a rigid rotation, while distance from the front drives scale, blur, brightness, and paint order together. The ring also precesses once per spin period as every card counter-rotates, keeping artwork upright while its orbit plane turns. Over the top sits a WebGL2 cover holding one half-float field: red carries density, green and blue carry velocity. The pointer splats both, the field self-advects and diffuses through an fbm-warped sample, and the display pass maps density to alpha through a smoothstep only a hundredth wide, so the cover is solid where the field is cold and punches to nothing where the cursor has stirred it. The carousel is invisible until you wipe it into view, and the hole closes behind you. Interpolated splats keep a fast cursor from dotting the trail, a phantom pointer drifts while the real one is away, and the cover color is read back off the canvas so a CSS variable or theme swap keeps working. No dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-08-12",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fluid-reveal-carousel.tsx",
+        target: "components/ui/fluid-reveal-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "sunlit",
     title: "Sunlit",
     description:

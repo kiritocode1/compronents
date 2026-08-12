@@ -81,6 +81,7 @@ import FlipTileBoardDemo from "./flip-tile-board";
 import FloatingModelScrollDemo from "./floating-model-scroll";
 import FlowFieldTextDemo from "./flow-field-text";
 import FluidMosaicDemo from "./fluid-mosaic";
+import FluidRevealCarouselDemo from "./fluid-reveal-carousel";
 import FlyingCubeScrollDemo from "./flying-cube-scroll";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
 import FoldingPanelMenuDemo from "./folding-panel-menu";
@@ -303,6 +304,7 @@ export const demos: Record<string, ComponentType> = {
   "filter-scrub-gallery": FilterScrubGalleryDemo,
   "flow-field-text": FlowFieldTextDemo,
   "fluid-mosaic": FluidMosaicDemo,
+  "fluid-reveal-carousel": FluidRevealCarouselDemo,
   "folding-panel-menu": FoldingPanelMenuDemo,
   "drone-fleet": DroneFleetDemo,
   "starry-night-flow": StarryNightFlowDemo,
