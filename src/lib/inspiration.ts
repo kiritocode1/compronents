@@ -840,6 +840,43 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animated icon libraries",
     links: [
       {
+        title: "Material Line Icons",
+        href: "https://icon-sets.iconify.design/line-md",
+        dateAdded: "2026-08-13",
+        kind: "library",
+        stack: ["icons", "iconify", "css", "svg", "vue", "svelte"],
+        useFor: [
+          "animated icons",
+          "css animated icons",
+          "icons without javascript",
+          "no js icon animation",
+          "loading spinner icon",
+          "icon draw animation",
+          "iconify animated set",
+          "line md icons",
+        ],
+        description:
+          "Animated line icon set browsable through Iconify, 1,218 icons at the time of writing, for cases where the animation should cost no JavaScript at all. Built by cyberalien (who also authors Iconify) and MIT licensed, it follows the Round and TwoTone conventions of Material Design Icons and reaches for 1px thin lines where they help. Most icons use a rendering animation where shapes draw in one after another, a deliberate rejection of looping bounce effects, which the author argues pull focus off the content and keep the CPU busy draining mobile batteries. It ships in five formats: `svg-static`, `svg` (SVG animations level 2, not SMIL), `svg-style` with CSS in a style tag, `css-json` keeping SVG and CSS separate with hashed class names, and `svg-frames-120fps` for software that cannot animate at all. Names ending in `-loop` run forever and `-transition` morph between two icons. The CSS variants honour prefers-reduced-motion and cache cleanly, but wait on Safari, which as of late 2025 still lacks the `path()` CSS function for `d`.",
+      },
+      {
+        title: "lucide-motion-vue",
+        href: "https://respeak-io.github.io/lucide-motion-vue/",
+        dateAdded: "2026-08-13",
+        kind: "library",
+        stack: ["vue", "nuxt", "motion", "icons", "lucide"],
+        useFor: [
+          "vue animated icons",
+          "animated lucide vue",
+          "nuxt animated icons",
+          "motion-v icons",
+          "hover animated icon",
+          "animate icon on scroll",
+          "vue 3 icon library",
+        ],
+        description:
+          "Animated Lucide icons for Vue 3, 535 of them, built on Motion for Vue (`motion-v`) rather than a hand-rolled transition layer: `pnpm add @respeak/lucide-motion-vue motion-v`. Triggers are props, so `animateOnHover`, `animateOnTap` and `animateOnView` cover most cases without wiring state, and `triggerTarget` accepts `self`, `parent` or `closest:<selector>` so an icon can follow the hover state of the row or card containing it. Many icons carry several named animation variants selected through the `animation` prop, with Link2 alone shipping default, apart, unlink, unlink-loop and link. An `<AnimateIcon>` wrapper shares trigger state with nested icons through provide/inject, including a renderless template mode, and a Nuxt 3 module auto-registers everything under a configurable suffix (`<HeartAnimated>` by default) to avoid colliding with lucide-vue-next. From the respeak-io org, pure ESM with per-icon subpath imports for guaranteed separate chunks, SSR safe with hydration replay, and licensed in layers: MIT for the core, Lucide's ISC for the paths, and per-variant attribution for animations sourced from animate-ui and pqoqubbw.",
+      },
+      {
         title: "morphicons",
         href: "https://www.morphicons.com/",
         dateAdded: "2026-08-05",
