@@ -2950,6 +2950,22 @@ export const inspirationGroups: InspirationGroup[] = [
           "Gallery of Open Graph images collected from real sites, for designing the preview card your links show when shared. Curated by Maze Heart (remvze). It is a reference collection only, not a generator, so use it to decide layout, type scale and how much of the brand to show at thumbnail size. Free.",
       },
       {
+        title: "Noiced Serendipity",
+        href: "https://noiced.com/serendipity/",
+        dateAdded: "2026-08-13",
+        kind: "gallery",
+        useFor: [
+          "infinite canvas of websites",
+          "random website inspiration",
+          "browse sites randomly",
+          "pan and zoom gallery",
+          "website screenshot canvas",
+          "stumble on good websites",
+        ],
+        description:
+          "Randomized infinite canvas of website screenshots, for the case where you want to stumble into references instead of working down a paginated grid. It is a second browsing mode over the Noiced collection by Maze Heart (remvze), holding 73 sites dated December 2025 through July 2026, each one a distinct domain, shown as webp screenshots you pan around rather than scroll. The 37 tags behind it skew hard toward creative (37 sites), portfolio (36), minimal (25), marketing-website (19) and typographic (13), so it reads as a studio and personal-site survey more than a product-UI one. Built as a single Astro island called SerendipityCanvas, free, with no submission process listed.",
+      },
+      {
         title: "Noiced",
         href: "https://noiced.com/",
         dateAdded: "2026-07-20",
