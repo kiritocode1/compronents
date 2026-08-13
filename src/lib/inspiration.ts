@@ -1173,6 +1173,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "pdfcn",
+        href: "https://www.pdfcn.dev/",
+        dateAdded: "2026-08-13",
+        kind: "library",
+        stack: ["react", "shadcn", "pdf"],
+        useFor: [
+          "pdf components",
+          "react pdf invoice",
+          "generate pdf in react",
+          "shadcn pdf",
+          "pdf document blocks",
+          "invoice pdf template",
+          "takumi pdf",
+          "forme pdf",
+        ],
+        description:
+          "Copy-paste React PDF components installed through the shadcn CLI, for invoices, reports and other generated documents instead of hand-rolled renderer primitives. Same component API on two engines, Takumi and Forme: `npx shadcn@latest add @pdfcn/takumi/text` or `@pdfcn/forme/text`. The registry lists 23 primitives twice (alert, data table, graph, QR code, signature, watermark, page header/footer/number, keep-together, and so on), 10 document blocks per engine (six invoice styles plus financial, marketing, operations and security reports), and nine theme presets such as Professional, Executive, Blueprint and Forest. Lives under the shadcn-labs org as pdfcn, MIT licensed, with an llms.txt index and a site agent skill.",
+      },
+      {
         title: "Beautiful UI",
         href: "https://www.beautifului.dev/",
         dateAdded: "2026-08-12",
