@@ -1173,6 +1173,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Coachmark",
+        href: "https://sglza.xyz/coachmark",
+        dateAdded: "2026-08-13",
+        kind: "library",
+        stack: ["react", "base-ui", "accessibility", "onboarding"],
+        useFor: [
+          "product tour",
+          "coach mark",
+          "onboarding tour",
+          "guided walkthrough",
+          "feature tour component",
+          "spotlight overlay",
+          "base ui popover",
+          "highlight ui element",
+        ],
+        description:
+          "Unstyled React primitive for product tours, built on Base UI's Popover so each step anchors to a target ref instead of a hand-rolled overlay. It ships no stylesheet at all: the fourteen parts (Root, Trigger, Backdrop with a spotlight cutout, Step, Positioner, Popup as a dialog, Arrow, Stepper, Title, Description, Previous, Next, Close, Viewport) are styled through className, style, Base UI's render prop, or stable data-slot attributes, and a useCoachmark hook exposes stepIndex, stepCount, isFirstStep, isLastStep, motionState plus next, previous, goTo, close and finish. The part worth stealing is out-of-view handling: it conceals the current mark, scrolls the next target into view (page or nested scroll container), then shows the next step, with enter, exit and step-transition motion states published as data attributes on the backdrop, positioner and popup so the animation stays in CSS. By Santiago Angeles (sglza), MIT, `npm i coachmark` against React 18 or newer, with Tailwind and CSS Modules examples, a playground for side, align, offsets, spotlight padding and radius, and docs mirrored as markdown at /coachmark.md.",
+      },
+      {
         title: "pdfcn",
         href: "https://www.pdfcn.dev/",
         dateAdded: "2026-08-13",
