@@ -9,17 +9,18 @@
 
 export type NavLink = { label: string; href: string };
 
+/** Centre pill group. */
 export const NAV_LINKS: NavLink[] = [
   { label: "Products", href: "/products" },
-  { label: "Company", href: "/company" },
   { label: "Partners", href: "/partners" },
-  { label: "Newsroom", href: "/newsroom" },
+  { label: "News", href: "/newsroom" },
   { label: "Blog", href: "/blog" },
 ];
 
+/** Right-hand pill group, sitting beside the primary call to action. */
 export const UTILITY_LINKS: NavLink[] = [
-  { label: "Careers", href: "/career" },
-  { label: "Contact", href: "/contact" },
+  { label: "Career", href: "/career" },
+  { label: "Company", href: "/company" },
 ];
 
 export type Product = {
@@ -416,6 +417,20 @@ export const PARTNERS = {
     text: "The reason this worked was that the control model did not have to change. We configured our existing approval framework into it and went live against real flow in a quarter.",
     attribution: "Head of Digital Assets, European custodian",
   },
+  testimonials: [
+    {
+      text: "The reason this worked was that the control model did not have to change. We configured our existing approval framework into it and went live against real flow in a quarter.",
+      attribution: "Head of Digital Assets, European custodian",
+    },
+    {
+      text: "We had spent two years being told atomic settlement was eighteen months away. This was the first time we saw both legs commit in one step against instruments we actually issue.",
+      attribution: "Director of Market Infrastructure, clearing operator",
+    },
+    {
+      text: "What convinced our risk committee was not the throughput number. It was that a transfer breaching a limit produced a rejection with a reason, every time, in front of them.",
+      attribution: "Chief Risk Officer, asset manager",
+    },
+  ],
   categories: [
     {
       title: "Custodians",

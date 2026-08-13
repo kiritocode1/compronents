@@ -32,6 +32,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -480,16 +481,47 @@ function ConnectorPaths({
 /**
  * Hero convergence field.
  *
- * A ring of dots on the perimeter, each tied to a single focal point by a bowed
- * curve. The bow is what makes it read as a vortex rather than a starburst: the
- * control point of every curve is pushed tangentially in one rotational
- * direction, so the whole field appears to wind inward. The focal point drifts
- * slowly across the horizontal, which drags the convergence with it.
+ * Every parameter here is measured off a recorded frame of the reference
+ * render rather than eyeballed, because a field like this reads wrong the
+ * moment the distribution is regular.
  *
- * Measured geometry: ring radius is 0.30 of the smaller stage axis, ~118 dots,
- * lines at low alpha so density rather than weight carries the form.
+ *   spokes            130, lineWidth 1, drawn centre -> perimeter
+ *   radius            0.30 of the smaller stage axis
+ *   control distance  0.50 to 0.62 of the spoke length
+ *   control angle     +/- 36 degrees off the spoke, signed both ways
+ *   stroke            per-spoke linear gradient, centre -> endpoint
+ *   dots              r 2.0, solid white, on the perimeter
+ *   motion            constant 3.78 deg/sec rotation of the whole field
+ *   shimmer           control angles drift ~8.9 deg per 1.4s on their own
+ *   cursor push       control points shoved away from the pointer, ~120 units
+ *                     at the cursor decaying on a ~180 unit exponential
+ *
+ * The centre and the radius never move: the recorded origin stayed pinned to
+ * the exact stage centre in every frame. What the pointer moves is the control
+ * point of each curve, which bows the curves away from the cursor and reads as
+ * a concave push. The effect only exists inside the ring, which is why probing
+ * from outside it shows nothing.
+ *
+ * The two details that carry the whole look: the control angle is symmetric
+ * rather than one-directional (a single sign turns it into a pinwheel), and
+ * each spoke is stroked with its own gradient so it is bright near the centre,
+ * dips through the middle, and lifts again at the rim.
  */
-const FIELD_DOTS = 118;
+const FIELD_SPOKES = 130;
+const FIELD_RADIUS_RATIO = 0.3;
+const FIELD_DEG_PER_SEC = 3.78;
+/** Cursor push, in the same units as the measured stage (1440 wide). */
+const FIELD_PUSH_STRENGTH = 265;
+const FIELD_PUSH_FALLOFF = 180;
+const FIELD_REF_WIDTH = 1440;
+const FIELD_STOPS: [number, number][] = [
+  [0, 0.3685],
+  [0.2, 0.5425],
+  [0.4, 0.168],
+  [0.6, 0.14],
+  [0.8, 0.14],
+  [1, 0.3685],
+];
 const FIELD_LABELS = [
   { text: "SETTLEMENT...", angle: -0.62 },
   { text: "CUSTODY...", angle: -1.15 },
@@ -501,6 +533,20 @@ const FIELD_LABELS = [
 
 function HeroField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Per-spoke control-point character, fixed at mount so the field shimmers
+  // rather than reshuffling every frame.
+  const spokes = useMemo(() => {
+    const rnd = seededRandom(11);
+    return Array.from({ length: FIELD_SPOKES }, () => ({
+      distFrac: 0.5 + rnd() * 0.12,
+      // Signed both ways: this is what stops it reading as a pinwheel.
+      angleOffset: ((rnd() * 2 - 1) * 36 * Math.PI) / 180,
+      // Independent phase per spoke, so the field breathes rather than pulsing
+      // in unison.
+      shimmerPhase: rnd() * Math.PI * 2,
+    }));
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -515,15 +561,9 @@ function HeroField() {
     let width = 0;
     let height = 0;
 
-    // Pointer influence. `target` is where the cursor is, `pull` eases toward
-    // it so the convergence trails the cursor instead of snapping to it, and
-    // decays back to the idle drift once the pointer leaves.
-    let targetX = 0;
-    let targetY = 0;
-    let pullX = 0;
-    let pullY = 0;
-    let engaged = 0;
-    let engagedTarget = 0;
+    // Pointer in canvas space. Null while the cursor is outside the stage,
+    // which is also the state the field idles in.
+    let pointer: { x: number; y: number } | null = null;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -539,78 +579,91 @@ function HeroField() {
       if (!width || !height) return;
       ctx.clearRect(0, 0, width, height);
 
+      const radius = Math.min(width, height) * FIELD_RADIUS_RATIO;
       const cx = width / 2;
       const cy = height / 2;
-      const radius = Math.min(width, height) * 0.3;
-
-      // The focal point drifts horizontally and barely at all vertically.
-      const drift = reduced ? 0 : Math.sin(t / 4200) * radius * 0.06;
-
-      // Ease the pull toward the cursor and the engagement toward its target,
-      // so entering and leaving the hero are both smooth rather than stepped.
-      pullX += (targetX - pullX) * 0.06;
-      pullY += (targetY - pullY) * 0.06;
-      engaged += (engagedTarget - engaged) * 0.05;
-
-      const fx = cx + drift + (reduced ? 0 : pullX * engaged * 0.55);
-      const fy =
-        cy +
-        (reduced ? 0 : Math.sin(t / 6100) * radius * 0.015) +
-        (reduced ? 0 : pullY * engaged * 0.55);
+      const spin = reduced
+        ? 0
+        : (t / 1000) * FIELD_DEG_PER_SEC * (Math.PI / 180);
 
       ctx.lineWidth = 1;
-      for (let i = 0; i < FIELD_DOTS; i++) {
-        const a = (i / FIELD_DOTS) * Math.PI * 2;
-        const px = cx + Math.cos(a) * radius;
-        const py = cy + Math.sin(a) * radius;
+      for (const [i, spoke] of spokes.entries()) {
+        const a = (i / FIELD_SPOKES) * Math.PI * 2 + spin;
+        const ex = cx + Math.cos(a) * radius;
+        const ey = cy + Math.sin(a) * radius;
 
-        // Control point sits mid-chord, pushed along the tangent so the curve
-        // bows. One sign for every spoke is what creates the winding.
-        const mx = (px + fx) / 2;
-        const my = (py + fy) / 2;
-        const bow = radius * 0.34;
-        const qx = mx + Math.cos(a + Math.PI / 2) * bow;
-        const qy = my + Math.sin(a + Math.PI / 2) * bow;
+        // Measured: control angles drift ~8.9 degrees per 1.4s on their own,
+        // independent of pointer position. Amplitude 9 over a 6s period lands
+        // on that rate. Without it the spokes are rigid and the field reads as
+        // a rotating diagram rather than a live one.
+        const shimmer = reduced
+          ? 0
+          : (Math.sin((t / 6000) * Math.PI * 2 + spoke.shimmerPhase) *
+              9 *
+              Math.PI) /
+            180;
+        const ca = a + spoke.angleOffset + shimmer;
+        const cr =
+          radius *
+          spoke.distFrac *
+          (reduced
+            ? 1
+            : 1 +
+              Math.sin((t / 5200) * Math.PI * 2 + spoke.shimmerPhase) * 0.021);
+        let qx = cx + Math.cos(ca) * cr;
+        let qy = cy + Math.sin(ca) * cr;
 
+        // Shove the control point directly away from the cursor. Magnitude and
+        // falloff are scaled from the measured stage so the push feels the same
+        // at any viewport.
+        if (pointer && !reduced) {
+          const scale = width / FIELD_REF_WIDTH;
+          const dx = qx - pointer.x;
+          const dy = qy - pointer.y;
+          const dist = Math.hypot(dx, dy) || 1;
+          const push =
+            FIELD_PUSH_STRENGTH *
+            scale *
+            Math.exp(-dist / (FIELD_PUSH_FALLOFF * scale));
+          qx += (dx / dist) * push;
+          qy += (dy / dist) * push;
+        }
+
+        const grad = ctx.createLinearGradient(cx, cy, ex, ey);
+        for (const [offset, alpha] of FIELD_STOPS) {
+          grad.addColorStop(offset, `rgba(255,255,255,${alpha})`);
+        }
+        ctx.strokeStyle = grad;
         ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.quadraticCurveTo(qx, qy, fx, fy);
-        ctx.strokeStyle = `rgba(255,255,255,${0.13 + (i % 5) * 0.018})`;
+        ctx.moveTo(cx, cy);
+        ctx.quadraticCurveTo(qx, qy, ex, ey);
         ctx.stroke();
       }
 
-      // Perimeter dots sit on top of the curve ends.
-      for (let i = 0; i < FIELD_DOTS; i++) {
-        const a = (i / FIELD_DOTS) * Math.PI * 2;
+      ctx.fillStyle = "#ffffff";
+      for (let i = 0; i < FIELD_SPOKES; i++) {
+        const a = (i / FIELD_SPOKES) * Math.PI * 2 + spin;
         ctx.beginPath();
         ctx.arc(
           cx + Math.cos(a) * radius,
           cy + Math.sin(a) * radius,
-          1.5,
+          2,
           0,
           Math.PI * 2,
         );
-        ctx.fillStyle = "rgba(255,255,255,.82)";
         ctx.fill();
       }
-
-      // A small hot core where everything meets.
-      const glow = ctx.createRadialGradient(fx, fy, 0, fx, fy, radius * 0.09);
-      glow.addColorStop(0, "rgba(255,255,255,.55)");
-      glow.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(fx, fy, radius * 0.09, 0, Math.PI * 2);
-      ctx.fill();
 
       ctx.font = '11px "Fragment Mono", ui-monospace, monospace';
       ctx.fillStyle = "rgba(255,255,255,.66)";
       for (const label of FIELD_LABELS) {
-        const lr = radius * 1.14;
-        const lx = cx + Math.cos(label.angle) * lr;
-        const ly = cy + Math.sin(label.angle) * lr;
+        const lr = radius * 1.16;
         ctx.textAlign = Math.cos(label.angle) < 0 ? "right" : "left";
-        ctx.fillText(label.text, lx, ly);
+        ctx.fillText(
+          label.text,
+          cx + Math.cos(label.angle) * lr,
+          cy + Math.sin(label.angle) * lr,
+        );
       }
     };
 
@@ -629,20 +682,13 @@ function HeroField() {
     };
     window.addEventListener("resize", onResize, { passive: true });
 
-    // Track the pointer against the hero, not the canvas, so the field keeps
-    // responding while the cursor is over the headline and button too.
     const stage = canvas.parentElement;
     const onPointerMove = (e: PointerEvent) => {
-      if (!stage) return;
-      const rect = stage.getBoundingClientRect();
-      targetX = e.clientX - (rect.left + rect.width / 2);
-      targetY = e.clientY - (rect.top + rect.height / 2);
-      engagedTarget = 1;
+      const rect = canvas.getBoundingClientRect();
+      pointer = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
     const onPointerLeave = () => {
-      engagedTarget = 0;
-      targetX = 0;
-      targetY = 0;
+      pointer = null;
     };
 
     if (!reduced && stage) {
@@ -658,9 +704,670 @@ function HeroField() {
         stage.removeEventListener("pointerleave", onPointerLeave);
       }
     };
-  }, []);
+  }, [spokes]);
 
   return <canvas ref={canvasRef} className="slp-hero-field" />;
+}
+
+/**
+ * Rising staircase flow with a scroll-driven pulse.
+ *
+ * Two stepped connectors run across the section, each a dim base line plus a
+ * white pulse segment whose dash offset is tied directly to scroll position
+ * rather than to a tween. Measured mechanics:
+ *
+ *   progress   (innerHeight - rect.top) / (innerHeight + rect.height), clamped
+ *   main       dashoffset -1000 + progress * 1000   (1050 on mobile)
+ *   sub        dashoffset -1040 + progress * 980    (1020 on mobile)
+ *   dash       120/880 on the main line, 90/910 on the sub
+ *   fade       past progress 0.82, 1 - (progress - 0.82) / 0.18
+ *
+ * Below 768px the progress source switches to the heading, mapped from
+ * vh * 1.05 down to vh * 0.12, so the pulse tracks the text rather than a
+ * section that now fills more than a screen.
+ */
+/**
+ * Builds a rising staircase across the viewBox: run right, round the corner,
+ * climb, repeat. `steps` are [x, y] landings; `r` is the corner radius. Two
+ * lines are generated from the same description at a small offset so they read
+ * as a pair rather than one thick rule.
+ */
+function staircasePath(steps: [number, number][], r = 20, offset = 0): string {
+  const pts = steps.map(
+    ([x, y]) => [x + offset, y + offset] as [number, number],
+  );
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 1; i < pts.length; i++) {
+    const [x, y] = pts[i];
+    const [px, py] = pts[i - 1];
+    const next = pts[i + 1];
+    if (!next) {
+      d += y === py ? `H${x}` : `V${y}`;
+      continue;
+    }
+    // Stop short of the landing, then curve into the new direction.
+    const rise = next[1] - y;
+    d += `H${x - r}`;
+    d += `C${x - r / 2} ${y} ${x} ${y + (rise > 0 ? r / 2 : -r / 2)} ${x} ${y + (rise > 0 ? r : -r)}`;
+    d += `V${next[1] + (rise > 0 ? -r : r)}`;
+    i++;
+  }
+  return d;
+}
+
+const FLOW_STEPS: [number, number][] = [
+  [-40, 880],
+  [560, 880],
+  [560, 470],
+  [980, 470],
+  [980, 210],
+  [1960, 210],
+];
+/** Mirrored landings, so a paired flow descends while the other climbs. */
+const FLOW_STEPS_FALL: [number, number][] = [
+  [-40, 210],
+  [560, 210],
+  [560, 470],
+  [980, 470],
+  [980, 880],
+  [1960, 880],
+];
+
+type StaircaseFlowProps = {
+  headingRef?: React.RefObject<HTMLElement | null>;
+  /** Stretches the scroll distance: end = -(height * stretch + pad). */
+  stretch?: number;
+  pad?: number;
+  /** Fraction of progress the pulse waits before it starts travelling. */
+  motionDelay?: number;
+  /** Fraction of the run spent fading in and out at each end. */
+  pulseEdge?: number;
+  /** -1 runs the pulse backwards along the path. */
+  direction?: 1 | -1;
+  /** Multiplies raw progress, so the pulse completes earlier than the scroll. */
+  speedFactor?: number;
+  /**
+   * Which end the dash starts from. "lead" begins at -1000 and counts up,
+   * "trail" begins at +1000 and counts down, which sends the pulse the other
+   * way along the same path.
+   */
+  offsetFrom?: "lead" | "trail";
+  /** Vertical placement of the generated staircase inside the viewBox. */
+  variant?: "rise" | "fall";
+};
+
+function StaircaseFlow({
+  headingRef,
+  stretch = 1,
+  pad = 0,
+  motionDelay = 0,
+  pulseEdge = 0,
+  direction = 1,
+  speedFactor = 1,
+  offsetFrom = "lead",
+  variant = "rise",
+}: StaircaseFlowProps) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<SVGPathElement>(null);
+  const subRef = useRef<SVGPathElement>(null);
+  const gradId = useId();
+
+  const [mainD, subD] = useMemo(() => {
+    const steps = variant === "rise" ? FLOW_STEPS : FLOW_STEPS_FALL;
+    return [staircasePath(steps, 20, 0), staircasePath(steps, 20, 30)];
+  }, [variant]);
+
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const main = mainRef.current;
+    const sub = subRef.current;
+    if (!wrap || !main || !sub) return;
+
+    let raf = 0;
+
+    const progressForElement = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const h = rect.height || el.clientHeight || 1;
+      const start = window.innerHeight;
+      const end = -(h * stretch + pad);
+      return clamp01(((start - rect.top) / (start - end)) * speedFactor);
+    };
+
+    const progressForHeading = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      return clamp01((vh * 1.05 - rect.top) / (vh * 1.05 - vh * 0.12));
+    };
+
+    // A dead zone at the head of the run, then the whole travel compressed
+    // into what is left.
+    const motionProg = (p: number) =>
+      motionDelay <= 0 ? p : clamp01((p - motionDelay) / (1 - motionDelay));
+
+    // Symmetric fade at both ends of the travel.
+    const edgeFade = (p: number) => {
+      const k = Math.min(pulseEdge, 0.499);
+      if (k <= 0) return 1;
+      if (p < k) return clamp01(p / k);
+      if (p > 1 - k) return clamp01((1 - p) / k);
+      return 1;
+    };
+
+    const frame = () => {
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      const heading = headingRef?.current ?? null;
+      const raw =
+        mobile && heading
+          ? progressForHeading(heading)
+          : progressForElement(wrap);
+
+      const moved = motionProg(raw);
+      const p = direction === -1 ? 1 - moved : moved;
+
+      const mainTravel = mobile ? 1050 : 1000;
+      const subTravel = mobile ? 1020 : 980;
+
+      if (offsetFrom === "trail") {
+        main.style.strokeDashoffset = String(1000 - p * mainTravel);
+        sub.style.strokeDashoffset = String(1040 - p * mainTravel);
+      } else {
+        main.style.strokeDashoffset = String(-1000 + p * mainTravel);
+        sub.style.strokeDashoffset = String(-1040 + p * subTravel);
+      }
+
+      const fade = String(edgeFade(p));
+      main.style.opacity = fade;
+      sub.style.opacity = fade;
+
+      raf = requestAnimationFrame(frame);
+    };
+
+    frame();
+    return () => cancelAnimationFrame(raf);
+  }, [
+    headingRef,
+    stretch,
+    pad,
+    motionDelay,
+    pulseEdge,
+    direction,
+    speedFactor,
+    offsetFrom,
+  ]);
+
+  return (
+    <div ref={wrapRef} className="slp-flow" aria-hidden="true">
+      <svg
+        className="slp-flow-svg"
+        viewBox="0 0 1920 914"
+        preserveAspectRatio="none"
+      >
+        <title>Connector flow</title>
+        <defs>
+          <linearGradient
+            id={gradId}
+            x1="0"
+            y1="0"
+            x2="1920"
+            y2="0"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stopColor="rgba(255,255,255,0)" />
+            <stop offset="0.5" stopColor="rgba(255,255,255,.34)" />
+            <stop offset="1" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+        </defs>
+        <path className="slp-flow-base" d={subD} stroke={`url(#${gradId})`} />
+        <path className="slp-flow-base" d={mainD} stroke={`url(#${gradId})`} />
+        <path
+          ref={subRef}
+          className="slp-flow-pulse"
+          d={subD}
+          strokeDasharray="90 910"
+        />
+        <path
+          ref={mainRef}
+          className="slp-flow-pulse"
+          d={mainD}
+          strokeDasharray="120 880"
+        />
+      </svg>
+    </div>
+  );
+}
+
+/**
+ * Testimonial carousel.
+ *
+ * The quote itself is not slid or wiped; it is re-set to zero opacity and
+ * tweened back over 0.65s on power2.out each time the index changes, so the
+ * text swaps in place. Dots and arrows drive the index, and the same tween
+ * runs whichever control moved it.
+ */
+function TestimonialCarousel({
+  items,
+}: {
+  items: { text: string; attribution: string }[];
+}) {
+  const [index, setIndex] = useState(0);
+  const quoteRef = useRef<HTMLQuoteElement>(null);
+
+  useEffect(() => {
+    const el = quoteRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(el, { clearProps: "opacity" });
+      return;
+    }
+    gsap.set(el, { opacity: 0 });
+    const tween = gsap.to(el, {
+      opacity: 1,
+      duration: 0.65,
+      ease: "power2.out",
+      onComplete: () => gsap.set(el, { clearProps: "opacity" }),
+    });
+    return () => {
+      tween.kill();
+    };
+  }, []);
+
+  const go = (next: number) => {
+    const count = items.length;
+    setIndex(((next % count) + count) % count);
+  };
+
+  const active = items[index];
+
+  return (
+    <div className="slp-testimonials">
+      <blockquote ref={quoteRef} className="slp-quote" key={index}>
+        {active.text}
+        <div className="slp-quote-attr">{active.attribution}</div>
+      </blockquote>
+
+      <div className="slp-testimonial-controls">
+        <div className="slp-testimonial-dots">
+          {items.map((item, i) => (
+            <button
+              key={item.attribution}
+              type="button"
+              className="slp-dot"
+              data-active={i === index}
+              aria-label={`Quote ${i + 1}`}
+              onClick={() => go(i)}
+            />
+          ))}
+        </div>
+        <div className="slp-testimonial-arrows">
+          <button
+            type="button"
+            className="slp-arrow-btn"
+            aria-label="Previous quote"
+            onClick={() => go(index - 1)}
+          >
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none">
+              <title>Previous</title>
+              <path
+                d="M10 2L4 8l6 6"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="square"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="slp-arrow-btn"
+            aria-label="Next quote"
+            onClick={() => go(index + 1)}
+          >
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none">
+              <title>Next</title>
+              <path
+                d="M6 2l6 6-6 6"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="square"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Copy the current URL. Uses the async clipboard where it exists and falls
+ * back to a hidden textarea plus execCommand, which is still the only path
+ * that works in older WebViews and on insecure origins.
+ */
+function useCopyLink() {
+  const [copied, setCopied] = useState(false);
+
+  const copy = useCallback(() => {
+    const href = window.location.href;
+    const done = () => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    };
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(href).then(done, () => {
+        window.prompt("Copy:", href);
+      });
+      return;
+    }
+
+    const ta = document.createElement("textarea");
+    ta.value = href;
+    ta.style.position = "fixed";
+    ta.style.left = "-99999px";
+    ta.setAttribute("readonly", "");
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand("copy");
+      done();
+    } catch {
+      window.prompt("Copy:", href);
+    } finally {
+      document.body.removeChild(ta);
+    }
+  }, []);
+
+  return { copied, copy };
+}
+
+/** Phone input constrained to an optional leading + and up to 15 digits. */
+const PHONE_PATTERN = /^\+?[0-9]{0,15}$/;
+
+function PhoneField() {
+  const [value, setValue] = useState("");
+
+  return (
+    <div className="slp-field">
+      <label htmlFor="slp-phone">Phone</label>
+      <input
+        id="slp-phone"
+        name="phone"
+        type="tel"
+        inputMode="tel"
+        autoComplete="tel"
+        value={value}
+        onChange={(e) => {
+          const next = e.target.value;
+          // Reject rather than strip, so a paste of something wrong is visible
+          // to the person instead of being silently mangled.
+          if (PHONE_PATTERN.test(next)) setValue(next);
+        }}
+        placeholder="+44"
+      />
+    </div>
+  );
+}
+
+/**
+ * Circuit-trace card artwork.
+ *
+ * Orthogonal traces run in from all four edges and terminate on a central
+ * block, with pads dropped along the way. Generated from a seed so each
+ * product gets its own board that is stable across reloads, and so the
+ * template ships without external media.
+ */
+function CircuitPlate({ seed }: { seed: number }) {
+  const traces = useMemo(() => {
+    const rnd = seededRandom(400 + seed);
+    const out: { d: string; pads: [number, number][] }[] = [];
+    const coreL = 84;
+    const coreR = 116;
+    const coreT = 84;
+    const coreB = 116;
+
+    for (let i = 0; i < 18; i++) {
+      const side = i % 4;
+      const t = 0.12 + rnd() * 0.76;
+      const step = 14 + rnd() * 30;
+      const pads: [number, number][] = [];
+      let d: string;
+
+      if (side === 0) {
+        const y = 200 * t;
+        const x = coreL;
+        d = `M0 ${y.toFixed(1)}H${(x - step).toFixed(1)}L${x.toFixed(1)} ${(y + (y < 100 ? step : -step)).toFixed(1)}V${(y < 100 ? coreT : coreB).toFixed(1)}`;
+        pads.push([Math.max(4, x - step - 10), y]);
+      } else if (side === 1) {
+        const y = 200 * t;
+        const x = coreR;
+        d = `M200 ${y.toFixed(1)}H${(x + step).toFixed(1)}L${x.toFixed(1)} ${(y + (y < 100 ? step : -step)).toFixed(1)}V${(y < 100 ? coreT : coreB).toFixed(1)}`;
+        pads.push([Math.min(196, x + step + 10), y]);
+      } else if (side === 2) {
+        const x = 200 * t;
+        const y = coreT;
+        d = `M${x.toFixed(1)} 0V${(y - step).toFixed(1)}L${(x + (x < 100 ? step : -step)).toFixed(1)} ${y.toFixed(1)}H${(x < 100 ? coreL : coreR).toFixed(1)}`;
+        pads.push([x, Math.max(4, y - step - 10)]);
+      } else {
+        const x = 200 * t;
+        const y = coreB;
+        d = `M${x.toFixed(1)} 200V${(y + step).toFixed(1)}L${(x + (x < 100 ? step : -step)).toFixed(1)} ${y.toFixed(1)}H${(x < 100 ? coreL : coreR).toFixed(1)}`;
+        pads.push([x, Math.min(196, y + step + 10)]);
+      }
+      out.push({ d, pads });
+    }
+    return out;
+  }, [seed]);
+
+  return (
+    <svg
+      className="slp-plate"
+      viewBox="0 0 200 200"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      <title>Circuit plate</title>
+      {traces.map((tr) => (
+        <path key={tr.d} d={tr.d} className="slp-plate-trace" />
+      ))}
+      {traces.flatMap((tr) =>
+        tr.pads.map(([px, py]) => (
+          <rect
+            key={`${tr.d}-${px}-${py}`}
+            x={px - 3}
+            y={py - 3}
+            width="6"
+            height="6"
+            className="slp-plate-pad"
+          />
+        )),
+      )}
+      <rect x="84" y="84" width="32" height="32" className="slp-plate-core" />
+    </svg>
+  );
+}
+
+/**
+ * Cascading rounded steps.
+ *
+ * Large, thin outlines that step down and to the left across a section,
+ * overlapping each other. Unlike the connector flows these carry no pulse:
+ * they are structural, and the copy sits inside the bays they create. Each
+ * step is drawn as an open path with generously rounded corners so the shape
+ * reads as a sheet folding rather than a boxed border.
+ */
+function RoundedCascade({ steps = 3 }: { steps?: number }) {
+  const paths = useMemo(() => {
+    const out: string[] = [];
+    const r = 34;
+    for (let i = 0; i < steps; i++) {
+      // Each successive sheet starts lower and further left.
+      const x = 1400 - i * 300;
+      const y = 120 + i * 300;
+      const bottom = 1200;
+      out.push(
+        [
+          `M2000 ${y}`,
+          `H${x + r}`,
+          `Q${x} ${y} ${x} ${y + r}`,
+          `V${bottom - r}`,
+          `Q${x} ${bottom} ${x - r} ${bottom}`,
+          `H${Math.max(0, x - 340)}`,
+        ].join(" "),
+      );
+    }
+    return out;
+  }, [steps]);
+
+  return (
+    <svg
+      className="slp-cascade"
+      viewBox="0 0 2000 1400"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      <title>Cascading steps</title>
+      {paths.map((d) => (
+        <path key={d} d={d} className="slp-cascade-path" />
+      ))}
+    </svg>
+  );
+}
+
+/**
+ * Curved mesh bands.
+ *
+ * Measured off the reference by filtering its draw calls to what actually
+ * lands inside a 1440x900 viewport:
+ *
+ *   dots per 90px row   53 / 39 / 0 ... 0 / 27 / 64
+ *   visible segments    506 of 900 drawn
+ *   visible nodes       198, radius 2.4
+ *   node pitch          ~195px horizontally
+ *
+ * The zero rows are the point: nothing renders between y 180 and y 720, so
+ * this is two bands hugging the edges, not a sphere filling the frame. Each
+ * band is a set of shallow arcs with cross links, drifting sideways so the
+ * mesh reads as a surface in motion.
+ */
+const MESH_PITCH = 195;
+const MESH_ROWS = 5;
+const MESH_NODE_R = 2.4;
+const MESH_DRIFT_PX_PER_SEC = 7;
+
+function MeshBands() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    let raf = 0;
+    let width = 0;
+    let height = 0;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    /**
+     * One band. `dir` is -1 for the top (arcs sagging down toward the middle)
+     * and +1 for the bottom (arcs rising toward it), so the pair reads as the
+     * inside of a curved surface.
+     */
+    const band = (baseY: number, dir: 1 | -1, drift: number) => {
+      const cols = Math.ceil(width / MESH_PITCH) + 3;
+      // Band must terminate by 180px from its edge: 5 rows x 26 + max sag 45.
+      const rowGap = 26;
+      const pts: { x: number; y: number }[][] = [];
+
+      for (let r = 0; r < MESH_ROWS; r++) {
+        const row: { x: number; y: number }[] = [];
+        // Rows further from the edge sag more, which is what curves the band.
+        const sag = (r + 1) * 9;
+        for (let c = 0; c < cols; c++) {
+          const x = c * MESH_PITCH - MESH_PITCH * 1.5 + drift;
+          const t = x / width;
+          // Shallow parabola across the width, deepest at centre.
+          const curve = sag * 4 * t * (1 - t);
+          row.push({ x, y: baseY + dir * (r * rowGap) + dir * curve });
+        }
+        pts.push(row);
+      }
+
+      ctx.strokeStyle = "rgba(255,255,255,.28)";
+      ctx.lineWidth = 1;
+
+      // Arcs along each row.
+      for (const row of pts) {
+        ctx.beginPath();
+        row.forEach((p, i) =>
+          i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y),
+        );
+        ctx.stroke();
+      }
+      // Cross links between rows.
+      for (let c = 0; c < cols; c++) {
+        ctx.beginPath();
+        pts.forEach((row, r) =>
+          r ? ctx.lineTo(row[c].x, row[c].y) : ctx.moveTo(row[c].x, row[c].y),
+        );
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "rgba(255,255,255,.6)";
+      for (const row of pts) {
+        for (const p of row) {
+          if (p.x < -40 || p.x > width + 40) continue;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, MESH_NODE_R, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    };
+
+    const draw = (t: number) => {
+      if (!width || !height) return;
+      ctx.clearRect(0, 0, width, height);
+      const drift = reduced
+        ? 0
+        : (((t / 1000) * MESH_DRIFT_PX_PER_SEC) % MESH_PITCH) - MESH_PITCH;
+      band(-40, 1, drift);
+      band(height + 40, -1, -drift);
+    };
+
+    const loop = (t: number) => {
+      draw(t);
+      raf = requestAnimationFrame(loop);
+    };
+
+    resize();
+    if (reduced) draw(0);
+    else raf = requestAnimationFrame(loop);
+
+    const onResize = () => {
+      resize();
+      draw(performance.now());
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="slp-globe" />;
 }
 
 /* ------------------------------------------------------------ shared chrome */
@@ -1049,6 +1756,9 @@ function ProductsCarousel() {
 
 function HomePage() {
   const ref = useRef<HTMLDivElement>(null);
+  // Below 768px the flow pulse tracks this heading instead of the section.
+  const builtForHeadingRef = useRef<HTMLHeadingElement>(null);
+  const cuttingEdgeHeadingRef = useRef<HTMLHeadingElement>(null);
   useFadeIn(ref);
 
   return (
@@ -1069,9 +1779,11 @@ function HomePage() {
       </section>
 
       <section className="slp-section slp-on-blue">
+        <StaircaseFlow headingRef={builtForHeadingRef} />
         <div className="slp-inner">
           <p className="slp-eyebrow slp-fade">{BUILT_FOR.eyebrow}</p>
           <h2
+            ref={builtForHeadingRef}
             className="slp-h2 slp-fade"
             data-delay="80"
             style={{ marginTop: "1rem" }}
@@ -1150,9 +1862,28 @@ function HomePage() {
       </section>
 
       <section className="slp-section slp-on-blue">
+        <StaircaseFlow
+          headingRef={cuttingEdgeHeadingRef}
+          stretch={6}
+          pad={1200}
+          motionDelay={0.15}
+          pulseEdge={0.25}
+          direction={1}
+          variant="rise"
+        />
+        <StaircaseFlow
+          headingRef={cuttingEdgeHeadingRef}
+          stretch={6}
+          pad={1200}
+          motionDelay={0.15}
+          pulseEdge={0.25}
+          direction={-1}
+          variant="fall"
+        />
         <div className="slp-inner">
           <p className="slp-eyebrow slp-fade">Capabilities</p>
           <h2
+            ref={cuttingEdgeHeadingRef}
             className="slp-h2 slp-fade"
             data-delay="80"
             style={{ marginTop: "1rem" }}
@@ -1217,61 +1948,101 @@ function HomePage() {
 
 /* ---------------------------------------------------------------- products */
 
+/**
+ * Pinned horizontal product scroller.
+ *
+ * Measured off the reference: every card sits at a fixed vertical position and
+ * the whole track translates horizontally as the page scrolls, at 0.87px of
+ * travel per 1px of scroll, with cards spaced 453.57px apart. The section is
+ * made tall enough to supply that travel, and the viewport inside it is sticky
+ * so the cards hold their vertical position while the track slides.
+ */
+const CARD_PITCH = 453.57;
+const SCROLL_RATIO = 0.87;
+
+function ProductScroller() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const { navigate } = useRouter();
+
+  const travel = CARD_PITCH * PRODUCTS.length;
+  // Scroll distance required to deliver that travel at the measured ratio.
+  const scrollLength = travel / SCROLL_RATIO;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const track = trackRef.current;
+    if (!section || !track) return;
+
+    let raf = 0;
+    const frame = () => {
+      const rect = section.getBoundingClientRect();
+      // Progress through the section's scrollable run.
+      const run = rect.height - window.innerHeight;
+      const passed = clamp01(run > 0 ? -rect.top / run : 0);
+      track.style.transform = `translate3d(${(-passed * travel).toFixed(2)}px,0,0)`;
+      raf = requestAnimationFrame(frame);
+    };
+    frame();
+    return () => cancelAnimationFrame(raf);
+  }, [travel]);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="slp-scroller slp-on-black"
+      style={{ height: `calc(100svh + ${Math.round(scrollLength)}px)` }}
+    >
+      <div className="slp-scroller-pin">
+        <div className="slp-inner">
+          <h1 className="slp-h1 slp-fade">The Institutional Stack</h1>
+        </div>
+        <div className="slp-scroller-viewport">
+          <div ref={trackRef} className="slp-scroller-track">
+            {PRODUCTS.map((product, i) => (
+              <button
+                key={product.slug}
+                type="button"
+                className="slp-stack-card"
+                style={
+                  {
+                    "--slp-card-rot": `${i % 2 === 0 ? -1.2 : 1.6}deg`,
+                    "--slp-card-drop": `${i % 2 === 0 ? 0 : 64}px`,
+                  } as React.CSSProperties
+                }
+                onClick={() => navigate(`/products/${product.slug}`)}
+              >
+                <span className="slp-stack-media">
+                  <CircuitPlate seed={i} />
+                  <span className="slp-stack-tag">{product.kicker}</span>
+                  <span className="slp-stack-arrow">
+                    <ArrowIcon />
+                  </span>
+                </span>
+                <span className="slp-stack-body">
+                  <span className="slp-stack-title">{product.name}</span>
+                  <span className="slp-stack-desc">{product.summary}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ProductsPage() {
   const ref = useRef<HTMLDivElement>(null);
-  const { navigate } = useRouter();
   useFadeIn(ref);
 
   return (
     <div ref={ref}>
-      <section className="slp-page-hero slp-on-blue">
-        <div className="slp-inner">
-          <p className="slp-eyebrow slp-fade">Products</p>
-          <h1
-            className="slp-h1 slp-fade"
-            data-delay="90"
-            style={{ marginTop: "1.2rem" }}
-          >
-            The settlement suite
-          </h1>
-          <p
-            className="slp-body slp-fade"
-            data-delay="150"
-            style={{ marginTop: "1.5rem" }}
-          >
-            Seven modules that share one ledger, one policy model and one audit
-            trail. Take the whole suite or the single piece that closes your
-            gap.
-          </p>
-        </div>
-      </section>
+      <ProductScroller />
 
-      <section className="slp-section slp-on-blue" style={{ paddingTop: 0 }}>
-        <div className="slp-inner">
-          {PRODUCTS.map((product, i) => (
-            <button
-              key={product.slug}
-              type="button"
-              className="slp-capability slp-fade"
-              data-delay={i * 60}
-              onClick={() => navigate(`/products/${product.slug}`)}
-              style={{ width: "100%", textAlign: "left" }}
-            >
-              <div>
-                <span className="slp-capability-index">{product.kicker}</span>
-                <h3 className="slp-h3" style={{ marginTop: ".6rem" }}>
-                  {product.name}
-                </h3>
-              </div>
-              <p className="slp-body">{product.tagline}</p>
-            </button>
-          ))}
-        </div>
-      </section>
+      <PixelTransition from="#151515" to="#044ab3" seed={3} />
 
-      <PixelTransition from="#044ab3" to="#151515" seed={3} />
-
-      <section className="slp-section slp-on-black">
+      <section className="slp-section slp-on-blue">
         <div className="slp-inner slp-split">
           <h2 className="slp-h2 slp-fade">
             Built for real-world financial systems
@@ -1370,34 +2141,30 @@ function CompanyPage() {
 
   return (
     <div ref={ref}>
-      <section className="slp-page-hero slp-on-blue">
-        <div className="slp-inner">
-          <p className="slp-eyebrow slp-fade">Company</p>
-          <h1
-            className="slp-h1 slp-fade"
-            data-delay="90"
-            style={{ marginTop: "1.2rem" }}
-          >
+      {/* Wordmark left, statement right, cascading sheets behind both. */}
+      <section className="slp-company-hero slp-on-blue">
+        <RoundedCascade steps={3} />
+        <div className="slp-inner slp-company-grid">
+          <h1 className="slp-company-mark slp-fade">BLANK</h1>
+          <p className="slp-company-statement slp-fade" data-delay="120">
             {COMPANY.heading}
-          </h1>
-          <p
-            className="slp-body slp-fade"
-            data-delay="150"
-            style={{ marginTop: "1.5rem" }}
-          >
-            {COMPANY.body}
           </p>
-          <div className="slp-stat-row">
-            {COMPANY.stats.map((stat, i) => (
-              <div
-                key={stat.label}
-                className="slp-fade"
-                data-delay={180 + i * 70}
-              >
-                <div className="slp-stat-value">{stat.value}</div>
-                <div className="slp-stat-label">{stat.label}</div>
-              </div>
-            ))}
+        </div>
+      </section>
+
+      {/* The narrow column sits inside the bay the cascade opens up. */}
+      <section className="slp-section slp-on-blue slp-company-built">
+        <div className="slp-inner">
+          <div className="slp-company-column slp-fade">
+            <h2 className="slp-h2">What BLANK is built on</h2>
+            <div className="slp-company-copy">
+              <p>{COMPANY.body}</p>
+              <p>
+                The team combines distributed systems depth with a working
+                knowledge of how regulated institutions actually operate, which
+                is what keeps the product configurable instead of prescriptive.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -1419,6 +2186,14 @@ function CompanyPage() {
                 </span>
                 <h3 className="slp-h3">{card.title}</h3>
                 <p className="slp-body">{card.body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="slp-stat-row">
+            {COMPANY.stats.map((stat, i) => (
+              <div key={stat.label} className="slp-fade" data-delay={i * 70}>
+                <div className="slp-stat-value">{stat.value}</div>
+                <div className="slp-stat-label">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -1459,25 +2234,28 @@ function PartnersPage() {
 
   return (
     <div ref={ref}>
-      <section className="slp-page-hero slp-on-blue">
-        <div className="slp-inner">
-          <p className="slp-eyebrow slp-fade">Partners</p>
-          <h1
-            className="slp-h1 slp-fade"
-            data-delay="90"
-            style={{ marginTop: "1.2rem" }}
-          >
-            {PARTNERS.heading}
+      {/* Mesh bands top and bottom, heading top-left, copy and CTA sitting low
+          and right of centre with the middle left deliberately empty. */}
+      <section className="slp-partners-hero slp-on-blue">
+        <MeshBands />
+        <div className="slp-inner slp-partners-hero-inner">
+          <h1 className="slp-h1 slp-fade">
+            BLANK&rsquo;s
+            <br />
+            Industry Partners
           </h1>
-          <p
-            className="slp-body slp-fade"
-            data-delay="150"
-            style={{ marginTop: "1.5rem" }}
-          >
-            {PARTNERS.body}
-          </p>
+          <div className="slp-partners-lede slp-fade" data-delay="140">
+            <p>{PARTNERS.body}</p>
+            <div style={{ marginTop: "1.6rem" }}>
+              <Button href="/contact">Partner with us</Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <div className="slp-partner-grid slp-fade" data-delay="220">
+      <section className="slp-section slp-on-blue">
+        <div className="slp-inner">
+          <div className="slp-partner-grid slp-fade">
             {names.map((name, i) => (
               <div
                 key={name}
@@ -1492,10 +2270,7 @@ function PartnersPage() {
             ))}
           </div>
 
-          <blockquote className="slp-quote slp-fade">
-            {PARTNERS.quote.text}
-            <div className="slp-quote-attr">{PARTNERS.quote.attribution}</div>
-          </blockquote>
+          <TestimonialCarousel items={PARTNERS.testimonials} />
         </div>
       </section>
 
@@ -1641,6 +2416,7 @@ function ContactPage() {
               <label htmlFor="slp-org">Institution</label>
               <input id="slp-org" name="organisation" />
             </div>
+            <PhoneField />
             <div className="slp-field">
               <label htmlFor="slp-msg">What are you settling?</label>
               <textarea id="slp-msg" name="message" />
@@ -1776,6 +2552,7 @@ function BlogPostPage({ slug }: { slug: string }) {
   const progressRef = useRef<HTMLDivElement>(null);
   const article = ARTICLES.find((a) => a.slug === slug) ?? ARTICLES[0];
   const scroller = useScroller();
+  const { copied, copy } = useCopyLink();
   useFadeIn(ref, [slug]);
 
   useEffect(() => {
@@ -1806,6 +2583,9 @@ function BlogPostPage({ slug }: { slug: string }) {
             <span>{article.category}</span>
             <span>{article.date}</span>
             <span>{article.readingTime}</span>
+            <button type="button" className="slp-copy-link" onClick={copy}>
+              {copied ? "Link copied" : "Copy link"}
+            </button>
           </div>
           <h1
             className="slp-h1 slp-fade"
