@@ -2846,6 +2846,36 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "settlement-layer-page",
+    title: "Settlement Layer Page",
+    description:
+      "A multi-route enterprise infrastructure template. Eleven routes (home, products index and detail, company, partners, careers, contact, newsroom, blog index and post, legal) share one Lenis and ScrollTrigger clock. The signature effect is a scroll-driven pixel dissolve between section colours: a 25 by 6 grid whose pattern and shuffle orders come from a seeded generator, so the dissolve is identical on every reload. Also ships travelling pulses along staircase connector SVG paths, a momentum drag carousel for the product suite, a radial line-burst hero, line-reveal hover on desktop pointers, and a header that flips to its light variant over light sections. Deep blue, black and white sectioning with PP Neue Montreal and Fragment Mono.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-13",
+    type: "registry:ui",
+    dependencies: ["gsap", "@gsap/react", "lenis"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/settlement-layer-page/index.tsx",
+        target: "components/ui/settlement-layer-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/settlement-layer-page/styles.ts",
+        target: "components/ui/settlement-layer-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/settlement-layer-page/content.ts",
+        target: "components/ui/settlement-layer-page/content.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "soren-page",
     title: "Soren Page",
     description:
@@ -7997,6 +8027,26 @@ export const registryItems: RegistryItem[] = [
         path: "src/registry/effect-browser-peer-channel/browser-channel.ts",
         target: "src/browser/browser-channel.ts",
         type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "iris-outro-footer",
+    title: "Iris Outro Footer",
+    description:
+      "A closing-title iris scrubbed by scroll. Five concentric discs sit locked to the centre of a sticky, clipped stage, each starting part-grown at a staggered scale and reaching full size together, so the gap between neighbours widens as the footer arrives and the target blooms outward from the middle. Ring opacity rides the same progress, the stage fades up over the last 70 percent of the range, and the sign-off unblurs into the dark centre at the end. No animation library: progress is one scroll-derived custom property and the discs interpolate their own scale in CSS.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-08-13",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/iris-outro-footer.tsx",
+        target: "components/ui/iris-outro-footer.tsx",
+        type: "registry:ui",
       },
     ],
   },

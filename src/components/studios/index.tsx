@@ -42,6 +42,7 @@ import PortfolioPageStudio from "./portfolio-page";
 import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
+import SettlementLayerPageStudio from "./settlement-layer-page";
 import SorenPageStudio from "./soren-page";
 import SpiralGalleryStudio from "./spiral-gallery";
 import SunlitStudio from "./sunlit";
@@ -80,6 +81,7 @@ export const studios: Record<string, StudioComponent> = {
   "lego-dither": LegoDitherStudio,
   "falling-tag-list": FallingTagListStudio,
   "frame-scroll": FrameScrollStudio,
+  "settlement-layer-page": SettlementLayerPageStudio,
   "spiral-gallery": SpiralGalleryStudio,
   sunlit: SunlitStudio,
   "archive-commerce-page": ArchiveCommercePageStudio,

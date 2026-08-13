@@ -1,5 +1,8 @@
 allowBuilds:
-  sharp: set this to true or false
+  esbuild: true
+  msgpackr-extract: true
+  sharp: true
+  workerd: true
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver

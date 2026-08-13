@@ -29,6 +29,7 @@ import ImageRevealPreview from "./image-reveal";
 import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
+import IrisOutroFooterPreview from "./iris-outro-footer";
 import LegoDitherPreview from "./lego-dither";
 import March2025TemplatePreview from "./march-2025-template";
 import MaterialSpotlightPreview from "./material-spotlight";
@@ -41,6 +42,7 @@ import PrismLightInstrumentPreview from "./prism-light-instrument";
 import ProceduralComputerPagePreview from "./procedural-computer-page";
 import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
 import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
+import SettlementLayerPagePreview from "./settlement-layer-page";
 import SpiralGalleryPreview from "./spiral-gallery";
 import SurpriseBoxPreview from "./surprise-box";
 
@@ -66,6 +68,7 @@ export const previews: Record<string, ComponentType> = {
   "mosaic-flip": MosaicFlipPreview,
   "image-reveal": ImageRevealPreview,
   "ink-field": InkFieldPreview,
+  "iris-outro-footer": IrisOutroFooterPreview,
   "grain-gradient-field": GrainGradientFieldPreview,
   "grain-gradient-nav": GrainGradientNavPreview,
   "award-list": AwardListPreview,
@@ -85,6 +88,7 @@ export const previews: Record<string, ComponentType> = {
   "flow-field-text": FlowFieldTextPreview,
   "fluid-mosaic": FluidMosaicPreview,
   "frame-scroll": FrameScrollPreview,
+  "settlement-layer-page": SettlementLayerPagePreview,
   "spiral-gallery": SpiralGalleryPreview,
   "surprise-box": SurpriseBoxPreview,
   "archive-commerce-page": ArchiveCommercePagePreview,

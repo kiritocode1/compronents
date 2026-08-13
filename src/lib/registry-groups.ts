@@ -19,6 +19,7 @@ export const componentGroups: RegistryGroup[] = [
       "portfolio-page",
       "creative-clutter",
       "animated-footer",
+      "iris-outro-footer",
       "halftone-scene-footer",
       "vinyl-orbit-player",
       "physics-tag-footer",
@@ -271,6 +272,7 @@ export const pageGroups: RegistryGroup[] = [
       "isochrome-page",
       "damien-tsarantos-page",
       "dither-studio-page",
+      "settlement-layer-page",
     ],
   },
   {

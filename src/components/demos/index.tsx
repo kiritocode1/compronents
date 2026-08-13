@@ -108,6 +108,7 @@ import InteriorStudioPageDemo from "./interior-studio-page";
 import InterlockTitleScrollDemo from "./interlock-title-scroll";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
+import IrisOutroFooterDemo from "./iris-outro-footer";
 import IsochromePageDemo from "./isochrome-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
@@ -177,6 +178,7 @@ import ScrollTextBlocksDemo from "./scroll-text-blocks";
 import ScrollTunnel3DDemo from "./scroll-tunnel-3d";
 import ScrollWaveGalleryDemo from "./scroll-wave-gallery";
 import ServiceIndexScrubDemo from "./service-index-scrub";
+import SettlementLayerPageDemo from "./settlement-layer-page";
 import ShaderGridGalleryDemo from "./shader-grid-gallery";
 import ShaderTunnelSliderDemo from "./shader-tunnel-slider";
 import ShaderWarpSliderDemo from "./shader-warp-slider";
@@ -262,6 +264,7 @@ export const demos: Record<string, ComponentType> = {
   "image-reveal": ImageRevealDemo,
   "ink-field": InkFieldDemo,
   "ink-core-layout": InkCoreLayoutDemo,
+  "iris-outro-footer": IrisOutroFooterDemo,
   "ascii-monogram-hero": AsciiMonogramHeroDemo,
   "ascii-tv-hero": AsciiTvHeroDemo,
   "award-list": AwardListDemo,
@@ -284,6 +287,7 @@ export const demos: Record<string, ComponentType> = {
   "sandy-grain-background": SandyGrainBackgroundDemo,
   "shader-grid-gallery": ShaderGridGalleryDemo,
   "slit-reveal-hero": SlitRevealHeroDemo,
+  "settlement-layer-page": SettlementLayerPageDemo,
   "spiral-gallery": SpiralGalleryDemo,
   "voku-image-slider": VokuImageSliderDemo,
   "threejs-infinite-slider": ThreejsInfiniteSliderDemo,

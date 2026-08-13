@@ -4422,6 +4422,120 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "iris-outro-footer": {
+    demoPath: "src/components/demos/iris-outro-footer.tsx",
+    assets: [],
+    nuance: [
+      {
+        label: "The stagger is the whole effect",
+        description:
+          "All five discs finish at scale 1 together but start at 0.8, 0.6, 0.4, 0.2 and 0. Because the outer disc has the least distance to travel and the innermost has the most, the bands spread apart as progress runs and the target reads as blooming outward. Give every disc the same start and it collapses into one flat zoom.",
+      },
+      {
+        label: "Discs are sized against width, then clipped",
+        description:
+          "Each disc is a percentage of the stage width with a 1:1 aspect ratio, so on any landscape viewport the outer ones are taller than the stage and get cut off by its clip. That overflow is intentional: it is what makes the outer band read as a field rather than a circle sitting in the middle of the screen.",
+      },
+      {
+        label: "Three separate opacity ramps",
+        description:
+          "Ring opacity is base times progress, the stage fades up only over the last 70 percent, and the sign-off resolves over the last 45 percent with its blur. They are deliberately out of phase, so the iris is already moving before it is visible and the line lands after the motion settles.",
+      },
+      {
+        label: "No animation library",
+        description:
+          "Scroll writes one custom property and CSS interpolates each disc from its own start scale. The scroll listener is passive and rAF-coalesced, and reduced-motion pins progress at 1 so the closing frame is composed rather than animated.",
+      },
+    ],
+    editable: [
+      {
+        name: "signOff",
+        control: "text",
+        description:
+          "The closing line that resolves in the dark centre. Keep it short: it is set on one line and scales with the stage, so a long phrase shrinks the type instead of wrapping.",
+      },
+      {
+        name: "stops",
+        control: "color",
+        description:
+          "Five colour stops, centre outward. Only the hue moves; the stop positions that give the iris its banding stay fixed.",
+      },
+      {
+        name: "tilt",
+        control: "slider",
+        description:
+          "Baseline tilt of the sign-off in degrees. A few degrees of lift reads as hand-lettered; past about 12 it starts to look like a mistake.",
+      },
+      {
+        name: "wordmark",
+        control: "text",
+        description: "Small mark pinned to the top left of the closing screen.",
+      },
+      {
+        name: "links",
+        control: "links",
+        description:
+          "Contact links along the bottom right, with social links along the top right.",
+      },
+    ],
+    api: [
+      {
+        name: "signOff",
+        type: "string",
+        default: '"“That’s all Folks!”"',
+        description: "The closing line revealed in the centre of the iris.",
+      },
+      {
+        name: "wordmark",
+        type: "string",
+        default: '"BLANK"',
+        description: "Small mark pinned to the top left.",
+      },
+      {
+        name: "social",
+        type: "IrisOutroLink[]",
+        default: "Instagram, X.com",
+        description: "Links pinned to the top right.",
+      },
+      {
+        name: "copyright",
+        type: "string",
+        default: '"© BLANK 2026"',
+        description: "Copyright line pinned to the bottom left.",
+      },
+      {
+        name: "links",
+        type: "IrisOutroLink[]",
+        default: "hello@aryank.space, LinkedIn, Are.na",
+        description: "Links pinned to the bottom right.",
+      },
+      {
+        name: "stops",
+        type: "readonly string[]",
+        default: "5 reds, #8c0e0a to #1c0303",
+        description:
+          "Five colour stops for the discs, centre outward. Stop positions are fixed.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        default: "-5",
+        description: "Baseline tilt of the sign-off, in degrees.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "false",
+        description:
+          "Run inside a bounded parent as the component's own scroller, with a one-screen lead-in, instead of scrubbing against the page.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Extra class on the root element.",
+      },
+    ],
+  },
   "ink-field": {
     demoPath: "src/components/demos/ink-field.tsx",
     studioPath: "src/components/studios/ink-field.tsx",
@@ -5338,6 +5452,55 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string / CSSProperties",
         default: "undefined",
         description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "settlement-layer-page": {
+    demoPath: "src/components/demos/settlement-layer-page.tsx",
+    studioPath: "src/components/studios/settlement-layer-page.tsx",
+    assets: [],
+    nuance: [
+      {
+        label: "The dissolve is seeded, not random",
+        description:
+          "The pixel band between two section colours draws its pattern and both shuffle orders from a seeded minstd generator, so the same cells light in the same order on every reload and across every visitor. Swap in Math.random and the effect still works but stops being a designed transition: it becomes noise that looks different each time, which reads as a glitch rather than a wipe.",
+      },
+      {
+        label: "Two phases, not one fade",
+        description:
+          "Progress from 0 to 0.5 reveals accent pixels against the origin colour; 0.5 to 1 fills those same cells to the destination colour. Running it as a single ramp loses the moment where the accent is visible, which is the only part of the transition a viewer actually registers.",
+      },
+      {
+        label: "The band collapses when it is done",
+        description:
+          "Once the fill passes 99.7 percent the wrapper flips to a solid block and the grid is hidden, so 150 cells stop being repainted on every scroll frame for the rest of the page. Each cell also caches its last colour and only writes to style when it changes.",
+      },
+      {
+        label: "One clock for scroll",
+        description:
+          "Lenis runs with autoRaf off and is driven by the GSAP ticker with lagSmoothing disabled, and ScrollTrigger.update is wired to the Lenis scroll event. Letting each drive its own loop makes pinned sections drift against the smooth scroll under load.",
+      },
+      {
+        label: "Line reveal is gated to real pointers",
+        description:
+          "The duplicate-text hover slide only applies above 992 pixels with hover and a fine pointer. On a touch device the hover state can stick after a tap, which leaves labels frozen half way through the slide.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialPath",
+        control: "text",
+        description:
+          "Which route opens first: /, /products, /products/vault, /company, /partners, /career, /contact, /newsroom, /blog, /blog/<slug>, or /legal/<slug>.",
+      },
+    ],
+    api: [
+      {
+        name: "initialPath",
+        type: "string",
+        default: '"/"',
+        description:
+          "Route rendered on mount. The template owns its own router, so every internal link navigates without leaving the component.",
       },
     ],
   },
