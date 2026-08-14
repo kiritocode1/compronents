@@ -8971,6 +8971,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Effect ecosystem",
     links: [
       {
+        title: "Effect v3 to v4 migration skill",
+        href: "https://www.skills.sh/effect-ts/skills/effect-v3-to-v4",
+        dateAdded: "2026-08-14",
+        kind: "skill",
+        stack: ["effect", "typescript", "agents", "migration"],
+        useFor: [
+          "effect v3 to v4",
+          "effect v4 migration",
+          "migrate to effect v4",
+          "upgrade effect",
+          "effect breaking changes",
+          "effect v4",
+        ],
+        description:
+          "Agent skill from the Effect-TS org itself that drives an Effect v3 to v4 migration off the generated migration reference shipped in the Effect repo, so every rename, removal and signature change is answered by upstream data instead of guessed. The workflow makes two shallow single-branch clones (v4 `main` plus the `v3` branch for old semantics), migrates `package.json` before the first type-check so the error list is not drowned in unresolved imports from packages that no longer exist, then works `tsc --noEmit` down to zero, delegating per-file fixes to sub-agents and prohibiting silencing an error instead of resolving it. Its load-bearing rule is never to read `migration/v3-to-v4.md` whole: at roughly 16,000 lines and 350k tokens it takes the context window with it, so each symbol is grepped one lookup at a time out of the Import Map, No Counterpart Imports, Removed Modules or API Reference sections. Installed via `npx skills add`, 138 installs and 76 stars on the repo, listed since 27 July 2026; it also warns that a `.repos/effect` left behind from the archived `effect-smol` repo is stale and has to be re-cloned.",
+      },
+      {
         title: "Crosshatch",
         href: "https://crosshatch.dev/",
         dateAdded: "2026-08-11",
