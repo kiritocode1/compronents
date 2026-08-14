@@ -5072,6 +5072,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Geom (Kynd)",
+        href: "https://www.kynd.info/geom/",
+        dateAdded: "2026-08-14",
+        kind: "essay",
+        stack: ["audio", "generative"],
+        useFor: [
+          "sound reactive shapes",
+          "audio reactive visuals",
+          "parametric shapes",
+          "generative geometry",
+          "music video visuals",
+          "fourier transform",
+          "animation without keyframes",
+          "math driven motion",
+        ],
+        description:
+          "Sketchbook and working log for a music video built entirely out of math, worth reading when you want geometry driven by sound rather than by hand-authored keyframes. By Kenichi Yoneda (Kynd), made for the album Musical Architecture by Yaporigami (Yu Miyashita), it runs as nine chapters: sound analysis, parametric shapes, lighting and rendering, sound-reactive environment, sound-reactive shapes, multitrack visualization, effects and refinements, composition and an appendix. Three self-imposed rules shape the whole thing: only deterministic fundamental functions such as polynomials and trigonometry with no hand-built geometry, identical output for identical sound input with no random or noise functions so the audio stays the only quasi-random element, and avoiding keyframing wherever possible, which the author concedes is nearly impossible to follow strictly. Concepts such as Bezier curves, Fourier transform and sine wave decomposition link out to separate essays on kynd.info; source is at github.com/kynd/geom, with writing and code under CC BY-SA 4.0 and the finished piece under CC BY-NC-SA 4.0.",
+      },
+      {
         title: "Jungle Cursor Canopy (Whitespace)",
         href: "https://experiments.thisiswhitespace.com/jungle-cursor-canopy",
         dateAdded: "2026-08-10",
@@ -5983,6 +6002,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "OpenMotion",
+        href: "https://openmotion.design/",
+        dateAdded: "2026-08-14",
+        kind: "tool",
+        stack: ["claude-code", "codex", "macos", "motion"],
+        useFor: [
+          "motion graphics",
+          "ai motion design",
+          "logo animation",
+          "explainer video",
+          "launch video",
+          "product video",
+          "animate from a prompt",
+          "transparent webm",
+        ],
+        description:
+          "Mac app that generates a motion graphics scene from a text prompt and then hands you a real editing surface for it, aimed at product videos, launch teasers, explainers and logo motion when there is no motion designer on the team. Version 1.1.0 (build 4) ships as a 326 MB .dmg with Apple silicon and Intel builds and automatic architecture detection, and it runs on an existing Claude Code or Codex subscription instead of separate API keys. Editing is a scene-based canvas with a layer and audio timeline plus reusable brand kits, exporting to video, transparent WebM, or self-contained HTML for the web. Free while it is being built, with a higher-limit Pro plan mentioned but unpriced; despite the name there is no repository or license on the site, only the download, and no company or maintainer is named anywhere.",
+      },
       {
         title: "VibeIndex",
         href: "https://vibeindex.dev/",
