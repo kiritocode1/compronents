@@ -6003,6 +6003,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Motion by Mosaic",
+        href: "https://motion.so/",
+        dateAdded: "2026-08-14",
+        kind: "tool",
+        stack: ["mcp", "video"],
+        useFor: [
+          "text to video",
+          "launch video",
+          "product demo video",
+          "logo animation",
+          "motion design agent",
+          "prompt to video",
+          "ai motion graphics",
+          "video over mcp",
+        ],
+        description:
+          "AI agent that turns a one-sentence prompt into a finished motion-graphics video, for launch films, product demos, logo animations, and social ads. Built by Mosaic AI Labs (mosaic.so) and launched 2026-06-18; Adish Jain wrote the intro post. The run is five steps: a one-line brief, research that reads your site for brand colors and type, a scene-by-scene storyboard, then a build of visuals, motion graphics, voiceover, music, and captions, after which you edit individual elements by hand or in chat instead of regenerating whole scenes. Plan presets include launch video, brand documentary, deep-dive explainer, animated story, logo animation, talking head, and article-to-video, and you can call it from Claude, ChatGPT, Cursor, or any agent over MCP or the API. Subscriptions shown on the affiliate page are Pro at $29 a month and Max at $99 a month, plus credit packs and usage top ups.",
+      },
+      {
         title: "OpenMotion",
         href: "https://openmotion.design/",
         dateAdded: "2026-08-14",
