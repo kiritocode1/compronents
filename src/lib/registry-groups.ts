@@ -177,6 +177,7 @@ export const componentGroups: RegistryGroup[] = [
       "curved-letter-path-scroll",
       "clip-reveal-services",
       "pixel-smear-wordmark",
+      "fisheye-scroll",
     ],
   },
   {

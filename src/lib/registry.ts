@@ -151,6 +151,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "fisheye-scroll",
+    title: "Fisheye Scroll",
+    description:
+      "A pinned poster whose oversized word is a repeating marquee sampled through a WebGL lens. Scroll slides the strip from left to right. Behind the person the lens inverts so the sides grow around the figure. In front it enlarges from the middle. Three.js, GSAP ScrollTrigger, Lenis.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-08-14",
+    type: "registry:ui",
+    dependencies: ["gsap", "lenis", "three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fisheye-scroll.tsx",
+        target: "components/ui/fisheye-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "fluid-reveal-carousel",
     title: "Fluid Reveal Carousel",
     description:

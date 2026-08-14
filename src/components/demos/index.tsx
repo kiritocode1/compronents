@@ -75,6 +75,7 @@ import FannedCardDeckDemo from "./fanned-card-deck";
 import FilmStudioPageDemo from "./film-studio-page";
 import FilmstripVideoPlayerDemo from "./filmstrip-video-player";
 import FilterScrubGalleryDemo from "./filter-scrub-gallery";
+import FisheyeScrollDemo from "./fisheye-scroll";
 import FlipLayoutGalleryDemo from "./flip-layout-gallery";
 import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlipTileBoardDemo from "./flip-tile-board";
@@ -309,6 +310,7 @@ export const demos: Record<string, ComponentType> = {
   "video-card-stack": VideoCardStackDemo,
   "client-hover-preview": ClientHoverPreviewDemo,
   "filter-scrub-gallery": FilterScrubGalleryDemo,
+  "fisheye-scroll": FisheyeScrollDemo,
   "flow-field-text": FlowFieldTextDemo,
   "fluid-mosaic": FluidMosaicDemo,
   "fluid-reveal-carousel": FluidRevealCarouselDemo,

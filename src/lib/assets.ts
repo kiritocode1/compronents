@@ -3753,6 +3753,16 @@ export const assetItems = [
     role: "Soft leaf canopy billowing in front of the blinds; blurred and displaced by the wind filter.",
     notes: "Served from Vercel Blob at the stable registry pathname.",
   } as const satisfies AssetItem,
+  {
+    id: "fisheye-scroll-portrait",
+    label: "Fisheye Scroll portrait",
+    provider: "vercel-blob",
+    pathname: "fisheye-scroll/portrait.png",
+    fallbackPath: "/fisheye-scroll/portrait.png",
+    role: "High-contrast cutout that sits unwarped over the fisheye word.",
+    notes:
+      "Upload this image to Vercel Blob at the same pathname and serve it with public access.",
+  } as const satisfies AssetItem,
 ] as const satisfies readonly AssetItem[];
 
 export function getAssetByPathname(pathname: string) {

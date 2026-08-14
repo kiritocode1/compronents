@@ -21,6 +21,7 @@ import DiningRoomPageStudio from "./dining-room-page";
 import DitherStudioPageStudio from "./dither-studio-page";
 import FallingTagListStudio from "./falling-tag-list";
 import FilmStudioPageStudio from "./film-studio-page";
+import FisheyeScrollStudio from "./fisheye-scroll";
 import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
 import InkFieldStudio from "./ink-field";
@@ -80,6 +81,7 @@ export const studios: Record<string, StudioComponent> = {
   "curve-gallery": CurveGalleryStudio,
   "lego-dither": LegoDitherStudio,
   "falling-tag-list": FallingTagListStudio,
+  "fisheye-scroll": FisheyeScrollStudio,
   "frame-scroll": FrameScrollStudio,
   "settlement-layer-page": SettlementLayerPageStudio,
   "spiral-gallery": SpiralGalleryStudio,

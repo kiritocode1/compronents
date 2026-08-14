@@ -323,6 +323,17 @@ const inversaScrollAssets = assetItems
     role: asset.role,
   }));
 
+const fisheyeScrollAssets = assetItems
+  .filter((asset) => asset.id.startsWith("fisheye-scroll-"))
+  .map((asset) => ({
+    id: asset.id,
+    label: asset.label,
+    provider: asset.provider,
+    pathname: asset.pathname,
+    fallbackPath: asset.fallbackPath,
+    role: asset.role,
+  }));
+
 const materialSpotlightAssets = assetItems
   .filter((asset) => asset.id.startsWith("material-spotlight-"))
   .map((asset) => ({
@@ -15681,6 +15692,133 @@ export const componentMeta: Record<string, ComponentMeta> = {
         default: "BE, DRI, Linkedin / IG, FB",
         description:
           "The two link clusters in the bottom bar, set uppercase in the nav's blended layer.",
+      },
+    ],
+  },
+  "fisheye-scroll": {
+    demoPath: "src/components/demos/fisheye-scroll.tsx",
+    studioPath: "src/components/studios/fisheye-scroll.tsx",
+    nuance: [
+      {
+        label: "Scroll is a left-to-right marquee",
+        description:
+          "The word is painted as a repeating strip. Scroll progress offsets the sample in X, so the type slides from left to right instead of scaling in place. A 3D dolly toward the camera is a different effect.",
+      },
+      {
+        label: "Behind and forward are two paints of the same strip",
+        description:
+          "Behind is an opaque pass under the cutout with an inverted lens. Forward is a second, transparent pass over the person that enlarges from the middle, so the face shows through the letterforms instead of being covered by a solid canvas. Both keeps the two stacks in lockstep on the same scroll offset.",
+      },
+      {
+        label: "The lens flips with the stack",
+        description:
+          "Behind inverts the barrel so the sides grow and the centre pinches around the figure, which is the part of the word you can still see. Forward keeps a true fisheye and enlarges from the middle, because the type is now over the person and the centre is the subject.",
+      },
+      {
+        label: "Owns its scroll",
+        description:
+          "By default it pins inside its own scroll container so it embeds in a bounded box. Pass embedded={false} to run it as a full-page section on the window scroll.",
+      },
+    ],
+    editable: [
+      {
+        name: "text",
+        control: "text",
+        description: "The oversized word painted into the lens.",
+      },
+      {
+        name: "background / textColor",
+        control: "color",
+        description: "Poster field and word colour.",
+      },
+      {
+        name: "effect",
+        control: "text",
+        description:
+          "behind, forward, or both. Forward is a transparent strip over the person.",
+      },
+      {
+        name: "intensity",
+        control: "slider",
+        description: "How hard the barrel lens bends the word.",
+      },
+      {
+        name: "zoom",
+        control: "slider",
+        description: "How tight the crop is on the marquee.",
+      },
+      {
+        name: "portraitSrc",
+        control: "asset-url",
+        description: `Hosted through ${getHostedAssetUrl(
+          "fisheye-scroll/portrait.png",
+        )}.`,
+      },
+    ],
+    assets: fisheyeScrollAssets,
+    api: [
+      {
+        name: "text",
+        type: "string",
+        default: '"GIANTS"',
+        description: "Word painted into the fisheye texture.",
+      },
+      {
+        name: "portraitSrc",
+        type: "string",
+        default: '"…/fisheye-scroll/portrait.png"',
+        description: "Cutout that sits unwarped over the word.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#e83210"',
+        description: "Poster field behind the word.",
+      },
+      {
+        name: "textColor",
+        type: "string",
+        default: '"#f1cbb6"',
+        description: "Colour of the painted word.",
+      },
+      {
+        name: "effect",
+        type: '"behind" | "forward" | "both"',
+        default: '"behind"',
+        description:
+          "behind: inverted lens under the person. forward: centre-enlarged letters over the person, canvas is transparent so the face stays visible. both: the two stacks together.",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        default: "1",
+        description: "Barrel strength multiplier.",
+      },
+      {
+        name: "zoom",
+        type: "number",
+        default: "1",
+        description:
+          "How tight the crop is. Lower values show more of the word.",
+      },
+      {
+        name: "portraitScale",
+        type: "number",
+        default: "1",
+        description: "Base scale of the cutout overlay.",
+      },
+      {
+        name: "outroText",
+        type: "string",
+        default: '"The word holds."',
+        description: "Line on the panel after the pin.",
+      },
+      {
+        name: "embedded",
+        type: "boolean",
+        default: "true",
+        description:
+          "Own an internal scroll container (true) or use the window scroll (false).",
       },
     ],
   },

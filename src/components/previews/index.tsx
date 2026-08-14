@@ -19,6 +19,7 @@ import DiningRoomPagePreview from "./dining-room-page";
 import EdgeWarpRailPreview from "./edge-warp-rail";
 import FallingTagListPreview from "./falling-tag-list";
 import FilmStudioPagePreview from "./film-studio-page";
+import FisheyeScrollPreview from "./fisheye-scroll";
 import FlowFieldTextPreview from "./flow-field-text";
 import FluidMosaicPreview from "./fluid-mosaic";
 import FluidRevealCarouselPreview from "./fluid-reveal-carousel";
@@ -84,6 +85,7 @@ export const previews: Record<string, ComponentType> = {
   "curve-gallery": CurveGalleryPreview,
   "lego-dither": LegoDitherPreview,
   "falling-tag-list": FallingTagListPreview,
+  "fisheye-scroll": FisheyeScrollPreview,
   "edge-warp-rail": EdgeWarpRailPreview,
   "flow-field-text": FlowFieldTextPreview,
   "fluid-mosaic": FluidMosaicPreview,
