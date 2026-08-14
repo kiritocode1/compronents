@@ -5072,6 +5072,26 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Motion GPU",
+        href: "https://motion-gpu.dev/",
+        dateAdded: "2026-08-14",
+        kind: "library",
+        stack: ["webgpu", "wgsl", "react", "svelte", "vue"],
+        useFor: [
+          "webgpu shader",
+          "wgsl shader",
+          "fullscreen fragment shader",
+          "gpu compute",
+          "feedback pass",
+          "feedback effects",
+          "post processing pass",
+          "shader in react",
+          "procedural textures",
+        ],
+        description:
+          "WebGPU runtime for fullscreen WGSL shaders, for shader-driven visuals, generative art, procedural textures, post processing and GPU compute without pulling in a 3D engine. Ships as one package, @motion-core/motion-gpu, with a framework-neutral core plus /svelte, /react and /vue entrypoints (each with an /advanced variant); React 19, Svelte 5.29 and Vue 3.5 are optional peers and @webgpu/types is the only hard dependency. Covers validated WGSL materials, runtime updates to uniforms, textures and storage buffers, render, feedback and compute passes, an explicit scheduler with render modes, and WebGPU failures normalized into reports carrying source snippets and hints. It owns the canvas, render loop and GPU resources while your app owns the shaders and interaction, and it needs WebGPU in a secure context such as HTTPS or localhost; MIT from the motion-core org, 180 stars, v0.15.0 published 13 August 2026, with docs and a browser playground on the same site.",
+      },
+      {
         title: "Geom (Kynd)",
         href: "https://www.kynd.info/geom/",
         dateAdded: "2026-08-14",
