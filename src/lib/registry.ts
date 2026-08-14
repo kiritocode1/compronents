@@ -4886,6 +4886,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "fluid-image",
+    title: "Fluid Image",
+    description:
+      "A photograph with a liquid gradient welded onto the cursor. One WebGL pass samples the image through UVs displaced by a curl-noise flow field, so the picture itself smears rather than a scrim sliding over it. Twelve trail points follow the pointer, each contributing a vortex spin perpendicular to its own travel direction plus a directional smudge, which is why a fast drag rips a spiral and a slow one only breathes. Inside the influence radius the image is hue-rotated in HSL and cross-faded into a four-stop gradient warped by the same field, while the four stops drift around the hue wheel on their own detuned periods. Pressing fires an expanding burst that runs independently of hover. The canvas is oversized past the frame so the swirl spills into the margin, and the loop parks itself entirely once the trail has decayed.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fluid-image.tsx",
+        target: "components/ui/fluid-image.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "switch-on-hover-tabs",
+    title: "Switch On Hover Tabs",
+    description:
+      "A vertical tab column welded into an image panel, where moving the mouse across a tab is the whole interaction. The active tab takes the panel's own fill and drops its right-hand radius so the two shapes read as one surface, and two twenty pixel concave fillets sit above and below its right edge to round the junction the way a browser tab meets its bar. Only the active tab renders its description, so selecting one grows it and springs the rest of the column out of the way instead of cross-fading text in a fixed box. Touch devices fall back to tap, matching the source's separate mobile variants.",
+    section: "components",
+    category: "Layout",
+    pro: false,
+    date: "2026-08-14",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/switch-on-hover-tabs.tsx",
+        target: "components/ui/switch-on-hover-tabs.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "calendar-pad-cards",
     title: "Calendar Pad Cards",
     description:

@@ -13946,6 +13946,220 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "fluid-image": {
+    demoPath: "src/components/demos/fluid-image.tsx",
+    nuance: [
+      {
+        label: "The image is the fluid, not a layer over it",
+        description:
+          "Nothing is composited on top. The shader samples the photograph through UVs offset by the accumulated swirl, so the picture's own pixels smear. A scrim sliding over a static image reads as a filter; displacing the sample coordinates reads as liquid.",
+      },
+      {
+        label: "Twelve trail points, each spinning around its own axis",
+        description:
+          "The pointer leaves a 12-slot history. Every slot adds a vortex tangent perpendicular to the vector from itself to the pixel, scaled by that point's recorded velocity, plus a smaller linear smudge along its direction of travel. That velocity term is why a fast drag tears a spiral and a slow pass only breathes.",
+      },
+      {
+        label: "Curl noise, so the turbulence is divergence-free",
+        description:
+          "The flow field is the curl of a gradient-noise field rather than two independent noise channels. Divergence-free means the warp swirls without sources or sinks, so the image never appears to pool or drain. Low quality drops to two raw noise channels, which is visibly cheaper and slightly soapier.",
+      },
+      {
+        label: "The palette drifts on detuned periods",
+        description:
+          "All four gradient stops cycle their hue over time, but at 1.0, 0.73, 1.17, and 0.53 times the rate. Shared timing would make the gradient pump as one block; the mismatch keeps the stops sliding past each other so the blend never repeats on a short loop.",
+      },
+      {
+        label: "It parks itself when nothing is moving",
+        description:
+          "The loop checks pointer fade, burst value, and all twelve trail strengths, then stops requesting frames outright once every one has decayed. A permanent RAF on an idle hero is a real battery cost, and a ResizeObserver plus pointer handlers restart it.",
+      },
+      {
+        label: "The canvas is bigger than the frame",
+        description:
+          "It is inset by negative overflowPadding on all sides and the shader is told the padding as a uniform, so the swirl and glow spill past the image edge instead of being cut off at it. The boundary mask is warped by the same swirl, so the edge of the photo distorts too.",
+      },
+    ],
+    editable: [
+      {
+        name: "preset",
+        control: "text",
+        description:
+          "tropical, ocean, sunset, neon, forest, monochrome, or custom.",
+      },
+      {
+        name: "customColors",
+        control: "text",
+        description:
+          "1 to 6 colours, resampled onto the shader's four gradient stops.",
+      },
+      {
+        name: "radius",
+        control: "slider",
+        description: "Size of the pointer's influence area.",
+      },
+      {
+        name: "distortion",
+        control: "slider",
+        description: "How hard the flow field warps the image.",
+      },
+      {
+        name: "persistence",
+        control: "slider",
+        description: "How long the trail holds before it decays.",
+      },
+    ],
+    api: [
+      {
+        name: "image",
+        type: "string",
+        default: "built-in gradient",
+        description:
+          "Texture URL. Requested with crossOrigin so a same-origin path that redirects to a CDN still uploads to WebGL.",
+      },
+      {
+        name: "objectFit",
+        type: '"cover" | "contain" | "fill"',
+        default: '"cover"',
+        description:
+          "Applied in the shader against the padded canvas, not by CSS.",
+      },
+      {
+        name: "showGradient",
+        type: "boolean",
+        default: "true",
+        description:
+          "Off keeps the liquid displacement and drops the colour overlay and hue shift.",
+      },
+      {
+        name: "radius / strength / distortion",
+        type: "number",
+        default: "0.4 / 0.9 / 0.4",
+        description:
+          "Influence size, overall intensity, and how far the flow field pushes the sample UVs.",
+      },
+      {
+        name: "hueShift / colorCycle",
+        type: "number",
+        default: "0.5 / 0.05",
+        description:
+          "Hue rotation inside the influence area, and the rate the four stops drift around the wheel.",
+      },
+      {
+        name: "speed / persistence / pointerSmooth",
+        type: "number",
+        default: "0.4 / 0.97 / 0.08",
+        description:
+          "Noise time scale, trail retention per frame, and pointer follow easing. All three are frame-rate normalised to a 60fps baseline.",
+      },
+      {
+        name: "quality",
+        type: '"high" | "low"',
+        default: '"high"',
+        description:
+          "Low compiles a cheaper shader: 6 trail points, 2 FBM octaves, no curl noise, single-pass gradient.",
+      },
+      {
+        name: "maxDpr / overflowPadding",
+        type: "number",
+        default: "1.75 / 100",
+        description:
+          "Pixel-ratio ceiling, and how far past the frame the canvas bleeds so the swirl can escape.",
+      },
+      {
+        name: "fadeIn / fadeInDuration",
+        type: "boolean / number",
+        default: "true / 0.6",
+        description: "Fades the canvas up once the texture has decoded.",
+      },
+    ],
+    assets: [],
+  },
+  "switch-on-hover-tabs": {
+    demoPath: "src/components/demos/switch-on-hover-tabs.tsx",
+    nuance: [
+      {
+        label: "The tab and the panel are one shape",
+        description:
+          "An active tab takes the panel's exact fill and drops its right-hand radius, so the seam between them disappears. Two 20px concave fillets sit above and below its right edge, filling the junction with a quarter squircle subtracted from the corner. Without them the tab reads as a rectangle parked next to the panel rather than growing out of it.",
+      },
+      {
+        label: "Only the active tab has a description",
+        description:
+          "The body copy is not faded in place, it changes the tab's height. Selecting one grows that tab and springs the others out of the way on the shell spring, which is why the column feels mechanical rather than like text swapping inside a fixed box.",
+      },
+      {
+        label: "Two springs, not one",
+        description:
+          "The column reflow runs at stiffness 300 / damping 50 so it settles without wobble at large travel, while fill, fillets, and the description reveal run at bounce 0.2 over 0.4s. Sharing one spring makes either the layout mushy or the colour twitchy.",
+      },
+      {
+        label: "Hover is desktop only, by pointer type",
+        description:
+          "Touch fires a synthetic pointerenter immediately before the tap, so the handler ignores anything that is not a mouse. Phones get the tap path, which is how the source splits its desktop and mobile variants.",
+      },
+    ],
+    editable: [
+      {
+        name: "panel",
+        control: "color",
+        description:
+          "Fill shared by the active tab, its fillets, and the panel.",
+      },
+      {
+        name: "surface",
+        control: "color",
+        description: "Card background behind both columns.",
+      },
+      {
+        name: "tabWidth",
+        control: "slider",
+        description: "Width of the tab column on wide screens.",
+      },
+      {
+        name: "panelRadius",
+        control: "slider",
+        description: "Corner radius of the artwork panel.",
+      },
+    ],
+    api: [
+      {
+        name: "items",
+        type: "SwitchOnHoverTabItem[]",
+        default: "4 BLANK services",
+        description:
+          "Each entry supplies a title, a description shown only while active, and the panel image with its alt text.",
+      },
+      {
+        name: "activateOn",
+        type: '"hover" | "click"',
+        default: '"hover"',
+        description:
+          "Hover matches the source and still falls back to tap on touch. Click requires a deliberate press everywhere.",
+      },
+      {
+        name: "defaultIndex",
+        type: "number",
+        default: "0",
+        description: "Tab open on first paint.",
+      },
+      {
+        name: "onChange",
+        type: "(index: number) => void",
+        default: "undefined",
+        description:
+          "Fires when the active tab changes, for driving copy elsewhere.",
+      },
+      {
+        name: "tabWidth / height",
+        type: "number",
+        default: "300 / 434",
+        description:
+          "Source dimensions. Below 810px the card stacks and the panel takes a fixed height instead.",
+      },
+    ],
+    assets: [],
+  },
   "calendar-pad-cards": {
     demoPath: "src/components/demos/calendar-pad-cards.tsx",
     nuance: [

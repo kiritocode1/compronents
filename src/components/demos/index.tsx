@@ -80,6 +80,7 @@ import FlipMarqueeHorizontalDemo from "./flip-marquee-horizontal";
 import FlipTileBoardDemo from "./flip-tile-board";
 import FloatingModelScrollDemo from "./floating-model-scroll";
 import FlowFieldTextDemo from "./flow-field-text";
+import FluidImageDemo from "./fluid-image";
 import FluidMosaicDemo from "./fluid-mosaic";
 import FluidRevealCarouselDemo from "./fluid-reveal-carousel";
 import FlyingCubeScrollDemo from "./flying-cube-scroll";
@@ -213,6 +214,7 @@ import SunlitDemo from "./sunlit";
 import SurpriseBoxDemo from "./surprise-box";
 import SvgStrokeHoverDemo from "./svg-stroke-hover";
 import SwingInWorkGridDemo from "./swing-in-work-grid";
+import SwitchOnHoverTabsDemo from "./switch-on-hover-tabs";
 import TerminalTextRevealDemo from "./terminal-text-reveal";
 import TextDisplacementFieldDemo from "./text-displacement-field";
 import ThreejsInfiniteSliderDemo from "./threejs-infinite-slider";
@@ -297,6 +299,7 @@ export const demos: Record<string, ComponentType> = {
   "text-displacement-field": TextDisplacementFieldDemo,
   "vinyl-orbit-player": VinylOrbitPlayerDemo,
   "svg-stroke-hover": SvgStrokeHoverDemo,
+  "switch-on-hover-tabs": SwitchOnHoverTabsDemo,
   "terminal-text-reveal": TerminalTextRevealDemo,
   "tilt-card-stack": TiltCardStackDemo,
   "orbit-text-preloader": OrbitTextPreloaderDemo,
@@ -323,6 +326,7 @@ export const demos: Record<string, ComponentType> = {
   "stroke-wipe-spotlight": StrokeWipeSpotlightDemo,
   "arc-spotlight-scroll": ArcSpotlightScrollDemo,
   "folder-preview-hover": FolderPreviewHoverDemo,
+  "fluid-image": FluidImageDemo,
   "minimap-parallax-scroll": MinimapParallaxScrollDemo,
   "minimap-scrubber": MinimapScrubberDemo,
   "montage-reveal-hero": MontageRevealHeroDemo,

@@ -188,6 +188,7 @@ export const componentGroups: RegistryGroup[] = [
       "inversion-lens-hover",
       "fractal-glass-hover",
       "svg-stroke-hover",
+      "fluid-image",
       "cursor-trail-scroll",
       "cursor-image-trail",
       "smudge-cursor-reveal",
@@ -211,6 +212,7 @@ export const componentGroups: RegistryGroup[] = [
       "shuffle-panel-menu",
       "story-reel-viewer",
       "grain-gradient-nav",
+      "switch-on-hover-tabs",
     ],
   },
   {
