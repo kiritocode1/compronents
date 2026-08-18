@@ -40,9 +40,9 @@ type Preset = (typeof PRESETS)[number];
 
 export default function FisheyeScrollStudio() {
   const [preset, setPreset] = useState<Preset>(PRESETS[0]);
-  const [text, setText] = useState(preset.text);
-  const [background, setBackground] = useState(preset.background);
-  const [textColor, setTextColor] = useState(preset.textColor);
+  const [text, setText] = useState<string>(preset.text);
+  const [background, setBackground] = useState<string>(preset.background);
+  const [textColor, setTextColor] = useState<string>(preset.textColor);
   const [effect, setEffect] = useState<"behind" | "forward" | "both">(
     preset.effect,
   );
