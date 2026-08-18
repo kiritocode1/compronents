@@ -728,6 +728,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Icons",
     links: [
       {
+        title: "Noun Project",
+        href: "https://thenounproject.com/",
+        dateAdded: "2026-08-18",
+        kind: ["directory", "asset"],
+        useFor: [
+          "icon search",
+          "stock icons",
+          "svg icon library",
+          "royalty free icons",
+          "icon api",
+          "powerpoint icons",
+        ],
+        description:
+          "Icon and photo library running since 2010, at nearly 10 million vector icons and stock photos made by named human creators. Download PNGs in a chosen size and colour or take the SVG into Illustrator or Figma, with an in-browser editor for recolouring, rotation and effects; free downloads sit alongside a paid royalty-free license that carries more options. Plugins cover PowerPoint and Office, Figma and Adobe, plus a Mac app, and a REST API exposes the whole collection to teams like Adobe, Canva, Mural and Squarespace. Reach for it when you need one specific concept a designed icon set does not carry, not as your primary set.",
+      },
+      {
         title: "MX Icons",
         href: "https://github.com/ig-imanish/mx-icons",
         dateAdded: "2026-07-21",
@@ -1209,6 +1225,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component libraries and blocks",
     links: [
+      {
+        title: "Interaction Kit",
+        href: "https://interactionkit.org/",
+        dateAdded: "2026-08-18",
+        kind: "library",
+        stack: ["react"],
+        useFor: [
+          "copy paste react components",
+          "notification reveal",
+          "hold to delete",
+          "image expand",
+          "emoji picker",
+          "tooltip component",
+          "spring button",
+        ],
+        description:
+          "Twelve copy-ready React components for the quiet details that make an interface feel considered, each with its own demo page: image expand, image modal, icon morph, emoji picker, search expand, notification reveal, spring button, hold to delete, tabs, text highlight, tooltip and code block. Each one is labelled by the job it does (state feedback, deliberate action, context on demand, press feedback) rather than by widget name, which makes the list usable as a checklist when auditing an interface for missing feedback. Built by Armond Schneider with source at github.com/armondschneider/interactionkit; there is no install command or license on the site, so copy the source rather than expecting a package.",
+      },
       {
         title: "Coachmark",
         href: "https://sglza.xyz/coachmark",
@@ -1806,6 +1840,41 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Nav.Supply",
+        href: "https://nav.supply/",
+        dateAdded: "2026-08-18",
+        kind: "demo",
+        stack: ["framer"],
+        useFor: [
+          "navigation patterns",
+          "mobile menu",
+          "dropdown menu",
+          "nav hide on scroll",
+          "site header patterns",
+          "framer remix",
+        ],
+        description:
+          "Fourteen navigation patterns for Framer sites, free to remix, put together by Benjamin den Boer in 2024. The set is Centered Popout, Dropdowns Simple, Dropdowns to Accordion, Dropdowns Nested, Desktop Menu, Mobile Menu, Side Scroll, Appear On Scroll, Circular Overlay, Fixed Popover, Full Overlay, Sliding Sidebar, Mobile Menu Transitions and Expand At Top, which between them cover auto-collapsing navs and navs that hide on scroll. Every pattern has a live demo and 8 carry a walkthrough video, so it doubles as a catalogue of nav behaviours worth knowing even outside Framer.",
+      },
+      {
+        title: "Maze UI Experiments",
+        href: "https://remvze.com/ui/",
+        dateAdded: "2026-08-18",
+        kind: "demo",
+        stack: ["astro"],
+        useFor: [
+          "ui experiments",
+          "micro interaction demos",
+          "hold to confirm",
+          "image on hover",
+          "morphing text",
+          "circular text slider",
+          "animated accordion",
+        ],
+        description:
+          "Running index of small interaction studies on a personal site called Maze, 17 of them so far, each dated and on its own page. The list covers Compose Post Button, URL Shortening Interaction, Image on Hover, Circular Text Slider, Circular Share Menu, Morphing Text Animation, Image Gallery, Cancel Deletion, Copy to Clipboard, Text Highlight on Scroll, Animated Accordions, Hold to Confirm, Cookie Settings, Glowing Cards, Animated Placeholder, Animated Number Counter and Tab Bar Component, split between a December 2025 batch and a newer run through August 2026. Built with Astro on Geist; there is no package, license or author credit on the page, so these are techniques to read rather than a library to install.",
+      },
       {
         title: "Lab by Tobi",
         href: "https://lab.tobi.computer/",
@@ -2650,6 +2719,52 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "SEESAW",
+        href: "https://www.seesaw.website/",
+        dateAdded: "2026-08-18",
+        kind: "gallery",
+        useFor: [
+          "web design inspiration",
+          "site gallery by category",
+          "saas website examples",
+          "search sites by font",
+          "developer tools websites",
+        ],
+        description:
+          "Hand-picked directory of websites updated daily, with a command-K search that covers sites, fonts and categories, which makes it faster than most galleries when you want every site setting a particular typeface. Categories run Agency, AI, Crypto, Design, Design Tools, Developer Tools, E-Commerce, Fintech, Hardware, Marketing, Portfolios, Productivity and Social, and each entry gets its own page with a one-line description. Listings include Linear, Stripe, Raycast, Cursor, Ghostty and Cosmos. Free, with a newsletter, an open submission form and a sponsor slot; no team is named on the site.",
+      },
+      {
+        title: "OGFolio",
+        href: "https://www.ogfolio.com/",
+        dateAdded: "2026-08-18",
+        kind: "gallery",
+        useFor: [
+          "og image inspiration",
+          "open graph image",
+          "social share image",
+          "twitter card design",
+          "og image checker",
+        ],
+        description:
+          "Gallery of Open Graph images, the picture that renders when someone shares a link, collected from 897 products so you can survey how other teams treat the format before designing your own. Entries pair the product favicon with its name (Neon, Mobbin, mymind, Hugeicons, BoltAI, Dynamic Mockups) and link through to a Toolfolio profile; the site is run by Toolfolio. It also carries an OG Image Analyzer: paste a URL and it checks dimensions, file size and meta tags.",
+      },
+      {
+        title: "SiteInspire",
+        href: "https://www.siteinspire.com/",
+        dateAdded: "2026-08-18",
+        kind: "gallery",
+        useFor: [
+          "web design gallery",
+          "agency site inspiration",
+          "portfolio site inspiration",
+          "typographic websites",
+          "minimal websites",
+          "grid layout sites",
+        ],
+        description:
+          "Long-running showcase of web design that credits the designers and agencies behind each entry, filterable by style, type, subject and platform and sortable by what is popular today, this week, this month or this year. The category counts show the scale: 2,355 agencies and consultancies, 2,088 typographic, 1,905 design and art direction, 1,392 portfolio, 896 web and interactive, 873 e-commerce, 747 minimal and 653 each for grid layout and unusual layout. Free to browse with a weekly email edit; sign-in is needed to save listings, and sponsored placements are part of the model.",
+      },
+      {
         title: "Minimal Gallery",
         href: "https://minimal.gallery/",
         dateAdded: "2026-08-12",
@@ -3216,6 +3331,54 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Locomotive",
+        href: "https://lisa.locomotive.ca/en",
+        dateAdded: "2026-08-18",
+        kind: "portfolio",
+        useFor: [
+          "agency site",
+          "montreal design agency",
+          "digital first agency",
+          "studio work page",
+          "bilingual agency site",
+        ],
+        description:
+          "Site for Locomotive, an independent digital-first agency in Montreal, Quebec, which sells itself on a deep skill set, big ideas and a global reputation rather than on a service list. Structure is the agency standard (Work, Agency, Careers, a separate store at store.locomotive.ca) with an English and French toggle and a single Let's talk contact CTA. Note the host: it is served from a lisa. subdomain whose interface strings still carry a lisa. namespace, so this reads as a build of the agency site rather than a product of its own.",
+      },
+      {
+        title: "Man Made Designs",
+        href: "https://www.manmadedesigns.in/#services",
+        dateAdded: "2026-08-18",
+        kind: "portfolio",
+        useFor: [
+          "design studio site",
+          "brand identity studio",
+          "design retainer",
+          "studio services page",
+          "ongoing design partnership",
+        ],
+        description:
+          "Site for Man Made Designs, a small multidisciplinary studio selling brand strategy and identity, website design and build, marketing materials, and an ongoing design partnership pitched as an in-house team without the overhead of managing employees. Read it as a positioning example rather than a work reference: capacity is stated in public as a limit of 3 clients at a time, intro is a 15 minute Cal.com call, and the testimonials name Li.fi, Spykefast, Creator Mail, DeFi Raccoons, The Blocklane and Southville Cafe, one of them a relationship of almost 3 years. The FAQ asks how much it costs and never answers, and both portfolio sections still read Coming soon.",
+      },
+      {
+        title: "Run Rob Run",
+        href: "https://www.runrobrun.com/",
+        dateAdded: "2026-08-18",
+        kind: "portfolio",
+        stack: ["webflow"],
+        useFor: [
+          "webflow portfolio",
+          "creative developer portfolio",
+          "motion reel",
+          "scroll indexed reel",
+          "personal portfolio site",
+          "portfolio with audio player",
+          "webflow editorial site",
+        ],
+        description:
+          "Portfolio for Robert Aperios, a creative developer building in Webflow, worth reading for how it structures a services page as five numbered areas ([01] to [05]: visual systems, front-end craft, motion language, brand presence, concept to form) instead of a paragraph. The work is four Webflow builds: Dash, a studio template with a CMS structure and script-led motion; Racepoint, an editorial system of custom page templates; Commuter, a CMS-driven film portfolio; and Roger W Smith, an archive for a luxury watchmaker built around pacing. A tools reel indexed 000 to 004 cycles five motion studies named Runman, Chroma Warp, Split Mask, Text Maze and Whale, and a Press Play control runs three tracks underneath the browse. Footer carries English, Dansk and Portugues.",
+      },
+      {
         title: "Mirage at Apple Park",
         href: "https://mirage.place/map/",
         dateAdded: "2026-08-07",
@@ -3743,6 +3906,39 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "Create KYC",
+        href: "https://jack.art/kyc/create",
+        dateAdded: "2026-08-18",
+        kind: "tool",
+        useFor: [
+          "generative portrait",
+          "line art head",
+          "parametric face",
+          "hatching effect",
+          "generative art tool",
+          "export png gif",
+        ],
+        description:
+          "Jack Butcher's generator for KYC, which renders a stylised head as ink hatching you tune live in the browser. Controls split into HEAD (rotate head, face shape, perspective), LIGHT (direction, elevation, softness) and INK (line spacing, ink weight, ink variance, white space), and the outputs are Generate, Invert, Download PNG, 360 GIF and Scan GIF at 1080 by 1080. The footer names the underlying model: a GNM head with 170 identity and 383 expression coefficients, Apache 2.0. Part of it is token-gated (you connect the wallet holding the KYC Patron Edition, and the 1/1 auction has ended), but the generator itself is the interesting part: a good study in how few parameters a convincing portrait system needs.",
+      },
+      {
+        title: "Bible Strong Avatar Lab",
+        href: "https://avatars.bible-strong.app/",
+        dateAdded: "2026-08-18",
+        kind: ["tool", "asset"],
+        stack: ["react", "svg", "typescript", "vite"],
+        useFor: [
+          "procedural avatars",
+          "avatar generator",
+          "svg character",
+          "character expressions",
+          "animated avatar",
+          "export react component",
+        ],
+        description:
+          "Browser studio for building procedural 2D avatars: assemble a character from 3D-inspired geometry rendered as SVG, define its neutral face, add expressions, compose reusable animations, then export as React, JavaScript, SVG or PNG so the result runs with no dependency on the studio itself. Everything is local, with projects held in the browser and moved between machines through JSON export and import, no account or backend. Built by Stephane Montlouis-Calixte (smontlouis), the solo developer behind the Bible Strong study app, on React 19, TypeScript, Vite and Motion, with source at github.com/smontlouis/bible-strong-avatar-lab.",
+      },
+      {
         title: "Lummi",
         href: "https://lummi.ai",
         dateAdded: "2026-08-06",
@@ -3971,6 +4167,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Typography tools",
     links: [
       {
+        title: "Runebender",
+        href: "https://runebender.org/",
+        dateAdded: "2026-08-18",
+        kind: "tool",
+        stack: ["rust", "xilem"],
+        useFor: [
+          "font editor",
+          "edit ufo",
+          "designspace masters",
+          "kerning editor",
+          "draw glyphs in browser",
+          "variable font tooling",
+        ],
+        description:
+          "Hosted browser build of Runebender, the Rust font editor from the Linebender project, which otherwise has to be compiled from source to run. The workspace is UFO and designspace native: a glyph overview, outline editing with advance width and metrics, an all-masters view, kerning, interpolation and autotrace, plus text preview tabs so you can set real words while drawing. The UI shell is Xilem, and an assistant panel described as able to see the open glyph, its outlines and the designspace ships as a placeholder. Who operates this particular domain is not credited on the page; the canonical project lives under linebender on GitHub.",
+      },
+      {
         title: "Locale",
         href: "https://joshpuckett.me/locale",
         dateAdded: "2026-07-28",
@@ -4080,6 +4293,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Type foundries and directories",
     links: [
+      {
+        title: "Fonts In Use",
+        href: "https://fontsinuse.com/",
+        dateAdded: "2026-08-18",
+        kind: ["directory", "gallery"],
+        useFor: [
+          "font in use",
+          "font usage examples",
+          "who uses this font",
+          "typography archive",
+          "album art typography",
+          "poster typography",
+        ],
+        description:
+          "Independent archive of typography in the wild, running since 2010, indexing 34,320 documented uses with 6,332 staff picks, so you can see where a typeface has actually been set before committing to it. Browse by face (Helvetica at 1,508 uses, Futura at 1,232, Univers at 652, Akzidenz-Grotesk at 440), by 34 topics such as Music, Art, Event, Literature and Activism, or by 20 formats including branding and identity, books, posters, web and album art, then sort by artwork date to work era by era back through 1950s specimens. Entries are contributed and credited to individuals and foundries, free to read, funded by sponsors, with an advanced search for combining terms and four RSS feeds.",
+      },
       {
         title: "Luzi Type",
         href: "https://luzi-type.ch/index",
@@ -5612,6 +5841,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Procedural Sounds",
+        href: "https://procedural-sounds.vercel.app/",
+        dateAdded: "2026-08-18",
+        kind: "tool",
+        stack: ["web-audio"],
+        useFor: [
+          "ui sound effects",
+          "interface sounds",
+          "click sound",
+          "hover sound",
+          "web audio synthesis",
+          "generate sound effects",
+        ],
+        description:
+          "Generates interface sounds live in the browser and hands back the recipe rather than a file: a plain object of layers, envelopes and filters, plus a copyable player of about 4kb with no dependencies that turns the recipe into Web Audio nodes. Categories are tap, hover, transition, success, error, warning, notification and experimental, and a Familiar to Exotic slider moves between the hand-curated library and a remix engine that rebuilds those sounds into new structures, which is the point: no two sites ship the same kit. Export WAV or copy the sound, and recent sounds survive a refresh. Built by m1ckc3s, open source at github.com/m1ckc3s/procedural-sounds, self-described as an early beta at v0.3.1 with no license named on the page.",
+      },
+      {
         title: "Screen Movie",
         href: "https://screen.movie",
         dateAdded: "2026-08-06",
@@ -5940,6 +6186,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Machine learning and deep learning",
     links: [
+      {
+        title: "H100 GPU Glossary (interactive)",
+        href: "https://gpu.kylejeong.com/",
+        dateAdded: "2026-08-18",
+        kind: "demo",
+        useFor: [
+          "h100 architecture",
+          "gpu architecture explained",
+          "streaming multiprocessor",
+          "tensor core",
+          "hbm3",
+          "3d gpu model",
+        ],
+        description:
+          "Interactive 3D H100 SXM5 module you drag to rotate, scroll to zoom and hover to inspect, with an Exterior view and an Architecture view that opens the package up. A component index of 7 parts steps through CUDA device architecture, GPU RAM (HBM3), GPU Processing Cluster, Streaming Multiprocessor, Tensor Core, CUDA Core and the Tensor Memory Accelerator, each one linking out to the matching entry in Modal's GPU Glossary for the prose definition. Built on Next.js by Kyle Jeong: the spatial companion to that glossary, useful for finally placing where an SM sits relative to HBM rather than reading it as a list of terms.",
+      },
       {
         title: "Transformer Explainer",
         href: "https://poloclub.github.io/transformer-explainer/",
@@ -6407,6 +6669,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "Letta",
+        href: "https://www.letta.com/",
+        dateAdded: "2026-08-18",
+        stack: ["llm"],
+        useFor: [
+          "agent memory",
+          "long term memory agent",
+          "stateful agents",
+          "memgpt",
+          "continual learning agent",
+          "sleep time compute",
+          "context management",
+        ],
+        description:
+          "Research lab and product from the creators of MemGPT at UC Berkeley's Sky Computing Lab, working on agents whose memory, identity and capabilities carry across sessions instead of resetting every run. The shipped piece is Letta Agent, installed with npm i -g @letta-ai/letta-code, with Bilt, 11x, Kognitos and Hunt Club as named case studies. The research trail is the more useful half: MemGPT and virtual context management (Oct 2023), sleep-time compute so agents reason during idle time rather than at inference (Apr 2025), continual learning in token space (Dec 2025), git-based context repositories (Feb 2026), a context constitution (Apr 2026) and memory models trained with memory-native RL (Jun 2026). Advised by Ion Stoica and Joey Gonzalez; no pricing, license or benchmarks are stated on the site.",
+      },
       {
         title: "Plannotator",
         href: "https://plannotator.ai/",
@@ -7645,6 +7924,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Courses and learning paths",
     links: [
       {
+        title: "Fanout",
+        href: "https://fanout.sh/",
+        dateAdded: "2026-08-18",
+        kind: "course",
+        useFor: [
+          "ai research roadmap",
+          "system design course",
+          "ml math",
+          "inference engineering roadmap",
+          "read research papers",
+          "math notation reference",
+        ],
+        description:
+          "Mapped learning hub across AI research, system design and machine learning mathematics, laid out as roadmaps rather than one linear course. Sections include an AI Research course and roadmap, a system design course of concepts, cases and builds, an ML mathematics course, an LLM Inference Engineering Roadmap for 2026, a Math Decoder for getting through research papers, a Mathematical Notation Library, interactive labs, Open Robotics, daily paper explainers and a Knowledge Topography view over the whole thing. There is a pricing page, so parts of it are paid, and no author or team is named on the site.",
+      },
+      {
         title: "Daily UI",
         href: "https://www.dailyui.co/",
         dateAdded: "2026-08-05",
@@ -7823,6 +8118,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "deepsec",
+        href: "https://deepsec.sh/",
+        dateAdded: "2026-08-18",
+        kind: "tool",
+        stack: ["llm"],
+        useFor: [
+          "security code review",
+          "scan whole codebase",
+          "find vulnerabilities",
+          "ai security audit",
+          "legacy code review",
+        ],
+        description:
+          "Vercel's open-source harness for running an AI security review across a whole existing codebase instead of only the diff in a pull request, on the argument that most legacy code was never reviewed and anything from six months ago was reviewed by an older model. Work is fanned out across scaled VMs, runs in your own infrastructure with agent sandboxing, and starts with npx deepsec init. Source is at vercel-labs/deepsec. The site names no license, model providers or detection benchmarks, so read the docs before budgeting a full run.",
+      },
       {
         title: "next-dev-bridge",
         href: "https://next-dev-bridge.labs.vercel.dev/",
@@ -8605,6 +8916,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Productivity and business tools",
     links: [
+      {
+        title: "resurface.blog",
+        href: "https://resurface.blog/",
+        dateAdded: "2026-08-18",
+        kind: "tool",
+        useFor: [
+          "blog to newsletter",
+          "blog into a newsletter",
+          "blog archive newsletter",
+          "read old essays",
+          "old blog posts",
+          "daily reading email",
+          "paul graham essays",
+        ],
+        description:
+          "Free service that turns someone else's blog archive into a newsletter for yourself: paste a link, pick which days you want mail, and one random old post from that blog arrives at 9am ET on those days. The premise on the page is that the best writing on the internet is buried in the archives, and the front page lists 21 trending authors already wired up, among them Paul Graham, Patrick McKenzie, Sam Altman, Julie Zhuo, Andrew Bosworth, Chris Dixon, Fred Wilson, Nadia Asparouhova, Sequoia and Ramp Engineering. Writers can claim their own blog for a password-protected dashboard showing new subscribers in real time, marked beta. Who runs it is not stated on the site.",
+      },
       {
         title: "Supaste",
         href: "https://supaste.com",
@@ -9611,6 +9939,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Engineering essays and culture",
     links: [
       {
+        title: "AI is removing the middle class of software engineering",
+        href: "https://blog.florianherrengt.com/ai-removing-middle-class-software-engineering.html",
+        dateAdded: "2026-08-18",
+        kind: "essay",
+        useFor: [
+          "ai generated tech debt",
+          "engineering culture ai",
+          "large pull requests",
+          "ai code review",
+          "junior vs senior engineers",
+          "ai and hiring",
+        ],
+        description:
+          "Florian Herrengt's argument, dated 11 August 2026, that coding assistants did not create bad engineers, they removed the speed limit on the damage weak engineering culture can do, so those projects now fail much faster and salaries push further apart at both ends. The framing is a Monday back from holiday in 2026: seven PRs waiting, the first at +24506 -3938 with an AI-written description, thirteen by the second coffee, and the engineer who built the feature admitting they will have to ask Claude where its data comes from. It pre-empts the standard replies (bad engineers always existed, just fix your process, more output means more productive, it is no different from a compiler) and settles on the debt metaphor: generating 20,000 lines in an afternoon is cheap, comprehension stays slow, and untangling one bad decision means five more land while you work. The sharpest line is that a 10x engineer may be stealing productivity from the people who are hardest to replace.",
+      },
+      {
         title: "Everything hackable will get hacked",
         href: "https://vercel.com/blog/everything-hackable-will-get-hacked",
         dateAdded: "2026-08-12",
@@ -9908,6 +10252,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Talks and individual videos",
     links: [
+      {
+        title: "Graph Engineering vs Loop Engineering (什么是图工程)",
+        href: "https://www.youtube.com/watch?v=8RedSkw1UjE",
+        dateAdded: "2026-08-18",
+        kind: "video",
+        stack: ["llm"],
+        useFor: [
+          "graph engineering",
+          "loop engineering",
+          "multi agent orchestration",
+          "langgraph",
+          "react agent loop",
+          "workflow orchestration",
+        ],
+        description:
+          "Mandarin-language explainer from the 最佳拍档 channel on the move from loop engineering to graph engineering: from orchestrating one agent's autonomous ReAct loop to arranging many agents, tools and people into a graph that can be observed, resumed and scaled. It lays out a five-layer view of how AI engineering got here, then works through the structural limits of the pure loop, goal blindness in particular, and where a graph earns its extra complexity, with LangGraph, prompt engineering and validator nodes as the running examples. Worth watching against LangChain's own position that graph engineering is not new, which is the other half of the argument.",
+      },
       {
         title: "Performance Engineering at TigerBeetle",
         href: "https://youtu.be/-p-Xm7VEqSk",
