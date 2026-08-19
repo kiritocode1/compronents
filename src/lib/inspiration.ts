@@ -1226,6 +1226,40 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "vibeprompts.dev",
+        href: "https://vibeprompts.dev/footer/",
+        dateAdded: "2026-08-19",
+        kind: "directory",
+        stack: ["tailwind", "prompts"],
+        useFor: [
+          "ui prompt library",
+          "prompt for a landing page",
+          "tailwind snippets",
+          "footer layouts",
+          "prompt a hero section",
+          "generate ui with a prompt",
+        ],
+        description:
+          "Prompt library pairing a UI description with copy-paste Tailwind markup, aimed at people building interfaces by prompting rather than writing the layout. 251 entries across 15 sections, roughly 16 to 17 each: Auth Forms, Pricing, Features and Bento, Hero Sections, CTA Banners, Stats Bars, Nav Bars, Testimonials, Footer, FAQ, Dashboards, Onboarding, Blog and Content, Contact, plus a 22 entry Bonus set. Each card carries a preview, a one-line summary and its own page. This link lands on the Footer section, whose 16 cover multi-column sitemaps, a dark footer with a newsletter panel, an overlapping CTA card, dense regulated disclosure small print, docs prev and next bars, mobile accordions and office locations. Built with Astro, no pricing stated anywhere on the page.",
+      },
+      {
+        title: "Liquid Gooey",
+        href: "https://gooey.jakubantalik.com/",
+        dateAdded: "2026-08-19",
+        kind: "library",
+        stack: ["react", "typescript", "svg"],
+        useFor: [
+          "gooey effect",
+          "metaball ui",
+          "merge two elements",
+          "liquid button",
+          "blob morph",
+          "elastic trail",
+        ],
+        description:
+          "React library by Jakub Antalik for gooey merge effects, not the glass kind despite the name: wrap UI in a Liquid container, animate Liquid.Item positions, and touching pieces merge, reshape and dissolve into each other. Two modes, Morph for merging and Move for a liquid rubber trail behind a moving element, with playground sliders for goo blur and contrast so you can lift working parameters straight into a product. Ships as the liquid-gooey npm package out of the Jakubantalik/Libraries TypeScript monorepo (around 2.1k stars) alongside Border beam and Thinking orbs, with the demo site on Cloudflare Pages. Works in Safari, which is where most SVG goo filter techniques fall apart.",
+      },
+      {
         title: "Interaction Kit",
         href: "https://interactionkit.org/",
         dateAdded: "2026-08-18",
@@ -2719,6 +2753,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "GatherOS",
+        href: "https://gatheros.co/",
+        dateAdded: "2026-08-19",
+        kind: "tool",
+        stack: ["macos"],
+        useFor: [
+          "save design references",
+          "organize inspiration",
+          "reference library",
+          "moodboard app",
+          "screenshot library",
+          "search by color",
+        ],
+        description:
+          "Native Mac app for collecting design references without leaving the desktop, local-first, with a Chrome extension for browser capture. Saves arrive by drag, paste, screenshot, extension, or by syncing X bookmarks, then sort into a Library, Collections and Spaces hierarchy alongside system views for bookmarks, unsorted and trash. Auto-tagging, AI visual search, search by color, a rediscover mode for surfacing old saves, and variation generation. No maker, team or pricing is named on the landing page.",
+      },
+      {
         title: "SEESAW",
         href: "https://www.seesaw.website/",
         dateAdded: "2026-08-18",
@@ -3905,6 +3956,40 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Kitbitz",
+        href: "https://kitbitz.art/",
+        dateAdded: "2026-08-19",
+        kind: "asset",
+        stack: ["svg", "figma", "mcp"],
+        useFor: [
+          "hand drawn illustrations",
+          "free illustration pack",
+          "cc0 illustrations",
+          "game art assets",
+          "figma illustration kit",
+          "map illustrations",
+        ],
+        description:
+          "2,043 hand-drawn illustrations across 13 themed kits, CC0 and free for commercial use with no attribution, by Sjoerd Huisman. Themes run from nature and medieval worlds through space, cities, pirates and dungeons, aimed at games, maps and playful little worlds rather than the usual flat corporate-blob illustration set. Take individual SVG or PNG files, or the Figma Community libraries with reusable components and color variables; a Figma plugin and MCP access let an agent pull assets directly.",
+      },
+      {
+        title: "Oddgrid",
+        href: "https://oddgrid.vercel.app/",
+        dateAdded: "2026-08-19",
+        kind: "tool",
+        stack: ["svg", "generative"],
+        useFor: [
+          "pixel grid artwork",
+          "generative pattern",
+          "seeded artwork",
+          "animated svg export",
+          "grid texture",
+          "seamless loop",
+        ],
+        description:
+          "Browser generator for seeded pixel-grid artwork, tuned by sliders and exported as PNG, SVG, animated SVG or video at a size you choose. Controls run from aspect ratio and grid detail through fill, grain, patchiness, blockiness, block size and speckle, then cell marks, palette, color count, spread, ink and background. Drop in your own SVG to use as the cell mark, optionally recolored to ink. Animation is loop-locked: pick a movement type, intensity, fps and loop length, and it ends exactly where it started. Same seed plus same settings reproduces the artwork, space rerolls the seed and P plays or pauses. No creator is credited on the page.",
+      },
       {
         title: "Create KYC",
         href: "https://jack.art/kyc/create",
@@ -5301,6 +5386,57 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Infinite Liquid Glass",
+        href: "https://infinite-liquid-glass.shader.se/?v=2",
+        dateAdded: "2026-08-19",
+        kind: "demo",
+        stack: ["webgpu", "shaders"],
+        useFor: [
+          "liquid glass shader",
+          "refraction effect",
+          "webgpu demo",
+          "glass distortion",
+          "shader studio work",
+        ],
+        style: ["liquid-glass", "maximalist"],
+        description:
+          "WebGPU liquid glass experiment by Shader (shader.se), a studio that does shader development as client work. The page is a loader-gated full-screen demo with no write-up, controls list or source link, so treat it as a reference for the look rather than a technique to read; the site's own contact route is a booking link. WebGPU means a Chromium browser or Safari 26+, not a guaranteed render everywhere.",
+      },
+      {
+        title: "codrops-relightning-images",
+        href: "https://github.com/DGFX/codrops-relightning-images",
+        dateAdded: "2026-08-19",
+        kind: "demo",
+        stack: ["three", "tsl", "webgpu", "vite"],
+        useFor: [
+          "relight a photo",
+          "depth map lighting",
+          "2d image 3d lighting",
+          "fake normals from depth",
+          "self shadowing image",
+        ],
+        description:
+          "Source for the Codrops tutorial on relighting flat 2D images, by Dominik Fojcik (DGFX). A depth map drives surface detail and self-shadowing so a photograph reacts to a moving light as if it were 3D geometry, built with Three.js TSL on the WebGPU renderer and served through Vite. Three demo variants ship in the repo (index, demo2, demo3), and the depth maps come from Depth Anything 3 by way of the author's own generator at depth.fojcikdominik.com. npm install then npm run dev, MIT, live demo on tympanus.net.",
+      },
+      {
+        title: "Shading Motion",
+        href: "https://blog.maximeheckel.com/posts/shading-motion/",
+        dateAdded: "2026-08-19",
+        kind: "essay",
+        stack: ["webgpu", "wgsl", "three", "tsl", "react-three-fiber"],
+        useFor: [
+          "motion detection shader",
+          "optical flow",
+          "frame differencing",
+          "blob tracking",
+          "motion blur",
+          "velocity map",
+          "compute shader video",
+        ],
+        description:
+          "Maxime Heckel on treating motion, not color or depth, as the shader input, published August 2026 after two months of TouchDesigner-inspired experiments. Four techniques, each with WGSL and a live playground: frame differencing through a luma dot product and a smoothstep threshold plus a decaying trail buffer, blob tracking that packs 12 blobs as vec4f in a storage buffer and draws them with SDFs, optical flow that encodes direction in the G and B channels of an rgba8unorm texture and renders it as a grid of arrows, and per-object motion blur from a velocity map rendered through an offscreen React Three Fiber portal. Closes on wagon-wheel aliasing and Pierre Cusa's raised-cosine shutter fix. The compute path uses ping-pong storage textures, so it does not run on Safari.",
+      },
+      {
         title: "Motion GPU",
         href: "https://motion-gpu.dev/",
         dateAdded: "2026-08-14",
@@ -6284,6 +6420,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "fx",
+        href: "https://fx.sh/",
+        dateAdded: "2026-08-19",
+        kind: "tool",
+        stack: ["zig", "wasm", "cli", "agents", "mcp"],
+        useFor: [
+          "coding agent cli",
+          "terminal agent",
+          "embed an agent",
+          "lightweight agent harness",
+          "agent in the browser",
+        ],
+        description:
+          "Coding agent harness from Vercel Labs, written in Zig, built for research and for embedding inside larger systems. Deliberately not an IDE in the terminal: it keeps shell scroll history, emits little output and avoids repainting, and claims a 10 microsecond cold start on a single-digit megabyte memory baseline so many instances can share one machine. The network stack is pluggable, which is how the site runs the CLI compiled to WebAssembly with browser fetch doing the networking (needs JSPI, so Safari 27+ or Chrome). Model and provider agnostic, extended through skills, plugins and MCPs. v0.0.3, 6.39 MiB, Apache-2.0 at vercel-labs/fx, flagged experimental with frequent changes. Install with curl -fsSL https://fx.sh/setup.sh | bash.",
+      },
       {
         title: "Motion by Mosaic",
         href: "https://motion.so/",
@@ -7541,6 +7693,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Infrastructure, observability and runtimes",
     links: [
       {
+        title: "celld",
+        href: "https://celld.dev/docs",
+        dateAdded: "2026-08-19",
+        kind: "library",
+        stack: ["deno", "s3", "sqlite", "cloudflare", "durable-objects"],
+        useFor: [
+          "durable objects on your own servers",
+          "self host durable objects",
+          "stateful runtime",
+          "per user sqlite",
+          "run workers locally",
+          "s3 backed state",
+        ],
+        description:
+          "Deno's stateful distributed runtime: run server-side JavaScript on your own machines with shared state living in an S3-compatible bucket you own, against the same API Cloudflare Workers and Durable Objects expose. A cell is a named single-threaded mini-server with its own private SQLite database, moving between resident, hibernated and inactive, where inactive costs almost nothing because it is just a bucket object. Coordination is the interesting part: no membership protocol, no failure detector, no consensus service, just one atomic write granting ownership and RPO=0 replication, with nodes discovering each other through bucket leases. celld deploy consumes a compatible Wrangler project including module Workers, DO bindings and static assets. Roughly 1,000 resident cells per 8 GB node works out near five cents per cell per month. Apache-2.0 at denoland/celld; note that MinIO community, Backblaze B2, Hetzner and DigitalOcean Spaces do not qualify as backends.",
+      },
+      {
         title: "Vercel Container Registry",
         href: "https://vercel.com/changelog/introducing-vcr-vercel-container-registry",
         dateAdded: "2026-07-27",
@@ -7748,6 +7917,40 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Distributed systems and computer science",
     links: [
+      {
+        title: "Git at any scale",
+        href: "https://cursor.com/blog/git-at-any-scale",
+        dateAdded: "2026-08-19",
+        kind: "essay",
+        stack: ["git", "s3", "storage"],
+        useFor: [
+          "git hosting at scale",
+          "distributed git storage",
+          "write ahead log design",
+          "rendezvous hashing",
+          "replication without consensus",
+          "monorepo infrastructure",
+        ],
+        description:
+          "Vicent Marti on why serving Git at scale is hard and what Cursor built instead, published August 2026. Opens with the history: Shawn Pearce's JGit on a DHT at Google, killed by clone performance, GitHub's failed run through NFS, GFS and DRBD before Spokes settled on three replicas synchronized by three-phase commit, and Azure DevOps putting packfiles in blob storage with refs in SQL Server. Continuity, their answer, makes a write-ahead log in S3 the primitive: packfiles hit local NVMe and S3 at once, no push is acknowledged before it is persisted, rendezvous hashing removes the routing database and leader election, and replicas stay current on conditional GETs against S3 ETags where a 304 averages under 10 ms. Benchmarks run to 100 replicas at 120 pushes per second on S3 Standard and over 300 on Express One Zone, where Git's own compaction becomes the bottleneck.",
+      },
+      {
+        title: "GPS-01",
+        href: "https://gps-01.dmytro.fyi/",
+        dateAdded: "2026-08-19",
+        kind: "demo",
+        stack: ["visualization", "3d"],
+        useFor: [
+          "how gps works",
+          "trilateration",
+          "interactive explainer",
+          "explain a math concept visually",
+          "clock bias",
+          "satellite positioning",
+        ],
+        description:
+          "Interactive explainer by Dmytro Kondakov for why GPS needs four satellites rather than three, built as a clickable 3D globe you drop a receiver onto. Five steps: 24 satellites at 20,200 km each carrying an atomic clock, expanding signal wavefronts slowed roughly 60 times from the real 70 ms trip, then the failure case where a quartz receiver clock off by one microsecond moves each distance by about 300 m and the three-sphere fix lands 888 km away, then the four-equation solve for x, y, z and the bias b. A telemetry panel exposes the raw L1 signals and the solver outputs. Worth studying as a model for how to teach a concept through simulation instead of diagrams.",
+      },
       {
         title: "Rocq Prover",
         href: "https://rocq-prover.org/",
@@ -8118,6 +8321,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Re:notch",
+        href: "https://github.com/yosaiy/renotch",
+        dateAdded: "2026-08-19",
+        kind: "tool",
+        stack: ["swift", "swiftui", "macos"],
+        useFor: [
+          "mac notch app",
+          "dev dashboard",
+          "watch local ports",
+          "menu bar alternative",
+          "docker status",
+          "clipboard history",
+        ],
+        description:
+          "macOS app by yosaiy that turns the notch into a developer command center instead of dead pixels. Dev Activity watches local servers, ports, Git status, Docker containers and build jobs; Media Control drives Apple Music and Spotify with album art; Productivity adds a focus timer, clipboard history and a file drop shelf; a Browser Bridge handles YouTube playback and Chromium download monitoring through an optional unpacked extension. Swift and SwiftUI, entirely local with no accounts, telemetry or cloud sync. macOS 13 or later, MIT, 41 stars, shipped either as a prebuilt Re:notch.app or built from source with swift run Renotch.",
+      },
       {
         title: "deepsec",
         href: "https://deepsec.sh/",
@@ -9939,6 +10159,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Engineering essays and culture",
     links: [
       {
+        title: "RFD 1: Requests for Discussion",
+        href: "https://rfd.shared.oxide.computer/rfd/0001",
+        dateAdded: "2026-08-19",
+        kind: "essay",
+        stack: ["process", "documentation"],
+        useFor: [
+          "design doc process",
+          "rfc process",
+          "write a design doc",
+          "engineering decision record",
+          "technical writing process",
+          "adr",
+        ],
+        description:
+          "Oxide Computer's meta document defining its own RFD process, by Jess Frazelle and Bryan Cantrill, and the one to copy if you want design docs a team actually writes. Six states carry a document from prediscussion through ideation, discussion, published and committed to abandoned, on the rule that anything already representing consensus belongs in published. Each RFD takes a branch named for its zero-padded number, a directory, and AsciiDoc metadata for authors, state, discussion link and labels; a bot fills in whichever half you forget, opening the PR if you set the state or setting the state if you open the PR. Scope is deliberately wide: company process, hardware and software architecture, customer-facing APIs, test design, and non-technical matters too. Descends from the IETF RFC tradition, quoting RFC 3 that the minimum length for a note is one sentence.",
+      },
+      {
         title: "AI is removing the middle class of software engineering",
         href: "https://blog.florianherrengt.com/ai-removing-middle-class-software-engineering.html",
         dateAdded: "2026-08-18",
@@ -10794,6 +11031,41 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "ip-as-logo",
+        href: "https://github.com/s1dashu/ip-as-logo-skill/blob/main/SKILL.md",
+        dateAdded: "2026-08-19",
+        kind: "skill",
+        stack: ["codex", "imagegen", "agents"],
+        useFor: [
+          "mascot logo",
+          "generate a logo",
+          "logo from repo context",
+          "character mark",
+          "image generation skill",
+          "brand mascot",
+        ],
+        description:
+          "Agent skill by s1dashu that generates minimalist mascot marks, logo first and character second, legible at 32 by 32. Its 13 step workflow reads the repo (README, package metadata, landing copy, design tokens) when no subject is given, asks one consolidated round of questions rather than a second questionnaire, then proposes three directions and six labeled candidates before generating anything. The constraints carry the whole thing: 6 to 10 geometric shapes, one species-defining feature, two IP colors plus a background, thick rounded contours with no needle tails or thin antennae, 75 to 85 percent canvas fill, and only 8 to 12 percent internal tonal modeling. Each candidate renders as its own 1536 square image, never a contact sheet. Prefers Codex with ImageGen, and routes exclusions to negative_prompt only on legacy models. Around 2k stars, license not stated in SKILL.md.",
+      },
+      {
+        title: "pstack explained",
+        href: "https://hustlecoding.github.io/pstack-explained/",
+        dateAdded: "2026-08-19",
+        kind: "essay",
+        stack: ["claude-code", "agents", "skills"],
+        useFor: [
+          "pstack",
+          "poteto mode",
+          "agent playbooks",
+          "coding agent skills",
+          "skill routing",
+          "agent principles",
+          "models per role",
+        ],
+        description:
+          "Unofficial reading aid for pstack, poteto's engineering skill pack for coding agents, installed with /add-plugin pstack. Lays out the 21 principles, 23 playbooks and 23 skills, then explains the routing: you type /poteto-mode, it matches a playbook, copies that playbook in full before any work starts, and fires skills as its steps. Six sections cover an interactive routing demo (keyword matching, not the real router), the playbook and skill catalogs, the principles grouped into five families, per-role model config through /setup-pstack, and a ten chapter guide running from setup through opening a PR and running work while you sleep. Source at HustleCoding/pstack-explained, deployed by GitHub Actions.",
+      },
       {
         title: "skilltune",
         href: "https://www.skilltune.dev/",
