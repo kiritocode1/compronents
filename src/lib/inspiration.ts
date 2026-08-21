@@ -3382,6 +3382,93 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Bruno Simon",
+        href: "https://bruno-simon.com",
+        dateAdded: "2026-08-21",
+        kind: "portfolio",
+        stack: ["three", "webgl", "webgpu", "tsl", "rapier", "howler"],
+        useFor: [
+          "3d portfolio",
+          "webgl portfolio",
+          "drivable portfolio",
+          "game like website",
+          "interactive 3d site",
+          "three.js showcase",
+          "creative developer portfolio",
+        ],
+        description:
+          "Portfolio of Bruno Simon, a creative developer, built as a drivable 3D world: you steer a car with WASD, touch or a gamepad around an island, and his projects are places you park next to. The 2025 build runs on Three.js with TSL, the Three.js Shading Language, which is what lets one scene render through either WebGL or WebGPU, plus Rapier for physics and Howler for audio. Things accumulate around the driving: six unlockable car skins, a timed circuit with a daily top ten, and whispers, public messages capped at 30 characters and 30 at a time so new ones push old ones out. Source is at brunosimon/folio-2025 under MIT with the Blender files included, server code deliberately withheld; he also runs the Three.js Journey course and posted devlogs of the build as a YouTube playlist, with music by Kounine under CC0.",
+      },
+      {
+        title: "Lynn Fisher",
+        href: "https://lynnandtonic.com",
+        dateAdded: "2026-08-21",
+        kind: "portfolio",
+        stack: ["css", "svg", "responsive"],
+        useFor: [
+          "responsive design experiment",
+          "breakpoint layouts",
+          "css only site",
+          "playful personal site",
+          "media query ideas",
+          "resize the browser",
+          "designer portfolio",
+        ],
+        description:
+          "Personal site of Lynn Fisher, a designer for the web, rebuilt from scratch nearly every year and known for making browser width the entire interaction. The 2017 version ran 20 media queries so the layout changed completely every 100px, 21 distinct layouts in one site, on her reasoning that people already expect something to happen at tablet and phone widths, so the surprise has to be pushed to an absurd extreme. Each later refresh takes a different angle: 2018 zooms from something small out into space, 2019 cracks illustrations open as you widen, 2021 stacks SVG scenes and transitions between them through cutouts, 2023 uses ResizeObserver to show a version only while you are actively resizing, and 2025 is fixed width but stretches like elastic and bounces back when you stop. Every version is kept in an archive and each one gets a written case study; the current site is marked v. XIX.",
+      },
+      {
+        title: "Robb Owen",
+        href: "https://robbowen.digital",
+        dateAdded: "2026-08-21",
+        kind: "portfolio",
+        stack: ["webgl", "svg", "design-systems"],
+        useFor: [
+          "creative developer portfolio",
+          "independent developer site",
+          "vscode theme",
+          "synthwave 84",
+          "viewport state library",
+          "personal site with writing",
+        ],
+        description:
+          "Site of Robb Owen, an independent creative developer based in Abergavenny, South Wales, working across interaction design, scalable design systems, single page apps and more experimental WebGL, with a stated preference for the wilder the better. The open-source releases are the part worth taking: SynthWave '84, the VS Code colour scheme he built after failing to find one he liked, which passed two million downloads in October 2024; Tornis, a small library that watches viewport state and exposes screen size, cursor position, scroll position and gyroscope data as a store; and Rekishi, a thin pub/sub wrapper over the History API for dynamic page transitions. Structured as Work, About and Writing, footer signed Gwneud yn Ne Cymru.",
+      },
+      {
+        title: "Ben Howdle",
+        href: "https://benhowdle.im",
+        dateAdded: "2026-08-21",
+        kind: "portfolio",
+        stack: ["react", "node", "graphql"],
+        useFor: [
+          "fractional cto site",
+          "consultant landing page",
+          "engineering advisor",
+          "track record section",
+          "personal site for services",
+          "developer selling services",
+        ],
+        description:
+          "Site of Ben Howdle, a UK based fractional CTO and engineering advisor with 16+ years in and two startup CTO roles behind him, worth reading as a structure for selling engineering services off a personal domain rather than a company one. Track Record is a horizontally swipeable carousel instead of a vertical list, running Snug, Clerk, WorkMade, Letter, GoDaddy, mytheresa, Soho House, Plasso, Cisco, Kayako and KashFlow with dates and one concrete line each, and testimonials expand in place through Read full note. Products sit next to the consulting: ReqRes, a hosted fake API running since 2015 and claiming 150M+ requests a month, plus 15+ shipped since 2014 including Somna, Everyday Stoic, Content Caddy, Shades and Ekko, two of them sold. Three offers are named and scoped, a 3 week Engineering Diagnostic, a fractional CTO retainer and a 3 month transformation engagement, and his book The First CTO is £12 as an ebook or £79 with the playbook and toolkit.",
+      },
+      {
+        title: "Tim Holman",
+        href: "https://tholman.com",
+        dateAdded: "2026-08-21",
+        kind: "portfolio",
+        stack: ["javascript", "css", "canvas"],
+        useFor: [
+          "playful web experiments",
+          "creative coding toys",
+          "fun side projects",
+          "personal site of experiments",
+          "weird web",
+          "novelty js library",
+        ],
+        description:
+          "Site of Tim Holman, who calls himself a tinkerer, tuner and tamperer drawn to weird tech and play in tech, and who is Senior VP of UI and UX at Goldman Sachs after directing product engineering at Bustle Digital Group. The page is a plain wall of links to hundreds of small things he has made, which is the reason to visit: the ones that spread furthest are GitHub Corners (the fork me ribbons), Elevator.js (a back to top scroll that plays elevator music on the way), Intense Images, Obnoxious.css, ASCII Morph and The Useless Web. Recent work went into browser toys grouped one per domain, covering paint, memory, sliding puzzles, mazes, dice, solitaire variants and poetic composers for sestinas, haiku and sonnets, alongside Generative Artistry tutorials and preservation projects like Sites We Lost and The Vintage Web. Talks listed at JSConf AU, JSConf Asia, FFConf, CSSConf EU and Bang Bang Con.",
+      },
+      {
         title: "Locomotive",
         href: "https://lisa.locomotive.ca/en",
         dateAdded: "2026-08-18",
@@ -6421,6 +6508,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Atat (@@)",
+        href: "https://atatapp.com/",
+        dateAdded: "2026-08-21",
+        kind: "tool",
+        stack: ["macos", "swift", "claude-code", "codex", "cli", "agents"],
+        useFor: [
+          "agent in any text field",
+          "run claude code anywhere",
+          "system wide agent trigger",
+          "mac clipboard history",
+          "screenshot straight to an agent",
+          "rewrite selected text",
+          "finder as working directory",
+        ],
+        description:
+          "Native macOS app that runs whichever coding agent CLI you already have from any text field: type @@ in a native app, a browser text box or Finder, and the answer lands back where you were typing. Bring your own agent covers Claude Code, Codex, Grok, Cursor, Pi, Hermes and OpenCode, and anything else with a CLI can be added. Screen context is attached automatically, a selection bar adds rewrite, translate and explain that replace the text in place, Finder makes its window the working directory and sends the selected files along, and Command Return hands the job to an interactive agent in your terminal at the right path. It also absorbs the small utilities around that loop: searchable clipboard history, area, window, scrolling and recording capture, image annotation and cropping, video trim and export to GIF. Swift rather than Electron, under 20 MB, prompts and history stay on the machine. Download is Atat-0.5.0.dmg; the site names no maker and no pricing.",
+      },
+      {
         title: "fx",
         href: "https://fx.sh/",
         dateAdded: "2026-08-19",
@@ -7470,6 +7575,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Databases and storage",
     links: [
       {
+        title: "pgbot",
+        href: "https://pgbot.dev/",
+        dateAdded: "2026-08-21",
+        kind: "tool",
+        stack: ["postgres", "go", "cli", "mcp"],
+        useFor: [
+          "postgres health check",
+          "slow query analysis",
+          "unused indexes",
+          "database mcp server",
+          "why is my database slow",
+          "vacuum and autovacuum visibility",
+          "read only database access",
+        ],
+        description:
+          "Open-source Go CLI that inspects a Postgres database and reports what is healthy, what is broken and what to fix first, through pgbot inspect --full, pgbot indexes and pgbot tables. It covers connections, locks, cache hit ratio, replication and WAL, slow queries and regressions, index usage and missing indexes, vacuum activity and table growth, and pgbot ask 'why is it slow?' puts a model over those same findings. pgbot mcp serves it to Claude Code, Claude Desktop or Cursor over stdio as two deterministic read-only tools, inspect and unused_indexes, plus a diagnose prompt and a pgbot://baselines resource, with no model key involved on that path. Read-only by construction; connect directly to Supabase, Neon, RDS, DigitalOcean, Hetzner or PlanetScale, or run the agent inside your own network for Docker, Kubernetes and VPCs. Free, 265 stars at github.com/pgrundev/pgbot, though the site's docs and changelog links are still placeholders.",
+      },
+      {
         title: "turbopuffer",
         href: "https://turbopuffer.com/",
         dateAdded: "2026-08-06",
@@ -8321,6 +8444,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Satori",
+        href: "https://github.com/vercel/satori",
+        dateAdded: "2026-08-21",
+        kind: "library",
+        stack: ["jsx", "svg", "wasm", "yoga", "harfbuzz", "cloudflare-workers"],
+        useFor: [
+          "og image",
+          "open graph image",
+          "html to svg",
+          "generate images from jsx",
+          "social card generator",
+          "render text to image",
+          "image generation on the edge",
+        ],
+        description:
+          "Library that converts HTML and CSS into SVG, the engine behind Vercel's Open Graph image generation and the Next.js social card examples. Layout runs on Yoga, the same flexbox engine React Native uses, and text shaping on HarfBuzz, so ligatures, small caps, stylistic sets and complex scripts like Arabic all work; fonts are passed in as TTF, OTF or WOFF buffers, and WOFF2 is not supported. The JSX has to be pure and stateless (no hooks, no dangerouslySetInnerHTML), and it implements a subset rather than a browser: no 3D transforms, no z-index, no calc, and no full bidirectional layout yet. Written by Shu Ding under the Vercel org, MPL-2.0, 13.8k stars, running in the browser, Node 16+ and Web Workers, with a satori/standalone build for runtimes that block dynamic WASM such as Cloudflare Workers and an experimental satori/jsx runtime that drops the React dependency. Test and share cases at og-playground.vercel.app.",
+      },
       {
         title: "Re:notch",
         href: "https://github.com/yosaiy/renotch",
@@ -9867,6 +10008,40 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Personal blogs and sites",
     links: [
+      {
+        title: "Bartosz Ciechanowski",
+        href: "https://ciechanow.ski",
+        dateAdded: "2026-08-21",
+        kind: "essay",
+        stack: ["webgl", "canvas", "svg"],
+        useFor: [
+          "interactive explainer",
+          "explorable explanation",
+          "teach a concept visually",
+          "interactive diagrams",
+          "how things work article",
+          "simulation inside an article",
+        ],
+        description:
+          "Bartosz Ciechanowski's blog, the reference point for interactive explainers: each article teaches one physical system through embedded real-time simulations you manipulate rather than static figures. The recurring devices are worth stealing, drag to orbit 3D scenes, sliders for date, time, speed of time, mass, eccentricity and wavelength, paired views showing one moment from the ground and from space at once, a draggable figurine that sets your observer position on the globe with a button to jump it to your real location, and toggles that scale bodies ten times larger so the geometry reads. Subjects include Moon (December 2024), GPS, Earth and Sun, Lights and Shadows, Cameras and Lenses, and Naval Architecture. No framework, library or license is named anywhere on it; support runs through Patreon.",
+      },
+      {
+        title: "Steph Ango",
+        href: "https://stephango.com",
+        dateAdded: "2026-08-21",
+        kind: "essay",
+        stack: ["obsidian", "markdown", "jekyll"],
+        useFor: [
+          "minimal personal site",
+          "short essays",
+          "note taking philosophy",
+          "file over app",
+          "plain text workflow",
+          "blog design reference",
+        ],
+        description:
+          "Personal site of Steph Ango, who writes as kepano and has been CEO of Obsidian since February 2023, after co-founding Lumi, Inkodye and Slash Packaging and training in biology and industrial design. Read it twice, once for the writing and once for the site, which is the argument of his best-known essay built as a website: plain Markdown authored in Obsidian, compiled by Jekyll, stripped to a Latest post, a Topics index of roughly 30 tags and a reverse chronological archive running back to 2012. That essay is File over app (July 2023), the case that your notes should outlive the software you wrote them in. Titles stay short and aphoristic, Use the saw fear the saw, Design is compromise, Great tools choose to be bad at some things, Calmness is a superpower, next to 40 questions to ask yourself every year and How I use Obsidian. He also made the Minimal theme, the Flexoki colour scheme and the open JSON Canvas format.",
+      },
       {
         title: "nerdy.dev",
         href: "https://nerdy.dev/",
