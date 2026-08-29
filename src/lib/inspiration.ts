@@ -444,6 +444,26 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "JavaScript and TypeScript",
     links: [
       {
+        title: "SnapDOM",
+        href: "https://snapdom.dev/",
+        dateAdded: "2026-08-29",
+        kind: "library",
+        stack: ["dom", "canvas", "svg", "screenshot"],
+        useFor: [
+          "dom to image",
+          "element to png",
+          "screenshot a div",
+          "export chart as image",
+          "html to image",
+          "generate social card",
+          "capture react component",
+          "html2canvas alternative",
+          "visual regression capture",
+        ],
+        description:
+          "Browser library that captures a rendered DOM element as SVG, PNG, JPG or WebP, with plugins extending to GIF, video and standalone HTML. By Zumerlab, published as @zumer/snapdom, MIT, v2.23.2, zero dependencies, 7.9k GitHub stars and over 1m monthly downloads. The distinguishing move is that it starts from the element the browser already rendered instead of rebuilding the page in a second rendering engine, so web fonts, pseudo-elements, SVG references, backgrounds and open shadow roots travel with the capture. You capture once and then export to PNG, SVG, canvas, blob, JPG or WebP from that single result, which suits dashboard exports, social cards designed in HTML/CSS and deterministic component captures for visual regression. Named production users include LobeHub, TriliumNext, Tencent's tmagic-editor, SEEK's Playroom, AntV and MetaBrainz; a paid SnapDOM Pro plugin tier is announced as coming soon.",
+      },
+      {
         title: "Sugar High",
         href: "https://sugar-high.vercel.app/",
         dateAdded: "2026-08-10",
@@ -1225,6 +1245,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component libraries and blocks",
     links: [
+      {
+        title: "GPUI Component",
+        href: "https://longbridge.github.io/gpui-component/",
+        dateAdded: "2026-08-29",
+        kind: "library",
+        stack: ["rust", "gpui", "desktop"],
+        useFor: [
+          "rust desktop ui",
+          "rust gui framework",
+          "native desktop components",
+          "rust data table",
+          "code editor component",
+          "dock layout",
+          "gpui components",
+          "zed gui framework",
+        ],
+        description:
+          "Rust desktop UI framework built on GPUI, the GPU-drawn framework behind Zed, with 60+ finished components covering data tables, docking, charts and a code editor. Built by Longbridge and running in Longbridge Pro from day one; Apache-2.0, 13.6k GitHub stars, macOS, Windows and Linux. It splits into three layers: gpui-component for the full themed system, gpui-base for zero-style primitives that keep full accessibility behaviour while handing you 100% visual ownership, and gpui-shell for JavaScript extensions running in-process with hot reload on save and no capability granted by default. The heavy pieces are the reason to look: virtual-scrolling tables with fixed and resizable columns over hundreds of thousands of rows, a rope-backed editor stable at 200K lines with Tree-sitter highlighting and LSP diagnostics, and serializable dock layouts. Installed as a git dependency rather than a published crate version; icons come from Lucide and Isocons.",
+      },
       {
         title: "Markdown Graphs",
         href: "https://mdx-graphs.kshv.me/",
@@ -2789,6 +2828,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Tools I keep coming back to",
+        href: "https://www.rachelhow.com/tools",
+        dateAdded: "2026-08-29",
+        kind: "directory",
+        useFor: [
+          "design reference sites",
+          "where designers look",
+          "design bookmarks",
+          "visual archive",
+          "type and icon references",
+          "curated design tools",
+          "old ads and annual reports",
+        ],
+        description:
+          "Flat list of 11 references a working product designer keeps returning to: Mobbin, ShaderGradient, recent.design, Cosmos, Macfolio, Fonts In Use, Design Spells, Icon Museum, Annual Report Archive, Study Old Ads and fuse.kiwi. Rachel How is a senior product designer and YouTuber with 280k+ subscribers, and Video Lead at Mobbin, worth knowing because Mobbin heads the list carrying a 20% off Pro offer and every outbound link appends a ref=rachelhow.com parameter. The weighting is the useful part: visual archives rather than software, running from type specimens and icon collections to annual reports, vintage advertising and a catalogue of small delightful interactions. Set expectations before clicking through, since the page gives no descriptions at all, only a name, a thumbnail on seven of the eleven, and an open link, so it is a jumping-off point rather than a reference in itself.",
+      },
       {
         title: "GatherOS",
         href: "https://gatheros.co/",
@@ -6547,6 +6603,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Machine learning and deep learning",
     links: [
       {
+        title: "Google Research Blog",
+        href: "https://research.google/blog/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["llm", "quantum", "health"],
+        useFor: [
+          "google research",
+          "latest ai research",
+          "research blog",
+          "foundation models",
+          "quantum computing research",
+          "health ai research",
+          "diffusion models",
+          "read new ml papers",
+        ],
+        description:
+          "Google Research's blog index, 12 posts a page across 134 pages, with year archives reaching back to 2006 and roughly 34 label filters including Generative AI, Machine Intelligence, Algorithms & Theory, Quantum, Health & Bioscience, Responsible AI and Open Source Models & Datasets. Every post is tagged with the research areas it belongs to, which makes it a readable front door to work you would otherwise meet as a PDF. A recent sample: a planetary prediction engine automating global models via Earth AI, GlucoFM as a foundation model for continuous glucose monitoring, AgentHands generating interactive hand gestures for spatially grounded agent conversations in XR, an argument that recall is the bottleneck for parametric factuality, a quantum computer that learns from its errors, and an attempt at demystifying the creativity of diffusion models. Health and bioscience is the densest area at the moment; the companion code lives under the google-research GitHub org.",
+      },
+      {
         title: "H100 GPU Glossary (interactive)",
         href: "https://gpu.kylejeong.com/",
         dateAdded: "2026-08-18",
@@ -7081,6 +7156,27 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "Closing the AI agent trust gap with graduated autonomy",
+        href: "https://aws.amazon.com/blogs/architecture/closing-the-ai-agent-trust-gap-with-graduated-autonomy/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["agents", "aws", "bedrock", "cedar", "dynamodb", "permissions"],
+        useFor: [
+          "agent permissions",
+          "graduated autonomy",
+          "agent trust",
+          "gate agent actions",
+          "agent approval tiers",
+          "limit what an agent can do",
+          "agent audit trail",
+          "agent guardrails",
+          "human in the loop approval",
+          "score agent reliability",
+        ],
+        description:
+          "AWS Architecture Blog post from 26 August 2026 by Dev Arora, Meera Kezhukoot and Sathish Kumar Prabakaran, arguing that the usual choice between full access and read-only fails because identity-based permissions are granted once at provisioning while LLM agents behave inconsistently. The proposal is graduated autonomy: an agent earns permissions through demonstrated reliability and loses them when performance slips, scored 0 to 100 over a rolling 50-action window across accuracy (25%), safety (20%), consistency (20%), compliance (20%) and efficiency (15%). Four tiers run from T1 Probation (0 to 40, read and list only, two tools visible) through T2 Supervised and T3 Trusted to T4 Autonomous (91 to 100, full access with post-hoc audit), with hysteresis that promotes only 5 points above a tier floor but demotes at the floor itself, so agents cannot flap. The build is specific enough to copy: Bedrock AgentCore, Cedar policies with forbid-wins semantics enforced outside the agent process, Bedrock Guardrails, DynamoDB for trust state and audit records, and a CodePipeline gate that blocks release on a single unauthorized tool call in adversarial tests. Sharp details throughout, including synthetic honeypots validated on tool-call trajectory rather than natural-language output, double penalties for overconfident failures, an operator rejection rate of 30% capping the safety score at 70, an emergency stop that deploys one Cedar deny-all policy, and a delegated action inheriting the minimum tier across the chain.",
+      },
       {
         title: "Letta",
         href: "https://www.letta.com/",
@@ -10521,6 +10617,198 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Engineering essays and culture",
     links: [
+      {
+        title: "X Engineering Blog",
+        href: "https://blog.x.com/engineering/en_us",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["infrastructure", "hadoop", "scale"],
+        useFor: [
+          "twitter engineering",
+          "twitter architecture",
+          "hadoop at scale",
+          "twitter infrastructure",
+          "scaling a social network",
+          "blobstore",
+        ],
+        description:
+          "X's engineering blog, and in practice an archive rather than a feed: the newest posts are dated February 2023 and all of them still carry Twitter branding. What is there is worth mining for large-scale infrastructure writing, sorted into Insights, Infrastructure and Open source, with tags for machine learning, Cortex, Hadoop, realtime, scale and optimization. Representative posts cover the Blobstore hardware lifecycle monitoring and reporting service, Kerberizing Hadoop clusters, scaling reads on the Twitter users database, the Sparrow work on data storage at scale, using rasdaemon for hardware reliability, and measuring the impact of network latency with CausalImpact. Read it as a frozen record of how Twitter ran its data platform, not as a source of current practice.",
+      },
+      {
+        title: "Discord Blog",
+        href: "https://discord.com/blog",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["infrastructure", "realtime", "databases"],
+        useFor: [
+          "discord engineering",
+          "voice infrastructure",
+          "scaling messages",
+          "trillions of messages",
+          "rule engine",
+          "end to end encryption",
+          "real time chat architecture",
+          "edge voice",
+        ],
+        description:
+          "Discord's company blog, where the engineering writing sits alongside patch notes and product news under an Engineering & Developers category instead of on a separate domain. The technical posts are the reason to keep it: How We Moved Discord Voice to the Edge, How Discord Indexes Trillions of Messages, Cost Attribution in Discord's API, Osprey on open sourcing their rule engine, and the rollout that made every voice and video call end-to-end encrypted. The other categories run Featured, Community, Discord HQ, How to Discord, Policy & Safety and Product & Features, so filter before browsing or you will be reading changelogs. Recent non-engineering entries include the Social SDK reaching general availability for mobile in version 1.10 and a mobile design post on squircles, styles and spacing.",
+      },
+      {
+        title: "Stripe Engineering Blog",
+        href: "https://stripe.dev/blog/topic/engineering",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["ruby", "typescript", "infrastructure", "agents", "testing"],
+        useFor: [
+          "stripe engineering",
+          "ruby monorepo",
+          "type checker for ruby",
+          "sorbet",
+          "coding agents in production",
+          "selective test execution",
+          "ledger design",
+          "payments architecture",
+          "zero downtime migration",
+          "monorepo ci",
+        ],
+        description:
+          "The Engineering topic filter on Stripe's developer blog, 23 posts out of 115, every one with named author bylines and a date. The recurring subject is very large codebases and the tooling built to survive them: Sorbet as a type checker for Ruby, migrating millions of lines to TypeScript, rubyfmt formatting a 25 million line codebase overnight, selective test execution to keep CI fast on a 50M-line Ruby monorepo, and Java language upgrades run as a service. The money-movement half is the other draw, with Ledger for tracking and validating money movement, document databases holding 99.999% uptime through zero-downtime data migrations, and how Stripe Credits was built. Recent posts lean infrastructure and AI: a from-scratch high-performance distributed proxy data plane (August 2026), a Knowledge AI Platform, graph search and state machines auto-remediating a global database fleet, and Minions, their one-shot end-to-end coding agents, in two parts.",
+      },
+      {
+        title: "OpenAI Engineering",
+        href: "https://openai.com/news/engineering/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["llm", "agents", "infrastructure"],
+        useFor: [
+          "openai engineering",
+          "codex sandbox",
+          "responses api",
+          "agentic workflows websockets",
+          "low latency voice ai",
+          "scaling inference access",
+          "ai training networking",
+          "agent orchestration spec",
+        ],
+        description:
+          "The Engineering tag in OpenAI's newsroom, described on the page as stories about the technology and builders at OpenAI, and deliberately separate from the research and product announcements beside it. The posts are systems writing rather than model releases: Core dump epidemiology on fixing an 18-year-old bug, building a safe and effective sandbox to enable Codex on Windows, supercomputer networking to accelerate large scale AI training, and how OpenAI delivers low-latency voice AI at scale. The agent-facing entries are the most reusable, covering Symphony as an open-source spec for orchestration, speeding up agentic workflows with WebSockets in the Responses API, equipping that API with a computer environment, and going beyond rate limits to scale access to Codex and Sora. Newsroom filters sitting alongside it are Company, Research, Product, Safety, Security, Global Affairs, AI Adoption and Applied AI.",
+      },
+      {
+        title: "Slack Engineering",
+        href: "https://slack.engineering/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["infrastructure", "aws", "agents", "testing", "observability"],
+        useFor: [
+          "slack engineering",
+          "ec2 platform",
+          "agentic testing",
+          "e2e testing with agents",
+          "context management agents",
+          "multi cloud ai",
+          "notifications architecture",
+          "accessibility vpat",
+          "http3 readiness",
+        ],
+        description:
+          "Slack's engineering blog, under the line 'Hear directly from Slack's engineers about what we build, why and how we build it', running 33 pages of archives with a read-time estimate on every post. Recent writing splits between infrastructure and agents: Shipyard, their next-generation EC2 platform (July 2026, 15 min), Slack AI's path to multi-cloud, a security-driven move of EMR data pipelines from SSH to REST, and scalable network probing plus HTTP/3 readiness with Prometheus. The agent posts are unusually concrete about where agents actually belong, covering agentic testing in the E2E stack, managing context in long-run agentic applications, and streamlining security investigations with agents. Also good on subjects most company blogs skip, including rebuilding notifications and an Android VPAT accessibility journey. Now a Salesforce company, with a separate developer blog linked from the nav.",
+      },
+      {
+        title: "Spotify Engineering",
+        href: "https://engineering.atspotify.com/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["backstage", "llm", "agents", "data", "developer-experience"],
+        useFor: [
+          "spotify engineering",
+          "backstage",
+          "developer experience at scale",
+          "llm evals",
+          "ab test with llms",
+          "data lake indexing",
+          "multi agent architecture",
+          "foss fund",
+          "coding agents migrations",
+          "mobile release process",
+        ],
+        description:
+          "Spotify's engineering blog, categorised across Data Science, Infrastructure, Platform, Developer Experience, Backstage, Machine Learning, Mobile, Open Source and People. The recent run leans hard on LLMs and agents as production practice rather than demos: when LLMs can replace humans in A/B tests, better experiments with LLM evals framed as a funnel not a fork, a multi-agent architecture for advertising, the context layer behind their data assistant, and background coding agents driving downstream dataset migrations. 'Coding Is No Longer the Constraint' is the one to read on scaling developer experience to teams and agents at the same time. The infrastructure side covers indexing the data lake for online point queries and a published content ingestion and podcast video incident report, while the open source thread runs through Backstage and the FOSS Fund, established in 2022 to support the open source projects Spotify depends on.",
+      },
+      {
+        title: "r/RedditEng",
+        href: "https://www.reddit.com/r/RedditEng/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["android", "infrastructure", "observability", "agents"],
+        useFor: [
+          "reddit engineering",
+          "android localization",
+          "http3 on android",
+          "fault injection",
+          "removing envoy",
+          "zero trust",
+          "prometheus metrics",
+          "agentic development at scale",
+          "incident reviews",
+          "android video player",
+        ],
+        description:
+          "Reddit's engineering blog, run as a subreddit instead of a marketing site, so every post carries a comment thread under it. Founded on 15 April 2021 by Lisa, then Chief of Staff to Reddit's founding engineer and CTO Chris Slowe, now its first Technical Fellow, along with a handful of colleagues, and it has published something every single week since. The recent series are genuinely deep: Scaling Android Localization in two parts, Reddit's Journey to HTTP/3 on Android in two parts, Snoocode on their approach to agentic development, Breaking Reddit on Purpose covering fault injection in Baseplate, From Proxy to Proxyless on removing Envoy from the feed serving path, and The Zero Trust Odyssey. A farewell post on 27 August 2026 marks the founder leaving the company and is explicit that the sub carries on without them, closing with one last cat tax, the running tradition of posting the cats who helped with the work.",
+      },
+      {
+        title: "Figma Engineering Blog",
+        href: "https://www.figma.com/blog/engineering/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: [
+          "canvas",
+          "webgpu",
+          "rust",
+          "postgres",
+          "performance",
+          "agents",
+        ],
+        useFor: [
+          "figma engineering",
+          "canvas rendering",
+          "webgpu rendering",
+          "postgres sharding",
+          "canvas accessibility",
+          "layers panel performance",
+          "code connect mcp",
+          "rust memory optimization",
+          "c++ build times",
+          "browser app performance",
+        ],
+        description:
+          "The Engineering tag on Figma's blog, 136 posts, organised into What's new, How we built it, How we think, Speed at scale, Core infrastructure and Secure by design. It is the best public source on building a performance-critical canvas app in the browser, with posts on rendering Figma with WebGPU, Rust memory optimizations, C++ build times, incremental frame loading, dynamic page loading, improving performance in the layers panel, and building accessibility into a canvas-based product. The database and infrastructure thread is just as concrete: sharding Postgres, PGKeeper as the connection bouncer they needed for Postgres, a next-generation data caching platform, LiveGraph, and a Kubernetes migration. Recent posts are agent-heavy, covering Code Connect in MCP for better code with fewer tokens, securing internal systems with agents, staying ahead of vulnerabilities with agents, and measuring time savings from Figma Make.",
+      },
+      {
+        title: "Netflix TechBlog",
+        href: "https://netflixtechblog.com/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: [
+          "distributed-systems",
+          "flink",
+          "llm",
+          "kubernetes",
+          "recommendation",
+        ],
+        useFor: [
+          "netflix engineering",
+          "flink autoscaling",
+          "distributed graph",
+          "llm serving",
+          "recommendation systems",
+          "service topology",
+          "kubernetes batch compute",
+          "stream processing at scale",
+          "personalization at scale",
+        ],
+        description:
+          "Netflix's engineering blog, hosted on Medium, covering engineering, company culture and product development. The recent run splits between recommendation and LLM work and hard distributed systems: MAPS for multimodal asset personalization at scale, GenRec toward LLM-native recommendation, GenPage for end-to-end generative homepage construction, and in-house LLM serving. On the systems side there is A Tale of Two Flink Autoscalers, a three-part series on building a real-time distributed graph and querying it over gRPC, building service topology at scale, and simplifying batch compute with Kueue. Posts are long and carry full author lists; the RSS feed at /feed is the reliable way to follow it, since the site itself sits behind Medium's bot protection.",
+      },
       {
         title: "RFD 1: Requests for Discussion",
         href: "https://rfd.shared.oxide.computer/rfd/0001",
