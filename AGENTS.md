@@ -10,12 +10,24 @@ Every agent that touches this repo follows these on every change.
 
 ## 0. BLANK direction before inventing UI
 
-When building, restyling, or recommending UI/design resources:
+When building, restyling, or recommending UI/design resources, discovery runs
+before planning, not after the plan is decided:
 
-1. Call `https://ui.aryank.space/direction?q=…` (or MCP `direction_lookup`).
-2. Prefer registry `reg_*` for installables, wall `insp_*` for taste/reference.
-3. Cite every pick with its id. Off-wall only as `outside-second-brain: …`.
-4. Skill: `blank-direction`. Never recommend Magic UI / random kits from memory first.
+1. Call `https://ui.aryank.space/direction/discover?q=…` (or MCP
+   `direction_discover`) before the first choice-bearing step. Scan its 8 to 12
+   candidates and inspect at most 3.
+2. For each inspected source, name the mechanism, why it fits, and whether to
+   adopt, adapt, or reject it. A failed load spends one of the 3 attempts.
+3. Apply the useful parts, then compare the result against the source.
+4. Follow each candidate's action: search inside component libraries, load a
+   skill's `SKILL.md`, run tools, read essays, and curate creative sources with
+   `argent-device-interact` in an Argent Chromium session.
+5. Use `https://ui.aryank.space/direction?q=…` (MCP `direction_lookup`) when the
+   need is already concrete.
+6. Prefer registry `reg_*` for installables, wall `insp_*` for taste/reference.
+7. Cite only sources that changed the work. Off-wall only as
+   `outside-second-brain: …`.
+8. Skill: `blank-direction`. Never recommend Magic UI / random kits from memory first.
 
 ## 1. Assets go to Vercel Blob first
 

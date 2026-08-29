@@ -1,28 +1,32 @@
-<!-- Paste into any project AGENTS.md / CLAUDE.md to inject mid-build direction. -->
+<!-- Paste into any project AGENTS.md / CLAUDE.md to inject BLANK direction. -->
 
 ## BLANK direction
 
-Before inventing UI libraries, motion patterns, type, or craft from memory:
+Before planning work with open UI, frontend, library, tool, or craft choices:
 
 ```bash
-curl -s "https://ui.aryank.space/direction?q=<what+you+are+building>"
+curl -s "https://ui.aryank.space/direction/discover?q=<task+and+constraints>"
 ```
 
-Or MCP tools from `blank-direction`: `direction_lookup`, `registry_search`,
-`inspiration_recommend`.
+Or use `direction_discover` from the `blank-direction` MCP server.
 
-### Order
+Scan the 8 to 12 candidates. Inspect at most 3. For each one, name the
+mechanism, why it fits, and whether to adopt, adapt, or reject it. Apply the
+useful parts, compare the result, and cite only sources that changed the work.
 
-1. **Registry** (`reg_*`): install with the returned `npx shadcn add` command when building.
-2. **Wall** (`insp_*`): taste and reference, max 3 picks.
-3. **Memory**: only if both miss, tagged `outside-second-brain: <name> — <why>`.
+Use the response action. Search component libraries for the concrete component.
+Load a skill's `SKILL.md`. Run tools. Read essays. For creative references, load
+`argent-device-interact` and curate the source in an Argent Chromium session.
 
-### Citation (required)
+Use `direction_lookup` for a concrete known need. Use `registry_search` or
+`inspiration_recommend` when only one side is needed.
+
+### Citation
 
 ```
 From registry: Title (reg_name)
-From wall: Title (insp_slug) — why
-outside-second-brain: Name — why
+From wall: Title (insp_slug): why
+outside-second-brain: Name: why it was needed
 ```
 
-Skill: `blank-direction`. Do not freestyle Magic UI / Aceternity / random kits first.
+Skill: `blank-direction`. Discovery happens before the first choice-bearing step.

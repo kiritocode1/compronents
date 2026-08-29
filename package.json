@@ -10,7 +10,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck:registry": "tsc --noEmit -p tsconfig.check.json",
-    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs",
+    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs",
     "test:install": "node --test tests/shadcn-install.test.mjs"
   },
   "dependencies": {

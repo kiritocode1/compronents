@@ -3,6 +3,7 @@
  * BLANK direction MCP server (stdio JSON-RPC).
  *
  * Tools:
+ *   direction_discover    — proactive registry + wall discovery
  *   direction_lookup      — registry + wall (default)
  *   inspiration_recommend — wall only
  *   registry_search       — installables only
@@ -16,16 +17,39 @@
 
 import { createInterface } from "node:readline";
 
-const BASE = (process.env.BLANK_DIRECTION_URL || "https://ui.aryank.space").replace(
-  /\/$/,
-  "",
-);
+const BASE = (
+  process.env.BLANK_DIRECTION_URL || "https://ui.aryank.space"
+).replace(/\/$/, "");
 
 const TOOLS = [
   {
+    name: "direction_discover",
+    description:
+      "Call before planning or making the first choice-bearing UI, frontend, component, library, tool, or craft decision. Returns 8 to 12 varied BLANK candidates. Scan them, inspect at most 3, explain the mechanism and why it fits, apply it, compare the result, and cite only sources that changed the work.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        task: {
+          type: "string",
+          description: "The task and its constraints in the user's own words",
+        },
+        section: {
+          type: "string",
+          enum: ["components", "pages", "backend", "all"],
+          description: "Registry section filter",
+        },
+        limit: {
+          type: "number",
+          description: "Candidate count from 8 to 12, default 10",
+        },
+      },
+      required: ["task"],
+    },
+  },
+  {
     name: "direction_lookup",
     description:
-      "BLANK direction protocol: search installable registry first, then inspiration wall. Call this BEFORE recommending any UI library, component, motion, type, or craft reference from memory. Returns markdown with reg_* and insp_* citation ids.",
+      "Strict lookup for a concrete, known need. Search installable registry first, then the inspiration wall. Use direction_discover before planning when choices are still open. Returns markdown with reg_* and insp_* citation ids.",
     inputSchema: {
       type: "object",
       properties: {
@@ -86,11 +110,23 @@ async function fetchText(path) {
 }
 
 async function callTool(name, args = {}) {
+  if (name === "direction_discover") {
+    const task = encodeURIComponent(String(args.task || "").trim());
+    if (!task) throw new Error("task is required");
+    const section = args.section
+      ? `&section=${encodeURIComponent(args.section)}`
+      : "";
+    const limit = args.limit ? `&limit=${Number(args.limit) || 10}` : "";
+    return fetchText(`/direction/discover?q=${task}${section}${limit}`);
+  }
+
   const q = encodeURIComponent(String(args.query || "").trim());
   if (!q) throw new Error("query is required");
 
   if (name === "direction_lookup") {
-    const section = args.section ? `&section=${encodeURIComponent(args.section)}` : "";
+    const section = args.section
+      ? `&section=${encodeURIComponent(args.section)}`
+      : "";
     return fetchText(`/direction?q=${q}${section}`);
   }
   if (name === "inspiration_recommend") {
@@ -98,7 +134,9 @@ async function callTool(name, args = {}) {
     return fetchText(`/inspiration/recommend?q=${q}${limit}`);
   }
   if (name === "registry_search") {
-    const section = args.section ? `&section=${encodeURIComponent(args.section)}` : "";
+    const section = args.section
+      ? `&section=${encodeURIComponent(args.section)}`
+      : "";
     const limit = args.limit ? `&limit=${Number(args.limit) || 5}` : "";
     return fetchText(`/registry/search?q=${q}${section}${limit}`);
   }
@@ -126,7 +164,7 @@ async function handle(msg) {
       ok(id, {
         protocolVersion: "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "blank-direction", version: "1.0.0" },
+        serverInfo: { name: "blank-direction", version: "1.1.0" },
       });
       return;
     }
@@ -176,6 +214,4 @@ rl.on("line", (line) => {
   void handle(msg);
 });
 
-process.stderr.write(
-  `blank-direction MCP ready (base=${BASE})\n`,
-);
+process.stderr.write(`blank-direction MCP ready (base=${BASE})\n`);

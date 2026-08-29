@@ -3,12 +3,16 @@
  * Format: insp_<slug> from title + host, deterministic across deploys.
  */
 
-export function inspirationPickId(title: string, href: string): string {
+export function inspirationPickId(
+  title: string,
+  href: string,
+): `insp_${string}` {
   const host = safeHost(href);
   const base = slugify(title) || slugify(host) || "item";
   const hostBit = slugify(host.split(".")[0] || "");
   const slug = hostBit && !base.includes(hostBit) ? `${base}-${hostBit}` : base;
-  return `insp_${slug}`.slice(0, 80);
+  // Trim the slug, not the joined string, so the prefix survives the 80-char cap.
+  return `insp_${slug.slice(0, 75)}`;
 }
 
 function safeHost(href: string): string {

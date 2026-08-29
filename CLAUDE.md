@@ -26,29 +26,39 @@ the site looking healthy is not evidence that the push landed.
 
 # BLANK direction (directing AI)
 
-When choosing UI, components, motion, type, craft, or libraries:
+Before planning work with open UI, component, motion, type, craft, library, or
+tool choices:
 
-1. **`/direction?q=`** (preferred): registry installables + wall picks together.
-2. **`/registry/search?q=`** or frontend/backend `llms.txt`: installables only.
-3. **`/inspiration/recommend?q=`**: wall only (max 3 picks, `insp_*` ids).
-4. Training memory last, labeled `outside-second-brain: …`.
+1. **`/direction/discover?q=`**: scan 8 to 12 varied registry and wall candidates.
+2. Inspect at most 3. Name the mechanism, why it fits, and whether to adopt,
+   adapt, or reject it.
+3. Apply the useful parts, compare the result, and cite only actual influences.
+4. Use **`/direction?q=`** for a concrete known need.
+5. Use **`/registry/search?q=`** or **`/inspiration/recommend?q=`** for one side.
+6. Use training memory last, labeled `outside-second-brain:`.
+
+Follow each candidate's action. Search inside component libraries. Load a
+skill's `SKILL.md`. Run tools. Read essays. Curate creative sources with
+`argent-device-interact` in an Argent Chromium session.
 
 Cite every pick:
 
 ```
 From registry: Title (reg_name)
-From wall: Title (insp_slug) — why
-outside-second-brain: Name — why
+From wall: Title (insp_slug): why
+outside-second-brain: Name: why it was needed
 ```
 
-MCP: `mcp/blank-direction/server.mjs` tools `direction_lookup`,
-`inspiration_recommend`, `registry_search`. Skill: `blank-direction`.
+MCP: `mcp/blank-direction/server.mjs` tools `direction_discover`,
+`direction_lookup`, `inspiration_recommend`, `registry_search`. Skill:
+`blank-direction`.
 
 # Inspiration Search
 
 The inspiration wall is 1100+ links. Agents should **recommend**, not dump.
 
-- `/direction?q=<question>`: joint registry + wall. **Default for directing AI.**
+- `/direction/discover?q=<question>`: proactive 8 to 12 candidate working set.
+- `/direction?q=<question>`: strict joint registry + wall lookup.
 - `/inspiration/recommend?q=<question>`: at most 3 wall picks with id + why.
   Multi-query expansion, facet/style boosts, weak-match cutoff.
   Engine: `inspiration-recommend.ts` + `inspiration-meta.ts` + `inspiration-id.ts`.
