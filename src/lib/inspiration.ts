@@ -1226,6 +1226,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Markdown Graphs",
+        href: "https://mdx-graphs.kshv.me/",
+        dateAdded: "2026-08-29",
+        kind: "library",
+        stack: ["react", "mdx", "shadcn", "motion"],
+        useFor: [
+          "ascii charts",
+          "mdx graphs",
+          "monospace dashboard",
+          "github contribution grid",
+          "shadcn chart blocks",
+          "text only charts",
+          "graph in markdown",
+        ],
+        style: "terminal",
+        description:
+          "React components for tables, charts and diagrams in MDX that look like monospace text: dashed frames and block characters, not SVG. Copy into a shadcn project via the registry (`pnpm dlx shadcn@latest add <origin>/r/graph-table.json`, or `/r/all.json` for the set). Thirty named graphs on the docs page including Table, Flow, Bars, Rank, Cells, Meter, Spark, Tree, Timeline, Stack, Funnel, Gantt, Plot, Waffle, Diff, Invoice, Compare, Stat, KPI, Spec, Activity, Heatmap, Calendar, Waterfall, Uptime, Slope, Bullet, Timer, Countdown, and a shared Frame. Default is one accent color, with palette duo or multi when a second hue is needed. Entrance animations stay under 220ms and do not loop. Needs an existing shadcn project plus motion. Not an npm package. Open source, files also copyable from GitHub. Maker is not named on the site beyond the kshv.me domain.",
+      },
+      {
         title: "Tremor Grid Lists",
         href: "https://blocks.tremor.so/blocks/grid-lists",
         dateAdded: "2026-08-29",
