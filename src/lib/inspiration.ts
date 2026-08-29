@@ -1226,6 +1226,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Tremor Grid Lists",
+        href: "https://blocks.tremor.so/blocks/grid-lists",
+        dateAdded: "2026-08-29",
+        kind: "library",
+        stack: ["react", "tailwind", "tremor"],
+        useFor: [
+          "grid list blocks",
+          "dashboard member cards",
+          "integration cards",
+          "tremor blocks",
+          "copy paste dashboard ui",
+          "workspace card grid",
+        ],
+        style: "product-dense",
+        description:
+          "Fifteen copy-paste dashboard grid-list blocks from Tremor Blocks, each with a live preview and React source using @tremor/react and Remix Icon. Patterns run from member cards with initials and email, through role and last-active splits, grid-versus-table tabs, integration cards with Connected or Enable, pipeline status chips, workspace quotas, report lists with avatars, and order fulfilment rows. This URL is the Grid Lists section, not the whole block catalog. File bugs at tremorlabs/tremor-blocks-issue-tracker.",
+      },
+      {
         title: "vibeprompts.dev",
         href: "https://vibeprompts.dev/footer/",
         dateAdded: "2026-08-19",
@@ -4044,6 +4062,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "KYC Collection",
+        href: "https://jack.art/kyc/collection",
+        dateAdded: "2026-08-29",
+        kind: "gallery",
+        useFor: [
+          "kyc collection",
+          "ink hatch portraits",
+          "generative portrait gallery",
+          "download kyc art",
+          "jack butcher kyc",
+          "line art heads",
+        ],
+        description:
+          "Jack Butcher's public archive of the KYC edition: 565 collector-saved ink-hatch portraits you can search by ID and download as still, spin, rotate or banner. Each work ships its seed and full GNM configuration (170 identity and 383 expression coefficients, 12,466 mesh vertices) so the image is reproducible. Distinct from the /kyc/create generator already on the wall. This page is the finished set, posted for download in August 2026. Ethereum collection, OpenSea slug kyc-vv.",
+      },
+      {
         title: "Kitbitz",
         href: "https://kitbitz.art/",
         dateAdded: "2026-08-19",
@@ -5152,6 +5186,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design essays and culture",
     links: [
       {
+        title: "visualrambling.space",
+        href: "https://visualrambling.space/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["webgl", "three"],
+        useFor: [
+          "visual essay",
+          "explain with animation",
+          "dithering explainer",
+          "neural network visual",
+          "creative coding sketches",
+          "visual rambling",
+        ],
+        description:
+          "Damar Pramudita's site of visual essays and short WebGL sketches, useful when you want a teaching technique rather than a component. Seven numbered sketches as of the fetch: paragraph layout transition, Penrose stairs, moving cubes, Truchet grid, scattered letters, cube trail, and scattered points with depth of field. Longer stories include Dithering parts 1 and 2 (Oct 2025 and Jan 2026), moving objects in 3D (Aug 2025), a visual neural-network explainer (Jul 2025), plus older pieces on K-pop, La La Land and Nolan rankings. Open for commission. X is damarberlari.",
+      },
+      {
         title: "Designers and Machines",
         href: "https://www.designers-machines.com/",
         dateAdded: "2026-08-05",
@@ -5472,6 +5523,56 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "ThreeUI",
+        href: "https://threeui.com/browse",
+        dateAdded: "2026-08-29",
+        kind: ["library", "directory"],
+        stack: ["three", "webgl", "react", "shaders"],
+        useFor: [
+          "three.js components",
+          "webgl hero section",
+          "copy paste three.js",
+          "shader buttons",
+          "3d landing template",
+          "interactive shaders",
+        ],
+        description:
+          "Catalog of copy-ready Three.js components, landing templates and interactive shaders by Meng To / Design+Code, browsed live at /browse. Community edition is login-free: 50 parent components, 111 routes, 164 browse results (141 free variants plus 23 singletons), MIT application and community source. npm package is @designcodeio/threeui. Named families on the grid include Sylva, Sketchbook, Kage, Predictive Arc, Structure Flow, Landscape (noon through snow), Shader Buttons and Liquid Metal Button, with Pro and Beta variants gated. GitHub MengTo/threeui, about 4.4k stars.",
+      },
+      {
+        title: "Ink on paper (vgpu)",
+        href: "https://immense-jaguar-8615.edgespark.app/api/public/s/vgpu-ink/",
+        dateAdded: "2026-08-29",
+        kind: "demo",
+        stack: ["webgpu", "vgpu", "shaders"],
+        useFor: [
+          "vgpu demo",
+          "webgpu ink",
+          "fluid paint shader",
+          "drag to paint",
+          "headless webgpu render",
+        ],
+        description:
+          "Public EdgeSpark demo of a fluid ink solver running on vgpu: hold and drag, each stroke a different pigment, reset to start over. Title on the page is Ink on paper. Browsers without WebGPU get a headless Node render of the same shader as video. Chrome or Edge 113+ and Safari 26 can paint live. Use it as a working vgpu example, not as the library docs.",
+      },
+      {
+        title: "vgpu",
+        href: "https://vgpu.sh/",
+        dateAdded: "2026-08-29",
+        kind: "library",
+        stack: ["webgpu", "typescript", "wgsl", "mcp", "cli"],
+        useFor: [
+          "webgpu library",
+          "typed wgsl imports",
+          "headless webgpu",
+          "shader for agents",
+          "npx vgpu",
+          "gpu in ci",
+        ],
+        description:
+          "TypeScript WebGPU library from Vercel Labs, aimed at agents as much as humans: one Gpu handle, typed .wgsl imports, the same shader in a browser canvas, headless Node (Dawn) and a mock adapter for CI. A complete fullscreen effect is budgeted at 25 KB gzipped, enforced in CI. Install with pnpm add vgpu, browse examples with npx vgpu examples, or point an agent at the hosted MCP on /api/mcp plus llms.txt. MIT, vercel-labs/vgpu, published on npm.",
+      },
       {
         title: "Infinite Liquid Glass",
         href: "https://infinite-liquid-glass.shader.se/?v=2",
@@ -6243,6 +6344,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "LLMs and AI engineering",
     links: [
       {
+        title: "Training AI to Paint with Code",
+        href: "https://surya.website/rling-qwen-to-paint-with-code",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        stack: ["llm", "rl", "p5"],
+        useFor: [
+          "rl for design",
+          "paint with code",
+          "reward function for aesthetics",
+          "pairwise judge rl",
+          "p5.brush generation",
+          "gepa prompt evolution",
+        ],
+        description:
+          "Surya Narreddi's March 2026 write-up of training a language model with Cameron Franz and Alex Wang to draw by emitting editable p5.brush JavaScript, then scoring the PNG. The loop is prompt, model writes a sketch, Puppeteer renders, a judge compares against a hand-rated pool, GRPO updates. A nine-signal rubric plateaued at about 0.65 reward with clip-art flowers. Collapsing to a compile gate, a length check, HPSv3 at 0.30 and pairwise judgment against 117 love-tier images at 0.60 climbed past that and cut verbose code from 13,500 tokens to under 2,000. Reference pool is 581 model paintings from 1,664 generations. GEPA prompt evolution threw out a 400-line API dump for an eight-method allowlist. Thesis video on Vimeo. Technical report promised June 2026. Not a product you install.",
+      },
+      {
         title: "local.ai",
         href: "https://local.ai/",
         dateAdded: "2026-08-05",
@@ -6507,6 +6625,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Is Agentic",
+        href: "https://is-agentic.com/",
+        dateAdded: "2026-08-29",
+        kind: "tool",
+        stack: ["mcp", "cli", "agents"],
+        useFor: [
+          "agent readiness score",
+          "is my site agentic",
+          "score a website for agents",
+          "llms.txt check",
+          "mcp readiness",
+          "agent crawler report",
+          "npx is-agentic",
+        ],
+        description:
+          "Free scanner that scores how ready a public website is for AI agents, then lists evidence and recommended fixes. Built by Ora and launched with Vercel in August 2026. Paste a URL in the browser or run `npx is-agentic <domain>` (`--json` for the structured report). Essential checks cover server-rendered HTML, HTTP behaviour and document structure; recommended checks only fire when the scan finds an API, OAuth, GraphQL, MCP, docs portal or commerce surface, so a brochure site is not docked for missing those. Reports stay at a stable URL, render in the first HTML response, and are also available as Markdown, a versioned JSON API, OpenAPI, and a read-only MCP tool. Pricing page says free.",
+      },
       {
         title: "Atat (@@)",
         href: "https://atatapp.com/",
@@ -8041,6 +8177,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Distributed systems and computer science",
     links: [
       {
+        title: "All Things Distributed",
+        href: "https://www.allthingsdistributed.com/",
+        dateAdded: "2026-08-29",
+        kind: "essay",
+        useFor: [
+          "werner vogels blog",
+          "distributed systems essays",
+          "aws architecture writing",
+          "scalable systems",
+          "frugal architect",
+          "lambda origin story",
+        ],
+        description:
+          "Werner Vogels' long-running blog on building scalable distributed systems, the index rather than a single post. Featured pieces include the PR/FAQ that launched AWS Lambda, The Frugal Architect, and the Now Go Build episodes. Recent 2026 posts cover DuckDB and the changing physics of analytics (26 Aug), scalable control planes (4 Aug), S3 Files, Lambda's network, and Aurora DSQL. Use this when you want the feed. The April 2021 S3 strong-consistency write-up is already a separate entry.",
+      },
+      {
         title: "Git at any scale",
         href: "https://cursor.com/blog/git-at-any-scale",
         dateAdded: "2026-08-19",
@@ -8444,6 +8596,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Tooey",
+        href: "https://tooey.design",
+        dateAdded: "2026-08-29",
+        kind: "tool",
+        style: "terminal",
+        useFor: [
+          "tui design tool",
+          "design in the terminal",
+          "terminal ui editor",
+          "glyph borders",
+          "tui flex layout",
+          "multiplayer tui",
+        ],
+        description:
+          "Browser design tool for terminal UIs by Aarav Sareen, who does design engineering at OpenCode. You lay out on the terminal grid with glyph-based borders that join, flex layouts and multiplayer. A components library is marked soon. Open the app at /files. Not the argparse TUI of the same name. Announced August 2026.",
+      },
       {
         title: "Satori",
         href: "https://github.com/vercel/satori",
