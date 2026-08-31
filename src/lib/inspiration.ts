@@ -5618,6 +5618,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Fayaaa",
+        href: "https://github.com/Xblueprintlab/fayaaa",
+        dateAdded: "2026-08-31",
+        kind: "tool",
+        stack: ["webgpu", "wgsl", "typescript", "vite", "shaders"],
+        useFor: [
+          "fire shader",
+          "burning effect",
+          "image to fire",
+          "text on fire",
+          "webgpu playground",
+          "wgsl fire",
+          "jump flooding",
+          "signed distance field",
+        ],
+        description:
+          "Shape-aware WebGPU playground that turns an uploaded image, typed text, or a sample mark into animated fire, MIT from the Blueprint Lab org and running at blueprintlab.work/fayaaa/. Two treatments: burn through makes the subject itself the fire material, burn around keeps the image core visible and sends flame along its boundary. The pipeline is mask inference, anti-aliased jump flooding, a signed distance field, then the WGSL material in src/shaders/fayaaa.wgsl, sampled inside WebGPU so output stays one coherent render instead of stacked DOM layers. Controls cover direction, intensity, spread, inside glow, sharpness and motion, with 5 blend modes, 3 palettes, PNG export and MP4 or WebM export in 4 aspect ratios at 24, 30 or 60 FPS. Uploads never leave the browser. TypeScript and Vite, GPU-backed test and check scripts alongside the plain ones, about 6 stars and only 2 commits as of August 2026.",
+      },
+      {
         title: "ThreeUI",
         href: "https://threeui.com/browse",
         dateAdded: "2026-08-29",
