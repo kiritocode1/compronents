@@ -2829,6 +2829,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Saaspo",
+        href: "https://saaspo.com/",
+        dateAdded: "2026-08-31",
+        kind: "gallery",
+        useFor: [
+          "saas website examples",
+          "saas landing page",
+          "landing page examples",
+          "pricing page examples",
+          "pricing section examples",
+          "saas marketing site",
+          "hero section examples",
+          "about page examples",
+          "feature section design",
+        ],
+        description:
+          "Gallery of SaaS marketing sites indexed on two axes, whole pages and individual sections, so you can study a complete pricing page or just the pricing band lifted out of hundreds of them. Page types run landing, pricing, product and about; section types cover pricing, features, integrations and heroes, alongside OG image and asset collections. The pricing libraries show the split: 496 full pricing pages against 62 pricing sections. Free with no paid tier, built by its founder as a first no-code project and grown from around 300 pages to over 1,400, with new sites hand-picked almost daily from X, Product Hunt, BetaList and reader submissions, plus a weekly newsletter and affiliate links on some outbound clicks.",
+      },
+      {
         title: "Tools I keep coming back to",
         href: "https://www.rachelhow.com/tools",
         dateAdded: "2026-08-29",
@@ -9562,6 +9581,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Productivity and business tools",
     links: [
       {
+        title: "Rho",
+        href: "https://www.rho.co/",
+        dateAdded: "2026-08-31",
+        kind: "tool",
+        stack: ["fintech", "banking"],
+        useFor: [
+          "startup business banking",
+          "business checking account",
+          "corporate cards",
+          "startup treasury",
+          "incorporate a startup",
+          "delaware c corp",
+          "bill pay and invoicing",
+          "expense management",
+        ],
+        description:
+          "Business banking platform aimed at startups, putting checking, savings, treasury, corporate cards, bill pay and invoicing behind one account, with Delaware C-Corp incorporation filed in about 24 hours. Run by Under Technologies, Inc. DBA Rho Technologies from 100 Crosby Street, New York, and explicit throughout that Rho is a fintech company, not a bank: checking and cards sit with Webster Bank, a division of Santander, savings spreads across American Deposit Management partner banks for up to $75M in FDIC coverage, treasury runs through RBB Treasury LLC, an SEC-registered subsidiary custodied at Apex Clearing and Interactive Brokers, and international payments go through Wise. The fee table is $0 across same-day ACH, wires, checks, subscription, per-user seats and minimum balance, with 1% on foreign currency transfers, an optional $15 SWIFT fee, and treasury management from 0.15% on deposits of $20M or more up to 0.6% below $2M. As of August 2026 the site advertised up to 4.59% on idle cash (4.57% net yield in the product card, the two figures disagree on the page) and up to 2% cashback on Rho Platinum.",
+      },
+      {
         title: "resurface.blog",
         href: "https://resurface.blog/",
         dateAdded: "2026-08-18",
@@ -9903,6 +9941,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Marketing and growth tools",
     links: [
+      {
+        title: "swiped.",
+        href: "https://swiped.design/",
+        dateAdded: "2026-08-31",
+        kind: "gallery",
+        useFor: [
+          "design content swipe file",
+          "linkedin post examples",
+          "x post examples",
+          "content for designers",
+          "grow a design audience",
+          "social post inspiration",
+          "what designers post",
+        ],
+        description:
+          "Weekly swipe file of design-world content that performed well on X and LinkedIn, aimed at designers writing their own posts rather than at visual reference. Entries are hand-picked, best performers only, and split into This week, Last week and an Archive, with a source filter for All, X or LinkedIn and command-K search. Each item carries Copy prompt next to Open original post, so the structure of a post can go straight into your own draft, and arrow keys, Enter and Escape drive the whole wall from the keyboard. Made by brandedwords.studio; no item counts, pricing, submission form or email signup appear on the page despite the weekly framing.",
+      },
       {
         title: "H1 Gallery",
         href: "https://h1gallery.com/",
