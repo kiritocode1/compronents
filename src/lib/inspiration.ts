@@ -444,6 +444,33 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "JavaScript and TypeScript",
     links: [
       {
+        title: "cizgile",
+        href: "https://github.com/productdevbook/cizgile",
+        dateAdded: "2026-09-01",
+        kind: "library",
+        stack: [
+          "typescript",
+          "slug",
+          "unicode",
+          "url",
+          "i18n",
+          "transliteration",
+          "edge",
+        ],
+        useFor: [
+          "url slug",
+          "slugify",
+          "slug from title",
+          "transliterate",
+          "turkish slug",
+          "unicode slug",
+          "clean url segment",
+          "dedupe slugs",
+        ],
+        description:
+          "Zero-dependency slug engine that turns any title into a URL segment, by productdevbook, MIT, published as cizgile. Every ASCII slug it emits is a valid RFC 3986 segment-nz-nc, so nothing needs percent-encoding and it cannot produce a bare dot, a double dot or an accidental scheme prefix. It covers 19 locales and 7 scripts (Latin, Cyrillic, Greek, Arabic, Armenian, Georgian, Dhivehi) with the non-Latin tables opt-in, so importing slugify alone ships only the Latin table: the Turkish locale renders Istanbul Sisli and Cig with its real diacritics as istanbul-sisli-ve-cig, and the German one turns Strasse spelled with an eszett into strasse where Django yields strae. Three entry points split the surface, the root for slugify, isSlug, createSlugger and truncateSlug, /transliterate for the script tables and defineLocale, and /uri for resolveUri, normalizeUri, relativize and punycode, all cross-checked against the WHATWG URL parser. ESM only, no runtime dependencies, Node 20+, Bun, Deno, browsers and edge workers, 78 stars and 26 commits.",
+      },
+      {
         title: "SnapDOM",
         href: "https://snapdom.dev/",
         dateAdded: "2026-08-29",
@@ -2828,6 +2855,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Nicefolios",
+        href: "https://nicefolios.com/",
+        dateAdded: "2026-09-01",
+        kind: "gallery",
+        useFor: [
+          "portfolio inspiration",
+          "portfolio websites",
+          "portfolio gallery",
+          "browse portfolios",
+          "portfolio directory",
+          "rebuilding my portfolio",
+        ],
+        description:
+          "Archive of portfolio websites curated by Maze Heart (@remvze), for visual reference when you are rebuilding your own site. 37 entries on the index, toggled between All, Individuals, Collectives and Random, each one dated in its URL so you can see when it was added, spanning 2025 through August 2026. Named picks include darkroom.engineering, Murmure, Anton Repponen, MONOLOG, Otherkind, Studio Almond, Garbett and Redis Agency, split between solo designers and studios. No pricing, membership or submission form on the index; sponsors listed are Interfaces, Resurf, React Bits Pro, Details and Indent.",
+      },
       {
         title: "Saaspo",
         href: "https://saaspo.com/",
@@ -6640,6 +6683,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Machine learning and deep learning",
     links: [
+      {
+        title: "Models (Kyle Jeong)",
+        href: "https://models.kylejeong.com/?lab=openai",
+        dateAdded: "2026-09-01",
+        kind: "demo",
+        useFor: [
+          "frontier model families",
+          "model architectures",
+          "compare model families",
+          "model lineage",
+          "which model came from which",
+          "model evidence board",
+        ],
+        description:
+          "Evidence board for exploring frontier model families and architectures, by Kyle Jeong, who also built the interactive H100 glossary. Nine cases, one per lab, selected through a lab query parameter, with the OpenAI case opening 26 artifacts you drag around a canvas instead of reading down a table. The spatial layout is the point: it suits tracing how a lab's line branched over time more than looking up a single model's specs.",
+      },
       {
         title: "Google Research Blog",
         href: "https://research.google/blog/",
@@ -11756,6 +11815,58 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "lieflat-charts",
+        href: "https://github.com/larashero3-dotcom/lieflat-charts",
+        dateAdded: "2026-09-01",
+        kind: "skill",
+        stack: [
+          "claude-code",
+          "codex",
+          "agents",
+          "skills",
+          "charts",
+          "svg",
+          "echarts",
+        ],
+        useFor: [
+          "chart skill",
+          "html charts",
+          "data visualization skill",
+          "turn data into charts",
+          "chart from csv",
+          "editorial chart style",
+          "svg chart templates",
+        ],
+        description:
+          "Agent skill that turns a dataset into single-file interactive HTML charts, installed with npx skills add and read by anything that takes a SKILL.md, including Claude Code and Codex. The catalog indexes 49 chart types across three registers: Lupi, hand-written SVG with hairline strokes and per-record detail built for a 30 second read; Glance, thick bars and big numbers meant to land in seconds; and Basics, familiar bar, line and donut silhouettes with countable ticks. Mono greyscale is the default fallback, with three presets (Porcelain, Palm, Wire) and 12 bilingual full-page report templates that only fire when you explicitly ask for a report. Lupi and Basics render as native SVG, while Glance, Circular, Force and two report templates pull Chart.js or ECharts from a CDN, so those need network access. Built at moxt.ai by larashero3-dotcom, PolyForm Noncommercial 1.0.0, about 2.3k stars and 41 commits.",
+      },
+      {
+        title: "video-shotcraft",
+        href: "https://vincentwei1021.github.io/video-shotcraft/library.html",
+        dateAdded: "2026-09-01",
+        kind: "skill",
+        stack: [
+          "claude-code",
+          "codex",
+          "agents",
+          "skills",
+          "remotion",
+          "video",
+          "motion",
+        ],
+        useFor: [
+          "product promo video",
+          "cinematic video skill",
+          "remotion shots",
+          "motion shot recipes",
+          "shot library",
+          "product launch video",
+          "video from code",
+        ],
+        description:
+          "Agent skill for Claude Code and Codex that makes cinematic product promo videos with Remotion, by Vincent Wei (Vincentwei1021/video-shotcraft). This page is its shot library: 155 shot cards expanding into 212 named styles, each with a motion sample you can switch between, filtered across Opening and Brand, Typography, UI Entrance, Camera, Data, Interaction, Transitions, Rhythm, Light and Emphasis, and Outro. Recipes are written as mechanics rather than moods, so card-stack springs eight cards up into a pile then fans them into a 3D arc, carousel-3d billboards eight cards on a sin/cos ring through one full revolution so nothing reads mirrored, and counter-confetti bursts 52 pieces on real gravity arcs while the number sprints. Command-K search, batch copy of selected shots, dark mode and a Chinese toggle sit on the page; license and install steps are not here, they are in the repo.",
+      },
       {
         title: "ip-as-logo",
         href: "https://github.com/s1dashu/ip-as-logo-skill/blob/main/SKILL.md",
