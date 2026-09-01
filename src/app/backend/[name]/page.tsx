@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { CodeTabs } from "@/components/site/code-tabs";
 import { CopyMarkdownButton } from "@/components/site/copy-markdown-button";
 import { EffectViz } from "@/components/site/effect-viz";
-import { RegistryFiles } from "@/components/site/registry-files";
+import { SourceGate } from "@/components/site/source-gate";
 import { StreamerVeil } from "@/components/site/streamer-veil";
 import { backendViz } from "@/lib/backend-viz";
 import {
@@ -14,7 +14,6 @@ import {
   REGISTRY_NAMESPACE,
   registryItems,
 } from "@/lib/registry";
-import { buildRegistryItem } from "@/lib/registry-server";
 import { highlight } from "@/lib/shiki";
 
 export function generateStaticParams() {
@@ -52,7 +51,6 @@ export default async function BackendItemPage({
   const item = getRegistryItem(name);
   if (!item || item.section !== "backend") notFound();
 
-  const built = await buildRegistryItem(item.name);
   const viz = backendViz[item.name];
 
   const installTabs = await Promise.all(
@@ -80,7 +78,7 @@ export default async function BackendItemPage({
           <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
             {item.title}
           </h1>
-          <CopyMarkdownButton href={`/r/${item.name}.md`} />
+          <CopyMarkdownButton name={item.name} />
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {item.description}
@@ -111,7 +109,7 @@ export default async function BackendItemPage({
       )}
 
       <Row label="Files">
-        <RegistryFiles files={built.files} />
+        <SourceGate name={item.name} />
       </Row>
 
       <Row label="Dependencies">

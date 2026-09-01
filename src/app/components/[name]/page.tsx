@@ -1,5 +1,3 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,7 +5,7 @@ import type { ReactNode } from "react";
 import { CodeTabs } from "@/components/site/code-tabs";
 import { ComponentStudioPanel } from "@/components/site/component-studio-panel";
 import { CopyMarkdownButton } from "@/components/site/copy-markdown-button";
-import { RegistryFiles } from "@/components/site/registry-files";
+import { SourceGate } from "@/components/site/source-gate";
 import { StreamerVeil } from "@/components/site/streamer-veil";
 import { getComponentMeta } from "@/lib/component-meta";
 import {
@@ -16,7 +14,6 @@ import {
   REGISTRY_NAMESPACE,
   registryItems,
 } from "@/lib/registry";
-import { buildRegistryItem } from "@/lib/registry-server";
 import { highlight } from "@/lib/shiki";
 
 export function generateStaticParams() {
@@ -55,11 +52,6 @@ export default async function ComponentPage({
   if (!item || item.section !== "components") notFound();
 
   const meta = getComponentMeta(name);
-  const built = await buildRegistryItem(name);
-
-  const demoSource = meta
-    ? await readFile(path.join(process.cwd(), meta.demoPath), "utf-8")
-    : null;
 
   const installTabs = await Promise.all(
     installCommands(item.name).map(async (pm) => ({
@@ -86,7 +78,7 @@ export default async function ComponentPage({
           <h1 className="text-3xl tracking-wide text-foreground uppercase sm:text-4xl">
             {item.title}
           </h1>
-          <CopyMarkdownButton href={`/r/${item.name}.md`} />
+          <CopyMarkdownButton name={item.name} />
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {item.description}
@@ -115,14 +107,7 @@ export default async function ComponentPage({
       </Row>
 
       <Row label="Files">
-        <RegistryFiles
-          files={built.files}
-          demo={
-            demoSource
-              ? { filename: "demo.tsx", content: demoSource }
-              : undefined
-          }
-        />
+        <SourceGate name={item.name} />
       </Row>
 
       {meta ? (

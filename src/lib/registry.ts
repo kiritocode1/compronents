@@ -40,12 +40,18 @@ export const PACKAGE_MANAGERS = [
   { id: "bun", label: "bun", exec: "bunx --bun" },
 ] as const;
 
+/**
+ * The registry is token gated, and shadcn can only attach an auth header to a
+ * namespaced registry declared in components.json. So the published command is
+ * the namespace form: the token stays in the consumer's env instead of being
+ * pasted into a copyable string. `${REGISTRY_BASE_URL}/r/<name>.json?token=`
+ * still works for one-off installs; see /docs.
+ */
 export function installCommands(name: string) {
-  const url = registryItemUrl(name);
   return PACKAGE_MANAGERS.map((pm) => ({
     id: pm.id,
     label: pm.label,
-    command: `${pm.exec} shadcn@latest add ${url}`,
+    command: `${pm.exec} shadcn@latest add ${REGISTRY_NAMESPACE}/${name}`,
   }));
 }
 

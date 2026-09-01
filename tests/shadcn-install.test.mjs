@@ -13,6 +13,9 @@
 //                        http://localhost:3000..3002)
 //   REGISTRY_TEST_ONLY   comma-separated item names to install (default: all)
 //   REGISTRY_TEST_LIMIT  install only the first N items (quick smoke run)
+//   REGISTRY_TEST_TOKEN  registry token, minted at mint-me.aryank.space. The
+//                        registry is gated, so without this every request is
+//                        401 and the suite fails rather than skipping.
 
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -22,13 +25,31 @@ import path from "node:path";
 import { after, test } from "node:test";
 import { readFile, registryItems } from "./registry-data.mjs";
 
+const TOKEN = process.env.REGISTRY_TEST_TOKEN?.trim();
+
+/**
+ * shadcn cannot attach a header to a plain-URL install, so the token rides as
+ * a query parameter here, exactly as a real consumer would have to do it.
+ */
+function authed(url) {
+  if (!TOKEN) return url;
+  const next = new URL(url);
+  next.searchParams.set("token", TOKEN);
+  return next.toString();
+}
+
 async function probeServer() {
-  if (process.env.REGISTRY_TEST_URL) return process.env.REGISTRY_TEST_URL;
-  for (const port of [3000, 3001, 3002]) {
-    const url = `http://localhost:${port}`;
+  const candidates = process.env.REGISTRY_TEST_URL
+    ? [process.env.REGISTRY_TEST_URL]
+    : [3000, 3001, 3002].map((port) => `http://localhost:${port}`);
+
+  for (const url of candidates) {
     try {
-      const res = await fetch(`${url}/r/registry.json`);
-      if (res.ok) return url;
+      const res = await fetch(authed(`${url}/r/registry.json`));
+      if (res.ok) return { url, ok: true };
+      // Something IS serving here, it just refused us. Reporting that as
+      // "no server" is what used to turn a 401 into a silent green skip.
+      return { url, ok: false, status: res.status };
     } catch {
       // not listening; try next
     }
@@ -36,14 +57,26 @@ async function probeServer() {
   return null;
 }
 
-const baseUrl = await probeServer();
+const probe = await probeServer();
+const baseUrl = probe?.url;
 
-if (!baseUrl) {
+if (!probe) {
   test(
     "shadcn install (skipped: no registry server)",
     { skip: true },
     () => {},
   );
+} else if (!probe.ok) {
+  // Deliberately a failure, never a skip: an unauthorised registry means this
+  // suite covers nothing, and that must not look like passing.
+  test("shadcn install: registry refused the test credentials", () => {
+    assert.fail(
+      `${probe.url}/r/registry.json responded ${probe.status}. ` +
+        (TOKEN
+          ? "REGISTRY_TEST_TOKEN was sent and rejected. Mint a fresh token at mint-me.aryank.space."
+          : "The registry is token gated. Set REGISTRY_TEST_TOKEN to a live token."),
+    );
+  });
 } else {
   const only = process.env.REGISTRY_TEST_ONLY?.split(",").map((s) => s.trim());
   const limit = process.env.REGISTRY_TEST_LIMIT
@@ -110,7 +143,7 @@ if (!baseUrl) {
 
   for (const item of items) {
     test(`${item.name}: real shadcn add`, { timeout: 180_000 }, () => {
-      const url = `${baseUrl}/r/${item.name}.json`;
+      const url = authed(`${baseUrl}/r/${item.name}.json`);
       // A non-zero exit throws and fails the test — this is the CLI's own
       // "copies cleanly" assertion (valid JSON, resolvable deps, files written).
       execFileSync(
@@ -143,7 +176,7 @@ if (!baseUrl) {
   // byte, for every item. Cheap (no CLI), so it runs for all of them.
   for (const item of items) {
     test(`${item.name}: served JSON is 1:1 with disk`, async () => {
-      const res = await fetch(`${baseUrl}/r/${item.name}.json`);
+      const res = await fetch(authed(`${baseUrl}/r/${item.name}.json`));
       assert.ok(res.ok, `${item.name}: /r/${item.name}.json -> ${res.status}`);
       const json = await res.json();
       // Route inlines files in item order; json.files[i].content is the disk

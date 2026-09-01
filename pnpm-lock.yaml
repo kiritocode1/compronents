@@ -17,6 +17,9 @@ importers:
       '@gsap/react':
         specifier: ^2.1.2
         version: 2.1.2(gsap@3.15.0)(react@19.2.4)
+      '@neondatabase/serverless':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@types/matter-js':
         specifier: ^0.20.2
         version: 0.20.2
@@ -28,7 +31,7 @@ importers:
         version: 0.1.0(react@19.2.4)
       alchemy:
         specifier: 0.93.12
-        version: 0.93.12(workerd@1.20260804.1)
+        version: 0.93.12(@neondatabase/serverless@1.1.0)(workerd@1.20260804.1)
       calligraph:
         specifier: ^1.4.1
         version: 1.4.1(motion@12.43.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1147,6 +1150,10 @@ packages:
 
   '@mux/playback-core@0.35.2':
     resolution: {integrity: sha512-AsMV0LMwJm9T1ig6BBYSddeMlkzz+2RGcd6dkOgYk+L5Hx477ovbTxJZJ/vTW+rZjNWHcG3BvgNbSLgiubyZhw==}
+
+  '@neondatabase/serverless@1.1.0':
+    resolution: {integrity: sha512-r3ZZhRjEcfEdKIZnoB1RusNgvHuaBRqfCzV4Gi+5A9yUX0S4HTws/ASWqt13wL4y4I+0rqsWGdA2w7EQXHi3+Q==}
+    engines: {node: '>=19.0.0'}
 
   '@next/env@16.2.9':
     resolution: {integrity: sha512-ki5VxxXfzD/9TDe13wyeTKIjQTAwBVpnr8KhRDUr8ltMUq1/NBpWNT5tiPoxiGl+PHM4X2ahSOiPk6iAimIzPg==}
@@ -4518,6 +4525,8 @@ snapshots:
       hls.js: 1.6.18
       mux-embed: 5.18.1
 
+  '@neondatabase/serverless@1.1.0': {}
+
   '@next/env@16.2.9': {}
 
   '@next/swc-darwin-arm64@16.2.9':
@@ -5661,7 +5670,7 @@ snapshots:
     optionalDependencies:
       react: 19.2.4
 
-  alchemy@0.93.12(workerd@1.20260804.1):
+  alchemy@0.93.12(@neondatabase/serverless@1.1.0)(workerd@1.20260804.1):
     dependencies:
       '@aws-sdk/credential-providers': 3.1108.0
       '@cloudflare/unenv-preset': 2.7.7(unenv@2.0.0-rc.21)(workerd@1.20260804.1)
@@ -5671,7 +5680,7 @@ snapshots:
       '@smithy/node-config-provider': 4.6.0
       '@smithy/types': 4.17.0
       aws4fetch: 1.0.20
-      drizzle-orm: 0.45.2(@cloudflare/workers-types@5.20260715.1)
+      drizzle-orm: 0.45.2(@cloudflare/workers-types@5.20260715.1)(@neondatabase/serverless@1.1.0)
       env-paths: 3.0.0
       esbuild: 0.25.12
       execa: 9.6.1
@@ -5892,9 +5901,10 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
-  drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260715.1):
+  drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260715.1)(@neondatabase/serverless@1.1.0):
     optionalDependencies:
       '@cloudflare/workers-types': 5.20260715.1
+      '@neondatabase/serverless': 1.1.0
 
   eastasianwidth@0.2.0: {}
 

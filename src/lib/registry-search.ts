@@ -15,12 +15,11 @@ import Fuse from "fuse.js";
 import {
   getRegistryItemsBySection,
   type LibrarySectionId,
+  REGISTRY_BASE_URL,
+  REGISTRY_NAMESPACE,
   type RegistryItem,
-  registryItemUrl,
 } from "./registry.ts";
 import { matchesDateRange, parseTimeQuery } from "./search-time.ts";
-
-const REGISTRY_BASE = "https://ui.aryank.space";
 
 export interface RegistryHit {
   id: string;
@@ -283,8 +282,8 @@ function toHit(item: RegistryItem, score: number): RegistryHit {
     description: item.description,
     section: item.section,
     category: item.category,
-    pageUrl: `${REGISTRY_BASE}/${item.section}/${item.name}`,
-    install: `npx shadcn@latest add ${registryItemUrl(item.name)}`,
+    pageUrl: `${REGISTRY_BASE_URL}/${item.section}/${item.name}`,
+    install: `npx shadcn@latest add ${REGISTRY_NAMESPACE}/${item.name}`,
     score: Number(score.toFixed(3)),
   };
 }

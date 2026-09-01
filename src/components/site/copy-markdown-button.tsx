@@ -1,11 +1,12 @@
 "use client";
 
 import { useSound } from "@web-kits/audio/react";
-import { Check, Copy, LoaderCircle, TriangleAlert } from "lucide-react";
+import { Check, Copy, LoaderCircle, Lock, TriangleAlert } from "lucide-react";
 import { type SVGProps, useEffect, useRef, useState } from "react";
 import { uiCopy } from "@/lib/sounds";
+import { loadHandoff } from "@/lib/source-access";
 
-type CopyState = "idle" | "loading" | "copied" | "error";
+type CopyState = "idle" | "loading" | "copied" | "error" | "locked";
 
 export function VscodeIconsFileTypeLightMdx(props: SVGProps<SVGSVGElement>) {
   return (
@@ -54,7 +55,7 @@ async function writeToClipboard(value: string) {
   }
 }
 
-export function CopyMarkdownButton({ href }: { href: string }) {
+export function CopyMarkdownButton({ name }: { name: string }) {
   const [state, setState] = useState<CopyState>("idle");
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playCopied = useSound(uiCopy);
@@ -73,13 +74,16 @@ export function CopyMarkdownButton({ href }: { href: string }) {
     setState("loading");
 
     try {
-      const response = await fetch(href, {
-        cache: "no-store",
-        headers: { Accept: "text/markdown" },
-      });
-      if (!response.ok) throw new Error("Handoff could not be generated.");
+      // Reads through a server action rather than /r/{name}.md, which is token
+      // gated. The action re-checks the session, so this is not a way around it.
+      const markdown = await loadHandoff(name);
+      if (markdown === null) {
+        setState("locked");
+        resetTimer.current = setTimeout(() => setState("idle"), 2200);
+        return;
+      }
 
-      await writeToClipboard(await response.text());
+      await writeToClipboard(markdown);
       playCopied();
       setState("copied");
     } catch {
@@ -94,6 +98,7 @@ export function CopyMarkdownButton({ href }: { href: string }) {
     loading: { label: "Building handoff", detail: "Reading latest source" },
     copied: { label: "Agent brief copied", detail: "Ready to paste" },
     error: { label: "Copy failed", detail: "Try again" },
+    locked: { label: "Source is locked", detail: "Unlock with a token below" },
   }[state];
 
   const StatusIcon = {
@@ -101,6 +106,7 @@ export function CopyMarkdownButton({ href }: { href: string }) {
     loading: LoaderCircle,
     copied: Check,
     error: TriangleAlert,
+    locked: Lock,
   }[state];
 
   return (

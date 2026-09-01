@@ -17,12 +17,15 @@ export const metadata: Metadata = {
 };
 
 const first = registryItems[0]?.name ?? "button";
-const URL_CMD = `npx shadcn@latest add ${registryItemUrl(first)}`;
+const URL_CMD = `npx shadcn@latest add "${registryItemUrl(first)}?token=$BLANK_REGISTRY_TOKEN"`;
 const NAMESPACE_CMD = `npx shadcn@latest registry add ${REGISTRY_NAMESPACE}=${REGISTRY_BASE_URL}/r/{name}.json`;
 const ADD_CMD = `npx shadcn@latest add ${REGISTRY_NAMESPACE}/${first}`;
 const COMPONENTS_JSON = `{
   "registries": {
-    "${REGISTRY_NAMESPACE}": "${REGISTRY_BASE_URL}/r/{name}.json"
+    "${REGISTRY_NAMESPACE}": {
+      "url": "${REGISTRY_BASE_URL}/r/{name}.json",
+      "headers": { "Authorization": "Bearer \${BLANK_REGISTRY_TOKEN}" }
+    }
   }
 }`;
 
@@ -52,20 +55,30 @@ export default async function DocsPage() {
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {REGISTRY_NAME} is a shadcn-compatible registry. Items are served as
           JSON over HTTP and installed straight into a project with the shadcn
-          CLI.
+          CLI. Every item is token gated, so start with a token.
         </p>
       </header>
 
-      <Row label="Direct">
+      <Row label="Token">
         <p className="text-sm text-muted-foreground">
-          Point the CLI at any item URL — no setup.
+          Mint one at{" "}
+          <a
+            href="https://mint-me.aryank.space"
+            className="text-accent-soft hover:underline"
+          >
+            mint-me.aryank.space
+          </a>
+          . It is shown once, so store it as{" "}
+          <code className="text-foreground">BLANK_REGISTRY_TOKEN</code> in your
+          environment. The same token unlocks the source on item pages here.
         </p>
-        <CodeBlock html={urlHtml} raw={URL_CMD} />
       </Row>
 
-      <Row label="Namespace">
+      <Row label="Namespaced">
         <p className="text-sm text-muted-foreground">
-          Register {REGISTRY_NAMESPACE} once, then install items by name.
+          Preferred. The token stays in your environment instead of your shell
+          history, and shadcn only sends auth headers for a registry declared in
+          components.json.
         </p>
         <CodeBlock html={nsHtml} raw={NAMESPACE_CMD} />
         <p className="text-sm text-muted-foreground">
@@ -79,6 +92,15 @@ export default async function DocsPage() {
         <CodeBlock html={addHtml} raw={ADD_CMD} />
       </Row>
 
+      <Row label="One-off URL">
+        <p className="text-sm text-muted-foreground">
+          A plain URL has nowhere to put a header, so the token rides as a query
+          parameter. Handy for a single install; it does leak the token into
+          shell history.
+        </p>
+        <CodeBlock html={urlHtml} raw={URL_CMD} />
+      </Row>
+
       <Row label="Endpoints">
         <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
           <li>
@@ -88,6 +110,12 @@ export default async function DocsPage() {
           <li>
             <code className="text-foreground">/r/{"{name}"}.json</code> — a
             single installable item
+          </li>
+          <li>
+            Both require a token, sent as{" "}
+            <code className="text-foreground">Authorization: Bearer</code>,{" "}
+            <code className="text-foreground">X-Registry-Token</code>, or{" "}
+            <code className="text-foreground">?token=</code>.
           </li>
         </ul>
         <p className="text-sm text-muted-foreground">

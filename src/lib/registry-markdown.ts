@@ -239,7 +239,7 @@ export async function buildRegistryItemMarkdown(name: string) {
     "",
     codeFence(
       install ??
-        `pnpm dlx shadcn@latest add ${REGISTRY_BASE_URL}/r/${item.name}.json`,
+        `pnpm dlx shadcn@latest add ${REGISTRY_NAMESPACE}/${item.name}`,
       "bash",
     ),
     "",

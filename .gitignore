@@ -47,3 +47,4 @@ runtime-lab/
 .claude/worktrees/
 .instagram-scrape/
 .cantor8-analysis/
+.env*.local
