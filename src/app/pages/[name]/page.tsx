@@ -94,13 +94,12 @@ export default async function PageRegistryItemPage({
           <CodeTabs tabs={installTabs} />
           <StreamerVeil>
             <p className="text-xs text-faint">
-              Installs from ui.aryank.space. To add it by hand, copy the files
-              in Usage below, or register the {REGISTRY_NAMESPACE} namespace via
-              the{" "}
+              Installs from ui.aryank.space. Needs a registry token and a
+              one-time {REGISTRY_NAMESPACE} entry in components.json. The{" "}
               <Link href="/docs" className="underline hover:text-foreground">
                 docs
-              </Link>
-              .
+              </Link>{" "}
+              walk through both.
             </p>
           </StreamerVeil>
         </div>

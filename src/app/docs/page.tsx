@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/site/code-block";
+import { StreamerVeil } from "@/components/site/streamer-veil";
 import {
   REGISTRY_BASE_URL,
   REGISTRY_NAME,
@@ -85,17 +86,19 @@ export default async function DocsPage() {
         </Step>
 
         <Step n={2}>
-          <p className="text-sm text-muted-foreground">
-            Mint a token at{" "}
-            <a
-              href="https://mint-me.aryank.space"
-              className="text-accent-soft hover:underline"
-            >
-              mint-me.aryank.space
-            </a>
-            . It is shown once and never stored in readable form, so copy it
-            before closing the page.
-          </p>
+          <StreamerVeil>
+            <p className="text-sm text-muted-foreground">
+              Mint a token at{" "}
+              <a
+                href="https://mint-me.aryank.space"
+                className="text-accent-soft hover:underline"
+              >
+                mint-me.aryank.space
+              </a>
+              . It is shown once and never stored in readable form, so copy it
+              before closing the page.
+            </p>
+          </StreamerVeil>
         </Step>
 
         <Step n={3}>

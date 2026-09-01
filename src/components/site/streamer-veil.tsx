@@ -4,12 +4,14 @@ import { type ReactNode, useEffect, useRef } from "react";
 import { hasToggled, useStreamerMode } from "@/lib/streamer-mode";
 
 /**
- * Matches the registry host with or without a scheme, so both
- * `https://ui.aryank.space/r/x.json` in a command and a bare `ui.aryank.space`
- * in prose get covered. Kept local instead of imported from `@/lib/registry`
- * so this client component doesn't pull the whole catalog into the bundle.
+ * Matches any aryank.space host with or without a scheme, so a command like
+ * `https://ui.aryank.space/r/x.json`, a bare `ui.aryank.space` in prose, and
+ * the `mint-me.aryank.space` token issuer are all covered by one pattern. Any
+ * future subdomain is covered without touching this file. Kept local instead
+ * of imported from `@/lib/registry` so this client component doesn't pull the
+ * whole catalog into the bundle.
  */
-const SECRET = /(?:https?:\/\/)?ui\.aryank\.space[^\s"'`,)<>]*/g;
+const SECRET = /(?:https?:\/\/)?(?:[a-z0-9-]+\.)*aryank\.space[^\s"'`,)<>]*/g;
 
 const SPREAD = 1.4; // scatter distance, in text line-heights
 const GRAVITY = 0.3; // downward bias of the settled cloud
