@@ -2621,6 +2621,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Honkish",
+        href: "https://benji.org/honkish",
+        dateAdded: "2026-09-02",
+        kind: "essay",
+        stack: ["mobile", "messaging", "interaction-design", "sound", "haptics"],
+        useFor: [
+          "playful app design",
+          "presence in messaging",
+          "micro-interaction case study",
+          "sound and haptics",
+          "real-time chat interface",
+          "consumer social product craft",
+          "software as toy",
+        ],
+        style: ["maximalist", "marketing-motion"],
+        description:
+          "Benji Taylor's case study on what made Honk feel 'honkish': a real-time messaging app with two chat bubbles, no send button, no chat history, and characters appearing instantly on a friend's screen. The useful mechanism is presence made tangible through motion, sound and haptics: avatar borders filled when a friend arrived, goodbye emoji bursts marked leaving, bubbles resized while typing, split-screen typing made both people visible, dashed avatars showed partial attention, and double-tap reactions landed exactly where the tap happened with shared haptic feedback. It is also a strong reference for playful product details, including a trash can that filled while typing, emoji battles powered by a small physics engine, Magic Words that triggered personal emoji bursts, slot-machine friend discovery, expressive rating sliders, custom typefaces, and custom sounds matched to interaction timing. Use it when designing consumer UI that should feel alive, social and toy-like without treating delight as decoration.",
+      },
+      {
         title: "Learn UI",
         href: "https://learn-ui.com/",
         dateAdded: "2026-09-02",
@@ -3555,6 +3574,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Yuriy Starikov",
+        href: "https://yuriystarikov.com/",
+        dateAdded: "2026-09-02",
+        kind: "portfolio",
+        stack: ["brand", "digital", "3d", "motion"],
+        useFor: [
+          "brand designer portfolio",
+          "selected works portfolio",
+          "horizontal project index",
+          "designer showreel",
+          "brand and digital portfolio",
+          "breadcrumb project navigation",
+        ],
+        description:
+          "Portfolio of Yuriy Starikov, a London-based designer working across brand and digital, with selected work spanning 2010 to 2026. The site is useful as a reference for senior designer positioning: the intro names the practice plainly, then the CV and client lists back it with Coinbase, Nike, Metalab, Playlist Studio, Further, Studio Gruhl, R/GA, Huge, AKQA, B-Reel, 72andSunny and Iris Worldwide. The interaction model is the part to study: a showreel pill expands into full-screen video, projects can be read as scroll cards, a compact table index, or an image grid, and the breadcrumb strip keeps recently passed work visible while the page moves. Good for portfolios that need to feel editorial and current without hiding the work behind a puzzle.",
+      },
+      {
         title: "Bruno Simon",
         href: "https://bruno-simon.com",
         dateAdded: "2026-08-21",
@@ -3989,6 +4025,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Color, gradients and palettes",
     links: [
+      {
+        title: "Grainient",
+        href: "https://grainient.supply/",
+        dateAdded: "2026-09-02",
+        kind: ["asset", "tool"],
+        stack: ["gradients", "textures", "motion", "shader"],
+        useFor: [
+          "grainy gradients",
+          "animated gradients",
+          "gradient background assets",
+          "ai generated backgrounds",
+          "shader powered backgrounds",
+          "textured gradient assets",
+        ],
+        style: ["marketing-motion", "maximalist"],
+        description:
+          "Gradient asset library by Basit A. Khan with 1000+ gradients, animated gradient videos, grainy textures and AI-generated backgrounds. The catalog is split into smooth blends, textured gradients, AI-generated backgrounds, freebies and animated gradient videos, with product pages exposing file type, file size, views and downloads. Paid access is positioned as a lifetime license rather than a subscription, with 4K to 12K downloads and commercial rights. Useful when a page needs rich background material fast, especially grainy hero surfaces, abstract launch graphics, and motion backplates that should read more designed than a two-stop CSS gradient.",
+      },
       {
         title: "GRADIENTOOL",
         href: "https://gradientool.com",
@@ -5474,6 +5528,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Animation and motion",
     links: [
+      {
+        title: "Scritto",
+        href: "https://scrit.to/",
+        dateAdded: "2026-09-02",
+        kind: "library",
+        stack: ["react", "vue", "svelte", "solid", "typescript"],
+        useFor: [
+          "animate changing text",
+          "rolling character animation",
+          "morphing text",
+          "framework agnostic text animation",
+          "animated copy updates",
+          "character diff animation",
+        ],
+        description:
+          "Framework-agnostic text animation library that animates text in place: when a value changes, only the changed characters move, each rolling from the old character to the new one rather than cross-fading the entire string. Packages cover React, Vue, Svelte and Solid plus @scritto/core for plain JavaScript, so the same interaction can travel across component stacks. The homepage makes the mechanism explicit with live install tabs for @scritto/react, @scritto/vue, @scritto/svelte, @scritto/solid and @scritto/core, plus a docs link to the JaceThings/Scritto wiki. Reach for counters, changing labels, command palettes, streaming status copy and compact dashboards where the text should update without losing spatial continuity.",
+      },
       {
         title: "Animated blur overlay",
         href: "https://expensive.toys/blog/animated-blur-overlay",
@@ -10747,6 +10818,58 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer profiles and socials",
     links: [
+      {
+        title: "Oğuz Yağız Kara on X",
+        href: "https://x.com/oguzyagizkara",
+        dateAdded: "2026-09-02",
+        kind: "portfolio",
+        stack: ["x", "design", "studio", "brand"],
+        useFor: [
+          "designers to follow",
+          "studio founder designer",
+          "lue studio",
+          "brand design inspiration",
+          "visual design feed",
+        ],
+        description:
+          "X profile of Oğuz Yağız Kara, co-founder and designer at Lue Studio. Save as a social follow for brand, interface and studio-design references rather than a static resource page: the profile is valuable when you want a current design feed from a working studio founder, especially for visual direction, launch visuals and taste calibration around contemporary brand systems.",
+      },
+      {
+        title: "Rauno Freiberg on X",
+        href: "https://x.com/raunofreiberg",
+        dateAdded: "2026-09-02",
+        kind: "portfolio",
+        stack: ["x", "vercel", "product-design", "interaction-design"],
+        useFor: [
+          "designers to follow",
+          "vercel design",
+          "product interaction craft",
+          "restrained motion",
+          "interface details",
+          "design engineering feed",
+        ],
+        style: ["minimal", "restrained-motion"],
+        description:
+          "X profile of Rauno Freiberg, designer at Vercel. Follow for product-interface craft, small interaction details, restrained motion and the design engineering taste around Vercel's tools. Best used as a live reference feed when polishing transitions, hover states, editor chrome, empty states and product surfaces that should feel quiet, fast and precise.",
+      },
+      {
+        title: "Kelly Milligan on X",
+        href: "https://x.com/kellymilligannz",
+        dateAdded: "2026-09-02",
+        kind: "portfolio",
+        stack: ["x", "creative-coding", "frontend", "generative-art"],
+        useFor: [
+          "creative coding feed",
+          "code based visual art",
+          "creative frontend inspiration",
+          "generative art",
+          "visual interaction experiments",
+          "designers to follow",
+        ],
+        style: ["maximalist", "marketing-motion"],
+        description:
+          "X profile of Kelly Milligan, a New Zealand creative frontend developer making code-based visual art. Save as a live inspiration feed for generative visuals, playful browser experiments, interactive art direction and front-end craft that treats code as the image-making medium rather than just the implementation layer.",
+      },
       {
         title: "Kalypso on Instagram",
         href: "https://www.instagram.com/kalypsodesigns/",
