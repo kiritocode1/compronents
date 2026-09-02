@@ -2621,6 +2621,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Learn UI",
+        href: "https://learn-ui.com/",
+        dateAdded: "2026-09-02",
+        kind: "course",
+        useFor: [
+          "design engineering",
+          "interactive ui book",
+          "motion guidelines",
+          "spring animation",
+          "gesture design",
+          "component craft",
+          "train design taste",
+          "explorable ui",
+        ],
+        description:
+          "Interactive book about design engineering: how interfaces are built to feel right, from motion and typography to systems, craft and taste. Chapters pair prose with operable figures, including a spring playground, swipe commitment, stacked toasts, drawers, command menus, focus-respecting modals and dark mode without the flash. The book reads from practitioners including Rauno Freiberg, Emil Kowalski, Maggie Appleton, Bartosz Ciechanowski, Kathryn Gonzalez, Jim Nielsen, Paco Coursey, Steve Ruiz, Amelia Wattenberger and Andrew Swank, with claims traced to sources and a glossary that quotes authors verbatim.",
+      },
+      {
         title: "Refero Styles",
         href: "https://styles.refero.design/",
         dateAdded: "2026-08-12",
@@ -5697,6 +5715,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "Murmur for the web",
+        href: "https://murmur.krispuckett.com/",
+        dateAdded: "2026-09-02",
+        kind: "library",
+        stack: ["webgpu", "webgl", "wgsl", "typescript", "vgpu"],
+        useFor: [
+          "ai presence orb",
+          "voice orb",
+          "thinking indicator",
+          "webgpu glass",
+          "agent status animation",
+          "shader presence",
+          "murmur web",
+        ],
+        style: "liquid-glass",
+        description:
+          "Responsive AI presence orbs for the web, useful when an agent, voice UI or token stream needs a visible state instead of a spinner. Kris Puckett ported the Murmur SwiftUI glass presences from Metal to WebGPU with WebGL2 fallback, using the same math and 18 species across six states: idle, listening, thinking, responding, success and error. Each species is designed at 120 pt, 46 pt and 18 pt sizes, supports live voice and activity signals, pointer or gyro parallax, duotone and light mode, and is MIT licensed with one runtime dependency, vgpu. The README says it is not on npm yet, so install vgpu and copy the source or build the ESM bundle.",
+      },
+      {
         title: "Fayaaa",
         href: "https://github.com/Xblueprintlab/fayaaa",
         dateAdded: "2026-08-31",
@@ -6535,6 +6572,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "LLMs and AI engineering",
     links: [
+      {
+        title: "Learn Kernels",
+        href: "https://learn-kernels.com/",
+        dateAdded: "2026-09-02",
+        kind: "course",
+        stack: ["llm", "inference", "gpu", "cuda", "triton"],
+        useFor: [
+          "gpu kernels",
+          "inference performance",
+          "llm serving",
+          "kv cache",
+          "continuous batching",
+          "triton kernels",
+          "flashattention",
+          "gpu profiling",
+        ],
+        description:
+          "Interactive book on GPU kernels and inference performance, useful when you need the vocabulary from a single kernel up through a fleet of LLM serving machines. It is ordered from one inference request down to threads, blocks, warps, matrix multiplication, tensor cores, attention, Triton, CUTLASS, profiling, continuous batching, KV cache systems, quantization, speculative decoding, distributed inference, MoE serving and current hardware. Every factual claim traces to a primary source and the reading list is grouped by GPU fundamentals, kernel optimization, programming models, inference engines, distributed inference, hardware and frontier work.",
+      },
       {
         title: "Training AI to Paint with Code",
         href: "https://surya.website/rling-qwen-to-paint-with-code",
