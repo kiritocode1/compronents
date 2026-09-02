@@ -5457,6 +5457,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Animated blur overlay",
+        href: "https://expensive.toys/blog/animated-blur-overlay",
+        dateAdded: "2026-09-02",
+        kind: "essay",
+        stack: ["css", "backdrop-filter", "houdini"],
+        useFor: [
+          "animate backdrop-filter",
+          "backdrop blur animation",
+          "modal overlay blur",
+          "blur transition",
+          "css at-property",
+          "chrome blur flicker",
+          "animate css variable",
+        ],
+        description:
+          "Walks through animating a backdrop-filter: blur() overlay, the kind that sits behind a modal, around Chrome's refusal to transition it. Chrome flickers when content under the backdrop moves or the backdrop leaves the viewport, and the filter breaks outright when you transition or animate it, so the fix is to register a custom property --overlay-blur with @property (length syntax, inherits: false, initial-value: 0px) and animate that into the blur function instead. Firefox does not support @property, so the snippet branches on @supports (-moz-appearance: none) and transitions backdrop-filter directly there. By Artur Bień, September 7 2023, with a hover-to-play demo and the full CSS to copy; open and closed states are driven by a data-state attribute, no JavaScript.",
+      },
+      {
         title: "balloons-js",
         href: "https://arturbien.github.io/balloons-js/",
         dateAdded: "2026-09-02",
