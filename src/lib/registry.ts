@@ -292,6 +292,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "plasma-tunnel-background",
+    title: "Plasma Tunnel Background",
+    description:
+      "A full-bleed WebGL2 background that ports a compact GLSL raymarch into a copy-ready React component. A single oversized triangle drives ninety-nine accumulation steps through a sine-folded tunnel, with resolution, time, speed, intensity, and pixel-ratio controls exposed as uniforms. Pure WebGL2, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-09-02",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/plasma-tunnel-background.tsx",
+        target: "components/ui/plasma-tunnel-background.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "procedural-computer-page",
     title: "Procedural Computer Page",
     description:

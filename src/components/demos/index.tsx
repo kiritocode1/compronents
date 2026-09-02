@@ -157,6 +157,7 @@ import PixelCubeAvatarDemo from "./pixel-cube-avatar";
 import PixelCubeFieldDemo from "./pixel-cube-field";
 import PixelSmearWordmarkDemo from "./pixel-smear-wordmark";
 import PixelgridStudioPageDemo from "./pixelgrid-studio-page";
+import PlasmaTunnelBackgroundDemo from "./plasma-tunnel-background";
 import PoliteChaosPageDemo from "./polite-chaos-page";
 import PortfolioPageDemo from "./portfolio-page";
 import PreloaderPanelRevealDemo from "./preloader-panel-reveal";
@@ -390,6 +391,7 @@ export const demos: Record<string, ComponentType> = {
   "lemon-bureau-page": LemonBureauPageDemo,
   "pixelgrid-studio-page": PixelgridStudioPageDemo,
   "polite-chaos-page": PoliteChaosPageDemo,
+  "plasma-tunnel-background": PlasmaTunnelBackgroundDemo,
   "procedural-computer-page": ProceduralComputerPageDemo,
   "starfield-warp-scroll": StarfieldWarpScrollDemo,
   "physics-tag-footer": PhysicsTagFooterDemo,

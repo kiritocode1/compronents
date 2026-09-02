@@ -4079,6 +4079,78 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "plasma-tunnel-background": {
+    demoPath: "src/components/demos/plasma-tunnel-background.tsx",
+    assets: [],
+    nuance: [
+      {
+        label: "One triangle feeds the whole field",
+        description:
+          "The canvas draws a single oversized triangle and lets the fragment shader decide every pixel. That keeps the component useful as a background because no mesh, texture, or scene graph has to be kept in sync with the page.",
+      },
+      {
+        label: "The tunnel advances by accumulated distance",
+        description:
+          "Each frame runs ninety-nine ray steps. The inner five-fold sine warp perturbs the sample point, then the distance estimate advances z, so the brighter plasma forms from repeated near misses instead of a flat noise layer.",
+      },
+      {
+        label: "Resolution is a uniform, not a CSS guess",
+        description:
+          "A ResizeObserver writes the real drawing-buffer size into u_resolution. The shader sees device pixels, while the React component still fills any CSS-sized container.",
+      },
+      {
+        label: "Pixel ratio is capped for background use",
+        description:
+          "The default pixelRatio is 1.5 because ninety-nine fragment iterations are expensive at full retina size. Consumers can raise it for hero stills or lower it behind dense content.",
+      },
+    ],
+    editable: [
+      {
+        name: "speed",
+        control: "slider",
+        description:
+          "Multiplier applied to u_time before the tunnel scrolls forward.",
+      },
+      {
+        name: "intensity",
+        control: "slider",
+        description: "Brightness multiplier before the final tanh compression.",
+      },
+      {
+        name: "pixelRatio",
+        control: "slider",
+        description:
+          "Maximum device pixel ratio used for the WebGL drawing buffer.",
+      },
+    ],
+    api: [
+      {
+        name: "className",
+        type: "string",
+        default: '"h-full w-full"',
+        description: "Classes applied to the canvas element.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        default: "1",
+        description: "Animation speed multiplier for the shader time uniform.",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        default: "1",
+        description: "Brightness multiplier for the accumulated color.",
+      },
+      {
+        name: "pixelRatio",
+        type: "number",
+        default: "1.5",
+        description:
+          "Upper bound for devicePixelRatio when sizing the drawing buffer.",
+      },
+    ],
+  },
   "procedural-computer-page": {
     demoPath: "src/components/demos/procedural-computer-page.tsx",
     assets: [],

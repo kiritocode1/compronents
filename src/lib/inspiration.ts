@@ -2625,7 +2625,13 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://benji.org/honkish",
         dateAdded: "2026-09-02",
         kind: "essay",
-        stack: ["mobile", "messaging", "interaction-design", "sound", "haptics"],
+        stack: [
+          "mobile",
+          "messaging",
+          "interaction-design",
+          "sound",
+          "haptics",
+        ],
         useFor: [
           "playful app design",
           "presence in messaging",
@@ -5786,6 +5792,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "FragCoord.xyz",
+        href: "https://fragcoord.xyz/",
+        dateAdded: "2026-09-02",
+        kind: ["tool", "gallery"],
+        stack: ["webgl", "glsl", "shaders", "editor"],
+        useFor: [
+          "glsl shader editor",
+          "fragment shader playground",
+          "shader debugging",
+          "shader sharing",
+          "webgl background",
+          "fragcoord",
+          "creative coding",
+        ],
+        description:
+          "Shader editor for writing, debugging, sharing, and browsing fragment shader work. The landing HTML describes it as a shader editor, links a manifest for app-style use, and redirects first-time visitors into /explore, while the app preloads a Gallery bundle for the browse surface. Use it as a practical GLSL reference and playground when a background, procedural texture, or fragment effect needs real shader examples rather than a static screenshot.",
+      },
+      {
         title: "Murmur for the web",
         href: "https://murmur.krispuckett.com/",
         dateAdded: "2026-09-02",
@@ -6997,6 +7021,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Teaching the Framer Agent to Design in 3D",
+        href: "https://www.framer.com/blog/teaching-the-framer-agent-to-design-in-3d/",
+        dateAdded: "2026-09-02",
+        kind: "essay",
+        stack: ["framer", "ai", "agents", "3d", "design-tools"],
+        useFor: [
+          "ai design agent",
+          "editable agent output",
+          "3d transforms",
+          "framer agent",
+          "agent assisted design",
+          "canvas based design tools",
+          "prompt to 3d animation",
+        ],
+        description:
+          "Framer product essay on giving its AI design agent access to editable 3D Transform properties: Perspective, Rotate X/Y/Z, Depth, Origin, Backface, Frames, Effects, masks, and animation. The useful mechanism is the agent-canvas loop: ask the agent for broad, multi-layer structure, then refine springs, masks, origins, angles, and optical weight directly on the canvas because the output remains ordinary editable Framer layers. The article also explains why this is harder than one CSS transform: selection outlines, handles, cursors, nesting, drawing, and effect controls have to follow projected geometry. Published September 2026 with an Open in Framer remix.",
+      },
       {
         title: "Is Agentic",
         href: "https://is-agentic.com/",
