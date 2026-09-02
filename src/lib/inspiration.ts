@@ -1273,6 +1273,26 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Rare UI",
+        href: "https://www.rareui.com/",
+        dateAdded: "2026-09-02",
+        kind: "library",
+        stack: ["react", "next", "tailwind", "motion", "shadcn", "webgl"],
+        useFor: [
+          "animated react components",
+          "rare ui",
+          "shadcn animation components",
+          "motion micro interactions",
+          "webgl orb",
+          "gooey duration picker",
+          "animated otp input",
+          "physics letters",
+          "folder hover animation",
+        ],
+        description:
+          "Free, MIT-licensed registry of animated React components by Swami Malode, built with Tailwind CSS, Motion, and the shadcn CLI. Seventeen components were live in September 2026, each shipped as one owned source file with a preview, interaction notes, prop documentation, usage code, dependency list, and direct GitHub source. Standouts include a 3D folder whose cards fan on hover, a gooey duration picker with clamping and shake feedback, a reduced-motion-aware WebGL fluid orb, gravity-driven letters with phone tilt, and an OTP input with rolling characters, a sliding caret, paste support, and success or error states. Browse this for expressive components that still document behavior and accessibility rather than motion-only demos.",
+      },
+      {
         title: "GPUI Component",
         href: "https://longbridge.github.io/gpui-component/",
         dateAdded: "2026-08-29",
