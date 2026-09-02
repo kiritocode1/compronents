@@ -6394,6 +6394,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Rescript",
+        href: "https://www.getrescript.com/",
+        dateAdded: "2026-09-02",
+        kind: "tool",
+        stack: ["whisper", "webgpu", "wasm", "ffmpeg", "onnx"],
+        useFor: [
+          "transcript video editor",
+          "edit video by text",
+          "remove filler words",
+          "on device transcription",
+          "voice clone",
+          "podcast editing",
+          "cut silences",
+        ],
+        description:
+          "Video and audio editor where the transcript is the timeline: delete a word and the footage under it goes with it. Built by wassgha, it transcribes on device with Whisper through WebGPU (WASM fallback), separates speakers with pyannote-segmentation-3.0, and exports via ffmpeg.wasm to MP4, WebM, M4A, MP3, WAV, SRT, VTT and Markdown. The Regenerate feature re-synthesizes a rewritten line in the speaker's own voice, cloned from roughly ten seconds of audio already in the file, across six languages. Runs in a Chromium browser or as a macOS, Windows and Linux desktop build with no account and no upload, under PolyForm Noncommercial 1.0.0, so commercial use needs a paid license.",
+      },
+      {
         title: "Procedural Sounds",
         href: "https://procedural-sounds.vercel.app/",
         dateAdded: "2026-08-18",
@@ -7345,6 +7363,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "Orca",
+        href: "https://www.onorca.dev/",
+        dateAdded: "2026-09-02",
+        kind: "tool",
+        stack: ["electron", "git", "mcp"],
+        useFor: [
+          "parallel agents",
+          "run coding agents",
+          "git worktree agents",
+          "agent orchestrator",
+          "manage multiple agents",
+          "agent development environment",
+        ],
+        description:
+          "Agent development environment from Stably AI for running many CLI coding agents at once, each pinned to its own real git worktree so they cannot collide. Its comparison table claims 27 supported agents, among them Claude Code, Codex, Gemini, Grok, Cursor, Copilot, OpenCode, Amp, Goose and Cline, all running on your own subscriptions. The workbench pairs a GPU-rendered terminal with an embedded Chromium tab per worktree and a Monaco editor, plus an in-app diff viewer whose inline annotations go back to the agent, and GitHub and Linear integrations. Free and MIT licensed, native on macOS, Windows and Linux with iOS and Android companions, and it runs locally, over SSH, on an always-on server or a fresh cloud VM.",
+      },
       {
         title: "Closing the AI agent trust gap with graduated autonomy",
         href: "https://aws.amazon.com/blogs/architecture/closing-the-ai-agent-trust-gap-with-graduated-autonomy/",
@@ -9751,6 +9786,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Productivity and business tools",
     links: [
       {
+        title: "DynamicLake",
+        href: "https://www.dynamiclake.com/",
+        dateAdded: "2026-09-02",
+        kind: "tool",
+        stack: ["macos", "ffmpeg"],
+        useFor: [
+          "dynamic island mac",
+          "macos notch",
+          "notch utility",
+          "mac menu bar app",
+          "liquid glass macos",
+        ],
+        description:
+          "macOS utility that turns the notch area into an interactive Dynamic Island, with a smaller miniLake variant for a less intrusive version of the same thing. Named modules include DynaMusix for music controls and DynaGlance for schedule and weather, alongside drag and drop staging, AirDrop, timers, call handling, battery and calendar alerts, volume and brightness control, and audio and video conversion built on FFmpeg under LGPLv3. A Liquid Glass option restyles the island, with an external-display-only mode available. The footer credits Aviorrok; no pricing, version or macOS requirement is stated on the page, and the FAQ entries about non-notch MacBooks and supported macOS versions are listed without visible answers.",
+      },
+      {
         title: "Rho",
         href: "https://www.rho.co/",
         dateAdded: "2026-08-31",
@@ -11658,6 +11709,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Mockups, textures and patterns",
     links: [
+      {
+        title: "Book of Shapes",
+        href: "https://bookofshapes.com/",
+        dateAdded: "2026-09-02",
+        kind: "asset",
+        stack: ["svg"],
+        useFor: [
+          "svg patterns",
+          "generative patterns",
+          "background pattern",
+          "seamless pattern",
+          "customizable svg",
+          "geometric pattern library",
+          "isometric pattern",
+          "noise pattern",
+        ],
+        description:
+          "Collection of minimal, generative SVG patterns, each on its own page where you tune the parameters before taking the output. Nikolaj Sokolowski built it, and the catalogue is tagged by construction method rather than by look: grid (22), radial (18), noise (18), flow (17), isometric (13), organic (9), distortion (8) and physics (5). Individual patterns run from Flow Dots and Node Garden to Quarter Arc Truchet and Iso Cube Wireframe, sortable by recent, popular or liked, with a Collected page for saving favorites. No license or pricing appears anywhere on the site, so check before shipping one commercially.",
+      },
       {
         title: "Backgrounds Supply",
         href: "https://backgrounds.supply",
