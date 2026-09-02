@@ -90,6 +90,7 @@ import FoldingPanelMenuDemo from "./folding-panel-menu";
 import FractalGlassHoverDemo from "./fractal-glass-hover";
 import FrameScrollDemo from "./frame-scroll";
 import FrameSequenceHeroDemo from "./frame-sequence-hero";
+import FrostedPlateCarouselDemo from "./frosted-plate-carousel";
 import GarageScene3DDemo from "./garage-scene-3d";
 import GrainGradientFieldDemo from "./grain-gradient-field";
 import GrainGradientNavDemo from "./grain-gradient-nav";
@@ -415,6 +416,7 @@ export const demos: Record<string, ComponentType> = {
   "masked-spotlight-scroll": MaskedSpotlightScrollDemo,
   "deal-stack-cards-scroll": DealStackCardsScrollDemo,
   "frame-sequence-hero": FrameSequenceHeroDemo,
+  "frosted-plate-carousel": FrostedPlateCarouselDemo,
   "snap-parallax-projects": SnapParallaxProjectsDemo,
   "triangle-fill-scroll": TriangleFillScrollDemo,
   "nested-mask-banner": NestedMaskBannerDemo,

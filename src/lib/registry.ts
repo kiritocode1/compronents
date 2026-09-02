@@ -5332,6 +5332,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "frosted-plate-carousel",
+    title: "Frosted Plate Carousel",
+    description:
+      "A wrapping diagonal of thin image plates. Each plate is a 0.0175-thick box whose cover-fit UVs mix a sharp texture into a 64px blur across a 0.15 UV-edge smoothstep, which is the glass. X wraps on a single scroll number. Z is -X times the depth multiplier, so the row recedes on a diagonal at -PI/6. Wheel and drag shift that scroll number; hover slides the inner group; click eases rotation Y to 0, recenters X, dollies the camera from z=35 to 30, and hides the other plates. Escape or a second click reverses the same tweens. Three.js with GSAP.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-09-02",
+    type: "registry:ui",
+    dependencies: ["three", "gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/frosted-plate-carousel.tsx",
+        target: "components/ui/frosted-plate-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "alchemy-cloudflare-access-gateway",
     title: "Alchemy Cloudflare Access Gateway",
     description:

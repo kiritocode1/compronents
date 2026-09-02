@@ -1,0 +1,108 @@
+{
+  "source": "https://unveil.fr/",
+  "pin": "reference/unveil/node0.CvEaJ_33.js",
+  "extractedFrom": "function eg (tile), ag (scene), qm (renderer), Ym (cameras), Km (click), Zm (raycast), Jr (mouse)",
+  "mechanism": "Each tile is a thin BoxGeometry wrapping on X. Z is -X times a depth multiplier so plates recede on a diagonal. Rotation Y is locked at -PI/6 until click, which eases Y to 0, recenters X, and dollies the camera in.",
+  "renderer": {
+    "alpha": false,
+    "antialias": true,
+    "clearColor": "#fafafa",
+    "pixelRatioCap": 2
+  },
+  "camera": {
+    "fov": 5,
+    "near": 0.1,
+    "far": 1000,
+    "positionY": 13.333333333333334,
+    "positionYExpr": "100/7.5",
+    "positionZDesktop": 35,
+    "positionZPortrait": 55,
+    "clickDollyZDesktop": 30,
+    "clickDollyZNarrow": 35,
+    "narrowWidthPx": 640,
+    "lookAt": [0, 0, 0]
+  },
+  "lights": {
+    "ambient": { "color": "white", "intensity": 1.5 },
+    "directional": { "color": "white", "intensity": 1, "position": [0, 25, 50] }
+  },
+  "tile": {
+    "baseSize": 1.5,
+    "thickness": 0.0175,
+    "spacing": 0.375,
+    "rotationY": -0.5235987755982988,
+    "rotationYExpr": "-Math.PI/6",
+    "depthMultiplierDesktopExpr": "aspect * 1.5",
+    "depthMultiplierPortrait": 6,
+    "visibilityZ": 12.5,
+    "hoverHitScaleX": 1.5,
+    "aspectFitExpr": "1 - (height/width - 1) * 0.5",
+    "meshOffsetXExpr": "-(width - 1.5) / 2"
+  },
+  "shader": {
+    "coverFit": true,
+    "edgeMargin": 0.15,
+    "blurAlpha": 0.75,
+    "uSaturationDefault": 1
+  },
+  "scroll": {
+    "wheelDivisor": 20,
+    "previousLerp": 0.15,
+    "indexFromScrollDivisor": 25,
+    "dragLerp": 0.1,
+    "dragHoverDivisor": 100,
+    "dragTouchDivisor": 50,
+    "dragActiveDelayMs": 150,
+    "touchMultiplier": 20
+  },
+  "sceneScale": {
+    "idle": 1,
+    "dragOrFocus": 0.825,
+    "entryFrom": 0.825,
+    "entryTo": 1,
+    "entryDuration": 1,
+    "entryDelay": 1.25,
+    "entryEase": "expo.out",
+    "dragDuration": 0.75,
+    "dragEase": "expo.out"
+  },
+  "hover": {
+    "desktop": { "x": 0.6666666666666666, "y": -0.1, "duration": 0.5, "ease": "expo.out" },
+    "mobile": { "xOn": 0.325, "xOff": -0.325, "y": -0.1, "duration": 0.5, "ease": "expo.out" }
+  },
+  "click": {
+    "gateDelayMs": 1000,
+    "stampWindowMs": 200,
+    "innerXDuration": 0.8333333333333334,
+    "innerXDurationExpr": "1.25 / 3 * 2",
+    "innerXEase": "expo.out",
+    "rotationDuration": 1.25,
+    "rotationEase": "expo.inOut",
+    "cameraEase": "expo.inOut",
+    "cameraDuration": 1.25,
+    "hideOthers": true
+  },
+  "entry": {
+    "startOffsetX": -15,
+    "canvasInitOffsetX": -20,
+    "toX": 0,
+    "ease": "expo.inOut",
+    "duration": 1.25
+  },
+  "vignette": {
+    "background": "linear-gradient(45deg,#fafafa,#fafafa 1%,#fafafa00 25%,#fafafa00 75%,#fafafa)",
+    "opacity": 0.75,
+    "hiddenBelowMd": true
+  },
+  "page": {
+    "background": "#fafafa"
+  },
+  "title": {
+    "fontSize": "0.65625rem",
+    "lineHeight": "0.8125rem",
+    "letterSpacing": "0.015em",
+    "mixBlendMode": "exclusion",
+    "innerFilter": "saturate(0)",
+    "followLerp": 0.1
+  }
+}

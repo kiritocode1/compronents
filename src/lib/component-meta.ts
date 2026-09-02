@@ -15197,6 +15197,66 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "frosted-plate-carousel": {
+    demoPath: "src/components/demos/frosted-plate-carousel.tsx",
+    nuance: [
+      {
+        label: "The glass is an edge mix, not transmission",
+        description:
+          "Each plate samples a sharp texture and a 64px blur through the same cover-fit UV. A 0.15 UV-edge smoothstep fades the sharp sample into the blur, and the blur's alpha is 0.75. That mix is the frost. There is no MeshPhysical glass.",
+      },
+      {
+        label: "Z is slaved to X",
+        description:
+          "A single wrapped X puts every plate on a looping line. Z is -X times 1.5 times the viewport aspect on desktop, or -X times 6 on portrait, so the row recedes on a diagonal instead of orbiting a ring. Rotation Y stays at -PI/6 until a click eases it to 0.",
+      },
+      {
+        label: "Click freezes the wrap",
+        description:
+          "While a plate is focused the wrap loop stops writing positions, which is what lets the GSAP tweens own X, Z, and rotation. Other plates hide by index. Escape or a second click runs the same tweens in reverse, then the wrap loop starts again.",
+      },
+    ],
+    editable: [
+      {
+        name: "tiles",
+        control: "asset-url",
+        description: "Plate images and the title shown on hover.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Clear colour behind the plates and the corner vignette.",
+      },
+    ],
+    assets: assetsByIds(
+      Array.from(
+        { length: 12 },
+        (_, i) => `liquid-glass-carousel-img-${i + 1}`,
+      ),
+    ),
+    api: [
+      {
+        name: "tiles",
+        type: "{ src, title, slug? }[]",
+        default: "Twelve BLANK editorial stills, duplicated past 20",
+        description:
+          "Plate images and hover titles. Sets shorter than 20 are concatenated with themselves so the wrap never runs dry.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#fafafa"',
+        description: "Renderer clear colour.",
+      },
+      {
+        name: "onSelect",
+        type: "(tile) => void",
+        default: "undefined",
+        description:
+          "Fired after the click rotation completes. The original navigated to the slug; this is the hook.",
+      },
+    ],
+  },
   "wind-drift-field": {
     demoPath: "src/components/demos/wind-drift-field.tsx",
     nuance: [
