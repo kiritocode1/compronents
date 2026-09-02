@@ -5457,6 +5457,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "balloons-js",
+        href: "https://arturbien.github.io/balloons-js/",
+        dateAdded: "2026-09-02",
+        kind: "library",
+        stack: ["typescript", "svg", "web-animations-api"],
+        useFor: [
+          "balloon animation",
+          "floating balloons",
+          "celebration effect",
+          "confetti alternative",
+          "party effect",
+          "birthday animation",
+          "easter egg animation",
+        ],
+        description:
+          "Small JavaScript library that releases a burst of floating balloons across the page, for celebration moments and easter eggs where confetti would be the obvious pick. Two exports: balloons() for the default release, and textBalloons(), which takes an array of { text, fontSize, color } and floats arbitrary strings or emoji instead. Each balloon is inline SVG driven by element.animate(), tilted at a random 8 to 15 degrees and cycled through a fixed palette of five two-stop color pairs, with an 8px blur on the nearest layer so the crowd reads as having depth. MIT, version 0.0.3, no runtime dependencies, roughly 518 GitHub stars, by Artur Bień, who also built React95.",
+      },
+      {
         title: "Theatre.js sequences manual",
         href: "https://www.theatrejs.com/docs/latest/manual/sequences",
         dateAdded: "2026-08-05",
