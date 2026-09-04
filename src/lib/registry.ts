@@ -312,6 +312,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "blur-study-box",
+    title: "Blur Study Box",
+    description:
+      "Sixty-four Box3D capsule bodies move behind a frosted render pane, with depth controlling each capsule's blur radius, diffusion ramp, opacity, and dithered edge. The original ninety-six depth samples run in one instanced WebGPU draw instead of sixty-four separate meshes. Drag bodies through a spring joint, set the optical and physical model through props, and export verified square PNGs from 2,048 to 24,000 pixels through tiled GPU readback and stripe-streamed compression.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-09-04",
+    type: "registry:ui",
+    dependencies: ["box3d-wasm@0.2.0", "vgpu@0.4.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/blur-study-box/index.tsx",
+        target: "components/ui/blur-study-box/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/blur-study-box/engine.ts",
+        target: "components/ui/blur-study-box/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blur-study-box/shader.ts",
+        target: "components/ui/blur-study-box/shader.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blur-study-box/png.ts",
+        target: "components/ui/blur-study-box/png.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blur-study-box/box3d-wasm.d.ts",
+        target: "components/ui/blur-study-box/box3d-wasm.d.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "procedural-computer-page",
     title: "Procedural Computer Page",
     description:

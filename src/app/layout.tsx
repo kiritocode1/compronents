@@ -50,7 +50,12 @@ export default function RootLayout({
       lang="en"
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full`}
     >
-      <body className="min-h-full bg-background text-foreground">
+      {/* Extensions such as Grammarly stamp data-* attributes onto <body>
+          before React hydrates, which React reports as a mismatch. */}
+      <body
+        className="min-h-full bg-background text-foreground"
+        suppressHydrationWarning
+      >
         <NuqsAdapter>
           <SiteSoundProvider>
             <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-6 sm:px-10">

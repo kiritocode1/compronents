@@ -240,6 +240,7 @@ export const componentGroups: RegistryGroup[] = [
     title: "3D and WebGL scenes",
     names: [
       "plasma-tunnel-background",
+      "blur-study-box",
       "scroll-tunnel-3d",
       "corridor-scene-3d",
       "cappen-fluid-simulation",

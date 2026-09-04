@@ -1,0 +1,36 @@
+{
+  "url": "https://kellymilligan.art/live/blur-study-box/",
+  "capturedAt": "2026-09-04T15:07:13Z",
+  "title": "Frosted Pane Study 3",
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "deviceScaleFactor": 1,
+    "reducedMotion": true
+  },
+  "runtime": {
+    "renderer": "three.js r185 WebGPU",
+    "physics": "box3d-wasm 0.2.0 standard",
+    "tweakpane": "4.0.5"
+  },
+  "files": {
+    "index.html": "c095dbf7b1a3cb5af21f217079c826bea2800afe7fcaf31ea33616f032ba101c",
+    "index-Bd5woOhd.css": "c7cc6dea7be4a90989948e189228ae587b2ea61aa81f0230a900507d00a9ac7c",
+    "index-ZcimBb73.js": "6bb74c4292eebbf83c7e361620279841e1713fa6e6a4ce17e79ab53f38ec1fb7",
+    "physics-CIMFmMej.js": "a68338ae998c98528021ec4367a106d271b86bd0da0e98db0913efc98aa9385b",
+    "preload-helper-IyGHrOW_.js": "39a55bdceb17bec90fedaac3d11bf4f24f458cc71bc7f594528162291cf235de",
+    "rolldown-runtime-CbXtAM7H.js": "bbf7c5086ae414dc3f33777e3eebf16ea8631325b8bb4690d25091c03567f31a"
+  },
+  "uncommittedBinary": {
+    "url": "https://kellymilligan.art/live/blur-study-box/assets/box3d-CN5r47Cb.wasm",
+    "bytes": 520911,
+    "sha256": "5a469ad8ea3449d5f5642d541cb3d4e756fcc6ada637924542ecd6d74a52c3bc",
+    "note": "Matches box3d-wasm 0.2.0 dist/box3d.wasm byte for byte. The package supplies it, so no binary asset is committed."
+  },
+  "baseline": {
+    "resourceCount": 7,
+    "transferBytes": 468539,
+    "decodedBytes": 1601580,
+    "screenshot": "/tmp/compronents-kelly-reference/original-paused-1280x720.png"
+  }
+}

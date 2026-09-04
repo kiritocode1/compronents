@@ -10,17 +10,19 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck:registry": "tsc --noEmit -p tsconfig.check.json",
-    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/token-contract.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs tests/frosted-plate-carousel.test.mjs",
+    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/token-contract.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs tests/frosted-plate-carousel.test.mjs tests/blur-study-box.test.mjs",
     "test:install": "node --test tests/shadcn-install.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
     "@gsap/react": "^2.1.2",
     "@neondatabase/serverless": "^1.1.0",
+    "@tweakpane/core": "2.0.5",
     "@types/matter-js": "^0.20.2",
     "@vercel/blob": "^2.8.0",
     "@web-kits/audio": "^0.1.0",
     "alchemy": "0.93.12",
+    "box3d-wasm": "0.2.0",
     "calligraph": "^1.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -49,7 +51,9 @@
     "split-type": "^0.3.4",
     "tailwind-merge": "^3.6.0",
     "three": "^0.185.1",
-    "ukiyojs": "^4.2.0"
+    "tweakpane": "4.0.5",
+    "ukiyojs": "^4.2.0",
+    "vgpu": "0.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",

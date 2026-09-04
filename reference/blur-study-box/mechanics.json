@@ -1,0 +1,73 @@
+{
+  "render": {
+    "bodyCount": 64,
+    "samplesPerBody": 96,
+    "baseWidth": 0.004,
+    "bodyColorLinear": 0.008,
+    "maximumAlpha": 0.96,
+    "pixelRatioCap": 2,
+    "background": "#d9ddd6",
+    "floorColor": "#aeb6ae",
+    "floorOpacity": 0.72,
+    "floorWidth": 24,
+    "floorHeight": 0.08,
+    "floorY": -9,
+    "floorZ": 1.2
+  },
+  "camera": {
+    "positionZ": 8,
+    "near": 0.1,
+    "far": 30,
+    "baseVerticalSpan": 22,
+    "desktopPadding": 4,
+    "mobilePadding": 7,
+    "minimumHorizontalSpan": 31,
+    "mobileQuery": "(max-width: 680px), (max-height: 520px) and (pointer: coarse)"
+  },
+  "defaults": {
+    "blur": 0.45,
+    "blurCurve": 3.15,
+    "blurDistance": 1.6,
+    "paneZ": 1.2,
+    "opacityFalloff": 3.5,
+    "volumeDensity": 4.5,
+    "ditherStrength": 1,
+    "boxDepth": 5.2,
+    "rodLength": 4,
+    "rodRadius": 0.5,
+    "popStrength": 15,
+    "popTempo": 0.1,
+    "showFloor": true
+  },
+  "physics": {
+    "fixedStep": 0.016666666666666666,
+    "substeps": 4,
+    "gravity": [0, -11, 0],
+    "seed": 1327115068,
+    "floorY": -9,
+    "ceilingY": 9,
+    "halfWidth": 12,
+    "frontZ": 1.2,
+    "wallThickness": 0.5,
+    "linearDamping": 0.32,
+    "angularDamping": 0.46,
+    "sleepThreshold": 0.35,
+    "density": 0.72,
+    "friction": 0.46,
+    "restitution": 0.22,
+    "dragFrequency": 5.5,
+    "dragDampingRatio": 0.88,
+    "dragForceLimit": 420,
+    "bodyUserDataStart": 10000
+  },
+  "shader": {
+    "sampleDepthHalfExtent": "abs(axis.z) + radius + (0.004 + blur) * 3",
+    "capsuleSdf": "length(point - segment * clamp(dot(point, segment) / max(dot(segment, segment), 0.000001), 0, 1)) - radius",
+    "diffusionRamp": "pow(clamp(max(paneZ - bodyZ - sampleZ, 0) / max(blurDistance, 0.001), 0, 1), blurCurve)",
+    "gaussian": "exp(-0.5 * pow(max(sdf, 0) / (0.004 + ramp * blur), 2))",
+    "opacity": "0.96 * exp(-ramp * opacityFalloff)",
+    "absorption": "1 - exp(-(gaussian * stepDepth * volumeDensity))",
+    "sampleJitter": "sampleIndex + 0.5 + (interleavedGradientNoise(screenCoordinate + renderOffset) - 0.5) * ditherStrength",
+    "dither": "(interleavedGradientNoise(screenCoordinate + renderOffset) - 0.5) * ditherStrength / 255"
+  }
+}

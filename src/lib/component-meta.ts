@@ -751,6 +751,73 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "blur-study-box": {
+    demoPath: "src/components/demos/blur-study-box.tsx",
+    nuance: [
+      {
+        label: "Depth is the blur input",
+        description:
+          "Each proxy integrates ninety-six samples through its analytic capsule. The distance from the render pane drives diffusion radius, density, opacity falloff, and the dithered edge instead of applying a screen-space blur after rendering.",
+      },
+      {
+        label: "One instanced draw",
+        description:
+          "Box3D writes the sixty-four transforms into one instance buffer. A single WebGPU draw resolves every capsule, which keeps the source's depth integration without paying for sixty-four mesh submissions.",
+      },
+      {
+        label: "The simulation is deterministic",
+        description:
+          "Initial placement, velocity, orientation, and timed impulses use the source seed and Mulberry32 sequence. Physics advances at 1/60 second with four substeps, independent of display refresh rate.",
+      },
+      {
+        label: "Render scale is the frame-rate control",
+        description:
+          "Cost is ninety-six samples per fragment times the pixel count, so a 2x display renders four times the work for the same picture. The renderScale prop caps device pixels per CSS pixel and defaults to 1. Raise it to 2 for a pixel-exact match on a high-density screen. Exports render at their own print size either way.",
+      },
+      {
+        label: "Large exports never allocate the full image",
+        description:
+          "The export camera renders 1,024 by 256 pixel tiles. Rows are joined into one stripe, filtered, compressed through CompressionStream, and written to origin-private storage before the verified file downloads.",
+      },
+    ],
+    editable: [],
+    assets: [],
+    api: [
+      {
+        name: "settings",
+        type: "Partial<StudySettings>",
+        default: "source defaults",
+        description:
+          "Optical and physical model: blur, blurCurve, blurDistance, paneZ, opacityFalloff, volumeDensity, ditherStrength, boxDepth, rodLength, rodRadius, popStrength, popTempo, showFloor. Anything left out keeps the study's own value.",
+      },
+      {
+        name: "renderScale",
+        type: "number",
+        default: "1",
+        description:
+          "Device pixels per CSS pixel. Cost scales with its square, so 2 is four times the work of 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        default: "false",
+        description:
+          "Holds the simulation still. Reduced-motion users get this regardless.",
+      },
+      {
+        name: "ref",
+        type: "Ref<{ exportPng }>",
+        description:
+          "Imperative handle. Call exportPng(size, onProgress?) to render and download a print-size PNG.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Optional class name for sizing the study container. Give its parent an explicit height.",
+      },
+    ],
+  },
   "fluid-reveal-carousel": {
     demoPath: "src/components/demos/fluid-reveal-carousel.tsx",
     nuance: [

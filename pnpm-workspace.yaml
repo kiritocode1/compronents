@@ -1,12 +1,20 @@
 allowBuilds:
+  '@vgpu/adapter-node': false
   esbuild: true
   msgpackr-extract: true
   sharp: true
+  webgpu: false
   workerd: true
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
 minimumReleaseAgeExclude:
   - '@cloudflare/workers-types@5.20260715.1'
+  - '@vgpu/adapter-mock@0.4.0'
+  - '@vgpu/adapter-node@0.4.0'
+  - '@vgpu/core@0.4.0'
+  - '@vgpu/wgsl-std@0.4.0'
+  - '@vgpu/wgsl@0.4.0'
+  - vgpu@0.4.0
 overrides:
   '@cloudflare/workers-types': 5.20260715.1

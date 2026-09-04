@@ -15,6 +15,7 @@ import BlnkAgencyPageDemo from "./blnk-agency-page";
 import BlockLogoTransitionPageDemo from "./block-logo-transition-page";
 import BlockPageTransitionDemo from "./block-page-transition";
 import BlockRevealTextDemo from "./block-reveal-text";
+import BlurStudyBoxDemo from "./blur-study-box";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
 import CalendarPadCardsDemo from "./calendar-pad-cards";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
@@ -392,6 +393,7 @@ export const demos: Record<string, ComponentType> = {
   "pixelgrid-studio-page": PixelgridStudioPageDemo,
   "polite-chaos-page": PoliteChaosPageDemo,
   "plasma-tunnel-background": PlasmaTunnelBackgroundDemo,
+  "blur-study-box": BlurStudyBoxDemo,
   "procedural-computer-page": ProceduralComputerPageDemo,
   "starfield-warp-scroll": StarfieldWarpScrollDemo,
   "physics-tag-footer": PhysicsTagFooterDemo,

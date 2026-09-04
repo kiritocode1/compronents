@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
   // on it).
   turbopack: {
     root: path.join(__dirname),
+    resolveAlias: {
+      module: {
+        browser: "./src/lib/empty-browser-module.ts",
+      },
+    },
   },
 };
 
