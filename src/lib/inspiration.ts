@@ -2919,6 +2919,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "CurationSystems",
+        href: "https://curation.systems/",
+        dateAdded: "2026-09-05",
+        kind: "directory",
+        useFor: [
+          "design curation sites",
+          "curated design resources",
+          "independent design index",
+          "design inspiration network",
+          "design resource directory",
+          "designer video collection",
+        ],
+        description:
+          "Index of the four design curation sites Maze Heart (remvze) runs, useful when you want his collections from one place instead of remembering four domains. DesEngs covers design engineering resources, Nicefolios collects portfolio sites, Looogos is an archive of brand logos as SVGs dated April 2025 through September 2026, and Noiced gathers videos for designers and creatives. Framed as an independent design index built for considered browsing, est. 2026, with no submission form and enquiries through X only. One $150 sponsor placement runs across DesEngs, Nicefolios and Noiced, and the sponsors listed are Interfaces, React Bits Pro, Resurf, Details and Indent.",
+      },
+      {
         title: "Nicefolios",
         href: "https://nicefolios.com/",
         dateAdded: "2026-09-01",
