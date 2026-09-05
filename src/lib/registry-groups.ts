@@ -241,6 +241,7 @@ export const componentGroups: RegistryGroup[] = [
     names: [
       "plasma-tunnel-background",
       "blur-study-box",
+      "blur-study-grid",
       "scroll-tunnel-3d",
       "corridor-scene-3d",
       "cappen-fluid-simulation",

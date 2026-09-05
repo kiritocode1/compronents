@@ -8,6 +8,7 @@ import AsciiImageRevealPreview from "./ascii-image-reveal";
 import AsciiLogoPreview from "./ascii-logo";
 import AwardListPreview from "./award-list";
 import BlurStudyBoxPreview from "./blur-study-box";
+import BlurStudyGridPreview from "./blur-study-grid";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
 import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
@@ -75,6 +76,7 @@ export const previews: Record<string, ComponentType> = {
   "grain-gradient-nav": GrainGradientNavPreview,
   "award-list": AwardListPreview,
   "blur-study-box": BlurStudyBoxPreview,
+  "blur-study-grid": BlurStudyGridPreview,
   "inversa-scroll": InversaScrollPreview,
   "material-spotlight": MaterialSpotlightPreview,
   "portfolio-page": PortfolioPagePreview,

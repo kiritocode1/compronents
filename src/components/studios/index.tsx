@@ -8,6 +8,7 @@ import AsciiImageRevealStudio from "./ascii-image-reveal";
 import AsciiLogoStudio from "./ascii-logo";
 import AwardListStudio from "./award-list";
 import BlnkAgencyPageStudio from "./blnk-agency-page";
+import BlurStudyGridStudio from "./blur-study-grid";
 import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CreativeClutterStudio from "./creative-clutter";
@@ -59,6 +60,7 @@ export type StudioComponent = ComponentType;
  */
 export const studios: Record<string, StudioComponent> = {
   "blnk-agency-page": BlnkAgencyPageStudio,
+  "blur-study-grid": BlurStudyGridStudio,
   "animated-footer": AnimatedFooterStudio,
   "accordion-frames": AccordionFramesStudio,
   "ascii-image-reveal": AsciiImageRevealStudio,

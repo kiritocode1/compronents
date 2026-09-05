@@ -1,0 +1,40 @@
+{
+  "url": "https://kellymilligan.art/live/blur-study-grid/",
+  "capturedAt": "2026-09-05T05:28:00Z",
+  "title": "Frosted Pane Study 2",
+  "sceneTitle": "Cursor grid",
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "deviceScaleFactor": 1,
+    "reducedMotion": true
+  },
+  "runtime": {
+    "renderer": "three.js r185 WebGPU",
+    "physics": "none",
+    "tweakpane": "4.0.5"
+  },
+  "files": {
+    "index.html": "f17c3cd55497fcf0fb854589e8656961e570307255d92a0d1f8c26295089ba60",
+    "index-Bd5woOhd.css": "c7cc6dea7be4a90989948e189228ae587b2ea61aa81f0230a900507d00a9ac7c",
+    "index-HUOrf7ht.js": "7a2d787414f4fc655d7056b4adce30ec0c81e12eec49f8c9a50c3aa7fdf83de7",
+    "volumetric-grid-cDnqNbdP.js": "a2d751b69c9f7788b729bbeed0b16db51a7bf91448c41e78b0735345469db69e",
+    "three.webgpu-D6sQuvt_.js": "930b283f8632aa5dee7ad44639a3fa08cc73f34eca7e6c275ac0513b3bec7c75"
+  },
+  "notes": {
+    "css": "Byte identical to reference/blur-study-box/index-Bd5woOhd.css. The four studies share one stylesheet.",
+    "lazyChunk": "volumetric-grid-cDnqNbdP.js is absent from index.html. It is reached through the entry bundle's __vite__mapDeps table.",
+    "sharedShader": "The scene calls the same TSL material factory as the box study, with the capsule and flat variants, so the 96 sample integral is identical."
+  },
+  "baseline": {
+    "resourceCount": 6,
+    "transferBytes": 260702,
+    "decodedBytes": 1050823,
+    "screenshot": "/tmp/compronents-kelly-grid-reference/original-paused-1280x720.png",
+    "screenshotSha256": "e79c1e7c1d18fb921f12d49604c02f1b49a3939762707f397c98a645dcf23a64",
+    "fps": {
+      "at1920x1080": { "fps": 57.84, "p50Ms": 16.7, "p95Ms": 16.8 },
+      "at3840x2160": { "fps": 11.97, "p50Ms": 83.3, "p95Ms": 100.2, "maxMs": 116.8 }
+    }
+  }
+}

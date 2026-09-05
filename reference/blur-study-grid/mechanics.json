@@ -1,0 +1,94 @@
+{
+  "grid": {
+    "bodyCount": 100,
+    "columns": 10,
+    "rows": 10,
+    "spacingX": 2.3,
+    "spacingY": 2,
+    "cellX": "(column - (columns - 1) / 2) * spacingX",
+    "cellY": "((rows - 1) / 2 - row) * spacingY",
+    "seed": 1327115068,
+    "depthSeed": "mulberry32(seed)() - 0.5, one draw per cell in index order",
+    "homeZ": "depthSeed * depthSpread"
+  },
+  "render": {
+    "samplesPerBody": 96,
+    "baseWidth": 0.004,
+    "bodyColorLinear": 0.008,
+    "maximumAlpha": 0.96,
+    "pixelRatioCap": 2,
+    "background": "#d9ddd6",
+    "floor": false,
+    "proxyHalfExtent": "[abs(axis.x) + reach, abs(axis.y) + reach], reach = rodRadius + 3 * (0.004 + blur)"
+  },
+  "camera": {
+    "type": "orthographic",
+    "positionZ": 8,
+    "near": 0.1,
+    "far": 30,
+    "baseVerticalSpan": 23.5,
+    "desktopPadding": 4,
+    "mobilePadding": 7,
+    "baseHorizontalSpan": 26,
+    "horizontalPadding": 3,
+    "minimumHorizontalSpan": 29,
+    "framing": "height = max(baseVerticalSpan + padding, minimumHorizontalSpan / aspect); width = height * aspect",
+    "mobileQuery": "(max-width: 680px), (max-height: 520px) and (pointer: coarse)"
+  },
+  "defaults": {
+    "blur": 0.32,
+    "blurCurve": 3.55,
+    "blurDistance": 1.6,
+    "ditherStrength": 1,
+    "paneZ": 1.1,
+    "depthSpread": 0.5,
+    "rodLength": 2,
+    "rodRadius": 0.42,
+    "volumeDensity": 4.5,
+    "opacityFalloff": 1.6,
+    "trackingSpeed": 0.45
+  },
+  "controls": {
+    "storageKey": "frosted-capsule-study:route-2:v1 (not carried into the port)",
+    "folders": [
+      { "title": "Diffusion", "bindings": [
+        { "label": "Amount", "key": "blur", "min": 0.02, "max": 0.6, "step": 0.01 },
+        { "label": "Ramp curve", "key": "blurCurve", "min": 0.35, "max": 4, "step": 0.05 },
+        { "label": "Ramp distance", "key": "blurDistance", "min": 0.25, "max": 4, "step": 0.05 },
+        { "label": "Pane Z", "key": "paneZ", "min": -3, "max": 4, "step": 0.05 },
+        { "label": "Opacity falloff", "key": "opacityFalloff", "min": 0, "max": 4, "step": 0.05 },
+        { "label": "Volume density", "key": "volumeDensity", "min": 1, "max": 10, "step": 0.1 },
+        { "label": "Dither", "key": "ditherStrength", "min": 0, "max": 1, "step": 0.05 }
+      ]},
+      { "title": "Capsules", "bindings": [
+        { "label": "Length", "key": "rodLength", "min": 2, "max": 6, "step": 0.05 },
+        { "label": "Radius", "key": "rodRadius", "min": 0.15, "max": 0.8, "step": 0.01 },
+        { "label": "Depth spread", "key": "depthSpread", "min": 0, "max": 3, "step": 0.05 }
+      ]},
+      { "title": "Motion", "bindings": [
+        { "label": "Tracking", "key": "trackingSpeed", "min": 0.05, "max": 2, "step": 0.05 }
+      ]}
+    ]
+  },
+  "tracking": {
+    "pointerToWorld": "raycast pointer NDC through the orthographic camera onto the plane z = 0",
+    "smoothing": "world.lerp(target, 1 - exp(-dt * (2 + trackingSpeed * 14)))",
+    "axis": "normalize(world.x - home.x, world.y - home.y, paneZ - home.z) * max(rodLength * 0.5 - rodRadius, 0.001)",
+    "degenerateAxis": "if lengthSq < 1e-6 the axis is set to (0, 0, 1) before normalising",
+    "initialFrame": "update(1 / 60) runs once at construction, with the pointer at world origin",
+    "maxDeltaSeconds": 0.05
+  },
+  "shader": {
+    "sampleDepthHalfExtent": "abs(axis.z) + rodRadius + (0.004 + blur) * 3",
+    "stepDepth": "halfExtent * 2 / 96",
+    "sampleZ": "halfExtent - stepDepth * (sampleIndex + 0.5 + (interleavedGradientNoise(screenCoordinate + renderOffset) - 0.5) * ditherStrength)",
+    "capsuleSdf": "length(point - segment * clamp(dot(point, segment) / max(dot(segment, segment), 0.000001), 0, 1)) - radius, with segment from -axis to +axis",
+    "diffusionRamp": "pow(clamp(max(paneDistanceCenter - sampleZ, 0) / max(blurDistance, 0.001), 0, 1), blurCurve)",
+    "paneDistanceCenter": "paneZ - homeZ",
+    "gaussian": "exp(-0.5 * pow(max(sdf, 0) / (0.004 + ramp * blur), 2))",
+    "opacity": "0.96 * exp(-ramp * opacityFalloff)",
+    "absorption": "1 - exp(-(gaussian * stepDepth * volumeDensity))",
+    "accumulate": "alpha += transmittance * absorption * opacity; transmittance *= 1 - absorption",
+    "dither": "(interleavedGradientNoise(screenCoordinate + renderOffset) - 0.5) * ditherStrength / 255"
+  }
+}

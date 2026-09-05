@@ -818,6 +818,83 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "blur-study-grid": {
+    demoPath: "src/components/demos/blur-study-grid.tsx",
+    nuance: [
+      {
+        label: "Every capsule aims at the pointer",
+        description:
+          "One smoothed pointer position drives all one hundred axes. Each capsule points from its own grid cell toward that position on the render pane, so cells near the cursor foreshorten into dots while distant ones read as full strokes.",
+      },
+      {
+        label: "Depth is the blur input",
+        description:
+          "Each proxy integrates ninety-six samples through its analytic capsule. The distance from the render pane drives diffusion radius, density, opacity falloff, and the dithered edge instead of applying a screen-space blur after rendering.",
+      },
+      {
+        label: "One instanced draw",
+        description:
+          "The hundred transforms go into one instance buffer and a single WebGPU draw resolves every capsule, which keeps the depth integration without paying for a hundred mesh submissions.",
+      },
+      {
+        label: "Depth spread is one seeded number per cell",
+        description:
+          "A Mulberry32 sequence gives each cell a single offset in the range minus a half to a half. Multiplied by depthSpread it sets how far behind the pane that capsule sits, which is why the grid reads as a field at mixed sharpness rather than a flat lattice.",
+      },
+      {
+        label: "Settings are a uniform write, not a restart",
+        description:
+          "Changing settings on a mounted study writes uniforms and re-aims the capsules on the next frame. The renderer, geometry, and GPU context survive, so the prop is safe to drive from a slider.",
+      },
+      {
+        label: "Render scale is the frame-rate control",
+        description:
+          "Cost is ninety-six samples per fragment times the pixel count, so a 2x display renders four times the work for the same picture. The renderScale prop caps device pixels per CSS pixel and defaults to 1. Raise it to 2 for a pixel-exact match on a high-density screen. Exports render at their own print size either way.",
+      },
+      {
+        label: "Large exports never allocate the full image",
+        description:
+          "The export camera renders 1,024 by 256 pixel tiles. Rows are joined into one stripe, filtered, compressed through CompressionStream, and written to origin-private storage before the verified file downloads.",
+      },
+    ],
+    editable: [],
+    assets: [],
+    api: [
+      {
+        name: "settings",
+        type: "Partial<StudySettings>",
+        default: "source defaults",
+        description:
+          "Optical model: blur, blurCurve, blurDistance, paneZ, depthSpread, opacityFalloff, volumeDensity, ditherStrength, rodLength, rodRadius, trackingSpeed. Anything left out keeps the study's own value, and changing it while mounted does not restart the study.",
+      },
+      {
+        name: "renderScale",
+        type: "number",
+        default: "1",
+        description:
+          "Device pixels per CSS pixel. Cost scales with its square, so 2 is four times the work of 1.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        default: "false",
+        description:
+          "Freezes pointer tracking. Reduced-motion users get this regardless.",
+      },
+      {
+        name: "ref",
+        type: "Ref<{ exportPng }>",
+        description:
+          "Imperative handle. Call exportPng(size, onProgress?) to render and download a print-size PNG.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Optional class name for sizing the study container. Give its parent an explicit height.",
+      },
+    ],
+  },
   "fluid-reveal-carousel": {
     demoPath: "src/components/demos/fluid-reveal-carousel.tsx",
     nuance: [

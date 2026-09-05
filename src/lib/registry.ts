@@ -312,6 +312,41 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "blur-study-grid",
+    title: "Blur Study Grid",
+    description:
+      "A hundred capsules on a ten by ten grid pivot to face the pointer behind a frosted render pane, with each cell's seeded depth setting its own blur radius, diffusion ramp, opacity, and dithered edge. The original ninety-six depth samples run in one instanced WebGPU draw instead of a hundred separate meshes. Settings change live without restarting the renderer, and verified square PNGs from 2,048 to 24,000 pixels export through tiled GPU readback and stripe-streamed compression.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-09-05",
+    type: "registry:ui",
+    dependencies: ["vgpu@0.4.0"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/blur-study-grid/index.tsx",
+        target: "components/ui/blur-study-grid/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/blur-study-grid/engine.ts",
+        target: "components/ui/blur-study-grid/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blur-study-grid/shader.ts",
+        target: "components/ui/blur-study-grid/shader.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/blur-study-grid/png.ts",
+        target: "components/ui/blur-study-grid/png.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "blur-study-box",
     title: "Blur Study Box",
     description:
