@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  serverExternalPackages: ["@electric-sql/pglite", "jsdom"],
   // Multiple lockfiles exist above this project; pin the root so Turbopack
   // and process.cwd() resolve against this app (registry file reads depend
   // on it).

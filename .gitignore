@@ -48,3 +48,5 @@ runtime-lab/
 .instagram-scrape/
 .cantor8-analysis/
 .env*.local
+.inspiration-local/
+.inspiration-local.lock/

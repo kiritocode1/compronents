@@ -1,75 +1,7 @@
-import {
-  categoryIndex,
-  hitsToMarkdown,
-  listByCategory,
-  searchInspiration,
-  unmatchedTerms,
-} from "@/lib/inspiration-search";
+import { compatibilityResponse } from "@/lib/inspiration/compat";
 
-const USAGE = [
-  "# Inspiration search",
-  "",
-  "Wider candidate pool over the curated inspiration wall. For a final",
-  "recommendation, prefer /inspiration/recommend?q=... (top 3 with a why).",
-  "",
-  "- `/inspiration/recommend?q=animated+icons`: opinionated top picks (default)",
-  "- `/inspiration/search?q=scroll+driven+animation`: ranked matches (~12)",
-  "- `/inspiration/search?q=grain+texture&limit=25`: widen the candidate pool",
-  "- `/inspiration/search?category=Typography+tools`: browse one category",
-  "- `/inspiration/search`: this page, with every category",
-  "",
-  "Treat these results as candidates. Do not dump all 12 as the answer.",
-  "",
-].join("\n");
+export const runtime = "nodejs";
 
-function text(body: string) {
-  return new Response(body, {
-    headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
-    },
-  });
-}
-
-export function GET(request: Request) {
-  const params = new URL(request.url).searchParams;
-  const query = params.get("q")?.trim() ?? "";
-  const category = params.get("category")?.trim() ?? "";
-  const limit = Math.min(Number(params.get("limit")) || 12, 50);
-
-  if (!query && !category) {
-    const categories = categoryIndex()
-      .map((group) => `- ${group.title} (${group.count})`)
-      .join("\n");
-    return text(`${USAGE}## Categories\n\n${categories}\n`);
-  }
-
-  if (!query) {
-    const hits = listByCategory(category, limit);
-    if (hits.length === 0) {
-      return text(`No category matching "${category}".\n\n${USAGE}`);
-    }
-    return text(`# ${hits[0].category}\n\n${hitsToMarkdown(hits)}\n`);
-  }
-
-  const hits = searchInspiration(query, {
-    limit,
-    category: category || undefined,
-  });
-  const dead = unmatchedTerms(query);
-  const warning = dead.length
-    ? `\n_No entry in the collection uses: ${dead.join(", ")}. ` +
-      `These results matched on the rest of your query, so if none of them fit, ` +
-      `reword with different vocabulary rather than trusting the ranking._\n`
-    : "";
-
-  if (hits.length === 0) {
-    return text(
-      `No matches for "${query}". Try fewer or more common words.\n${warning}\n${USAGE}`,
-    );
-  }
-
-  return text(
-    `# ${hits.length} matches for "${query}"\n${warning}\n${hitsToMarkdown(hits)}\n`,
-  );
+export async function GET(request: Request) {
+  return compatibilityResponse(request, "search", false);
 }
