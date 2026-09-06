@@ -6,6 +6,7 @@ import { drainJobs, enqueue } from "../src/lib/inspiration/ingest.ts";
 import { allResources, effectivePreferences, importCatalog, passagesFor, preferences, resolveResource, savePreference } from "../src/lib/inspiration/store.ts";
 import { retrieve } from "../src/lib/inspiration/retrieve.ts";
 import { parsePreference } from "../src/lib/inspiration/validation.ts";
+import { resolveEngagement } from "../src/lib/inspiration-engagement.ts";
 
 const { values, positionals: [command = "help", argument] } = parseArgs({ allowPositionals: true, options: {
   "dry-run": { type: "boolean" }, limit: { type: "string", default: "6" }, mode: { type: "string", default: "search" },
@@ -54,7 +55,8 @@ Source ingestion is local and text-only. No semantic provider runs unless config
       if (!resource) throw new Error("Resource not found. Import the catalog first.");
       const rows = await preferences(db, values.context);
       const current = effectivePreferences(rows, values.context).get(resource.id);
-      if (command === "inspect") print({ resource, evidence: await passagesFor(db, [resource.id]), preference: current ?? null });
+      if (command === "inspect") print({ resource, evidence: await passagesFor(db, [resource.id]), preference: current ?? null,
+        engagement: resolveEngagement({ source: "wall", category: resource.categories[0], kind: resource.kind.length ? resource.kind : resource.inferred.kind }) });
       if (command === "preference") {
         const scoped = rows.find(p => p.resourceId === resource.id && p.contextKey === values.context);
         print(await savePreference(db, parsePreference({ preference: values.value, rating: values.rating ? Number(values.rating) : null,

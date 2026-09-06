@@ -4,7 +4,7 @@
   "portless": "compronents",
   "private": true,
   "scripts": {
-    "inspiration": "node --import ./tests/alias-hooks.mjs scripts/inspiration.mjs",
+    "inspiration": "node --env-file-if-exists=.env.local --import ./tests/alias-hooks.mjs scripts/inspiration.mjs",
     "test:inspiration-db": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-database.test.mjs",
     "test:inspiration-search": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs",
     "dev": "next dev",
