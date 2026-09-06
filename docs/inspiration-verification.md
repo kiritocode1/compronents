@@ -2,6 +2,49 @@
 
 The website and Inspiration MCP tools call `src/lib/inspiration/retrieve.ts`. Search uses the current database records, explicit catalog descriptions, optional source passages, and owner preferences. Inherited stack tags do not establish technology support.
 
+## Production setup and agent imports
+
+Production uses `compronents-inspiration` in the existing Neon integration on
+the `blankspacets` Vercel team. It is connected to the `compronents` project with
+the `INSPIRATION_` environment-variable prefix. The database started on the Free
+plan. The existing `DATABASE_URL` continues to belong to mint-me.
+
+Use the production CLI for live catalog additions. It requires Vercel CLI
+access to that team and uses a pinned CLI version with `env run` support:
+
+```sh
+pnpm inspiration:production health
+pnpm inspiration:production import --dry-run
+pnpm inspiration:production import
+pnpm inspiration:production inspect '<canonical-url>'
+pnpm inspiration:production explain 'Exact title' --limit 5
+```
+
+This command loads credentials into the child process without saving an env
+file. `NODE_ENV=production` prevents accidental fallback to a local database.
+Vercel may warn that owner/session Secret values cannot be pulled. These CLI
+operations need the integration's database connection, not a browser session;
+do not copy the unavailable secrets into local files to silence that warning.
+
+Initialize a new dedicated database with `pnpm inspiration:production migrate`
+before importing. Imports are repeatable and preserve preferences and passages.
+They currently read the whole catalog, so inspect concurrent source edits first.
+The shared `/inspo` command in `.claude/commands/inspo.md` requires this import
+and database inspection. Source commits alone do not update hosted records.
+
+Before declaring a production setup ready, verify all of the following:
+
+- Health reports `neon` and the expected resource count.
+- Vercel Production has `INSPIRATION_DATABASE_URL`,
+  `INSPIRATION_OWNER_PASSWORD`, `INSPIRATION_SESSION_SECRET`, and
+  `INSPIRATION_ORIGIN=https://ui.aryank.space`.
+- Redeploy after adding environment variables; existing deployments retain
+  their earlier environment.
+- The deployed search API reports `postgres`, and exact lookup returns the
+  imported resource ID. A successful `catalog` response is fallback behavior.
+- Owner sign-in succeeds, a preference survives reload, and sign-out succeeds.
+  Restore any test preference to its previous value.
+
 ## Local setup
 
 Use Node 24 or newer and `pnpm install`. Before starting the app:

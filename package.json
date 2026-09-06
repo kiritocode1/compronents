@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "inspiration": "node --env-file-if-exists=.env.local --import ./tests/alias-hooks.mjs scripts/inspiration.mjs",
+    "inspiration:production": "npx --yes vercel@59.11.7 env run --environment production --scope blankspacets --project compronents -- env NODE_ENV=production node --import ./tests/alias-hooks.mjs scripts/inspiration.mjs",
     "test:inspiration-db": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-database.test.mjs",
     "test:inspiration-search": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs",
     "dev": "next dev",
