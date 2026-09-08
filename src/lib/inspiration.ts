@@ -903,6 +903,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animated icon libraries",
     links: [
       {
+        title: "Oreo Doodle Icons",
+        href: "https://oreoui.com/doodle-icons",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["react", "typescript", "svg"],
+        useFor: [
+          "hand drawn animated icons",
+          "self drawing icon animation",
+          "wobbly line icons",
+          "doodle icon set",
+          "svg boil filter",
+          "sketchy ui icons",
+        ],
+        description:
+          'Hand-drawn icon set where every stroke draws itself on and then keeps moving, described by its repository as "152 hand-drawn icons that never sit still, every stroke draws itself, then keeps boiling like a Saturday-morning cartoon." Install with npm i @oreo-design/doodle-icons, mount BoilFilter once per page, then pass boilId on every DoodleIcon, adding draw for the one-time draw-on; strokes use currentColor, so colour comes from CSS like any other text. The raw SVGs also sit in the repo under icons/ and icons-animated/ if you would rather skip the package. MIT licensed by Oreo UI (oreo-design/doodle-icons), paired with the Schoolbell typeface, with a Pro tier and the site browsing 158 icons against a stated target of 400.',
+      },
+      {
         title: "Material Line Icons",
         href: "https://icon-sets.iconify.design/line-md",
         dateAdded: "2026-08-13",
@@ -1273,6 +1290,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Opensource UI",
+        href: "https://opensourceui.in/",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["react", "nextjs", "typescript", "tailwind", "lucide"],
+        useFor: [
+          "copy paste react components",
+          "device mockup component",
+          "browser chrome mockup",
+          "apple watch mockup",
+          "ipod mockup",
+          "annotated text callout",
+          "journal writing component",
+        ],
+        description:
+          'Copy-paste React and Next.js component library under the tagline "Build Better Interfaces", weighted toward device frames and set pieces rather than form primitives: phone, laptop, Apple Watch and iPod mockups in several metal finishes, browser chrome, annotated text callouts, clocks and a journal writing component. Nothing installs. Each component page puts a preview up top with details and code below, and you copy it into your project. Built on React, Next.js, TypeScript, Tailwind CSS v4 and Lucide, maintained by Bidyut Kundu at github.com/bidyut10/opensourceui, MIT licensed with no UI attribution required. Testimonials on the page cite 154 components across 26 categories and 33 categories in the same breath, so treat the count as approximate.',
+      },
+      {
         title: "Rare UI",
         href: "https://www.rareui.com/",
         dateAdded: "2026-09-02",
@@ -1535,7 +1570,7 @@ export const inspirationGroups: InspirationGroup[] = [
         href: "https://www.great-ui.com/components",
         dateAdded: "2026-07-29",
         description:
-          "Copy-and-paste React and Tailwind component collection, small but weighted toward set pieces rather than form primitives. Sixteen components across five categories: Illustrations is the largest with seven (Mobile Mockup, Macbook Mockup, Vinyl Album Card, ASCII Image, Image Hover Reveal, Avatar Stack, Diagonal Marquee Carousel), then Buttons with three, Utilities with three (Deployment Checklist, Terminal Loader, Revision Timeline), Navigation with two (Page Transition Shader, Animated Link), and Inputs with one (Animated Select). Several lean on GLSL fragment shaders and spring animation rather than CSS alone, so the shader-backed page transition and ASCII image are the ones worth reading the source of. No pricing, license, or install command is stated on the site.",
+          "Copy-and-paste React and Tailwind component collection, small but weighted toward set pieces rather than form primitives. Sixteen components across five categories: Illustrations is the largest with seven (Mobile Mockup, Macbook Mockup, Vinyl Album Card, ASCII Image, Image Hover Reveal, Avatar Stack, Diagonal Marquee Carousel), then Buttons with three, Utilities with three (Deployment Checklist, Terminal Loader, Revision Timeline), Navigation with two (Page Transition Shader, Animated Link), and Inputs with one (Animated Select). Several lean on GLSL fragment shaders and spring animation rather than CSS alone, so the shader-backed page transition and ASCII image are the ones worth reading the source of. Components install from the site's own shadcn registry, for example npx shadcn@latest add https://www.great-ui.com/r/image-hover-reveal.json; no pricing or license is stated.",
       },
       {
         title: "Lifeline",
@@ -1997,6 +2032,40 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Image Hover Reveal",
+        href: "https://www.great-ui.com/components/image-hover-reveal",
+        dateAdded: "2026-09-08",
+        kind: "demo",
+        stack: ["react", "motion", "tailwind", "shadcn", "typescript"],
+        useFor: [
+          "image hover reveal",
+          "directional hover effect",
+          "avatar hover transition",
+          "clip path reveal",
+          "cursor tracking spring",
+          "dual image crossfade",
+        ],
+        description:
+          'Great UI component that reveals a second image under an avatar or card on hover, in two variants: directional, which detects the angle the cursor entered from, and slice, which tracks cursor coordinates through spring-driven slices. The page calls it "A dual-image avatar surface implementing directional hover reveals and cursor coordinate tracking spring slices", listing the interaction as hover entry angle detection, coordinate tracking springs, clip path interpolation and dual state cross-fade reveals. Install with npx shadcn@latest add https://www.great-ui.com/r/image-hover-reveal.json; motion is the only dependency. Props are src, overlaySrc, alt and variant, and the preview pairs a photograph with an illustrated repaint of the same subject so the crossfade is legible.',
+      },
+      {
+        title: "Aesthetic Cards",
+        href: "https://aesthetic-cards.vercel.app/",
+        dateAdded: "2026-09-08",
+        kind: "demo",
+        stack: ["tailwind", "javascript", "svg"],
+        useFor: [
+          "feature card layout",
+          "technical drawing card",
+          "blueprint ui style",
+          "numbered feature grid",
+          "line art card illustration",
+          "geometric card artwork",
+        ],
+        description:
+          'One-page demo titled "Feature Cards", showing three cards drawn in a technical-drawing register. Each pairs a heading and a sequence number (001, 002, 003) with an inner panel on a dotted grid marked by corner registration brackets, holding black line art: concentric circles annotated with plus and minus, a triangle filled by dense straight-line string art, and three overlapping circles with a hatched intersection. One card is orange and two are bone white, set on a charcoal page carrying a faint blueprint grid, and each footer holds its caption beside a three-dot menu. The markup is plain HTML with Tailwind loaded from its CDN and a single main.js, so there is no install path: read the source and take the pattern.',
+      },
       {
         title: "Nav.Supply",
         href: "https://nav.supply/",
@@ -2919,6 +2988,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Design Hotels: Further Forecast 2025",
+        href: "https://deck.gallery/further-forecast-2025/slide/31-travel-as-knowledge-exchange-transform/",
+        dateAdded: "2026-09-08",
+        kind: "gallery",
+        useFor: [
+          "trend report deck",
+          "report slide pacing",
+          "research deck layout",
+          "hospitality trend research",
+          "statistic slide design",
+          "case study slide format",
+        ],
+        description:
+          "Slide 31 of Design Hotels' Further Forecast 2025 on deck.gallery, \"Transform travel into intellectual and emotional growth\", landing part-way through the deck's New Knowledge Hubs section. The report, subtitled Community Capital, argues that belonging and social ties are reshaping hospitality, and builds three micro-trends, Niche Appeal, New Knowledge Hubs and Longevity Networks, on a 2024 survey of 1,196 respondents, expert interviews and a PESTE analysis. It runs 50 slides, filed under Report and Travel and published to the gallery on August 6, 2026, with case studies including Club Chess, Casa Lawa, Matriarch Eats, CLO Circle and Edge City. Worth reading as a worked example of how a trend report alternates claim slides, single-statistic slides and case studies.",
+      },
+      {
         title: "CurationSystems",
         href: "https://curation.systems/",
         dateAdded: "2026-09-05",
@@ -3616,6 +3701,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "AUAR",
+        href: "https://auar.io/resources/news",
+        dateAdded: "2026-09-08",
+        kind: "portfolio",
+        useFor: [
+          "press page layout",
+          "editorial site design",
+          "industrial brand site",
+          "warm neutral palette",
+          "superscript count typography",
+          "press card grid",
+        ],
+        description:
+          'News and press page for Automated Architecture (AUAR), a UK company building robotic microfactories for house construction, worth opening for the layout rather than the subject. The page heads with "Latest news press" set in two weights, each word carrying a small superscript count (2 news, 8 press), on a warm off-white ground above a grid of press cards whose thumbnails have the publisher\'s mark burned into the image itself (The Engineer, BBC, CNN). The rest of the site sells a hardware MicroFactory pitched as "Factory output without factory risk" and MasterBuilder, "Software that runs your production". Site design credited to Ascend, copyright Automated Architecture Ltd 2026.',
+      },
+      {
         title: "Yuriy Starikov",
         href: "https://yuriystarikov.com/",
         dateAdded: "2026-09-02",
@@ -4312,6 +4413,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Overflow Design: Isometric",
+        href: "https://www.overflow.design/isometric/",
+        dateAdded: "2026-09-08",
+        kind: "asset",
+        useFor: [
+          "isometric icons",
+          "infrastructure diagram icons",
+          "database server illustration",
+          "architecture diagram assets",
+          "line drawing icon set",
+          "free icons no attribution",
+        ],
+        description:
+          '49 isometric line drawings from Overflow Design, split into 12 illustrations and 37 icons, all on one grid at one stroke weight. The subject is infrastructure: databases, servers, containers, deployments, queues, API, branch, metrics and network, plus neutral pieces like Cube, Stack, Crate, Panel, Cluster, arrows, files and a clock. The page states they are "Free to use in anything, with no account and no attribution." The shop\'s other sets, Notion Icons, Illustrations and Notion Covers, are flat rather than isometric, hand-drawn on a 24 grid in a single weight.',
+      },
       {
         title: "KYC Collection",
         href: "https://jack.art/kyc/collection",
@@ -5828,6 +5945,41 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "kool-brushez",
+        href: "https://kool-brushez.vercel.app/?brush=balloon",
+        dateAdded: "2026-09-08",
+        kind: "demo",
+        stack: ["p5js", "javascript", "vite", "canvas"],
+        useFor: [
+          "generative brush drawing",
+          "p5.js brush reference",
+          "canvas painting app",
+          "stroke reveal animation",
+          "airbrushed poster texture",
+          "creative coding demo",
+          "png sketch export",
+        ],
+        description:
+          "Drawing app of six p5.js brushes sharing one canvas, opened here on the Balloon brush. Balloon hides a screen-printed poster under the page, tiled edge to edge with rounded blobs that each carry a crisp colored rim and a soft airbrushed glow, and a pencil line reveals only the blobs it crossed: each bursts fat and blurred a beat after the last, then bleeds slowly while the flat shape dries in underneath. The other five brushes are Score, Schematic, Subway, Crowd and Gunpla, and switching between them keeps the drawing. The paper runs a 1200-unit long edge at Fit, 1:1, 4:3, 3:4, 16:9 or 9:16, undo holds 16 steps, and export writes the full-resolution paper without the UI as Untitled study.png.",
+      },
+      {
+        title: "blakeshao/kool-brushez",
+        href: "https://github.com/blakeshao/kool-brushez",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["p5js", "javascript", "vite", "playwright", "canvas"],
+        useFor: [
+          "p5.js brush source",
+          "custom brush engine",
+          "canvas history undo redo",
+          "brush registry architecture",
+          "generative mark making",
+          "creative coding source",
+        ],
+        description:
+          'Source for the kool-brushez drawing app, described by its author as "cool p5js brushes" and split so a single brush can be read on its own. shared/ carries the loader plus studio.js, one p5 instance owning canvas, input, history and export, alongside hud.js, registry.js and history.js, while each brush lives in brushes/<name>/ with its own sketch, registry entry, preview PNG and README naming the constants that shape it. It pins p5 1.9.4 locally instead of a CDN, builds with Vite, and tests in Chromium through Playwright, needing Node 20.19+ or 22.12+. By blakeshao, 135 stars and 15 forks at the time of writing, with no license file in the repository.',
+      },
+      {
         title: "FragCoord.xyz",
         href: "https://fragcoord.xyz/",
         dateAdded: "2026-09-02",
@@ -6721,6 +6873,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "LLMs and AI engineering",
     links: [
+      {
+        title: "An Alien Mind",
+        href: "https://openai.com/index/an-alien-mind/",
+        dateAdded: "2026-09-08",
+        kind: "essay",
+        useFor: [
+          "ai alignment essay",
+          "chain of thought monitoring",
+          "frontier lab safety position",
+          "scaling caution argument",
+          "goal versus value alignment",
+          "ai policy coordination",
+        ],
+        description:
+          "Essay by Jakub Pachocki, OpenAI's chief scientist, published September 6, 2026, arguing that modern AI is an increasingly alien intelligence: grown rather than built, not fully understood, and moving toward driving its own development. It separates goal alignment, whether a model tries to accomplish the goal set before it, from value alignment as a more intrinsic property, and states that \"no lab has solved alignment and monitoring to a sufficient degree to continue responsibly scaling at maximum speed for much longer.\" It notes that chain-of-thought monitoring, one of the main safety checks in use, becomes less reliable as models improve, and calls for voluntary slowdowns and international coordination. Read it for a frontier lab's own account of where its safety tooling runs out, not for technique.",
+      },
       {
         title: "Learn Kernels",
         href: "https://learn-kernels.com/",
@@ -8199,6 +8367,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Databases and storage",
     links: [
       {
+        title: "pgbook",
+        href: "https://pgbook.dev/",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["postgres", "cli", "sql"],
+        useFor: [
+          "postgres topic reference",
+          "learn postgres",
+          "reading explain output",
+          "postgres locks",
+          "mvcc explanation",
+          "terminal documentation",
+          "runnable sql examples",
+        ],
+        description:
+          'Postgres reference written one topic at a time and read from the terminal: "No 1,000-page manual. Pick a topic, understand how it works, try the examples yourself." Install with curl -fsSL https://pgbook.dev/install | sh or brew install pgrundev/tap/pgbook, one static binary for macOS and Linux, then pgbook list, pgbook read locks, pgbook search indexes and pgbook next; topics are fetched from pgbook.dev and cached, so anything you have opened reads offline, and it never connects to your database. The contents run 22 topics across beginner, intermediate and advanced, from tables, joins and index basics through locks, isolation, JSONB, window functions, row-level security and connection pooling to MVCC, the query planner, index internals, deadlocks, WAL and checkpoints, replication and partitioning. Eight topics are written so far and the rest are marked in progress; MIT licensed by Alex Shapalov at github.com/pgrundev/pgbook.',
+      },
+      {
         title: "pgbot",
         href: "https://pgbot.dev/",
         dateAdded: "2026-08-21",
@@ -8665,6 +8851,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Distributed systems and computer science",
     links: [
       {
+        title: "Algorithmica: RAM & CPU Caches",
+        href: "https://en.algorithmica.org/hpc/cpu-cache/",
+        dateAdded: "2026-09-08",
+        kind: "essay",
+        useFor: [
+          "cpu cache behaviour",
+          "memory latency benchmark",
+          "cache line effects",
+          "prefetching",
+          "cache associativity",
+          "array of structs versus struct of arrays",
+          "memory level parallelism",
+        ],
+        description:
+          'Chapter of Sergey Slotin\'s Algorithmica HPC book, published as Algorithms for Modern Hardware, which works out cache parameters "experimentally by running numerous small benchmark programs" rather than quoting vendor specs. Eleven sections cover memory bandwidth, memory latency, cache lines, memory sharing, memory-level parallelism, prefetching, alignment and packing, pointer alternatives, cache associativity, memory paging, and AoS versus SoA. It picks up where the external memory chapter stops, on the argument that the abstract model is "too imprecise for lower levels in the cache hierarchy" once arithmetic stops being negligible. Benchmarks run on a Ryzen 7 4700U with 32K L1 data cache and 512K L2 per core, 8M shared L3 and 16GB of DDR4, crediting Igor Ostrovsky\'s Gallery of Processor Cache Effects and Ulrich Drepper\'s What Every Programmer Should Know About Memory.',
+      },
+      {
         title: "All Things Distributed",
         href: "https://www.allthingsdistributed.com/",
         dateAdded: "2026-08-29",
@@ -9084,6 +9287,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "M3E Canvas",
+        href: "https://github.com/lnkiai/m3e-canvas",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["nextjs", "react", "typescript", "material3"],
+        useFor: [
+          "material 3 expressive mockup",
+          "design to prompt export",
+          "ui wireframing tool",
+          "clickable screen prototype",
+          "android ui mockup",
+          "coding agent brief",
+        ],
+        description:
+          'Browser tool for sketching Material 3 Expressive screens and exporting them as a written brief for a coding agent: "Sketch Material 3 Expressive screens in the browser and turn them into vibe-coding prompts", said to work with any tool that takes a prompt, such as Claude Code, Codex, Gemini CLI or Cursor. You drag in buttons, FABs, chips, app bars, nav bars, cards, dialogs, text fields and sliders, wire tap and swipe targets between screens with slide, fade and expand transitions drawn as arrows on the canvas, and flip each screen between a 412x892 phone and a 1280x800 desktop where nav bars become rails. Nearby buttons and list items snap together with their corners softening as they meet, and the four M3 Expressive axes (color, shape, type, motion) sit in one panel. Next.js 16 static export on React 19 with no backend, state in localStorage, prompt export in Japanese, English, Chinese or Korean, MIT licensed by lnkiai with 4.7k stars.',
+      },
       {
         title: "Tooey",
         href: "https://tooey.design",
@@ -10408,6 +10628,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Effect ecosystem",
     links: [
       {
+        title: "effect-uai",
+        href: "https://effect-uai.betalyra.com/",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["effect", "typescript", "bun", "node", "deno"],
+        useFor: [
+          "effect ai agent sdk",
+          "typed llm errors",
+          "streaming agent loop",
+          "provider swapping layer",
+          "sandboxed model code execution",
+          "browser automation capability",
+          "embeddings and reranking",
+        ],
+        description:
+          'TypeScript SDK on Effect for building agents as ordinary programs, under the tagline "Effectful building blocks for agentic ai" and the argument that agents should have explicit state, typed effects, visible streams and tools you control. Ten capabilities (language models, image generation, speech, music, embeddings, reranking, web search, web reading, sandboxes, browser automation) each sit behind one small interface, so moving among 15 providers, among them OpenAI, Anthropic, Google, Mistral, fal, ElevenLabs, Jina, Perplexity, Exa, Tavily, Firecrawl and Deno, is a Layer change rather than a rewrite. Errors are typed, so you match RateLimited, Unavailable or Timeout directly instead of parsing strings, while retries, streams and concurrency come from Effect rather than being reinvented. Around 40 copy-paste recipes cover tool call approval, auto-compaction, mid-stream abort, model council, voice loop and deep research; MIT licensed and maintained by Betalyra.',
+      },
+      {
         title: "Effect v3 to v4 migration skill",
         href: "https://www.skills.sh/effect-ts/skills/effect-v3-to-v4",
         dateAdded: "2026-08-14",
@@ -11617,6 +11855,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Talks and individual videos",
     links: [
+      {
+        title: "Geoffrey Litt: Dynamic Documents as Personal Software",
+        href: "https://youtu.be/MccJdr61xnc",
+        dateAdded: "2026-09-08",
+        kind: "video",
+        useFor: [
+          "malleable software talk",
+          "dynamic documents",
+          "end user programming",
+          "hypercard lessons",
+          "personal software design",
+          "ai assisted programming research",
+        ],
+        description:
+          "56-minute talk by Geoffrey Litt for Localhost, the Recurse Center's public technical talk series in NYC, published September 4, 2026. It asks what happens if documents and applications stop being separate concepts: dynamic documents that keep a document's simplicity while carrying an application's power, so more people can craft their own personal and malleable software. Litt draws lessons from Hypercard, demos Ink & Switch research prototypes including the Embark dynamic travel planner, and previews experiments he is running at Notion. He works on malleable software and AI-assisted programming, currently at Notion, previously a senior researcher at Ink & Switch with an HCI PhD from MIT.",
+      },
       {
         title: "Graph Engineering vs Loop Engineering (什么是图工程)",
         href: "https://www.youtube.com/watch?v=8RedSkw1UjE",
