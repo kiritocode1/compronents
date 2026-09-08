@@ -2,11 +2,6 @@ import { matchesDateRange, parseTimeQuery } from "../search-time.ts";
 import { resourceText, seedCatalog } from "./catalog.ts";
 import { getInspirationDatabase, type InspirationDatabase } from "./db.ts";
 import {
-  hasSearchProvider,
-  hybridCandidates,
-  type ProviderCandidate,
-} from "./provider.ts";
-import {
   analyzeQuery,
   candidateText,
   constraintTsQuery,
@@ -76,10 +71,27 @@ function exactResource(resource: Resource, query: string) {
 
 interface Dependencies {
   db?: InspirationDatabase | null;
-  hybrid?: (
-    db: InspirationDatabase,
-    query: string,
-  ) => Promise<ProviderCandidate[][]>;
+  /** Injectable so a test can force the degraded path without a database error. */
+  semantic?: (db: InspirationDatabase, query: string) => Promise<string[]>;
+}
+
+/**
+ * Nearest neighbours by cosine distance over the HNSW index. `embedding_for_query`
+ * is the query-side counterpart to `embedding_for_passage`: bge models prefix the
+ * two differently, so using the passage function here would quietly rank worse.
+ */
+async function semanticCandidates(
+  db: InspirationDatabase,
+  text: string,
+): Promise<string[]> {
+  const rows = await db.query<{ id: string }>(
+    `SELECT id FROM inspiration_resources
+     WHERE active AND embedding IS NOT NULL
+     ORDER BY embedding <=> rag_bge_small_en_v15.embedding_for_query($1)
+     LIMIT 40`,
+    [text],
+  );
+  return rows.map((row) => row.id);
 }
 
 async function lexicalCandidates(
@@ -184,39 +196,29 @@ export async function retrieve(
       addRanks(fuzzy.map((row) => row.id));
       addRanks(source.map((row) => row.resource_id));
       addRanks(constrained.map((row) => row.id));
-      if (viewer.owner && text && (deps.hybrid || hasSearchProvider())) {
+      // Nearest neighbours over the embedding column, joined by the same addRanks
+      // the lexical passes use, so RRF and the BM25 floor are untouched. The
+      // catch is the normal path on local PGlite, which has no embedding column.
+      // Nearest neighbours always return something, so gibberish would otherwise
+      // get a full page of confident-looking noise. Cosine distance cannot tell
+      // them apart: measured against this wall, "zzzqqxx wibblefrotz" lands at
+      // 0.381 while a real vague question sits at 0.397. Corpus vocabulary can:
+      // the same queries score 0.00 and 0.75-1.00. So a query has to name at
+      // least one thing this wall knows about before it earns semantic recall.
+      const grounded = terms.some((term) => vocabulary.known.has(term));
+      if (viewer.owner && text && grounded) {
         try {
-          const batches = await (deps.hybrid ?? hybridCandidates)(db, text);
-          // A provider hit is only a candidate. Hydrate current, active records below.
-          for (const batch of batches) {
-            const candidatePassages = batch
-              .filter((row) => row.passageId)
-              .map((row) => row.passageId);
-            const current = candidatePassages.length
-              ? await db.query<{ id: string; resource_id: string }>(
-                  `SELECT id, resource_id FROM inspiration_passages WHERE active AND id = ANY($1::text[])`,
-                  [candidatePassages],
-                )
-              : [];
-            const valid = batch.filter(
-              (row) =>
-                !row.passageId ||
-                current.some(
-                  (p) =>
-                    p.id === row.passageId && p.resource_id === row.resourceId,
-                ),
-            );
-            addRanks(valid.map((row) => row.resourceId));
-            for (const row of valid) semanticIds.add(row.resourceId);
-          }
-          result.provider = "hybrid";
+          const near = await (deps.semantic ?? semanticCandidates)(db, text);
+          addRanks(near);
+          for (const id of near) semanticIds.add(id);
+          if (near.length) result.provider = "hybrid";
         } catch {
-          result.notice =
-            "Hybrid search is unavailable or its allowance is used. Showing PostgreSQL matches.";
+          // Only worth saying when the rows exist but the query could not run.
+          if (db.kind === "neon")
+            result.notice =
+              "Semantic search is unavailable. Showing PostgreSQL matches.";
         }
-      } else if (viewer.owner)
-        result.notice =
-          "Local text and typo search. Connect Upstash to enable semantic candidates.";
+      }
       const ids = [...rrf.keys()];
       const rows = await db.query<{ document: Resource }>(
         `SELECT document FROM inspiration_resources
@@ -340,11 +342,9 @@ export async function retrieve(
       !text ||
       literalEligible ||
       expandedSupport >= 0.8;
-    if (
-      !textEligible &&
-      !(mode !== "recommend" && semanticIds.has(resource.id))
-    )
-      continue;
+    // Semantic candidates now reach recommend too. Whether they are shown there
+    // is decided after sorting, once it is known if anything verified exists.
+    if (!textEligible && !semanticIds.has(resource.id)) continue;
     if (!exact && terms.length === 0 && text && !categoryMatch) continue;
     const related = !textEligible;
     const base =
@@ -405,6 +405,16 @@ export async function retrieve(
         return true;
       })
       .slice(0, request.limit);
+  } else if (mode === "recommend") {
+    // Recommend answers with verified matches whenever it has them. When it has
+    // none, an approximate answer labelled "related" beats returning nothing to
+    // someone who asked a vague question in good faith. Gibberish never reaches
+    // here: it fails the vocabulary gate before semantic recall runs at all.
+    const verified = candidates.filter((hit) => hit.match !== "related");
+    result.hits = (verified.length ? verified : candidates).slice(
+      0,
+      request.limit,
+    );
   } else result.hits = candidates.slice(0, request.limit);
   return result;
 }

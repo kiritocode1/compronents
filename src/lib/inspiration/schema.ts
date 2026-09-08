@@ -49,3 +49,32 @@ export const schema = [
     note text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now()
   )`,
 ];
+
+/**
+ * Neon only. `rag_bge_small_en_v15` runs an embedding model on the database
+ * compute, which PGlite cannot do, so local development keeps the full-text and
+ * trigram paths and simply has no semantic column.
+ *
+ * `embedded_text` records the text an embedding was built from. It is what makes
+ * the refresh exact: comparing against `updated_at` would re-embed the whole wall
+ * on every import, because importCatalog bumps that whether or not text changed.
+ */
+export const vectorExtensions = [
+  // pgrag is beta on Neon and refused without this, IF NOT EXISTS included.
+  `SET LOCAL neon.allow_unstable_extensions='true'`,
+  `CREATE EXTENSION IF NOT EXISTS vector`,
+  `CREATE EXTENSION IF NOT EXISTS rag_bge_small_en_v15 CASCADE`,
+];
+
+export const vectorSchema = [
+  `ALTER TABLE inspiration_resources
+    ADD COLUMN IF NOT EXISTS embedding vector(384),
+    ADD COLUMN IF NOT EXISTS embedded_text text`,
+  `ALTER TABLE inspiration_passages
+    ADD COLUMN IF NOT EXISTS embedding vector(384),
+    ADD COLUMN IF NOT EXISTS embedded_text text`,
+  `CREATE INDEX IF NOT EXISTS inspiration_resources_embedding_idx
+    ON inspiration_resources USING hnsw (embedding vector_cosine_ops)`,
+  `CREATE INDEX IF NOT EXISTS inspiration_passages_embedding_idx
+    ON inspiration_passages USING hnsw (embedding vector_cosine_ops)`,
+];

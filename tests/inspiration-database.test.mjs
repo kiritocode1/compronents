@@ -7,6 +7,7 @@ import { after, before, test } from "node:test";
 import {
   createOwnerSession,
   OWNER_COOKIE,
+  OWNER_SESSION_SECONDS,
   requireSameOrigin,
   validOwnerSession,
 } from "../src/lib/inspiration/auth.ts";
@@ -213,7 +214,10 @@ test("forged and expired owner sessions fail validation", () => {
   const token = createOwnerSession(now);
   assert.equal(validOwnerSession(token, now), true);
   assert.equal(validOwnerSession(`${token}x`, now), false);
-  assert.equal(validOwnerSession(token, now + 43201000), false);
+  assert.equal(
+    validOwnerSession(token, now + (OWNER_SESSION_SECONDS + 1) * 1000),
+    false,
+  );
   assert.equal(validOwnerSession("unlocked", now), false);
 });
 
@@ -289,23 +293,61 @@ test("portless public URL is accepted only in local development", (t) => {
   );
 });
 
-test("provider failure preserves PostgreSQL matches and reports degradation", async () => {
+test("semantic failure preserves PostgreSQL matches and stays quiet on local", async () => {
   const result = await search(
     "job queue",
     true,
     {},
     {
-      hybrid: async () => {
+      semantic: async () => {
         throw new Error("fixture outage");
       },
     },
   );
   assert.equal(result.provider, "postgres");
   assert.equal(result.hits.length, 2);
-  assert.match(result.notice, /unavailable/);
+  // Local PGlite has no embedding column, so the failure is expected, not news.
+  assert.equal(result.notice, undefined);
   await assert.rejects(
     retrieve({ query: "job queue" }, { owner: true }, { db: null }),
     (error) => error.status === 503,
+  );
+});
+
+test("gibberish never reaches semantic recall", async () => {
+  // Cosine distance cannot separate nonsense from a real vague question: measured
+  // against the live wall, "zzzqqxx wibblefrotz" scored 0.381 while "keep a job
+  // going after the server dies halfway" scored 0.397. Corpus vocabulary can, so
+  // an unrecognised query must not spend a query embedding or return neighbours.
+  let called = 0;
+  const result = await search("zzzqqxx wibblefrotz", true, {}, {
+    semantic: async () => {
+      called += 1;
+      return [alpha.id];
+    },
+  });
+  assert.equal(called, 0, "semantic ran for a query naming nothing on the wall");
+  assert.equal(result.hits.length, 0);
+});
+
+test("recommend prefers verified matches and falls back to approximate ones", async () => {
+  // "typography" is real vocabulary on the wall, so it clears the gate, but no
+  // fixture resource mentions it. The only candidate is therefore the semantic one.
+  const vague = await search("typography", true, { mode: "recommend" }, {
+    semantic: async () => [alpha.id],
+  });
+  assert.equal(vague.hits[0]?.resource.id, alpha.id);
+  assert.equal(vague.hits[0]?.match, "related", "approximate hits must say so");
+
+  // "job queue" matches alpha and beta on text, so the semantic-only unrelated
+  // suggestion must not dilute a recommendation that has verified answers.
+  const solid = await search("job queue", true, { mode: "recommend" }, {
+    semantic: async () => [unrelated.id],
+  });
+  assert.ok(solid.hits.length > 0);
+  assert.ok(
+    solid.hits.every((hit) => hit.match !== "related"),
+    "a verified recommendation was padded with a semantic guess",
   );
 });
 

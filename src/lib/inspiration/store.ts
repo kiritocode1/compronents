@@ -18,7 +18,35 @@ export async function importCatalog(db: InspirationDatabase, resources = seedCat
       SELECT jsonb_array_elements_text(document->'aliases'), id FROM saved ON CONFLICT DO NOTHING`,
       [JSON.stringify(resources.slice(offset, offset + 100).map(r => ({ ...r, searchText: resourceText(r) })))]);
   }
+  await refreshEmbeddings(db);
   return resources.length;
+}
+
+/**
+ * Re-embed only rows whose text changed. Runs inside importCatalog rather than as
+ * its own command, because an indexing step nothing calls is an index that stays
+ * empty. A no-op on local PGlite, which has no embedding extension.
+ */
+export async function refreshEmbeddings(db: InspirationDatabase) {
+  if (db.kind !== "neon") return { resources: 0, passages: 0 };
+  const [resources, passages] = await Promise.all([
+    db.query<{ id: string }>(`UPDATE inspiration_resources
+      SET embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
+      WHERE active AND embedded_text IS DISTINCT FROM search_text RETURNING id`),
+    db.query<{ id: string }>(`UPDATE inspiration_passages
+      SET embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
+      WHERE active AND embedded_text IS DISTINCT FROM search_text RETURNING id`),
+  ]);
+  return { resources: resources.length, passages: passages.length };
+}
+
+/** Active rows still missing an embedding. Zero is the healthy state on Neon. */
+export async function embeddingGaps(db: InspirationDatabase) {
+  if (db.kind !== "neon") return null;
+  const [row] = await db.query<{ resources: number; passages: number }>(`SELECT
+    (SELECT count(*)::integer FROM inspiration_resources WHERE active AND embedding IS NULL) AS resources,
+    (SELECT count(*)::integer FROM inspiration_passages WHERE active AND embedding IS NULL) AS passages`);
+  return row;
 }
 
 export async function allResources(db: InspirationDatabase): Promise<Resource[]> {

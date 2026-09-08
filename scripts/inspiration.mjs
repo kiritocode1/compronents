@@ -3,7 +3,7 @@ import { parseArgs } from "node:util";
 import { getInspirationDatabase, migrate } from "../src/lib/inspiration/db.ts";
 import { seedCatalog } from "../src/lib/inspiration/catalog.ts";
 import { drainJobs, enqueue } from "../src/lib/inspiration/ingest.ts";
-import { allResources, effectivePreferences, importCatalog, passagesFor, preferences, resolveResource, savePreference } from "../src/lib/inspiration/store.ts";
+import { allResources, effectivePreferences, embeddingGaps, importCatalog, passagesFor, preferences, resolveResource, savePreference } from "../src/lib/inspiration/store.ts";
 import { retrieve } from "../src/lib/inspiration/retrieve.ts";
 import { parsePreference } from "../src/lib/inspiration/validation.ts";
 import { resolveEngagement } from "../src/lib/inspiration-engagement.ts";
@@ -48,7 +48,7 @@ Source ingestion is local and text-only. No semantic provider runs unless config
       (SELECT count(*)::integer FROM inspiration_resources WHERE active) AS resources,
       (SELECT count(*)::integer FROM inspiration_preferences) AS preferences,
       (SELECT count(*)::integer FROM inspiration_passages WHERE active) AS passages,
-      (SELECT count(*)::integer FROM inspiration_snapshots) AS snapshots`))[0] });
+      (SELECT count(*)::integer FROM inspiration_snapshots) AS snapshots`))[0], embeddingGaps: await embeddingGaps(db) });
     if (command === "explain") print(await retrieve({ query: argument, mode: values.mode, limit, contextKey: values.context }, { owner: true }, { db }));
     if (command === "inspect" || command === "preference" || command === "enqueue") {
       const resource = await resolveResource(db, argument);
