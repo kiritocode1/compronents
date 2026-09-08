@@ -3,6 +3,12 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import {
+  createOwnerSession,
+  OWNER_COOKIE,
+  OWNER_SESSION_SECONDS,
+  ownerPasswordMatches,
+} from "./inspiration/auth.ts";
 
 // ponytail: single shared-password gate over a public bookmark wall, not real auth.
 // Anyone with the password (or the httpOnly cookie) sees the links. Swap for real
@@ -34,11 +40,31 @@ export async function unlockInspiration(
     return { error: "That is not the password." };
   }
 
-  (await cookies()).set("inspiration_unlock", "unlocked", {
+  const jar = await cookies();
+  jar.set("inspiration_unlock", "unlocked", {
     httpOnly: true,
     sameSite: "lax",
     path: "/inspiration",
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: OWNER_SESSION_SECONDS,
   });
+
+  // Same person, same passphrase. When it is also the owner secret, elevate here
+  // rather than asking again on the page we just let them into. Owner access is
+  // what attaches preferences, source evidence and semantic candidates.
+  try {
+    if (ownerPasswordMatches(password)) {
+      jar.set(OWNER_COOKIE, createOwnerSession(), {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: OWNER_SESSION_SECONDS,
+      });
+    }
+  } catch {
+    // Owner secrets unconfigured. The page still unlocks; the sign-in block
+    // under the search bar remains the way in.
+  }
+
   redirect("/inspiration");
 }

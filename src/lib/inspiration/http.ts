@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { createOwnerSession, OWNER_COOKIE, ownerPasswordMatches, requestViewer, requireOwnerWrite, requireSameOrigin } from "./auth.ts";
+import { createOwnerSession, OWNER_COOKIE, OWNER_SESSION_SECONDS, ownerPasswordMatches, requestViewer, requireOwnerWrite, requireSameOrigin } from "./auth.ts";
 import { getInspirationDatabase, type InspirationDatabase } from "./db.ts";
 import { retrieve } from "./retrieve.ts";
 import { effectivePreferences, passagesFor, preferences, reserveUsage, resolveResource, savePreference } from "./store.ts";
@@ -45,7 +45,7 @@ export async function handleInspiration(request: Request, database?: Inspiration
       if (typeof body.password !== "string" || body.password.length > 500) throw new InspirationError("Enter the owner password.");
       if (!await reserveUsage(db, `login:${Math.floor(Date.now() / 900000)}`, 1, 10)) throw new InspirationError("Too many login attempts. Try again in 15 minutes.", 429);
       if (!ownerPasswordMatches(body.password)) throw new InspirationError("Incorrect owner password.", 401);
-      return jsonResponse({ owner: true }, 200, { "Set-Cookie": `${OWNER_COOKIE}=${createOwnerSession()}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=43200` });
+      return jsonResponse({ owner: true }, 200, { "Set-Cookie": `${OWNER_COOKIE}=${createOwnerSession()}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${OWNER_SESSION_SECONDS}` });
     }
     if (operation === "preference") requireOwnerWrite(request);
     else if (!viewer.owner) throw new InspirationError("Owner access is required.", 401);

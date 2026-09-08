@@ -1,6 +1,10 @@
 /**
  * What the /inspiration search box does to the wall.
  *
+ * Returns the narrowed wall AND `top`, the best combined score it found. The
+ * page escalates to server retrieval when `top` is low, so this number is the
+ * handoff between the instant local pass and the slower one.
+ *
  * Free-text path is real fuzzy search via Fuse.js (Bitap), with multi-term
  * scoring (OR + coverage bonus so "grain texture" and "grann texture" both
  * work), merged with the shared BM25 + facet engine for intent queries the
@@ -186,13 +190,23 @@ function fuseScores(
   return out;
 }
 
+export interface BrowseResult {
+  groups: InspirationGroup[];
+  /**
+   * Confidence of the best local match, roughly [0, 1.1]. 1 means the wall
+   * answered without ranking (no query, a date filter, an exact shelf name),
+   * 0 means nothing matched.
+   */
+  top: number;
+}
+
 export function browseInspiration(
   groups: InspirationGroup[],
   rawQuery: string,
   now = new Date(),
-): InspirationGroup[] {
+): BrowseResult {
   const { query, date, words } = parseTimeQuery(rawQuery, now);
-  if (!query) return groups;
+  if (!query) return { groups, top: 1 };
 
   const inRange = (group: InspirationGroup) => ({
     ...group,
@@ -201,10 +215,10 @@ export function browseInspiration(
   const nonEmpty = (group: InspirationGroup) => group.links.length > 0;
 
   const text = words.join(" ");
-  if (!text) return groups.map(inRange).filter(nonEmpty);
+  if (!text) return { groups: groups.map(inRange).filter(nonEmpty), top: 1 };
 
   const shelf = groups.find((group) => group.title.toLowerCase() === text);
-  if (shelf) return [inRange(shelf)].filter(nonEmpty);
+  if (shelf) return { groups: [inRange(shelf)].filter(nonEmpty), top: 1 };
 
   const fuzzy = fuseScores(groups, text);
   const { ranked } = rankExpanded(indexFor(groups), text, {
@@ -242,7 +256,7 @@ export function browseInspiration(
     if (fu > prev) scoreByHref.set(href, fu);
   }
 
-  if (scoreByHref.size === 0) return [];
+  if (scoreByHref.size === 0) return { groups: [], top: 0 };
 
   const byScore = (a: InspirationLink, b: InspirationLink) =>
     (scoreByHref.get(b.href) ?? 0) - (scoreByHref.get(a.href) ?? 0);
@@ -266,5 +280,8 @@ export function browseInspiration(
     return bBest - aBest;
   });
 
-  return narrowed;
+  let top = 0;
+  for (const score of scoreByHref.values()) if (score > top) top = score;
+
+  return { groups: narrowed, top };
 }

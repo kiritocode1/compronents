@@ -12,6 +12,9 @@ import { inspirationGroups } from "@/lib/inspiration";
 import { browseInspiration } from "@/lib/inspiration-browse";
 import { recommendInspiration } from "@/lib/inspiration-recommend";
 
+/** browseInspiration returns { groups, top }; most assertions only want groups. */
+const browse = (...args) => browseInspiration(...args).groups;
+
 const flat = (groups) => groups.flatMap((group) => group.links);
 const titles = (groups) => flat(groups).map((link) => link.title);
 const hrefs = (groups) => new Set(flat(groups).map((link) => link.href));
@@ -31,7 +34,7 @@ for (const query of SHARED) {
     const pick = recommendInspiration(query).picks[0];
     assert.ok(pick, `recommend returned no pick for "${query}"`);
     assert.ok(
-      hrefs(browseInspiration(inspirationGroups, query)).has(pick.href),
+      hrefs(browse(inspirationGroups, query)).has(pick.href),
       `site search dropped the agent's top pick (${pick.title}) for "${query}"`,
     );
   });
@@ -41,19 +44,19 @@ test("intent queries the old fuzzy search missed now return results", () => {
   // Each of these returned zero or one row before the site moved onto the
   // shared engine: they only work through query expansion and style hints.
   for (const query of ["like linear", "less vibe coded", "grain texture"]) {
-    const found = flat(browseInspiration(inspirationGroups, query));
+    const found = flat(browse(inspirationGroups, query));
     assert.ok(found.length >= 3, `"${query}" returned ${found.length} links`);
   }
 });
 
 test("an empty query returns the whole wall untouched", () => {
-  const all = browseInspiration(inspirationGroups, "");
+  const all = browse(inspirationGroups, "");
   assert.equal(all, inspirationGroups);
 });
 
 test("naming a shelf returns that shelf whole, in registry order", () => {
   const shelf = inspirationGroups.find((g) => g.title === "Typography tools");
-  const result = browseInspiration(inspirationGroups, "typography tools");
+  const result = browse(inspirationGroups, "typography tools");
   assert.equal(result.length, 1);
   assert.deepEqual(
     titles(result),
@@ -66,7 +69,7 @@ test("text search leads with the best hit, not wall order", () => {
   // not buried under an older wall entry that only shares a word.
   const pick = recommendInspiration("animated icons").picks[0];
   assert.ok(pick, "recommend returned no pick for animated icons");
-  const found = flat(browseInspiration(inspirationGroups, "animated icons"));
+  const found = flat(browse(inspirationGroups, "animated icons"));
   assert.equal(
     found[0]?.href,
     pick.href,
@@ -75,18 +78,18 @@ test("text search leads with the best hit, not wall order", () => {
 });
 
 test("inspiration search is real Fuse fuzzy: title typos still hit", () => {
-  const sprites = flat(browseInspiration(inspirationGroups, "spriteshet"));
+  const sprites = flat(browse(inspirationGroups, "spriteshet"));
   assert.ok(
     sprites.some((l) => /spritesheet/i.test(l.title)),
     "spriteshet should fuzzy-match the spritesheet demo",
   );
-  const grain = flat(browseInspiration(inspirationGroups, "grann texture"));
+  const grain = flat(browse(inspirationGroups, "grann texture"));
   assert.ok(grain.length >= 3, "grann texture should still find grain assets");
 });
 
 test("a date-only query returns the wall narrowed to the range", () => {
   const now = new Date("2026-07-20T12:00:00Z");
-  const found = flat(browseInspiration(inspirationGroups, "last week", now));
+  const found = flat(browse(inspirationGroups, "last week", now));
   assert.ok(found.length > 0, "no links in range");
   for (const link of found) {
     assert.ok(
@@ -98,10 +101,8 @@ test("a date-only query returns the wall narrowed to the range", () => {
 
 test("text and a date compose: both filters apply", () => {
   const now = new Date("2026-07-20T12:00:00Z");
-  const withDate = flat(
-    browseInspiration(inspirationGroups, "icons last week", now),
-  );
-  const withoutDate = hrefs(browseInspiration(inspirationGroups, "icons"));
+  const withDate = flat(browse(inspirationGroups, "icons last week", now));
+  const withoutDate = hrefs(browse(inspirationGroups, "icons"));
 
   assert.ok(withDate.length > 0, "no icon links in range");
   assert.ok(
@@ -118,20 +119,36 @@ test("text and a date compose: both filters apply", () => {
 });
 
 test("nonsense returns nothing rather than a confident wall of junk", () => {
-  assert.deepEqual(
-    browseInspiration(inspirationGroups, "zzzqqxx wibblefrotz"),
-    [],
-  );
+  assert.deepEqual(browse(inspirationGroups, "zzzqqxx wibblefrotz"), []);
 });
 
 test("results stay a browsable set, not the whole wall", () => {
   const total = flat(inspirationGroups).length;
   for (const query of ["icons", "react animation library", "postgres"]) {
-    const found = flat(browseInspiration(inspirationGroups, query)).length;
+    const found = flat(browse(inspirationGroups, query)).length;
     assert.ok(found > 0, `"${query}" returned nothing`);
     assert.ok(
       found < total * 0.12,
       `"${query}" returned ${found} of ${total} links, which is a dump`,
+    );
+  }
+});
+
+test("top scores the local answer, so the page knows when to ask the server", () => {
+  // The page escalates to server retrieval below 0.55. These three cases are
+  // the boundary: a confident wall answer, a ranked answer, and a miss.
+  assert.equal(browseInspiration(inspirationGroups, "").top, 1);
+  assert.equal(browseInspiration(inspirationGroups, "typography tools").top, 1);
+  assert.equal(
+    browseInspiration(inspirationGroups, "zzzqqxx wibblefrotz").top,
+    0,
+  );
+
+  for (const query of SHARED) {
+    const { top } = browseInspiration(inspirationGroups, query);
+    assert.ok(
+      top >= 0.55,
+      `"${query}" scored ${top.toFixed(2)}, so the page would escalate a query the wall answers`,
     );
   }
 });

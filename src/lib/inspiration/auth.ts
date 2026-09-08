@@ -7,6 +7,8 @@ import {
 import { InspirationError, type Viewer } from "./types.ts";
 
 export const OWNER_COOKIE = "inspiration_owner";
+/** Owner sessions match the 30-day page unlock. The same person is behind both gates. */
+export const OWNER_SESSION_SECONDS = 60 * 60 * 24 * 30;
 const localKey = globalThis as typeof globalThis & {
   inspirationSessionKey?: string;
 };
@@ -43,7 +45,7 @@ export function createOwnerSession(now = Date.now()) {
   const key = signingKey();
   if (!key)
     throw new InspirationError("Owner sessions are not configured.", 503);
-  const payload = `owner.${Math.floor(now / 1000) + 60 * 60 * 12}.${randomBytes(12).toString("hex")}`;
+  const payload = `owner.${Math.floor(now / 1000) + OWNER_SESSION_SECONDS}.${randomBytes(12).toString("hex")}`;
   return `${payload}.${createHmac("sha256", key).update(payload).digest("base64url")}`;
 }
 
@@ -61,7 +63,7 @@ export function validOwnerSession(token: string | undefined, now = Date.now()) {
     return false;
   if (
     Number(expires) <= Math.floor(now / 1000) ||
-    Number(expires) > Math.floor(now / 1000) + 43200
+    Number(expires) > Math.floor(now / 1000) + OWNER_SESSION_SECONDS
   )
     return false;
   return equalSecret(
