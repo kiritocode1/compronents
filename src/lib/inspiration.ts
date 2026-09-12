@@ -8510,6 +8510,26 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Databases and storage",
     links: [
       {
+        title:
+          "Rapidly scaling online storage to serve over 1 billion ChatGPT users",
+        href: "https://openai.com/index/scaling-storage-one-billion-users-part-one/",
+        dateAdded: "2026-09-12",
+        kind: "essay",
+        stack: ["python", "rust", "azure-cosmos-db", "envoy", "asyncio"],
+        useFor: [
+          "scaling online storage",
+          "habitat storage platform",
+          "python asyncio tail latency",
+          "connection pooling metastable failure",
+          "lifo fifo connection reuse",
+          "azure cosmos db architecture",
+          "python to rust migration",
+          "billion user storage",
+        ],
+        description:
+          "OpenAI engineering article on Habitat, its online storage platform serving more than 70 million requests per second, over 1 billion weekly users, almost 40 regions and more than 500 petabytes of data. It explains why Habitat moved from a Python client library to a service, how asyncio scheduling delay and LIFO connection reuse caused tail latency and metastable load imbalance, and how targeted configuration, jitter, FIFO reuse, Envoy pooling and HTTP/2 reduced those problems. The first part ends with a two-engineer migration from Python to Rust using Codex and GPT-5.5; the Rust service now handles 95% of production requests with 6x better CPU efficiency and 15x better memory efficiency.",
+      },
+      {
         title: "pgbook",
         href: "https://pgbook.dev/",
         dateAdded: "2026-09-08",
