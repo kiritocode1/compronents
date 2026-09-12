@@ -1290,6 +1290,42 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "FeralUI",
+        href: "https://feralui.dev/",
+        dateAdded: "2026-09-12",
+        kind: "library",
+        stack: ["react", "typescript", "physics", "animation"],
+        useFor: [
+          "physics driven react components",
+          "playful ui components",
+          "verlet rope interaction",
+          "claw captcha",
+          "crumple animation",
+          "hologram card effect",
+          "animated route maps",
+        ],
+        description:
+          "Small library of self-contained React and TypeScript components built around physics and hand-tuned animation. Its live examples include a ceiling pull cord with a Verlet rope, a claw-machine captcha, crumpling and hologram effects, a reactive blob, and animated route maps. Built by Sarthak Navalekar under the mortspace handle.",
+      },
+      {
+        title: "Bencho",
+        href: "https://bencho.dev/",
+        dateAdded: "2026-09-12",
+        kind: "library",
+        useFor: [
+          "interactive ui blocks",
+          "magnetic select",
+          "radial menu",
+          "canvas toolbar",
+          "slide to confirm",
+          "drag stepper",
+          "liquid toggle",
+          "reorder list",
+        ],
+        description:
+          "Library of live interactive UI blocks that can be explored, adjusted, and taken into a project. The catalog includes magnetic selects, radial and create menus, canvas toolbars, liquid toggles, slide-to-confirm controls, drag steppers, reorderable lists, dials, and pull-to-refresh interactions. Built by Lorenzo Cabra.",
+      },
+      {
         title: "Opensource UI",
         href: "https://opensourceui.in/",
         dateAdded: "2026-09-08",
@@ -2032,6 +2068,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Controls UI",
+        href: "https://controlui.vercel.app/",
+        dateAdded: "2026-09-12",
+        kind: "demo",
+        stack: ["html", "css", "javascript"],
+        useFor: [
+          "physical ui controls",
+          "chrome control design",
+          "lever switch interaction",
+          "volume dial interaction",
+          "custom range slider",
+          "push button feedback",
+          "toggle control reference",
+        ],
+        description:
+          "Small interaction study of chrome-like controls: a checkbox, range slider, toggle, push button, volume dial, and lever switch. The lever supports click, vertical drag, and arrow-key input while retaining its selected position. Use it as a behavior and styling reference for physical controls.",
+      },
       {
         title: "Image Hover Reveal",
         href: "https://www.great-ui.com/components/image-hover-reveal",
@@ -2987,6 +3041,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Wellmade",
+        href: "https://wellmade.fyi/",
+        dateAdded: "2026-09-12",
+        kind: "gallery",
+        useFor: [
+          "credited creative work gallery",
+          "ui design reference",
+          "branding inspiration",
+          "animation reference",
+          "app icon inspiration",
+          "launch video reference",
+          "generative art reference",
+        ],
+        description:
+          "Curated gallery of creative work with the maker credited on each entry. It can be sorted by best match, latest, top, or shuffled, and filtered across UI, app icons, widgets, launch videos, branding, logos, animation, websites, posters, 3D, pixel art, illustration, generative art, and ads.",
+      },
       {
         title: "Design Hotels: Further Forecast 2025",
         href: "https://deck.gallery/further-forecast-2025/slide/31-travel-as-knowledge-exchange-transform/",
@@ -5945,6 +6016,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "WebGL, shaders and creative coding",
     links: [
       {
+        title: "shadercn",
+        href: "https://www.shadercn.run/docs",
+        dateAdded: "2026-09-12",
+        kind: "library",
+        stack: ["react", "typescript", "webgpu", "vgpu", "typegpu", "shadcn"],
+        useFor: [
+          "react shader components",
+          "webgpu ui effects",
+          "shadcn shader registry",
+          "typed shader props",
+          "gpu hero background",
+          "customizable shader orbs",
+          "copy paste shader component",
+        ],
+        description:
+          "Copy-paste React shader components built on vgpu and TypeGPU and distributed through the shadcn registry format. Each effect exposes typed props and runs through WebGPU, so the installed source can be themed, composed, and changed inside the project. The docs list 33 orb components alongside installation, registry, MCP, playground, and changelog pages.",
+      },
+      {
         title: "kool-brushez",
         href: "https://kool-brushez.vercel.app/?brush=balloon",
         dateAdded: "2026-09-08",
@@ -7226,6 +7315,42 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Plane Agent Avatar Lab",
+        href: "https://agents.plane.so/",
+        dateAdded: "2026-09-12",
+        kind: "tool",
+        stack: ["canvas", "svg", "animation"],
+        useFor: [
+          "agent avatar generator",
+          "animated agent status avatar",
+          "agent state visualisation",
+          "export animated svg avatar",
+          "export agent gif",
+          "export agent webm",
+          "ai product avatar",
+        ],
+        description:
+          "Plane's generator for animated agent avatars. The studio changes the agent name, color, surface shape, eye color, and nine states including idle, thinking, working, done, failed, invalid, and inactive. It exports a 1024px PNG, animated SVG, single-loop GIF, or single-loop WebM from the same renderer used by the preview.",
+      },
+      {
+        title: "Embrasure",
+        href: "https://embrasure.ai/",
+        dateAdded: "2026-09-12",
+        kind: "tool",
+        stack: ["ai", "postgres", "supabase", "stripe", "slack", "dbt"],
+        useFor: [
+          "autonomous data warehouse",
+          "startup data platform",
+          "slack experiment recommendations",
+          "growth experiment analysis",
+          "warehouse source sync",
+          "product metric monitoring",
+          "experiment guardrails",
+        ],
+        description:
+          "Embrasure's Ember product runs a data warehouse for startups and sends experiment recommendations to Slack. Its product example connects Postgres, Supabase, Stripe, and Slack, then tracks warehouse tables, metrics, experiment variants, guardrails, and learnings. New signups are paused and the site currently offers a waitlist.",
+      },
+      {
         title: "Teaching the Framer Agent to Design in 3D",
         href: "https://www.framer.com/blog/teaching-the-framer-agent-to-design-in-3d/",
         dateAdded: "2026-09-02",
@@ -7680,6 +7805,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "Egregore",
+        href: "https://egregore.xyz/docs",
+        dateAdded: "2026-09-12",
+        kind: "tool",
+        stack: ["claude-code", "git", "github", "telegram"],
+        useFor: [
+          "shared agent memory",
+          "cross session agent knowledge",
+          "async agent handoffs",
+          "team claude code memory",
+          "local agent operating system",
+          "git backed agent context",
+          "telegram agent access",
+        ],
+        description:
+          "Local agent operating system that keeps shared memory across Claude Code sessions and team members. It uses Git repositories for accumulated knowledge and supports asynchronous handoffs, slash commands, and Telegram setup. Installation starts with `npx create-egregore@latest`; the docs say it needs no hosted server, account, or API key.",
+      },
       {
         title: "Orca",
         href: "https://www.onorca.dev/",
@@ -8626,6 +8769,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Infrastructure, observability and runtimes",
     links: [
       {
+        title: "Introducing Flat Rate CDN",
+        href: "https://vercel.com/blog/introducing-flat-rate-cdn",
+        dateAdded: "2026-09-12",
+        kind: "essay",
+        stack: ["vercel", "cdn"],
+        useFor: [
+          "vercel flat rate cdn",
+          "predictable cdn pricing",
+          "cdn spike protection",
+          "vercel pro bandwidth pricing",
+          "cdn capacity planning",
+          "cdn request pricing",
+          "data transfer pricing",
+        ],
+        description:
+          "Vercel's September 8, 2026 explanation of Flat Rate CDN for Pro teams. A fixed monthly fee covers CDN Requests, Fast Data Transfer, Blob Data Transfer, and observability events generated by CDN requests, with temporary spikes excluded from overage charges. The included tier provides 1 million requests and 1 TB of transfer; paid tiers range from $20 for 10 million requests to $300 for 150 million requests, each with 50 TB of transfer.",
+      },
+      {
         title: "celld",
         href: "https://celld.dev/docs",
         dateAdded: "2026-08-19",
@@ -9287,6 +9448,722 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "gpu-lexer",
+        href: "https://gpu-lexer.vercel.app/",
+        dateAdded: "2026-09-12",
+        kind: "library",
+        stack: ["webgpu", "javascript", "syntax-highlighting"],
+        useFor: [
+          "webgpu syntax highlighter",
+          "language agnostic highlighting",
+          "grammar free syntax highlighting",
+          "browser code highlighting",
+          "mixed language highlighting",
+          "small syntax highlighter",
+          "probabilistic token classification",
+        ],
+        description:
+          "Experimental syntax highlighter by Shu Ding at Vercel Labs. A 41,321-parameter WebGPU model labels source tokens without selecting a language grammar, and the browser bundle is 27.4 KB compressed for all supported languages. The published benchmark reports 88.02% held-out token-label agreement with Shiki and 402 ms to process ten copies of three.min.js after warm-up, while noting that results are probabilistic and weaker on some languages.",
+      },
+      {
+        title: "Arcade",
+        href: "https://ascii-arcade.dev/",
+        dateAdded: "2026-09-12",
+        kind: "tool",
+        stack: ["typescript", "nodejs", "browser", "terminal"],
+        useFor: [
+          "terminal 3d game engine",
+          "agent playable game",
+          "ascii game engine",
+          "cpu 3d renderer",
+          "retained terminal ui",
+          "game automation harness",
+          "no gpu terminal game",
+        ],
+        description:
+          "Pure-TypeScript 3D game engine for games rendered as ASCII in a terminal without a GPU. The project describes its core as a CPU renderer, retained terminal UI, and agent-playable game harness that runs on Node.js and modern browsers. Install the CLI with `npm i -g ascii-arcade`, or use the playable browser demo.",
+      },
+      {
+        title: "pgbot",
+        href: "https://github.com/pgrundev/pgbot",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["go", "postgres", "agents"],
+        useFor: [
+          "postgres agent tooling",
+          "database intelligence",
+          "ai data analysis",
+        ],
+        description:
+          "Postgres intelligence for AI agents and applications. The OSS Grants list calls it Postgres tooling for agents.",
+      },
+      {
+        title: "wouter",
+        href: "https://github.com/molefrog/wouter",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "react", "preact"],
+        useFor: ["react router", "preact router", "small client router"],
+        description:
+          "A zero-dependency router for React and Preact, published as a small TypeScript library. The grants list groups it with minimalist, high-performance libraries by Alexey Taktarov.",
+      },
+      {
+        title: "tgfx",
+        href: "https://github.com/molefrog/tgfx",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "telegram", "agents"],
+        useFor: [
+          "telegram coding agent",
+          "telegram agent bridge",
+          "agent notifications",
+        ],
+        description:
+          "A small Telegram bridge for the fx coding agent. The grants list groups it with Alexey Taktarov's minimalist, high-performance experiments.",
+      },
+      {
+        title: "slotstream",
+        href: "https://github.com/carloslfu/slotstream",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["swift", "mlx", "ollama", "macos"],
+        useFor: [
+          "run moe models on mac",
+          "local llm inference",
+          "stream model experts",
+        ],
+        description:
+          "Runs large mixture-of-experts models on Macs by streaming experts from SSD, with an Ollama-compatible API. The OSS Grants list describes it as an engine for running large MoE models on Macs.",
+      },
+      {
+        title: "pkg",
+        href: "https://github.com/yao-pkg/pkg",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["javascript", "nodejs"],
+        useFor: ["node executable", "package node app", "single executable"],
+        description:
+          "Packages a Node.js project as an executable. The grants list recognizes its foundational Node.js ecosystem maintenance.",
+      },
+      {
+        title: "MQTT.js",
+        href: "https://github.com/mqttjs/MQTT.js",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "javascript", "nodejs", "mqtt"],
+        useFor: ["mqtt client", "node mqtt", "browser mqtt"],
+        description:
+          "MQTT client library for Node.js and browsers. The grants list recognizes its foundational Node.js ecosystem maintenance.",
+      },
+      {
+        title: "cuelume",
+        href: "https://github.com/Danilaa1/cuelume",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "audio"],
+        useFor: [
+          "ui sound effects",
+          "interaction audio feedback",
+          "web sound palette",
+        ],
+        description:
+          "A curated sound palette for UI buttons, links, toggles and completed actions, added through an attribute or bind call. The grants list recognizes it as a design-engineering sound library.",
+      },
+      {
+        title: "slot-text",
+        href: "https://github.com/Danilaa1/slot-text",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "javascript", "react", "vue"],
+        useFor: ["text roll animation", "animated number text", "slot text"],
+        description:
+          "Dependency-free text-roll animation for vanilla JavaScript, React and Vue. The grants list recognizes it as a design-engineering animation library.",
+      },
+      {
+        title: "oRPC",
+        href: "https://github.com/middleapi/orpc",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "rpc", "openapi"],
+        useFor: ["typesafe api", "contract first api", "typescript rpc"],
+        description:
+          "A contract-first toolkit for typesafe APIs, with adapters and integrations across TypeScript runtimes and frontend frameworks. The OSS Grants list calls it a toolkit for typesafe APIs.",
+      },
+      {
+        title: "fff",
+        href: "https://github.com/dmtrKovalenko/fff",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["rust", "nodejs", "bun", "python"],
+        useFor: [
+          "agent file search",
+          "fast code search",
+          "semantic file finder",
+        ],
+        description:
+          "A file-search SDK for AI agents, Neovim, Rust, C, Python, Bun and Node.js. The grants list describes it as fast and accurate file search for agents.",
+      },
+      {
+        title: "Sonner",
+        href: "https://github.com/emilkowalski/sonner",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "react"],
+        useFor: ["react toast", "toast notifications", "sonner notifications"],
+        description:
+          "An opinionated toast component for React. The grants list groups it with Emil Kowalski's design-engineering AI skills and components.",
+      },
+      {
+        title: "Vaul",
+        href: "https://github.com/emilkowalski/vaul",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "react"],
+        useFor: ["react drawer", "mobile bottom sheet", "vaul drawer"],
+        description:
+          "A drawer component for React. The grants list groups it with Emil Kowalski's design-engineering AI skills and components.",
+      },
+      {
+        title: "LocalAI",
+        href: "https://github.com/mudler/LocalAI",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["go", "llm", "mcp", "api"],
+        useFor: [
+          "run local ai models",
+          "self hosted llm api",
+          "local image generation",
+        ],
+        description:
+          "Open-source AI engine for running language, vision, voice, image and video models on local hardware. The grants list describes it as an engine for running any model on any hardware.",
+      },
+      {
+        title: "nuqs",
+        href: "https://github.com/47ng/nuqs",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "react", "url"],
+        useFor: [
+          "url state",
+          "typesafe search parameters",
+          "react url parameters",
+        ],
+        description:
+          "A type-safe URL search-parameter state manager for React frameworks. The grants list recognizes it as foundational React framework routing tooling.",
+      },
+      {
+        title: "zerostack",
+        href: "https://github.com/gi-dellav/zerostack",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["rust", "agents"],
+        useFor: [
+          "rust coding agent",
+          "lightweight coding agent",
+          "local coding agent",
+        ],
+        description:
+          "A lightweight Rust coding agent built for low memory use and performance. The grants list groups it with minimalist Rust agent tooling.",
+      },
+      {
+        title: "multistack",
+        href: "https://github.com/gi-dellav/multistack",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["rust", "tui", "agents"],
+        useFor: [
+          "parallel agent management",
+          "agent terminal ui",
+          "multi agent tui",
+        ],
+        description:
+          "A lightweight terminal UI for managing agents in parallel. The grants list groups it with minimalist Rust agent tooling.",
+      },
+      {
+        title: "rv",
+        href: "https://github.com/gi-dellav/rv",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["rust", "agents", "code-review"],
+        useFor: [
+          "ai code review",
+          "workflow code review",
+          "non invasive code review",
+        ],
+        description:
+          "Non-invasive AI code review for different development workflows. The grants list groups it with minimalist Rust agent tooling.",
+      },
+      {
+        title: "Yaak",
+        href: "https://github.com/mountain-loop/yaak",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "tauri", "http", "graphql", "grpc"],
+        useFor: ["desktop api client", "test graphql api", "test grpc api"],
+        description:
+          "Desktop API client for REST, GraphQL, WebSockets, server-sent events and gRPC. The grants list calls it a desktop API explorer for web protocols.",
+      },
+      {
+        title: "dither-kit",
+        href: "https://github.com/Boring-Software-Inc/dither-kit",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "react", "shadcn"],
+        useFor: ["dithered charts", "shadcn charts", "react chart components"],
+        description:
+          "Composable dithered area, line, bar, pie and radar charts for shadcn/ui. The OSS Grants list calls it composable, dithered charts for shadcn/ui.",
+      },
+      {
+        title: "Unlighthouse",
+        href: "https://github.com/harlan-zw/unlighthouse",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["javascript", "lighthouse", "puppeteer"],
+        useFor: [
+          "site lighthouse audit",
+          "web performance audit",
+          "audit entire site",
+        ],
+        description:
+          "Runs Google Lighthouse across an entire site. The grants list groups it with agent tooling for web performance and SEO.",
+      },
+      {
+        title: "Nuxt SEO",
+        href: "https://github.com/harlan-zw/nuxt-seo",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "nuxt", "seo"],
+        useFor: ["nuxt seo", "technical seo", "answer engine optimization"],
+        description:
+          "Technical SEO and answer-engine optimization tooling for Nuxt. The grants list groups it with agent tooling for web performance and SEO.",
+      },
+      {
+        title: "mdream",
+        href: "https://github.com/harlan-zw/mdream",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "markdown", "llm"],
+        useFor: [
+          "html to markdown",
+          "stream html conversion",
+          "markdown for llms",
+        ],
+        description:
+          "Streaming HTML-to-Markdown converter optimized for LLM use. The grants list groups it with agent tooling for web performance and SEO.",
+      },
+      {
+        title: "ast-grep",
+        href: "https://github.com/ast-grep/ast-grep",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["rust", "tree-sitter", "typescript"],
+        useFor: ["structural code search", "ast rewrite", "code codemod"],
+        description:
+          "Rust CLI for structural code search, linting and rewriting. The OSS Grants list describes it as structural code exploration for agents.",
+      },
+      {
+        title: "colibri",
+        href: "https://github.com/JustVugg/colibri",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["c", "llm", "moe"],
+        useFor: ["run local moe", "c llm inference", "stream model experts"],
+        description:
+          "Pure-C, zero-dependency engine for running mixture-of-experts models with experts streamed from disk. The grants list describes it as a pure-C engine for local MoE models.",
+      },
+      {
+        title: "Takumi",
+        href: "https://github.com/kane50613/takumi",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["rust", "jsx", "pdf", "image-generation"],
+        useFor: ["jsx to pdf", "og image renderer", "html image renderer"],
+        description:
+          "Renders Open Graph images and paged PDFs from JSX, HTML and CSS without a headless browser, across Node.js, Cloudflare Workers, browsers and Rust. The grants list calls it a high-performance Rust image and PDF renderer.",
+      },
+      {
+        title: "soundcn",
+        href: "https://github.com/KapishDima/soundcn",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "audio", "shadcn"],
+        useFor: [
+          "ui sound effects",
+          "shadcn sound effects",
+          "web audio feedback",
+        ],
+        description:
+          "A collection of more than 700 curated UI sound effects that can be browsed, previewed and installed with one command. The grants list groups it with shadcn ecosystem tools.",
+      },
+      {
+        title: "fonttrio",
+        href: "https://github.com/KapishDima/fonttrio",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "fonts", "shadcn"],
+        useFor: [
+          "font pairing",
+          "shadcn typography",
+          "heading body mono fonts",
+        ],
+        description:
+          "Curated heading, body and monospace font pairings for shadcn projects, installed with a command. The grants list groups it with shadcn ecosystem tools.",
+      },
+      {
+        title: "shadcn-rss",
+        href: "https://github.com/KapishDima/shadcn-rss",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "shadcn", "rss"],
+        useFor: [
+          "shadcn registry updates",
+          "track component changes",
+          "registry rss feed",
+        ],
+        description:
+          "Tracks new components and changes in favorite shadcn registries. The grants list groups it with shadcn ecosystem tools.",
+      },
+      {
+        title: "kitty",
+        href: "https://github.com/kovidgoyal/kitty",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["python", "terminal", "opengl"],
+        useFor: [
+          "gpu terminal",
+          "terminal emulator",
+          "cross platform terminal",
+        ],
+        description:
+          "Cross-platform GPU-accelerated terminal emulator. The grants list recognizes it as a popular terminal with strong performance.",
+      },
+      {
+        title: "calibre",
+        href: "https://github.com/kovidgoyal/calibre",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["python", "ebooks"],
+        useFor: ["ebook manager", "ebook reader", "convert ebook formats"],
+        description:
+          "Open-source ebook manager and reader. The grants list pairs it with kitty under Kovid Goyal's terminal and performance work.",
+      },
+      {
+        title: "Knip",
+        href: "https://github.com/webpro-nl/knip",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "javascript"],
+        useFor: [
+          "find unused files",
+          "find unused dependencies",
+          "find unused exports",
+        ],
+        description:
+          "Finds unused files, dependencies and exports in JavaScript and TypeScript projects. The grants list highlights it for trimming codebases.",
+      },
+      {
+        title: "release-it",
+        href: "https://github.com/release-it/release-it",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["javascript", "git", "npm"],
+        useFor: ["automate release", "npm publish", "version release"],
+        description:
+          "Automates versioning and package publishing. The grants list includes it among Lars Kappert's maintained developer tools.",
+      },
+      {
+        title: "reveal-md",
+        href: "https://github.com/webpro/reveal-md",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["javascript", "markdown", "slides"],
+        useFor: [
+          "markdown presentation",
+          "reveal js slides",
+          "serve markdown slides",
+        ],
+        description:
+          "Builds Reveal.js presentations from Markdown. The grants list includes it among Lars Kappert's maintained developer tools.",
+      },
+      {
+        title: "email-sdk",
+        href: "https://github.com/opencoredev/email-sdk",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "email"],
+        useFor: [
+          "transactional email sdk",
+          "provider agnostic email",
+          "typescript email adapter",
+        ],
+        description:
+          "TypeScript SDK for transactional email across 23 adapters. The grants list calls it a lightweight provider-agnostic email SDK.",
+      },
+      {
+        title: "t3code",
+        href: "https://github.com/pingdotgg/t3code",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "ai"],
+        useFor: [
+          "typescript ai experiments",
+          "t3 code",
+          "open source ai project",
+        ],
+        description:
+          "An open-source TypeScript AI project. The grants list groups it with Maria's AI experiments and contributions.",
+      },
+      {
+        title: "t3libre",
+        href: "https://github.com/maria-rcks/t3libre",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "ai"],
+        useFor: ["open source ai code", "t3 libre", "typescript ai project"],
+        description:
+          "An open-source continuation of T3 Code. The grants list groups it with Maria's AI experiments and contributions.",
+      },
+      {
+        title: "CodeCompanion.nvim",
+        href: "https://github.com/olimorris/codecompanion.nvim",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["lua", "neovim", "llm"],
+        useFor: [
+          "neovim ai coding",
+          "vim coding agent",
+          "neovim llm assistant",
+        ],
+        description:
+          "AI coding extension for Neovim with support for agent and model providers. The OSS Grants list calls it a Neovim AI coding extension.",
+      },
+      {
+        title: "Porffor",
+        href: "https://github.com/CanadaHonk/porffor",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["javascript", "compiler"],
+        useFor: [
+          "javascript compiler",
+          "ahead of time javascript",
+          "aot compiler",
+        ],
+        description:
+          "Ahead-of-time JavaScript compiler. The grants list calls it an ahead-of-time JavaScript compiler.",
+      },
+      {
+        title: "sveltejs-ai",
+        href: "https://github.com/paoloricciuti/sveltejs-ai",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "svelte", "ai"],
+        useFor: ["svelte ai", "svelte llm app", "svelte ai utilities"],
+        description:
+          "AI utilities for Svelte projects. The grants list groups it with Svelte ecosystem contributions and AI and MCP utilities.",
+      },
+      {
+        title: "shadcn-htmx",
+        href: "https://github.com/productdevbook/shadcn-htmx",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["html", "htmx", "tailwindcss", "shadcn"],
+        useFor: [
+          "htmx components",
+          "shadcn html components",
+          "tailwind htmx ui",
+        ],
+        description:
+          "Accessible shadcn-style UI components for htmx and Tailwind, with Hono JSX, Jinja2, Go, Phoenix and raw HTML variants. The grants list groups it with high-quality web tooling.",
+      },
+      {
+        title: "nitro-graphql",
+        href: "https://github.com/productdevbook/nitro-graphql",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "graphql", "nitro", "zod"],
+        useFor: [
+          "nitro graphql",
+          "graphql type generation",
+          "graphql server module",
+        ],
+        description:
+          "Nitro module that integrates GraphQL servers with automatic type generation and file watching. The grants list groups it with high-quality web tooling.",
+      },
+      {
+        title: "blender-mcp",
+        href: "https://github.com/ahujasid/blender-mcp",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["python", "blender", "mcp"],
+        useFor: [
+          "control blender with mcp",
+          "blender ai agent",
+          "blender model context protocol",
+        ],
+        description:
+          "Community Blender plugin that lets an LLM control Blender through MCP. The grants list identifies it as MCP automation for a creative application.",
+      },
+      {
+        title: "ableton-mcp",
+        href: "https://github.com/ahujasid/ableton-mcp",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["python", "ableton", "mcp"],
+        useFor: ["control ableton with mcp", "ableton ai agent", "music mcp"],
+        description:
+          "MCP server for controlling Ableton Live through an LLM, including tracks, clips and composition. The grants list identifies it as MCP automation for a creative application.",
+      },
+      {
+        title: "Svelte AI Elements",
+        href: "https://github.com/SikandarJODD/ai-elements",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["svelte", "ai", "shadcn"],
+        useFor: [
+          "svelte ai components",
+          "svelte chat ui",
+          "svelte ai elements",
+        ],
+        description:
+          "Unofficial Svelte port of Vercel AI Elements built on shadcn-svelte. The grants list calls it foundational Svelte AI building blocks.",
+      },
+      {
+        title: "sv-matrix",
+        href: "https://github.com/SikandarJODD/sv-matrix",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["svelte", "animation"],
+        useFor: [
+          "svelte loading animation",
+          "dot matrix loader",
+          "svelte loaders",
+        ],
+        description:
+          "Collection of more than 50 customizable dot-matrix loading animations for Svelte. The grants list groups it with foundational Svelte UI building blocks.",
+      },
+      {
+        title: "sv-table",
+        href: "https://github.com/SikandarJODD/sv-table",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["svelte", "data-table"],
+        useFor: [
+          "svelte data table",
+          "svelte table component",
+          "svelte table examples",
+        ],
+        description:
+          "Svelte data-table components and examples. The grants list groups it with foundational Svelte UI building blocks.",
+      },
+      {
+        title: "svelte-bench",
+        href: "https://github.com/khromov/svelte-bench",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "svelte", "ai"],
+        useFor: [
+          "svelte llm benchmark",
+          "benchmark llm code",
+          "svelte ai evaluation",
+        ],
+        description:
+          "LLM benchmark for Svelte 5 based on the OpenAI code-evaluation methodology. The grants list groups it with Svelte ecosystem contributions.",
+      },
+      {
+        title: "gpuix-svelte",
+        href: "https://github.com/khromov/gpuix-svelte",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "svelte", "gpu"],
+        useFor: ["svelte gpu renderer", "native svelte ui", "gpuix svelte"],
+        description:
+          "Svelte custom renderer for Zed's GPU-accelerated GPUI framework through @gpuix/native. The grants list groups it with Svelte ecosystem contributions.",
+      },
+      {
+        title: "spell-ui",
+        href: "https://github.com/xxtomm/spell-ui",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["typescript", "react", "nextjs", "shadcn"],
+        useFor: [
+          "copy paste react components",
+          "shadcn react components",
+          "motion ui components",
+        ],
+        description:
+          "Collection of React components that can be copied into a project, built with motion, Next.js, shadcn/ui and Tailwind. The grants list calls it high-quality copy-pastable React components.",
+      },
+      {
+        title: "gpuix",
+        href: "https://github.com/remorses/gpuix",
+        dateAdded: "2026-09-08",
+        kind: "library",
+        stack: ["rust", "react", "nodejs", "gpu"],
+        useFor: [
+          "native react app",
+          "gpui react bindings",
+          "electron alternative",
+        ],
+        description:
+          "Node.js and React bindings for Zed's GPUI, for building memory-efficient native applications without Electron. The grants list groups it with high-performance GPU rendering work.",
+      },
+      {
+        title: "tuistory",
+        href: "https://github.com/remorses/tuistory",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "tui", "agents"],
+        useFor: [
+          "test terminal ui",
+          "agent tui automation",
+          "tui browser automation",
+        ],
+        description:
+          "Terminal UI automation for agents, allowing them to control and test TUIs. The grants list groups it with high-performance GPU rendering work.",
+      },
+      {
+        title: "usecomputer",
+        href: "https://github.com/remorses/usecomputer",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["zig", "agents", "computer-use"],
+        useFor: [
+          "computer use cli",
+          "desktop automation agent",
+          "screenshot click automation",
+        ],
+        description:
+          "Fast computer-automation CLI for AI agents, with screenshots, clicks, typing and scrolling. The grants list groups it with high-performance GPU rendering work.",
+      },
+      {
+        title: "gloomberb",
+        href: "https://github.com/vincelwt/gloomberb",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["typescript", "terminal", "finance"],
+        useFor: [
+          "terminal finance dashboard",
+          "stock market terminal",
+          "portfolio terminal",
+        ],
+        description:
+          "Finance terminal for use in a terminal. The OSS Grants list describes it as a finance terminal in the terminal.",
+      },
+      {
+        title: "Anubis",
+        href: "https://github.com/TecharoHQ/anubis",
+        dateAdded: "2026-09-08",
+        kind: "tool",
+        stack: ["go", "security", "bot-mitigation"],
+        useFor: [
+          "block ai crawlers",
+          "proof of work bot mitigation",
+          "http bot protection",
+        ],
+        description:
+          "HTTP bot-mitigation infrastructure that uses proof-of-work challenges to stop AI crawlers. The grants list recognizes it for bot mitigation and novel proof-of-work mitigations.",
+      },
       {
         title: "M3E Canvas",
         href: "https://github.com/lnkiai/m3e-canvas",
@@ -12164,6 +13041,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Mockups, textures and patterns",
     links: [
+      {
+        title: "ID Cards",
+        href: "https://id-cards.kshv.me/",
+        dateAdded: "2026-09-12",
+        kind: "tool",
+        useFor: [
+          "branded id card generator",
+          "member card mockup",
+          "access card design",
+          "pull brand from website",
+          "holographic card mockup",
+          "membership card png",
+          "qr id card",
+        ],
+        description:
+          "Browser tool by Keshav for making branded ID and membership cards. It can pull a site's logo, colors, and name, then apply one of eight card treatments including brushed metal, holographic laminate, frosted glass, carbon weave, liquid chrome, and letterpress. Member details, typography, finish, photo, ID, and QR target are editable, and the final card downloads as a 1080 by 1712 PNG.",
+      },
       {
         title: "Book of Shapes",
         href: "https://bookofshapes.com/",
