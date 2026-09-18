@@ -246,6 +246,29 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "React Native and mobile",
     links: [
       {
+        title: "react-native-jelly-tabs",
+        href: "https://github.com/felipe-software/react-native-jelly-tabs",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: [
+          "React Native",
+          "Reanimated",
+          "Gesture Handler",
+          "TypeScript",
+          "Expo",
+        ],
+        useFor: [
+          "add jelly tab bar",
+          "integrate expo router tabs",
+          "support android ios web tabs",
+          "customize tab springs distortion",
+          "improve tab accessibility semantics",
+          "use headless tab component",
+        ],
+        description:
+          "react-native-jelly-tabs is an open-source jelly-like animated tab bar for React Native built with Reanimated, Gesture Handler and Masked View. It runs on Android, iOS and React Native Web, drops into Expo Router and React Navigation bottom tabs, and adds jelly snapping, drag and press interactions plus badges, VoiceOver and TalkBack semantics and a headless component for custom routers. Written in TypeScript with bundled type declarations, it supports React Native 0.76 and later, Reanimated 3 to 4 and Gesture Handler 2 to 3, with guides and live Storybook previews on its companion docs site.",
+      },
+      {
         title: "Laminar",
         href: "https://github.com/cajaun/laminar",
         dateAdded: "2026-08-06",
@@ -606,6 +629,42 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Web platform, CSS and performance",
     links: [
+      {
+        title: "modern-web-guidance v0.0.187",
+        href: "https://github.com/GoogleChrome/modern-web-guidance/releases/tag/v0.0.187",
+        dateAdded: "2026-09-18",
+        kind: "skill",
+        stack: ["CSS"],
+        useFor: [
+          "build accessible progress ring",
+          "implement scrollspy navigation",
+          "create accessible spinner",
+          "fix css layout gaps",
+          "preserve bfcache eligibility",
+          "search web best practices",
+          "retrieve guide by id",
+        ],
+        description:
+          "This is release v0.0.187 of Modern Web Guidance, an agent skill and CLI from the Google Chrome team for modern web best practices. The release adds guides for progress ring, scrollspy and spinner UI components and updates the css layout and performance guides. It also adds Codex plugin manifest support and reports benchmark uplifts for guided agents.",
+      },
+      {
+        title: "Reading a performance profile",
+        href: "https://perf.reviews/profile-guide",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        useFor: [
+          "read network waterfall dependency patterns",
+          "decode flame chart self versus total time",
+          "diagnose cpu-bound versus network-bound traces",
+          "split lcp into four phases",
+          "fix cls with reserved space",
+          "attribute inp interaction phases",
+          "triage traces with insights sidebar",
+          "recognize third-party frame signatures",
+        ],
+        description:
+          "Reading a performance profile is a hands-on field guide to the Chrome DevTools Performance panel, built around a real capture of a client-side-rendered Angular login SPA. It walks through the color language of the CPU overview, network request anatomy, waterfall dependency chains, flame charts, call trees and bottom-up tables. Later sections cover LCP phases, frames and CLS, INP interactions, composited animations, the style layout paint composite pipeline, function-name and request signatures, and an expert reading workflow with capture pre-flight settings.",
+      },
       {
         title: "How modern browsers work",
         href: "https://addyo.substack.com/p/how-modern-browsers-work",
@@ -1043,6 +1102,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "UI kit directories",
     links: [
       {
+        title: "Design Minis",
+        href: "https://www.designminis.com/",
+        dateAdded: "2026-09-18",
+        useFor: [
+          "find single purpose design tools",
+          "pick a colour picker",
+          "tune type scales",
+          "edit easing curves",
+          "generate shadows",
+          "filter tools by category",
+          "submit a design tool",
+        ],
+        description:
+          "Design Minis is a directory of small tools made by designers, each doing one job such as colour pickers, type scales, easing curves and shadow generators. Someone uses it to find and bookmark free and freemium utilities across effects, backgrounds, images, motion, SVG, color, illustration, 3D, video, typography, icons, CSS and layout. Listings show screenshots, categories and pricing, and visitors can submit new tools.",
+      },
+      {
         title: "BestWebsiteTemplate.com",
         href: "https://bestwebsitetemplate.com/",
         dateAdded: "2026-08-05",
@@ -1289,6 +1364,164 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component libraries and blocks",
     links: [
+      {
+        title: "mcpcn",
+        href: "https://www.mcpcn.dev/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["base-ui"],
+        useFor: [
+          "browse mcp app components",
+          "read installation guides",
+          "browse component blocks",
+          "use llms.txt index",
+          "install site agent skill",
+          "build with base ui",
+        ],
+        description:
+          "mcpcn is a collection of accessible, customizable MCP App UI components built with Base UI and compatible with shadcn/ui. The homepage points into installation guides, a blocks browser, full documentation with an llms.txt index, an OpenAPI description, and an installable agent skill for building MCP app interfaces.",
+      },
+      {
+        title: "trove/cn",
+        href: "https://www.trovecn.dev/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["react", "base-ui", "motion", "tailwind css"],
+        useFor: [
+          "copy elastic slider",
+          "copy notification stack",
+          "copy list detail morph",
+          "copy scrub field",
+          "copy accordion primitives",
+          "copy dialog primitives",
+          "reuse spring motion tokens",
+          "study interruptible animations",
+        ],
+        description:
+          "trove/cn is a copy-the-source component collection whose interactions keep tracking input mid-gesture, reverse from their current position and can be grabbed mid-animation. It ships four signature interactions (elastic slider, notification stack, list detail morph, scrub field) over 15 primitives built on Base UI with Motion springs and Tailwind. Each component page carries its own install command over shared cn, springs and proximity-hover foundations.",
+      },
+      {
+        title: "Astryx",
+        href: "http://astryx.atmeta.com/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["react", "stylex"],
+        useFor: [
+          "use 170 accessible components",
+          "apply customizable themes",
+          "browse production templates",
+          "scaffold projects via cli",
+          "use agent ready docs",
+          "build with react 19",
+        ],
+        description:
+          "Astryx is an open source customizable design system from Meta, currently in beta and built on React 19 and StyleX. It provides over 170 accessible themeable React components with spacing, dark mode and flexible styling, plus templates, themes, a playground, CLI and MCP-based agent docs. The site says it grew inside Meta over eight years, powers over 13,000 apps, and recently shipped v0.6.0 responsive themes and v0.5.0 with 30 locales.",
+      },
+      {
+        title: "beUI",
+        href: "http://beui.dev/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React", "Next.js", "Tailwind CSS", "Motion", "shadcn"],
+        useFor: [
+          "copy animated react components",
+          "add morphing modal",
+          "add animated toast stack",
+          "add command palette",
+          "add bottom sheet",
+          "install via shadcn",
+          "customize every interaction",
+        ],
+        description:
+          "beUI is a free open source set of copy paste React components built with Motion and Tailwind CSS for React and Next.js. The catalog covers motion primitives and blocks such as buttons, morphing modals, toast stacks, docks, tabs, dynamic islands, command palettes, tilt cards and bottom sheets. Components install through the shadcn registry and the project also offers a paid Pro tier.",
+      },
+      {
+        title: "Shadcn Labs",
+        href: "https://www.shadcn-labs.com/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React"],
+        useFor: [
+          "scaffold shadcn registry template",
+          "add terminal ui components",
+          "add video components",
+          "add og image components",
+          "add ai agent recipes",
+          "add email components",
+          "add shader components",
+        ],
+        description:
+          "Shadcn Labs publishes experimental projects that push the shadcn/ui ecosystem. Someone uses it to pick up focused React component sets including startercn, termcn, framecn, ogimagecn, agentcn, mcpcn, emailcn, pdfcn, editorcn and shadercn. Each project names its underlying stack such as Ink, Editframe, Satori, Tiptap, StyleX and React Email.",
+      },
+      {
+        title: "21st",
+        href: "http://21st.dev/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React", "TypeScript", "Tailwind CSS"],
+        useFor: [
+          "browse hand crafted components",
+          "install components with one command",
+          "copy ai ready component prompts",
+          "compose shadcn primitives",
+          "theme with design tokens",
+          "publish own components",
+          "start from full templates",
+        ],
+        description:
+          "21st is a community registry of more than 12,000 hand crafted React and Tailwind CSS components, templates and shadcn themes by design engineers. Someone uses it to preview components live and install them with a single shadcn CLI command so the code lands in their own repo with no runtime dependency. Components are React and TypeScript built to compose with shadcn/ui primitives and work with Next.js, Vite, Remix and Astro.",
+      },
+      {
+        title: "Watermelon UI",
+        href: "https://ui.watermelon.sh/blocks/hero",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React"],
+        useFor: [
+          "copy hero section blocks",
+          "compose landing page sections",
+          "browse animated react components",
+          "study dashboard layouts",
+          "reuse showcase compositions",
+          "wire llms.txt mcp entry points",
+        ],
+        description:
+          "Watermelon UI is an open-source React UI platform whose catalog pairs animated components, copy-paste blocks, dashboards, templates and showcase compositions with docs and machine-readable entry points such as llms.txt, sitemap.xml, OpenAPI and MCP. The hero blocks page collects reusable hero and landing page sections meant to carry a builder from visual reference to implementation. The platform source lives under WatermelonCorp on GitHub and accepts community pull requests.",
+      },
+      {
+        title: "Beautiful UI",
+        href: "http://beautifului.dev/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        useFor: [
+          "build ai chat panels",
+          "show agent task status",
+          "add approval card flows",
+          "stream answers with sources",
+          "render tool call chips",
+          "display context knowledge cards",
+        ],
+        description:
+          "Beautiful UI is a collection of copy-paste primitives for AI-native interfaces, built by the Turbo product design studio and released under MIT. The catalog covers loading states, thinking traces, streaming text with sources and follow-ups, approval cards, tool chips, task rows, chat panels, prompt bars, recommendation and context cards, diff and records tables, flowcharts, insight cards, code blocks and an agent screen. New components ship through an email list, and the footer links an ice cream demo harness alongside the license.",
+      },
+      {
+        title: "Rare UI",
+        href: "http://rareui.com/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React"],
+        useFor: [
+          "install components via shadcn cli",
+          "add fluid orb component",
+          "add gravity letters effect",
+          "add folder component",
+          "add otp input field",
+          "add duration picker",
+          "browse 20 animated components",
+        ],
+        description:
+          "Rare UI is a free open-source collection of more than 20 animated React components, each shipped as a single file installed with the shadcn CLI. Featured components include Folder, Duration Picker, Fluid Orb, Gravity Letters and OTP Input. The project is maintained by swamimalode07 on GitHub and lists Runable, Databuddy and Mintlify as sponsors.",
+      },
       {
         title: "FeralUI",
         href: "https://feralui.dev/",
@@ -2069,6 +2302,174 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Viscose",
+        href: "https://github.com/Yousuf-developer/Viscose-carousel",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["next.js", "react", "three.js", "gsap", "tailwind"],
+        useFor: [
+          "webgl portfolio carousel",
+          "gooey shader card ring",
+          "sdf smooth minimum cards",
+          "scroll drag snap carousel",
+          "single draw call shader",
+          "threaded card transitions",
+        ],
+        description:
+          "Viscose is a portfolio carousel rendered as a single full screen WebGL fragment shader, where project cards ride a ring and melt into neighbours through signed distance field blending, then draw into threads as they part. Scroll, drag, swipe or click turns the ring with momentum and snap, while hover softens the field and strings threads between cards. Built with Next.js 16, React 19, Three.js, GSAP and Tailwind v4, MIT licensed for code with sample artwork excluded, and includes a development only lil-gui panel with around 136 tunables.",
+      },
+      {
+        title: "Melt Effect",
+        href: "https://joshpuckett.me/melt-effect",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["svg"],
+        useFor: [
+          "svg melt filter",
+          "feturbulence displacement effect",
+          "organic icon distortion",
+          "melted text filter",
+          "animated filter parameters",
+          "copy paste melt snippet",
+        ],
+        description:
+          "Deep dive on Josh Puckett's site about creating organic melted icons, imagery and text with SVG filters, combining feTurbulence fractal noise with feDisplacementMap warping. Interactive demos expose sliders for displacement scale and X/Y base frequency plus a looping animation section, with a note that many simultaneous animated filters drop frames and need a WebGL path instead. The page gives a copy paste filter snippet, a CSS filter application pattern, and an agent prompt for wiring the effect into a project.",
+      },
+      {
+        title: "liquidGL Demo 2",
+        href: "https://liquidgl.naughtyduk.com/demos/demo-2",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["webgl", "webgpu", "javascript"],
+        useFor: [
+          "liquid glass bank card",
+          "webgl glass refraction demo",
+          "3d tilt glass lens",
+          "glassmorphism card ui",
+          "refracting login card",
+          "bevel frost specular settings",
+        ],
+        style: ["liquid-glass"],
+        description:
+          "Second demo of liquidGL by NaughtyDuk, presenting a bank card and login form as liquid glass lenses with an interactive 3D tilt over colorful wallpaper backgrounds. liquidGL turns fixed or sticky elements into refracted glossy panes rendered in WebGPU with WebGL fallback, with options for refraction, bevel, frost, shadow, specular highlights, magnification and chromatic aberration. The library has no runtime dependencies, installs from npm as liquid-gl, and the repo holds around 886 stars.",
+      },
+      {
+        title: "Interactions by Nitish Khagwal",
+        href: "https://khagwal.com/interactions/",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        useFor: [
+          "browse interaction design studies",
+          "study scroll-driven interactions",
+          "recreate the scroll island piece",
+          "reference button and menu behaviors",
+          "link back to the main portfolio",
+        ],
+        description:
+          "Interactions gallery by Nitish Khagwal, a product designer focused on human-centered design, collecting individual interaction design pieces such as the Scroll Island interaction. The page frames interaction design as defining how users engage with buttons, icons, and menus, considering behaviors, feedback, and outcomes. Links back to the main portfolio at khagwal.com.",
+      },
+      {
+        title: "Image on Hover",
+        href: "https://remvze.com/ui/image-on-hover/",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        useFor: [
+          "study image on hover",
+          "browse ui experiments",
+          "reference hover interaction",
+          "inspect demo source",
+          "adapt reveal technique",
+        ],
+        description:
+          "Image on Hover is a UI experiment demo by Maze (Remvze), a designer and engineer. It is one of 18 UI experiments listed on remvze.com/experiments, published August 17 2026. Open the page to study the hover interaction and adapt the technique.",
+      },
+      {
+        title: "Transitions.dev",
+        href: "http://transitions.dev/",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["css", "react"],
+        useFor: [
+          "copy card resize transition",
+          "copy modal open close",
+          "copy toast open close",
+          "copy spinner to check morph",
+          "copy tabs sliding pill",
+          "copy shimmer text",
+          "install transitions agent skill",
+          "refine transition with tool",
+        ],
+        description:
+          "Transitions.dev by Jakub Antalik is a collection of essential UI transitions for web apps, from card resize, modal, toast, tooltip and accordion to confetti burst, like button, 3D tilt, streaming text and agent reasoning states. Copy and paste each transition or drive them through the site agent skill and refine tool, with search and newest-first sorting. A free set sits alongside a Pro tier, and the footer notes CSS and React coverage.",
+      },
+      {
+        title: "Dissolve",
+        href: "http://anirudh.info/dissolve",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["react", "svg", "css"],
+        useFor: [
+          "dissolve images into fragments",
+          "tweak noise seed",
+          "animate fedisplacementmap scale",
+          "copy svg filter snippet",
+          "recreate delete animation",
+          "vary dissolve each time",
+          "study thanos wipe pattern",
+        ],
+        description:
+          "Dissolve is an interactive SVG filter study by Anirudh Pareek that dissolves images into drifting fragments. Controls tune noise, motion, sound and themes, and the page provides copyable SVG filter snippets with a prompt to recreate the effect. It is built with React and plain CSS using an inline SVG filter with feTurbulence and feDisplacementMap animated via requestAnimationFrame.",
+      },
+      {
+        title: "liquid-taffy",
+        href: "https://github.com/arknow91/liquid-taffy",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["React", "GSAP", "Vite", "SVG"],
+        useFor: [
+          "study anchored dropdown interaction",
+          "study morphing dropdown",
+          "study speed dial menu",
+          "read svg filter technique",
+          "reuse spring choreography",
+          "adapt grab gesture engine",
+          "compare light and dark frames",
+        ],
+        description:
+          "liquid-taffy is a reference implementation of three liquid menu interactions sharing one gesture engine: an anchored dropdown, a morphing dropdown and a speed dial. Surfaces use an SVG blur and alpha threshold filter with calibrated thresholds, plus sampled spring curves and a shared press, drag and snap back stretch implementation. It is not a package, and sounds are synthesized on the spot with no samples.",
+      },
+      {
+        title: "Frosted Pane Study 3",
+        href: "https://kellymilligan.art/live/blur-study-box/",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        useFor: [
+          "study frosted glass rendering",
+          "inspect live blur renderer",
+          "reference tiled png export",
+          "adapt stripe streamed rendering",
+          "study glass pane interaction",
+        ],
+        description:
+          "Frosted Pane Study 3 is a live browser demo of a frosted glass pane effect by Kelly Milligan. Someone uses it to watch the renderer initialize and study a tiled, stripe streamed PNG export pipeline with a verified export readout. It is a single focused rendering study rather than a library or article.",
+      },
+      {
+        title: "Blur Study Grid",
+        href: "https://kellymilligan.art/live/blur-study-grid/",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["JavaScript", "Canvas"],
+        useFor: [
+          "study frosted pane blur",
+          "tune blur with gui controls",
+          "export tiled png studies",
+          "test blur work on mobile",
+          "adapt pane blur technique",
+        ],
+        description:
+          "Blur Study Grid is a live browser study by Kelly Milligan, an independent creative tech lead and generative artist from New Zealand who makes code-based visual art with JavaScript and canvas. The page presents Frosted Pane Study 2, an interactive frosted glass and blur experiment with on-screen GUI controls that is mobile friendly, and it can verify and export the result as a tiled, stripe-streamed PNG.",
+      },
+      {
         title: "Controls UI",
         href: "https://controlui.vercel.app/",
         dateAdded: "2026-09-12",
@@ -2764,6 +3165,43 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "The invisible side of design engineering",
+        href: "https://jakub.kr/writing/the-invisible-side-of-design-engineering",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        useFor: [
+          "read invisible design work",
+          "fix accessibility issues",
+          "enlarge hit areas",
+          "support reduced motion",
+          "ship variable fonts",
+          "use oklch color",
+          "localize dates and prices",
+          "improve loading performance",
+        ],
+        description:
+          "Essay by Jakub arguing that design engineering is mostly invisible work like accessibility, responsiveness, performance and edge cases rather than the animated eye candy that performs on social media. Interactive demos cover response timing, hit areas, item gaps, reduced motion, variable versus static fonts, OKLCH versus HSL lightness and locale formatting. It closes by pointing to Interfaces, his design engineering magazine.",
+      },
+      {
+        title: "Noise",
+        href: "https://craft.gustavofior.com/noise",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        stack: ["svg", "tailwind css", "css"],
+        useFor: [
+          "add grain to surface",
+          "tune basefrequency grain",
+          "overlay feturbulence filter",
+          "isolate blend with container",
+          "tile noise for performance",
+          "embed svg data uri tile",
+          "hide gradient banding",
+          "texture hero background",
+        ],
+        description:
+          "Noise is a craft note by Gustavo Fior on laying SVG feTurbulence grain over surfaces to hide gradient banding and add texture, with baseFrequency controlling grain size. It gives Tailwind and CSS snippets for an overlay using mix-blend-mode overlay at low opacity inside an isolated container. For performance it recommends the live filter on small surfaces and a seamless 200px tiled SVG data URI on large or animated areas, linking MDN and CSS-Tricks references.",
+      },
+      {
         title: "Honkish",
         href: "https://benji.org/honkish",
         dateAdded: "2026-09-02",
@@ -3041,6 +3479,196 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Further Forecast 2025",
+        href: "https://deck.gallery/further-forecast-2025/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse further forecast deck",
+          "study community capital trends",
+          "reference niche appeal trend",
+          "reference knowledge hubs trend",
+          "reference longevity networks",
+          "compare hospitality trend reports",
+        ],
+        description:
+          "Design Hotels Further Forecast 2025, subtitled Community Capital, is a 50-slide trend report on how belonging and social ties reshape hospitality and travel. Built on a 2024 survey of 1,196 travelers plus expert interviews and PESTE analysis, it argues three micro-trends, Niche Appeal, New Knowledge Hubs and Longevity Networks. The gallery page shows the opening slides and files it under Report and Travel, with the full deck behind free membership.",
+      },
+      {
+        title: "OGPedia",
+        href: "http://ogpedia.xyz/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "og image examples",
+          "open graph preview reference",
+          "social card layout ideas",
+          "real site og images",
+          "thumbnail type scale",
+          "branding at thumbnail size",
+        ],
+        description:
+          "OGPedia collects Open Graph images from real websites as design reference for the preview card a link shows when shared. Curated by Maze Heart (remvze), it posts new batches regularly, with recent additions including aquaduck.ai, telemetry.dev, letude.group and modal.com. It is a reference collection rather than a generator, useful for judging layout, type scale and how much brand to show at thumbnail size.",
+      },
+      {
+        title: "Orbit Fund Boutique",
+        href: "https://www.awwwards.com/sites/orbit-fund-boutique",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "law firm website design",
+          "fund boutique site reference",
+          "awwwards honorable mention",
+          "berlin fund law site",
+          "legal advice site layout",
+        ],
+        description:
+          "Awwwards Honorable Mention page for the Orbit Fund Boutique website. The project was made for a Berlin based fund boutique giving client centered legal advice for fund managers and investors in alternative assets, at orbit.law. The listing serves as a pointer to the live site for studying a finance and legal web design.",
+      },
+      {
+        title: "R100",
+        href: "https://www.siteinspire.com/website/13495-r100",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "grid layout product site",
+          "minimal catalogue reference",
+          "sustainability product collection",
+          "siteinspire featured site",
+          "industrial design showcase",
+        ],
+        description:
+          "Siteinspire entry for R100 at r-100.no, published August 13, 2026 and filed under grid layout, minimal, environment and sustainability, industry and energy, and product catalogues. The featured site presents Hydro Shapes R100 with designers including Sabine Marcelis, Keiji Takeuchi, Cecilie Manz, Daniel Rybakken and Stefan Diez under art director Lars Beller Fjetland. The entry links out to the live site with desktop and mobile screenshots.",
+      },
+      {
+        title: "Kenslow",
+        href: "https://land-book.com/websites/90093-kenslow-webflow-html-website-template",
+        dateAdded: "2026-09-18",
+        stack: ["webflow"],
+        useFor: [
+          "reference finance template layout",
+          "study landing page structure",
+          "study serif finance styling",
+          "study background image hero",
+          "study big footer layout",
+          "study parallax sections",
+          "buy webflow template",
+        ],
+        description:
+          "Landbook listing for Kenslow, a 79 dollar Webflow HTML website template by Metrik Studio aimed at financial advisors, wealth managers and investment firms. Tagged with landing page, background image, big footer, parallax, finance, serif, agency and service. The entry shows desktop and mobile screenshots, a palette, related templates and a buy link to the Webflow template page.",
+      },
+      {
+        title: "Visual Journal",
+        href: "http://visualjournal.it/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse branding projects",
+          "reference editorial design",
+          "study graphic design curation",
+          "review brand case studies",
+          "follow visual communication work",
+        ],
+        description:
+          "Visual Journal is a blog by Alessandro Scarpellini, an art director from Italy, showcasing selected branding and graphic design projects from around the world. It publishes case studies such as Pac, Fursys, Reci, Aplomb and others, and remains free of ads and sponsorships. Designers can submit complete case studies via Drive or Dropbox folders, and the journal is also on Instagram, Twitter, Tumblr and LinkedIn.",
+      },
+      {
+        title: "posts.design",
+        href: "http://posts.design/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse social post designs",
+          "study brand announcement cards",
+          "compare product screenshots",
+          "reference hiring posts",
+          "inspect og images",
+          "track top launches",
+          "filter posts by brand",
+        ],
+        description:
+          "posts.design curates real social posts shipped by more than 630 brands. Someone uses it to see what companies actually publish to socials, with filters for recent posts, top launches, brands, headers, OG images, categories and trends. Each entry shows the post creative, the brand handle, the format and the capture date.",
+      },
+      {
+        title: "Recent",
+        href: "http://recent.design/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse design inspiration",
+          "reference website designs",
+          "study og images",
+          "inspect app screenshots",
+          "compare app icons",
+          "find design jobs",
+          "browse design tools",
+        ],
+        description:
+          "Recent is a design inspiration gallery covering web, interface, branding, product, typography, motion, illustration, 3D, editorial, print and packaging work. Someone uses it to browse curated design examples across websites, OG images, app screenshots and app icons. It also lists design tools, skills and jobs alongside the feed.",
+      },
+      {
+        title: "Noiced",
+        href: "http://noiced.com/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse daily web design",
+          "collect website references",
+          "study curated site picks",
+          "track featured website pages",
+          "compare web design examples",
+        ],
+        description:
+          "Noiced is a curated collection of exceptionally well-designed websites framed as daily web design inspiration, curated by Maze Heart. It sits alongside sibling directories for social posts, OG images and minimal sites, useful for collecting website references and studying curated site picks.",
+      },
+      {
+        title: "Minimum",
+        href: "http://mnmm.xyz/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse super minimal websites",
+          "collect minimal web design references",
+          "compare restrained landing page layouts",
+          "find minimal navigation patterns",
+          "study minimal typography use",
+          "source minimalist redesign examples",
+        ],
+        description:
+          "Minimum is a curated directory of super minimal websites, listing 172 sites at mnmm.xyz. It collects live examples where restraint is the brief, useful as visual reference for minimal layouts, navigation and typography. The directory itself is minimal and links out to each featured site.",
+      },
+      {
+        title: "BCU Financial",
+        href: "https://www.awwwards.com/sites/bcu-financial",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse bcu financial site design",
+          "study website component breakdowns",
+          "review product page layout",
+          "inspect color palette usage",
+          "inspect cta design details",
+          "compare nominee vote criteria",
+        ],
+        description:
+          "BCU Financial is an Awwwards nominee page for the BCU Financial website, credited to Craft Innovations PRO. The page breaks the site into highlighted elements including website components, a product page, a color palette and a CTA section. Judging is split across design, usability, creativity, content and overall score.",
+      },
+      {
+        title: "Dot Submarine",
+        href: "https://creature.company/eyes/dot/submarine",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "preview dot submarine eye look",
+          "browse lilguy eye collection",
+          "compare digital pet eye designs",
+          "follow through to lilguy.net",
+          "reference creature character styling",
+        ],
+        description:
+          "Dot Submarine is one eye variant in the LILGUY EYES set published by CREATURE at creature.company. The eyes are looks for starboy, the company's wearable digital pet, which ships with a distinct personality and a unique set of eyes drawn from hundreds of variations. The page itself is minimal and links through to lilguy.net.",
+      },
       {
         title: "Wellmade",
         href: "https://wellmade.fyi/",
@@ -3772,6 +4400,245 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Portfolios and studios",
     links: [
       {
+        title: "Rhétorès",
+        href: "https://www.rhetores.fr/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "wealth management site reference",
+          "paris finance firm homepage",
+          "private equity firm content",
+          "asset management service pages",
+          "finance editorial journal",
+          "french corporate site design",
+        ],
+        description:
+          "Homepage of Rhétorès Finance, a Paris wealth management firm reporting 2 billion euros under management, with offices in Paris, Lille, Strasbourg, Lyon and Evreux and 66 associated collaborators. It presents expertises including asset management, private equity, real estate and hotel club deals, and patrimonial engineering, plus a journal of financial, legal and tax analyses. Rankings cited include Décideurs, OCCUR Paris and CFNEWS.",
+      },
+      {
+        title: "Otherkind",
+        href: "https://otherkind.design/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "design studio portfolio",
+          "brand product studio reference",
+          "zero to one studio",
+          "startup design partner",
+          "studio past engagements",
+          "craft led studio site",
+        ],
+        description:
+          "Site of Otherkind, a craft led design studio for early stage brand and product design led by cofounders Vanessa and Dpark. Past engagements listed include Cloudflare, UDIO, Cerebral Valley, Pika, Ditto and Crypto the Game, with select project case studies and a team section. Contact runs through hello@otherkind.design, and the studio notes it is hiring product, web and visual designers.",
+      },
+      {
+        title: "Sentient Foundation",
+        href: "https://sentient.foundation/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "open source agi nonprofit",
+          "42 million agi grants",
+          "open agi summit",
+          "sentient grants program",
+          "open agi ecosystem news",
+        ],
+        description:
+          "Homepage of the Sentient Foundation, a nonprofit steward of the open AGI ecosystem working across research, governance and global outreach. It highlights a 42 million dollar open source AGI grant and investment program, the Open AGI Summit, and research releases alongside community initiatives such as Sentient Sparks. The technical work behind ROMA, Open Deep Search and EvoSkill sits with Sentient Labs.",
+      },
+      {
+        title: "Colin Lienard",
+        href: "https://colinlienard.com/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        stack: ["React", "TypeScript", "Svelte", "Panda CSS", "Vitest"],
+        useFor: [
+          "browse a full-stack engineer portfolio",
+          "review front-end migration experience",
+          "inspect open-source side projects",
+          "try sv-router for svelte apps",
+          "check gitlight desktop notifications",
+          "reference a remote-work resume layout",
+        ],
+        description:
+          "Personal portfolio of Colin Lienard, a full-stack engineer based in Limoges working remotely, currently at Mobsuccess in Paris. Documents front-end work including an AI assistant with agentic actions, performance optimization, and migrations from Create React App to Vite, JS to TS, and React Router to TanStack Router. Showcases open-source projects sv-router, GitLight, and GitHundred, and lists a stack of TypeScript, React, Svelte, TanStack, Panda CSS, Vitest, Hono, Postgres, Docker, and Cloudflare.",
+      },
+      {
+        title: "Anti Average",
+        href: "https://antiaverage.studio/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        stack: ["SvelteKit"],
+        useFor: [
+          "browse a creative studio portfolio",
+          "read a creative-work philosophy statement",
+          "study a sveltekit studio site",
+          "inspect a project index navigation",
+          "reference lottie mascot usage",
+        ],
+        description:
+          "Site of Anti Average, a creative studio publishing under the line For those who don't want the expected. The meta description states its belief that creative work gets noticed and remembered when built on intelligent new ideas, elevated by beauty, and underpinned by new technologies. Built with SvelteKit, with project links, grid navigation, and a Lottie mascot asset.",
+      },
+      {
+        title: "Immersive Garden",
+        href: "https://immersive-g.com/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "browse luxury brand web experiences",
+          "study the louis vuitton via case",
+          "study cartier campaign sites",
+          "reference 3d product storytelling",
+          "review dioriviera experience craft",
+          "contact a paris digital studio",
+        ],
+        description:
+          "Site of Immersive Garden, a Paris digital experiences studio at 14 avenue Claude Vellefaux presenting itself as a maker of innovative digital experiences for ambitious brands. Showcases web experiences and e-shops for Louis Vuitton VIA, Cartier, Dioriviera, Longines, Omega, Dior-adjacent Maisons, and crypto clients like Gleec and Hatom. Each project is presented with a short narrative hook and a discipline label such as Web Experience, E-Shop, or Corporate.",
+      },
+      {
+        title: "Adam Fuhrer",
+        href: "https://adamfuhrer.com/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "browse algorithmic art",
+          "browse pen plot pieces",
+          "filter art by tag",
+          "study dithering pieces",
+          "study moire patterns",
+          "read generative glitch guide",
+        ],
+        description:
+          "Adam Fuhrer is an artist and software engineer whose personal site collects algorithmic art, pen plots and hardware pieces browsable by tag, including Inkscape, pen plot, JavaScript, halftone, dithering and shader. The site links out to colors.lol, glitchart.io and a Big Cartel shop. Two posts cover selling physical art online and building generative glitch art tools.",
+      },
+      {
+        title: "Pulma",
+        href: "https://pulma.framer.website/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        stack: ["framer"],
+        useFor: [
+          "present agency work",
+          "showcase creative portfolio",
+          "describe design process",
+          "list framer development services",
+          "outline product design offer",
+          "book agency call",
+        ],
+        style: ["minimal"],
+        description:
+          "Pulma is a free Framer website template by Qoim for creative agencies, shown here as a live demo site. It includes work showcases, an about section, services for Framer development, product design, branding and web development, plus a process section and monthly and yearly engagement pricing. The demo links booking through Cal.com and contact via email, and the template lists pages for work, about and contact.",
+      },
+      {
+        title: "Dobre Agency",
+        href: "https://dobre.agency/approach",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        stack: [
+          "React",
+          "WebGL",
+          "Storyblok",
+          "Webflow",
+          "WordPress",
+          "Shopify",
+          "Sanity",
+        ],
+        useFor: [
+          "design brand systems",
+          "build digital platforms",
+          "ship websites and products",
+          "maintain design systems",
+          "create interactive experiences",
+          "use headless cms",
+          "plan composable architecture",
+        ],
+        description:
+          "Dobre is a Melbourne digital agency operating since 2003, and this page documents its approach. Work starts from brand essence, then moves through digital activation and creative enablement, covering brand systems, digital platforms, websites, design systems and interactive experiences. The listed build platforms include headless CMS, Storyblok, Webflow, React, WebGL, WordPress, Shopify, Sanity and composable architecture.",
+      },
+      {
+        title: "Paul Kalkbrenner",
+        href: "https://www.paulkalkbrenner.net/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "study artist site craft",
+          "browse music releases",
+          "check tour dates",
+          "explore photo gallery",
+          "watch video archive",
+          "reference streaming links",
+          "join artist newsletter",
+        ],
+        description:
+          "This is the official website of electronic music artist Paul Kalkbrenner. Someone uses it to explore his releases including THE ESSENCE, Parts Of Life and 7, plus tour dates, a curated photo gallery and a video archive of official visualizers and short films. The site links out to streaming platforms, a merch store and a newsletter signup.",
+      },
+      {
+        title: "Quang Dinh Nguyen",
+        href: "https://www.quangdinh.im/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "browse ui ux portfolio projects",
+          "study visual storytelling case work",
+          "review branding project samples",
+          "check client list and experience",
+          "contact designer for freelance work",
+          "follow behance dribbble and linkedin profiles",
+        ],
+        description:
+          "Portfolio site of Quang Dinh Nguyen, a UI/UX designer based in Ho Chi Minh City, Vietnam, focused on visual storytelling and branding. It lists work with Trusting Social, Documatic, Vestlane, Autonomous and Genetica, plus project and archive sections. Contact is via dinhquang.ndq26@gmail.com, marked available for freelance work, with Behance, Dribbble, LinkedIn, Instagram and Facebook links.",
+      },
+      {
+        title: "Aryan Kathawale",
+        href: "https://tldr.aryank.space/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        stack: ["TypeScript", "React", "Next.js", "Node.js", "Go"],
+        useFor: [
+          "review backend engineer background",
+          "browse full-stack portfolio projects",
+          "read backend architecture essays",
+          "read context engineering article",
+          "follow project and release links",
+          "check cv and resume documents",
+          "contact engineer for collaborations",
+        ],
+        description:
+          "Personal portfolio and summary site of Aryan Kathawale, a backend and platform-focused engineer with over four years of experience across performance-sensitive systems, edge infrastructure and production web apps. It records roles at Dreamcare Developers, Axianext and Yottalligent, alongside projects such as GITSTACK, Sonify, Spectrum and a custom Hono.js framework. The page also indexes nine articles and a stack colophon spanning TypeScript, React, Next.js, Go, Rust and infrastructure, with CV and resume downloads.",
+      },
+      {
+        title: "4WIDE",
+        href: "https://4wide.jp/case/",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "browse studio case studies",
+          "open layrid faint film and yk produce cases",
+          "check awwwards and fwa award profiles",
+          "try easingview and related tools",
+          "contact studio for commissions",
+          "read studio faq and updates",
+        ],
+        description:
+          "Cases index of 4WIDE, a creative web studio run by sole proprietor Tomoya Okada in alliance with Qlip Co. Selected cases include Layrid, YK PRODUCE Inc., Faint Film and Happy New Year 2026, with award profiles on Awwwards and The FWA. The studio also publishes small original tools such as UserDebag, EasingView, GoogleFonts Preview and a ModularScale Generator.",
+      },
+      {
+        title: "Cecilie Manz",
+        href: "https://www.r-100.no/designer/cecilie-manz",
+        dateAdded: "2026-09-18",
+        kind: "portfolio",
+        useFor: [
+          "study ror recycled aluminium piece",
+          "browse designer project photography",
+          "read cecilie manz biography",
+          "check hydro circal 100r material",
+          "download press area images",
+          "compare r100 designer profiles",
+        ],
+        description:
+          "Designer profile page on R100, the Shapes by Hydro showcase, presenting Ror, Danish designer Cecilie Manz's exploration of recycled aluminium extrusion. Ror (tube in Norwegian and Danish) reduces the profile to two simple cylindrical forms with hand-drawn imperfections, contrasting an industrial extrusion process with an organic sketched line. The page gives dimensions of large 260 mm and small 34 mm diameters in lengths up to 700 cm in Hydro Circal 100R, plus a biography noting her Royal Danish Academy training, her Copenhagen studio founded in 1997, and work for Fredericia, Fritz Hansen, Muuto and Bang and Olufsen.",
+      },
+      {
         title: "AUAR",
         href: "https://auar.io/resources/news",
         dateAdded: "2026-09-08",
@@ -4240,6 +5107,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Color, gradients and palettes",
     links: [
       {
+        title: "Gradient Builder",
+        href: "https://feralui.dev/gradients",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "compose mesh gradients",
+          "compose grainy gradients",
+          "compose aurora gradients",
+          "compose wave gradients",
+          "export gradient as svg",
+          "export gradient as png",
+          "export animation as mp4",
+          "paste gradient into figma",
+        ],
+        description:
+          "Gradient Builder is a free gradient generator from FeralUI for composing soft painterly gradients drawn from traditional Japanese colours, with over twenty types including animated mesh, grainy retro blobs, aurora ribbons, waves, linear, radial, conic, pixel grids and wallpapers. Still gradients export as SVG or PNG and animated ones as MP4, or copy the SVG into Figma where it arrives as named editable layers. Everything is free with no signup and no watermark.",
+      },
+      {
         title: "Grainient",
         href: "https://grainient.supply/",
         dateAdded: "2026-09-02",
@@ -4484,6 +5369,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Kitbitz",
+        href: "http://kitbitz.art/",
+        dateAdded: "2026-09-18",
+        kind: "asset",
+        stack: ["svg", "png", "figma", "mcp"],
+        useFor: [
+          "hand drawn illustrations",
+          "free cc0 illustration pack",
+          "svg png downloads",
+          "figma illustration kits",
+          "figma plugin illustrations",
+          "mcp asset access",
+          "game map art",
+        ],
+        description:
+          "Kitbitz offers 2,000+ free hand drawn illustrations for projects. Assets download as SVG and PNG, with ready made Figma kits and components, a Figma plugin, and MCP access. Everything is free for commercial use under CC0.",
+      },
       {
         title: "Overflow Design: Isometric",
         href: "https://www.overflow.design/isometric/",
@@ -5500,6 +6403,72 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Branding and logo archives",
     links: [
       {
+        title: "Logosystem",
+        href: "http://logosystem.co/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse logo inspiration",
+          "filter logos by style",
+          "filter logos by industry",
+          "filter logos by color",
+          "filter logos by shape",
+          "find wordmarks and symbols",
+          "browse animated logos",
+          "trace designer behind logo",
+        ],
+        description:
+          "Logosystem is a free logo inspiration library with more than 1,300 curated logos, wordmarks, symbols and animated logos from designers and studios. Filter the gallery by type, industry, style, shape, color and mood, including minimal, geometric, gradient and letterform directions. Every logo links back to its original designer or source, and the logos belong to their owners so the gallery is reference only.",
+      },
+      {
+        title: "Rebrand",
+        href: "https://www.rebrand.gallery/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse rebrand reveals",
+          "compare visual identities",
+          "study identity launches",
+          "filter by industry and style",
+          "reference logo systems",
+          "explore reveal videos",
+        ],
+        description:
+          "Rebrand is a curated gallery of rebrands and visual identities covering new design systems, identity launches and reveal videos. Entries include Long.xyz, TBWA, Bytebase, Replit, Instagram, Coca Cola, Sanity and Netflix, with browsing by shots, industries, styles, typography, typefaces and feels. The site offers free browsing with a Pro tier and cites 35,000 designers inside.",
+      },
+      {
+        title: "brandguidelines.net",
+        href: "http://brandguidelines.net/",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse brand guideline documents",
+          "study logo and identity systems",
+          "compare guideline pdfs",
+          "reference adobe guidelines",
+          "reference spotify guidelines",
+          "reference duolingo guidelines",
+          "shop guideline templates",
+        ],
+        description:
+          "brandguidelines.net is a handpicked directory of brand guideline documents from around the world. Entries link to PDF documents and live brand sites for companies including Adobe, Spotify, Duolingo, Herman Miller, Miro and Starbucks. The site also sells ready made guideline templates.",
+      },
+      {
+        title: "Visual Journal",
+        href: "https://visualjournal.it/page:11",
+        dateAdded: "2026-09-18",
+        kind: "gallery",
+        useFor: [
+          "browse branding case studies",
+          "study editorial design work",
+          "collect graphic design references",
+          "find featured studio projects",
+          "submit branding projects",
+        ],
+        description:
+          "Visual Journal is an ad-free blog by Italian art director Alessandro Scarpellini that showcases branding and graphic design projects chosen through personal research, with submissions accepted by email. The page 11 archive lists further featured case studies such as Cottonball, Kulturhaus and Rafaela Junkers, each linked as its own project page. The project is also published on Instagram, Twitter, Tumblr and LinkedIn, with reader support through Buy Me A Coffee.",
+      },
+      {
         title: "BRRRANDING",
         href: "https://www.brrranding.com/",
         dateAdded: "2026-08-05",
@@ -5759,6 +6728,40 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "OpenMotion",
+        href: "http://openmotion.design/",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "generate launch videos from prompts",
+          "edit scene canvas timelines",
+          "export transparent webm html",
+          "build product teaser films",
+          "add logo motion moments",
+          "publish social video clips",
+        ],
+        description:
+          "OpenMotion is a free desktop app for macOS and Windows that turns a text prompt into an editable launch video with a scene plan, canvas, layer and audio timeline, reusable brand kits and exports to video, transparent WebM or self-contained HTML. It is designed to work with an existing Claude Code or Codex subscription instead of separate API keys, and the site notes a number 11 Product Hunt rank. The homepage shows example launch films, product stories and brand moments plus workflow, FAQ and pricing sections.",
+      },
+      {
+        title: "Liquid Gooey",
+        href: "http://gooey.jakubantalik.com/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React"],
+        useFor: [
+          "install liquid-gooey from npm",
+          "build gooey merge menus",
+          "morph avatar groups and panels",
+          "trail sliders with liquid rubber",
+          "melt imagery with dissolve modifier",
+          "bend bodies with velocity",
+          "read morph move melt bend api",
+        ],
+        description:
+          "Liquid Gooey is an MIT-licensed React library by Jakub Antalik for liquid UI effects, installed with npm install liquid-gooey and requiring React 18 or newer. It ships Morph, Move, Melt and Bend effects plus a dissolve modifier, rendered through an SVG-filter silhouette layer under crisp unfiltered content. The demo and docs site now notes the project has moved to libraries.dev/gooey alongside the author's other effect libraries.",
+      },
+      {
         title: "Scritto",
         href: "https://scrit.to/",
         dateAdded: "2026-09-02",
@@ -6015,6 +7018,93 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "img2threejs",
+        href: "https://github.com/img2threejs/img2threejs",
+        dateAdded: "2026-09-18",
+        kind: "skill",
+        stack: ["three.js", "typescript", "python"],
+        useFor: [
+          "image to three.js model",
+          "procedural model from photo",
+          "animation ready three.js factory",
+          "reference image reconstruction",
+          "agent 3d sculpting pipeline",
+          "detail inventory spec gates",
+          "character model from image",
+        ],
+        description:
+          "img2threejs rebuilds the object in a reference image as a code only procedural Three.js model written in TypeScript, returning a THREE.Group factory with pivots, sockets and colliders so the result is ready to animate. A staged pipeline of blockout, structural, form, material, surface, lighting, interaction and optimization generates one pass at a time with vision reviewed side by side comparisons, while deterministic Python scripts handle validation and gating to keep token use low. It runs under Claude Code, Codex or OpenCode, ships a live demo gallery at img2threejs.io, and holds around 16.3k stars.",
+      },
+      {
+        title: "LILGUY EYES",
+        href: "https://creature.company/eyes?swatch=cat-seashell",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["WebAssembly"],
+        useFor: [
+          "browse 100 animated eye colorways",
+          "preview starboy companion eye looks",
+          "compare four eye shapes",
+          "share a single swatch via url",
+          "study wasm canvas eye rendering",
+          "inspect per-swatch preview video",
+        ],
+        description:
+          "Interactive eye colorway viewer for Lilguy's STARBOY, a standalone wearable digital pet that expresses itself through animated eyes on a circular display. The page offers 100 colorways across 4 shapes on a full-screen canvas driven by a WebAssembly animation renderer, with each swatch addressable by URL and served with its own preview image and video. The creator notes the whole experience ships at 69 KB gzipped and runs at 120fps on Chromium. This URL opens the cat-seashell swatch; the logo links out to lilguy.net.",
+      },
+      {
+        title: "Dither Blur",
+        href: "https://github.com/Yousuf-developer/dither-blur-carousel",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["next.js", "three.js", "webgl"],
+        useFor: [
+          "study helix carousel layout",
+          "study ordered dither composite",
+          "study directional blur chain",
+          "tune shader parameters live",
+          "track cursor dither trail",
+          "bend cards in vertex shader",
+          "replay dithered entry reveal",
+          "swap in own images",
+        ],
+        description:
+          "Dither Blur is a WebGL carousel by Yousuf Soomro where cards ride a vertical helix and dissolve into ordered Bayer dither with progressive directional blur as they recede, built with Three.js and Next.js. Scroll or drag to turn the helix, hover to rack focus, click to center a card, move the cursor to paint a dither trail, and press g for a live tuning panel wired to gl/config.js. Code is MIT with about 76 stars and 18 forks, while the placeholder images pulled from Behance are not covered by that license and should be replaced.",
+      },
+      {
+        title: "a dude",
+        href: "https://johnbr0phy.github.io/faces/?s=1486147475",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["JavaScript", "Canvas"],
+        useFor: [
+          "generate procedural doodle faces",
+          "reproduce a face from a seed",
+          "animate a rigged doodle figure",
+          "render a plate of heads",
+          "study variable width ink strokes",
+          "reuse seeded generative art technique",
+        ],
+        description:
+          "a dude is a generative doodle face toy where one click draws another seeded character. Faces are procedural functions pinned to a rough 3D skull so yaw, pitch and roll carry the features with the head, and ink is rendered as variable width strokes with pooling, skipping and paper grain. Someone uses it to play with seeds in the URL, trigger walk, wave, jump, look, dance and shrug animations, or render a sheet of 48 heads.",
+      },
+      {
+        title: "Capsule Glass Wall v2",
+        href: "https://kaolti.github.io/capsule-glass-wall/",
+        dateAdded: "2026-09-18",
+        kind: "demo",
+        stack: ["WebGL2", "JavaScript"],
+        useFor: [
+          "study fullscreen webgl canvas",
+          "add pointer ripple interaction",
+          "build glass shader surfaces",
+          "test webgl2 fallback messaging",
+          "reference dark glass aesthetics",
+        ],
+        description:
+          "Capsule Glass Wall v2 is a fullscreen interactive WebGL2 experiment that renders a dark glass capsule wall on a fixed canvas element. Moving the pointer disturbs the surface and clicking sends a ripple through it, per the on-page hint text. The page ships as a static bundle with no visible source or docs, and it shows a fallback message where WebGL2 is unavailable.",
+      },
       {
         title: "shadercn",
         href: "https://www.shadercn.run/docs",
@@ -6766,6 +7856,46 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Remocn",
+        href: "https://remocn.dev/",
+        dateAdded: "2026-09-18",
+        kind: "library",
+        stack: ["React", "Remotion"],
+        useFor: [
+          "make a product demo video",
+          "build video from ready made pieces",
+          "compose scenes on a timeline",
+          "use typography components",
+          "use shader backgrounds",
+          "install the remocn skill",
+        ],
+        description:
+          "Remocn is an MIT licensed set of video building blocks for product demo videos. An AI coding agent assembles the pieces while a player preview runs in the browser. The catalog spans typography, shaders, transitions, animated icons and UI primitives, and the generated code stays in the user repo with no runtime or account.",
+      },
+      {
+        title: "procedural-sounds",
+        href: "https://github.com/m1ckc3s/procedural-sounds",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        stack: [
+          "Next.js",
+          "React",
+          "Tailwind CSS",
+          "TypeScript",
+          "Web Audio API",
+        ],
+        useFor: [
+          "generate interface sounds",
+          "synthesize sounds in the browser",
+          "hear sounds in context",
+          "export sounds as wav",
+          "export sounds as javascript",
+          "curate sounds by ear",
+        ],
+        description:
+          "procedural-sounds is an early beta project for interface sounds with no audio files. Every sound is synthesized live in the browser from a recipe, drawn from a hand curated library with generators that shift odds on keep or delete. The workbench loop is generate, hear in context and export as WAV or JavaScript, and the player is standalone and dependency free.",
+      },
+      {
         title: "Rescript",
         href: "https://www.getrescript.com/",
         dateAdded: "2026-09-02",
@@ -6962,6 +8092,41 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "LLMs and AI engineering",
     links: [
+      {
+        title: "Best AI models for developers",
+        href: "https://vercel.com/i/best-ai-models-for-developers",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        stack: ["AI SDK", "AI Gateway"],
+        useFor: [
+          "treat the model as a swappable config value",
+          "benchmark candidate models on own workload",
+          "add automatic provider fallback",
+          "route routine requests to low-cost models",
+          "reserve frontier models for hard requests",
+          "stream long model responses in chunks",
+          "evaluate models with shadow deployments",
+        ],
+        description:
+          "Long-form Vercel engineering essay arguing model selection is a routing problem, not a picking problem, backed by AI Gateway production data through April 2026. Walks through six decisions: domain-specific benchmarking, automatic fallback, cost-based routing, provider abstraction with the AI SDK, wait-aware Fluid compute infrastructure, and continuous evaluation. Names concrete prices and roles for GPT-5.6 Sol, Claude Opus 4.8, DeepSeek V4 Flash, and Gemini 3.1 Flash-Lite, plus case studies from v0, Thomson Reuters CoCounsel, Gamma, and SERHANT.",
+      },
+      {
+        title: "A deep dive into Jev, TypeSafe's System One model",
+        href: "https://flaviocopes.com/jev/",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        useFor: [
+          "understand jev decision model",
+          "compare jev with coding agents",
+          "design noul choice score questions",
+          "call jev with curl",
+          "use jev from nodejs",
+          "use jev from python",
+          "route agent work with jev",
+        ],
+        description:
+          "This is a long technical essay by Flavio Copes explaining Jev, TypeSafe AI's fast decision model that returns typed yes/no, choice and score answers with probabilities instead of generated text. Someone uses it to learn the three question primitives, confidence thresholds, speculative fan out and composite scoring patterns, with curl, Node.js, Python and Vercel AI SDK examples. It also covers pricing, latency, limits and concrete uses like triage, routing and safety checks.",
+      },
       {
         title: "An Alien Mind",
         href: "https://openai.com/index/an-alien-mind/",
@@ -7314,6 +8479,40 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Use TypeUI with Claude",
+        href: "https://www.typeui.sh/docs/guides/claude",
+        dateAdded: "2026-09-18",
+        stack: ["mcp", "markdown", "figma"],
+        useFor: [
+          "connect claude to typeui",
+          "add typeui mcp server",
+          "create draft design system",
+          "review markdown source files",
+          "publish for mcp use",
+          "generate landing page ui",
+          "request pricing variations",
+        ],
+        description:
+          "This TypeUI docs guide explains how to connect Claude to TypeUI for writing and refactoring frontend UI. It covers adding the TypeUI MCP server at https://mcp.typeui.sh/mcp, creating an editable draft from a theme, markdown ZIP or Figma import, and reviewing source files such as SKILL.md, brand.md, colors.md and component rules before publishing for MCP. It then shows prompting Claude to build pages and generate layout variations such as pricing cards.",
+      },
+      {
+        title: "Lassie",
+        href: "https://www.lassie.ai/",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "automate dental office admin",
+          "confirm patient appointments",
+          "post insurance payments",
+          "reconcile eft payments",
+          "book hygiene recalls",
+          "track claim status",
+          "close practice books",
+        ],
+        description:
+          "Lassie is an AI product that runs administrative work for dental and medical practices. Someone uses it to automate enrollments, EFT reconciliation, payment posting, appointment confirmations, hygiene recalls and claim follow ups while staff review flagged exceptions. The company states 98 percent of posting is handled autonomously and onboarding takes one to eight weeks depending on EFT setup.",
+      },
       {
         title: "Plane Agent Avatar Lab",
         href: "https://agents.plane.so/",
@@ -8301,6 +9500,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Backend engineering",
     links: [
       {
+        title: "Dodo Payments",
+        href: "https://dodopayments.com/",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "accept global payments",
+          "handle merchant of record tax",
+          "bill credit based usage",
+          "meter token usage",
+          "manage subscriptions with addons",
+          "sell digital products",
+          "issue license keys",
+          "embed no-code checkout",
+        ],
+        description:
+          "Dodo Payments is a billing and payments platform for AI-first and SaaS companies, acting as merchant of record across 220 plus countries with 40 plus payment methods, 80 plus checkout currencies and PCI DSS Level 1 certification. It covers credit based billing, usage metering, subscriptions with addons, one-time charges, storefronts, license keys and affiliate programs. Developers get framework adapters, server SDKs, a billing component library, mobile checkout SDKs and an MCP server, plus Sentra, an IDE assistant for billing actions.",
+      },
+      {
         title: "Sent",
         href: "https://www.sent.dm/en",
         dateAdded: "2026-08-07",
@@ -8789,6 +10006,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Infrastructure, observability and runtimes",
     links: [
       {
+        title: "Vercel Security",
+        href: "https://vercel.com/security",
+        dateAdded: "2026-09-18",
+        useFor: [
+          "secure vercel deployments",
+          "configure waf firewall rules",
+          "detect bots without captchas",
+          "challenge malicious traffic",
+          "lock down preview deployments",
+          "review compliance attestations",
+        ],
+        description:
+          "Vercel Security is the platform security overview page covering the edge Firewall with DDoS mitigation and Challenge Mode, the BotID bot detection engine with a checkBotId server code sample, and custom Web Application Firewall rules with managed OWASP rulesets plus an observability dashboard. It also documents workspace controls such as role-based access, deployment protection, audit logs and directory sync, alongside attestations including ISO 27001, SOC 2, PCI DSS, HIPAA, GDPR and DPF.",
+      },
+      {
         title: "Introducing Flat Rate CDN",
         href: "https://vercel.com/blog/introducing-flat-rate-cdn",
         dateAdded: "2026-09-12",
@@ -9274,6 +10506,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Courses and learning paths",
     links: [
       {
+        title: "Zero",
+        href: "https://www.zero.university/",
+        dateAdded: "2026-09-18",
+        kind: "course",
+        useFor: [
+          "build real projects",
+          "prepare for software engineering roles",
+          "prepare for applied ai roles",
+          "prepare for product roles",
+          "prepare for design roles",
+          "build a portfolio",
+          "get matched with recruiters",
+        ],
+        description:
+          "Zero is an app for getting hired into roles across software engineering, AI and data science, business, product, marketing, sales, design and security. Members build real projects in AI native experiences instead of using textbooks. Beta members are offered a guaranteed interview and the company states it charges recruiters.",
+      },
+      {
         title: "Fanout",
         href: "https://fanout.sh/",
         dateAdded: "2026-08-18",
@@ -9468,6 +10717,75 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Autobahn",
+        href: "https://autobahn.run/",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        stack: ["nodejs", "markdown"],
+        useFor: [
+          "markdown kanban board",
+          "backlog.md rendered as lanes",
+          "drag cards to rewrite file",
+          "agent shared backlog file",
+          "local board with no database",
+          "commit backlog as usual",
+          "docs tabs from markdown files",
+        ],
+        description:
+          "Autobahn is a kanban board that renders a BACKLOG.md file as Now, Next, Later and Shipped lanes, built at Rams and MIT licensed. Dragging a card splices its markdown block into the new position and rewrites the file, so the file stays the single source of truth with no database, accounts or sync. It runs with zero dependencies on Node 18 through one server file and one UI file, and every other markdown file in the directory shows up as a read only tab.",
+      },
+      {
+        title: "Vite+ Environment",
+        href: "https://viteplus.dev/guide/env",
+        dateAdded: "2026-09-18",
+        stack: ["Node.js", "npm", "pnpm", "Yarn", "Bun"],
+        useFor: [
+          "pin node and package manager versions",
+          "manage per-project javascript environments",
+          "switch runtimes with vp env commands",
+          "resolve tools through shell shims",
+          "set global default tool versions",
+          "diagnose setup with vp env doctor",
+        ],
+        description:
+          "Guide page for vp env, the environment manager in Vite+, the unified toolchain for the web from VoidZero. Explains how each project independently selects one Node.js runtime and one package manager from npm, pnpm, Yarn, or Bun, resolved through shell shims in managed mode. Documents pinning with vp env pin, shell overrides with vp env use, defaults, inspection commands like current, which, list, and doctor, plus JSON output for automation and custom Node.js mirrors.",
+      },
+      {
+        title: "Turbotunnel",
+        href: "https://x.com/eersnington/status/2080064119554933081?s=46",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        stack: ["vercel"],
+        useFor: [
+          "tunnel local dev server",
+          "public url for localhost",
+          "forward http traffic",
+          "forward websocket traffic",
+          "deploy vercel gateway",
+          "password protect tunnel",
+          "ip allowlist tunnel",
+          "monorepo tunnel support",
+        ],
+        description:
+          "Turbotunnel is a tunneling tool by Sree (eersnington) that exposes a local HTTP or WebSocket app through a gateway deployed to your own Vercel account. Install it with npm i -g turbotunnel alongside the Vercel CLI, run tt deploy once, then tt http 5173 to print a public URL that forwards until Ctrl-C. The gateway relays browser requests over a persistent WebSocket to the local machine, with password protection, IP allowlist, stable domains and monorepo support.",
+      },
+      {
+        title: "Vercel Labs",
+        href: "https://vercel.com/labs?experiment-in-public",
+        dateAdded: "2026-09-18",
+        useFor: [
+          "browse agent browser cli",
+          "try json render framework",
+          "use portless local urls",
+          "run local api emulation",
+          "test typescript native compiler",
+          "track active experiments",
+          "review past experiments",
+        ],
+        description:
+          "Vercel Labs publishes early tools and experiments for developers, classified as Labs products, active experiments and past experiments. Labs products include agent-browser, deepsec, just-bash, json-render, skills, portless, fx and vgpu. Active experiments include scriptc, wterm, emulate, Native SDK, CallScript, run, visual-json, Zerolang, phase, webreel and opensrc.",
+      },
       {
         title: "gpu-lexer",
         href: "https://gpu-lexer.vercel.app/",
@@ -11052,6 +12370,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Productivity and business tools",
     links: [
       {
+        title: "GatherOS",
+        href: "https://www.gatheros.co/",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "capture design references on mac",
+          "organize references into spaces",
+          "sync x bookmarks",
+          "search references visually with ai",
+          "search library by color",
+          "auto tag saved references",
+          "generate reference variations",
+        ],
+        description:
+          "GatherOS is a Mac app for capturing, organizing and finding design inspiration without leaving the desktop. Someone uses it to drag, paste or screenshot references into a local first library with unlimited libraries, infinite spaces, X bookmark sync, AI visual search, color search, auto tagging and generated variations. A Chrome extension feeds saves into the same library.",
+      },
+      {
         title: "DynamicLake",
         href: "https://www.dynamiclake.com/",
         dateAdded: "2026-09-02",
@@ -11346,6 +12681,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "ASCII art and diagram tools",
     links: [
+      {
+        title: "Tooey",
+        href: "https://tooey.design/files",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "design terminal interfaces",
+          "compose tui grid layouts",
+          "draw glyph based borders",
+          "arrange flex layouts",
+          "export interface as png",
+          "export interface as json",
+          "collaborate with multiplayer",
+        ],
+        description:
+          "Tooey is a browser tool for designing terminal interfaces directly on a terminal grid. It offers glyph based borders that join automatically, flex layouts and multiplayer, with a components section marked as coming soon. Compositions export as PNG or JSON, and the open source repo lives under vijaypemmaraju/tooey.",
+      },
       {
         title: "Excalidraw",
         href: "https://excalidraw.com",
@@ -11730,6 +13082,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Docs, slides and content tools",
     links: [
+      {
+        title: "Writer",
+        href: "http://writer.computer/",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        stack: ["tauri", "react", "rust", "codemirror", "markdown", "mermaid"],
+        useFor: [
+          "edit workspace markdown files",
+          "render mermaid diagrams",
+          "support yaml frontmatter",
+          "switch multiple windows",
+          "keep documents on disk",
+          "respect gitignore rules",
+        ],
+        description:
+          "Writer is a fast local-first desktop markdown editor for workspace markdown files, free and open source by Joel Bqz. Documents stay on the computer, cold start takes a fraction of a second, and it supports extended markdown including tables, Mermaid charts, HTML and YAML frontmatter with multiwindow workspaces. It is built with Tauri v2, React, Zustand, CodeMirror and Rust, has about 1.6k stars and 125 forks on GitHub, and ships a macOS beta at v0.6.1.",
+      },
       {
         title: "Writer",
         href: "https://writer.computer/",
@@ -12229,6 +13598,56 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Engineering essays and culture",
     links: [
+      {
+        title: "OSS Grants",
+        href: "https://rauchg-oss-grants.vercel.app/",
+        dateAdded: "2026-09-18",
+        useFor: [
+          "oss grant recipients",
+          "foundational oss funding",
+          "1000 dollar open source grants",
+          "discover maintained libraries",
+          "grant reason summaries",
+          "2026 grant list",
+        ],
+        description:
+          "Grant list from rauchg giving 1,000 USD grants for foundational open source, with version 2 dated 2026-09-07 counting 37 grants. Each row names the recipient, project and reason, covering entries such as wouter, oRPC, ast-grep, LocalAI, kitty and Anubis. The page itself is built with v0.",
+      },
+      {
+        title:
+          "Agentic coding is straining CI. Here's how we scaled test impact analysis at Anthropic",
+        href: "https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        useFor: [
+          "scale test impact analysis",
+          "handle 25x ci job growth",
+          "fix listener lag",
+          "shard selection by package",
+          "move state to in memory store",
+          "plan for exponential load",
+          "instrument services for agents",
+        ],
+        description:
+          "This Anthropic engineering post by Sachin Malhotra from September 14, 2026 describes a 25x increase in CI jobs over six months as agents accelerated code and test generation. It details a deterministic test impact analysis service with a listener recording results and a selector choosing tests per PR, plus three short lived patches before a redesign. The redesign uses stateless listener workers, a journal in an in memory store and a separate consumer rolling up per test history.",
+      },
+      {
+        title: "Everything I know about good API design",
+        href: "https://www.seangoedecke.com/good-api-design/",
+        dateAdded: "2026-09-18",
+        kind: "essay",
+        useFor: [
+          "design boring familiar apis",
+          "avoid breaking api userspace",
+          "version apis as last resort",
+          "authenticate with api keys",
+          "add idempotency keys",
+          "rate limit expensive endpoints",
+          "paginate with cursors",
+        ],
+        description:
+          "Everything I know about good API design is a long-form essay by Sean Goedecke, published August 24 2025 and discussed on Hacker News and Reddit. It argues good APIs are boring and familiar, maintainers must never break userspace, versioning is a last resort, auth should start with simple API keys, action endpoints need idempotency keys, and expensive endpoints need rate limits and killswitches, with cursor pagination for large datasets and optional expensive fields instead of GraphQL. Examples draw on his time at Zendesk plus the Twilio, Stripe and OpenAI APIs.",
+      },
       {
         title: "X Engineering Blog",
         href: "https://blog.x.com/engineering/en_us",
@@ -13062,6 +14481,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Mockups, textures and patterns",
     links: [
       {
+        title: "Terrain",
+        href: "https://www.playgrnd.tools/terrain",
+        dateAdded: "2026-09-18",
+        kind: "tool",
+        useFor: [
+          "generate contour landscape backgrounds",
+          "reshuffle procedural terrain variations",
+          "tune dither grain and vignette",
+          "rotate preset color bands",
+          "export high-resolution png artwork",
+          "render animated terrain loops",
+        ],
+        description:
+          "Terrain is a generative contour-landscape tool in the playgrnd collection, currently at version 1 with 52 numbered tool slots in the index. Controls cover field scale, warp, detail, contrast, spread, dithering with pixel size and tone counts, grain, vignette, movement with intensity and frame loop length, and color bands. Exports still PNGs up to 2400 px and video when animation is switched on, with a captures strip for saved variations.",
+      },
+      {
         title: "ID Cards",
         href: "https://id-cards.kshv.me/",
         dateAdded: "2026-09-12",
@@ -13346,6 +14781,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "IP as Logo",
+        href: "https://github.com/s1dashu/ip-as-logo-skill",
+        dateAdded: "2026-09-18",
+        kind: "skill",
+        useFor: [
+          "generate ip mascot logo",
+          "install ip-as-logo skill",
+          "propose three mascot directions",
+          "generate six mascot candidates",
+          "use three semantic colors",
+          "browse ready-made mascot library",
+        ],
+        description:
+          "IP as Logo is a compact open agent skill for generating extremely simple, cute, company-ready IP mascot logos with bold rounded silhouettes and strict complexity limits. It proposes three directions, then generates six independent candidates with two IP base colors plus one named solid background, installed via the Agent Skills CLI and MIT licensed with about 5.3k stars. A companion site at ipaslogo.com offers a searchable library of ready-made logos free for commercial use.",
+      },
       {
         title: "lieflat-charts",
         href: "https://github.com/larashero3-dotcom/lieflat-charts",

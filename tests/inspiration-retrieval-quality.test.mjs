@@ -99,6 +99,9 @@ test("less vibe coded preserves the established interface-craft intent", async (
         "Interfaces.dev",
         "Designing Depth",
         "Impeccable",
+        // Design-craft essay matching the vibe-coded phrase expansion
+        // ("design craft essay"); entered the catalog 2026-09-18.
+        "The invisible side of design engineering",
       ].includes(title),
     ),
     `Returned: ${hits.join(", ") || "nothing"}`,
