@@ -45,20 +45,21 @@ export async function importCatalog(
  */
 export async function refreshEmbeddings(db: InspirationDatabase) {
   if (db.kind !== "neon") return { resources: 0, passages: 0 };
-  // Batched: one statement per 2000 rows so a large wall cannot time out a
-  // single refresh. Completed batches persist; reruns resume where they stop.
+  // Batched: one statement per 500 rows so a large wall cannot time out a
+  // single refresh. ORDER BY id keeps lock order deterministic across workers.
+  // Completed batches persist; reruns resume where they stop.
   let resources = 0, passages = 0;
   for (;;) {
     const [r, p] = await Promise.all([
       db.query<{ id: string }>(`UPDATE inspiration_resources SET
         embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
         WHERE id IN (SELECT id FROM inspiration_resources
-          WHERE active AND embedded_text IS DISTINCT FROM search_text LIMIT 2000)
+          WHERE active AND embedded_text IS DISTINCT FROM search_text ORDER BY id LIMIT 500)
         RETURNING id`),
       db.query<{ id: string }>(`UPDATE inspiration_passages SET
         embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
         WHERE id IN (SELECT id FROM inspiration_passages
-          WHERE active AND embedded_text IS DISTINCT FROM search_text LIMIT 2000)
+          WHERE active AND embedded_text IS DISTINCT FROM search_text ORDER BY id LIMIT 500)
         RETURNING id`),
     ]);
     resources += r.length; passages += p.length;
