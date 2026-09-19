@@ -31,6 +31,57 @@ Point at the named local host while developing:
 BLANK_DIRECTION_URL=https://compronents.localhost claude mcp add blank-direction -- node /absolute/path/to/server.mjs
 ```
 
+## Install (Codex)
+
+Append to `~/.codex/config.toml` and verify with `codex mcp list`:
+
+```toml
+[mcp_servers.blank-direction]
+command = "node"
+args = ["/Users/blank/Desktop/CREATE/compronents/mcp/blank-direction/server.mjs"]
+enabled = true
+
+[mcp_servers.blank-direction.env]
+INSPIRATION_MCP_TOKEN = "<same token as the Claude install>"
+```
+
+## Install (Grok)
+
+Append to `~/.grok/config.toml` and verify with `grok mcp list`:
+
+```toml
+[mcp_servers.blank-direction]
+command = "node"
+args = ["/Users/blank/Desktop/CREATE/compronents/mcp/blank-direction/server.mjs"]
+env = { INSPIRATION_MCP_TOKEN = "<same token as the Claude install>" }
+enabled = true
+```
+
+## Install (opencode)
+
+Add to the `mcp` object in `~/.config/opencode/opencode.jsonc` and verify
+with `opencode mcp list`:
+
+```jsonc
+{
+  "mcp": {
+    "blank-direction": {
+      "type": "local",
+      "command": ["node", "/Users/blank/Desktop/CREATE/compronents/mcp/blank-direction/server.mjs"],
+      "environment": { "INSPIRATION_MCP_TOKEN": "<same token as the Claude install>" },
+      "enabled": true
+    }
+  }
+}
+```
+
+## Token
+
+`INSPIRATION_MCP_TOKEN` is only required for `inspiration_inspect` and
+`inspiration_feedback`. Discovery, lookup, registry search, and recommend are
+public and work without it. Keep the token in local config files only. It is
+never printed, committed, or pasted into instructions.
+
 ## Working protocol
 
 Before an agent plans open-ended UI or frontend work, it calls
