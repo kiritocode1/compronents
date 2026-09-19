@@ -28,6 +28,7 @@
     "@upstash/search": "^0.1.7",
     "@vercel/blob": "^2.8.0",
     "@web-kits/audio": "^0.1.0",
+    "ai": "^7.0.107",
     "alchemy": "0.93.12",
     "box3d-wasm": "0.2.0",
     "calligraph": "^1.4.1",

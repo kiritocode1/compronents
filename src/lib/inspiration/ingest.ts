@@ -287,7 +287,7 @@ export async function claimJob(db: InspirationDatabase) {
       (j.state = 'running' AND j.lease_until < now()))
     ORDER BY j.next_attempt_at FOR UPDATE OF j SKIP LOCKED LIMIT 1
   ) UPDATE inspiration_jobs j SET state = 'running', attempts = attempts + 1,
-    lease_token = $1, lease_until = now() + interval '60 seconds', updated_at = now()
+    lease_token = $1, lease_until = now() + interval '300 seconds', updated_at = now()
     FROM candidate c WHERE j.resource_id = c.resource_id RETURNING j.resource_id, j.lease_token, j.attempts`,
     [randomUUID()],
   );
@@ -392,12 +392,22 @@ export async function drainJobs(db: InspirationDatabase, limit = 6) {
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Source ingestion failed.";
-      await db.query(
+      const recorded = await db.query(
         `UPDATE inspiration_jobs SET state = CASE WHEN attempts >= 3 THEN 'failed' ELSE 'pending' END,
         error = $3, lease_until = NULL, next_attempt_at = now() + interval '1 hour', updated_at = now()
         WHERE resource_id = $1 AND lease_token = $2 AND state = 'running'`,
         [job.resource_id, job.lease_token, message],
       );
+      // A lapsed lease means another worker may own this job, but an
+      // unrecorded error retries forever with no reason. Record best-effort:
+      // the state guard still prevents touching finished jobs.
+      if (!recorded.length) {
+        await db.query(
+          `UPDATE inspiration_jobs SET error = $2, updated_at = now()
+          WHERE resource_id = $1 AND state = 'running'`,
+          [job.resource_id, message],
+        );
+      }
       results.push({
         resourceId: job.resource_id,
         state: "failed",

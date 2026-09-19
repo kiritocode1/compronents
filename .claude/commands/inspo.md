@@ -160,7 +160,19 @@ For a hosted write, also query the deployed `/inspiration/search` endpoint with
 hosted database write. Git push is separate from database import and cannot
 substitute for it.
 
+Close with the semantic gate. After import and retrieval checks, run the Noul
+over everything collected (catalog text, facets, retrieval ranks, passages):
+
+```sh
+pnpm inspiration:production noul '<canonical-url>'
+```
+
+It returns three verdicts with probabilities: describes the source, surfaces
+for its uses, facets supported. All three must pass. A fail is not a revert:
+fix the entry (description, facets, or group), re-import, and run the Noul
+again until it passes. Report the scores.
+
 Commit or push only when the user requests it. Stage only this task's edits.
 Report one line per link with its name, group, resource ID, destination,
-database write result, retrieval results, and extraction state. Call out any
+database write result, retrieval results, Noul scores, and extraction state. Call out any
 pending hosted write or failed retrieval instead of saying it is done.

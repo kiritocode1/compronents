@@ -45,15 +45,26 @@ export async function importCatalog(
  */
 export async function refreshEmbeddings(db: InspirationDatabase) {
   if (db.kind !== "neon") return { resources: 0, passages: 0 };
-  const [resources, passages] = await Promise.all([
-    db.query<{ id: string }>(`UPDATE inspiration_resources
-      SET embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
-      WHERE active AND embedded_text IS DISTINCT FROM search_text RETURNING id`),
-    db.query<{ id: string }>(`UPDATE inspiration_passages
-      SET embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
-      WHERE active AND embedded_text IS DISTINCT FROM search_text RETURNING id`),
-  ]);
-  return { resources: resources.length, passages: passages.length };
+  // Batched: one statement per 2000 rows so a large wall cannot time out a
+  // single refresh. Completed batches persist; reruns resume where they stop.
+  let resources = 0, passages = 0;
+  for (;;) {
+    const [r, p] = await Promise.all([
+      db.query<{ id: string }>(`UPDATE inspiration_resources SET
+        embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
+        WHERE id IN (SELECT id FROM inspiration_resources
+          WHERE active AND embedded_text IS DISTINCT FROM search_text LIMIT 2000)
+        RETURNING id`),
+      db.query<{ id: string }>(`UPDATE inspiration_passages SET
+        embedding = rag_bge_small_en_v15.embedding_for_passage(search_text), embedded_text = search_text
+        WHERE id IN (SELECT id FROM inspiration_passages
+          WHERE active AND embedded_text IS DISTINCT FROM search_text LIMIT 2000)
+        RETURNING id`),
+    ]);
+    resources += r.length; passages += p.length;
+    if (!r.length && !p.length) break;
+  }
+  return { resources, passages };
 }
 
 /** Active rows still missing an embedding. Zero is the healthy state on Neon. */

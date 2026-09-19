@@ -55,6 +55,7 @@ if (command === "help") {
   pnpm inspiration backfill [--limit 100] [--dry-run]
   pnpm inspiration misses [--limit 20]
   pnpm inspiration freshness [--limit 10] [--dry-run]
+  pnpm inspiration noul <resource-id-or-url>
   pnpm inspiration jobs
   pnpm inspiration export
   pnpm inspiration migrate
@@ -78,6 +79,7 @@ Source ingestion is local and text-only. No semantic provider runs unless config
       "backfill",
       "misses",
       "freshness",
+      "noul",
       "jobs",
       "export",
       "migrate",
@@ -92,7 +94,9 @@ Source ingestion is local and text-only. No semantic provider runs unless config
     )
       throw new Error("This command does not support --dry-run.");
     if (
-      ["inspect", "preference", "enqueue", "explain"].includes(command) &&
+      ["inspect", "preference", "enqueue", "explain", "noul"].includes(
+        command,
+      ) &&
       !argument
     )
       throw new Error("A resource ID or query is required.");
@@ -192,6 +196,58 @@ Source ingestion is local and text-only. No semantic provider runs unless config
       print(await drainJobs(db, limit));
     if (command === "misses")
       print(await topMisses(db, limit > 50 ? 50 : limit));
+    if (command === "noul") {
+      const { judgeInspo } = await import("../src/lib/inspiration/judge.ts");
+      const { experimental_evaluate: evaluate } = await import("ai");
+      const target = await resolveResource(db, argument);
+      if (!target)
+        throw new Error("Resource not found. Import the catalog first.");
+      const evidence = await passagesFor(db, [target.id]);
+      const exact = await retrieve(
+        { query: target.title, mode: "search", limit: 5 },
+        { owner: true },
+        { db },
+      );
+      const exactAt = exact.hits.findIndex(
+        (hit) => hit.resource.id === target.id,
+      );
+      const intentRanks = [];
+      for (const intent of target.useFor.slice(0, 2)) {
+        const found = await retrieve(
+          { query: intent, mode: "recommend", limit: 3 },
+          { owner: true },
+          { db },
+        );
+        const rank = found.hits.findIndex(
+          (hit) => hit.resource.id === target.id,
+        );
+        intentRanks.push({
+          intent,
+          rank: rank === -1 ? null : rank + 1,
+          topTitle: found.hits[0]?.resource.title ?? "",
+        });
+      }
+      print(
+        await judgeInspo(
+          {
+            title: target.title,
+            href: target.href,
+            description: target.description,
+            kind: target.kind,
+            stack: target.stack,
+            useFor: target.useFor,
+            license: target.license ?? "unknown",
+            categories: target.categories,
+            dateAdded: target.dateAdded,
+            exactRank: exactAt === -1 ? null : exactAt + 1,
+            intentRanks,
+            passageCount: evidence.length,
+            firstPassageHeading: evidence[0]?.heading ?? "",
+          },
+          (input) => evaluate(input),
+        ),
+      );
+    }
     if (command === "freshness") {
       const queue = await freshnessQueue(db, Math.min(limit, 50));
       if (values["dry-run"]) {
@@ -215,21 +271,38 @@ Source ingestion is local and text-only. No semantic provider runs unless config
       }
     }
     if (command === "backfill") {
-      // Permanent failures never heal (thin content, bad DNS, wrong content
-      // type, gone pages). Retrying them every round burns hours, so the
-      // backlog skips them once recorded; transient failures (timeouts,
-      // 429/403/5xx) retry. Attempts survive across rounds because enqueue
-      // only resets the resources it selects, so match on attempts, not state:
-      // a first failure lands back in pending, not failed. COALESCE keeps
-      // never-attempted resources (NULL job row) eligible: NULL is not true.
-      const permanent = `AND NOT (COALESCE(j.attempts, 0) >= 1 AND (j.error LIKE 'Too little readable text%'
+      // A row is settled when it cannot teach us anything new: recorded
+      // permanent errors (thin content, bad DNS, wrong content type, gone
+      // pages, oversize, unreadable shells), or three attempts gone. Settled
+      // rows keep their history but leave the backlog; transient failures
+      // (timeouts, 429/403/5xx, TLS) retry until their third attempt, and a
+      // future explicit `enqueue` still resets any single resource by hand.
+      // COALESCE keeps never-attempted resources (NULL job row) eligible.
+      const permanentErrors = `(j.error LIKE 'Too little readable text%'
         OR j.error LIKE 'No readable source body%' OR j.error LIKE '%non-public address%' OR j.error LIKE 'Only %'
         OR j.error LIKE '%HTTP 404%' OR j.error LIKE '%HTTP 410%'
-        OR j.error LIKE '%ENOTFOUND%' OR j.error LIKE '%exceeds 2 MB%'))`;
+        OR j.error LIKE '%ENOTFOUND%' OR j.error LIKE '%exceeds 2 MB%'
+        OR j.error LIKE 'Empty source cannot replace%' OR j.error LIKE 'Cannot set properties of undefined%'
+        OR j.error LIKE 'Too many source redirects%' OR j.error LIKE 'Parse Error%'
+        OR j.error LIKE '%HTTP 402.%' OR j.error LIKE '%HTTP 406.%'
+        OR j.error LIKE '%does not match certificate%')`;
+      const settled = `AND NOT (COALESCE(j.attempts, 0) >= 3 OR (COALESCE(j.attempts, 0) >= 1 AND ${permanentErrors}))`;
+      // Graduate settled rows straight to failed so the drain spends its
+      // budget on fresh rows instead of re-failing known outcomes while fresh
+      // rows starve behind them in claim order.
+      if (!values["dry-run"]) {
+        await db.query(
+          `UPDATE inspiration_jobs j SET state = 'failed', attempts = 3, updated_at = now()
+           FROM inspiration_resources r LEFT JOIN inspiration_passages p
+           ON p.resource_id = r.id AND p.active
+           WHERE j.resource_id = r.id AND r.active AND p.id IS NULL
+           AND (COALESCE(j.attempts, 0) >= 3 OR (COALESCE(j.attempts, 0) >= 1 AND ${permanentErrors}))`,
+        );
+      }
       const missing = await db.query(
         `SELECT r.id FROM inspiration_resources r LEFT JOIN inspiration_passages p
          ON p.resource_id = r.id AND p.active LEFT JOIN inspiration_jobs j ON j.resource_id = r.id
-         WHERE r.active AND p.id IS NULL ${permanent}
+         WHERE r.active AND p.id IS NULL ${settled}
          ORDER BY r.document->>'dateAdded' LIMIT $1`,
         [Math.min(limit, 200)],
       );
@@ -238,14 +311,25 @@ Source ingestion is local and text-only. No semantic provider runs unless config
           `SELECT count(*)::integer AS total FROM inspiration_resources r
            LEFT JOIN inspiration_passages p ON p.resource_id = r.id AND p.active
            LEFT JOIN inspiration_jobs j ON j.resource_id = r.id
-           WHERE r.active AND p.id IS NULL ${permanent}`,
+           WHERE r.active AND p.id IS NULL ${settled}`,
         );
         print({
           passageLess: total,
           sample: missing.slice(0, 6).map((r) => r.id),
         });
       } else {
-        for (const row of missing) await enqueue(db, row.id);
+        // Requeue without resetting attempts or errors: the settled filter
+        // above graduates rows on their history, and a reset would wipe the
+        // evidence it decides on. Explicit single-resource `enqueue` still
+        // resets by hand when an operator wants a fresh start.
+        for (const row of missing) {
+          await db.query(
+            `INSERT INTO inspiration_jobs(resource_id) VALUES ($1)
+             ON CONFLICT(resource_id) DO UPDATE SET state = 'pending', next_attempt_at = now()
+             WHERE inspiration_jobs.state <> 'running' OR inspiration_jobs.lease_until < now()`,
+            [row.id],
+          );
+        }
         const results = [];
         for (let done = 0; done < missing.length; done += 6)
           results.push(...(await drainJobs(db, 6)));

@@ -359,3 +359,74 @@ test("empty verified results are logged to the miss backlog", async () => {
   assert.equal(top[0].query, "zzzqqxx wibblefrotz");
   assert.equal(top[0].mode, "search");
 });
+
+test("noul verdicts pass on high probabilities and fail below threshold", async () => {
+  const { judgeInspo, buildInspoState } = await import(
+    "../src/lib/inspiration/judge.ts"
+  );
+  const evidence = {
+    title: "brag",
+    href: "https://github.com/latent-spaces/brag",
+    description:
+      "Agent skill that turns a finished project into a shareable launch video.",
+    kind: ["skill"],
+    stack: ["video"],
+    useFor: ["launch video skill"],
+    license: "mit",
+    categories: ["Agent skills directories"],
+    dateAdded: "2026-09-19",
+    exactRank: 1,
+    intentRanks: [{ intent: "launch video skill", rank: 1, topTitle: "brag" }],
+    passageCount: 0,
+    firstPassageHeading: "",
+  };
+  const state = buildInspoState(evidence);
+  assert.ok(state.includes("brag") && state.includes("launch video skill"));
+  const good = await judgeInspo(evidence, async () => ({
+    answers: {
+      describes_source: { probability: 0.9 },
+      surfaces_for_uses: { probability: 0.8 },
+      facets_supported: { probability: 0.7 },
+    },
+  }));
+  assert.equal(good.pass, true);
+  assert.deepEqual(
+    good.verdicts.map((v) => v.pass),
+    [true, true, true],
+  );
+  const bad = await judgeInspo(evidence, async () => ({
+    answers: {
+      describes_source: { probability: 0.9 },
+      surfaces_for_uses: { probability: 0.2 },
+      facets_supported: { probability: 0.7 },
+    },
+  }));
+  assert.equal(bad.pass, false);
+  assert.deepEqual(
+    bad.verdicts.map((v) => v.pass),
+    [true, false, true],
+  );
+});
+
+test("noul throws when the judge returns no probability", async () => {
+  const { judgeInspo } = await import("../src/lib/inspiration/judge.ts");
+  const evidence = {
+    title: "x",
+    href: "https://example.com/x",
+    description: "d",
+    kind: [],
+    stack: [],
+    useFor: [],
+    license: "unknown",
+    categories: ["Testing"],
+    dateAdded: "2026-09-19",
+    exactRank: null,
+    intentRanks: [],
+    passageCount: 0,
+    firstPassageHeading: "",
+  };
+  await assert.rejects(
+    () => judgeInspo(evidence, async () => ({ answers: {} })),
+    /no probability/,
+  );
+});
