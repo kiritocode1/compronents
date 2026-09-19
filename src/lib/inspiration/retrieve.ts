@@ -9,17 +9,22 @@ import {
   coverage,
   meetsConstraints,
   nearbyCoverage,
+  type QueryAnalysis,
   queryTerms,
 } from "./query.ts";
+import type { RerankClient } from "./rerank.ts";
 import {
   effectivePreferences,
+  feedbackScores,
   importCatalog,
+  logMiss,
   passagesFor,
   preferences,
 } from "./store.ts";
 import {
   InspirationError,
   type Passage,
+  type PersonalPreference,
   type Resource,
   type RetrievalHit,
   type RetrievalRequest,
@@ -73,6 +78,8 @@ interface Dependencies {
   db?: InspirationDatabase | null;
   /** Injectable so a test can force the degraded path without a database error. */
   semantic?: (db: InspirationDatabase, query: string) => Promise<string[]>;
+  /** Gateway rerank and expansion. Absent by default; tests inject a stub. */
+  rerank?: RerankClient;
 }
 
 /**
@@ -136,6 +143,84 @@ async function lexicalCandidates(
   ]);
 }
 
+/**
+ * One load cycle: lexical passes plus semantic recall into shared RRF, then
+ * resource rows for every ranked id. Expansion reruns this with wider text;
+ * RRF accumulates across cycles by design, and resources merge by id.
+ */
+function addRanks(rrf: Map<string, number>, ids: string[], weight = 1) {
+  [...new Set(ids)].forEach((id, rank) => {
+    rrf.set(id, (rrf.get(id) ?? 0) + weight / (60 + rank + 1));
+  });
+}
+
+async function loadRows(
+  db: InspirationDatabase,
+  query: QueryAnalysis,
+  text: string,
+  terms: string[],
+  expandedText: string,
+  viewer: Viewer,
+  deps: Dependencies,
+  result: RetrievalResult,
+  rrf: Map<string, number>,
+  semanticIds: Set<string>,
+): Promise<Resource[]> {
+  const [fts, fuzzy, source, constrained] = await lexicalCandidates(
+    db,
+    query.positive,
+    expandedText,
+    constraintTsQuery(query),
+  );
+  addRanks(
+    rrf,
+    fts.map((row) => row.id),
+  );
+  addRanks(
+    rrf,
+    fuzzy.map((row) => row.id),
+  );
+  addRanks(
+    rrf,
+    source.map((row) => row.resource_id),
+  );
+  addRanks(
+    rrf,
+    constrained.map((row) => row.id),
+  );
+  // Nearest neighbours over the embedding column, joined by the same addRanks
+  // the lexical passes use, so RRF and the BM25 floor are untouched. The
+  // catch is the normal path on local PGlite, which has no embedding column.
+  // Nearest neighbours always return something, so gibberish would otherwise
+  // get a full page of confident-looking noise. Cosine distance cannot tell
+  // them apart: measured against this wall, "zzzqqxx wibblefrotz" lands at
+  // 0.381 while a real vague question sits at 0.397. Corpus vocabulary can:
+  // the same queries score 0.00 and 0.75-1.00. So a query has to name at
+  // least one thing this wall knows about before it earns semantic recall.
+  const vocabulary = spellingDictionary();
+  const grounded = terms.some((term) => vocabulary.known.has(term));
+  if (viewer.owner && text && grounded) {
+    try {
+      const near = await (deps.semantic ?? semanticCandidates)(db, text);
+      addRanks(rrf, near);
+      for (const id of near) semanticIds.add(id);
+      if (near.length) result.provider = "hybrid";
+    } catch {
+      // Only worth saying when the rows exist but the query could not run.
+      if (db.kind === "neon")
+        result.notice =
+          "Semantic search is unavailable. Showing PostgreSQL matches.";
+    }
+  }
+  const ids = [...rrf.keys()];
+  const rows = await db.query<{ document: Resource }>(
+    `SELECT document FROM inspiration_resources
+        WHERE active AND (id = ANY($1::text[]) OR $2 = '') ORDER BY id`,
+    [ids, text],
+  );
+  return rows.map((row) => row.document);
+}
+
 export async function retrieve(
   input: RetrievalRequest,
   viewer: Viewer,
@@ -172,12 +257,8 @@ export async function retrieve(
   let passages: Passage[] = [];
   const rrf = new Map<string, number>();
   const semanticIds = new Set<string>();
-  const addRanks = (ids: string[], weight = 1) => {
-    [...new Set(ids)].forEach((id, rank) => {
-      rrf.set(id, (rrf.get(id) ?? 0) + weight / (60 + rank + 1));
-    });
-  };
-  let personal = new Map<string, import("./types.ts").PersonalPreference>();
+  let personal = new Map<string, PersonalPreference>();
+  const adoptedScores = new Map<string, number>();
   if (db) {
     try {
       if (db.kind === "local") {
@@ -186,46 +267,18 @@ export async function retrieve(
         );
         if (row.count === 0) await importCatalog(db);
       }
-      const [fts, fuzzy, source, constrained] = await lexicalCandidates(
+      resources = await loadRows(
         db,
-        query.positive,
+        query,
+        text,
+        terms,
         candidateText(query),
-        constraintTsQuery(query),
+        viewer,
+        deps,
+        result,
+        rrf,
+        semanticIds,
       );
-      addRanks(fts.map((row) => row.id));
-      addRanks(fuzzy.map((row) => row.id));
-      addRanks(source.map((row) => row.resource_id));
-      addRanks(constrained.map((row) => row.id));
-      // Nearest neighbours over the embedding column, joined by the same addRanks
-      // the lexical passes use, so RRF and the BM25 floor are untouched. The
-      // catch is the normal path on local PGlite, which has no embedding column.
-      // Nearest neighbours always return something, so gibberish would otherwise
-      // get a full page of confident-looking noise. Cosine distance cannot tell
-      // them apart: measured against this wall, "zzzqqxx wibblefrotz" lands at
-      // 0.381 while a real vague question sits at 0.397. Corpus vocabulary can:
-      // the same queries score 0.00 and 0.75-1.00. So a query has to name at
-      // least one thing this wall knows about before it earns semantic recall.
-      const grounded = terms.some((term) => vocabulary.known.has(term));
-      if (viewer.owner && text && grounded) {
-        try {
-          const near = await (deps.semantic ?? semanticCandidates)(db, text);
-          addRanks(near);
-          for (const id of near) semanticIds.add(id);
-          if (near.length) result.provider = "hybrid";
-        } catch {
-          // Only worth saying when the rows exist but the query could not run.
-          if (db.kind === "neon")
-            result.notice =
-              "Semantic search is unavailable. Showing PostgreSQL matches.";
-        }
-      }
-      const ids = [...rrf.keys()];
-      const rows = await db.query<{ document: Resource }>(
-        `SELECT document FROM inspiration_resources
-        WHERE active AND (id = ANY($1::text[]) OR $2 = '') ORDER BY id`,
-        [ids, text],
-      );
-      resources = rows.map((row) => row.document);
       // Source evidence is only available to the owner or an authenticated read token.
       passages = await passagesFor(
         db,
@@ -238,6 +291,13 @@ export async function retrieve(
             request.contextKey ?? "",
           )
         : personal;
+      // Feedback must never break ranking: a failed aggregation degrades to no nudge.
+      try {
+        for (const [id, score] of await feedbackScores(db))
+          adoptedScores.set(id, score);
+      } catch {
+        /* no feedback nudge */
+      }
     } catch {
       if (viewer.owner)
         throw new InspirationError(
@@ -254,135 +314,244 @@ export async function retrieve(
     result.notice = "Database not connected. Showing catalog text matches.";
   }
 
-  const candidates: RetrievalHit[] = [];
-  for (const resource of resources) {
-    if (
-      request.category &&
-      !resource.categories.some((c) =>
-        normalized(c).includes(normalized(request.category ?? "")),
+  interface ScoreInput {
+    resources: Resource[];
+    request: RetrievalRequest;
+    mode: RetrievalResult["mode"];
+    text: string;
+    terms: string[];
+    analysis: QueryAnalysis;
+    semanticIds: Set<string>;
+    rrf: Map<string, number>;
+    personal: Map<string, PersonalPreference>;
+    adoptedScores: Map<string, number>;
+    passages: Passage[];
+    owner: boolean;
+  }
+
+  /** Score every resource against the analyzed query. Pure over loaded rows:
+   *  a second call with merged variants rescores without new database passes. */
+  function scoreAll(input: ScoreInput): RetrievalHit[] {
+    const {
+      resources,
+      request,
+      mode,
+      text,
+      terms,
+      semanticIds,
+      rrf,
+      personal,
+      adoptedScores,
+      passages,
+    } = input;
+    const query = input.analysis;
+    const viewer = { owner: input.owner };
+    const candidates: RetrievalHit[] = [];
+    for (const resource of resources) {
+      if (
+        request.category &&
+        !resource.categories.some((c) =>
+          normalized(c).includes(normalized(request.category ?? "")),
+        )
       )
-    )
-      continue;
-    if (request.kind && !resource.kind.includes(request.kind)) continue;
-    if (
-      request.stack &&
-      !resource.stack.some(
-        (s) => normalized(s) === normalized(request.stack ?? ""),
+        continue;
+      if (request.kind && !resource.kind.includes(request.kind)) continue;
+      if (
+        request.stack &&
+        !resource.stack.some(
+          (s) => normalized(s) === normalized(request.stack ?? ""),
+        )
       )
-    )
-      continue;
-    if (!matchesDateRange(resource.dateAdded, parsed.date)) continue;
-    const pref = personal.get(resource.id);
-    const exact =
-      exactResource(resource, request.query) || exactResource(resource, text);
-    const catalogText = resourceText(resource);
-    // Avoid stays discoverable for direct lookup, with an explicit warning.
-    if (pref?.preference === "avoid" && !exact) continue;
-    const evidence = passages
-      .filter((p) => p.resourceId === resource.id)
-      .sort(
-        (a, b) =>
-          coverage(terms, b.text) - coverage(terms, a.text) ||
-          a.ordinal - b.ordinal,
+        continue;
+      if (
+        request.license &&
+        normalized(resource.license ?? "unknown") !==
+          normalized(request.license)
       )
-      .slice(0, 2);
-    const evidenceText = `${catalogText} ${evidence.map((p) => p.text).join(" ")}`;
-    if (!exact && !meetsConstraints(query, evidenceText)) continue;
-    if (
-      !exact &&
-      query.style &&
-      !resource.categories.some((category) =>
-        /design|animation|motion|portfolio|component|ui |icon|skill|frontend/i.test(
-          category,
+        continue;
+      if (!matchesDateRange(resource.dateAdded, parsed.date)) continue;
+      const pref = personal.get(resource.id);
+      const exact =
+        exactResource(resource, request.query) || exactResource(resource, text);
+      const catalogText = resourceText(resource);
+      // Avoid stays discoverable for direct lookup, with an explicit warning.
+      if (pref?.preference === "avoid" && !exact) continue;
+      const evidence = passages
+        .filter((p) => p.resourceId === resource.id)
+        .sort(
+          (a, b) =>
+            coverage(terms, b.text) - coverage(terms, a.text) ||
+            a.ordinal - b.ordinal,
+        )
+        .slice(0, 2);
+      const evidenceText = `${catalogText} ${evidence.map((p) => p.text).join(" ")}`;
+      if (!exact && !meetsConstraints(query, evidenceText)) continue;
+      if (
+        !exact &&
+        query.style &&
+        !resource.categories.some((category) =>
+          /design|animation|motion|portfolio|component|ui |icon|skill|frontend/i.test(
+            category,
+          ),
+        )
+      )
+        continue;
+      const directSupport = coverage(terms, evidenceText);
+      const explicitIntent =
+        terms.length > 0 &&
+        resource.useFor.some((value) => coverage(terms, value) === 1);
+      const localSupport = Math.max(
+        0,
+        ...[
+          resource.title,
+          ...resource.useFor,
+          resource.description,
+          ...evidence.map((p) => p.text),
+        ].map((value) => nearbyCoverage(terms, value)),
+      );
+      // Editorial categories can recover a style intent, but never a capability.
+      const expandedSupport = Math.max(
+        0,
+        ...query.variants.map((variant) =>
+          coverage(variant, evidenceText) >= 0.5
+            ? coverage(
+                variant,
+                `${evidenceText} ${resource.categories.join(" ")}`,
+              ) * 0.85
+            : 0,
         ),
-      )
-    )
-      continue;
-    const directSupport = coverage(terms, evidenceText);
-    const explicitIntent =
-      terms.length > 0 &&
-      resource.useFor.some((value) => coverage(terms, value) === 1);
-    const localSupport = Math.max(
-      0,
-      ...[
-        resource.title,
-        ...resource.useFor,
-        resource.description,
-        ...evidence.map((p) => p.text),
-      ].map((value) => nearbyCoverage(terms, value)),
-    );
-    // Editorial categories can recover a style intent, but never a capability.
-    const expandedSupport = Math.max(
-      0,
-      ...query.variants.map((variant) =>
-        coverage(variant, evidenceText) >= 0.5
-          ? coverage(
-              variant,
-              `${evidenceText} ${resource.categories.join(" ")}`,
-            ) * 0.85
-          : 0,
-      ),
-    );
-    const literalEligible =
-      (!(query.style && terms.length === 1) || explicitIntent) &&
-      Math.min(directSupport, localSupport) >=
-        requiredCoverage(mode, terms.length);
-    const support =
-      query.style && terms.length === 1 && !explicitIntent
-        ? expandedSupport
-        : Math.max(directSupport, expandedSupport);
-    const titleSupport = terms.length ? coverage(terms, resource.title) : 0;
-    const categoryMatch = resource.categories.some(
-      (c) => normalized(c) === normalized(text),
-    );
-    const required = requiredCoverage(mode, terms.length);
-    const textEligible =
-      exact ||
-      categoryMatch ||
-      !text ||
-      literalEligible ||
-      expandedSupport >= 0.8;
-    // Semantic candidates now reach recommend too. Whether they are shown there
-    // is decided after sorting, once it is known if anything verified exists.
-    if (!textEligible && !semanticIds.has(resource.id)) continue;
-    if (!exact && terms.length === 0 && text && !categoryMatch) continue;
-    const related = !textEligible;
-    const base =
-      (rrf.get(resource.id) ?? 0) * 0.3 +
-      support * 0.1 +
-      titleSupport * 0.06 +
-      (categoryMatch ? 0.05 : 0);
-    const boost =
-      !related && pref && pref.preference !== "avoid"
-        ? (pref.preference === "prefer" ? 0.005 : 0) +
-          ((pref.rating ?? 3) - 3) * 0.001
-        : 0;
-    candidates.push({
-      resource,
-      score: base + boost,
-      match: exact ? "exact" : related ? "related" : "text",
-      reasons: [
-        exact
-          ? "Exact title, URL or citation"
-          : related
-            ? "Semantic candidate; inspect before recommending"
-            : !literalEligible && expandedSupport >= 0.8
-              ? "Matching design intent and catalog topic"
-              : evidence.some((p) => coverage(terms, p.text) >= required)
-                ? "Matching source passage"
-                : "Matching catalog description",
-        ...(boost > 0
-          ? ["Your preference raised this relevant result"]
-          : boost < 0
-            ? ["Your rating lowered this relevant result"]
+      );
+      const literalEligible =
+        (!(query.style && terms.length === 1) || explicitIntent) &&
+        Math.min(directSupport, localSupport) >=
+          requiredCoverage(mode, terms.length);
+      const support =
+        query.style && terms.length === 1 && !explicitIntent
+          ? expandedSupport
+          : Math.max(directSupport, expandedSupport);
+      const titleSupport = terms.length ? coverage(terms, resource.title) : 0;
+      const categoryMatch = resource.categories.some(
+        (c) => normalized(c) === normalized(text),
+      );
+      const required = requiredCoverage(mode, terms.length);
+      const textEligible =
+        exact ||
+        categoryMatch ||
+        !text ||
+        literalEligible ||
+        expandedSupport >= 0.8;
+      // Semantic candidates now reach recommend too. Whether they are shown there
+      // is decided after sorting, once it is known if anything verified exists.
+      if (!textEligible && !semanticIds.has(resource.id)) continue;
+      if (!exact && terms.length === 0 && text && !categoryMatch) continue;
+      const related = !textEligible;
+      const base =
+        (rrf.get(resource.id) ?? 0) * 0.3 +
+        support * 0.1 +
+        titleSupport * 0.06 +
+        (categoryMatch ? 0.05 : 0);
+      const boost =
+        !related && pref && pref.preference !== "avoid"
+          ? (pref.preference === "prefer" ? 0.005 : 0) +
+            ((pref.rating ?? 3) - 3) * 0.001
+          : 0;
+      const adopted = adoptedScores.get(resource.id) ?? 0;
+      const feedbackBoost =
+        !related && adopted !== 0
+          ? Math.max(-0.01, Math.min(adopted * 0.002, 0.01))
+          : 0;
+      candidates.push({
+        resource,
+        score: base + boost + feedbackBoost,
+        match: exact ? "exact" : related ? "related" : "text",
+        reasons: [
+          exact
+            ? "Exact title, URL or citation"
+            : related
+              ? "Semantic candidate; inspect before recommending"
+              : !literalEligible && expandedSupport >= 0.8
+                ? "Matching design intent and catalog topic"
+                : evidence.some((p) => coverage(terms, p.text) >= required)
+                  ? "Matching source passage"
+                  : "Matching catalog description",
+          ...(boost > 0
+            ? ["Your preference raised this relevant result"]
+            : boost < 0
+              ? ["Your rating lowered this relevant result"]
+              : []),
+          ...(pref?.preference === "avoid"
+            ? ["You marked this resource Avoid"]
             : []),
-        ...(pref?.preference === "avoid"
-          ? ["You marked this resource Avoid"]
-          : []),
-      ],
-      ...(pref ? { preference: pref } : {}),
-      evidence: viewer.owner ? evidence : [],
-    });
+        ],
+        ...(pref ? { preference: pref } : {}),
+        evidence: viewer.owner ? evidence : [],
+      });
+    }
+    return candidates;
+  }
+
+  const scoreInput = {
+    resources,
+    request,
+    mode,
+    text,
+    terms,
+    analysis: query,
+    semanticIds,
+    rrf,
+    personal,
+    adoptedScores,
+    passages,
+    owner: viewer.owner,
+  };
+  let candidates = scoreAll(scoreInput);
+  const verifiedCount = () =>
+    candidates.filter((hit) => hit.match !== "related").length;
+  // Gateway expansion fires only when verified hits are fewer than 3. The
+  // second cycle reruns the database passes with wider text and merges new
+  // rows by id; RRF accumulates across cycles by design.
+  if (
+    (mode === "recommend" || mode === "discover") &&
+    deps.rerank &&
+    text &&
+    db &&
+    verifiedCount() < 3
+  ) {
+    try {
+      const extra = await deps.rerank.expand(text);
+      const merged = extra
+        .map((phrase) => queryTerms(phrase))
+        .filter((words) => words.length > 0);
+      if (merged.length) {
+        const expanded = { ...query, variants: [...query.variants, ...merged] };
+        const more = await loadRows(
+          db,
+          expanded,
+          text,
+          terms,
+          candidateText(expanded),
+          viewer,
+          deps,
+          result,
+          rrf,
+          semanticIds,
+        );
+        const seen = new Set(resources.map((r) => r.id));
+        for (const resource of more) {
+          if (seen.has(resource.id)) continue;
+          seen.add(resource.id);
+          resources.push(resource);
+        }
+        passages = await passagesFor(
+          db,
+          resources.map((r) => r.id),
+          text,
+        );
+        candidates = scoreAll({ ...scoreInput, resources, analysis: expanded });
+      }
+    } catch {
+      /* expansion is best-effort */
+    }
   }
   candidates.sort(
     (a, b) =>
@@ -391,6 +560,39 @@ export async function retrieve(
       b.score - a.score ||
       a.resource.id.localeCompare(b.resource.id),
   );
+  // Gateway rerank reorders within the verified set. It never promotes related
+  // above verified and never relabels: the related contract stays intact.
+  if ((mode === "recommend" || mode === "discover") && deps.rerank && text) {
+    const orderable = candidates
+      .filter((hit) => hit.match !== "related")
+      .slice(0, 20);
+    if (orderable.length >= 2) {
+      try {
+        const ordered = await deps.rerank.rerank(
+          text,
+          orderable.map((hit) => ({
+            id: hit.resource.id,
+            title: hit.resource.title,
+            description: hit.resource.description,
+            categories: hit.resource.categories,
+          })),
+        );
+        const rank = new Map(ordered.map((id, n) => [id, n]));
+        const rest = candidates.filter((hit) => hit.match === "related");
+        candidates = [
+          ...orderable.toSorted(
+            (a, b) =>
+              (rank.get(a.resource.id) ?? Infinity) -
+              (rank.get(b.resource.id) ?? Infinity),
+          ),
+          ...rest,
+        ];
+      } catch {
+        if (!result.notice)
+          result.notice = "Rerank unavailable. Showing ranked matches.";
+      }
+    }
+  }
   if (mode === "discover") {
     const categories = new Map<string, number>();
     const hosts = new Map<string, number>();
@@ -416,6 +618,24 @@ export async function retrieve(
       request.limit,
     );
   } else result.hits = candidates.slice(0, request.limit);
+  // A miss is zero verified hits, not zero hits: recommend answers vague
+  // questions with related hits on purpose, and those still signal a gap worth
+  // curating. Category-only browses are navigation, not queries. Logging never
+  // breaks retrieval.
+  if (db && text && !result.hits.some((hit) => hit.match !== "related")) {
+    try {
+      await logMiss(db, {
+        query: text,
+        mode,
+        kind: request.kind ?? "",
+        stack: request.stack ?? "",
+        verified: 0,
+        hits: result.hits.length,
+      });
+    } catch {
+      /* miss logging is best-effort */
+    }
+  }
   return result;
 }
 

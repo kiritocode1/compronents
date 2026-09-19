@@ -43,6 +43,18 @@ export const schema = [
     source_url text NOT NULL, locator text NOT NULL, fetched_at timestamptz NOT NULL DEFAULT now(),
     PRIMARY KEY(resource_id, hash)
   )`,
+  `ALTER TABLE inspiration_resources
+    ADD COLUMN IF NOT EXISTS quarantined boolean NOT NULL DEFAULT false,
+    ADD COLUMN IF NOT EXISTS quarantine_reason text NOT NULL DEFAULT '',
+    ADD COLUMN IF NOT EXISTS quarantined_at timestamptz`,
+  `CREATE TABLE IF NOT EXISTS inspiration_misses (
+    query text NOT NULL, mode text NOT NULL DEFAULT '',
+    kind text NOT NULL DEFAULT '', stack text NOT NULL DEFAULT '',
+    verified integer NOT NULL DEFAULT 0, hits integer NOT NULL DEFAULT 0,
+    day date NOT NULL DEFAULT CURRENT_DATE, reports integer NOT NULL DEFAULT 1,
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY(query, mode, day)
+  )`,
   `CREATE TABLE IF NOT EXISTS inspiration_feedback (
     id text PRIMARY KEY, resource_id text NOT NULL REFERENCES inspiration_resources(id),
     outcome text NOT NULL CHECK (outcome IN ('irrelevant','inspected','adopted','used-successfully')),

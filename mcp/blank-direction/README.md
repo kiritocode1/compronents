@@ -11,6 +11,9 @@ Makes BLANK useful during the work, not just at recommendation time.
 | `inspiration_recommend` | Wall-only shortlist |
 | `registry_search` | Installables only |
 
+Every tool except `inspiration_inspect` and `inspiration_feedback` accepts an
+optional `format` of `markdown` (default) or `json`.
+
 ## Install (Claude Code)
 
 From this repo:

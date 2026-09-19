@@ -78,6 +78,10 @@ Local state lives in `.inspiration-local`. PGlite permits one process per databa
 | Source evidence | Expand Sources, or use `pnpm inspiration inspect <id-or-url>` | Every excerpt retains its source URL, heading, fetch date and snapshot hash; catalog-only results say so |
 | MCP | Start `mcp/blank-direction/server.mjs` with `BLANK_DIRECTION_URL` set to the local route | `inspiration_search` and the website API return the same ordered IDs for identical mode, limit, filters and viewer |
 | Ingestion | `pnpm inspiration enqueue <id>`, then `pnpm inspiration ingest --limit 1` | Inspect passages and `pnpm inspiration jobs`; a failed fetch keeps the previous successful source version |
+| Backfill | `pnpm inspiration backfill --dry-run`, then `--limit 25` in repeats | `passageLess` drains toward zero; `health` passages climb; import refreshes embeddings after |
+| Miss backlog | `pnpm inspiration misses` | Top failed queries read as future `/inspo` tasks |
+| Freshness | `pnpm inspiration freshness --dry-run`, then `--limit 10` | Dead sources quarantine with reason; `health` reports the quarantined count |
+| License filter | Search `video` with and without `license=mit` | Filtered results are a subset; ranking among them is unchanged |
 
 Use `pnpm inspiration help` for all available CLI commands. Ingestion is an explicit operation and performs network requests. The retrieval checks do not crawl the catalog.
 
@@ -88,6 +92,20 @@ In local development the owner password falls back to the existing `INSPIRATION_
 The same-origin guard uses `INSPIRATION_ORIGIN` when explicitly configured. In local development it also accepts the origin supplied by portless through `PORTLESS_URL`. Otherwise it uses the request URL. It does not trust `X-Forwarded-Host` or `X-Forwarded-Proto`. If a reverse proxy causes a 403 for a legitimate write, configure `INSPIRATION_ORIGIN` to the exact public origin, including any nonstandard port.
 
 `INSPIRATION_MCP_TOKEN` permits owner reads and outcome feedback. Preference writes require a signed browser session and a matching origin. Reader-gate cookies and MCP tokens cannot save owner preferences.
+
+## Installing what you find, per harness
+
+Registry hits (`reg_*`) carry their own install command. Wall skill hits on GitHub install with the skills CLI:
+
+```sh
+npx skills add https://github.com/<org>/<repo> --skill <name>   # any agent: Claude Code, Codex, opencode, Cursor, Copilot
+```
+
+Claude Code can also install from the plugin marketplace when the repo exposes one; otherwise copy the skill directory into the agent's skills folder (`~/.claude/skills/`, `.agents/skills/`, or the harness equivalent) as the skill's own README describes.
+
+## Free-model rerank (optional)
+
+Retrieval works without it. To enable the Vercel AI Gateway rerank and query expansion, set `AI_GATEWAY_API_KEY` in the project environment (server and CLI read it from the process, never from files). Only `-free` suffixed model IDs are requested, switching models is the `INSPIRATION_RERANK_MODEL` variable, and any gateway failure falls back to standard ranking with a notice. Verify with a stubbed A/B run in `tests/inspiration-retrieval-quality.test.mjs` before trusting production weights.
 
 ## Checks and limits
 

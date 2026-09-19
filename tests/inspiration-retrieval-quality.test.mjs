@@ -219,3 +219,143 @@ test("absent technologies and nonsense queries stay empty", async () => {
     assert.equal((await search(query)).hits.length, 0, query);
   }
 });
+
+test("adopted feedback raises the resource score end to end", async () => {
+  const first = await search("font pairing");
+  const target = first.hits.find((hit) => hit.match !== "related");
+  assert.ok(target, "needs a verified hit to nudge");
+  await db.query(
+    "INSERT INTO inspiration_feedback(id, resource_id, outcome, note) VALUES ('seed-adopted', $1, 'adopted', '')",
+    [target.resource.id],
+  );
+  try {
+    const second = await search("font pairing");
+    const again = second.hits.find(
+      (hit) => hit.resource.id === target.resource.id,
+    );
+    assert.ok(again, "nudged resource still ranks");
+    assert.ok(
+      again.score > target.score,
+      `score ${target.score} -> ${again.score}`,
+    );
+  } finally {
+    await db.query(
+      "DELETE FROM inspiration_feedback WHERE id = 'seed-adopted'",
+    );
+  }
+});
+
+test("irrelevant feedback lowers the resource score end to end", async () => {
+  const first = await search("font pairing");
+  const target = first.hits.find((hit) => hit.match !== "related");
+  assert.ok(target, "needs a verified hit to nudge");
+  await db.query(
+    "INSERT INTO inspiration_feedback(id, resource_id, outcome, note) VALUES ('seed-irrelevant', $1, 'irrelevant', '')",
+    [target.resource.id],
+  );
+  try {
+    const second = await search("font pairing");
+    const again = second.hits.find(
+      (hit) => hit.resource.id === target.resource.id,
+    );
+    assert.ok(again, "demoted resource still ranks");
+    assert.ok(
+      again.score < target.score,
+      `score ${target.score} -> ${again.score}`,
+    );
+  } finally {
+    await db.query(
+      "DELETE FROM inspiration_feedback WHERE id = 'seed-irrelevant'",
+    );
+  }
+});
+
+test("stubbed rerank order wins in recommend mode", async () => {
+  const base = await retrieve(
+    { query: "font pairing", mode: "recommend", limit: 5 },
+    { owner: false },
+    { db },
+  );
+  assert.ok(base.hits.length >= 2, "needs at least two hits to reorder");
+  const reversed = base.hits.map((hit) => hit.resource.id).reverse();
+  const reranked = await retrieve(
+    { query: "font pairing", mode: "recommend", limit: 5 },
+    { owner: false },
+    { db, rerank: { rerank: async () => reversed, expand: async () => [] } },
+  );
+  assert.deepEqual(
+    reranked.hits.map((hit) => hit.resource.id),
+    reversed.slice(0, reranked.hits.length),
+  );
+});
+
+test("throwing rerank falls back to base order with a notice", async () => {
+  const throwing = {
+    rerank: async () => {
+      throw new Error("gateway down");
+    },
+    expand: async () => {
+      throw new Error("gateway down");
+    },
+  };
+  const base = await retrieve(
+    { query: "font pairing", mode: "recommend", limit: 5 },
+    { owner: false },
+    { db },
+  );
+  const fallen = await retrieve(
+    { query: "font pairing", mode: "recommend", limit: 5 },
+    { owner: false },
+    { db, rerank: throwing },
+  );
+  assert.deepEqual(
+    fallen.hits.map((hit) => hit.resource.id),
+    base.hits.map((hit) => hit.resource.id),
+  );
+  assert.ok(fallen.notice?.includes("Rerank unavailable"));
+});
+
+test("expansion variants rescue a thin query", async () => {
+  const thin = await retrieve(
+    { query: "zzzchartlegendqqq", mode: "recommend", limit: 5 },
+    { owner: false },
+    { db },
+  );
+  assert.equal(
+    thin.hits.filter((hit) => hit.match !== "related").length,
+    0,
+    "thin query starts unverified",
+  );
+  const expanded = await retrieve(
+    { query: "zzzchartlegendqqq", mode: "recommend", limit: 5 },
+    { owner: false },
+    {
+      db,
+      rerank: {
+        rerank: async (_q, cands) => cands.map((c) => c.id),
+        expand: async () => ["font pairing"],
+      },
+    },
+  );
+  assert.ok(
+    expanded.hits.some((hit) => hit.match !== "related"),
+    expanded.hits.map((hit) => hit.resource.title).join(", "),
+  );
+});
+
+test("empty verified results are logged to the miss backlog", async () => {
+  const reports = async () =>
+    (
+      await db.query(
+        "SELECT reports FROM inspiration_misses WHERE query = 'zzzqqxx wibblefrotz' AND mode = 'search'",
+      )
+    )[0]?.reports ?? 0;
+  const before = await reports();
+  await search("zzzqqxx wibblefrotz");
+  assert.ok((await reports()) > before, "miss reports incremented");
+  const top = await db.query(
+    "SELECT query, mode FROM inspiration_misses ORDER BY updated_at DESC LIMIT 1",
+  );
+  assert.equal(top[0].query, "zzzqqxx wibblefrotz");
+  assert.equal(top[0].mode, "search");
+});

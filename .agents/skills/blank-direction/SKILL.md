@@ -61,6 +61,10 @@ curl -s --get --data-urlencode "q=rate limiting" --data-urlencode "section=backe
 `limit` widens the pool. Recommend returns at most 3 picks. Search returns
 about 12, more with `limit=25`.
 
+`license` filters wall results by license token (`mit`, `apache-2.0`,
+`unknown` when unstated). MCP tools accept `format: "json"` for the JSON
+route instead of markdown.
+
 ## Engage with the source
 
 Follow the action in the discovery result:

@@ -35,6 +35,8 @@ export function GET(request: Request) {
     : "all";
 
   const hits = searchRegistry(query, { limit, section });
+  if (params.get("format") === "json")
+    return Response.json({ query, section, hits });
   return text(
     `# Registry search for "${query}"\n\n${registryHitsToMarkdown(hits)}`,
   );

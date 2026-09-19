@@ -13,6 +13,8 @@ export interface Resource {
   kind: string[];
   stack: string[];
   useFor: string[];
+  /** Derived once at seed time from description text. "unknown" when unstated. */
+  license: string;
   /** Inherited metadata is a discovery hint, never source evidence. */
   inferred: { kind: string[]; stack: string[]; useFor: string[] };
 }
@@ -46,6 +48,7 @@ export interface RetrievalRequest {
   category?: string;
   kind?: string;
   stack?: string;
+  license?: string;
 }
 
 export interface RetrievalHit {

@@ -320,30 +320,49 @@ test("gibberish never reaches semantic recall", async () => {
   // going after the server dies halfway" scored 0.397. Corpus vocabulary can, so
   // an unrecognised query must not spend a query embedding or return neighbours.
   let called = 0;
-  const result = await search("zzzqqxx wibblefrotz", true, {}, {
-    semantic: async () => {
-      called += 1;
-      return [alpha.id];
+  const result = await search(
+    "zzzqqxx wibblefrotz",
+    true,
+    {},
+    {
+      semantic: async () => {
+        called += 1;
+        return [alpha.id];
+      },
     },
-  });
-  assert.equal(called, 0, "semantic ran for a query naming nothing on the wall");
+  );
+  assert.equal(
+    called,
+    0,
+    "semantic ran for a query naming nothing on the wall",
+  );
   assert.equal(result.hits.length, 0);
 });
 
 test("recommend prefers verified matches and falls back to approximate ones", async () => {
   // "typography" is real vocabulary on the wall, so it clears the gate, but no
   // fixture resource mentions it. The only candidate is therefore the semantic one.
-  const vague = await search("typography", true, { mode: "recommend" }, {
-    semantic: async () => [alpha.id],
-  });
+  const vague = await search(
+    "typography",
+    true,
+    { mode: "recommend" },
+    {
+      semantic: async () => [alpha.id],
+    },
+  );
   assert.equal(vague.hits[0]?.resource.id, alpha.id);
   assert.equal(vague.hits[0]?.match, "related", "approximate hits must say so");
 
   // "job queue" matches alpha and beta on text, so the semantic-only unrelated
   // suggestion must not dilute a recommendation that has verified answers.
-  const solid = await search("job queue", true, { mode: "recommend" }, {
-    semantic: async () => [unrelated.id],
-  });
+  const solid = await search(
+    "job queue",
+    true,
+    { mode: "recommend" },
+    {
+      semantic: async () => [unrelated.id],
+    },
+  );
   assert.ok(solid.hits.length > 0);
   assert.ok(
     solid.hits.every((hit) => hit.match !== "related"),
@@ -407,4 +426,29 @@ test("source publication is searchable, rejects stale leases and retires old pas
 test("private network sources are rejected before a connection is opened", async () => {
   await assert.rejects(fetchSource("http://127.0.0.1/"), /non-public/);
   await assert.rejects(fetchSource("http://169.254.169.254/"), /non-public/);
+});
+
+test("quarantine removes a resource from retrieval until cleared", async () => {
+  const { setQuarantine } = await import("../src/lib/inspiration/store.ts");
+  const names = async (query) =>
+    (await search(query)).hits.map((hit) => hit.resource.title);
+  assert.ok((await names("background job queue")).includes("Alpha"));
+  await setQuarantine(db, alpha.id, "Source returned HTTP 404.");
+  try {
+    assert.ok(!(await names("background job queue")).includes("Alpha"));
+    assert.ok((await names("background job queue")).includes("Beta"));
+  } finally {
+    await setQuarantine(db, alpha.id, null);
+  }
+  assert.ok((await names("background job queue")).includes("Alpha"));
+});
+
+test("freshness queue lists resources stalest first", async () => {
+  const { freshnessQueue } = await import("../src/lib/inspiration/store.ts");
+  const queue = await freshnessQueue(db, 10);
+  assert.equal(queue.length, 3);
+  assert.deepEqual(
+    queue.map((row) => row.id).sort(),
+    [alpha.id, beta.id, unrelated.id].sort(),
+  );
 });
