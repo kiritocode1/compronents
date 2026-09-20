@@ -1365,6 +1365,47 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "liquid-glass",
+        href: "https://glass.samasante.com/",
+        dateAdded: "2026-09-20",
+        kind: "library",
+        stack: ["react"],
+        useFor: [
+          "refract live dom with glass",
+          "add liquid glass lens",
+          "cross-browser glass refraction",
+          "install glass component via pnpm",
+          "tune glass refraction settings",
+          "copy glass video player example",
+        ],
+        description:
+          "liquid-glass by Sam Asante is a headless React lens that refracts the live page through an SVG displacement filter, so text stays selectable and links stay clickable in Chrome, Safari and Firefox with zero runtime dependencies. Install with pnpm add @samasante/liquid-glass; React 18 or newer is the only peer, and one Glass component wraps an element, bends its own content, refracts a copied node, or drives GPU lenses over video and canvas. The playground tunes refraction, edge bend, sheen and background live, with examples for a video player, switch, slider, notification and context menu. MIT licensed.",
+      },
+      {
+        title: "UIAble",
+        href: "https://uiable.com/",
+        dateAdded: "2026-09-20",
+        kind: "library",
+        stack: [
+          "react",
+          "nextjs",
+          "typescript",
+          "tailwind",
+          "shadcn",
+          "base-ui",
+        ],
+        useFor: [
+          "copy paste shadcn components",
+          "add admin dashboard template",
+          "use landing page blocks",
+          "add bento grid block",
+          "build with base ui primitives",
+          "browse dashboard templates",
+        ],
+        description:
+          "UIAble is a structured shadcn-based UI system by CodedThemes with 790 plus components, 400 plus blocks, 7 templates and 2 dashboards, built on Base UI primitives with TypeScript, Next.js, React and Tailwind plus Motion animations. Blocks cover heroes, pricing, bento grids, e-commerce and team sections, and full landing and dashboard templates ship alongside a Figma MCP connection. The Community tier is free and MIT licensed while Pro is a one-time purchase with lifetime access.",
+      },
+      {
         title: "mcpcn",
         href: "https://www.mcpcn.dev/",
         dateAdded: "2026-09-18",
@@ -3496,6 +3537,71 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Kombai Selects",
+        href: "https://kombai.com/selects/",
+        dateAdded: "2026-09-20",
+        kind: "gallery",
+        stack: ["nextjs"],
+        useFor: [
+          "browse curated interface picks",
+          "remix interface in kombai",
+          "copy interface into coding agent",
+          "browse dribbble and behance picks",
+          "follow taste weekly newsletter",
+          "browse designer profiles",
+        ],
+        description:
+          "Kombai Selects is a curated spotlight of 876 standout interface designs pulled from X, Dribbble and Behance, with designer profiles, a leaderboard and a Taste Weekly newsletter. Its pitch is going beyond inspiration: every pick is a free interface to build from, copied into a coding agent or remixed in Kombai. Gallery cross-links point at 300 plus dashboard pages, 120 plus landing pages and 350 plus hero sections.",
+      },
+      {
+        title: "Kage",
+        href: "https://kage.design/",
+        dateAdded: "2026-09-20",
+        kind: ["gallery", "tool"],
+        stack: ["mcp"],
+        useFor: [
+          "browse real product interfaces",
+          "turn interface into ai prompt",
+          "filter components by type",
+          "browse landing page designs",
+          "filter designs by stack",
+          "browse designs by style",
+        ],
+        description:
+          "Kage is a design inspiration gallery of 335 real-product interfaces broken into 1,778 components across 187 products, filterable by component type, page, style, industry, color and stack. Any design turns into a prompt for Claude Code, Codex or Cursor, and the site ships an MCP server plus skills, tools and themed collections. New sites are captured, analyzed and added after a quick review.",
+      },
+      {
+        title: "Built by Designers",
+        href: "https://builtbydesigners.com/",
+        dateAdded: "2026-09-20",
+        kind: "gallery",
+        useFor: [
+          "browse designer-built products",
+          "find apps shipped by designers",
+          "reference designer-built tools",
+          "browse design experiments",
+          "study shipped product examples",
+        ],
+        description:
+          "Built by Designers is a curated collection of apps, tools, websites and experiments designed, built and shipped by designers, per its own site manifest. The dark index lists entries like a polished invoice builder with PDF export, privacy-friendly analytics with revenue attribution, and a tactile weather playground, each with a one-line description. Use it to study real designer-built products instead of mockups.",
+      },
+      {
+        title: "Detail",
+        href: "https://detail.design/",
+        dateAdded: "2026-09-20",
+        kind: "gallery",
+        useFor: [
+          "browse interface details",
+          "browse design details",
+          "reference interaction patterns",
+          "study copywriting details",
+          "study accessibility details",
+          "browse motion details",
+        ],
+        description:
+          "Detail is a gallery of small interface decisions that make products feel considered, curated by Rene Wang from 2025. Entries are filed under Design, Interactivity, Motion, Copywriting, Accessibility and Easter Egg with latest first, covering cases like Smarter Word Break and Hold to Reveal Shortcut Hint. A separate resource vault holds evergreen picks plus a Figma plugin and an agent skill.",
+      },
       {
         title: "Further Forecast 2025",
         href: "https://deck.gallery/further-forecast-2025/",
@@ -8564,6 +8670,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "OpenCloak",
+        href: "https://github.com/arikchakma/opencloak",
+        dateAdded: "2026-09-20",
+        kind: "tool",
+        useFor: [
+          "swap pii out of ai prompts",
+          "install opencloak extension",
+          "protect prompt privacy on-device",
+          "detect pii with webgpu",
+          "restore fakes in ai replies",
+        ],
+        description:
+          "OpenCloak by Arik Chakma is a Chrome extension that swaps personal details out of AI prompts before they are sent, with on-device detection through WebGPU so text never leaves the machine. Pressing Enter on ChatGPT, Claude, Gemini, Perplexity, Grok or DeepSeek holds the prompt and opens a card showing it as it would be sent, with each detail a chip to untick or reroll and replies restored to real terms. Built with WXT, Base UI and Faker on the gpu-pii detector, MIT licensed.",
+      },
+      {
         title: "Introducing Arrow 2 and Arrow 2 Telos",
         href: "https://quiver.ai/blog/introducing-arrow-2-0",
         dateAdded: "2026-09-19",
@@ -10525,6 +10646,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Books and fundamentals",
     links: [
       {
+        title: "Four Rivers of Computing",
+        href: "https://four-rivers-of-computing.sunil25996.chatgpt.site/",
+        dateAdded: "2026-09-20",
+        kind: "essay",
+        useFor: [
+          "read computing syllabus",
+          "study engelbart and kay",
+          "read bret victor",
+          "study suchman situated action",
+          "explore expressive computing",
+        ],
+        description:
+          "Four Rivers of Computing is a personal reading syllabus mapping computing as a medium for thought across four rivers: augmentation (Engelbart, Kay, Goldberg), situated humans (Suchman, Bell, Turkle), expressive material (Laurel, McCarthy, Parrish, Schwulst) and inherited interfaces (Nelson, Victor). It opens with six things to consume first, from Bret Victor Inventing on Principle to the Engelbart 1968 Demo highlights, and closes on computing as a technology for forming people. Each river ends with one question to carry, like which software limits are inherent and which are sediment from forty-year-old interfaces.",
+      },
+      {
         title: "Crafting Interpreters",
         href: "https://craftinginterpreters.com/",
         dateAdded: "2026-07-14",
@@ -10792,6 +10928,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Coding challenges and practice",
     links: [
+      {
+        title: "TensorTonic",
+        href: "https://www.tensortonic.com/",
+        dateAdded: "2026-09-20",
+        kind: "tool",
+        stack: ["python", "cuda"],
+        useFor: [
+          "practice ml coding problems",
+          "write cuda kernels in browser",
+          "implement ml papers from scratch",
+          "build agentic systems",
+          "prep ml interviews",
+        ],
+        description:
+          "TensorTonic is a hands-on machine learning platform with 1000 plus problems solved by implementing algorithms from scratch, plus CUDA and Triton GPU kernels compiled on real silicon and 13 landmark papers reconstructed layer by layer. Agentic systems work runs in live cloud sandboxes and interview prep draws from real Meta, Google, Airbnb and Uber loops with 500 plus quizzes. Over 300 problems are free; Pro at 12 dollars a month and Plus at 20 add roadmaps, system design and mock assessments.",
+      },
       {
         title: "Build your own load tester",
         href: "https://codingchallenges.fyi/challenges/challenge-load-tester",
@@ -13322,6 +13474,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Personal blogs and sites",
     links: [
+      {
+        title: "an odyssey in keys",
+        href: "https://melqtx.com/blog/moving-the-letters-around/",
+        dateAdded: "2026-09-20",
+        kind: "essay",
+        useFor: [
+          "read keyboard layout journey",
+          "compare dvorak and colemak",
+          "learn colemak milestones",
+          "choose keyboard layout",
+          "practice typing deliberately",
+        ],
+        description:
+          "An odyssey in keys is a personal essay by mel of melqtx.com on a year of keyboard experimentation, from QWERTY to Dvorak to Colemak on a Sofle v2 and HHKB, with WPM milestones charted along the way. The argument: the big gain is leaving QWERTY, comfort beats speed as a reason to switch, and practice matters more than layout, across 140 logged hours. It closes with a four-step progression of keybr drills, quote-mode grinding, short frequent sessions and weekly averages, plus a recommendation to try Semimak.",
+      },
       {
         title: "Bartosz Ciechanowski",
         href: "https://ciechanow.ski",
