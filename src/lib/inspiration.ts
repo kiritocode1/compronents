@@ -14913,6 +14913,32 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Agent skills directories",
     links: [
       {
+        title: "brag",
+        href: "https://github.com/latent-spaces/brag",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: [
+          "claude-code",
+          "codex",
+          "opencode",
+          "agents",
+          "skills",
+          "video",
+          "hyperframes",
+        ],
+        useFor: [
+          "launch video skill",
+          "product launch video",
+          "shareable launch video",
+          "project showcase video",
+          "launch announcement copy",
+          "tone-steered launch video",
+          "video from finished project",
+        ],
+        description:
+          "Agent skill by latent-spaces that turns a finished project into a short shareable launch video with music, motion and share copy in one /brag command, rendered through Hyperframes. Installs into Claude Code from the plugin marketplace or into any agent with npx skills add, and writes a brag-output/ folder with the plan, a composition brief, share copy and brag.mp4. Tone is steerable with --tone, voiceover stays off unless --voice is passed, and requirements are Node 22+, FFmpeg and the Hyperframes CLI. MIT licensed with 5k stars and 312 forks.",
+      },
+      {
         title: "IP as Logo",
         href: "https://github.com/s1dashu/ip-as-logo-skill",
         dateAdded: "2026-09-18",
