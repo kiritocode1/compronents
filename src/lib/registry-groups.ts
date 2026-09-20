@@ -286,6 +286,8 @@ export const pageGroups: RegistryGroup[] = [
     title: "Editorial and typographic",
     names: [
       "march-2025-template",
+      "moneybee-alpine-page",
+      "moneybee-editorial-page",
       "archive-commerce-page",
       "house-of-epochs-page",
       "dining-room-page",

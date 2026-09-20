@@ -134,6 +134,8 @@ import MaterialSpotlightDemo from "./material-spotlight";
 import MinimapParallaxScrollDemo from "./minimap-parallax-scroll";
 import MinimapScrubberDemo from "./minimap-scrubber";
 import ModelMenu3DDemo from "./model-menu-3d";
+import MoneybeeAlpinePageDemo from "./moneybee-alpine-page";
+import MoneybeeEditorialPageDemo from "./moneybee-editorial-page";
 import MonogramMorphPageDemo from "./monogram-morph-page";
 import MontageRevealHeroDemo from "./montage-reveal-hero";
 import MosaicFlipDemo from "./mosaic-flip";
@@ -380,6 +382,8 @@ export const demos: Record<string, ComponentType> = {
   "house-of-epochs-page": HouseOfEpochsPageDemo,
   "otis-valen-page": OtisValenPageDemo,
   "march-2025-template": March2025TemplateDemo,
+  "moneybee-alpine-page": MoneybeeAlpinePageDemo,
+  "moneybee-editorial-page": MoneybeeEditorialPageDemo,
   "brutalist-portfolio-page": BrutalistPortfolioPageDemo,
   "isochrome-page": IsochromePageDemo,
   "dither-studio-page": DitherStudioPageDemo,

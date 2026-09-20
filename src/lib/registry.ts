@@ -2797,6 +2797,66 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "moneybee-alpine-page",
+    title: "Moneybee Alpine Page",
+    description:
+      "An alpine editorial investment-management page built around full-bleed landscape film, restrained Satoshi typography, translucent navigation, research and testimonial carousels, timed approach tabs, parallax media, and GSAP scroll reveals. The page preserves Moneybee's second rejected direction as an installable template, with Blob-hosted imagery, video, SVG, and font files.",
+    section: "pages",
+    category: "Animations",
+    pro: false,
+    date: "2026-09-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/moneybee-alpine-page/index.tsx",
+        target: "components/ui/moneybee-alpine-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/moneybee-alpine-page/styles.ts",
+        target: "components/ui/moneybee-alpine-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "moneybee-editorial-page",
+    title: "Moneybee Editorial Page",
+    description:
+      "A Webflow-inspired editorial investment-management page with Inter Tight typography, pill controls, layered dropdown navigation, research rows, process graphics, vertical testimonial marquees, rolling statistics, fee-plan switching, measured FAQ expansion, and GSAP motion. The page preserves Moneybee's third rejected direction as an installable template, with its original scoped stylesheet and Blob-hosted media.",
+    section: "pages",
+    category: "Animations",
+    pro: false,
+    date: "2026-09-12",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/moneybee-editorial-page/index.tsx",
+        target: "components/ui/moneybee-editorial-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/moneybee-editorial-page/content.ts",
+        target: "components/ui/moneybee-editorial-page/content.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/moneybee-editorial-page/motion.ts",
+        target: "components/ui/moneybee-editorial-page/motion.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/moneybee-editorial-page/styles.ts",
+        target: "components/ui/moneybee-editorial-page/styles.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "dither-studio-page",
     title: "Dither Studio Page",
     description:
