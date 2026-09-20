@@ -2302,6 +2302,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Bencho Finds",
+        href: "https://bencho.dev/finds",
+        dateAdded: "2026-09-19",
+        kind: "gallery",
+        useFor: [
+          "interaction design reference",
+          "drag interaction ideas",
+          "elastic ui animation",
+          "morph card transition",
+          "faq interaction pattern",
+          "micro interaction videos",
+          "spotted on x interactions",
+        ],
+        description:
+          "Finds feed inside Bencho, Lorenzo Cabra's library of live interactive UI blocks. It collects interface interactions spotted on X as cards carrying the author's handle, a short note describing the motion, tags such as Drag, Elastic, Type, Reveal and Morph, and video or still media. Recent entries include a draggable floating agent count, a FAQ whose last row answers typed questions, and a heart-rate card that morphs across three sizes.",
+      },
+      {
         title: "Viscose",
         href: "https://github.com/Yousuf-developer/Viscose-carousel",
         dateAdded: "2026-09-18",
@@ -5715,6 +5732,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Typography tools",
     links: [
       {
+        title: "Font League",
+        href: "https://fontleague.com/",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        useFor: [
+          "see which fonts new sites use",
+          "body text font trends",
+          "heading font trends",
+          "display font research",
+          "compare type adoption over time",
+          "find sites using a typeface",
+        ],
+        description:
+          "Weekly ranking of the typefaces used by recently launched websites. Sites enter automatically from Show HN and the YC directory, currently 587 launches in the last 12 weeks, and each page is rendered in a real browser rather than read from CSS. Results split into Body, Heading, Display and UI, with per-font pages that list matching sites, screenshots and match percentages, plus a Method page explaining the pipeline.",
+      },
+      {
         title: "Runebender",
         href: "https://runebender.org/",
         dateAdded: "2026-08-18",
@@ -6728,6 +6761,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Cube",
+        href: "https://cube-motion.dev",
+        dateAdded: "2026-09-19",
+        kind: "library",
+        stack: ["javascript", "react", "vue", "svelte", "solid"],
+        useFor: [
+          "staggered entrance animation",
+          "exit animation",
+          "text morph state change",
+          "scroll reveal animation",
+          "opinionated ui motion",
+          "reduced motion friendly animation",
+        ],
+        description:
+          "JavaScript animation library by Daniel White with four fixed motions and no configuration dials: rise for entrances at 640ms with 70ms stagger, leave for exits at 320ms, morph for state changes at 220ms with a 130ms lead, and reveal for scroll-triggered entrances. It runs on the Web Animations API with zero runtime dependencies, ships React, Vue, Solid and Svelte adapters, respects reduced motion by collapsing to fades and crossfades, and is MIT licensed via npm as cube-motion.",
+      },
+      {
         title: "OpenMotion",
         href: "http://openmotion.design/",
         dateAdded: "2026-09-18",
@@ -7018,6 +7068,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "Glyph",
+        href: "https://github.com/pmndrs/glyph",
+        dateAdded: "2026-09-19",
+        kind: "library",
+        stack: ["three.js", "webgpu", "react", "typescript"],
+        useFor: [
+          "render text in three.js",
+          "msdf text rendering",
+          "unicode text shaping",
+          "react three fiber text",
+          "bake fonts to glb",
+          "batched gpu text",
+        ],
+        description:
+          "Typography engine for web graphics from pmndrs, covering portable font baking, Unicode shaping, paragraph layout and batched text rendering. A CLI bakes fonts into GLB files with bitmap, MSDF or Slug data, and integrations target three.js over WebGPU and WebGL2, React Three Fiber and TypeGPU, with a renderer-neutral config API for custom engines. The repo shows 287 stars with 25 open issues, and the package is ESM-only and MIT licensed.",
+      },
       {
         title: "img2threejs",
         href: "https://github.com/img2threejs/img2threejs",
@@ -7856,6 +7923,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Powermove",
+        href: "https://trypowermove.com/",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        stack: ["typescript", "svelte", "react"],
+        useFor: [
+          "edit video with an ai agent",
+          "agent assisted motion graphics",
+          "keyframe video editing on mac",
+          "build editor mods in typescript",
+          "export video web player or svg",
+          "open source motion editor",
+        ],
+        description:
+          "Free and open source motion editor for macOS from Iterative Computer, with Codex or Claude Code working inside the editor and rendering frames to check their own edits. Projects are real compositions with layers, groups, precomps and editable keyframes on a GPU compositor, and every panel, theme, keymap and effect above the kernel ships as a hot-reloaded mod on a public Manifest, TypeScript and Svelte API. Export covers rendered video through bundled ffmpeg, a web player with React and Svelte examples, and SVG for text and groups.",
+      },
+      {
         title: "Remocn",
         href: "https://remocn.dev/",
         dateAdded: "2026-09-18",
@@ -8479,6 +8563,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Introducing Arrow 2 and Arrow 2 Telos",
+        href: "https://quiver.ai/blog/introducing-arrow-2-0",
+        dateAdded: "2026-09-19",
+        kind: "essay",
+        stack: ["svg"],
+        useFor: [
+          "code crafted vector approach",
+          "raster to svg vectorization",
+          "svg micro animations",
+          "technical drawing generation",
+          "arrow 2 vs telos tiers",
+          "vector illustration workflows",
+        ],
+        description:
+          "Quiver launch post from September 7, 2026 for Arrow 2, its vector generation model built on the idea that vectors should be crafted through code. It claims faster generation, cleaner geometry with fewer control points, and stronger spacing and alignment, applied to illustration variations, anatomical and technical drawings, raster to editable SVG vectorization, and motion for static SVG assets such as logo reveals and loading states. A second tier, Arrow 2 Telos, pairs Arrow's speed with frontier-model refinement for harder briefs, and both run at app.quiver.ai.",
+      },
       {
         title: "Use TypeUI with Claude",
         href: "https://www.typeui.sh/docs/guides/claude",
@@ -13401,6 +13502,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer profiles and socials",
     links: [
       {
+        title: "Runlayer on X",
+        href: "https://x.com/runlayer",
+        dateAdded: "2026-09-19",
+        kind: "portfolio",
+        stack: ["x", "ai", "agents", "security"],
+        useFor: [
+          "ai agent security news",
+          "agent governance updates",
+          "ai enablement platform",
+          "follow runlayer team",
+          "endpoint ai security",
+        ],
+        description:
+          "X profile of Runlayer, an AI enablement, security and control platform for AI-native teams, naming Gusto, Lemonade and Baseten as customers. The bio places the team in NYC and SF with a link to runlayer.com, the account joined in September 2025, and recent posts cover agent governance, runtime security, a Slack partnership and an AI Security Endpoint Leader mention in Latio's 2026 AI Security Market Report.",
+      },
+      {
         title: "Oğuz Yağız Kara on X",
         href: "https://x.com/oguzyagizkara",
         dateAdded: "2026-09-02",
@@ -14171,6 +14288,20 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Talks and individual videos",
     links: [
+      {
+        title:
+          "The Perfect Software Engineer Résumé: What Actually Gets You Interviews",
+        href: "https://youtu.be/yjslGx8xVYw?si=jqbD4kVmSpFZEJd9",
+        dateAdded: "2026-09-19",
+        kind: "video",
+        useFor: [
+          "software engineer resume advice",
+          "resume tips for interviews",
+          "developer career advice",
+        ],
+        description:
+          "Video from The Serious CTO, the channel of Karell Ste-Marie, a CTO of over 25 years who advises developers on growing past ticket-driven work. The episode takes the software engineer resume from the hiring side and covers what actually gets a candidate to interview.",
+      },
       {
         title: "Geoffrey Litt: Dynamic Documents as Personal Software",
         href: "https://youtu.be/MccJdr61xnc",
