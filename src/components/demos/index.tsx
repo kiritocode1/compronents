@@ -114,6 +114,7 @@ import InterlockTitleScrollDemo from "./interlock-title-scroll";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
 import IrisOutroFooterDemo from "./iris-outro-footer";
+import VideoSummagatorDemo from "./video-summagator";
 import IsochromePageDemo from "./isochrome-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
@@ -274,6 +275,7 @@ export const demos: Record<string, ComponentType> = {
   "ink-field": InkFieldDemo,
   "ink-core-layout": InkCoreLayoutDemo,
   "iris-outro-footer": IrisOutroFooterDemo,
+  "video-summagator": VideoSummagatorDemo,
   "ascii-monogram-hero": AsciiMonogramHeroDemo,
   "ascii-tv-hero": AsciiTvHeroDemo,
   "award-list": AwardListDemo,

@@ -8291,6 +8291,36 @@ export const registryItems: RegistryItem[] = [
       },
     ],
   },
+  {
+    name: "video-summagator",
+    title: "Video Summagator",
+    description:
+      "A clip turned into a solid you can orbit. The video is sampled into 96, 160 or 240 evenly spaced frames and stacked along Z as one Data3DTexture, so width and height stay the picture while depth becomes running time. A GLSL3 ray-marcher reads that cube under an orthographic camera: parallel rays, so the origin is projected back onto the camera plane rather than taken from the camera position. The selected frame splits the volume in two, everything after it opaque and everything before it accumulating over 160 steps, which is why scrubbing slides a solid surface through a smear instead of dissolving it. That surface gets a 1px outline measured in CSS pixels from four projected corners, so it holds its weight at any zoom. Viewers can drop in their own mp4 and it never leaves the browser: frames are seeked, drawn to a canvas and read back on-device. The live controls deploy from a panel inside the component, not a page sidebar.",
+    section: "components",
+    category: "Animations",
+    pro: false,
+    date: "2026-09-21",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/video-summagator/index.tsx",
+        target: "components/ui/video-summagator/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/video-summagator/sampler.ts",
+        target: "components/ui/video-summagator/sampler.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/video-summagator/volume-shader.ts",
+        target: "components/ui/video-summagator/volume-shader.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ];
 
 export function getRegistryDesignGuidance(

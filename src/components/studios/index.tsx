@@ -50,6 +50,7 @@ import SpiralGalleryStudio from "./spiral-gallery";
 import SunlitStudio from "./sunlit";
 import UnusualStudioPageStudio from "./unusual-studio-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
+import VideoSummagatorStudio from "./video-summagator";
 import WuWeiPageStudio from "./wu-wei-page";
 
 export type StudioComponent = ComponentType;
@@ -63,6 +64,7 @@ export const studios: Record<string, StudioComponent> = {
   "blur-study-grid": BlurStudyGridStudio,
   "animated-footer": AnimatedFooterStudio,
   "accordion-frames": AccordionFramesStudio,
+  "video-summagator": VideoSummagatorStudio,
   "ascii-image-reveal": AsciiImageRevealStudio,
   "cappen-fluid-simulation": CappenFluidSimulationStudio,
   "detroit-paris-slider": DetroitParisSliderStudio,

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <title>Video Summagator</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+</head>
+<body data-state="loading">
+  <header><span class="eyebrow">SPACE / TIME STUDY</span><h1>Video Summagator</h1><p>A moving image, unfolded into time.</p></header>
+  <main id="stage" aria-label="Interactive video time volume">
+    <canvas id="volume" tabindex="0" aria-label="Video time cube" aria-describedby="instructions"></canvas>
+    <div class="axis-label" id="time-start">0.00s</div><div class="axis-label" id="time-end">TIME →</div>
+  </main>
+  <aside id="controls" aria-label="Video controls">
+    <div class="panel-toolbar"><span>LIVE CONTROLS</span><button id="panel-hide" title="Hide controls. Hover at the top-right corner for 2 seconds to reveal.">Hide ↗</button></div>
+    <div id="tweakpane"></div>
+    <p id="source-info"></p>
+    <p class="privacy-note">Your video stays in this browser.</p>
+  </aside>
+  <button id="mobile-controls" aria-label="Show controls" aria-controls="controls" aria-expanded="false">Controls</button>
+  <button id="panel-reveal" hidden aria-label="Show controls" aria-controls="controls" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2.5" fill="#151515"/><circle cx="15" cy="17" r="2.5" fill="#151515"/></svg></button>
+  <figure id="frame-preview"><div class="preview-top"><span>SELECTED FRAME</span><output id="timecode">00:00.00</output></div><canvas id="preview" aria-label="Selected video frame"></canvas><figcaption id="frame-caption"></figcaption></figure>
+  <footer><p id="instructions"><span class="instructions-desktop">Drag to orbit · Scroll to zoom · ← → step through time · Space to play</span><span class="instructions-compact">Drag to orbit · Pinch to zoom</span></p></footer>
+  <div id="mobile-transport" aria-label="Video playback">
+    <button id="mobile-play" aria-label="Play video" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path class="play-icon" d="M8 5 19 12 8 19Z"/><path class="pause-icon" d="M8 5V19M16 5V19"/></svg></button>
+    <div class="scrub-controls"><div class="scrub-labels"><output id="mobile-time">00:00.00</output><span id="mobile-duration">00:00.00</span></div><input id="mobile-scrub" type="range" min="0" max="1" step="0.01" value="0" aria-label="Video timeline" disabled></div>
+  </div>
+  <p id="message" role="status" hidden></p>
+  <input id="video-file" type="file" accept="video/*,.mp4,.mov,.webm,.m4v" hidden>
+  <noscript>This interactive video volume requires JavaScript.</noscript>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

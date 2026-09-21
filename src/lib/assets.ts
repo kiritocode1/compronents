@@ -2115,6 +2115,19 @@ const stickyStackCardsAssets = Array.from({ length: 4 }, (_, i) => {
   } as const satisfies AssetItem;
 });
 
+const videoSummagatorAssets = [
+  {
+    id: "video-summagator-sample",
+    label: "Video Summagator sample clip",
+    provider: "vercel-blob",
+    pathname: "video-summagator/sample.mp4",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/video-summagator/sample.mp4`,
+    role: "CC0 clip sampled into the 3D time volume on first load.",
+    notes:
+      "Upload this video to Vercel Blob at the same pathname and serve it with public access. It must be CORS-readable: the component draws its frames into a canvas and reads them back.",
+  } as const satisfies AssetItem,
+];
+
 const halftoneSceneFooterAssets = [
   {
     id: "halftone-scene-footer-sheep",
@@ -2816,6 +2829,7 @@ export const assetItems = [
   ...emojiTrailPreloaderAssets,
   ...garageScene3DAssets,
   ...halftoneSceneFooterAssets,
+  ...videoSummagatorAssets,
   ...contentArchitecturePageAssets,
   ...Array.from({ length: 6 }, (_, i) => {
     const n = i + 1;

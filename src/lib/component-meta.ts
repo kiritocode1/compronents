@@ -4649,6 +4649,128 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "video-summagator": {
+    demoPath: "src/components/demos/video-summagator.tsx",
+    studioPath: "src/components/studios/video-summagator.tsx",
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("video-summagator-"))
+      .map((asset) => ({
+        id: asset.id,
+        label: asset.label,
+        provider: asset.provider,
+        pathname: asset.pathname,
+        fallbackPath: asset.fallbackPath,
+        role: asset.role,
+      })),
+    nuance: [
+      {
+        label: "Depth is time, so the cube is the clip",
+        description:
+          "The frames are not planes drawn one behind another. They are one Data3DTexture of w x h x frames, which lets the shader read any (x, y, time) with a single texture fetch. Everything else follows from that: the smear you see through the front face is real integration along the view ray, not a stack of alpha-blended quads.",
+      },
+      {
+        label: "The selected frame is a boundary, not a sprite",
+        description:
+          "Everything from the playhead onward is treated as opaque and its boundary plane is intersected analytically, so the march ends exactly on it rather than stepping past it. That is why the surface stays crisp at any density and why scrubbing slides a solid through the haze instead of fading one image into another.",
+      },
+      {
+        label: "The rays are parallel, so the origin is recomputed",
+        description:
+          "Under an orthographic camera every ray shares a direction, taken from the view matrix's third column. Starting each ray at cameraPosition, as a perspective setup would, fans them out and skews the volume. Each fragment is projected back onto the camera plane first.",
+      },
+      {
+        label:
+          "Sampling is 240 serial seeks, so the volume grows while you wait",
+        description:
+          "No browser API hands you every frame, so each sample is a seek, a drawImage and a getImageData. The texture is uploaded before the loop and re-uploaded as frames land, which is why the cube extrudes along Z during import rather than appearing at the end.",
+      },
+      {
+        label: "The outline is measured in CSS pixels",
+        description:
+          "The frame's four corners are projected to screen space each draw and handed to the shader, which strokes 1 CSS px inside the edge. Doing it in world space would make the line thicken as you zoom in and vanish as you zoom out.",
+      },
+      {
+        label: "The 3D texture is sRGB but declared NoColorSpace",
+        description:
+          "No sRGB internal format for 3D textures is safe across drivers, so the bytes go up raw and linearRGB decodes them in the shader. Letting three.js tag the texture sRGB double-decodes and washes the volume out.",
+      },
+    ],
+    api: [
+      {
+        name: "src",
+        type: "string",
+        default: "the hosted sample clip",
+        description:
+          "Clip loaded on mount. It is drawn to a canvas and read back, so it must be same-origin or CORS-readable; a cross-origin clip without CORS headers taints the canvas and the import fails.",
+      },
+      {
+        name: "sampleLabel",
+        type: "string",
+        default: '"Flowers · CC0 sample"',
+        description: "Name shown for the built-in clip in the panel readout.",
+      },
+      {
+        name: "eyebrow",
+        type: "string",
+        default: '"SPACE / TIME STUDY"',
+        description: "Small tracked line above the title.",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: '"Video Summagator"',
+        description: "Heading in the top-left corner.",
+      },
+      {
+        name: "tagline",
+        type: "string",
+        default: '"A moving image, unfolded into time."',
+        description: "Line under the heading. Hidden at compact widths.",
+      },
+      {
+        name: "defaultPanelOpen",
+        type: "boolean",
+        default: "true",
+        description:
+          "Whether the controls panel is deployed on mount. Forced closed below 760px so the panel never covers the stage on a phone.",
+      },
+      {
+        name: "allowUpload",
+        type: "boolean",
+        default: "true",
+        description:
+          "Shows the file picker so viewers can sample their own clip. Decoding is local; no bytes leave the browser.",
+      },
+      {
+        name: "initialParams",
+        type: "Partial<VideoSummagatorParams>",
+        description:
+          "Starting values for time, playing, speed, depth, density, brightness, showFrame, quality and autoRotate.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Extra class on the root element.",
+      },
+    ],
+    editable: [
+      {
+        name: "title",
+        control: "text",
+        description: "Heading in the top-left corner.",
+      },
+      {
+        name: "tagline",
+        control: "text",
+        description: "Line under the heading.",
+      },
+      {
+        name: "src",
+        control: "asset-url",
+        description: "Clip sampled into the volume on load.",
+      },
+    ],
+  },
   "iris-outro-footer": {
     demoPath: "src/components/demos/iris-outro-footer.tsx",
     assets: [],

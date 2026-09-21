@@ -33,6 +33,7 @@ import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
 import IrisOutroFooterPreview from "./iris-outro-footer";
+import VideoSummagatorPreview from "./video-summagator";
 import LegoDitherPreview from "./lego-dither";
 import March2025TemplatePreview from "./march-2025-template";
 import MaterialSpotlightPreview from "./material-spotlight";
@@ -72,6 +73,7 @@ export const previews: Record<string, ComponentType> = {
   "image-reveal": ImageRevealPreview,
   "ink-field": InkFieldPreview,
   "iris-outro-footer": IrisOutroFooterPreview,
+  "video-summagator": VideoSummagatorPreview,
   "grain-gradient-field": GrainGradientFieldPreview,
   "grain-gradient-nav": GrainGradientNavPreview,
   "award-list": AwardListPreview,

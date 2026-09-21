@@ -1,0 +1,26 @@
+{
+  "url": "https://video-summagator.v2space.workers.dev/",
+  "capturedAt": "2026-09-21T00:00:00Z",
+  "title": "Video Summagator",
+  "runtime": {
+    "renderer": "three.js WebGL2, GLSL3 ShaderMaterial on a BackSide box",
+    "controls": "tweakpane 4.0.5 sidebar (dropped in the port)",
+    "camera": "THREE.OrthographicCamera + OrbitControls"
+  },
+  "files": {
+    "index.html": "74435685000343947340e57c670a364b098ebb0a7b9ce56365e76a8c32b9967b",
+    "style.css": "a69dad0889144e48415463e47abd3ea9c640e8c82964c50d7fe52f5c730320d6",
+    "app.js": "f8dd784f77ed20c76257e89e0dda9f1a7de6b4f8faa7ef88e26cf2884c84be91",
+    "volume.glsl": "1db5bd2b7427c76e1afbbfa159909719446222820565c65861251f45b15a7acb"
+  },
+  "uncommittedBinary": {
+    "url": "https://video-summagator.v2space.workers.dev/assets/flower.mp4",
+    "bytes": 1128375,
+    "sha256": "0cd83d944a6ca7822b4a8306cecc60a36e859b041f6702c6a1ad9ead78924451",
+    "note": "CC0 sample clip, 960x540 h264, 5.055s. Uploaded to Vercel Blob as video-summagator/sample.mp4 rather than committed."
+  },
+  "deviations": [
+    "The tweakpane sidebar is removed. Every binding it exposed moves into a panel that deploys from inside the component's own bounds.",
+    "Fixed-position page chrome becomes absolute chrome inside the component root, so the component can be embedded rather than owning the viewport."
+  ]
+}
