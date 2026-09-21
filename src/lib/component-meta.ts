@@ -4728,24 +4728,91 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description: "Line under the heading. Hidden at compact widths.",
       },
       {
-        name: "defaultPanelOpen",
-        type: "boolean",
-        default: "true",
+        name: "quality",
+        type: "96 | 160 | 240",
+        default: "160",
         description:
-          "Whether the controls panel is deployed on mount. Forced closed below 760px so the panel never covers the stage on a phone.",
+          "Frames sampled out of the clip. Changing it re-decodes, which is one serial seek per frame.",
       },
       {
-        name: "allowUpload",
+        name: "playing",
         type: "boolean",
-        default: "true",
+        default: "false",
         description:
-          "Shows the file picker so viewers can sample their own clip. Decoding is local; no bytes leave the browser.",
+          "Runs the playhead. The component reports it back through onPlayingChange when a keyboard scrub or a new clip stops playback.",
       },
       {
-        name: "initialParams",
-        type: "Partial<VideoSummagatorParams>",
+        name: "speed",
+        type: "number",
+        default: "1",
+        description: "Playback rate while playing.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        default: "3",
         description:
-          "Starting values for time, playing, speed, depth, density, brightness, showFrame, quality and autoRotate.",
+          "Depth of the volume in world units: how far time is stretched along Z.",
+      },
+      {
+        name: "density",
+        type: "number",
+        default: "0.1",
+        description:
+          "Extinction of the transparent region before the selected frame. Low values smear, high values read as a slab.",
+      },
+      {
+        name: "brightness",
+        type: "number",
+        default: "1",
+        description: "Multiplier applied after the sRGB decode in the shader.",
+      },
+      {
+        name: "showFrame",
+        type: "boolean",
+        default: "true",
+        description: "Draws the 1px outline around the selected frame.",
+      },
+      {
+        name: "autoRotate",
+        type: "boolean",
+        default: "false",
+        description: "Orbits the camera at 0.6 rad/s.",
+      },
+      {
+        name: "onTimeChange",
+        type: "(time: number, duration: number) => void",
+        description:
+          "Fires at most every 100ms while the playhead moves, so a host scrubber can follow playback without re-rendering per frame.",
+      },
+      {
+        name: "onReady",
+        type: "(info: VolumeInfo) => void",
+        description:
+          "Fires when a clip finishes decoding, with the sample count, frame size and byte total.",
+      },
+      {
+        name: "onMessage",
+        type: "(message: string | null) => void",
+        description:
+          "Decode failures, cancellations and WebGL trouble. Null clears the current message.",
+      },
+      {
+        name: "onPlayingChange",
+        type: "(playing: boolean) => void",
+        description:
+          "Fires when playback should stop, e.g. after a keyboard scrub or a new clip load.",
+      },
+      {
+        name: "onBusyChange",
+        type: "(busy: boolean) => void",
+        description: "True while a clip is decoding.",
+      },
+      {
+        name: "ref",
+        type: "Ref<VideoSummagatorHandle>",
+        description:
+          "One-shot actions: seek(seconds), stepFrame(1 | -1), resetCamera() and frontView().",
       },
       {
         name: "className",
