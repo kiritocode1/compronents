@@ -1365,6 +1365,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "mdxcn",
+        href: "https://www.mdxcn.dev/docs",
+        dateAdded: "2026-09-25",
+        kind: "library",
+        stack: ["react", "mdx", "shadcn", "motion"],
+        useFor: [
+          "ascii charts in mdx",
+          "copy shadcn graph components",
+          "table chart timeline for docs",
+          "comark graph block",
+          "knap graph filter",
+          "framed ascii figure for readme",
+          "agent skill for choosing charts",
+        ],
+        style: "terminal",
+        description:
+          "mdxcn is a free, open-source set of ASCII-style tables, charts and diagrams for MDX from keshav-exe, copied into a shadcn project with the shadcn CLI (pnpm dlx shadcn@latest add https://mdxcn.dev/r/all.json) instead of an npm package, with motion as the runtime dependency. The docs cover more than 30 graph figures including table, sheet, flow, plot, spark, meter, gantt, uptime, bullet, slope, rank, kpi, timer and countdown, plus callout, quote, steps, terminal and changelog components, each page carrying CLI, manual, agent, MDX, Comark and Knap install tabs. Every figure sits in a dashed frame with plus-sign corners and a bracketed title on the top edge, drawn with block glyphs in Geist Mono under one graph-accent variable (duo and multi palettes add a second and third hue), animated with 220ms transform and opacity changes only. The same figures render as ::graph-* blocks in Comark apps, graph_* filters in Knap templates, and fenced ASCII for READMEs and plain Markdown, with an agent skill and llms.txt index for picking the right graph. MIT licensed, source on GitHub at keshav-exe/mdxcn.",
+      },
+      {
         title: "liquid-glass",
         href: "https://glass.samasante.com/",
         dateAdded: "2026-09-20",
