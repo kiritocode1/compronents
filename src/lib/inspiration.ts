@@ -1384,6 +1384,24 @@ export const inspirationGroups: InspirationGroup[] = [
           "mdxcn is a free, open-source set of ASCII-style tables, charts and diagrams for MDX from keshav-exe, copied into a shadcn project with the shadcn CLI (pnpm dlx shadcn@latest add https://mdxcn.dev/r/all.json) instead of an npm package, with motion as the runtime dependency. The docs cover more than 30 graph figures including table, sheet, flow, plot, spark, meter, gantt, uptime, bullet, slope, rank, kpi, timer and countdown, plus callout, quote, steps, terminal and changelog components, each page carrying CLI, manual, agent, MDX, Comark and Knap install tabs. Every figure sits in a dashed frame with plus-sign corners and a bracketed title on the top edge, drawn with block glyphs in Geist Mono under one graph-accent variable (duo and multi palettes add a second and third hue), animated with 220ms transform and opacity changes only. The same figures render as ::graph-* blocks in Comark apps, graph_* filters in Knap templates, and fenced ASCII for READMEs and plain Markdown, with an agent skill and llms.txt index for picking the right graph. MIT licensed, source on GitHub at keshav-exe/mdxcn.",
       },
       {
+        title: "loading.dev",
+        href: "https://loading.dev/",
+        dateAdded: "2026-09-25",
+        kind: "library",
+        stack: ["react"],
+        useFor: [
+          "react loading spinner",
+          "loading indicator",
+          "add page loader",
+          "spinner with size color duration",
+          "reduced motion spinner",
+          "install loading dev",
+          "pick a spinner style",
+        ],
+        description:
+          "loading.dev is a lightweight React library of 27 loading indicators, from Arc and Bouncing dots to Wave, installed with npm install loading-dev. Every indicator takes size, color and duration props, with extras like easing or cap on some, plus playState control and custom styles. All spinners respect reduced motion out of the box and the library requires React 19 or later. Built by Jakub Krehel and Paul Faivret, with source on GitHub at jakubkrehel/loading and a dedicated docs page per spinner.",
+      },
+      {
         title: "liquid-glass",
         href: "https://glass.samasante.com/",
         dateAdded: "2026-09-20",
@@ -2361,6 +2379,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Spring Check",
+        href: "https://reactbits.dev/micro/spring-check",
+        dateAdded: "2026-09-25",
+        kind: "demo",
+        stack: ["react", "css"],
+        useFor: [
+          "animated checkbox",
+          "spring checkbox micro-interaction",
+          "toggle with strike-through label",
+          "copy spring check component",
+          "customize checkbox bounce",
+          "controlled checkbox animation",
+        ],
+        description:
+          "Spring Check is a React Bits Micro component, an animated checkbox driven by spring physics. Toggling swells a fill out of the box centre with adjustable bounce, draws the tick over it, then wipes a strike-through rule across the label while the text dims to a done opacity. The page ships a live customizer for ink, fill and check colors, box size and radius, font size, bounce, strike lag and direction, plus controlled, uncontrolled and disabled states with a full props table. Copy the React and CSS source from the page or install it through the React Bits shadcn and jsrepo CLI pattern.",
+      },
       {
         title: "Bencho Finds",
         href: "https://bencho.dev/finds",
