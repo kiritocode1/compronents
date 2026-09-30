@@ -21,8 +21,9 @@ curl -s "https://ui.aryank.space/direction/discover?q=<task+and+constraints>"
 
 Or use MCP tool `direction_discover` with `{ "task": "..." }`.
 
-Skip discovery when the user supplied an exact source, exact component, or a
-fully fixed implementation with no meaningful choice.
+Skip discovery for an existing UI adjustment, bug fix, refactor, supplied exact
+source or exact component, and a fully fixed implementation with no meaningful
+choice. Use exact lookup for a concrete need when a BLANK source is useful.
 
 The response contains 8 to 12 varied candidates, split into Use now and Study
 mechanics. Scan all of them. Honour the budget the response states. Inspect at
@@ -32,9 +33,12 @@ most 3. For every inspected source, record:
 2. Why it fits this task.
 3. Whether to adopt, adapt, or reject it.
 
-Then apply the useful parts and compare the result against the source. Cite only
-sources that changed the work. A failed page, tool, or skill load consumes one
-inspection attempt. Zero successful inspections means zero claimed influences.
+Then apply the useful parts and compare the result against the source. At
+closeout, name the original source inspected, the decision it changed, and the
+check of the implemented result or advice. Cite only sources that changed the
+work. A failed page, tool, or skill load consumes one inspection attempt. Zero
+successful inspections means zero claimed influences. Discovery and skill reads
+alone do not count as inspected or applied.
 
 ## Call shapes
 
