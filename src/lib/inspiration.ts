@@ -1365,6 +1365,80 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Planes",
+        href: "https://useplanes.com/",
+        dateAdded: "2026-10-01",
+        kind: "library",
+        stack: [
+          "react",
+          "nextjs",
+          "typescript",
+          "tailwind",
+          "motion",
+          "shadcn",
+          "webgl",
+        ],
+        useFor: [
+          "animated react components",
+          "install components with shadcn cli",
+          "ai chat and agent ui components",
+          "webgl shader backgrounds",
+          "command palette and date picker",
+          "carousels and marquees",
+          "hero sections and login page",
+          "physical controls like knobs and drawers",
+        ],
+        description:
+          "Planes is Ashish Gogula's shadcn-style registry of animated React components built with React 19, Next.js, Tailwind CSS v4, TypeScript and Motion, where the shadcn CLI writes the .tsx source into your project instead of adding an npm package. The catalog lists 110 components across AI (prompt composer, streaming message, tool call card), WebGL shaders (ferrofluid, caustics, galaxy), media, carousels, physical controls (command palette, detent drawer, physical knob), physics, text effects, page sections, heroes, a login page and an AI automation platform template. Ten components, including Cover Flow, OTP Input and Segmented Control, install free from a public registry URL; the other 100 need a one-time Planes Pro license ($99 at launch) that is checked on every install from the @useplanes registry. Every component has a live demo, props table and install command, and the site publishes llms.txt, markdown docs and shadcn MCP support for agents.",
+      },
+      {
+        title: "Space UI",
+        href: "https://spaceui.one/",
+        dateAdded: "2026-10-01",
+        kind: "library",
+        stack: [
+          "react",
+          "nextjs",
+          "vite",
+          "base-ui",
+          "tailwind",
+          "motion",
+          "shadcn",
+          "webgl",
+        ],
+        useFor: [
+          "base ui and tailwind components",
+          "install components from a shadcn registry",
+          "webgl carousel blocks",
+          "animated assistant orb",
+          "blur reveal text animation",
+          "sign in page block",
+          "react hooks library",
+          "generate avatars and squishmoji",
+        ],
+        description:
+          "Space UI is Adriel Zimbril's open-source component distribution for Next.js and Vite React apps, built on Base UI, Tailwind CSS v4 and Motion and installed through its shadcn registry (pnpm dlx shadcn@latest add @spaceui/essentials). The library covers primitives like buttons, inputs and dialogs, interactive components such as the Bloop Orb assistant, Blur Reveal Text and Autoscale Input, and blocks that include WebGL2 carousels (Dither, Liquid Gooey, Lens), a sign-in page and a stats section with a GitHub activity heatmap. It also ships React hooks, page templates, agent skills, an MCP server, per-component Markdown for LLMs, and browser tools for generated avatars, Squishmoji, sounds, flags and image splitting. The 60+ primitives are free under the MIT license, while Pro components, blocks and templates are sold yearly or as a lifetime license.",
+      },
+      {
+        title: "Arc UI",
+        href: "https://uiarc.dev/",
+        dateAdded: "2026-10-01",
+        kind: "library",
+        stack: ["react", "nextjs", "shadcn", "motion", "mcp"],
+        useFor: [
+          "animated react components",
+          "install components with shadcn cli",
+          "react components without tailwind",
+          "scheduling and inbox triage blocks",
+          "date range picker and command palette",
+          "reduced motion components",
+          "components with agent skill and mcp",
+        ],
+        style: "restrained-motion",
+        description:
+          "Arc UI is Elia Kuratli's library of animated React components and blocks, installed with the shadcn CLI from the @uiarc registry or copied as source. It lists 140 components and 83 blocks that share design and motion tokens, styled with CSS modules and CSS variables rather than Tailwind classes, animated with Motion, and themed for light and dark mode with eight accent colors and reduced-motion support. Blocks compose the components into product flows such as an availability picker, inbox triage, a wallet card and release readiness. The core of 100 components and 22 blocks is MIT licensed, a paid Pro tier adds the rest through a token-gated registry and MCP server, and every item has a Markdown page plus an llms.txt index and agent skill.",
+      },
+      {
         title: "mdxcn",
         href: "https://www.mdxcn.dev/docs",
         dateAdded: "2026-09-25",
@@ -8596,6 +8670,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "LLMs and AI engineering",
     links: [
       {
+        title: "claude.dev",
+        href: "https://claude.dev/",
+        dateAdded: "2026-10-01",
+        kind: "essay",
+        stack: ["claude-code"],
+        useFor: [
+          "claude code tips and workflows",
+          "context engineering for claude models",
+          "building agents with claude",
+          "automating eval design with claude",
+          "estimate what a task costs on opus",
+          "how anthropic uses skills in claude code",
+          "videos on claude managed agents",
+        ],
+        description:
+          "claude.dev is a blog of articles, videos and build logs from Anthropic's developers on building with Claude and Claude Code, filed under Agents, Engineering, Playbooks and Skills. Recent posts cover automating eval design and hillclimbing with Claude, what a task costs on Opus 5.5, how the team made claude.ai 3x faster in two weeks, context engineering for Claude 5 generation models, how Anthropic uses skills in Claude Code, and dynamic workflows in Claude Code. A featured videos section includes How the Claude Code team uses Claude Code and talks on Claude Managed Agents, and a /terminal page presents the same feeds as a shell you navigate with commands such as /help and /posts.",
+      },
+      {
         title: "Best AI models for developers",
         href: "https://vercel.com/i/best-ai-models-for-developers",
         dateAdded: "2026-09-18",
@@ -8982,6 +9074,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Ideogram",
+        href: "https://ideogram.ai/",
+        dateAdded: "2026-10-01",
+        kind: "tool",
+        stack: ["ai", "image-generation", "mcp"],
+        useFor: [
+          "ai image generation",
+          "readable text in ai images",
+          "image generation api",
+          "edit generated images",
+          "remove image background",
+          "resize ads for different formats",
+          "generate images from an mcp agent",
+          "run open image model weights locally",
+        ],
+        description:
+          "Ideogram is a generative media platform from Ideogram, Inc. built around its own image models (Ideogram 4.5, 4.0 and 3.0), aimed at prompt fidelity, readable type inside images and reliable editing. It offers a web workspace with Ideogram Studio, an iPhone app, and focused apps such as Ad Resizer, Background Remover, Colorways, Material Swap and Object Remover. The Ideogram API calls its image and video models, plus models from other labs, through one endpoint where switching models means changing the model string, and an MCP server lets Claude, Cursor and other agents generate, edit and train images. Ideogram 4.0 weights are available for local use and customization under its license, and Business and Enterprise plans add private generation, custom models, SSO and legal indemnification.",
+      },
       {
         title: "OpenCloak",
         href: "https://github.com/arikchakma/opencloak",
