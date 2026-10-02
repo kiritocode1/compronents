@@ -16,9 +16,11 @@ Discovery runs before planning, not after the plan is decided:
 curl -s "https://ui.aryank.space/direction/discover?q=<task+and+constraints>"
 ```
 
-Or MCP tool `direction_discover`. Scan the 8 to 12 candidates, inspect at most
-3, name the mechanism and whether to adopt, adapt, or reject each one, apply the
-useful parts, then compare the result against the source.
+Or MCP tool `direction_discover`. Scan the 8 to 12 candidates and select up to
+3 starting sources. Use the native lower-tier research workers and budgets in
+`blank-direction` to inspect relevant works, chapters and components within
+them. Verify exact evidence, name the mechanism and whether to adopt, adapt, or
+reject each source, apply the useful parts, then compare the result.
 
 Once the need is concrete:
 

@@ -7,6 +7,7 @@
     "inspiration": "node --env-file-if-exists=.env.local --import ./tests/alias-hooks.mjs scripts/inspiration.mjs",
     "inspiration:production": "npx --yes vercel@59.11.7 env run --environment production --scope blankspacets --project compronents -- env NODE_ENV=production node --import ./tests/alias-hooks.mjs scripts/inspiration.mjs",
     "test:inspiration-db": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-database.test.mjs",
+    "test:inspiration-research": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-research.test.mjs tests/inspiration-mcp.test.mjs",
     "test:inspiration-search": "node --import ./tests/alias-hooks.mjs --test tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs",
     "dev": "next dev",
     "build": "next build",
@@ -14,7 +15,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck:registry": "tsc --noEmit -p tsconfig.check.json",
-    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/token-contract.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs tests/frosted-plate-carousel.test.mjs tests/blur-study-box.test.mjs tests/blur-study-grid.test.mjs",
+    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/token-contract.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-research.test.mjs tests/inspiration-mcp.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs tests/frosted-plate-carousel.test.mjs tests/blur-study-box.test.mjs tests/blur-study-grid.test.mjs",
     "test:install": "node --test tests/shadcn-install.test.mjs"
   },
   "dependencies": {

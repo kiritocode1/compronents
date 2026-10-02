@@ -13,6 +13,10 @@
 
 import Fuse from "fuse.js";
 import {
+  type EngagementStrategy,
+  resolveEngagement,
+} from "./inspiration-engagement.ts";
+import {
   getRegistryItemsBySection,
   type LibrarySectionId,
   REGISTRY_BASE_URL,
@@ -22,6 +26,7 @@ import {
 import { matchesDateRange, parseTimeQuery } from "./search-time.ts";
 
 export interface RegistryHit {
+  engagement: EngagementStrategy;
   id: string;
   name: string;
   title: string;
@@ -276,6 +281,11 @@ export function searchRegistry(
 
 function toHit(item: RegistryItem, score: number): RegistryHit {
   return {
+    engagement: resolveEngagement({
+      source: "registry",
+      category: item.category ?? "",
+      kind: [],
+    }),
     id: `reg_${item.name}`,
     name: item.name,
     title: item.title,
@@ -300,6 +310,8 @@ export function registryHitsToMarkdown(hits: RegistryHit[]): string {
     lines.push(`   - page: ${hit.pageUrl}`);
     lines.push(`   - install: \`${hit.install}\``);
     lines.push(`   - ${hit.description}`);
+    lines.push(`   - Next action: ${hit.engagement.instruction}`);
+    lines.push(`   - Evidence required: ${hit.engagement.evidenceRequired}`);
     lines.push(`   - cite: \`From registry: ${hit.title} (${hit.id})\``);
     lines.push("");
   }

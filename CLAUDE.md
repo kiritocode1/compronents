@@ -30,8 +30,10 @@ Before planning work with open UI, component, motion, type, craft, library, or
 tool choices:
 
 1. **`/direction/discover?q=`**: scan 8 to 12 varied registry and wall candidates.
-2. Inspect at most 3. Name the mechanism, why it fits, and whether to adopt,
-   adapt, or reject it.
+2. Choose up to 3 starting sources, then inspect relevant pages within them.
+   Follow `blank-direction` for native lower-tier research workers, separate
+   questions, budgets, exact evidence and lead verification. Name the mechanism,
+   why it fits, and whether to adopt, adapt, or reject it.
 3. Apply the useful parts, compare the result, and cite only actual influences.
 4. Use **`/direction?q=`** for a concrete known need.
 5. Use **`/registry/search?q=`** or **`/inspiration/recommend?q=`** for one side.

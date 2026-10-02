@@ -1,3 +1,7 @@
+import {
+  researchWorkflow,
+  researchWorkflowMarkdown,
+} from "@/lib/inspiration/response";
 import { registryHitsToMarkdown, searchRegistry } from "@/lib/registry-search";
 
 const USAGE = [
@@ -36,8 +40,8 @@ export function GET(request: Request) {
 
   const hits = searchRegistry(query, { limit, section });
   if (params.get("format") === "json")
-    return Response.json({ query, section, hits });
+    return Response.json({ query, section, hits, research: researchWorkflow });
   return text(
-    `# Registry search for "${query}"\n\n${registryHitsToMarkdown(hits)}`,
+    `# Registry search for "${query}"\n\n${registryHitsToMarkdown(hits)}\n${researchWorkflowMarkdown()}`,
   );
 }

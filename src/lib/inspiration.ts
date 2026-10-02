@@ -8677,13 +8677,6 @@ export const inspirationGroups: InspirationGroup[] = [
           "Open-source project from Supertone (voice AI company) related to speech/audio synthesis technology. Ships a roughly 99M-parameter ONNX model that outputs studio-grade 44.1kHz WAV audio and runs CPU-only across 31 languages.",
       },
       {
-        title: "Web Reel",
-        href: "https://webreel.dev/",
-        dateAdded: "2026-07-14",
-        description:
-          "Tool that records scripted browser demos as video: describe interactions in JSON and it automates capture in a headless browser, adding cursor animation and keystroke overlays, for product demos, tutorials and CI pipelines. Maintained by Vercel Labs and built on headless Chrome plus FFmpeg, it exports MP4, GIF, or WebM at roughly 60fps.",
-      },
-      {
         title: "WebRTC video streaming",
         href: "https://blog.logrocket.com/webrtc-video-streaming/",
         dateAdded: "2026-07-14",
@@ -12982,6 +12975,13 @@ export const inspirationGroups: InspirationGroup[] = [
         dateAdded: "2026-07-15",
         description:
           "Replaces localhost port numbers with stable, named .localhost URLs for local dev, with HTTPS and HTTP/2 on by default via a reverse proxy. Built by Vercel Labs (vercel-labs/portless, 10k+ GitHub stars); it also auto-prefixes git worktree branch names as subdomains to avoid port collisions.",
+      },
+      {
+        title: "webreel",
+        href: "https://webreel.dev/",
+        dateAdded: "2026-07-14",
+        description:
+          "CLI from Vercel Labs that records JSON-scripted browser flows as MP4, GIF, or WebM at roughly 60fps. It runs the steps in headless Chrome, composites cursor movement and keystroke overlays, adds sound effects, and encodes the result with FFmpeg for repeatable product demos, tutorials, changelogs, screenshots, and CI runs.",
       },
       {
         title: "shadcn CLI v4",

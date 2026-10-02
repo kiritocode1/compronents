@@ -15,9 +15,12 @@ before planning, not after the plan is decided:
 
 1. Call `https://ui.aryank.space/direction/discover?q=…` (or MCP
    `direction_discover`) before the first choice-bearing step. Scan its 8 to 12
-   candidates and inspect at most 3.
+   candidates and choose up to 3 starting sources across the research team.
+   Search relevant pages, chapters, components and original links within them.
 2. For each inspected source, name the mechanism, why it fits, and whether to
-   adopt, adapt, or reject it. A failed load spends one of the 3 attempts.
+   adopt, adapt, or reject it. Record failed access and use bounded replacements.
+   Follow the `blank-direction` skill for native lower-tier research subagents,
+   separate questions, budgets, source evidence and lead verification.
 3. Apply the useful parts, then compare the result against the source.
 4. Follow each candidate's action: search inside component libraries, load a
    skill's `SKILL.md`, run tools, read essays, and curate creative sources with

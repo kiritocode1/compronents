@@ -76,6 +76,7 @@ Local state lives in `.inspiration-local`. PGlite permits one process per databa
 | Preferences | Expand Sources and preference on a result; choose Prefer, a rating and Save preference | Reload and verify the saved value; changing it to Avoid removes broad matches, while an exact lookup remains available |
 | Context | Enter a context before submitting Search | A scoped preference overrides the global value only in that context |
 | Source evidence | Expand Sources, or use `pnpm inspiration inspect <id-or-url>` | Every excerpt retains its source URL, heading, fetch date and snapshot hash; catalog-only results say so |
+| Research guidance | Search, discover, lookup and registry responses in JSON or Markdown | `pnpm test:inspiration-research` verifies per-hit actions, evidence requirements, format parity, private preferences and MCP forwarding |
 | MCP | Start `mcp/blank-direction/server.mjs` with `BLANK_DIRECTION_URL` set to the local route | `inspiration_search` and the website API return the same ordered IDs for identical mode, limit, filters and viewer |
 | Ingestion | `pnpm inspiration enqueue <id>`, then `pnpm inspiration ingest --limit 1` | Inspect passages and `pnpm inspiration jobs`; a failed fetch keeps the previous successful source version |
 | Backfill | `pnpm inspiration backfill --dry-run`, then `--limit 25` in repeats | `passageLess` drains toward zero; `health` passages climb; import refreshes embeddings after |
@@ -120,3 +121,36 @@ The focused suite uses real catalog acceptance cases plus isolated persistence, 
 Local retrieval supports lexical search, bounded spelling correction, known intent rewrites and explicit constraints. It does not infer arbitrary semantic relationships. Upstash remains optional and requires separate configuration and evaluation. Missing source passages mean a result has only its catalog description as evidence.
 
 Anonymous requests can fall back to catalog search during a database outage. Owner requests fail with 503 so an outage cannot silently ignore Avoid preferences. On a stale preference revision, reload before saving again.
+
+## Research execution
+
+`src/lib/inspiration/response.ts` adds the shared research protocol at the
+response boundary. It does not change retrieval scores or create workers.
+Wall and registry hits carry `engagement` with an action and required evidence.
+Search, recommend and discovery responses carry `research`; joint responses
+keep it under `wall.research`. Registry search carries it at the top level.
+The website API defaults to JSON. MCP search explicitly requests Markdown
+unless its caller requests JSON.
+
+```mermaid
+flowchart LR
+  A[User task] --> B[BLANK candidates and actions]
+  B --> C[Host lead assigns questions]
+  C --> D[Lower-tier research workers]
+  D --> E[Exact source evidence]
+  E --> F[Lead verifies and applies]
+```
+
+The host follows `.agents/skills/blank-direction/SKILL.md` to select an
+available lower-tier model and supervise native workers. Two independent
+questions normally use two workers, with three as the maximum. One focused
+question may use one worker; trivial edits need none. The three-source budget
+limits starting collections across the team, not pages or chapters within them.
+Workers return evidence and task implications under a shared deadline. The lead
+checks original sources behind decisive findings before synthesis.
+
+`inspiration_inspect` reads stored passages and remains owner-only. It does
+not browse a live source or prove that a recommended tool ran successfully.
+Report missing host capabilities and partial research explicitly. Endpoint and
+stdio tests verify delivery of this protocol, not compliance by arbitrary agent
+clients, research quality, model prices or cost savings.
