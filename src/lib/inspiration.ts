@@ -1365,6 +1365,43 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Kobra",
+        href: "https://kobra.systems/",
+        dateAdded: "2026-10-02",
+        kind: "library",
+        stack: ["react", "typescript", "tailwind", "motion", "shadcn"],
+        useFor: [
+          "install react components with shadcn cli",
+          "animated otp input",
+          "ai agent conversation components",
+          "crm tables and charts",
+          "form controls and color pickers",
+          "navigation menus and command menus",
+          "inspect and customize component source",
+        ],
+        description:
+          "Kobra is a React component library with live previews, editable source files, CSS and prompt files, prop controls, and shadcn registry installs. Its catalog covers AI and agent interfaces such as reasoning steps, file diffs, streaming text and conversations, alongside tables, charts, forms, navigation and overlays, with a free selection and a Pro tier. The free Input OTP example uses TypeScript, Tailwind classes, Motion and input-otp, with animated digit changes, paste and success feedback, and reduced-motion handling. Components can be copied individually or downloaded with their supporting files.",
+      },
+      {
+        title: "UImaxxing",
+        href: "https://uimaxx.ing/",
+        dateAdded: "2026-10-02",
+        kind: "library",
+        stack: ["tailwind", "shadcn"],
+        useFor: [
+          "ai prompt bars and agent chat threads",
+          "terminal and diff viewer components",
+          "finance charts and order books",
+          "prediction market interface components",
+          "settings pricing and account components",
+          "animated carousels and kinetic typography",
+          "loaders and progress indicators",
+          "shared color surface and hairline tokens",
+        ],
+        description:
+          "UImaxxing is Yogi Suria's component and design library, listing 122 components, 75 free, and two themes built around shared colors, surfaces and three tiers of hairline strokes. The live catalog includes prompt bars, agent chat threads, a terminal and diff viewer, finance charts and order books, prediction-market panels, settings, pricing, buttons and loaders, with Pro examples for carousels and kinetic typography. A shadcn registry installs the shared base stylesheet for Tailwind CSS v4, while free component cards offer individual import commands. The site permits modifying the library for your own products but asks that it not be republished as a component library.",
+      },
+      {
         title: "Planes",
         href: "https://useplanes.com/",
         dateAdded: "2026-10-01",
