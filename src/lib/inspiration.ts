@@ -7254,6 +7254,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "How to build motion design studio with Opus 5.5",
+        href: "https://x.com/0xMovez/status/2104216919033192746",
+        dateAdded: "2026-09-19",
+        kind: "course",
+        stack: ["claude-code", "playwright", "ffmpeg", "elevenlabs"],
+        useFor: [
+          "opus motion design studio course",
+          "deterministic seek based animation",
+          "frame by frame playwright video capture",
+          "ffmpeg animation encoding",
+          "reference driven motion briefs",
+          "frame critique and sound design",
+        ],
+        description:
+          "Post by 0xMovez linking a motion-design course about reference selection, project-wide agent instructions and beat-by-beat animation briefs. The accessible article text describes deterministic seek-based HTML animation, Playwright frame capture, FFmpeg encoding, synthesized sound and frame critique. The fetched article body stops during step seven of the advertised twelve steps, so later course details remain unverified.",
+      },
+      {
         title: "Cube",
         href: "https://cube-motion.dev",
         dateAdded: "2026-09-19",
@@ -9651,6 +9668,73 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "GitHub MCP Server",
+        href: "https://github.com/github/github-mcp-server",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        stack: ["github", "mcp"],
+        useFor: [
+          "github mcp repository access",
+          "agent issue and pull request management",
+          "search github code and commits",
+          "monitor github actions failures",
+          "review github security alerts",
+          "agent github release management",
+        ],
+        description:
+          "GitHub's MCP server gives AI tools access to repository files, commits, issues and pull requests. Its toolsets also cover GitHub Actions, releases, security findings, Dependabot alerts, discussions and notifications. It is intended for agents that need to inspect or operate GitHub resources through MCP.",
+      },
+      {
+        title: "Claude-Mem",
+        href: "https://github.com/thedotmack/claude-mem",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        stack: ["claude-code", "sqlite"],
+        useFor: [
+          "claude mem persistent context",
+          "capture tool use observations",
+          "cross session coding memory",
+          "search agent memory timelines",
+          "inject prior session summaries",
+          "exclude private agent observations",
+        ],
+        description:
+          "Agent memory system that captures tool-use observations, summarizes them and supplies relevant context to later sessions. It stores sessions, observations and summaries in SQLite and provides keyword and semantic search, timelines and configurable context injection. Privacy exclusions let users keep selected observations out of memory.",
+      },
+      {
+        title: "Supermemory",
+        href: "https://github.com/supermemoryai/supermemory",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        useFor: [
+          "supermemory conversational memory",
+          "maintain agent user profiles",
+          "hybrid rag and memory search",
+          "track changing facts and contradictions",
+          "extract multimodal document context",
+          "sync external knowledge connectors",
+        ],
+        description:
+          "Memory and context engine that extracts conversational facts, maintains user profiles and tracks updates, contradictions and expired information. Retrieval combines document search with personalized memory. The repository describes processing text, URLs, PDFs, images, videos and code, with connectors for services including Google Drive, Gmail, Notion, OneDrive and GitHub.",
+      },
+      {
+        title: "OpenDots",
+        href: "https://github.com/CopilotKit/OpenDots",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        stack: ["nodejs", "slack"],
+        useFor: [
+          "opendots self hosted agent workspace",
+          "configure specialist agents",
+          "editable searchable document spaces",
+          "agent approval before saving",
+          "scheduled background agent work",
+          "isolated browser file shell tools",
+        ],
+        description:
+          "Early-development, self-hosted template for building an agent workspace with configurable specialist agents and editable document Spaces. It includes persistent chat, approval-before-save, memory, scheduled background work and isolated browser, file and shell tools. The repository distinguishes locally verified features from connected-service testing, including its Slack integration.",
+      },
+      {
         title: "Egregore",
         href: "https://egregore.xyz/docs",
         dateAdded: "2026-09-12",
@@ -11394,6 +11478,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer tools and utilities",
     links: [
+      {
+        title: "Tester Army E2E",
+        href: "https://tester.army/e2e",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        stack: ["typescript", "ai-sdk"],
+        useFor: [
+          "tester army ai driven e2e tests",
+          "combine agent actions and locator assertions",
+          "natural language test assertions",
+          "cross platform web mobile testing",
+          "cached test replay",
+          "inspect test screenshots traces logs",
+        ],
+        description:
+          "TypeScript end-to-end testing framework that combines natural-language agent actions and assertions with deterministic locator checks. Its examples configure a target engine, model and agent prompt, and the page advertises web, iOS simulator, Android emulator and custom-engine targets. The described failure workflow keeps screenshots, traces and logs, with headed and debug reruns and cached replay.",
+      },
       {
         title: "Autobahn",
         href: "https://autobahn.run/",
@@ -13260,6 +13361,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "File sharing and conversion tools",
     links: [
       {
+        title: "MarkItDown",
+        href: "https://github.com/microsoft/markitdown",
+        dateAdded: "2026-09-19",
+        kind: "tool",
+        stack: ["python"],
+        useFor: [
+          "markitdown document conversion",
+          "convert office files to markdown",
+          "extract pdf content for llms",
+          "preserve document headings lists tables",
+          "image ocr and audio transcription",
+          "convert html archives and ebooks",
+        ],
+        description:
+          "Python utility from Microsoft that converts documents and other files into Markdown for LLM and text-analysis workflows. It preserves structure such as headings, lists, tables and links and supports PDF, Office documents, HTML, images, audio, archives and ebooks. Optional integrations include Azure document processing, LLM clients, plugins and an MCP package.",
+      },
+      {
         title: "SVG Genie PNG to SVG",
         href: "https://www.svggenie.com/tools/png-to-svg",
         dateAdded: "2026-08-05",
@@ -13553,6 +13671,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Effect ecosystem",
     links: [
+      {
+        title: "@yielded/auth",
+        href: "https://github.com/yielded-dev/auth",
+        dateAdded: "2026-09-19",
+        kind: "library",
+        stack: ["effect", "typescript", "drizzle", "react"],
+        useFor: [
+          "yielded effect authentication",
+          "schema typed auth contracts",
+          "effect session sign in sign out",
+          "password passkey email phone authentication",
+          "oauth grants and two factor auth",
+          "custom authentication storage services",
+        ],
+        description:
+          "Beta authentication library for Effect with shared Schema contracts for server and client workflows. It provides sessions, passwords, passkeys, email and phone codes, two-factor authentication and OAuth with encrypted provider grants. Applications retain their account and authorization models, while companion adapters support Effect HttpClient, Effect Atom, Drizzle, Effect SQL and custom storage.",
+      },
       {
         title: "effect-uai",
         href: "https://effect-uai.betalyra.com/",
@@ -15503,6 +15638,148 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "Superpowers",
+        href: "https://github.com/obra/superpowers",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: ["claude-code", "codex", "cursor", "pi"],
+        useFor: [
+          "coding agent development methodology",
+          "agent implementation planning",
+          "agent test driven development",
+          "systematic agent debugging",
+          "subagent task execution",
+          "agent code review",
+        ],
+        description:
+          "Composable coding-agent skills that cover brainstorming, implementation planning, test-driven development, debugging and code review. The methodology breaks planned work into tasks and supports subagent execution across Claude Code, Codex, Cursor, Pi and other coding agents.",
+      },
+      {
+        title: "Karpathy-Inspired Claude Code Guidelines",
+        href: "https://github.com/multica-ai/andrej-karpathy-skills",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: ["claude-code", "cursor"],
+        useFor: [
+          "karpathy coding guidelines",
+          "reduce agent overengineering",
+          "clarify coding assumptions",
+          "minimal agent code changes",
+          "goal driven coding verification",
+          "surgical agent edits",
+        ],
+        description:
+          "Reusable coding guidelines derived from Andrej Karpathy's observations about LLM coding mistakes. Four principles ask agents to state assumptions before coding, keep implementations simple, limit edits to the requested scope and define verifiable goals. The repository provides guidance for Claude Code and Cursor.",
+      },
+      {
+        title: "gstack",
+        href: "https://github.com/garrytan/gstack",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: ["claude-code", "codex", "cursor"],
+        useFor: [
+          "gstack engineering skills",
+          "coding agent product planning",
+          "agent architecture review",
+          "browser api cli qa",
+          "agent security audits",
+          "agent deployment verification",
+        ],
+        description:
+          "Engineering skill suite by Garry Tan that assigns coding agents specialist workflows for product planning, architecture and design review, debugging, QA and shipping. Its Markdown slash commands include browser, API and CLI testing, security audits, deployment verification and documentation work. The repository is MIT licensed and supports several coding-agent clients.",
+      },
+      {
+        title: "UI UX Pro Max",
+        href: "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: [
+          "react",
+          "vue",
+          "angular",
+          "swiftui",
+          "react-native",
+          "flutter",
+        ],
+        useFor: [
+          "ui ux pro max design skill",
+          "generate industry design systems",
+          "search ui styles and palettes",
+          "recommend typography pairings",
+          "select dashboard chart types",
+          "review ui ux anti patterns",
+        ],
+        description:
+          "Design skill with searchable UI styles, color palettes, font pairings, chart recommendations and UX guidelines. It uses product-specific reasoning rules to generate design systems and guide UI implementation across web and native stacks. The repository documents integrations with Claude Code, Cursor, Codex and other coding agents.",
+      },
+      {
+        title: "Taste Skill",
+        href: "https://github.com/Leonxlnx/taste-skill",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: ["claude-code", "codex", "cursor", "react", "vue", "svelte"],
+        useFor: [
+          "taste skill frontend design",
+          "reduce generic ai interfaces",
+          "review layout typography spacing",
+          "frontend motion guidance",
+          "image to code design workflow",
+          "generate brand reference boards",
+        ],
+        description:
+          "Portable agent skills for frontend layout, typography, spacing and motion, with UI audit and redesign workflows. Companion image-generation skills create web, mobile and brand reference boards that an implementation agent can use. The guidance is framework-agnostic and documents use with Codex, Cursor and Claude Code.",
+      },
+      {
+        title: "Anthropic Skills",
+        href: "https://github.com/anthropics/skills",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: ["claude-code", "claude"],
+        useFor: [
+          "anthropic example agent skills",
+          "claude document creation skills",
+          "web app testing skills",
+          "mcp server generation skill",
+          "enterprise communication skills",
+          "claude creative task skills",
+        ],
+        description:
+          "Anthropic's repository of example skills that combine instructions, scripts and resources for specialized Claude tasks. Examples cover creative work, web-app testing, MCP server generation, enterprise communications and creation or editing of DOCX, PDF, PPTX and XLSX documents. The repository documents use through Claude Code, Claude.ai and the Claude API.",
+      },
+      {
+        title: "Humanizer",
+        href: "https://github.com/blader/humanizer",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        useFor: [
+          "humanizer writing skill",
+          "remove ai prose patterns",
+          "rewrite prose without changing facts",
+          "match author writing voice",
+          "critique artificial writing",
+          "edit prose while preserving code",
+        ],
+        description:
+          "Writing skill that identifies AI-associated prose patterns and rewrites text without changing its factual claims. It drafts a revision, critiques the remaining patterns and produces a final version while preserving the writer's voice. File-editing guidance limits changes to prose and leaves code, data, frontmatter and link targets intact.",
+      },
+      {
+        title: "jev-seo",
+        href: "https://github.com/AgriciDaniel/jev-seo",
+        dateAdded: "2026-09-19",
+        kind: "skill",
+        stack: ["python", "claude-code", "jev", "dataforseo"],
+        useFor: [
+          "jev seo site audit",
+          "crawl website seo rules",
+          "measure core web vitals",
+          "prioritize seo fixes",
+          "generate seo pdf xlsx reports",
+          "optional rankings keywords backlinks",
+        ],
+        description:
+          "Website SEO auditor that starts from a homepage URL, crawls pages, checks 52 rules and measures Core Web Vitals. It combines code-based checks with Jev page judgments to produce prioritized fixes and PDF, XLSX and Markdown reports. It runs as a Claude Code skill or Python CLI, with optional DataForSEO data for rankings, keywords and backlinks.",
+      },
       {
         title: "brag",
         href: "https://github.com/latent-spaces/brag",
