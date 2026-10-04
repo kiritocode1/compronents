@@ -834,6 +834,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Icons",
     links: [
       {
+        title: "Nucleo Isometric",
+        href: "https://nucleoapp.com/app/?library=isometric",
+        dateAdded: "2026-10-04",
+        kind: "library",
+        useFor: [
+          "isometric icon library",
+          "colored isometric icons",
+          "browse ui icons",
+          "24px icons",
+          "icon set discovery",
+        ],
+        description:
+          "Nucleo's web app opens directly to its Isometric icon set. The interface provides icon search, library switching, and colored-style and 24px size filters, alongside links to purchase icons.",
+      },
+      {
         title: "Noun Project",
         href: "https://thenounproject.com/",
         dateAdded: "2026-08-18",
@@ -1364,6 +1379,40 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component libraries and blocks",
     links: [
+      {
+        title: "Libraries.dev",
+        href: "https://libraries.dev/",
+        dateAdded: "2026-10-04",
+        kind: "library",
+        stack: ["react"],
+        useFor: [
+          "react ui effect libraries",
+          "coding agent component prompts",
+          "border beam effects",
+          "thinking orb animations",
+          "gooey interface effects",
+          "liquid metal buttons",
+        ],
+        description:
+          "Collection of React UI-effect libraries with live playgrounds and copyable setup prompts for coding agents. The site presents border beams, thinking orbs, gooey shapes, voice effects, bot avatars, liquid metal, and image-generation loaders, with free npm libraries and a paid customization studio.",
+      },
+      {
+        title: "VibePrompt",
+        href: "https://vibeprompts.dev/",
+        dateAdded: "2026-10-04",
+        kind: "library",
+        stack: ["tailwind"],
+        useFor: [
+          "ui layout prompt libraries",
+          "tailwind layout prompts",
+          "ai generated auth forms",
+          "landing page section prompts",
+          "dashboard layout inspiration",
+          "onboarding interface prompts",
+        ],
+        description:
+          "Searchable library of UI-layout prompts intended to produce Tailwind CSS markup through an AI coding tool. Categories include authentication, pricing, bento sections, heroes, navigation, testimonials, footers, dashboards, and onboarding, with visual previews and descriptions for individual layouts.",
+      },
       {
         title: "Kobra",
         href: "https://kobra.systems/",
@@ -2491,6 +2540,71 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Curtain Reveal Hero",
+        href: "https://ui.aryank.space/components/curtain-reveal-hero/preview",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "architectural hero layouts",
+          "interior design landing pages",
+          "large headline composition",
+          "image led hero sections",
+          "curtain reveal hero reference",
+        ],
+        description:
+          "BLANK fullscreen hero demo pairing large interior-design headlines with a row of three interior photographs. It continues into a second headline and a digital-experience section, providing a reference for image-led architectural hero composition.",
+      },
+      {
+        title: "Scroll Flip Cards",
+        href: "https://ui.aryank.space/components/scroll-flip-cards",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        stack: ["react", "gsap", "lenis"],
+        useFor: [
+          "build scroll storytelling",
+          "create flip cards",
+          "animate service sections",
+          "study pinned scroll layouts",
+          "use gsap scrolltrigger",
+          "use lenis smooth scroll",
+          "build responsive motion",
+        ],
+        description:
+          "A scroll-driven process section where three cards fan apart, drop away, and later fly in, scale, gather, and flip to reveal service lists. The page documents a responsive static fallback below 1000px and identifies GSAP ScrollTrigger and Lenis as dependencies.",
+      },
+      {
+        title: "Pixel Reveal",
+        href: "https://pixel-text-reveal.vercel.app/",
+        dateAdded: "2026-10-04",
+        kind: "library",
+        stack: ["react", "next.js", "webgl"],
+        useFor: [
+          "pixel text reveal effects",
+          "react webgl text animation",
+          "headline entrance effects",
+          "text animation playgrounds",
+          "noise based typography",
+          "scroll triggered text reveals",
+        ],
+        description:
+          "WebGL text-reveal effect for React and Next.js that resolves pixel blocks into readable type. The site includes a live playground, presets such as signal, rain, and dissolve, directional controls, and examples for scroll, hover, and manual triggers.",
+      },
+      {
+        title: "Buttons, in time.",
+        href: "https://mac-buttons-timeline.vercel.app/",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "mac button design history",
+          "interactive button timelines",
+          "macos control references",
+          "pressed button states",
+          "interface history demos",
+        ],
+        description:
+          "Interactive timeline of Mac button styles from System 1 in 1984 through a provisional 2026 reference. Visitors can choose a year, drag the timeline, play the sequence, or use keyboard controls, and press the displayed button to inspect its pressed state and hear a startup chime.",
+      },
+      {
         title: "Spring Check",
         href: "https://reactbits.dev/micro/spring-check",
         dateAdded: "2026-09-25",
@@ -3388,6 +3502,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Interface Cheat Sheet",
+        href: "https://interfaces.dev/cheat-sheet",
+        dateAdded: "2026-10-04",
+        kind: "essay",
+        useFor: [
+          "interface design cheat sheets",
+          "optical alignment guidance",
+          "concentric border radius",
+          "button padding guidelines",
+          "interface animation principles",
+          "interactive ui craft examples",
+        ],
+        description:
+          "Interactive interface-design reference pairing recommendations with visual comparisons and controls. Topics include concentric corner radii, optical alignment, icon and button spacing, layered shadows, animation origins, subtle exits, and pressed states; individual sections and the full reference can be copied as Markdown.",
+      },
+      {
         title: "The invisible side of design engineering",
         href: "https://jakub.kr/writing/the-invisible-side-of-design-engineering",
         dateAdded: "2026-09-18",
@@ -3702,6 +3832,51 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Dead Simple Sites",
+        href: "https://deadsimplesites.com/",
+        dateAdded: "2026-10-04",
+        kind: "gallery",
+        useFor: [
+          "minimal website inspiration",
+          "simple portfolio layouts",
+          "restrained web design",
+          "personal website galleries",
+          "independent website references",
+        ],
+        description:
+          "Gallery of minimal websites curated by Arcade Labs, with screenshots and links to the original sites. Its selection explicitly avoids excessive animation and scroll hijacking and includes personal portfolios, independent websites, and small business sites.",
+      },
+      {
+        title: "Personal Sites by Kelindi",
+        href: "https://www.are.na/kelindi/personal-sites-_sxervw2jmu",
+        dateAdded: "2026-10-04",
+        kind: "gallery",
+        useFor: [
+          "personal website collections",
+          "designer portfolio inspiration",
+          "developer portfolio galleries",
+          "are.na website references",
+          "personal homepage research",
+        ],
+        description:
+          "Are.na channel collecting personal websites and portfolios, with grid and table views and channel search. The inspected collection includes Kevin Shay, Sam Peitz, Shawn, Sarim Malik, Che Wei Lee, and other designers and developers.",
+      },
+      {
+        title: "A. Artifacts Posters",
+        href: "https://a-artifacts.vercel.app/posters",
+        dateAdded: "2026-10-04",
+        kind: "gallery",
+        useFor: [
+          "editorial poster inspiration",
+          "meteorite poster design",
+          "interactive poster walls",
+          "typographic composition references",
+          "scientific specimen graphics",
+        ],
+        description:
+          "Interactive wall of two hundred posters built around meteorites and planetary material. The gallery combines specimen imagery with editorial typography and supports dragging, zooming, and selecting a poster to view its construction.",
+      },
       {
         title: "Vibrant Design",
         href: "https://vibrant.design/",
@@ -4829,6 +5004,295 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Portfolios and studios",
     links: [
+      {
+        title: "Anirudh Pareek",
+        href: "https://www.anirudh.info/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "crypto product design portfolios",
+          "startup product design",
+          "trading interface inspiration",
+          "interactive personal websites",
+          "design engineer portfolios",
+        ],
+        description:
+          "Anirudh Pareek's portfolio presents product design and direction for crypto-native startups. It covers work across trading, AI, and social crypto, with team history, experiments, writing, and an interactive illustrated homepage.",
+      },
+      {
+        title: "Notice Tetrapod",
+        href: "https://wearenotice.com/products/tetrapod?campaign_id=120248492000400523&ad_id=120251056979230523",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "sculptural product pages",
+          "paperweight product photography",
+          "design object ecommerce",
+          "product storytelling",
+          "material specification layouts",
+        ],
+        description:
+          "Notice's product page presents a hand-cast aluminium paperweight based on Mumbai's coastal tetrapods. The page combines a product-image gallery, GunMetal finish selection, material and dimension details, care guidance, and a story connecting the desk object to Marine Drive.",
+      },
+      {
+        title: "Biograph",
+        href: "https://www.biograph.com/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "study health landing pages",
+          "design diagnostic service sites",
+          "present membership tiers",
+          "show medical assessment flows",
+          "build preventive care marketing",
+          "organize test comparisons",
+        ],
+        description:
+          "Biograph presents a physician-guided preventive-care service built around deep diagnostics and longitudinal support. The page lists whole-body MRI, blood panels, DEXA, VO2 max, cardiac imaging, cancer screening, glucose monitoring, and physician-led reviews across its membership tiers.",
+      },
+      {
+        title: "Moneybee Investment Advisors",
+        href: "https://moneybee.in/index.php",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "investment advisory website references",
+          "financial services navigation",
+          "portfolio management marketing",
+          "finance team profiles",
+          "investor disclosure layouts",
+        ],
+        description:
+          "Moneybee's financial-services website presents portfolio management, broking, depository, investment advisory, and investment banking offerings. Service carousels lead into company strategy, transaction examples, client testimonials, team profiles, and investor disclosures.",
+      },
+      {
+        title: "Moneybee Securities",
+        href: "https://moneybeesecurities.in/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "design finance websites",
+          "present financial services",
+          "show investment offerings",
+          "structure advisory pages",
+          "build company strategy sections",
+          "present client testimonials",
+        ],
+        description:
+          "Moneybee describes a financial-services company offering portfolio management, broking, depository participation through CDSL, investment advisory, and investment banking. Its page emphasizes personalized non-fund-based services, bottom-up research, long-term investing, and small-cap opportunities.",
+      },
+      {
+        title: "RRE",
+        href: "https://rre.com/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "venture capital website references",
+          "early stage investor branding",
+          "investment sector navigation",
+          "founder testimonial sections",
+          "fund portfolio presentation",
+        ],
+        description:
+          "RRE's early-stage venture-capital website organizes its portfolio around sectors including AI, fintech, healthcare, robotics, and space. The homepage pairs an investment thesis with firm statistics, founder testimonials, team navigation, and a feed of articles, podcasts, and portfolio news.",
+      },
+      {
+        title: "Autonomous Financial Consultant",
+        href: "https://fine-n7vljkp34f.peachworlds.com/",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "consultancy landing page demos",
+          "financial consultant layouts",
+          "agency service sections",
+          "consulting process layouts",
+          "case study section inspiration",
+        ],
+        description:
+          "Peachworlds-hosted consultancy website demonstration built around a financial-consultant headline. It includes service cards, case-study placeholders, a four-step process, statistics, testimonials, and team sections; the repeated sample copy makes this a layout reference rather than evidence of a real advisory business.",
+      },
+      {
+        title: "Merkil",
+        href: "https://merkil.webflow.io/",
+        dateAdded: "2026-10-04",
+        kind: "asset",
+        stack: ["webflow"],
+        useFor: [
+          "webflow marketing agency templates",
+          "digital agency website layouts",
+          "agency project sections",
+          "marketing service presentation",
+          "creative agency landing pages",
+        ],
+        description:
+          "Webflow website template for a digital marketing agency. The demo includes service descriptions, selected projects, agency background, pricing navigation, a blog, and contact calls to action, with sample content for brand strategy, content marketing, and SEO.",
+      },
+      {
+        title: "Q-Industrial Technologies",
+        href: "https://q-industrial.com/en-de/technologies",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "industrial product catalog design",
+          "coating system filters",
+          "technical specification layouts",
+          "surface treatment catalogs",
+          "b2b product comparison",
+        ],
+        description:
+          "Q-Industrial's coating-system catalog filters technical entries by industry, surface, layer count, and gloss. Entries pair application characteristics with surface preparation, named products, coating thickness, and technical-documentation links.",
+      },
+      {
+        title: "Automated Architecture",
+        href: "https://auar.io/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "construction technology websites",
+          "robotic homebuilding references",
+          "microfactory product presentation",
+          "hardware and software marketing",
+          "architecture technology branding",
+        ],
+        description:
+          "AUAR presents on-demand MicroFactories and MasterBuilder software for homebuilding. The site explains its hardware and software offerings, deployment process, and how construction drawings become production-ready output, with project imagery and resource links.",
+      },
+      {
+        title: "Paradigm",
+        href: "https://www.paradigm.xyz/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "technology investment websites",
+          "venture capital homepage inspiration",
+          "attention visualization",
+          "token generation animation",
+          "interactive investment branding",
+        ],
+        description:
+          "Paradigm's homepage introduces an investment firm focused on crypto, AI, robotics, and other early-stage technologies. The rendered page includes an autoregressive text-generation visualization with token fragments, attention links, and detailed or realtime viewing controls.",
+      },
+      {
+        title: "Medusmo",
+        href: "https://www.medusmo.com/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "customer service agency websites",
+          "cx consultancy presentation",
+          "role based service navigation",
+          "contact center marketing",
+          "consultation process layouts",
+        ],
+        description:
+          "Medusmo presents customer-service operations and automation built around Genesys technology. The site organizes its offer by management role, describes voice, email, chat, IVR, and bot channels, and shows a consultation-to-implementation process with customer case studies.",
+      },
+      {
+        title: "Q-Industrial",
+        href: "https://q-industrial.com/en-de",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "industrial coatings websites",
+          "manufacturing homepage references",
+          "industrial sector navigation",
+          "b2b product marketing",
+          "technical service presentation",
+        ],
+        description:
+          "Q-Industrial's English-language website presents industrial paints and coatings for machinery, metal structures, railway vehicles, and transport. It connects industry and surface navigation to a product catalog and explains quality, logistics, customization, and technical-support services.",
+      },
+      {
+        title: "The Decision Lab",
+        href: "https://thedecisionlab.com/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "behavioral science consultancy websites",
+          "research consultancy case studies",
+          "applied ai service presentation",
+          "editorial insight libraries",
+          "evidence based consulting references",
+        ],
+        description:
+          "The Decision Lab combines behavioral-science consulting, applied AI work, and published research. Its homepage presents client case studies, research on AI trust and decision-making, featured insights, and consulting contact options.",
+      },
+      {
+        title: "shawn.",
+        href: "https://www.shwn.design/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "design engineer portfolios",
+          "micro interaction references",
+          "interactive prototype galleries",
+          "clean interface inspiration",
+          "creative coding portfolios",
+          "typography interaction ideas",
+        ],
+        description:
+          "Shawn's portfolio identifies him as a design engineer based in Goa. The homepage says he builds clean interfaces with micro interactions and lists interactive prototypes such as Walkman, Toolbar, Folder, Wallet, Review, Matrix, TV, iPhone, Search, Account, Tabs, and Vinyl.",
+      },
+      {
+        title: "Shrey Gupta",
+        href: "https://shreygups.com/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "engineer personal websites",
+          "ai product builder portfolios",
+          "compact portfolio homepages",
+          "career link layouts",
+          "developer introduction pages",
+        ],
+        description:
+          "Shrey Gupta's personal site introduces a San Francisco engineer building AI products. The compact homepage links work associated with Olive, Campsite, NASA, Fundsy, Irvine Lights, and Capital One, alongside projects, social profiles, and an email-copy control.",
+      },
+      {
+        title: "Hunkydory by Aino",
+        href: "https://aino.agency/work/hunkydory",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "fashion ecommerce case studies",
+          "aino design portfolio",
+          "fashion ui ux references",
+          "image led project pages",
+          "editorial ecommerce presentation",
+        ],
+        description:
+          "Aino's case study documents its ecommerce, UI/UX design, and development work for Swedish fashion brand Hunkydory. The image-led project page presents the brand's emphasis on responsibility and lasting style alongside website and identity imagery.",
+      },
+      {
+        title: "Do Connect Pune Networking Event",
+        href: "https://www.doerscircle.com/community/events/do-connect-pune-networking-event",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "networking event landing pages",
+          "community event presentation",
+          "event speaker layouts",
+          "meetup venue information",
+          "membership event marketing",
+        ],
+        description:
+          "Doers Circle's networking-event page presents a gathering at Mauji Cafe in Pune. It combines the venue, speakers from design and other independent businesses, an event theme, and a membership promotion, providing a reference for community-event page structure.",
+      },
+      {
+        title: "Curo Capital",
+        href: "https://curocapital.dk/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "wealth management website references",
+          "investment office presentation",
+          "danish financial services sites",
+          "finance team profile layouts",
+          "institutional investor marketing",
+        ],
+        description:
+          "Danish wealth-management website presenting independent investment advice, investment-office services, sustainability, and alternative investments. It explains offerings for families and institutions through service links, firm statistics, team profiles, client-type accordions, and meeting-booking calls to action.",
+      },
       {
         title: "Chánh Đại",
         href: "http://chanhdai.com",
@@ -6436,6 +6900,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Typography tools",
     links: [
       {
+        title: "Type Garden",
+        href: "https://type-garden.vercel.app/",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        useFor: [
+          "generative typography tools",
+          "typing driven visual experiments",
+          "interactive type posters",
+          "svg typography export",
+          "themed text composition",
+        ],
+        description:
+          "Interactive typing experiment with Type and Poster modes, theme presets, and PNG, SVG, and code export controls. Its on-page instructions map typing to growth, spaces to cuts, backspace to withering, and Enter to clearing the composition.",
+      },
+      {
         title: "Font League",
         href: "https://fontleague.com/",
         dateAdded: "2026-09-19",
@@ -7465,6 +7944,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Kinetic Type and Dot Fields Cut Against Product UI",
+        href: "https://movin.design/video/kinetic-type-and-dot-fields-cut-against-product-ui/",
+        dateAdded: "2026-10-04",
+        kind: "video",
+        useFor: [
+          "study kinetic typography",
+          "animate dot fields",
+          "design motion promos",
+          "transition between ui scenes",
+          "study halftone effects",
+          "reference product motion",
+        ],
+        description:
+          "This Movin motion reference is a split-frame promo that cuts between oversized type, halftone dot fields, and product UI fragments. The page tags the work as motion graphics, text effect, and transition, and links to an original post by Abdullah at abdinmotion.",
+      },
+      {
         title: "Learn to Animate!",
         href: "https://stopmotionbook.com/",
         dateAdded: "2026-10-03",
@@ -7805,6 +8300,96 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "kynd.info",
+        href: "https://www.kynd.info/",
+        dateAdded: "2026-10-04",
+        kind: "portfolio",
+        useFor: [
+          "creative coding artist portfolios",
+          "mathematical sketching references",
+          "quasi physics sketches",
+          "generative geometry resources",
+          "shader learning references",
+        ],
+        description:
+          "Creative-coding portfolio and resource index linking visual work, writing, Sketching with Math and Quasi Physics, and Geom. It also points to The Book of Shaders, its Japanese translation, and Creative Applications articles.",
+      },
+      {
+        title: "Meadow Book",
+        href: "https://meadow-book.ianbach.chatgpt.site/",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "generative meadow drawings",
+          "sketchbook style 3d scenes",
+          "illustrated landscape fly throughs",
+          "interactive botanical art",
+          "procedural drawing inspiration",
+        ],
+        description:
+          "Interactive meadow rendered as a loose botanical drawing on textured paper, with a moving three-dimensional viewpoint. Its controls generate another meadow, stop the fly-through, save an image, reset the view, and toggle sound; dragging and keyboard controls allow manual navigation.",
+      },
+      {
+        title: "Motion Tracking 2",
+        href: "https://r3f.maximeheckel.com/motion-tracking-2",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "video motion tracking effects",
+          "motion mask visualization",
+          "glowing pixel overlays",
+          "waterfall motion graphics",
+          "creative coding video effects",
+        ],
+        description:
+          "Maxime Heckel's motion-tracking experiment overlays a waterfall video with glowing pixel-like marks that follow moving regions. The rendered controls switch between blue and red and expose a motion-mask view.",
+      },
+      {
+        title: "Motion Tracking 3",
+        href: "https://r3f.maximeheckel.com/motion-tracking-3",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "blob motion tracking",
+          "motion vector visualization",
+          "split screen shader demos",
+          "motion trail effects",
+          "interactive tracking controls",
+        ],
+        description:
+          "Maxime Heckel's split-screen blob-tracking experiment pairs a shaded organic shape with a blue motion-vector display. Controls adjust arrow density, motion threshold, trail decay, debug display, and whether both panes are visible.",
+      },
+      {
+        title: "Time Volume",
+        href: "https://4d.ryan.ceo/",
+        dateAdded: "2026-10-04",
+        kind: "demo",
+        useFor: [
+          "video time volume visualization",
+          "three dimensional video experiments",
+          "temporal video visualization",
+          "creative coding video references",
+          "spatial media interfaces",
+        ],
+        description:
+          "Browser experiment displaying video frames as a three-dimensional time volume inside a wireframe box. The page offers a drag-in video preview and loads a sample whose frames form visible depth behind the current image.",
+      },
+      {
+        title: "Video Summagator",
+        href: "https://video-summagator.v2space.workers.dev/",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        useFor: [
+          "video time volume tools",
+          "temporal video exploration",
+          "transparent frame volumes",
+          "browser local video experiments",
+          "spatial video controls",
+        ],
+        description:
+          "Browser-local video experiment that unfolds frames into a transparent time volume. Controls cover sample count, playback time and speed, time depth, frame plane, density, brightness, and camera movement, with orbit, zoom, and keyboard frame stepping.",
+      },
       {
         title: "Glyph",
         href: "https://github.com/pmndrs/glyph",
@@ -8660,6 +9245,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Audio, video and media",
     links: [
       {
+        title: "Moving Image Archive",
+        href: "https://www.movingimagearchive.com/",
+        dateAdded: "2026-10-04",
+        kind: "library",
+        useFor: [
+          "find archival footage",
+          "browse historical film",
+          "source video references",
+          "study media catalogs",
+          "design clip browsers",
+          "build archival search interfaces",
+        ],
+        description:
+          "Searchable archive of film and video clips with titles, years, durations, and individual shot-download links. The collection includes educational, industrial, travel, science, and entertainment footage, with search, gallery, collection, and filtering views.",
+      },
+      {
         title: "Powermove",
         href: "https://trypowermove.com/",
         dateAdded: "2026-09-19",
@@ -9178,6 +9779,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Machine learning and deep learning",
     links: [
+      {
+        title: "The Ultimate Guide to Reinforcement Learning",
+        href: "https://www.reinforcement-learning.com/",
+        dateAdded: "2026-10-04",
+        kind: "course",
+        useFor: [
+          "reinforcement learning visual guides",
+          "state action reward explanations",
+          "q learning lessons",
+          "interactive reinforcement learning",
+          "markov decision process tutorials",
+          "reinforcement learning study paths",
+        ],
+        description:
+          "Visual reinforcement-learning guide with paths for beginners, readers who know the basics, and working ML practitioners. It introduces state, action, reward, and policy through a live maze example, then links lessons on MDPs, value functions, exploration, Q-learning, and advanced topics.",
+      },
       {
         title: "Models (Kyle Jeong)",
         href: "https://models.kylejeong.com/?lab=openai",
@@ -9887,6 +10504,57 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "Abide",
+        href: "https://github.com/coldteadotai/abide",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        useFor: [
+          "coding agent rule enforcement",
+          "agents.md compliance checks",
+          "coding agent guardrails",
+          "repository instruction enforcement",
+          "agent edit auditing",
+          "agent hook tooling",
+        ],
+        description:
+          "Abide is an open-source coding-agent rule enforcer. Its README says it checks project instructions such as AGENTS.md and CLAUDE.md on every edit or turn, reports violations, and asks the agent to repair them; it supports Claude Code, Codex, OpenCode, and Pi and is MIT licensed.",
+      },
+      {
+        title: "Code Storage",
+        href: "https://code.storage/docs/getting-started/introduction",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        stack: ["git"],
+        useFor: [
+          "git storage for agents",
+          "agent memory infrastructure",
+          "isolated agent branches",
+          "machine oriented git apis",
+          "parallel agent attempts",
+          "repository automation",
+        ],
+        description:
+          "Code Storage is a distributed storage system built on Git with API ergonomics optimized for agents and machines. Its introduction documents repository creation, commits, merges, isolated refs, imports, sync, file streaming, and agent workflows including memory, state capture, live diffs, and parallel attempts.",
+      },
+      {
+        title: "How Poke stores not just code, but agent memories",
+        href: "https://code.storage/changelog/poke-case-study",
+        dateAdded: "2026-10-04",
+        kind: "essay",
+        stack: ["git", "mcp"],
+        useFor: [
+          "study ai agent infrastructure",
+          "design git backed agents",
+          "build messaging assistants",
+          "learn agent memory patterns",
+          "study recipe systems",
+          "design workflow storage",
+          "understand mcp integrations",
+        ],
+        description:
+          "This case study explains how Poke uses Code.Storage as Git-native infrastructure for an AI assistant that operates through messaging channels. It describes repositories, commits, branches, merge operations, webhooks, provider sync, ephemeral branches, recipes, integrations, and agent workflows.",
+      },
       {
         title: "GitHub MCP Server",
         href: "https://github.com/github/github-mcp-server",
@@ -10676,6 +11344,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Databases and storage",
     links: [
+      {
+        title: "Neki",
+        href: "https://www.neki.dev/",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        stack: ["postgres"],
+        useFor: [
+          "sharded postgres",
+          "online resharding",
+          "postgres connection pooling",
+          "horizontal database scaling",
+          "postgres high availability",
+          "coordinated schema changes",
+        ],
+        description:
+          "PlanetScale's sharded Postgres system uses real Postgres shards behind a router, sidecars, and a control plane. The site describes online resharding, connection pooling, shard groups, coordinated schema changes, and multi-AZ availability; cross-shard transactions are marked as coming soon.",
+      },
       {
         title: "How Query Engines Work",
         href: "https://howqueryengineswork.com/00-introduction.html",
@@ -13424,6 +14109,37 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Productivity and business tools",
     links: [
       {
+        title: "Terminal Industries",
+        href: "https://terminal-industries.com/?ref=landing.love",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        useFor: [
+          "yard management systems",
+          "logistics software websites",
+          "gate management tools",
+          "supply chain product marketing",
+          "enterprise buyer navigation",
+        ],
+        description:
+          "Terminal presents a yard operating system for logistics operations between the gate and loading dock. Its site organizes gate management, carrier risk assessment, dispatch, yard visibility, load verification, and appointments by operational problem, buyer role, and industry.",
+      },
+      {
+        title: "DiskPrices",
+        href: "https://diskprices.com/",
+        dateAdded: "2026-10-04",
+        kind: "tool",
+        useFor: [
+          "storage price comparison",
+          "hard drive shopping",
+          "disk capacity research",
+          "sas drive comparisons",
+          "hardware price tables",
+          "data storage budgeting",
+        ],
+        description:
+          "DiskPrices is a hardware-price comparison page listing storage devices with price, capacity, interface, condition, and seller links. The inspected output includes internal SAS and HDD listings with capacities such as 1 TB, 2 TB, 4 TB, 12 TB, and 24 TB.",
+      },
+      {
         title: "GatherOS",
         href: "https://www.gatheros.co/",
         dateAdded: "2026-09-18",
@@ -14734,6 +15450,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Engineering essays and culture",
     links: [
       {
+        title: "Rewriting Bun in Rust",
+        href: "https://bun.com/blog/bun-in-rust",
+        dateAdded: "2026-10-04",
+        kind: "essay",
+        stack: ["rust", "zig", "typescript"],
+        useFor: [
+          "study rust rewrites",
+          "learn memory safety",
+          "understand adversarial code review",
+          "study ai coding workflows",
+          "learn compiler driven development",
+          "read bun engineering",
+        ],
+        description:
+          "Jarred Sumner's account of rewriting Bun from Zig to Rust to prevent memory-lifetime bugs through compiler checks and automatic cleanup. It explains the role of Bun's language-independent TypeScript test suite, AI-assisted workflows, compiler-error work queues, and adversarial code review.",
+      },
+      {
         title: "OSS Grants",
         href: "https://rauchg-oss-grants.vercel.app/",
         dateAdded: "2026-09-18",
@@ -15306,6 +16039,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Talks and individual videos",
     links: [
+      {
+        title: "Open Source at Scale with Corbin Crutchley",
+        href: "https://youtu.be/y4sMQeqmdVM?si=h7ICUo_5HQYGcue3",
+        dateAdded: "2026-10-04",
+        kind: "video",
+        useFor: [
+          "open source at scale",
+          "corbin crutchley interview",
+          "tanstack form discussion",
+          "engineering leadership interviews",
+          "open source maintainer conversations",
+        ],
+        description:
+          "Interview with Corbin Crutchley on open-source work at scale, published by Neciu Dan on The Señor Developer channel. The episode introduces Crutchley through TanStack Form and his engineering leadership role, with a runtime of about 52 minutes.",
+      },
       {
         title:
           "The Perfect Software Engineer Résumé: What Actually Gets You Interviews",
