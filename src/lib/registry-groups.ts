@@ -162,6 +162,7 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Text effects",
     names: [
+      "soft-type",
       "text-displacement-field",
       "scroll-text-blocks",
       "line-rise-text",

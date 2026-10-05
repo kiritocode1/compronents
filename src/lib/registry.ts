@@ -312,6 +312,56 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "soft-type",
+    title: "Soft Type",
+    description:
+      "Lettering you type into. Each character is traced from Nunito Black down to its centreline and rebuilt as a chain of particles, so letters press against each other, stretch when you drag them, and pop when you press and hold. The tracing works on any glyph the device can draw, from Latin and Cyrillic to Han and Hangul, and every counter stays open because each letter's pen only fattens until a hole would close. Emoji become soft circles. Canvas 2D, no dependencies.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-10-05",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/soft-type/index.tsx",
+        target: "components/ui/soft-type/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/soft-type/controller.ts",
+        target: "components/ui/soft-type/controller.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/soft-type/engine.ts",
+        target: "components/ui/soft-type/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/soft-type/skeleton.ts",
+        target: "components/ui/soft-type/skeleton.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/soft-type/layout.ts",
+        target: "components/ui/soft-type/layout.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/soft-type/render.ts",
+        target: "components/ui/soft-type/render.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/soft-type/text.ts",
+        target: "components/ui/soft-type/text.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "blur-study-grid",
     title: "Blur Study Grid",
     description:

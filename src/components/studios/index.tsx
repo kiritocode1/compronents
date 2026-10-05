@@ -45,6 +45,7 @@ import PreloaderRevealStudio from "./preloader-reveal";
 import ScrollTunnel3DStudio from "./scroll-tunnel-3d";
 import ScrollWaveGalleryStudio from "./scroll-wave-gallery";
 import SettlementLayerPageStudio from "./settlement-layer-page";
+import SoftTypeStudio from "./soft-type";
 import SorenPageStudio from "./soren-page";
 import SpiralGalleryStudio from "./spiral-gallery";
 import SunlitStudio from "./sunlit";
@@ -111,4 +112,5 @@ export const studios: Record<string, StudioComponent> = {
   "unusual-studio-page": UnusualStudioPageStudio,
   "velasco-solari-page": VelascoSolariPageStudio,
   "pixelgrid-studio-page": PixelgridStudioPageStudio,
+  "soft-type": SoftTypeStudio,
 };

@@ -16287,6 +16287,145 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "soft-type": {
+    demoPath: "src/components/demos/soft-type.tsx",
+    studioPath: "src/components/studios/soft-type.tsx",
+    nuance: [
+      {
+        label: "Letters are traced, not stored",
+        description:
+          "Each character is drawn once in Nunito Black on a hidden canvas, thinned to a one-pixel centreline and traced into strokes. The distance transform along that centreline gives the pen radius. A rounded heavy letter is almost exactly a centreline swept by a round pen, so the rebuilt tube matches the font, and it works for any glyph the device can draw.",
+      },
+      {
+        label: "Short arms survive, corner spurs do not",
+        description:
+          "Thinning grows little branches into square corners. A real stroke ends at the centre of its round cap, a pen radius inside the ink; a spur runs out to the edge. Pruning by that depth keeps the crossbar of an f and the arms of a star while removing spurs from square-ended fallback fonts.",
+      },
+      {
+        label: "As bold as it can go with counters open",
+        description:
+          "Each letter's pen fattens toward the weight setting, then stops where a counter would close or lose half its area, or where an aperture like the mouth of an s would seal shut. That is why o goes heavier than e.",
+      },
+      {
+        label: "Grabbing pins one particle",
+        description:
+          "The particle nearest the pointer follows it exactly and the rest of the letter gets a fifth of the same motion. Distance links, a bending constraint and a shape spring with no rotation term do the rest, so a letter stretches and drags its neighbours but always swings back upright.",
+      },
+      {
+        label: "Editing keeps the letters you did not touch",
+        description:
+          "New text is matched against the letters on screen by common prefix and suffix, so typing in the middle only grows or shrinks the changed letters. After each edit every letter springs to its new slot for about four seconds, then the arrangement is yours to push around.",
+      },
+    ],
+    editable: [
+      {
+        name: "defaultValue",
+        control: "text",
+        description: "Starting text. Visitors replace it by typing.",
+      },
+      {
+        name: "ink / paper",
+        control: "color",
+        description: "Letter colour and background.",
+      },
+      {
+        name: "weight",
+        control: "slider",
+        description: "How far pens fatten beyond the font, capped per letter.",
+      },
+      {
+        name: "squeeze",
+        control: "slider",
+        description: "How tightly letters press against each other at rest.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "defaultValue",
+        type: "string",
+        default: '"BLANK"',
+        description: "Starting text when uncontrolled.",
+      },
+      {
+        name: "value / onValueChange",
+        type: "string / (value: string) => void",
+        description: "Controlled text and its change callback.",
+      },
+      {
+        name: "maxLength",
+        type: "number",
+        default: "64",
+        description: "Longest text in graphemes (user-perceived characters).",
+      },
+      {
+        name: "ink",
+        type: "string",
+        default: '"#000000"',
+        description: "Letter colour.",
+      },
+      {
+        name: "paper",
+        type: "string",
+        default: '"#ffffff"',
+        description:
+          "Background, and the thin rim that keeps touching letters apart.",
+      },
+      {
+        name: "weight",
+        type: "number",
+        default: "1.2",
+        description:
+          "Pen weight relative to the font's own. Each letter stops where its counters would close.",
+      },
+      {
+        name: "squeeze",
+        type: "number",
+        default: "1.05",
+        description:
+          "How much larger than their slots letters are built, so they sit pressed together.",
+      },
+      {
+        name: "breakWords",
+        type: "boolean",
+        default: "true",
+        description:
+          "Allow breaking a word between letters when keeping it whole would make the letters 40% smaller or more, as in narrow boxes.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        default: "true",
+        description: "Pop and typing sounds.",
+      },
+      {
+        name: "fontFamily / fontWeight",
+        type: "string / number",
+        default: '"Nunito", ui-rounded, system-ui, sans-serif / 1000',
+        description:
+          "Face the letters are traced from. A heavy rounded face gives the cleanest centrelines.",
+      },
+      {
+        name: "loadFont",
+        type: "boolean",
+        default: "true",
+        description:
+          "Load Nunito from Google Fonts. Turn off when the font is already on the page.",
+      },
+      {
+        name: "autoFocus",
+        type: "boolean",
+        default: "false",
+        description: "Focus the hidden input on mount.",
+      },
+      {
+        name: "label",
+        type: "string",
+        default: '"Type to change the letters"',
+        description: "Accessible name for the text input.",
+      },
+    ],
+  },
 };
 
 export function getComponentMeta(name: string): ComponentMeta | undefined {

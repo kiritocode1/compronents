@@ -47,6 +47,7 @@ runtime-lab/
 .claude/worktrees/
 .instagram-scrape/
 .cantor8-analysis/
+.colederochie-analysis/
 .env*.local
 .inspiration-local/
 .inspiration-local.lock/

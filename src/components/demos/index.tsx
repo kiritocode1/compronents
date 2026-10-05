@@ -114,7 +114,6 @@ import InterlockTitleScrollDemo from "./interlock-title-scroll";
 import InversaScrollDemo from "./inversa-scroll";
 import InversionLensHoverDemo from "./inversion-lens-hover";
 import IrisOutroFooterDemo from "./iris-outro-footer";
-import VideoSummagatorDemo from "./video-summagator";
 import IsochromePageDemo from "./isochrome-page";
 import LandingCounterRevealDemo from "./landing-counter-reveal";
 import LandingImageRevealDemo from "./landing-image-reveal";
@@ -199,6 +198,7 @@ import SlidingIndexMenuDemo from "./sliding-index-menu";
 import SlitRevealHeroDemo from "./slit-reveal-hero";
 import SmudgeCursorRevealDemo from "./smudge-cursor-reveal";
 import SnapParallaxProjectsDemo from "./snap-parallax-projects";
+import SoftTypeDemo from "./soft-type";
 import SorenPageDemo from "./soren-page";
 import SpiralGalleryDemo from "./spiral-gallery";
 import SplitCardScrollDemo from "./split-card-scroll";
@@ -233,6 +233,7 @@ import TriangleFillScrollDemo from "./triangle-fill-scroll";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import VideoCardStackDemo from "./video-card-stack";
+import VideoSummagatorDemo from "./video-summagator";
 import ViewTransitionFolioPageDemo from "./view-transition-folio-page";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
@@ -495,4 +496,5 @@ export const demos: Record<string, ComponentType> = {
   "elastic-string-field": ElasticStringFieldDemo,
   "wind-drift-field": WindDriftFieldDemo,
   "prism-light-instrument": PrismLightInstrumentDemo,
+  "soft-type": SoftTypeDemo,
 };
