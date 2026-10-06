@@ -162,6 +162,8 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Text effects",
     names: [
+      "type-garden",
+      "mossy-type",
       "soft-type",
       "text-displacement-field",
       "scroll-text-blocks",

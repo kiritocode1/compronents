@@ -38,6 +38,7 @@ import March2025TemplatePreview from "./march-2025-template";
 import MaterialSpotlightPreview from "./material-spotlight";
 import MonogramMorphPagePreview from "./monogram-morph-page";
 import MosaicFlipPreview from "./mosaic-flip";
+import MossyTypePreview from "./mossy-type";
 import OverlayMenuPreview from "./overlay-menu";
 import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
@@ -49,6 +50,7 @@ import SettlementLayerPagePreview from "./settlement-layer-page";
 import SoftTypePreview from "./soft-type";
 import SpiralGalleryPreview from "./spiral-gallery";
 import SurpriseBoxPreview from "./surprise-box";
+import TypeGardenPreview from "./type-garden";
 import VideoSummagatorPreview from "./video-summagator";
 
 /**
@@ -109,4 +111,6 @@ export const previews: Record<string, ComponentType> = {
   "march-2025-template": March2025TemplatePreview,
   "prism-light-instrument": PrismLightInstrumentPreview,
   "soft-type": SoftTypePreview,
+  "mossy-type": MossyTypePreview,
+  "type-garden": TypeGardenPreview,
 };

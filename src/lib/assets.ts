@@ -2790,7 +2790,45 @@ const moneybeeEditorialPageAssets = [
     }) as const satisfies AssetItem,
 );
 
+const typeGardenAsset = {
+  id: "type-garden-core",
+  label: "Type Garden core document",
+  provider: "vercel-blob",
+  pathname: "type-garden/core.html",
+  fallbackPath: `${BLOB_PUBLIC_ORIGIN}/type-garden/core.html`,
+  role: "Self-contained source runtime, fonts and canvas document with editor and export controls removed.",
+  notes: "Rebuild from the pinned source with scripts/build-type-garden.py.",
+} as const satisfies AssetItem;
+
+const mossyTypeAssetPaths = [
+  "index.js",
+  "index.css",
+  "fonts/instrument-serif-latin-400-normal.woff",
+  "fonts/dm-serif-display-latin-400-normal.woff",
+  "fonts/playfair-display-latin-700-normal.woff",
+  "fonts/archivo-black-latin-400-normal.woff",
+  "fonts/pacifico-latin-400-normal.woff",
+] as const;
+
+const mossyTypeAssets = mossyTypeAssetPaths.map(
+  (path) =>
+    ({
+      id: `mossy-type-${path.replace(/[^a-z0-9]+/g, "-")}`,
+      label: `Mossy Type ${path}`,
+      provider: "vercel-blob",
+      pathname: `mossy-type/${path}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/mossy-type/${path}`,
+      role: path.endsWith(".woff")
+        ? "Original font outline used to build the WebGL glyphs."
+        : "Pinned source runtime or stylesheet for the isolated scene.",
+      notes:
+        "Original Moss Type source asset, hosted at a stable Blob pathname.",
+    }) satisfies AssetItem,
+);
+
 export const assetItems = [
+  typeGardenAsset,
+  ...mossyTypeAssets,
   ...moneybeeAlpinePageAssets,
   ...moneybeeEditorialPageAssets,
   ...dustMorphHeroAssets,

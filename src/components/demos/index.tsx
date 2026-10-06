@@ -139,6 +139,7 @@ import MoneybeeEditorialPageDemo from "./moneybee-editorial-page";
 import MonogramMorphPageDemo from "./monogram-morph-page";
 import MontageRevealHeroDemo from "./montage-reveal-hero";
 import MosaicFlipDemo from "./mosaic-flip";
+import MossyTypeDemo from "./mossy-type";
 import MotionTrackingDemo from "./motion-tracking";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeotericPageDemo from "./neoteric-page";
@@ -230,6 +231,7 @@ import ThrowAwayWorkSliderDemo from "./throw-away-work-slider";
 import TiltAwayMenuDemo from "./tilt-away-menu";
 import TiltCardStackDemo from "./tilt-card-stack";
 import TriangleFillScrollDemo from "./triangle-fill-scroll";
+import TypeGardenDemo from "./type-garden";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import VideoCardStackDemo from "./video-card-stack";
@@ -497,4 +499,6 @@ export const demos: Record<string, ComponentType> = {
   "wind-drift-field": WindDriftFieldDemo,
   "prism-light-instrument": PrismLightInstrumentDemo,
   "soft-type": SoftTypeDemo,
+  "mossy-type": MossyTypeDemo,
+  "type-garden": TypeGardenDemo,
 };

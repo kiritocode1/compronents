@@ -312,6 +312,46 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "type-garden",
+    title: "Type Garden",
+    description:
+      "Type into a canvas and watch stems, leaves and roses grow through each letter. Space cuts the vines, Backspace withers the last letter, and Enter clears the garden. The source's ten palettes remain; its poster editor, mode switch, copy and export controls are removed.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-10-06",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/type-garden.tsx",
+        target: "components/ui/type-garden.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "mossy-type",
+    title: "Mossy Type",
+    description:
+      "Type into a WebGL scene where letters grow moss, flowers, leaves and crystals. Six source presets, five outline fonts, adjustable size, pointer-driven motion, and image or video export. The original renderer and controls run inside an isolated document.",
+    section: "components",
+    category: "Text",
+    pro: true,
+    date: "2026-10-06",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/mossy-type.tsx",
+        target: "components/ui/mossy-type.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "soft-type",
     title: "Soft Type",
     description:

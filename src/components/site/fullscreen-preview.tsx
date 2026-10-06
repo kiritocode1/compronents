@@ -37,7 +37,7 @@ export function FullscreenPreview({ name }: { name: string }) {
           href={`/${section}/${name}`}
           aria-label="Close fullscreen"
           title="Close"
-          className="hit-area-2 fixed top-4 right-4 z-[60] flex size-9 items-center justify-center rounded-md border border-white/15 bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white"
+          className={`hit-area-2 fixed top-4 right-4 z-[60] flex size-9 items-center justify-center rounded-md border border-white/15 bg-black/40 text-white/70 backdrop-blur transition-colors hover:bg-white/10 hover:text-white${name === "mossy-type" ? " max-sm:top-20" : ""}`}
         >
           <X className="size-4" />
         </Link>

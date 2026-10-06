@@ -16287,6 +16287,96 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "type-garden": {
+    demoPath: "src/components/demos/type-garden.tsx",
+    nuance: [
+      {
+        label: "Typing grows the garden",
+        description:
+          "The source canvas draws a GT Ultra letter and generates vines, leaves and roses around it. Space cuts the last stem, Backspace withers the last letter, and pointer motion bends the growth.",
+      },
+      {
+        label: "Only the core scene remains",
+        description:
+          "The Type/Poster switch, poster editor, Copy code control, PNG and SVG buttons, and export shortcut are removed from the bundled document. Palette selection and the typing hints remain.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id === "type-garden-core")
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Class on the full-size scene container. Its parent needs a height.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the scene container.",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: '"Type Garden"',
+        description: "Accessible frame title.",
+      },
+    ],
+  },
+  "mossy-type": {
+    demoPath: "src/components/demos/mossy-type.tsx",
+    nuance: [
+      {
+        label: "Glyph outlines become planted surfaces",
+        description:
+          "The original WebGL renderer builds geometry from the selected font, then grows preset-specific instanced moss, flowers, leaves, stones or crystals across each letter. Typing changes the glyph meshes rather than masking an image onto plain text.",
+      },
+      {
+        label: "Isolated document",
+        description:
+          "The pinned source bundle expects global element IDs and viewport listeners. An iframe keeps those listeners, CSS and WebGL resources inside this component and removes them on unmount.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("mossy-type-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Class on the full-size frame. Its parent should have a height.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the frame.",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: '"Moss Type"',
+        description: "Accessible frame title.",
+      },
+    ],
+  },
   "soft-type": {
     demoPath: "src/components/demos/soft-type.tsx",
     studioPath: "src/components/studios/soft-type.tsx",
