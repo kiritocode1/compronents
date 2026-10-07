@@ -1,0 +1,27 @@
+{
+  "$schema": "https://webreel.dev/schema/v1.json",
+  "outDir": "./videos",
+  "baseUrl": "https://soft-type.compronents.localhost:1355",
+  "viewport": { "width": 1440, "height": 900 },
+  "defaultDelay": 300,
+  "videos": {
+    "type-drag-reflow": {
+      "url": "/play.html?text=Soft%20type",
+      "output": "type-drag-reflow.mp4",
+      "steps": [
+        { "action": "pause", "ms": 2200 },
+        { "action": "click", "selector": "#tap-target" },
+        { "action": "type", "text": " is fun", "charDelay": 140 },
+        { "action": "pause", "ms": 2200 },
+        { "action": "drag", "from": { "selector": "[data-letter='0']" }, "to": { "selector": "#drop-target" } },
+        { "action": "pause", "ms": 2500 },
+        { "action": "key", "key": "Backspace" },
+        { "action": "key", "key": "Backspace" },
+        { "action": "key", "key": "Backspace" },
+        { "action": "pause", "ms": 1600 },
+        { "action": "type", "text": "t! 漢字", "charDelay": 160 },
+        { "action": "pause", "ms": 3000 }
+      ]
+    }
+  }
+}

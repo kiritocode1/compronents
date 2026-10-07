@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Soft type skeleton inspector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&display=swap" />
+    <style>body { margin: 16px; background: #fff; color: #111; }</style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="./dist/inspect.js"></script>
+    <script>SoftTypeInspect.runInspector(document.getElementById('root')).then(() => document.body.dataset.done = '1');</script>
+  </body>
+</html>

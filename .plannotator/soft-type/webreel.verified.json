@@ -1,0 +1,25 @@
+{
+  "$schema": "https://webreel.dev/schema/v1.json",
+  "outDir": "./verified",
+  "baseUrl": "https://compronents.localhost:1355",
+  "viewport": { "width": 1440, "height": 900 },
+  "defaultDelay": 300,
+  "videos": {
+    "type-reflow": {
+      "url": "/components/soft-type/preview",
+      "output": "type-reflow.mp4",
+      "steps": [
+        { "action": "pause", "ms": 4000 },
+        { "action": "type", "text": " is soft", "charDelay": 140 },
+        { "action": "pause", "ms": 2200 },
+        { "action": "key", "key": "Backspace" },
+        { "action": "key", "key": "Backspace" },
+        { "action": "key", "key": "Backspace" },
+        { "action": "key", "key": "Backspace" },
+        { "action": "pause", "ms": 1500 },
+        { "action": "type", "text": "fun 漢字 😀", "charDelay": 160 },
+        { "action": "pause", "ms": 3500 }
+      ]
+    }
+  }
+}

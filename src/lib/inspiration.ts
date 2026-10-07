@@ -467,6 +467,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "JavaScript and TypeScript",
     links: [
       {
+        title: "gdp-ts",
+        href: "https://github.com/rauchg/gdp-ts",
+        dateAdded: "2026-10-05",
+        kind: "library",
+        stack: ["typescript", "eslint", "oxlint"],
+        useFor: [
+          "typescript authorization proofs",
+          "resource specific access checks",
+          "compile time entitlement contracts",
+          "prevent skipped authorization checks",
+          "lint proof forgery",
+          "coding agent authorization guidance",
+          "ghosts of departed proofs",
+        ],
+        description:
+          "gdp-ts is an MIT-licensed TypeScript implementation of Ghosts of Departed Proofs, combining a dependency-free library, ESLint and Oxlint presets, and a coding-agent skill. It gives values distinct type-level names, lets trusted modules issue proofs after runtime checks, and requires sensitive functions to accept proofs tied to their exact arguments. The lint presets guard against proof forgery, while examples cover in-memory checks and Express routes with Drizzle and PGlite. It complements policy engines by carrying their decisions into dependent functions, but does not guarantee that a previously issued proof is still valid.",
+      },
+      {
         title: "cizgile",
         href: "https://github.com/productdevbook/cizgile",
         dateAdded: "2026-09-01",
@@ -6539,6 +6557,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "hairline",
+        href: "https://hairline.lucasmarkes.com/",
+        dateAdded: "2026-10-04",
+        kind: "library",
+        stack: ["react", "svg", "javascript"],
+        useFor: [
+          "interactive isometric illustrations",
+          "pointer responsive svg figures",
+          "react line drawings",
+          "plain dom illustrations",
+          "exploded interface layers",
+          "device and infrastructure illustrations",
+        ],
+        description:
+          "Hairline is Lucas Marques's MIT-licensed library of 19 pointer-responsive isometric SVG figures for React or plain DOM, with no dependencies. The gallery groups figures into interfaces, data, machines, devices, coding, security and connectivity, with copyable React, Vanilla and CDN examples. Its Exploded figure separates an app window into four layers: horizontal pointer movement opens the gaps, vertical movement selects a layer, and intensity controls how far the layers open.",
+      },
+      {
         href: "https://backgrounds.venust.ai/",
         title: "Venust Backgrounds",
         kind: "asset",
@@ -8300,6 +8335,34 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "Shaders",
+        href: "https://github.com/shader-effects-inc/shaders",
+        dateAdded: "2026-10-06",
+        kind: "library",
+        stack: [
+          "webgpu",
+          "wgsl",
+          "typescript",
+          "react",
+          "vue",
+          "svelte",
+          "solid",
+          "javascript",
+        ],
+        useFor: [
+          "composable shader effects",
+          "webgpu shader components",
+          "gradient noise glass and metal effects",
+          "shader layer blending and masking",
+          "cursor driven shader interactions",
+          "visual shader editor code export",
+          "custom wgsl shader components",
+          "agent assisted shader workflows",
+        ],
+        description:
+          "Shaders is a composable WebGPU effects library with React, Vue, Svelte, Solid and JavaScript bindings and more than 200 effects listed in its README. Components cover gradients, noise, glass, metal, light, distortions, transitions, blurs and cursor effects, with nested layers, blending, masking and custom WGSL shaders. The companion visual editor exports framework component trees, while CLI and MCP integrations support project and coding-agent workflows. The engine, components and bindings are MIT licensed; the editor, presets and platform have separate terms, and the repository does not establish WebGL support.",
+      },
       {
         title: "kynd.info",
         href: "https://www.kynd.info/",
@@ -11117,6 +11180,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Backend engineering",
     links: [
+      {
+        title:
+          "Open-Sourcing Rebalancer: A Generic, High-Performance Library for Solving Assignment Problems",
+        href: "https://engineering.fb.com/2026/09/21/open-source/rebalancer-generic-high-performance-library-assignment-problems/",
+        dateAdded: "2026-10-06",
+        kind: "essay",
+        useFor: [
+          "constraint aware assignment optimization",
+          "shard placement and server assignment",
+          "datacenter resource allocation",
+          "traffic routing optimization",
+          "mixed integer programming versus local search",
+          "incremental assignment rebalancing",
+          "debugging binding constraints and placement decisions",
+        ],
+        description:
+          "Meta's engineering article introduces Rebalancer, its Apache-2.0 library for assigning objects to bins under configurable objectives and constraints, used for shard placement, resource allocation and traffic routing. Starting from an existing assignment, it optimizes objectives without introducing new constraint violations and prioritizes reducing existing violations. The article contrasts expression-graph translation for mixed-integer programming solvers with parallelized local search for larger problems, and reports roughly 40 million assignment problems solved daily at Meta. It also introduces Rebalancer Explorer, a Dockerized web UI for investigating binding constraints and placement decisions, with links to the code, documentation, Python package and OSDI 2024 paper.",
+      },
       {
         title: "Dodo Payments",
         href: "https://dodopayments.com/",
@@ -14679,6 +14760,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Effect ecosystem",
     links: [
+      {
+        title: "Structure an Effect codebase by domain",
+        href: "https://ratstack.sh/lore/structure-effect-by-domain",
+        dateAdded: "2026-10-06",
+        kind: "essay",
+        stack: ["effect", "typescript"],
+        useFor: [
+          "effect domain folder structure",
+          "colocate services and layers",
+          "capture service construction dependencies",
+          "entrypoint composition roots",
+          "separate domain ports and platform adapters",
+          "domain contracts and lifecycle organization",
+          "mirror domain folders in tests",
+        ],
+        description:
+          "rat-stack's source-linked guide to organizing an Effect codebase by domain rather than mechanism, drawing on Sam Goodwin's service-organization advice. It shows a small-app folder tree, colocates each service with its Layer, captures dependencies during service construction, and assembles implementations at entrypoint composition roots. It keeps platform adapters outside domain ports and related schemas, errors, lifecycle machines and tests beside the behavior they describe. The guide distinguishes general Effect idioms from rat-stack policies and treats monorepo layout as a separate choice.",
+      },
       {
         title: "@yielded/auth",
         href: "https://github.com/yielded-dev/auth",

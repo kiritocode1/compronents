@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Soft type lab</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&display=swap" />
+    <style>
+      html, body { margin: 0; height: 100%; background: #fff; }
+      #stage { position: fixed; inset: 0; overflow: hidden; background: #fff; }
+      #stage[data-blueprint="true"] { background-color: #e4e5e8; background-image: linear-gradient(#d4d6da 1px, transparent 1px), linear-gradient(90deg, #d4d6da 1px, transparent 1px); background-size: 120px 120px; background-position: -1px -1px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <!-- Lab-only targets for the scripted recording: an empty corner to tap, and a drop point. -->
+    <div id="tap-target" style="position:fixed;right:0;bottom:0;width:24px;height:24px;pointer-events:none"></div>
+    <div id="drop-target" style="position:fixed;left:52%;top:46%;width:4px;height:4px;pointer-events:none"></div>
+    <script>document.fonts.load('1000 160px Nunito', 'Aa').finally(() => { const s = document.createElement('script'); s.src = './dist/play.js'; document.body.append(s); });</script>
+  </body>
+</html>
