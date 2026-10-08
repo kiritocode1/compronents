@@ -2558,6 +2558,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Anish's lab",
+        href: "https://lab.anishfn.ink/",
+        dateAdded: "2026-10-08",
+        kind: "demo",
+        stack: ["react", "next.js", "webgl", "motion"],
+        useFor: [
+          "interactive component experiments",
+          "webgl member card tilt and flip",
+          "morphing hud interaction reference",
+          "siri remote interface reference",
+          "macos folder image maker",
+          "pixel art 3d experiments",
+          "handdrawn frame reference",
+          "video cube interaction reference",
+        ],
+        description:
+          "Anish's lab is a searchable collection of live components and tools by @anishfn, with separate component and tool filters. Pieces include Axolotl pond, Pixel art 3D, Handdrawn frames, Dia gradient, Action camera and Video cube. The Morfe card is a React and Next.js WebGL member ticket that tilts toward the pointer, flips on tap and wipes between paintings; Knob HUD uses Motion and the Web Speech API to demonstrate a Siri Remote interface with speech or typed input. Folder maker turns a photo into a macOS folder image downloadable as a transparent 1024px PNG, with an option to share it to a public wall.",
+      },
+      {
         title: "Curtain Reveal Hero",
         href: "https://ui.aryank.space/components/curtain-reveal-hero/preview",
         dateAdded: "2026-10-04",
@@ -14549,6 +14568,26 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "ASCII art and diagram tools",
     links: [
+      {
+        title: "ascii.rest",
+        href: "https://ascii.rest/",
+        dateAdded: "2026-10-08",
+        kind: "library",
+        stack: ["html", "typescript", "react", "nextjs", "astro"],
+        style: "terminal",
+        useFor: [
+          "animated ascii art for web pages",
+          "ascii loading spinners",
+          "ascii charts and sparklines",
+          "ascii typewriter animations",
+          "animated ascii logos",
+          "full colour ascii scenes",
+          "ascii physics animations",
+          "reduced motion ascii embeds",
+        ],
+        description:
+          "ascii.rest is an MIT-licensed library by @bas3line of animated ASCII art for web pages, with dependency-free, typed TypeScript pieces for plain HTML, React, Next.js and Astro. Its catalog includes full-colour scenes, loading spinners, charts and sparklines, typewriter effects, language and Linux distro logos, 3D shapes, physics simulations and creatures. Each piece page provides a live preview, integration snippets and its TypeScript source; the HTML custom element plays while on screen and holds the first frame for reduced motion, while the Astro component renders the first frame on the server.",
+      },
       {
         title: "Tooey",
         href: "https://tooey.design/files",
