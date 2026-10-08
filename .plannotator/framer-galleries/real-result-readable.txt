@@ -1,0 +1,1421 @@
+import{t as e}from"./rolldown-runtime.Dh6celcD.mjs";
+import{A as t,C as n,D as r,I as i,M as a,R as o,T as s,b as c,c as l,g as u,k as d,l as f,o as p,v as m}from"./react.D20wc1Tc.mjs";
+import{a as ee,b as h,r as te,t as g}from"./motion.B09WepHq.mjs";
+import{C as _,G as v,H as ne,K as re,O as ie,U as ae,V as oe,W as se,Y as ce,_ as le,a as ue,f as de,m as y,n as b,p as x,r as S,t as fe,z as pe}from"./framer.k_5ijOaz.mjs";
+function C(e){for(var t=`https://reactjs.org/docs/error-decoder.html?invariant=`+e,n=1;
+n<arguments.length;
+n++)t+=`&args[]=`+encodeURIComponent(arguments[n]);
+return`Minified React error #`+e+`;
+ visit `+t+` for the full message or use the non-minified dev environment for full errors and additional helpful warnings.`}function me(e){return G.call(In,e)?!0:G.call(Fn,e)?!1:Pn.test(e)?In[e]=!0:(Fn[e]=!0,!1)}function w(e,t,n,r,i,a,o){this.acceptsBooleans=t===2||t===3||t===4,this.attributeName=r,this.attributeNamespace=i,this.mustUseProperty=n,this.propertyName=e,this.type=t,this.sanitizeURL=a,this.removeEmptyString=o}function T(e){return e[1].toUpperCase()}function E(e){if(typeof e==`boolean`||typeof e==`number`)return``+e;
+e=``+e;
+var t=Bn.exec(e);
+if(t){var n,r=``,i=0;
+for(n=t.index;
+n<e.length;
+n++){switch(e.charCodeAt(n)){case 34:t=`&quot;
+`;
+break;
+case 38:t=`&amp;
+`;
+break;
+case 39:t=`&#x27;
+`;
+break;
+case 60:t=`&lt;
+`;
+break;
+case 62:t=`&gt;
+`;
+break;
+default:continue}i!==n&&(r+=e.substring(i,n)),i=n+1,r+=t}e=i===n?r:r+e.substring(i,n)}return e}function D(e,t){return{insertionMode:e,selectedValue:t}}function he(e,t,n){switch(t){case`select`:return D(1,n.value==null?n.defaultValue:n.value);
+case`svg`:return D(2,null);
+case`math`:return D(3,null);
+case`foreignObject`:return D(1,null);
+case`table`:return D(4,null);
+case`thead`:case`tbody`:case`tfoot`:return D(5,null);
+case`colgroup`:return D(7,null);
+case`tr`:return D(6,null)}return 4<=e.insertionMode||e.insertionMode===0?D(1,null):e}function ge(e,t,n){if(typeof n!=`object`)throw Error(C(62));
+for(var r in t=!0,n)if(G.call(n,r)){var i=n[r];
+if(i!=null&&typeof i!=`boolean`&&i!==``){if(r.indexOf(`--`)===0){var a=E(r);
+i=E((``+i).trim())}else{a=r;
+var o=Wn.get(a);
+o!==void 0||(o=E(a.replace(Vn,`-$1`).toLowerCase().replace(Hn,`-ms-`)),Wn.set(a,o)),a=o,i=typeof i==`number`?i===0||G.call(Rn,r)?``+i:i+`px`:E((``+i).trim())}t?(t=!1,e.push(` style="`,a,`:`,i)):e.push(`;
+`,a,`:`,i)}}t||e.push(`"`)}function O(e,t,n,r){switch(n){case`style`:ge(e,t,r);
+return;
+case`defaultValue`:case`defaultChecked`:case`innerHTML`:case`suppressContentEditableWarning`:case`suppressHydrationWarning`:return}if(!(2<n.length)||n[0]!==`o`&&n[0]!==`O`||n[1]!==`n`&&n[1]!==`N`){if(t=K.hasOwnProperty(n)?K[n]:null,t!==null){switch(typeof r){case`function`:case`symbol`:return;
+case`boolean`:if(!t.acceptsBooleans)return}switch(n=t.attributeName,t.type){case 3:r&&e.push(` `,n,`=""`);
+break;
+case 4:!0===r?e.push(` `,n,`=""`):!1!==r&&e.push(` `,n,`="`,E(r),`"`);
+break;
+case 5:isNaN(r)||e.push(` `,n,`="`,E(r),`"`);
+break;
+case 6:!isNaN(r)&&1<=r&&e.push(` `,n,`="`,E(r),`"`);
+break;
+default:t.sanitizeURL&&(r=``+r),e.push(` `,n,`="`,E(r),`"`)}}else if(me(n)){switch(typeof r){case`function`:case`symbol`:return;
+case`boolean`:if(t=n.toLowerCase().slice(0,5),t!==`data-`&&t!==`aria-`)return}e.push(` `,n,`="`,E(r),`"`)}}}function _e(e,t,n){if(t!=null){if(n!=null)throw Error(C(60));
+if(typeof t!=`object`||!(`__html`in t))throw Error(C(61));
+t=t.__html,t!=null&&e.push(``+t)}}function ve(e){var t=``;
+return Nn.Children.forEach(e,(function(e){e!=null&&(t+=e)})),t}function ye(e,t,n,r){e.push(k(n));
+var i,a=n=null;
+for(i in t)if(G.call(t,i)){var o=t[i];
+if(o!=null)switch(i){case`children`:n=o;
+break;
+case`dangerouslySetInnerHTML`:a=o;
+break;
+default:O(e,r,i,o)}}return e.push(`>`),_e(e,a,n),typeof n==`string`?(e.push(E(n)),null):n}function k(e){var t=Kn.get(e);
+if(t===void 0){if(!Gn.test(e))throw Error(C(65,e));
+t=`<`+e,Kn.set(e,t)}return t}function A(e,t,n,r,i){switch(t){case`select`:e.push(k(`select`));
+var a=null,o=null;
+for(u in n)if(G.call(n,u)){var s=n[u];
+if(s!=null)switch(u){case`children`:a=s;
+break;
+case`dangerouslySetInnerHTML`:o=s;
+break;
+case`defaultValue`:case`value`:break;
+default:O(e,r,u,s)}}return e.push(`>`),_e(e,o,a),a;
+case`option`:o=i.selectedValue,e.push(k(`option`));
+var c=s=null,l=null,u=null;
+for(a in n)if(G.call(n,a)){var d=n[a];
+if(d!=null)switch(a){case`children`:s=d;
+break;
+case`selected`:l=d;
+break;
+case`dangerouslySetInnerHTML`:u=d;
+break;
+case`value`:c=d;
+default:O(e,r,a,d)}}if(o!=null)if(n=c===null?ve(s):``+c,Un(o)){for(r=0;
+r<o.length;
+r++)if(``+o[r]===n){e.push(` selected=""`);
+break}}else``+o===n&&e.push(` selected=""`);
+else l&&e.push(` selected=""`);
+return e.push(`>`),_e(e,u,s),s;
+case`textarea`:for(s in e.push(k(`textarea`)),u=o=a=null,n)if(G.call(n,s)&&(c=n[s],c!=null))switch(s){case`children`:u=c;
+break;
+case`value`:a=c;
+break;
+case`defaultValue`:o=c;
+break;
+case`dangerouslySetInnerHTML`:throw Error(C(91));
+default:O(e,r,s,c)}if(a===null&&o!==null&&(a=o),e.push(`>`),u!=null){if(a!=null)throw Error(C(92));
+if(Un(u)&&1<u.length)throw Error(C(93));
+a=``+u}return typeof a==`string`&&a[0]===`
+`&&e.push(`
+`),a!==null&&e.push(E(``+a)),null;
+case`input`:for(o in e.push(k(`input`)),c=u=s=a=null,n)if(G.call(n,o)&&(l=n[o],l!=null))switch(o){case`children`:case`dangerouslySetInnerHTML`:throw Error(C(399,`input`));
+case`defaultChecked`:c=l;
+break;
+case`defaultValue`:s=l;
+break;
+case`checked`:u=l;
+break;
+case`value`:a=l;
+break;
+default:O(e,r,o,l)}return u===null?c!==null&&O(e,r,`checked`,c):O(e,r,`checked`,u),a===null?s!==null&&O(e,r,`value`,s):O(e,r,`value`,a),e.push(`/>`),null;
+case`menuitem`:for(var f in e.push(k(`menuitem`)),n)if(G.call(n,f)&&(a=n[f],a!=null))switch(f){case`children`:case`dangerouslySetInnerHTML`:throw Error(C(400));
+default:O(e,r,f,a)}return e.push(`>`),null;
+case`title`:for(d in e.push(k(`title`)),a=null,n)if(G.call(n,d)&&(o=n[d],o!=null))switch(d){case`children`:a=o;
+break;
+case`dangerouslySetInnerHTML`:throw Error(C(434));
+default:O(e,r,d,o)}return e.push(`>`),a;
+case`listing`:case`pre`:for(c in e.push(k(t)),o=a=null,n)if(G.call(n,c)&&(s=n[c],s!=null))switch(c){case`children`:a=s;
+break;
+case`dangerouslySetInnerHTML`:o=s;
+break;
+default:O(e,r,c,s)}if(e.push(`>`),o!=null){if(a!=null)throw Error(C(60));
+if(typeof o!=`object`||!(`__html`in o))throw Error(C(61));
+n=o.__html,n!=null&&(typeof n==`string`&&0<n.length&&n[0]===`
+`?e.push(`
+`,n):e.push(``+n))}return typeof a==`string`&&a[0]===`
+`&&e.push(`
+`),a;
+case`area`:case`base`:case`br`:case`col`:case`embed`:case`hr`:case`img`:case`keygen`:case`link`:case`meta`:case`param`:case`source`:case`track`:case`wbr`:for(var p in e.push(k(t)),n)if(G.call(n,p)&&(a=n[p],a!=null))switch(p){case`children`:case`dangerouslySetInnerHTML`:throw Error(C(399,t));
+default:O(e,r,p,a)}return e.push(`/>`),null;
+case`annotation-xml`:case`color-profile`:case`font-face`:case`font-face-src`:case`font-face-uri`:case`font-face-format`:case`font-face-name`:case`missing-glyph`:return ye(e,n,t,r);
+case`html`:return i.insertionMode===0&&e.push(`<!DOCTYPE html>`),ye(e,n,t,r);
+default:if(t.indexOf(`-`)===-1&&typeof n.is!=`string`)return ye(e,n,t,r);
+for(l in e.push(k(t)),o=a=null,n)if(G.call(n,l)&&(s=n[l],s!=null))switch(l){case`children`:a=s;
+break;
+case`dangerouslySetInnerHTML`:o=s;
+break;
+case`style`:ge(e,r,s);
+break;
+case`suppressContentEditableWarning`:case`suppressHydrationWarning`:break;
+default:me(l)&&typeof s!=`function`&&typeof s!=`symbol`&&e.push(` `,l,`="`,E(s),`"`)}return e.push(`>`),_e(e,o,a),a}}function be(e,t,n){if(e.push(`<!--$?--><template id="`),n===null)throw Error(C(395));
+return e.push(n),e.push(`"></template>`)}function xe(e,t,n,r){switch(n.insertionMode){case 0:case 1:return e.push(`<div hidden id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+case 2:return e.push(`<svg aria-hidden="true" style="display:none" id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+case 3:return e.push(`<math aria-hidden="true" style="display:none" id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+case 4:return e.push(`<table hidden id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+case 5:return e.push(`<table hidden><tbody id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+case 6:return e.push(`<table hidden><tr id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+case 7:return e.push(`<table hidden><colgroup id="`),e.push(t.segmentPrefix),t=r.toString(16),e.push(t),e.push(`">`);
+default:throw Error(C(397))}}function Se(e,t){switch(t.insertionMode){case 0:case 1:return e.push(`</div>`);
+case 2:return e.push(`</svg>`);
+case 3:return e.push(`</math>`);
+case 4:return e.push(`</table>`);
+case 5:return e.push(`</tbody></table>`);
+case 6:return e.push(`</tr></table>`);
+case 7:return e.push(`</colgroup></table>`);
+default:throw Error(C(397))}}function j(e){return JSON.stringify(e).replace(qn,(function(e){switch(e){case`<`:return`\\u003c`;
+case`\u2028`:return`\\u2028`;
+case`\u2029`:return`\\u2029`;
+default:throw Error(`escapeJSStringsForInstructionScripts encountered a match it does not know how to replace. this means the match regex and the replacement characters are no longer in sync. This is a bug in React`)}}))}function M(e,t){return t=t===void 0?``:t,{bootstrapChunks:[],startInlineScript:`<script>`,placeholderPrefix:t+`P:`,segmentPrefix:t+`S:`,boundaryPrefix:t+`B:`,idPrefix:t,nextSuspenseID:0,sentCompleteSegmentFunction:!1,sentCompleteBoundaryFunction:!1,sentClientRenderFunction:!1,generateStaticMarkup:e}}function Ce(e,t,n,r){return n.generateStaticMarkup?(e.push(E(t)),!1):(t===``?e=r:(r&&e.push(`<!-- -->`),e.push(E(t)),e=!0),e)}function we(e){if(e==null)return null;
+if(typeof e==`function`)return e.displayName||e.name||null;
+if(typeof e==`string`)return e;
+switch(e){case Zn:return`Fragment`;
+case Xn:return`Portal`;
+case $n:return`Profiler`;
+case Qn:return`StrictMode`;
+case rr:return`Suspense`;
+case ir:return`SuspenseList`}if(typeof e==`object`)switch(e.$$typeof){case tr:return(e.displayName||`Context`)+`.Consumer`;
+case er:return(e._context.displayName||`Context`)+`.Provider`;
+case nr:var t=e.render;
+return e=e.displayName,e||=(e=t.displayName||t.name||``,e===``?`ForwardRef`:`ForwardRef(`+e+`)`),e;
+case ar:return t=e.displayName||null,t===null?we(e.type)||`Memo`:t;
+case or:t=e._payload,e=e._init;
+try{return we(e(t))}catch{}}return null}function Te(e,t){if(e=e.contextTypes,!e)return fr;
+var n,r={};
+for(n in e)r[n]=t[n];
+return r}function Ee(e,t){if(e!==t){e.context._currentValue2=e.parentValue,e=e.parent;
+var n=t.parent;
+if(e===null){if(n!==null)throw Error(C(401))}else{if(n===null)throw Error(C(401));
+Ee(e,n)}t.context._currentValue2=t.value}}function De(e){e.context._currentValue2=e.parentValue,e=e.parent,e!==null&&De(e)}function Oe(e){var t=e.parent;
+t!==null&&Oe(t),e.context._currentValue2=e.value}function ke(e,t){if(e.context._currentValue2=e.parentValue,e=e.parent,e===null)throw Error(C(402));
+e.depth===t.depth?Ee(e,t):ke(e,t)}function Ae(e,t){var n=t.parent;
+if(n===null)throw Error(C(402));
+e.depth===n.depth?Ee(e,n):Ae(e,n),t.context._currentValue2=t.value}function je(e){var t=pr;
+t!==e&&(t===null?Oe(e):e===null?De(t):t.depth===e.depth?Ee(t,e):t.depth>e.depth?ke(t,e):Ae(t,e),pr=e)}function Me(e,t,n,r){var i=e.state===void 0?null:e.state;
+e.updater=mr,e.props=n,e.state=i;
+var a={queue:[],replace:!1};
+e._reactInternals=a;
+var o=t.contextType;
+if(e.context=typeof o==`object`&&o?o._currentValue2:r,o=t.getDerivedStateFromProps,typeof o==`function`&&(o=o(n,i),i=o==null?i:Jn({},i,o),e.state=i),typeof t.getDerivedStateFromProps!=`function`&&typeof e.getSnapshotBeforeUpdate!=`function`&&(typeof e.UNSAFE_componentWillMount==`function`||typeof e.componentWillMount==`function`))if(t=e.state,typeof e.componentWillMount==`function`&&e.componentWillMount(),typeof e.UNSAFE_componentWillMount==`function`&&e.UNSAFE_componentWillMount(),t!==e.state&&mr.enqueueReplaceState(e,e.state,null),a.queue!==null&&0<a.queue.length)if(t=a.queue,o=a.replace,a.queue=null,a.replace=!1,o&&t.length===1)e.state=t[0];
+else{for(a=o?t[0]:e.state,i=!0,o=+!!o;
+o<t.length;
+o++){var s=t[o];
+s=typeof s==`function`?s.call(e,a,n,r):s,s!=null&&(i?(i=!1,a=Jn({},a,s)):Jn(a,s))}e.state=a}else a.queue=null}function Ne(e,t,n){var r=e.id;
+e=e.overflow;
+var i=32-gr(r)-1;
+r&=~(1<<i),n+=1;
+var a=32-gr(t)+i;
+if(30<a){var o=i-i%5;
+return a=(r&(1<<o)-1).toString(32),r>>=o,i-=o,{id:1<<32-gr(t)+i|n<<i|r,overflow:a+e}}return{id:1<<a|n<<i|r,overflow:e}}function Pe(e){return e>>>=0,e===0?32:31-(_r(e)/vr|0)|0}function Fe(e,t){return e===t&&(e!==0||1/e==1/t)||e!==e&&t!==t}function Ie(){if(br===null)throw Error(C(321));
+return br}function Le(){if(0<Dr)throw Error(C(312));
+return{memoizedState:null,queue:null,next:null}}function Re(){return q===null?Sr===null?(Cr=!1,Sr=q=Le()):(Cr=!0,q=Sr):q.next===null?(Cr=!1,q=q.next=Le()):(Cr=!0,q=q.next),q}function ze(){xr=br=null,wr=!1,Sr=null,Dr=0,q=Er=null}function Be(e,t){return typeof t==`function`?t(e):t}function Ve(e,t,n){if(br=Ie(),q=Re(),Cr){var r=q.queue;
+if(t=r.dispatch,Er!==null&&(n=Er.get(r),n!==void 0)){Er.delete(r),r=q.memoizedState;
+do r=e(r,n.action),n=n.next;
+while(n!==null);
+return q.memoizedState=r,[r,t]}return[q.memoizedState,t]}return e=e===Be?typeof t==`function`?t():t:n===void 0?t:n(t),q.memoizedState=e,e=q.queue={last:null,dispatch:null},e=e.dispatch=Ue.bind(null,br,e),[q.memoizedState,e]}function He(e,t){if(br=Ie(),q=Re(),t=t===void 0?null:t,q!==null){var n=q.memoizedState;
+if(n!==null&&t!==null){var r=n[1];
+e:if(r===null)r=!1;
+else{for(var i=0;
+i<r.length&&i<t.length;
+i++)if(!yr(t[i],r[i])){r=!1;
+break e}r=!0}if(r)return n[0]}}return e=e(),q.memoizedState=[e,t],e}function Ue(e,t,n){if(25<=Dr)throw Error(C(301));
+if(e===br)if(wr=!0,e={action:n,next:null},Er===null&&(Er=new Map),n=Er.get(t),n===void 0)Er.set(t,e);
+else{for(t=n;
+t.next!==null;
+)t=t.next;
+t.next=e}}function We(){throw Error(C(394))}function Ge(){}function Ke(e){return console.error(e),null}function qe(){}function Je(e,t,n,r,i,a,o,s,c){var l=[],u=new Set;
+return t={destination:null,responseState:t,progressiveChunkSize:r===void 0?12800:r,status:0,fatalError:null,nextSegmentId:0,allPendingTasks:0,pendingRootTasks:0,completedRootSegment:null,abortableTasks:u,pingedTasks:l,clientRenderedBoundaries:[],completedBoundaries:[],partialBoundaries:[],onError:i===void 0?Ke:i,onAllReady:a===void 0?qe:a,onShellReady:o===void 0?qe:o,onShellError:s===void 0?qe:s,onFatalError:c===void 0?qe:c},n=Xe(t,0,null,n,!1,!1),n.parentFlushed=!0,e=Ye(t,e,null,n,u,fr,null,hr),l.push(e),t}function Ye(e,t,n,r,i,a,o,s){e.allPendingTasks++,n===null?e.pendingRootTasks++:n.pendingTasks++;
+var c={node:t,ping:function(){var t=e.pingedTasks;
+t.push(c),t.length===1&&lt(e)},blockedBoundary:n,blockedSegment:r,abortSet:i,legacyContext:a,context:o,treeContext:s};
+return i.add(c),c}function Xe(e,t,n,r,i,a){return{status:0,id:-1,index:t,parentFlushed:!1,chunks:[],children:[],formatContext:r,boundary:n,lastPushedText:i,textEmbedded:a}}function Ze(e,t){if(e=e.onError(t),e!=null&&typeof e!=`string`)throw Error(`onError returned something with a type other than "string". onError should return a string and may return null or undefined but must not return anything else. It received something of type "`+typeof e+`" instead`);
+return e}function Qe(e,t){var n=e.onShellError;
+n(t),n=e.onFatalError,n(t),e.destination===null?(e.status=1,e.fatalError=t):(e.status=2,e.destination.destroy(t))}function $e(e,t,n,r,i){for(br={},xr=t,Tr=0,e=n(r,i);
+wr;
+)wr=!1,Tr=0,Dr+=1,q=null,e=n(r,i);
+return ze(),e}function et(e,t,n,r){var i=n.render(),a=r.childContextTypes;
+if(a!=null){var o=t.legacyContext;
+if(typeof n.getChildContext!=`function`)r=o;
+else{for(var s in n=n.getChildContext(),n)if(!(s in a))throw Error(C(108,we(r)||`Unknown`,s));
+r=Jn({},o,n)}t.legacyContext=r,N(e,t,i),t.legacyContext=o}else N(e,t,i)}function tt(e,t){if(e&&e.defaultProps){for(var n in t=Jn({},t),e=e.defaultProps,e)t[n]===void 0&&(t[n]=e[n]);
+return t}return t}function nt(e,t,n,r,i){if(typeof n==`function`)if(n.prototype&&n.prototype.isReactComponent){i=Te(n,t.legacyContext);
+var a=n.contextType;
+a=new n(r,typeof a==`object`&&a?a._currentValue2:i),Me(a,n,r,i),et(e,t,a,n)}else{a=Te(n,t.legacyContext),i=$e(e,t,n,r,a);
+var o=Tr!==0;
+if(typeof i==`object`&&i&&typeof i.render==`function`&&i.$$typeof===void 0)Me(i,n,r,a),et(e,t,i,n);
+else if(o){r=t.treeContext,t.treeContext=Ne(r,1,0);
+try{N(e,t,i)}finally{t.treeContext=r}}else N(e,t,i)}else{if(typeof n!=`string`){switch(n){case lr:case cr:case Qn:case $n:case Zn:N(e,t,r.children);
+return;
+case ir:N(e,t,r.children);
+return;
+case sr:throw Error(C(343));
+case rr:e:{n=t.blockedBoundary,i=t.blockedSegment,a=r.fallback,r=r.children,o=new Set;
+var s={id:null,rootSegmentID:-1,parentFlushed:!1,pendingTasks:0,forceClientRender:!1,completedSegments:[],byteSize:0,fallbackAbortableTasks:o,errorDigest:null},c=Xe(e,i.chunks.length,s,i.formatContext,!1,!1);
+i.children.push(c),i.lastPushedText=!1;
+var l=Xe(e,0,null,i.formatContext,!1,!1);
+l.parentFlushed=!0,t.blockedBoundary=s,t.blockedSegment=l;
+try{if(it(e,t,r),e.responseState.generateStaticMarkup||l.lastPushedText&&l.textEmbedded&&l.chunks.push(`<!-- -->`),l.status=1,st(s,l),s.pendingTasks===0)break e}catch(t){l.status=4,s.forceClientRender=!0,s.errorDigest=Ze(e,t)}finally{t.blockedBoundary=n,t.blockedSegment=i}t=Ye(e,a,n,c,o,t.legacyContext,t.context,t.treeContext),e.pingedTasks.push(t)}return}if(typeof n==`object`&&n)switch(n.$$typeof){case nr:if(r=$e(e,t,n.render,r,i),Tr!==0){n=t.treeContext,t.treeContext=Ne(n,1,0);
+try{N(e,t,r)}finally{t.treeContext=n}}else N(e,t,r);
+return;
+case ar:n=n.type,r=tt(n,r),nt(e,t,n,r,i);
+return;
+case er:if(i=r.children,n=n._context,r=r.value,a=n._currentValue2,n._currentValue2=r,o=pr,pr=r={parent:o,depth:o===null?0:o.depth+1,context:n,parentValue:a,value:r},t.context=r,N(e,t,i),e=pr,e===null)throw Error(C(403));
+r=e.parentValue,e.context._currentValue2=r===ur?e.context._defaultValue:r,e=pr=e.parent,t.context=e;
+return;
+case tr:r=r.children,r=r(n._currentValue2),N(e,t,r);
+return;
+case or:i=n._init,n=i(n._payload),r=tt(n,r),nt(e,t,n,r,void 0);
+return}throw Error(C(130,n==null?n:typeof n,``))}switch(i=t.blockedSegment,a=A(i.chunks,n,r,e.responseState,i.formatContext),i.lastPushedText=!1,o=i.formatContext,i.formatContext=he(o,n,r),it(e,t,a),i.formatContext=o,n){case`area`:case`base`:case`br`:case`col`:case`embed`:case`hr`:case`img`:case`input`:case`keygen`:case`link`:case`meta`:case`param`:case`source`:case`track`:case`wbr`:break;
+default:i.chunks.push(`</`,n,`>`)}i.lastPushedText=!1}}function N(e,t,n){if(t.node=n,typeof n==`object`&&n){switch(n.$$typeof){case Yn:nt(e,t,n.type,n.props,n.ref);
+return;
+case Xn:throw Error(C(257));
+case or:var r=n._init;
+n=r(n._payload),N(e,t,n);
+return}if(Un(n)){rt(e,t,n);
+return}if(typeof n!=`object`||!n?r=null:(r=dr&&n[dr]||n[`@@iterator`],r=typeof r==`function`?r:null),r&&=r.call(n)){if(n=r.next(),!n.done){var i=[];
+do i.push(n.value),n=r.next();
+while(!n.done);
+rt(e,t,i)}return}throw e=Object.prototype.toString.call(n),Error(C(31,e===`[object Object]`?`object with keys {`+Object.keys(n).join(`, `)+`}`:e))}typeof n==`string`?(r=t.blockedSegment,r.lastPushedText=Ce(t.blockedSegment.chunks,n,e.responseState,r.lastPushedText)):typeof n==`number`&&(r=t.blockedSegment,r.lastPushedText=Ce(t.blockedSegment.chunks,``+n,e.responseState,r.lastPushedText))}function rt(e,t,n){for(var r=n.length,i=0;
+i<r;
+i++){var a=t.treeContext;
+t.treeContext=Ne(a,r,i);
+try{it(e,t,n[i])}finally{t.treeContext=a}}}function it(e,t,n){var r=t.blockedSegment.formatContext,i=t.legacyContext,a=t.context;
+try{return N(e,t,n)}catch(c){if(ze(),typeof c!=`object`||!c||typeof c.then!=`function`)throw t.blockedSegment.formatContext=r,t.legacyContext=i,t.context=a,je(a),c;
+n=c;
+var o=t.blockedSegment,s=Xe(e,o.chunks.length,null,o.formatContext,o.lastPushedText,!0);
+o.children.push(s),o.lastPushedText=!1,e=Ye(e,t.node,t.blockedBoundary,s,t.abortSet,t.legacyContext,t.context,t.treeContext).ping,n.then(e,e),t.blockedSegment.formatContext=r,t.legacyContext=i,t.context=a,je(a)}}function at(e){var t=e.blockedBoundary;
+e=e.blockedSegment,e.status=3,ct(this,t,e)}function ot(e,t,n){var r=e.blockedBoundary;
+e.blockedSegment.status=3,r===null?(t.allPendingTasks--,t.status!==2&&(t.status=2,t.destination!==null&&t.destination.push(null))):(r.pendingTasks--,r.forceClientRender||(r.forceClientRender=!0,e=n===void 0?Error(C(432)):n,r.errorDigest=t.onError(e),r.parentFlushed&&t.clientRenderedBoundaries.push(r)),r.fallbackAbortableTasks.forEach((function(e){return ot(e,t,n)})),r.fallbackAbortableTasks.clear(),t.allPendingTasks--,t.allPendingTasks===0&&(r=t.onAllReady,r()))}function st(e,t){if(t.chunks.length===0&&t.children.length===1&&t.children[0].boundary===null){var n=t.children[0];
+n.id=t.id,n.parentFlushed=!0,n.status===1&&st(e,n)}else e.completedSegments.push(t)}function ct(e,t,n){if(t===null){if(n.parentFlushed){if(e.completedRootSegment!==null)throw Error(C(389));
+e.completedRootSegment=n}e.pendingRootTasks--,e.pendingRootTasks===0&&(e.onShellError=qe,t=e.onShellReady,t())}else t.pendingTasks--,t.forceClientRender||(t.pendingTasks===0?(n.parentFlushed&&n.status===1&&st(t,n),t.parentFlushed&&e.completedBoundaries.push(t),t.fallbackAbortableTasks.forEach(at,e),t.fallbackAbortableTasks.clear()):n.parentFlushed&&n.status===1&&(st(t,n),t.completedSegments.length===1&&t.parentFlushed&&e.partialBoundaries.push(t)));
+e.allPendingTasks--,e.allPendingTasks===0&&(e=e.onAllReady,e())}function lt(e){if(e.status!==2){var t=pr,n=Ar.current;
+Ar.current=Or;
+var r=kr;
+kr=e.responseState;
+try{var i,a=e.pingedTasks;
+for(i=0;
+i<a.length;
+i++){var o=a[i],s=e,c=o.blockedSegment;
+if(c.status===0){je(o.context);
+try{N(s,o,o.node),s.responseState.generateStaticMarkup||c.lastPushedText&&c.textEmbedded&&c.chunks.push(`<!-- -->`),o.abortSet.delete(o),c.status=1,ct(s,o.blockedBoundary,c)}catch(e){if(ze(),typeof e==`object`&&e&&typeof e.then==`function`){var l=o.ping;
+e.then(l,l)}else{o.abortSet.delete(o),c.status=4;
+var u=o.blockedBoundary,d=e,f=Ze(s,d);
+if(u===null?Qe(s,d):(u.pendingTasks--,u.forceClientRender||(u.forceClientRender=!0,u.errorDigest=f,u.parentFlushed&&s.clientRenderedBoundaries.push(u))),s.allPendingTasks--,s.allPendingTasks===0){var p=s.onAllReady;
+p()}}}}}a.splice(0,i),e.destination!==null&&ht(e,e.destination)}catch(t){Ze(e,t),Qe(e,t)}finally{kr=r,Ar.current=n,n===Or&&je(t)}}}function ut(e,t,n){switch(n.parentFlushed=!0,n.status){case 0:var r=n.id=e.nextSegmentId++;
+return n.lastPushedText=!1,n.textEmbedded=!1,e=e.responseState,t.push(`<template id="`),t.push(e.placeholderPrefix),e=r.toString(16),t.push(e),t.push(`"></template>`);
+case 1:n.status=2;
+var i=!0;
+r=n.chunks;
+var a=0;
+n=n.children;
+for(var o=0;
+o<n.length;
+o++){for(i=n[o];
+a<i.index;
+a++)t.push(r[a]);
+i=dt(e,t,i)}for(;
+a<r.length-1;
+a++)t.push(r[a]);
+return a<r.length&&(i=t.push(r[a])),i;
+default:throw Error(C(390))}}function dt(e,t,n){var r=n.boundary;
+if(r===null)return ut(e,t,n);
+if(r.parentFlushed=!0,r.forceClientRender)return e.responseState.generateStaticMarkup||(r=r.errorDigest,t.push(`<!--$!-->`),t.push(`<template`),r&&(t.push(` data-dgst="`),r=E(r),t.push(r),t.push(`"`)),t.push(`></template>`)),ut(e,t,n),e=!!e.responseState.generateStaticMarkup||t.push(`<!--/$-->`),e;
+if(0<r.pendingTasks){r.rootSegmentID=e.nextSegmentId++,0<r.completedSegments.length&&e.partialBoundaries.push(r);
+var i=e.responseState,a=i.nextSuspenseID++;
+return i=i.boundaryPrefix+a.toString(16),r=r.id=i,be(t,e.responseState,r),ut(e,t,n),t.push(`<!--/$-->`)}if(r.byteSize>e.progressiveChunkSize)return r.rootSegmentID=e.nextSegmentId++,e.completedBoundaries.push(r),be(t,e.responseState,r.id),ut(e,t,n),t.push(`<!--/$-->`);
+if(e.responseState.generateStaticMarkup||t.push(`<!--$-->`),n=r.completedSegments,n.length!==1)throw Error(C(391));
+return dt(e,t,n[0]),e=!!e.responseState.generateStaticMarkup||t.push(`<!--/$-->`),e}function ft(e,t,n){return xe(t,e.responseState,n.formatContext,n.id),dt(e,t,n),Se(t,n.formatContext)}function pt(e,t,n){for(var r=n.completedSegments,i=0;
+i<r.length;
+i++)mt(e,t,n,r[i]);
+if(r.length=0,e=e.responseState,r=n.id,n=n.rootSegmentID,t.push(e.startInlineScript),e.sentCompleteBoundaryFunction?t.push(`$RC("`):(e.sentCompleteBoundaryFunction=!0,t.push(`function $RC(a,b){a=document.getElementById(a);
+b=document.getElementById(b);
+b.parentNode.removeChild(b);
+if(a){a=a.previousSibling;
+var f=a.parentNode,c=a.nextSibling,e=0;
+do{if(c&&8===c.nodeType){var d=c.data;
+if("/$"===d)if(0===e)break;
+else e--;
+else"$"!==d&&"$?"!==d&&"$!"!==d||e++}d=c.nextSibling;
+f.removeChild(c);
+c=d}while(c);
+for(;
+b.firstChild;
+)f.insertBefore(b.firstChild,c);
+a.data="$";
+a._reactRetry&&a._reactRetry()}};
+$RC("`)),r===null)throw Error(C(395));
+return n=n.toString(16),t.push(r),t.push(`","`),t.push(e.segmentPrefix),t.push(n),t.push(`")<\/script>`)}function mt(e,t,n,r){if(r.status===2)return!0;
+var i=r.id;
+if(i===-1){if((r.id=n.rootSegmentID)===-1)throw Error(C(392));
+return ft(e,t,r)}return ft(e,t,r),e=e.responseState,t.push(e.startInlineScript),e.sentCompleteSegmentFunction?t.push(`$RS("`):(e.sentCompleteSegmentFunction=!0,t.push(`function $RS(a,b){a=document.getElementById(a);
+b=document.getElementById(b);
+for(a.parentNode.removeChild(a);
+a.firstChild;
+)b.parentNode.insertBefore(a.firstChild,b);
+b.parentNode.removeChild(b)};
+$RS("`)),t.push(e.segmentPrefix),i=i.toString(16),t.push(i),t.push(`","`),t.push(e.placeholderPrefix),t.push(i),t.push(`")<\/script>`)}function ht(e,t){try{var n=e.completedRootSegment;
+if(n!==null&&e.pendingRootTasks===0){dt(e,t,n),e.completedRootSegment=null;
+var r=e.responseState.bootstrapChunks;
+for(n=0;
+n<r.length-1;
+n++)t.push(r[n]);
+n<r.length&&t.push(r[n])}var i,a=e.clientRenderedBoundaries;
+for(i=0;
+i<a.length;
+i++){var o=a[i];
+r=t;
+var s=e.responseState,c=o.id,l=o.errorDigest,u=o.errorMessage,d=o.errorComponentStack;
+if(r.push(s.startInlineScript),s.sentClientRenderFunction?r.push(`$RX("`):(s.sentClientRenderFunction=!0,r.push(`function $RX(b,c,d,e){var a=document.getElementById(b);
+a&&(b=a.previousSibling,b.data="$!",a=a.dataset,c&&(a.dgst=c),d&&(a.msg=d),e&&(a.stck=e),b._reactRetry&&b._reactRetry())};
+$RX("`)),c===null)throw Error(C(395));
+if(r.push(c),r.push(`"`),l||u||d){r.push(`,`);
+var f=j(l||``);
+r.push(f)}if(u||d){r.push(`,`);
+var p=j(u||``);
+r.push(p)}if(d){r.push(`,`);
+var m=j(d);
+r.push(m)}if(!r.push(`)<\/script>`)){e.destination=null,i++,a.splice(0,i);
+return}}a.splice(0,i);
+var ee=e.completedBoundaries;
+for(i=0;
+i<ee.length;
+i++)if(!pt(e,t,ee[i])){e.destination=null,i++,ee.splice(0,i);
+return}ee.splice(0,i);
+var h=e.partialBoundaries;
+for(i=0;
+i<h.length;
+i++){var te=h[i];
+e:{a=e,o=t;
+var g=te.completedSegments;
+for(s=0;
+s<g.length;
+s++)if(!mt(a,o,te,g[s])){s++,g.splice(0,s);
+var _=!1;
+break e}g.splice(0,s),_=!0}if(!_){e.destination=null,i++,h.splice(0,i);
+return}}h.splice(0,i);
+var v=e.completedBoundaries;
+for(i=0;
+i<v.length;
+i++)if(!pt(e,t,v[i])){e.destination=null,i++,v.splice(0,i);
+return}v.splice(0,i)}finally{e.allPendingTasks===0&&e.pingedTasks.length===0&&e.clientRenderedBoundaries.length===0&&e.completedBoundaries.length===0&&t.push(null)}}function gt(e,t){try{var n=e.abortableTasks;
+n.forEach((function(n){return ot(n,e,t)})),n.clear(),e.destination!==null&&ht(e,e.destination)}catch(t){Ze(e,t),Qe(e,t)}}function _t(){}function vt(e,t,n,r){var i=!1,a=null,o=``,s={push:function(e){return e!==null&&(o+=e),!0},destroy:function(e){i=!0,a=e}},c=!1;
+if(e=Je(e,M(n,t?t.identifierPrefix:void 0),{insertionMode:1,selectedValue:null},1/0,_t,void 0,(function(){c=!0}),void 0,void 0),lt(e),gt(e,r),e.status===1)e.status=2,s.destroy(e.fatalError);
+else if(e.status!==2&&e.destination===null){e.destination=s;
+try{ht(e,s)}catch(t){Ze(e,t),Qe(e,t)}}if(i)throw a;
+if(!c)throw Error(C(426));
+return o}function P(e){for(var t=`https://reactjs.org/docs/error-decoder.html?invariant=`+e,n=1;
+n<arguments.length;
+n++)t+=`&args[]=`+encodeURIComponent(arguments[n]);
+return`Minified React error #`+e+`;
+ visit `+t+` for the full message or use the non-minified dev environment for full errors and additional helpful warnings.`}function F(e,t){if(t.length!==0)if(512<t.length)0<Y&&(e.enqueue(new Uint8Array(J.buffer,0,Y)),J=new Uint8Array(512),Y=0),e.enqueue(t);
+else{var n=J.length-Y;
+n<t.length&&(n===0?e.enqueue(J):(J.set(t.subarray(0,n),Y),e.enqueue(J),t=t.subarray(n)),J=new Uint8Array(512),Y=0),J.set(t,Y),Y+=t.length}}function I(e,t){return F(e,t),!0}function yt(e){J&&0<Y&&(e.enqueue(new Uint8Array(J.buffer,0,Y)),J=null,Y=0)}function L(e){return Pr.encode(e)}function R(e){return Pr.encode(e)}function bt(e,t){typeof e.error==`function`?e.error(t):e.close()}function xt(e){return X.call(Lr,e)?!0:X.call(Ir,e)?!1:Fr.test(e)?Lr[e]=!0:(Ir[e]=!0,!1)}function z(e,t,n,r,i,a,o){this.acceptsBooleans=t===2||t===3||t===4,this.attributeName=r,this.attributeNamespace=i,this.mustUseProperty=n,this.propertyName=e,this.type=t,this.sanitizeURL=a,this.removeEmptyString=o}function St(e){return e[1].toUpperCase()}function B(e){if(typeof e==`boolean`||typeof e==`number`)return``+e;
+e=``+e;
+var t=Vr.exec(e);
+if(t){var n,r=``,i=0;
+for(n=t.index;
+n<e.length;
+n++){switch(e.charCodeAt(n)){case 34:t=`&quot;
+`;
+break;
+case 38:t=`&amp;
+`;
+break;
+case 39:t=`&#x27;
+`;
+break;
+case 60:t=`&lt;
+`;
+break;
+case 62:t=`&gt;
+`;
+break;
+default:continue}i!==n&&(r+=e.substring(i,n)),i=n+1,r+=t}e=i===n?r:r+e.substring(i,n)}return e}function Ct(e,t,n,r){return t+(n===`s`?`\\u0073`:`\\u0053`)+r}function wt(e,t,n,r,i){e=e===void 0?``:e,t=t===void 0?Gr:R(`<script nonce="`+B(t)+`">`);
+var a=[];
+if(n!==void 0&&a.push(t,L((``+n).replace(Xr,Ct)),Kr),r!==void 0)for(n=0;
+n<r.length;
+n++)a.push(qr,L(B(r[n])),Yr);
+if(i!==void 0)for(r=0;
+r<i.length;
+r++)a.push(Jr,L(B(i[r])),Yr);
+return{bootstrapChunks:a,startInlineScript:t,placeholderPrefix:R(e+`P:`),segmentPrefix:R(e+`S:`),boundaryPrefix:e+`B:`,idPrefix:e,nextSuspenseID:0,sentCompleteSegmentFunction:!1,sentCompleteBoundaryFunction:!1,sentClientRenderFunction:!1}}function V(e,t){return{insertionMode:e,selectedValue:t}}function Tt(e){return V(e===`http://www.w3.org/2000/svg`?2:e===`http://www.w3.org/1998/Math/MathML`?3:0,null)}function Et(e,t,n){switch(t){case`select`:return V(1,n.value==null?n.defaultValue:n.value);
+case`svg`:return V(2,null);
+case`math`:return V(3,null);
+case`foreignObject`:return V(1,null);
+case`table`:return V(4,null);
+case`thead`:case`tbody`:case`tfoot`:return V(5,null);
+case`colgroup`:return V(7,null);
+case`tr`:return V(6,null)}return 4<=e.insertionMode||e.insertionMode===0?V(1,null):e}function Dt(e,t,n,r){return t===``?r:(r&&e.push(Zr),e.push(L(B(t))),!0)}function Ot(e,t,n){if(typeof n!=`object`)throw Error(P(62));
+for(var r in t=!0,n)if(X.call(n,r)){var i=n[r];
+if(i!=null&&typeof i!=`boolean`&&i!==``){if(r.indexOf(`--`)===0){var a=L(B(r));
+i=L(B((``+i).trim()))}else{a=r;
+var o=Qr.get(a);
+o!==void 0||(o=R(B(a.replace(Hr,`-$1`).toLowerCase().replace(Ur,`-ms-`))),Qr.set(a,o)),a=o,i=typeof i==`number`?i===0||X.call(zr,r)?L(``+i):L(i+`px`):L(B((``+i).trim()))}t?(t=!1,e.push($r,a,ei,i)):e.push(ti,a,ei,i)}}t||e.push(ii)}function H(e,t,n,r){switch(n){case`style`:Ot(e,t,r);
+return;
+case`defaultValue`:case`defaultChecked`:case`innerHTML`:case`suppressContentEditableWarning`:case`suppressHydrationWarning`:return}if(!(2<n.length)||n[0]!==`o`&&n[0]!==`O`||n[1]!==`n`&&n[1]!==`N`){if(t=Z.hasOwnProperty(n)?Z[n]:null,t!==null){switch(typeof r){case`function`:case`symbol`:return;
+case`boolean`:if(!t.acceptsBooleans)return}switch(n=L(t.attributeName),t.type){case 3:r&&e.push(ni,n,ai);
+break;
+case 4:!0===r?e.push(ni,n,ai):!1!==r&&e.push(ni,n,ri,L(B(r)),ii);
+break;
+case 5:isNaN(r)||e.push(ni,n,ri,L(B(r)),ii);
+break;
+case 6:!isNaN(r)&&1<=r&&e.push(ni,n,ri,L(B(r)),ii);
+break;
+default:t.sanitizeURL&&(r=``+r),e.push(ni,n,ri,L(B(r)),ii)}}else if(xt(n)){switch(typeof r){case`function`:case`symbol`:return;
+case`boolean`:if(t=n.toLowerCase().slice(0,5),t!==`data-`&&t!==`aria-`)return}e.push(ni,L(n),ri,L(B(r)),ii)}}}function kt(e,t,n){if(t!=null){if(n!=null)throw Error(P(60));
+if(typeof t!=`object`||!(`__html`in t))throw Error(P(61));
+t=t.__html,t!=null&&e.push(L(``+t))}}function At(e){var t=``;
+return Nr.Children.forEach(e,(function(e){e!=null&&(t+=e)})),t}function jt(e,t,n,r){e.push(U(n));
+var i,a=n=null;
+for(i in t)if(X.call(t,i)){var o=t[i];
+if(o!=null)switch(i){case`children`:n=o;
+break;
+case`dangerouslySetInnerHTML`:a=o;
+break;
+default:H(e,r,i,o)}}return e.push(oi),kt(e,a,n),typeof n==`string`?(e.push(L(B(n))),null):n}function U(e){var t=di.get(e);
+if(t===void 0){if(!ui.test(e))throw Error(P(65,e));
+t=R(`<`+e),di.set(e,t)}return t}function Mt(e,t,n,r,i){switch(t){case`select`:e.push(U(`select`));
+var a=null,o=null;
+for(u in n)if(X.call(n,u)){var s=n[u];
+if(s!=null)switch(u){case`children`:a=s;
+break;
+case`dangerouslySetInnerHTML`:o=s;
+break;
+case`defaultValue`:case`value`:break;
+default:H(e,r,u,s)}}return e.push(oi),kt(e,o,a),a;
+case`option`:o=i.selectedValue,e.push(U(`option`));
+var c=s=null,l=null,u=null;
+for(a in n)if(X.call(n,a)){var d=n[a];
+if(d!=null)switch(a){case`children`:s=d;
+break;
+case`selected`:l=d;
+break;
+case`dangerouslySetInnerHTML`:u=d;
+break;
+case`value`:c=d;
+default:H(e,r,a,d)}}if(o!=null)if(n=c===null?At(s):``+c,Wr(o)){for(r=0;
+r<o.length;
+r++)if(``+o[r]===n){e.push(ci);
+break}}else``+o===n&&e.push(ci);
+else l&&e.push(ci);
+return e.push(oi),kt(e,u,s),s;
+case`textarea`:for(s in e.push(U(`textarea`)),u=o=a=null,n)if(X.call(n,s)&&(c=n[s],c!=null))switch(s){case`children`:u=c;
+break;
+case`value`:a=c;
+break;
+case`defaultValue`:o=c;
+break;
+case`dangerouslySetInnerHTML`:throw Error(P(91));
+default:H(e,r,s,c)}if(a===null&&o!==null&&(a=o),e.push(oi),u!=null){if(a!=null)throw Error(P(92));
+if(Wr(u)&&1<u.length)throw Error(P(93));
+a=``+u}return typeof a==`string`&&a[0]===`
+`&&e.push(li),a!==null&&e.push(L(B(``+a))),null;
+case`input`:for(o in e.push(U(`input`)),c=u=s=a=null,n)if(X.call(n,o)&&(l=n[o],l!=null))switch(o){case`children`:case`dangerouslySetInnerHTML`:throw Error(P(399,`input`));
+case`defaultChecked`:c=l;
+break;
+case`defaultValue`:s=l;
+break;
+case`checked`:u=l;
+break;
+case`value`:a=l;
+break;
+default:H(e,r,o,l)}return u===null?c!==null&&H(e,r,`checked`,c):H(e,r,`checked`,u),a===null?s!==null&&H(e,r,`value`,s):H(e,r,`value`,a),e.push(si),null;
+case`menuitem`:for(var f in e.push(U(`menuitem`)),n)if(X.call(n,f)&&(a=n[f],a!=null))switch(f){case`children`:case`dangerouslySetInnerHTML`:throw Error(P(400));
+default:H(e,r,f,a)}return e.push(oi),null;
+case`title`:for(d in e.push(U(`title`)),a=null,n)if(X.call(n,d)&&(o=n[d],o!=null))switch(d){case`children`:a=o;
+break;
+case`dangerouslySetInnerHTML`:throw Error(P(434));
+default:H(e,r,d,o)}return e.push(oi),a;
+case`listing`:case`pre`:for(c in e.push(U(t)),o=a=null,n)if(X.call(n,c)&&(s=n[c],s!=null))switch(c){case`children`:a=s;
+break;
+case`dangerouslySetInnerHTML`:o=s;
+break;
+default:H(e,r,c,s)}if(e.push(oi),o!=null){if(a!=null)throw Error(P(60));
+if(typeof o!=`object`||!(`__html`in o))throw Error(P(61));
+n=o.__html,n!=null&&(typeof n==`string`&&0<n.length&&n[0]===`
+`?e.push(li,L(n)):e.push(L(``+n)))}return typeof a==`string`&&a[0]===`
+`&&e.push(li),a;
+case`area`:case`base`:case`br`:case`col`:case`embed`:case`hr`:case`img`:case`keygen`:case`link`:case`meta`:case`param`:case`source`:case`track`:case`wbr`:for(var p in e.push(U(t)),n)if(X.call(n,p)&&(a=n[p],a!=null))switch(p){case`children`:case`dangerouslySetInnerHTML`:throw Error(P(399,t));
+default:H(e,r,p,a)}return e.push(si),null;
+case`annotation-xml`:case`color-profile`:case`font-face`:case`font-face-src`:case`font-face-uri`:case`font-face-format`:case`font-face-name`:case`missing-glyph`:return jt(e,n,t,r);
+case`html`:return i.insertionMode===0&&e.push(fi),jt(e,n,t,r);
+default:if(t.indexOf(`-`)===-1&&typeof n.is!=`string`)return jt(e,n,t,r);
+for(l in e.push(U(t)),o=a=null,n)if(X.call(n,l)&&(s=n[l],s!=null))switch(l){case`children`:a=s;
+break;
+case`dangerouslySetInnerHTML`:o=s;
+break;
+case`style`:Ot(e,r,s);
+break;
+case`suppressContentEditableWarning`:case`suppressHydrationWarning`:break;
+default:xt(l)&&typeof s!=`function`&&typeof s!=`symbol`&&e.push(ni,L(l),ri,L(B(s)),ii)}return e.push(oi),kt(e,o,a),a}}function Nt(e,t,n){if(F(e,vi),n===null)throw Error(P(395));
+return F(e,n),I(e,yi)}function Pt(e,t,n,r){switch(n.insertionMode){case 0:case 1:return F(e,Ei),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,Di);
+case 2:return F(e,ki),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,Ai);
+case 3:return F(e,Mi),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,Ni);
+case 4:return F(e,Fi),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,Ii);
+case 5:return F(e,Ri),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,zi);
+case 6:return F(e,Vi),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,Hi);
+case 7:return F(e,Wi),F(e,t.segmentPrefix),F(e,L(r.toString(16))),I(e,Gi);
+default:throw Error(P(397))}}function Ft(e,t){switch(t.insertionMode){case 0:case 1:return I(e,Oi);
+case 2:return I(e,ji);
+case 3:return I(e,Pi);
+case 4:return I(e,Li);
+case 5:return I(e,Bi);
+case 6:return I(e,Ui);
+case 7:return I(e,Ki);
+default:throw Error(P(397))}}function It(e){return JSON.stringify(e).replace(oa,(function(e){switch(e){case`<`:return`\\u003c`;
+case`\u2028`:return`\\u2028`;
+case`\u2029`:return`\\u2029`;
+default:throw Error(`escapeJSStringsForInstructionScripts encountered a match it does not know how to replace. this means the match regex and the replacement characters are no longer in sync. This is a bug in React`)}}))}function Lt(e){if(e==null)return null;
+if(typeof e==`function`)return e.displayName||e.name||null;
+if(typeof e==`string`)return e;
+switch(e){case ua:return`Fragment`;
+case la:return`Portal`;
+case fa:return`Profiler`;
+case da:return`StrictMode`;
+case ga:return`Suspense`;
+case _a:return`SuspenseList`}if(typeof e==`object`)switch(e.$$typeof){case ma:return(e.displayName||`Context`)+`.Consumer`;
+case pa:return(e._context.displayName||`Context`)+`.Provider`;
+case ha:var t=e.render;
+return e=e.displayName,e||=(e=t.displayName||t.name||``,e===``?`ForwardRef`:`ForwardRef(`+e+`)`),e;
+case va:return t=e.displayName||null,t===null?Lt(e.type)||`Memo`:t;
+case ya:t=e._payload,e=e._init;
+try{return Lt(e(t))}catch{}}return null}function Rt(e,t){if(e=e.contextTypes,!e)return Ta;
+var n,r={};
+for(n in e)r[n]=t[n];
+return r}function zt(e,t){if(e!==t){e.context._currentValue=e.parentValue,e=e.parent;
+var n=t.parent;
+if(e===null){if(n!==null)throw Error(P(401))}else{if(n===null)throw Error(P(401));
+zt(e,n)}t.context._currentValue=t.value}}function Bt(e){e.context._currentValue=e.parentValue,e=e.parent,e!==null&&Bt(e)}function Vt(e){var t=e.parent;
+t!==null&&Vt(t),e.context._currentValue=e.value}function Ht(e,t){if(e.context._currentValue=e.parentValue,e=e.parent,e===null)throw Error(P(402));
+e.depth===t.depth?zt(e,t):Ht(e,t)}function Ut(e,t){var n=t.parent;
+if(n===null)throw Error(P(402));
+e.depth===n.depth?zt(e,n):Ut(e,n),t.context._currentValue=t.value}function Wt(e){var t=Ea;
+t!==e&&(t===null?Vt(e):e===null?Bt(t):t.depth===e.depth?zt(t,e):t.depth>e.depth?Ht(t,e):Ut(t,e),Ea=e)}function Gt(e,t,n,r){var i=e.state===void 0?null:e.state;
+e.updater=Da,e.props=n,e.state=i;
+var a={queue:[],replace:!1};
+e._reactInternals=a;
+var o=t.contextType;
+if(e.context=typeof o==`object`&&o?o._currentValue:r,o=t.getDerivedStateFromProps,typeof o==`function`&&(o=o(n,i),i=o==null?i:sa({},i,o),e.state=i),typeof t.getDerivedStateFromProps!=`function`&&typeof e.getSnapshotBeforeUpdate!=`function`&&(typeof e.UNSAFE_componentWillMount==`function`||typeof e.componentWillMount==`function`))if(t=e.state,typeof e.componentWillMount==`function`&&e.componentWillMount(),typeof e.UNSAFE_componentWillMount==`function`&&e.UNSAFE_componentWillMount(),t!==e.state&&Da.enqueueReplaceState(e,e.state,null),a.queue!==null&&0<a.queue.length)if(t=a.queue,o=a.replace,a.queue=null,a.replace=!1,o&&t.length===1)e.state=t[0];
+else{for(a=o?t[0]:e.state,i=!0,o=+!!o;
+o<t.length;
+o++){var s=t[o];
+s=typeof s==`function`?s.call(e,a,n,r):s,s!=null&&(i?(i=!1,a=sa({},a,s)):sa(a,s))}e.state=a}else a.queue=null}function Kt(e,t,n){var r=e.id;
+e=e.overflow;
+var i=32-ka(r)-1;
+r&=~(1<<i),n+=1;
+var a=32-ka(t)+i;
+if(30<a){var o=i-i%5;
+return a=(r&(1<<o)-1).toString(32),r>>=o,i-=o,{id:1<<32-ka(t)+i|n<<i|r,overflow:a+e}}return{id:1<<a|n<<i|r,overflow:e}}function qt(e){return e>>>=0,e===0?32:31-(Aa(e)/ja|0)|0}function Jt(e,t){return e===t&&(e!==0||1/e==1/t)||e!==e&&t!==t}function Yt(){if(Na===null)throw Error(P(321));
+return Na}function Xt(){if(0<Ba)throw Error(P(312));
+return{memoizedState:null,queue:null,next:null}}function Zt(){return Q===null?Fa===null?(Ia=!1,Fa=Q=Xt()):(Ia=!0,Q=Fa):Q.next===null?(Ia=!1,Q=Q.next=Xt()):(Ia=!0,Q=Q.next),Q}function Qt(){Pa=Na=null,La=!1,Fa=null,Ba=0,Q=za=null}function $t(e,t){return typeof t==`function`?t(e):t}function en(e,t,n){if(Na=Yt(),Q=Zt(),Ia){var r=Q.queue;
+if(t=r.dispatch,za!==null&&(n=za.get(r),n!==void 0)){za.delete(r),r=Q.memoizedState;
+do r=e(r,n.action),n=n.next;
+while(n!==null);
+return Q.memoizedState=r,[r,t]}return[Q.memoizedState,t]}return e=e===$t?typeof t==`function`?t():t:n===void 0?t:n(t),Q.memoizedState=e,e=Q.queue={last:null,dispatch:null},e=e.dispatch=nn.bind(null,Na,e),[Q.memoizedState,e]}function tn(e,t){if(Na=Yt(),Q=Zt(),t=t===void 0?null:t,Q!==null){var n=Q.memoizedState;
+if(n!==null&&t!==null){var r=n[1];
+e:if(r===null)r=!1;
+else{for(var i=0;
+i<r.length&&i<t.length;
+i++)if(!Ma(t[i],r[i])){r=!1;
+break e}r=!0}if(r)return n[0]}}return e=e(),Q.memoizedState=[e,t],e}function nn(e,t,n){if(25<=Ba)throw Error(P(301));
+if(e===Na)if(La=!0,e={action:n,next:null},za===null&&(za=new Map),n=za.get(t),n===void 0)za.set(t,e);
+else{for(t=n;
+t.next!==null;
+)t=t.next;
+t.next=e}}function rn(){throw Error(P(394))}function an(){}function on(e){return console.error(e),null}function sn(){}function cn(e,t,n,r,i,a,o,s,c){var l=[],u=new Set;
+return t={destination:null,responseState:t,progressiveChunkSize:r===void 0?12800:r,status:0,fatalError:null,nextSegmentId:0,allPendingTasks:0,pendingRootTasks:0,completedRootSegment:null,abortableTasks:u,pingedTasks:l,clientRenderedBoundaries:[],completedBoundaries:[],partialBoundaries:[],onError:i===void 0?on:i,onAllReady:a===void 0?sn:a,onShellReady:o===void 0?sn:o,onShellError:s===void 0?sn:s,onFatalError:c===void 0?sn:c},n=un(t,0,null,n,!1,!1),n.parentFlushed=!0,e=ln(t,e,null,n,u,Ta,null,Oa),l.push(e),t}function ln(e,t,n,r,i,a,o,s){e.allPendingTasks++,n===null?e.pendingRootTasks++:n.pendingTasks++;
+var c={node:t,ping:function(){var t=e.pingedTasks;
+t.push(c),t.length===1&&Cn(e)},blockedBoundary:n,blockedSegment:r,abortSet:i,legacyContext:a,context:o,treeContext:s};
+return i.add(c),c}function un(e,t,n,r,i,a){return{status:0,id:-1,index:t,parentFlushed:!1,chunks:[],children:[],formatContext:r,boundary:n,lastPushedText:i,textEmbedded:a}}function dn(e,t){if(e=e.onError(t),e!=null&&typeof e!=`string`)throw Error(`onError returned something with a type other than "string". onError should return a string and may return null or undefined but must not return anything else. It received something of type "`+typeof e+`" instead`);
+return e}function fn(e,t){var n=e.onShellError;
+n(t),n=e.onFatalError,n(t),e.destination===null?(e.status=1,e.fatalError=t):(e.status=2,bt(e.destination,t))}function pn(e,t,n,r,i){for(Na={},Pa=t,Ra=0,e=n(r,i);
+La;
+)La=!1,Ra=0,Ba+=1,Q=null,e=n(r,i);
+return Qt(),e}function mn(e,t,n,r){var i=n.render(),a=r.childContextTypes;
+if(a!=null){var o=t.legacyContext;
+if(typeof n.getChildContext!=`function`)r=o;
+else{for(var s in n=n.getChildContext(),n)if(!(s in a))throw Error(P(108,Lt(r)||`Unknown`,s));
+r=sa({},o,n)}t.legacyContext=r,W(e,t,i),t.legacyContext=o}else W(e,t,i)}function hn(e,t){if(e&&e.defaultProps){for(var n in t=sa({},t),e=e.defaultProps,e)t[n]===void 0&&(t[n]=e[n]);
+return t}return t}function gn(e,t,n,r,i){if(typeof n==`function`)if(n.prototype&&n.prototype.isReactComponent){i=Rt(n,t.legacyContext);
+var a=n.contextType;
+a=new n(r,typeof a==`object`&&a?a._currentValue:i),Gt(a,n,r,i),mn(e,t,a,n)}else{a=Rt(n,t.legacyContext),i=pn(e,t,n,r,a);
+var o=Ra!==0;
+if(typeof i==`object`&&i&&typeof i.render==`function`&&i.$$typeof===void 0)Gt(i,n,r,a),mn(e,t,i,n);
+else if(o){r=t.treeContext,t.treeContext=Kt(r,1,0);
+try{W(e,t,i)}finally{t.treeContext=r}}else W(e,t,i)}else{if(typeof n!=`string`){switch(n){case Sa:case xa:case da:case fa:case ua:W(e,t,r.children);
+return;
+case _a:W(e,t,r.children);
+return;
+case ba:throw Error(P(343));
+case ga:e:{n=t.blockedBoundary,i=t.blockedSegment,a=r.fallback,r=r.children,o=new Set;
+var s={id:null,rootSegmentID:-1,parentFlushed:!1,pendingTasks:0,forceClientRender:!1,completedSegments:[],byteSize:0,fallbackAbortableTasks:o,errorDigest:null},c=un(e,i.chunks.length,s,i.formatContext,!1,!1);
+i.children.push(c),i.lastPushedText=!1;
+var l=un(e,0,null,i.formatContext,!1,!1);
+l.parentFlushed=!0,t.blockedBoundary=s,t.blockedSegment=l;
+try{if(vn(e,t,r),l.lastPushedText&&l.textEmbedded&&l.chunks.push(Zr),l.status=1,xn(s,l),s.pendingTasks===0)break e}catch(t){l.status=4,s.forceClientRender=!0,s.errorDigest=dn(e,t)}finally{t.blockedBoundary=n,t.blockedSegment=i}t=ln(e,a,n,c,o,t.legacyContext,t.context,t.treeContext),e.pingedTasks.push(t)}return}if(typeof n==`object`&&n)switch(n.$$typeof){case ha:if(r=pn(e,t,n.render,r,i),Ra!==0){n=t.treeContext,t.treeContext=Kt(n,1,0);
+try{W(e,t,r)}finally{t.treeContext=n}}else W(e,t,r);
+return;
+case va:n=n.type,r=hn(n,r),gn(e,t,n,r,i);
+return;
+case pa:if(i=r.children,n=n._context,r=r.value,a=n._currentValue,n._currentValue=r,o=Ea,Ea=r={parent:o,depth:o===null?0:o.depth+1,context:n,parentValue:a,value:r},t.context=r,W(e,t,i),e=Ea,e===null)throw Error(P(403));
+r=e.parentValue,e.context._currentValue=r===Ca?e.context._defaultValue:r,e=Ea=e.parent,t.context=e;
+return;
+case ma:r=r.children,r=r(n._currentValue),W(e,t,r);
+return;
+case ya:i=n._init,n=i(n._payload),r=hn(n,r),gn(e,t,n,r,void 0);
+return}throw Error(P(130,n==null?n:typeof n,``))}switch(i=t.blockedSegment,a=Mt(i.chunks,n,r,e.responseState,i.formatContext),i.lastPushedText=!1,o=i.formatContext,i.formatContext=Et(o,n,r),vn(e,t,a),i.formatContext=o,n){case`area`:case`base`:case`br`:case`col`:case`embed`:case`hr`:case`img`:case`input`:case`keygen`:case`link`:case`meta`:case`param`:case`source`:case`track`:case`wbr`:break;
+default:i.chunks.push(pi,L(n),mi)}i.lastPushedText=!1}}function W(e,t,n){if(t.node=n,typeof n==`object`&&n){switch(n.$$typeof){case ca:gn(e,t,n.type,n.props,n.ref);
+return;
+case la:throw Error(P(257));
+case ya:var r=n._init;
+n=r(n._payload),W(e,t,n);
+return}if(Wr(n)){_n(e,t,n);
+return}if(typeof n!=`object`||!n?r=null:(r=wa&&n[wa]||n[`@@iterator`],r=typeof r==`function`?r:null),r&&=r.call(n)){if(n=r.next(),!n.done){var i=[];
+do i.push(n.value),n=r.next();
+while(!n.done);
+_n(e,t,i)}return}throw e=Object.prototype.toString.call(n),Error(P(31,e===`[object Object]`?`object with keys {`+Object.keys(n).join(`, `)+`}`:e))}typeof n==`string`?(r=t.blockedSegment,r.lastPushedText=Dt(t.blockedSegment.chunks,n,e.responseState,r.lastPushedText)):typeof n==`number`&&(r=t.blockedSegment,r.lastPushedText=Dt(t.blockedSegment.chunks,``+n,e.responseState,r.lastPushedText))}function _n(e,t,n){for(var r=n.length,i=0;
+i<r;
+i++){var a=t.treeContext;
+t.treeContext=Kt(a,r,i);
+try{vn(e,t,n[i])}finally{t.treeContext=a}}}function vn(e,t,n){var r=t.blockedSegment.formatContext,i=t.legacyContext,a=t.context;
+try{return W(e,t,n)}catch(c){if(Qt(),typeof c!=`object`||!c||typeof c.then!=`function`)throw t.blockedSegment.formatContext=r,t.legacyContext=i,t.context=a,Wt(a),c;
+n=c;
+var o=t.blockedSegment,s=un(e,o.chunks.length,null,o.formatContext,o.lastPushedText,!0);
+o.children.push(s),o.lastPushedText=!1,e=ln(e,t.node,t.blockedBoundary,s,t.abortSet,t.legacyContext,t.context,t.treeContext).ping,n.then(e,e),t.blockedSegment.formatContext=r,t.legacyContext=i,t.context=a,Wt(a)}}function yn(e){var t=e.blockedBoundary;
+e=e.blockedSegment,e.status=3,Sn(this,t,e)}function bn(e,t,n){var r=e.blockedBoundary;
+e.blockedSegment.status=3,r===null?(t.allPendingTasks--,t.status!==2&&(t.status=2,t.destination!==null&&t.destination.close())):(r.pendingTasks--,r.forceClientRender||(r.forceClientRender=!0,e=n===void 0?Error(P(432)):n,r.errorDigest=t.onError(e),r.parentFlushed&&t.clientRenderedBoundaries.push(r)),r.fallbackAbortableTasks.forEach((function(e){return bn(e,t,n)})),r.fallbackAbortableTasks.clear(),t.allPendingTasks--,t.allPendingTasks===0&&(r=t.onAllReady,r()))}function xn(e,t){if(t.chunks.length===0&&t.children.length===1&&t.children[0].boundary===null){var n=t.children[0];
+n.id=t.id,n.parentFlushed=!0,n.status===1&&xn(e,n)}else e.completedSegments.push(t)}function Sn(e,t,n){if(t===null){if(n.parentFlushed){if(e.completedRootSegment!==null)throw Error(P(389));
+e.completedRootSegment=n}e.pendingRootTasks--,e.pendingRootTasks===0&&(e.onShellError=sn,t=e.onShellReady,t())}else t.pendingTasks--,t.forceClientRender||(t.pendingTasks===0?(n.parentFlushed&&n.status===1&&xn(t,n),t.parentFlushed&&e.completedBoundaries.push(t),t.fallbackAbortableTasks.forEach(yn,e),t.fallbackAbortableTasks.clear()):n.parentFlushed&&n.status===1&&(xn(t,n),t.completedSegments.length===1&&t.parentFlushed&&e.partialBoundaries.push(t)));
+e.allPendingTasks--,e.allPendingTasks===0&&(e=e.onAllReady,e())}function Cn(e){if(e.status!==2){var t=Ea,n=Ua.current;
+Ua.current=Va;
+var r=Ha;
+Ha=e.responseState;
+try{var i,a=e.pingedTasks;
+for(i=0;
+i<a.length;
+i++){var o=a[i],s=e,c=o.blockedSegment;
+if(c.status===0){Wt(o.context);
+try{W(s,o,o.node),c.lastPushedText&&c.textEmbedded&&c.chunks.push(Zr),o.abortSet.delete(o),c.status=1,Sn(s,o.blockedBoundary,c)}catch(e){if(Qt(),typeof e==`object`&&e&&typeof e.then==`function`){var l=o.ping;
+e.then(l,l)}else{o.abortSet.delete(o),c.status=4;
+var u=o.blockedBoundary,d=e,f=dn(s,d);
+if(u===null?fn(s,d):(u.pendingTasks--,u.forceClientRender||(u.forceClientRender=!0,u.errorDigest=f,u.parentFlushed&&s.clientRenderedBoundaries.push(u))),s.allPendingTasks--,s.allPendingTasks===0){var p=s.onAllReady;
+p()}}}}}a.splice(0,i),e.destination!==null&&kn(e,e.destination)}catch(t){dn(e,t),fn(e,t)}finally{Ha=r,Ua.current=n,n===Va&&Wt(t)}}}function wn(e,t,n){switch(n.parentFlushed=!0,n.status){case 0:var r=n.id=e.nextSegmentId++;
+return n.lastPushedText=!1,n.textEmbedded=!1,e=e.responseState,F(t,hi),F(t,e.placeholderPrefix),e=L(r.toString(16)),F(t,e),I(t,gi);
+case 1:n.status=2;
+var i=!0;
+r=n.chunks;
+var a=0;
+n=n.children;
+for(var o=0;
+o<n.length;
+o++){for(i=n[o];
+a<i.index;
+a++)F(t,r[a]);
+i=Tn(e,t,i)}for(;
+a<r.length-1;
+a++)F(t,r[a]);
+return a<r.length&&(i=I(t,r[a])),i;
+default:throw Error(P(390))}}function Tn(e,t,n){var r=n.boundary;
+if(r===null)return wn(e,t,n);
+if(r.parentFlushed=!0,r.forceClientRender)r=r.errorDigest,I(t,bi),F(t,Si),r&&(F(t,wi),F(t,L(B(r))),F(t,Ci)),I(t,Ti),wn(e,t,n);
+else if(0<r.pendingTasks){r.rootSegmentID=e.nextSegmentId++,0<r.completedSegments.length&&e.partialBoundaries.push(r);
+var i=e.responseState,a=i.nextSuspenseID++;
+i=R(i.boundaryPrefix+a.toString(16)),r=r.id=i,Nt(t,e.responseState,r),wn(e,t,n)}else if(r.byteSize>e.progressiveChunkSize)r.rootSegmentID=e.nextSegmentId++,e.completedBoundaries.push(r),Nt(t,e.responseState,r.id),wn(e,t,n);
+else{if(I(t,_i),n=r.completedSegments,n.length!==1)throw Error(P(391));
+Tn(e,t,n[0])}return I(t,xi)}function En(e,t,n){return Pt(t,e.responseState,n.formatContext,n.id),Tn(e,t,n),Ft(t,n.formatContext)}function Dn(e,t,n){for(var r=n.completedSegments,i=0;
+i<r.length;
+i++)On(e,t,n,r[i]);
+if(r.length=0,e=e.responseState,r=n.id,n=n.rootSegmentID,F(t,e.startInlineScript),e.sentCompleteBoundaryFunction?F(t,Qi):(e.sentCompleteBoundaryFunction=!0,F(t,Zi)),r===null)throw Error(P(395));
+return n=L(n.toString(16)),F(t,r),F(t,$i),F(t,e.segmentPrefix),F(t,n),I(t,ea)}function On(e,t,n,r){if(r.status===2)return!0;
+var i=r.id;
+if(i===-1){if((r.id=n.rootSegmentID)===-1)throw Error(P(392));
+return En(e,t,r)}return En(e,t,r),e=e.responseState,F(t,e.startInlineScript),e.sentCompleteSegmentFunction?F(t,Ji):(e.sentCompleteSegmentFunction=!0,F(t,qi)),F(t,e.segmentPrefix),i=L(i.toString(16)),F(t,i),F(t,Yi),F(t,e.placeholderPrefix),F(t,i),I(t,Xi)}function kn(e,t){J=new Uint8Array(512),Y=0;
+try{var n=e.completedRootSegment;
+if(n!==null&&e.pendingRootTasks===0){Tn(e,t,n),e.completedRootSegment=null;
+var r=e.responseState.bootstrapChunks;
+for(n=0;
+n<r.length-1;
+n++)F(t,r[n]);
+n<r.length&&I(t,r[n])}var i,a=e.clientRenderedBoundaries;
+for(i=0;
+i<a.length;
+i++){var o=a[i];
+r=t;
+var s=e.responseState,c=o.id,l=o.errorDigest,u=o.errorMessage,d=o.errorComponentStack;
+if(F(r,s.startInlineScript),s.sentClientRenderFunction?F(r,na):(s.sentClientRenderFunction=!0,F(r,ta)),c===null)throw Error(P(395));
+if(F(r,c),F(r,ra),(l||u||d)&&(F(r,aa),F(r,L(It(l||``)))),(u||d)&&(F(r,aa),F(r,L(It(u||``)))),d&&(F(r,aa),F(r,L(It(d)))),!I(r,ia)){e.destination=null,i++,a.splice(0,i);
+return}}a.splice(0,i);
+var f=e.completedBoundaries;
+for(i=0;
+i<f.length;
+i++)if(!Dn(e,t,f[i])){e.destination=null,i++,f.splice(0,i);
+return}f.splice(0,i),yt(t),J=new Uint8Array(512),Y=0;
+var p=e.partialBoundaries;
+for(i=0;
+i<p.length;
+i++){var m=p[i];
+e:{a=e,o=t;
+var ee=m.completedSegments;
+for(s=0;
+s<ee.length;
+s++)if(!On(a,o,m,ee[s])){s++,ee.splice(0,s);
+var h=!1;
+break e}ee.splice(0,s),h=!0}if(!h){e.destination=null,i++,p.splice(0,i);
+return}}p.splice(0,i);
+var te=e.completedBoundaries;
+for(i=0;
+i<te.length;
+i++)if(!Dn(e,t,te[i])){e.destination=null,i++,te.splice(0,i);
+return}te.splice(0,i)}finally{yt(t),e.allPendingTasks===0&&e.pingedTasks.length===0&&e.clientRenderedBoundaries.length===0&&e.completedBoundaries.length===0&&t.close()}}function An(e,t){try{var n=e.abortableTasks;
+n.forEach((function(n){return bn(n,e,t)})),n.clear(),e.destination!==null&&kn(e,e.destination)}catch(t){dn(e,t),fn(e,t)}}var jn,Mn,Nn,G,Pn,Fn,In,K,Ln,Rn,zn,Bn,Vn,Hn,Un,Wn,Gn,Kn,qn,Jn,Yn,Xn,Zn,Qn,$n,er,tr,nr,rr,ir,ar,or,sr,cr,lr,ur,dr,fr,pr,mr,hr,gr,_r,vr,yr,br,xr,Sr,q,Cr,wr,Tr,Er,Dr,Or,kr,Ar,jr,Mr,Nr,J,Y,Pr,X,Fr,Ir,Lr,Z,Rr,zr,Br,Vr,Hr,Ur,Wr,Gr,Kr,qr,Jr,Yr,Xr,Zr,Qr,$r,ei,ti,ni,ri,ii,ai,oi,si,ci,li,ui,di,fi,pi,mi,hi,gi,_i,vi,yi,bi,xi,Si,Ci,wi,Ti,Ei,Di,Oi,ki,Ai,ji,Mi,Ni,Pi,Fi,Ii,Li,Ri,zi,Bi,Vi,Hi,Ui,Wi,Gi,Ki,qi,Ji,Yi,Xi,Zi,Qi,$i,ea,ta,na,ra,ia,aa,oa,sa,ca,la,ua,da,fa,pa,ma,ha,ga,_a,va,ya,ba,xa,Sa,Ca,wa,Ta,Ea,Da,Oa,ka,Aa,ja,Ma,Na,Pa,Fa,Q,Ia,La,Ra,za,Ba,Va,Ha,Ua,$,Wa,Ga,Ka,qa=e((()=>{n(),jn=`default`in s?c:s,Mn={},Nn=jn,G=Object.prototype.hasOwnProperty,Pn=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,Fn={},In={},K={},`children dangerouslySetInnerHTML defaultValue defaultChecked innerHTML suppressContentEditableWarning suppressHydrationWarning style`.split(` `).forEach((function(e){K[e]=new w(e,0,!1,e,null,!1,!1)})),[[`acceptCharset`,`accept-charset`],[`className`,`class`],[`htmlFor`,`for`],[`httpEquiv`,`http-equiv`]].forEach((function(e){var t=e[0];
+K[t]=new w(t,1,!1,e[1],null,!1,!1)})),[`contentEditable`,`draggable`,`spellCheck`,`value`].forEach((function(e){K[e]=new w(e,2,!1,e.toLowerCase(),null,!1,!1)})),[`autoReverse`,`externalResourcesRequired`,`focusable`,`preserveAlpha`].forEach((function(e){K[e]=new w(e,2,!1,e,null,!1,!1)})),`allowFullScreen async autoFocus autoPlay controls default defer disabled disablePictureInPicture disableRemotePlayback formNoValidate hidden loop noModule noValidate open playsInline readOnly required reversed scoped seamless itemScope`.split(` `).forEach((function(e){K[e]=new w(e,3,!1,e.toLowerCase(),null,!1,!1)})),[`checked`,`multiple`,`muted`,`selected`].forEach((function(e){K[e]=new w(e,3,!0,e,null,!1,!1)})),[`capture`,`download`].forEach((function(e){K[e]=new w(e,4,!1,e,null,!1,!1)})),[`cols`,`rows`,`size`,`span`].forEach((function(e){K[e]=new w(e,6,!1,e,null,!1,!1)})),[`rowSpan`,`start`].forEach((function(e){K[e]=new w(e,5,!1,e.toLowerCase(),null,!1,!1)})),Ln=/[\-:]([a-z])/g,`accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height`.split(` `).forEach((function(e){var t=e.replace(Ln,T);
+K[t]=new w(t,1,!1,e,null,!1,!1)})),`xlink:actuate xlink:arcrole xlink:role xlink:show xlink:title xlink:type`.split(` `).forEach((function(e){var t=e.replace(Ln,T);
+K[t]=new w(t,1,!1,e,`http://www.w3.org/1999/xlink`,!1,!1)})),[`xml:base`,`xml:lang`,`xml:space`].forEach((function(e){var t=e.replace(Ln,T);
+K[t]=new w(t,1,!1,e,`http://www.w3.org/XML/1998/namespace`,!1,!1)})),[`tabIndex`,`crossOrigin`].forEach((function(e){K[e]=new w(e,1,!1,e.toLowerCase(),null,!1,!1)})),K.xlinkHref=new w(`xlinkHref`,1,!1,`xlink:href`,`http://www.w3.org/1999/xlink`,!0,!1),[`src`,`href`,`action`,`formAction`].forEach((function(e){K[e]=new w(e,1,!1,e.toLowerCase(),null,!0,!0)})),Rn={animationIterationCount:!0,aspectRatio:!0,borderImageOutset:!0,borderImageSlice:!0,borderImageWidth:!0,boxFlex:!0,boxFlexGroup:!0,boxOrdinalGroup:!0,columnCount:!0,columns:!0,flex:!0,flexGrow:!0,flexPositive:!0,flexShrink:!0,flexNegative:!0,flexOrder:!0,gridArea:!0,gridRow:!0,gridRowEnd:!0,gridRowSpan:!0,gridRowStart:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnSpan:!0,gridColumnStart:!0,fontWeight:!0,lineClamp:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,tabSize:!0,widows:!0,zIndex:!0,zoom:!0,fillOpacity:!0,floodOpacity:!0,stopOpacity:!0,strokeDasharray:!0,strokeDashoffset:!0,strokeMiterlimit:!0,strokeOpacity:!0,strokeWidth:!0},zn=[`Webkit`,`ms`,`Moz`,`O`],Object.keys(Rn).forEach((function(e){zn.forEach((function(t){t=t+e.charAt(0).toUpperCase()+e.substring(1),Rn[t]=Rn[e]}))})),Bn=/["'&<>]/,Vn=/([A-Z])/g,Hn=/^ms-/,Un=Array.isArray,Wn=new Map,Gn=/^[a-zA-Z][a-zA-Z:_\.\-\d]*$/,Kn=new Map,qn=/[<\u2028\u2029]/g,Jn=Object.assign,Yn=Symbol.for(`react.element`),Xn=Symbol.for(`react.portal`),Zn=Symbol.for(`react.fragment`),Qn=Symbol.for(`react.strict_mode`),$n=Symbol.for(`react.profiler`),er=Symbol.for(`react.provider`),tr=Symbol.for(`react.context`),nr=Symbol.for(`react.forward_ref`),rr=Symbol.for(`react.suspense`),ir=Symbol.for(`react.suspense_list`),ar=Symbol.for(`react.memo`),or=Symbol.for(`react.lazy`),sr=Symbol.for(`react.scope`),cr=Symbol.for(`react.debug_trace_mode`),lr=Symbol.for(`react.legacy_hidden`),ur=Symbol.for(`react.default_value`),dr=Symbol.iterator,fr={},pr=null,mr={isMounted:function(){return!1},enqueueSetState:function(e,t){e=e._reactInternals,e.queue!==null&&e.queue.push(t)},enqueueReplaceState:function(e,t){e=e._reactInternals,e.replace=!0,e.queue=[t]},enqueueForceUpdate:function(){}},hr={id:1,overflow:``},gr=Math.clz32?Math.clz32:Pe,_r=Math.log,vr=Math.LN2,yr=typeof Object.is==`function`?Object.is:Fe,br=null,xr=null,Sr=null,q=null,Cr=!1,wr=!1,Tr=0,Er=null,Dr=0,Or={readContext:function(e){return e._currentValue2},useContext:function(e){return Ie(),e._currentValue2},useMemo:He,useReducer:Ve,useRef:function(e){br=Ie(),q=Re();
+var t=q.memoizedState;
+return t===null?(e={current:e},q.memoizedState=e):t},useState:function(e){return Ve(Be,e)},useInsertionEffect:Ge,useLayoutEffect:function(){},useCallback:function(e,t){return He((function(){return e}),t)},useImperativeHandle:Ge,useEffect:Ge,useDebugValue:Ge,useDeferredValue:function(e){return Ie(),e},useTransition:function(){return Ie(),[!1,We]},useId:function(){var e=xr.treeContext,t=e.overflow;
+e=e.id,e=(e&~(1<<32-gr(e)-1)).toString(32)+t;
+var n=kr;
+if(n===null)throw Error(C(404));
+return t=Tr++,e=`:`+n.idPrefix+`R`+e,0<t&&(e+=`H`+t.toString(32)),e+`:`},useMutableSource:function(e,t){return Ie(),t(e._source)},useSyncExternalStore:function(e,t,n){if(n===void 0)throw Error(C(407));
+return n()}},kr=null,Ar=Nn.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher,Mn.renderToNodeStream=function(){throw Error(C(207))},Mn.renderToStaticMarkup=function(e,t){return vt(e,t,!0,`The server used "renderToStaticMarkup" which does not support Suspense. If you intended to have the server wait for the suspended component please switch to "renderToReadableStream" which supports Suspense on the server`)},Mn.renderToStaticNodeStream=function(){throw Error(C(208))},Mn.renderToString=function(e,t){return vt(e,t,!1,`The server used "renderToString" which does not support Suspense. If you intended for this Suspense boundary to render the fallback content on the server consider throwing an Error somewhere within the Suspense boundary. If you intended to have the server wait for the suspended component please switch to "renderToReadableStream" which supports Suspense on the server`)},Mn.version=`18.2.0`,jr=`default`in s?c:s,Mr={},Nr=jr,J=null,Y=0,Pr=new TextEncoder,X=Object.prototype.hasOwnProperty,Fr=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,Ir={},Lr={},Z={},`children dangerouslySetInnerHTML defaultValue defaultChecked innerHTML suppressContentEditableWarning suppressHydrationWarning style`.split(` `).forEach((function(e){Z[e]=new z(e,0,!1,e,null,!1,!1)})),[[`acceptCharset`,`accept-charset`],[`className`,`class`],[`htmlFor`,`for`],[`httpEquiv`,`http-equiv`]].forEach((function(e){var t=e[0];
+Z[t]=new z(t,1,!1,e[1],null,!1,!1)})),[`contentEditable`,`draggable`,`spellCheck`,`value`].forEach((function(e){Z[e]=new z(e,2,!1,e.toLowerCase(),null,!1,!1)})),[`autoReverse`,`externalResourcesRequired`,`focusable`,`preserveAlpha`].forEach((function(e){Z[e]=new z(e,2,!1,e,null,!1,!1)})),`allowFullScreen async autoFocus autoPlay controls default defer disabled disablePictureInPicture disableRemotePlayback formNoValidate hidden loop noModule noValidate open playsInline readOnly required reversed scoped seamless itemScope`.split(` `).forEach((function(e){Z[e]=new z(e,3,!1,e.toLowerCase(),null,!1,!1)})),[`checked`,`multiple`,`muted`,`selected`].forEach((function(e){Z[e]=new z(e,3,!0,e,null,!1,!1)})),[`capture`,`download`].forEach((function(e){Z[e]=new z(e,4,!1,e,null,!1,!1)})),[`cols`,`rows`,`size`,`span`].forEach((function(e){Z[e]=new z(e,6,!1,e,null,!1,!1)})),[`rowSpan`,`start`].forEach((function(e){Z[e]=new z(e,5,!1,e.toLowerCase(),null,!1,!1)})),Rr=/[\-:]([a-z])/g,`accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height`.split(` `).forEach((function(e){var t=e.replace(Rr,St);
+Z[t]=new z(t,1,!1,e,null,!1,!1)})),`xlink:actuate xlink:arcrole xlink:role xlink:show xlink:title xlink:type`.split(` `).forEach((function(e){var t=e.replace(Rr,St);
+Z[t]=new z(t,1,!1,e,`http://www.w3.org/1999/xlink`,!1,!1)})),[`xml:base`,`xml:lang`,`xml:space`].forEach((function(e){var t=e.replace(Rr,St);
+Z[t]=new z(t,1,!1,e,`http://www.w3.org/XML/1998/namespace`,!1,!1)})),[`tabIndex`,`crossOrigin`].forEach((function(e){Z[e]=new z(e,1,!1,e.toLowerCase(),null,!1,!1)})),Z.xlinkHref=new z(`xlinkHref`,1,!1,`xlink:href`,`http://www.w3.org/1999/xlink`,!0,!1),[`src`,`href`,`action`,`formAction`].forEach((function(e){Z[e]=new z(e,1,!1,e.toLowerCase(),null,!0,!0)})),zr={animationIterationCount:!0,aspectRatio:!0,borderImageOutset:!0,borderImageSlice:!0,borderImageWidth:!0,boxFlex:!0,boxFlexGroup:!0,boxOrdinalGroup:!0,columnCount:!0,columns:!0,flex:!0,flexGrow:!0,flexPositive:!0,flexShrink:!0,flexNegative:!0,flexOrder:!0,gridArea:!0,gridRow:!0,gridRowEnd:!0,gridRowSpan:!0,gridRowStart:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnSpan:!0,gridColumnStart:!0,fontWeight:!0,lineClamp:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,tabSize:!0,widows:!0,zIndex:!0,zoom:!0,fillOpacity:!0,floodOpacity:!0,stopOpacity:!0,strokeDasharray:!0,strokeDashoffset:!0,strokeMiterlimit:!0,strokeOpacity:!0,strokeWidth:!0},Br=[`Webkit`,`ms`,`Moz`,`O`],Object.keys(zr).forEach((function(e){Br.forEach((function(t){t=t+e.charAt(0).toUpperCase()+e.substring(1),zr[t]=zr[e]}))})),Vr=/["'&<>]/,Hr=/([A-Z])/g,Ur=/^ms-/,Wr=Array.isArray,Gr=R(`<script>`),Kr=R(`<\/script>`),qr=R(`<script src="`),Jr=R(`<script type="module" src="`),Yr=R(`" async=""><\/script>`),Xr=/(<\/|<)(s)(cript)/gi,Zr=R(`<!-- -->`),Qr=new Map,$r=R(` style="`),ei=R(`:`),ti=R(`;
+`),ni=R(` `),ri=R(`="`),ii=R(`"`),ai=R(`=""`),oi=R(`>`),si=R(`/>`),ci=R(` selected=""`),li=R(`
+`),ui=/^[a-zA-Z][a-zA-Z:_\.\-\d]*$/,di=new Map,fi=R(`<!DOCTYPE html>`),pi=R(`</`),mi=R(`>`),hi=R(`<template id="`),gi=R(`"></template>`),_i=R(`<!--$-->`),vi=R(`<!--$?--><template id="`),yi=R(`"></template>`),bi=R(`<!--$!-->`),xi=R(`<!--/$-->`),Si=R(`<template`),Ci=R(`"`),wi=R(` data-dgst="`),R(` data-msg="`),R(` data-stck="`),Ti=R(`></template>`),Ei=R(`<div hidden id="`),Di=R(`">`),Oi=R(`</div>`),ki=R(`<svg aria-hidden="true" style="display:none" id="`),Ai=R(`">`),ji=R(`</svg>`),Mi=R(`<math aria-hidden="true" style="display:none" id="`),Ni=R(`">`),Pi=R(`</math>`),Fi=R(`<table hidden id="`),Ii=R(`">`),Li=R(`</table>`),Ri=R(`<table hidden><tbody id="`),zi=R(`">`),Bi=R(`</tbody></table>`),Vi=R(`<table hidden><tr id="`),Hi=R(`">`),Ui=R(`</tr></table>`),Wi=R(`<table hidden><colgroup id="`),Gi=R(`">`),Ki=R(`</colgroup></table>`),qi=R(`function $RS(a,b){a=document.getElementById(a);
+b=document.getElementById(b);
+for(a.parentNode.removeChild(a);
+a.firstChild;
+)b.parentNode.insertBefore(a.firstChild,b);
+b.parentNode.removeChild(b)};
+$RS("`),Ji=R(`$RS("`),Yi=R(`","`),Xi=R(`")<\/script>`),Zi=R(`function $RC(a,b){a=document.getElementById(a);
+b=document.getElementById(b);
+b.parentNode.removeChild(b);
+if(a){a=a.previousSibling;
+var f=a.parentNode,c=a.nextSibling,e=0;
+do{if(c&&8===c.nodeType){var d=c.data;
+if("/$"===d)if(0===e)break;
+else e--;
+else"$"!==d&&"$?"!==d&&"$!"!==d||e++}d=c.nextSibling;
+f.removeChild(c);
+c=d}while(c);
+for(;
+b.firstChild;
+)f.insertBefore(b.firstChild,c);
+a.data="$";
+a._reactRetry&&a._reactRetry()}};
+$RC("`),Qi=R(`$RC("`),$i=R(`","`),ea=R(`")<\/script>`),ta=R(`function $RX(b,c,d,e){var a=document.getElementById(b);
+a&&(b=a.previousSibling,b.data="$!",a=a.dataset,c&&(a.dgst=c),d&&(a.msg=d),e&&(a.stck=e),b._reactRetry&&b._reactRetry())};
+$RX("`),na=R(`$RX("`),ra=R(`"`),ia=R(`)<\/script>`),aa=R(`,`),oa=/[<\u2028\u2029]/g,sa=Object.assign,ca=Symbol.for(`react.element`),la=Symbol.for(`react.portal`),ua=Symbol.for(`react.fragment`),da=Symbol.for(`react.strict_mode`),fa=Symbol.for(`react.profiler`),pa=Symbol.for(`react.provider`),ma=Symbol.for(`react.context`),ha=Symbol.for(`react.forward_ref`),ga=Symbol.for(`react.suspense`),_a=Symbol.for(`react.suspense_list`),va=Symbol.for(`react.memo`),ya=Symbol.for(`react.lazy`),ba=Symbol.for(`react.scope`),xa=Symbol.for(`react.debug_trace_mode`),Sa=Symbol.for(`react.legacy_hidden`),Ca=Symbol.for(`react.default_value`),wa=Symbol.iterator,Ta={},Ea=null,Da={isMounted:function(){return!1},enqueueSetState:function(e,t){e=e._reactInternals,e.queue!==null&&e.queue.push(t)},enqueueReplaceState:function(e,t){e=e._reactInternals,e.replace=!0,e.queue=[t]},enqueueForceUpdate:function(){}},Oa={id:1,overflow:``},ka=Math.clz32?Math.clz32:qt,Aa=Math.log,ja=Math.LN2,Ma=typeof Object.is==`function`?Object.is:Jt,Na=null,Pa=null,Fa=null,Q=null,Ia=!1,La=!1,Ra=0,za=null,Ba=0,Va={readContext:function(e){return e._currentValue},useContext:function(e){return Yt(),e._currentValue},useMemo:tn,useReducer:en,useRef:function(e){Na=Yt(),Q=Zt();
+var t=Q.memoizedState;
+return t===null?(e={current:e},Q.memoizedState=e):t},useState:function(e){return en($t,e)},useInsertionEffect:an,useLayoutEffect:function(){},useCallback:function(e,t){return tn((function(){return e}),t)},useImperativeHandle:an,useEffect:an,useDebugValue:an,useDeferredValue:function(e){return Yt(),e},useTransition:function(){return Yt(),[!1,rn]},useId:function(){var e=Pa.treeContext,t=e.overflow;
+e=e.id,e=(e&~(1<<32-ka(e)-1)).toString(32)+t;
+var n=Ha;
+if(n===null)throw Error(P(404));
+return t=Ra++,e=`:`+n.idPrefix+`R`+e,0<t&&(e+=`H`+t.toString(32)),e+`:`},useMutableSource:function(e,t){return Yt(),t(e._source)},useSyncExternalStore:function(e,t,n){if(n===void 0)throw Error(P(407));
+return n()}},Ha=null,Ua=Nr.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher,Mr.renderToReadableStream=function(e,t){return new Promise((function(n,r){var i,a,o=new Promise((function(e,t){a=e,i=t})),s=cn(e,wt(t?t.identifierPrefix:void 0,t?t.nonce:void 0,t?t.bootstrapScriptContent:void 0,t?t.bootstrapScripts:void 0,t?t.bootstrapModules:void 0),Tt(t?t.namespaceURI:void 0),t?t.progressiveChunkSize:void 0,t?t.onError:void 0,a,(function(){var e=new ReadableStream({type:`bytes`,pull:function(e){if(s.status===1)s.status=2,bt(e,s.fatalError);
+else if(s.status!==2&&s.destination===null){s.destination=e;
+try{kn(s,e)}catch(e){dn(s,e),fn(s,e)}}},cancel:function(){An(s)}},{highWaterMark:0});
+e.allReady=o,n(e)}),(function(e){o.catch((function(){})),r(e)}),i);
+if(t&&t.signal){var c=t.signal,l=function(){An(s,c.reason),c.removeEventListener(`abort`,l)};
+c.addEventListener(`abort`,l)}Cn(s)}))},Mr.version=`18.2.0`,$={},Wa=Mn,Ga=Mr,$.version=Wa.version,$.renderToString=Wa.renderToString,$.renderToStaticMarkup=Wa.renderToStaticMarkup,$.renderToNodeStream=Wa.renderToNodeStream,$.renderToStaticNodeStream=Wa.renderToStaticNodeStream,$.renderToReadableStream=Ga.renderToReadableStream,$.version,$.renderToString,$.renderToStaticMarkup,$.renderToNodeStream,$.renderToStaticNodeStream,Ka=$.renderToReadableStream}));
+function Ja(e){let t={...e,...e.media||{},...e.simulation||{},...e.behavior||{}},n=r(null),i=r(t),s=r(!0),c=r(null),u=se(),d=de.current()===de.canvas,f=!u&&(!d||(t.editorPreview??!0)),p=r(f);
+return a(()=>{i.current=t,p.current=f,!f&&c.current&&c.current()},[t,f]),a(()=>{let e=n.current;
+if(!e)return;
+let t=null,r=new IntersectionObserver(e=>{let t=s.current;
+s.current=e[0].isIntersecting,s.current&&!t&&p.current&&c.current&&c.current()});
+r.observe(e);
+let a=document.createElement(`canvas`);
+a.style.width=`100%`,a.style.height=`100%`,a.style.display=`block`,e.appendChild(a);
+let l=[],u=[];
+function d(){this.id=-1,this.x=0,this.y=0,this.dx=0,this.dy=0,this.down=!1,this.moved=!1}l.push(new d);
+let{gl:f,ext:m}=ee(a);
+if(!f){console.warn(`WebGL not supported`);
+return}function ee(e){let t={alpha:!1,depth:!1,stencil:!1,antialias:!1},n=e.getContext(`webgl2`,t),r=!!n;
+if(r||(n=e.getContext(`webgl`,t)||e.getContext(`experimental-webgl`,t)),!n)return{gl:null,ext:null};
+let i,a;
+r?(n.getExtension(`EXT_color_buffer_float`),a=n.getExtension(`OES_texture_float_linear`)):(i=n.getExtension(`OES_texture_half_float`),a=n.getExtension(`OES_texture_half_float_linear`)),n.clearColor(0,0,0,1);
+let o=r?n.HALF_FLOAT:i?i.HALF_FLOAT_OES:null,s,c,l;
+return r?(s=h(n,n.RGBA16F,n.RGBA,o),c=h(n,n.RG16F,n.RG,o),l=h(n,n.R16F,n.RED,o)):(s=h(n,n.RGBA,n.RGBA,o),c=h(n,n.RGBA,n.RGBA,o),l=h(n,n.RGBA,n.RGBA,o)),{gl:n,ext:{formatRGBA:s,formatRG:c,formatR:l,halfFloatTexType:o,supportLinearFiltering:a}}}function h(e,t,n,r){if(!te(e,t,n,r))switch(t){case e.R16F:return h(e,e.RG16F,e.RG,r);
+case e.RG16F:return h(e,e.RGBA16F,e.RGBA,r);
+default:return null}return{internalFormat:t,format:n}}function te(e,t,n,r){let i=e.createTexture();
+e.bindTexture(e.TEXTURE_2D,i),e.texParameteri(e.TEXTURE_2D,e.TEXTURE_MIN_FILTER,e.NEAREST),e.texParameteri(e.TEXTURE_2D,e.TEXTURE_MAG_FILTER,e.NEAREST),e.texParameteri(e.TEXTURE_2D,e.TEXTURE_WRAP_S,e.CLAMP_TO_EDGE),e.texParameteri(e.TEXTURE_2D,e.TEXTURE_WRAP_T,e.CLAMP_TO_EDGE),e.texImage2D(e.TEXTURE_2D,0,t,4,4,0,n,r,null);
+let a=e.createFramebuffer();
+return e.bindFramebuffer(e.FRAMEBUFFER,a),e.framebufferTexture2D(e.FRAMEBUFFER,e.COLOR_ATTACHMENT0,e.TEXTURE_2D,i,0),e.checkFramebufferStatus(e.FRAMEBUFFER)===e.FRAMEBUFFER_COMPLETE}class g{bind(){f.useProgram(this.program)}constructor(e,t){if(this.uniforms={},this.program=f.createProgram(),f.attachShader(this.program,e),f.attachShader(this.program,t),f.linkProgram(this.program),!f.getProgramParameter(this.program,f.LINK_STATUS))throw f.getProgramInfoLog(this.program);
+let n=f.getProgramParameter(this.program,f.ACTIVE_UNIFORMS);
+for(let e=0;
+e<n;
+e++){let t=f.getActiveUniform(this.program,e).name;
+this.uniforms[t]=f.getUniformLocation(this.program,t)}}}function _(e,t){let n=f.createShader(e);
+if(f.shaderSource(n,t),f.compileShader(n),!f.getShaderParameter(n,f.COMPILE_STATUS))throw f.getShaderInfoLog(n);
+return n}let v=_(f.VERTEX_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            attribute vec2 aPosition;
+
+            varying vec2 vUv;
+
+            varying vec2 vL;
+
+            varying vec2 vR;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+            uniform vec2 texelSize;
+
+            void main () {
+                vUv = aPosition * 0.5 + 0.5;
+
+                vL = vUv - vec2(texelSize.x, 0.0);
+
+                vR = vUv + vec2(texelSize.x, 0.0);
+
+                vT = vUv + vec2(0.0, texelSize.y);
+
+                vB = vUv - vec2(0.0, texelSize.y);
+
+                gl_Position = vec4(aPosition, 0.0, 1.0);
+
+            }
+        `),ne=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            uniform sampler2D uTexture;
+
+            uniform float value;
+
+            void main () {
+                gl_FragColor = value * texture2D(uTexture, vUv);
+
+            }
+        `),re=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+
+            varying vec2 vUv;
+
+            varying vec2 vL;
+
+            varying vec2 vR;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+
+            uniform sampler2D uTexture;
+     // fluid density
+            uniform sampler2D uImage;
+       // background media
+            
+            uniform vec2 uResolution;
+
+            uniform vec2 uImageRes;
+
+            
+            uniform float uRefractionAmount;
+
+            uniform float uChromaticAberration;
+
+            uniform float uHighlight;
+
+
+            // Calculates object-fit: cover coordinates
+            vec2 getCoverUv(vec2 uv, vec2 resolution, vec2 texRes) {
+                vec2 s = resolution;
+
+                vec2 i = texRes;
+
+                float rs = s.x / s.y;
+
+                float ri = i.x / i.y;
+
+                vec2 newRes = rs < ri ? vec2(i.x * s.y / i.y, s.y) : vec2(s.x, i.y * s.x / i.x);
+
+                vec2 offset = (rs < ri ? vec2((newRes.x - s.x) / 2.0, 0.0) : vec2(0.0, (newRes.y - s.y) / 2.0)) / newRes;
+
+                vec2 scale = s / newRes;
+
+                return uv * scale + offset;
+
+            }
+
+            void main () {
+                // Read density neighbors (acts as a height map)
+                float L = texture2D(uTexture, vL).r;
+
+                float R = texture2D(uTexture, vR).r;
+
+                float T = texture2D(uTexture, vT).r;
+
+                float B = texture2D(uTexture, vB).r;
+
+                
+                // Gradient of the liquid height
+                vec2 grad = vec2(R - L, T - B);
+
+                
+                // FLIP Y-AXIS: WebGL loads images bottom-to-top
+                vec2 imageUv = vec2(vUv.x, 1.0 - vUv.y);
+
+                
+                // Match the distortion with the flipped image space
+                vec2 distort = vec2(grad.x, -grad.y);
+
+                
+                // Calculate individual distortion for RGB channels (chromatic aberration)
+                vec2 distortR = imageUv - distort * (uRefractionAmount + uChromaticAberration);
+
+                vec2 distortG = imageUv - distort * uRefractionAmount;
+
+                vec2 distortB = imageUv - distort * (uRefractionAmount - uChromaticAberration);
+
+                
+                // Map to cover sizing logic
+                vec2 coverR = getCoverUv(distortR, uResolution, max(uImageRes, vec2(1.0)));
+
+                vec2 coverG = getCoverUv(distortG, uResolution, max(uImageRes, vec2(1.0)));
+
+                vec2 coverB = getCoverUv(distortB, uResolution, max(uImageRes, vec2(1.0)));
+
+                
+                float r = texture2D(uImage, coverR).r;
+
+                float g = texture2D(uImage, coverG).g;
+
+                float b = texture2D(uImage, coverB).b;
+
+                
+                // Generate normal vector for lighting 
+                vec3 normal = normalize(vec3(-grad.x, -grad.y, 0.05));
+ // 0.05 controls the surface flatness
+                vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+
+                
+                // Specular intensity calculation
+                float spec = pow(max(dot(normal, lightDir), 0.0), 30.0) * uHighlight;
+
+                
+                // Mask highlight perfectly so it only illuminates when liquid height exists
+                float densityMask = texture2D(uTexture, vUv).r;
+
+                float smoothMask = smoothstep(0.0, 0.1, densityMask);
+
+                
+                vec3 finalColor = vec3(r, g, b) + (spec * smoothMask);
+
+                gl_FragColor = vec4(finalColor, 1.0);
+
+            }
+        `),ie=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            uniform sampler2D uTarget;
+
+            uniform float aspectRatio;
+
+            uniform vec3 color;
+
+            uniform vec2 point;
+
+            uniform float radius;
+
+            void main () {
+                vec2 p = vUv - point.xy;
+
+                p.x *= aspectRatio;
+
+                vec3 splat = exp(-dot(p, p) / radius) * color;
+
+                vec3 base = texture2D(uTarget, vUv).xyz;
+
+                gl_FragColor = vec4(base + splat, 1.0);
+
+            }
+        `),ae=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            uniform sampler2D uVelocity;
+
+            uniform sampler2D uSource;
+
+            uniform vec2 texelSize;
+
+            uniform float dt;
+
+            uniform float dissipation;
+
+            vec4 bilerp (in sampler2D sam, in vec2 p) {
+                vec4 st;
+
+                st.xy = floor(p - 0.5) + 0.5;
+
+                st.zw = st.xy + 1.0;
+
+                vec4 uv = st * texelSize.xyxy;
+
+                vec4 a = texture2D(sam, uv.xy);
+
+                vec4 b = texture2D(sam, uv.zy);
+
+                vec4 c = texture2D(sam, uv.xw);
+
+                vec4 d = texture2D(sam, uv.zw);
+
+                vec2 f = p - st.xy;
+
+                return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+
+            }
+            void main () {
+                vec2 coord = gl_FragCoord.xy - dt * texture2D(uVelocity, vUv).xy;
+
+                gl_FragColor = dissipation * bilerp(uSource, coord);
+
+                gl_FragColor.a = 1.0;
+
+            }
+        `),oe=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            uniform sampler2D uVelocity;
+
+            uniform sampler2D uSource;
+
+            uniform vec2 texelSize;
+
+            uniform float dt;
+
+            uniform float dissipation;
+
+            void main () {
+                vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
+
+                gl_FragColor = dissipation * texture2D(uSource, coord);
+
+                gl_FragColor.a = 1.0;
+
+            }
+        `),se=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            varying vec2 vL;
+
+            varying vec2 vR;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+            uniform sampler2D uVelocity;
+
+            vec2 sampleVelocity (in vec2 uv) {
+                vec2 multiplier = vec2(1.0, 1.0);
+
+                if (uv.x < 0.0) { uv.x = 0.0;
+ multiplier.x = -1.0;
+ }
+                if (uv.x > 1.0) { uv.x = 1.0;
+ multiplier.x = -1.0;
+ }
+                if (uv.y < 0.0) { uv.y = 0.0;
+ multiplier.y = -1.0;
+ }
+                if (uv.y > 1.0) { uv.y = 1.0;
+ multiplier.y = -1.0;
+ }
+                return multiplier * texture2D(uVelocity, uv).xy;
+
+            }
+            void main () {
+                float L = sampleVelocity(vL).x;
+
+                float R = sampleVelocity(vR).x;
+
+                float T = sampleVelocity(vT).y;
+
+                float B = sampleVelocity(vB).y;
+
+                float div = 0.5 * (R - L + T - B);
+
+                gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
+
+            }
+        `),ce=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            varying vec2 vL;
+
+            varying vec2 vR;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+            uniform sampler2D uVelocity;
+
+            void main () {
+                float L = texture2D(uVelocity, vL).y;
+
+                float R = texture2D(uVelocity, vR).y;
+
+                float T = texture2D(uVelocity, vT).x;
+
+                float B = texture2D(uVelocity, vB).x;
+
+                float vorticity = R - L - T + B;
+
+                gl_FragColor = vec4(vorticity, 0.0, 0.0, 1.0);
+
+            }
+        `),le=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+            uniform sampler2D uVelocity;
+
+            uniform sampler2D uCurl;
+
+            uniform float curl;
+
+            uniform float dt;
+
+            void main () {
+                float T = texture2D(uCurl, vT).x;
+
+                float B = texture2D(uCurl, vB).x;
+
+                float C = texture2D(uCurl, vUv).x;
+
+                vec2 force = vec2(abs(T) - abs(B), 0.0);
+
+                force *= 1.0 / length(force + 0.00001) * curl * C;
+
+                vec2 vel = texture2D(uVelocity, vUv).xy;
+
+                gl_FragColor = vec4(vel + force * dt, 0.0, 1.0);
+
+            }
+        `),ue=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            varying vec2 vL;
+
+            varying vec2 vR;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+            uniform sampler2D uPressure;
+
+            uniform sampler2D uDivergence;
+
+            vec2 boundary (in vec2 uv) {
+                uv = min(max(uv, 0.0), 1.0);
+
+                return uv;
+
+            }
+            void main () {
+                float L = texture2D(uPressure, boundary(vL)).x;
+
+                float R = texture2D(uPressure, boundary(vR)).x;
+
+                float T = texture2D(uPressure, boundary(vT)).x;
+
+                float B = texture2D(uPressure, boundary(vB)).x;
+
+                float C = texture2D(uPressure, vUv).x;
+
+                float divergence = texture2D(uDivergence, vUv).x;
+
+                float pressure = (L + R + B + T - divergence) * 0.25;
+
+                gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
+
+            }
+        `),de=_(f.FRAGMENT_SHADER,`
+            precision highp float;
+
+            precision mediump sampler2D;
+
+            varying vec2 vUv;
+
+            varying vec2 vL;
+
+            varying vec2 vR;
+
+            varying vec2 vT;
+
+            varying vec2 vB;
+
+            uniform sampler2D uPressure;
+
+            uniform sampler2D uVelocity;
+
+            vec2 boundary (in vec2 uv) {
+                uv = min(max(uv, 0.0), 1.0);
+
+                return uv;
+
+            }
+            void main () {
+                float L = texture2D(uPressure, boundary(vL)).x;
+
+                float R = texture2D(uPressure, boundary(vR)).x;
+
+                float T = texture2D(uPressure, boundary(vT)).x;
+
+                float B = texture2D(uPressure, boundary(vB)).x;
+
+                vec2 velocity = texture2D(uVelocity, vUv).xy;
+
+                velocity.xy -= vec2(R - L, T - B);
+
+                gl_FragColor = vec4(velocity, 0.0, 1.0);
+
+            }
+        `),y,b,x,S,fe,pe,C,me=new g(v,ne),w=new g(v,re),T=new g(v,ie),E=new g(v,m.supportLinearFiltering?oe:ae),D=new g(v,se),he=new g(v,ce),ge=new g(v,le),O=new g(v,ue),_e=new g(v,de);
+function ve(){y=f.drawingBufferWidth>>1,b=f.drawingBufferHeight>>1;
+let e=m.halfFloatTexType,t=m.formatRGBA,n=m.formatRG,r=m.formatR,i=m.supportLinearFiltering?f.LINEAR:f.NEAREST;
+x=k(2,y,b,t.internalFormat,t.format,e,i),S=k(0,y,b,n.internalFormat,n.format,e,i),fe=ye(4,y,b,r.internalFormat,r.format,e,f.NEAREST),pe=ye(5,y,b,r.internalFormat,r.format,e,f.NEAREST),C=k(6,y,b,r.internalFormat,r.format,e,f.NEAREST)}function ye(e,t,n,r,i,a,o){f.activeTexture(f.TEXTURE0+e);
+let s=f.createTexture();
+f.bindTexture(f.TEXTURE_2D,s),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_MIN_FILTER,o),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_MAG_FILTER,o),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_WRAP_S,f.CLAMP_TO_EDGE),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_WRAP_T,f.CLAMP_TO_EDGE),f.texImage2D(f.TEXTURE_2D,0,r,t,n,0,i,a,null);
+let c=f.createFramebuffer();
+return f.bindFramebuffer(f.FRAMEBUFFER,c),f.framebufferTexture2D(f.FRAMEBUFFER,f.COLOR_ATTACHMENT0,f.TEXTURE_2D,s,0),f.viewport(0,0,t,n),f.clear(f.COLOR_BUFFER_BIT),[s,c,e]}function k(e,t,n,r,i,a,o){let s=ye(e,t,n,r,i,a,o),c=ye(e+1,t,n,r,i,a,o);
+return{get read(){return s},get write(){return c},swap(){let e=s;
+s=c,c=e}}}let A=(f.bindBuffer(f.ARRAY_BUFFER,f.createBuffer()),f.bufferData(f.ARRAY_BUFFER,new Float32Array([-1,-1,-1,1,1,1,1,-1]),f.STATIC_DRAW),f.bindBuffer(f.ELEMENT_ARRAY_BUFFER,f.createBuffer()),f.bufferData(f.ELEMENT_ARRAY_BUFFER,new Uint16Array([0,1,2,0,2,3]),f.STATIC_DRAW),f.vertexAttribPointer(0,2,f.FLOAT,!1,0,0),f.enableVertexAttribArray(0),e=>{f.bindFramebuffer(f.FRAMEBUFFER,e),f.drawElements(f.TRIANGLES,6,f.UNSIGNED_SHORT,0)});
+function be(e,t,n,r,o){T.bind(),f.uniform1i(T.uniforms.uTarget,S.read[2]),f.uniform1f(T.uniforms.aspectRatio,a.width/a.height),f.uniform2f(T.uniforms.point,e/a.width,1-t/a.height),f.uniform3f(T.uniforms.color,n,-r,1),f.uniform1f(T.uniforms.radius,i.current.splatRadius/1e3),A(S.write[1]),S.swap(),f.uniform1i(T.uniforms.uTarget,x.read[2]),f.uniform3f(T.uniforms.color,o[0]*.3,o[1]*.3,o[2]*.3),A(x.write[1]),x.swap()}function xe(e){for(let t=0;
+t<e;
+t++)be(a.width*Math.random(),a.height*Math.random(),1e3*(Math.random()-.5),1e3*(Math.random()-.5),[3,3,3])}let Se=null,j=null,M=!1,Ce=!1,we=[1,1],Te=f.createTexture();
+f.bindTexture(f.TEXTURE_2D,Te),f.texImage2D(f.TEXTURE_2D,0,f.RGBA,1,1,0,f.RGBA,f.UNSIGNED_BYTE,new Uint8Array([0,0,0,0]));
+let Ee=()=>{!p.current&&c.current&&c.current()},De=()=>{let e=i.current.mediaType||`image`,t=e===`video`?i.current.video:i.current.image;
+if(t&&t!==Se)if(Se=t,j&&M&&(j.pause(),j.removeAttribute(`src`),j.load()),e===`video`){M=!0;
+let e=document.createElement(`video`);
+e.crossOrigin=`anonymous`,e.muted=!0,e.loop=!0,e.playsInline=!0,e.autoplay=!0,e.src=t,e.onloadeddata=Ee,e.play().catch(()=>{}),j=e,Ce=!1}else{M=!1;
+let e=new o.Image;
+e.crossOrigin=`anonymous`,e.onload=()=>{j=e,Ce=!0,Ee()},e.src=t}},Oe=Date.now();
+function ke(){De();
+let e=M&&j&&j.readyState>=2&&j.videoWidth>0;
+if(Ce&&!M||e){let e=M?j.videoWidth:j.width,t=M?j.videoHeight:j.height;
+e>0&&t>0&&(we=[e,t],f.activeTexture(f.TEXTURE0+8),f.bindTexture(f.TEXTURE_2D,Te),f.texImage2D(f.TEXTURE_2D,0,f.RGBA,f.RGBA,f.UNSIGNED_BYTE,j),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_WRAP_S,f.CLAMP_TO_EDGE),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_WRAP_T,f.CLAMP_TO_EDGE),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_MIN_FILTER,f.LINEAR),f.texParameteri(f.TEXTURE_2D,f.TEXTURE_MAG_FILTER,f.LINEAR),M||(Ce=!1))}let n=p.current?Math.min((Date.now()-Oe)/1e3,.016):.016;
+Oe=Date.now(),f.viewport(0,0,y,b),u.length>0&&xe(u.pop()),E.bind(),f.uniform2f(E.uniforms.texelSize,1/y,1/b),f.uniform1i(E.uniforms.uVelocity,S.read[2]),f.uniform1i(E.uniforms.uSource,S.read[2]),f.uniform1f(E.uniforms.dt,n),f.uniform1f(E.uniforms.dissipation,i.current.velocityDissipation/100),A(S.write[1]),S.swap();
+let r=Math.max(0,1-i.current.disappearSpeed/100);
+f.uniform1i(E.uniforms.uVelocity,S.read[2]),f.uniform1i(E.uniforms.uSource,x.read[2]),f.uniform1f(E.uniforms.dissipation,r),A(x.write[1]),x.swap();
+for(let e=0;
+e<l.length;
+e++){let t=l[e];
+t.moved&&=(be(t.x,t.y,t.dx,t.dy,[3,3,3]),!1)}he.bind(),f.uniform2f(he.uniforms.texelSize,1/y,1/b),f.uniform1i(he.uniforms.uVelocity,S.read[2]),A(pe[1]),ge.bind(),f.uniform2f(ge.uniforms.texelSize,1/y,1/b),f.uniform1i(ge.uniforms.uVelocity,S.read[2]),f.uniform1i(ge.uniforms.uCurl,pe[2]),f.uniform1f(ge.uniforms.curl,i.current.curl),f.uniform1f(ge.uniforms.dt,n),A(S.write[1]),S.swap(),D.bind(),f.uniform2f(D.uniforms.texelSize,1/y,1/b),f.uniform1i(D.uniforms.uVelocity,S.read[2]),A(fe[1]),me.bind();
+let a=C.read[2];
+f.activeTexture(f.TEXTURE0+a),f.bindTexture(f.TEXTURE_2D,C.read[0]),f.uniform1i(me.uniforms.uTexture,a),f.uniform1f(me.uniforms.value,i.current.pressureDissipation/100),A(C.write[1]),C.swap(),O.bind(),f.uniform2f(O.uniforms.texelSize,1/y,1/b),f.uniform1i(O.uniforms.uDivergence,fe[2]),a=C.read[2],f.uniform1i(O.uniforms.uPressure,a),f.activeTexture(f.TEXTURE0+a);
+let o=Math.max(1,i.current.pressureIterations);
+for(let e=0;
+e<o;
+e++)f.bindTexture(f.TEXTURE_2D,C.read[0]),A(C.write[1]),C.swap();
+_e.bind(),f.uniform2f(_e.uniforms.texelSize,1/y,1/b),f.uniform1i(_e.uniforms.uPressure,C.read[2]),f.uniform1i(_e.uniforms.uVelocity,S.read[2]),A(S.write[1]),S.swap(),f.viewport(0,0,f.drawingBufferWidth,f.drawingBufferHeight),w.bind(),f.uniform2f(w.uniforms.uResolution,f.drawingBufferWidth,f.drawingBufferHeight),f.uniform2f(w.uniforms.uImageRes,we[0],we[1]),f.uniform2f(w.uniforms.texelSize,1/y,1/b),f.uniform1f(w.uniforms.uRefractionAmount,i.current.refractionAmount/100),f.uniform1f(w.uniforms.uChromaticAberration,i.current.chromaticAberration/1e3),f.uniform1f(w.uniforms.uHighlight,i.current.highlight/100),f.activeTexture(f.TEXTURE0+x.read[2]),f.bindTexture(f.TEXTURE_2D,x.read[0]),f.uniform1i(w.uniforms.uTexture,x.read[2]),f.activeTexture(f.TEXTURE0+8),f.bindTexture(f.TEXTURE_2D,Te),f.uniform1i(w.uniforms.uImage,8),A(null),t=p.current&&s.current?requestAnimationFrame(ke):null}let Ae=()=>{p.current&&s.current?t||(Oe=Date.now(),ke()):(t&&=(cancelAnimationFrame(t),null),ke())};
+c.current=Ae,a.width=e.clientWidth,a.height=e.clientHeight,ve(),xe(parseInt(Math.random()*10)+5),Ae();
+let je=e=>{l[0].moved=i.current.interactOnHover?!0:l[0].down,l[0].dx=(e.offsetX-l[0].x)*10,l[0].dy=(e.offsetY-l[0].y)*10,l[0].x=e.offsetX,l[0].y=e.offsetY,p.current||c.current()},Me=e=>{e.cancelable&&e.preventDefault();
+let t=e.targetTouches;
+for(let e=0;
+e<t.length;
+e++){let n=l[e];
+n&&(n.moved=i.current.interactOnHover?!0:n.down,n.dx=(t[e].pageX-n.x)*10,n.dy=(t[e].pageY-n.y)*10,n.x=t[e].pageX,n.y=t[e].pageY)}p.current||c.current()},Ne=()=>{l[0].down=!0,p.current||c.current()},Pe=e=>{e.cancelable&&e.preventDefault();
+let t=e.targetTouches;
+for(let e=0;
+e<t.length;
+e++)e>=l.length&&l.push(new d),l[e].id=t[e].identifier,l[e].down=!0,l[e].x=t[e].pageX,l[e].y=t[e].pageY;
+p.current||c.current()},Fe=()=>{l[0].down=!1},Ie=e=>{let t=e.changedTouches;
+for(let e=0;
+e<t.length;
+e++)for(let n=0;
+n<l.length;
+n++)t[e].identifier===l[n].id&&(l[n].down=!1)};
+a.addEventListener(`mousemove`,je),a.addEventListener(`touchmove`,Me,{passive:!1}),a.addEventListener(`mousedown`,Ne),a.addEventListener(`touchstart`,Pe,{passive:!1}),o.addEventListener(`mouseup`,Fe),o.addEventListener(`touchend`,Ie);
+let Le=new ResizeObserver(()=>{if(!a)return;
+let t=e.clientWidth,n=e.clientHeight;
+(a.width!==t||a.height!==n)&&(a.width=t,a.height=n,ve(),!p.current&&c.current&&c.current())});
+return Le.observe(e),()=>{if(r.disconnect(),Le.disconnect(),t&&cancelAnimationFrame(t),a.removeEventListener(`mousemove`,je),a.removeEventListener(`touchmove`,Me),a.removeEventListener(`mousedown`,Ne),a.removeEventListener(`touchstart`,Pe),o.removeEventListener(`mouseup`,Fe),o.removeEventListener(`touchend`,Ie),f){Te&&f.deleteTexture(Te);
+let e=f.getExtension(`WEBGL_lose_context`);
+e&&e.loseContext()}j&&M&&(j.pause(),j.removeAttribute(`src`),j.load()),e&&e.contains(a)&&e.removeChild(a)}},[]),l(`div`,{ref:n,style:{width:`100%`,height:`100%`,minWidth:100,minHeight:100,overflow:`hidden`,position:`relative`,...t.style}})}var Ya=e((()=>{i(),p(),n(),ie(),Ja.defaultProps={media:{mediaType:`image`,image:`https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop`,video:``},simulation:{refractionAmount:15,chromaticAberration:10,highlight:50,disappearSpeed:2,velocityDissipation:99,pressureDissipation:80,pressureIterations:25,curl:30,splatRadius:5},behavior:{editorPreview:!0,interactOnHover:!0}},y(Ja,{media:{type:S.Object,title:`Media`,controls:{mediaType:{type:S.Enum,title:`Type`,options:[`image`,`video`],optionTitles:[`Image`,`Video`],defaultValue:`image`},image:{type:S.Image,title:`Image`,description:`Background source image`,hidden:e=>e.mediaType===`video`},video:{type:S.File,title:`Video`,allowedFileTypes:[`mp4`,`webm`,`mov`],description:`Background source video`,hidden:e=>e.mediaType!==`video`}}},simulation:{type:S.Object,title:`Simulation`,controls:{refractionAmount:{type:S.Number,title:`Refraction`,defaultValue:15,min:0,max:100,description:`Strength of visual distortion`},chromaticAberration:{type:S.Number,title:`Chroma Spread`,defaultValue:10,min:0,max:100,description:`RGB splitting through liquid`},highlight:{type:S.Number,title:`Highlight`,defaultValue:50,min:0,max:200,description:`Specular reflection intensity`},disappearSpeed:{type:S.Number,title:`Fade Speed (%)`,defaultValue:2,min:.1,max:20,step:.1,description:`How fast liquid returns flat`},velocityDissipation:{type:S.Number,title:`Movement Fade (%)`,defaultValue:99,min:0,max:100,description:`How fast motion stops`},pressureDissipation:{type:S.Number,title:`Pressure Fade (%)`,defaultValue:80,min:0,max:100,description:`Pressure falloff`},pressureIterations:{type:S.Number,title:`Solver Iters (n)`,defaultValue:25,min:1,max:50,description:`Physics accuracy`},curl:{type:S.Number,title:`Curl Intensity (%)`,defaultValue:30,min:0,max:100,description:`Swirl intensity`},splatRadius:{type:S.Number,title:`Touch Size (%)`,defaultValue:5,min:1,max:20,description:`Radius of interaction`}}},behavior:{type:S.Object,title:`Behavior`,controls:{editorPreview:{type:S.Boolean,title:`Editor Preview`,defaultValue:!0,description:`Run in Framer`},interactOnHover:{type:S.Boolean,title:`Hover Interact`,defaultValue:!0,description:`Hover vs click mode`}}}})}));
+function Xa(e,t){return{description:`Made with Framer`,robots:`max-image-preview:large`,title:`My Framer Site`}}var Za=e((()=>{}));
+function Qa(e,t){return{breakpoints:[{hash:`72rtr7`}],description:Xa(e,t).description,elements:{},robots:`max-image-preview:large`,serializationId:`framer-shXBh`,title:Xa(e,t).title||`Home`,viewport:`width=1200`}}var $a,eo,to=e((()=>{Za(),$a=1,eo={exports:{metadataVersion:{type:`variable`,annotations:{framerContractVersion:`1`}},default:{type:`function`,annotations:{framerContractVersion:`1`}},__FramerMetadata__:{type:`variable`}}}})),no,ro,io,ao,oo,so,co,lo,uo,fo,po=e((()=>{p(),ie(),g(),n(),Ya(),to(),no=_(Ja),ro={},io=[],ao=`framer-shXBh`,oo={WQLkyLRf1:`framer-v-72rtr7`},so=(e,t,n)=>e&&t?`position`:n,co=({value:e})=>ae()?null:l(`style`,{dangerouslySetInnerHTML:{__html:e},"data-framer-html-style":``}),lo=({height:e,id:t,width:n,...r})=>({...r}),uo=ce(u(function(e,n){let i=r(null),a=n??i,o=m(),{activeLocale:s,setLocale:c}=v();
+pe();
+let{style:u,className:p,layoutId:g,variant:_,...ie}=lo(e);
+re(t(()=>Qa({},s),[s]));
+let[ae,se]=ne(_,ro,!1),ce=le(ao),de=d(ue)?.isLayoutTemplate,y=!!d(ee)?.transition?.layout,x=so(de,y);
+return oe({}),l(ue.Provider,{value:{activeVariantId:ae,primaryVariantId:`WQLkyLRf1`,variantClassNames:oo},children:f(te,{id:g??o,children:[l(co,{value:`html body { background: rgb(0, 0, 0);
+ }`}),l(h.div,{...ie,className:le(ce,`framer-72rtr7`,p),ref:a,style:{...u},children:l(h.div,{className:`framer-vzac0a`,layout:x,children:l(fe,{children:l(b,{className:`framer-1vmjuge-container`,isAuthoredByUser:!0,nodeId:`cXwHXlQyj`,scopeId:`augiA20Il`,children:l(Ja,{behavior:{editorPreview:!0,interactOnHover:!0},height:`100%`,id:`cXwHXlQyj`,layoutId:`cXwHXlQyj`,media:{image:`https://framerusercontent.com/images/2exoQxYNf3YECaAWoYDz4CfJQPI.png?width=2906&height=1869`,mediaType:`image`},simulation:{chromaticAberration:100,curl:18,disappearSpeed:5.9,highlight:200,pressureDissipation:0,pressureIterations:50,refractionAmount:100,splatRadius:3,velocityDissipation:99},style:{height:`100%`,width:`100%`},width:`100%`})})})})}),l(`div`,{id:`overlay`})]})})}),[`.framer-shXBh.framer-lux5qc, .framer-shXBh .framer-lux5qc { display: block;
+ }`,`.framer-shXBh.framer-72rtr7 { align-content: center;
+ align-items: center;
+ background-color: #000000;
+ display: flex;
+ flex-direction: column;
+ flex-wrap: nowrap;
+ gap: 10px;
+ height: min-content;
+ justify-content: flex-start;
+ overflow: var(--overflow-clip-fallback, clip);
+ padding: 0px;
+ position: relative;
+ width: 1200px;
+ }`,`.framer-shXBh .framer-vzac0a { align-content: center;
+ align-items: center;
+ background: linear-gradient(180deg, #000000 0%, rgb(28, 28, 28) 100%);
+ display: flex;
+ flex: none;
+ flex-direction: row;
+ flex-wrap: nowrap;
+ gap: 10px;
+ height: 100vh;
+ justify-content: center;
+ overflow: var(--overflow-clip-fallback, clip);
+ padding: 0px;
+ position: relative;
+ width: 100%;
+ }`,`.framer-shXBh .framer-1vmjuge-container { flex: 1 0 0px;
+ height: 100vh;
+ position: relative;
+ width: 1px;
+ }`],`framer-shXBh`),uo.displayName=`Home`,uo.defaultProps={height:800,width:1200},x(uo,[{explicitInter:!0,fonts:[]},...no],{supportsExplicitInterCodegen:!0}),fo={exports:{default:{type:`reactComponent`,name:`FrameraugiA20Il`,slots:[],annotations:{framerColorSyntax:`true`,framerImmutableVariables:`true`,framerDisplayContentsDiv:`false`,framerIntrinsicWidth:`1200`,framerAcceptsLayoutTemplate:`true`,framerScrollSections:`false`,framerCanvasComponentVariantDetails:`{"propertyName":"variant","data":{"default":{"layout":["fixed","auto"]}}}`,framerIntrinsicHeight:`800`,framerResponsiveScreen:`true`,framerAutoSizeImages:`true`,framerLayoutTemplateFlowEffect:`true`,framerContractVersion:`1`,framerComponentViewportWidth:`true`}},Props:{type:`tsType`,annotations:{framerContractVersion:`1`}},queryParamNames:{type:`variable`,annotations:{framerContractVersion:`1`}},__FramerMetadata__:{type:`variable`}}}}));
+async function mo(e,t,n){let r=go[e],i=r?await r(t,n):void 0,a={bodyEnd:[],bodyStart:[],headEnd:[],headStart:[]};
+for(let t of ho){if(t.pageIds&&!t.pageIds.has(e))continue;
+let n=t.code(i);
+n&&a[t.placement].push({...t,code:n})}return a}var ho,go,_o,vo,yo=e((()=>{ho=[],go={},_o={bodyEnd:[],bodyStart:[],headEnd:[],headStart:[]},vo={exports:{snippetsSorting:{type:`variable`,annotations:{framerContractVersion:`1`}},getSnippets:{type:`function`,annotations:{framerContractVersion:`1`}},__FramerMetadata__:{type:`variable`}}}}));
+export{uo as a,io as c,Qa as d,$a as f,_o as i,eo as l,qa as m,mo as n,fo as o,Ka as p,yo as r,po as s,vo as t,to as u};
+
+//# sourceMappingURL=shared-lib.CzRmetkE.mjs.map

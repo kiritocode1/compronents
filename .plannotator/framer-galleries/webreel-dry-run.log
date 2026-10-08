@@ -1,0 +1,47 @@
+[1m
+Resolved configuration:
+[0m
+  baseUrl:      https://compronents.localhost:1355
+  outDir:       ./videos
+  viewport:     1280x578
+
+  [1m3 video(s):[0m
+
+  [36mbrowse-warped-projects[0m
+    url:      /components/warped-gallery/preview
+    viewport: 1280x578
+    output:   /Users/blank/Desktop/CREATE/compronents/.plannotator/framer-galleries/videos/browse-warped-projects.mp4
+    steps:    8 step(s)
+      [2m0:[0m wait selector="[data-warped-gallery][data-ready=true]"
+      [2m1:[0m pause 800ms
+      [2m2:[0m moveTo selector="[data-warped-gallery] a:nth-of-type(2)"
+      [2m3:[0m pause 600ms
+      [2m4:[0m drag
+      [2m5:[0m pause 1200ms
+      [2m6:[0m key "PageDown"
+      [2m7:[0m pause 1400ms
+
+  [36mgrow-watercolor-blooms[0m
+    url:      /components/hover-bloom/preview
+    viewport: 1280x578
+    output:   /Users/blank/Desktop/CREATE/compronents/.plannotator/framer-galleries/videos/grow-watercolor-blooms.mp4
+    steps:    4 step(s)
+      [2m0:[0m wait selector="[aria-label='Hover Bloom canvas'] canvas"
+      [2m1:[0m click selector="[aria-label='Hover Bloom canvas'] canvas"
+      [2m2:[0m moveTo selector="a[aria-label='Close fullscreen']"
+      [2m3:[0m pause 4000ms
+
+  [36mrefract-cover-with-pointer[0m
+    url:      /components/fluid-refraction/preview
+    viewport: 1280x578
+    output:   /Users/blank/Desktop/CREATE/compronents/.plannotator/framer-galleries/videos/refract-cover-with-pointer.mp4
+    steps:    8 step(s)
+      [2m0:[0m wait selector="[data-fluid-refraction][data-ready=true]"
+      [2m1:[0m pause 800ms
+      [2m2:[0m moveTo selector="[data-fluid-refraction] canvas"
+      [2m3:[0m pause 600ms
+      [2m4:[0m moveTo selector="a[aria-label='Close fullscreen']"
+      [2m5:[0m pause 400ms
+      [2m6:[0m moveTo selector="[data-fluid-refraction] canvas"
+      [2m7:[0m pause 1800ms
+

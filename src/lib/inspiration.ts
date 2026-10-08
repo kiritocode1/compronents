@@ -648,6 +648,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Web platform, CSS and performance",
     links: [
       {
+        title: "good-css",
+        href: "https://good-css.com/",
+        dateAdded: "2026-10-08",
+        kind: "library",
+        stack: ["css"],
+        useFor: [
+          "adopt defensive css reset",
+          "support rtl with logical properties",
+          "derive oklch color families",
+          "implement light dark color tokens",
+          "build fluid typography and spacing",
+          "create responsive grids and subgrid",
+          "adapt components with container queries",
+          "handle mobile scrolling and safe areas",
+        ],
+        description:
+          "good-css is a CSS recipe library with live demonstrations, code, explanations, browser support notes and source links. Use it to inspect and adapt patterns for defensive resets, RTL logical properties, OKLCH color families, light and dark tokens, fluid typography and spacing, responsive grids, subgrid and container queries. Its fluid-scale recipe derives type and spacing steps directly in CSS, while mobile recipes cover overscroll behavior and safe-area clearance.",
+      },
+      {
         title: "modern-web-guidance v0.0.187",
         href: "https://github.com/GoogleChrome/modern-web-guidance/releases/tag/v0.0.187",
         dateAdded: "2026-09-18",

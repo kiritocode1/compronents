@@ -1,0 +1,4 @@
+
+> compronents@0.1.0 typecheck:registry
+> tsc --noEmit -p tsconfig.check.json
+

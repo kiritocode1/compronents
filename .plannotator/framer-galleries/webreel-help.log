@@ -1,0 +1,18 @@
+npm warn exec The following package was not found and will be installed: webreel@0.1.4
+Usage: webreel [options] [command]
+
+Record scripted browser demos as MP4 videos
+
+Options:
+  -V, --version                    output the version number
+  -h, --help                       display help for command
+
+Commands:
+  record [options] [videos...]     Record videos
+  init [options]                   Scaffold a new webreel config file
+  validate [options]               Validate a webreel config file
+  preview [options] [video]        Run a video in a visible browser without
+                                   recording
+  composite [options] [videos...]  Re-composite videos from stored raw
+                                   recordings and timelines
+  help [command]                   display help for command

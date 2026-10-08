@@ -1,0 +1,69 @@
+
+portless
+
+-- Proxy is running
+-- compronents.localhost (auto-resolves to 127.0.0.1)
+-- Name "compronents" (from portless.json)
+-- Using port 4467
+
+  -> https://compronents.localhost:1355
+
+Running: PORT=4467 HOST=127.0.0.1 PORTLESS_URL=https://compronents.localhost:1355 NODE_EXTRA_CA_CERTS="/Users/blank/.portless/ca.pem" npm run dev
+
+
+> compronents@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:4467
+- Network:       http://192.168.1.10:4467
+- Environments: .env.local
+✓ Ready in 323ms
+
+○ Compiling /components/[name]/preview ...
+ GET /components/hover-bloom/preview 200 in 18.1s (next.js: 17.0s, generate-params: 369ms, application-code: 1143ms)
+ GET /components/fluid-refraction/preview 200 in 18.1s (next.js: 16.9s, generate-params: 309ms, application-code: 1213ms)
+ GET /components/warped-gallery/preview 200 in 18.1s (next.js: 17.0s, generate-params: 382ms, application-code: 1136ms)
+✓ Compiled in 414ms
+✓ Compiled in 581ms
+ GET /components/hover-bloom/preview 200 in 105ms (next.js: 27ms, generate-params: 5ms, application-code: 78ms)
+✓ Compiled in 1005ms
+✓ Finished filesystem cache database compaction in 27.5s
+✓ Compiled in 625ms
+✓ Compiled in 2.1s
+✓ Compiled in 179ms
+ GET /components/warped-gallery/preview 200 in 143ms (next.js: 48ms, generate-params: 5ms, application-code: 95ms)
+✓ Compiled in 155ms
+✓ Compiled in 3.3s
+ GET /components/warped-gallery/preview 200 in 567ms (next.js: 99ms, generate-params: 34ms, application-code: 467ms)
+ GET /components/hover-bloom/preview 200 in 136ms (next.js: 12ms, generate-params: 7ms, application-code: 125ms)
+ GET /components/warped-gallery/preview 200 in 88ms (next.js: 5ms, generate-params: 2ms, application-code: 82ms)
+ GET /components/warped-gallery/preview 200 in 40ms (next.js: 5ms, generate-params: 2ms, application-code: 35ms)
+ GET /components/fluid-refraction/preview 200 in 47ms (next.js: 4ms, generate-params: 1603µs, application-code: 44ms)
+ GET /components/warped-gallery/preview 200 in 62ms (next.js: 6ms, generate-params: 1799µs, application-code: 56ms)
+ GET /components/hover-bloom/preview 200 in 66ms (next.js: 3ms, generate-params: 1487µs, application-code: 62ms)
+ GET /components/fluid-refraction/preview 200 in 49ms (next.js: 3ms, generate-params: 1540µs, application-code: 45ms)
+ GET /components/warped-gallery/preview 200 in 97ms (next.js: 5ms, generate-params: 1632µs, application-code: 91ms)
+✓ Compiled in 180ms
+ GET /components/warped-gallery/preview 200 in 90ms (next.js: 15ms, generate-params: 2ms, application-code: 75ms)
+ GET /components/warped-gallery/preview 200 in 39ms (next.js: 4ms, generate-params: 1932µs, application-code: 35ms)
+ GET /components/warped-gallery/preview 200 in 71ms (next.js: 11ms, generate-params: 4ms, application-code: 60ms)
+ GET /components/fluid-refraction/preview 200 in 45ms (next.js: 6ms, generate-params: 2ms, application-code: 39ms)
+ GET /components/warped-gallery/preview 200 in 38ms (next.js: 3ms, generate-params: 1280µs, application-code: 34ms)
+ GET /components/fluid-refraction/preview 200 in 35ms (next.js: 4ms, generate-params: 1484µs, application-code: 31ms)
+ GET /components/hover-bloom/preview 200 in 39ms (next.js: 4ms, generate-params: 1458µs, application-code: 35ms)
+ GET /components/warped-gallery/preview 200 in 114ms (next.js: 12ms, generate-params: 4ms, application-code: 102ms)
+ GET /components/warped-gallery/preview 200 in 97ms (next.js: 11ms, generate-params: 3ms, application-code: 86ms)
+✓ Finished writing to filesystem cache in 15.3s
+ GET /components/hover-bloom/preview 200 in 1651ms (next.js: 285ms, generate-params: 17ms, application-code: 1366ms)
+ GET /components/fluid-refraction/preview 200 in 1501ms (next.js: 272ms, generate-params: 147ms, application-code: 1229ms)
+ GET /components/warped-gallery/preview 200 in 158ms (next.js: 19ms, generate-params: 5ms, application-code: 139ms)
+ GET /components/warped-gallery/preview 200 in 587ms (next.js: 9ms, generate-params: 5ms, application-code: 578ms)
+ GET /components/fluid-refraction/preview 200 in 383ms (next.js: 9ms, generate-params: 4ms, application-code: 374ms)
+○ Compiling /components/[name] ...
+ GET /components/fluid-refraction 200 in 38.5s (next.js: 34.2s, generate-params: 2.8s, application-code: 4.3s)
+ GET /components/fluid-refraction 200 in 15.4s (next.js: 11.2s, generate-params: 3.0s, application-code: 4.2s)
+ GET /components/fluid-refraction 200 in 31.9s (next.js: 26.2s, generate-params: 2.2s, application-code: 5.6s)
+ POST /components/fluid-refraction 200 in 90ms (next.js: 17ms, generate-params: 8ms, application-code: 72ms)
+  └─ ƒ isSourceUnlocked() in 8ms src/lib/source-access.ts
+[?25h
