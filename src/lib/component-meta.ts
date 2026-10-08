@@ -751,6 +751,313 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "warped-gallery": {
+    demoPath: "src/components/demos/warped-gallery.tsx",
+    api: [
+      {
+        name: "projects",
+        type: "readonly WarpedGalleryProject[]",
+        description:
+          "Required ordered projects: title, image, optional imageSrcSet, video, href and aspectRatio. Standard browser srcset selects responsive media; metadata supplies the final aspect ratio.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#000000"',
+        description: "Hex or RGB canvas background color.",
+      },
+      {
+        name: "titleColor",
+        type: "string",
+        default: '"#ffffff"',
+        description: "Hex or RGB title color.",
+      },
+      {
+        name: "showGrid",
+        type: "boolean",
+        default: "true",
+        description:
+          "Draw the perspective floor grid on desktop. The source-page demo disables it.",
+      },
+      {
+        name: "playVideos",
+        type: "boolean",
+        default: "true",
+        description:
+          "Play visible video cards, paused offscreen and for reduced motion.",
+      },
+      {
+        name: "openInNewTab",
+        type: "boolean",
+        default: "false",
+        description:
+          "Open project links in a new tab with noopener noreferrer.",
+      },
+      {
+        name: "mobileBreakpoint",
+        type: "number",
+        default: "649",
+        description:
+          "Container width in pixels where browsing switches to vertical.",
+      },
+      {
+        name: "scrollSensitivity",
+        type: "number",
+        default: "1",
+        description: "Multiplier for wheel, touch, drag and keyboard input.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description:
+          "Size and compose the container. Give it or its parent an explicit height.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        default: '"Featured projects. Scroll or drag to browse."',
+        description: "Accessible name for the focusable gallery region.",
+      },
+    ],
+    nuance: [
+      {
+        label: "One deforming card",
+        description:
+          "Media, rasterized title and generated right arrow share card UVs and inherit the same mesh deformation. The component does not load Framer, source HTML or remote JavaScript.",
+      },
+      {
+        label: "Normal React composition",
+        description:
+          "Pass typed project data and place the gallery inside your own section. Headers and overlays belong outside the canvas; arbitrary React card children cannot inherit the shader bend.",
+      },
+      {
+        label: "Keyboard and fallback",
+        description:
+          "Focus the region for ArrowUp, ArrowDown, PageUp, PageDown and Space. Project anchors retain normal link semantics. Unsupported WebGL gets static media links.",
+      },
+      {
+        label: "Original source",
+        description:
+          "Ported from bold-lychee-277407.framer.app. The demo preserves its media and settings without Framer chrome.",
+      },
+    ],
+    editable: [],
+    assets: assetItems.filter((a) => a.id.startsWith("warped-gallery-")),
+  },
+  "hover-bloom": {
+    demoPath: "src/components/demos/hover-bloom.tsx",
+    api: [
+      {
+        name: "spawnOn",
+        type: '"move" | "still"',
+        default: '"move"',
+        description:
+          "Move grows stems along the pointer path. Still spawns only on press, not continuously on hover.",
+      },
+      {
+        name: "growthMode",
+        type: '"upright" | "creep"',
+        default: '"upright"',
+        description: "Mostly upward stems or sideways vines.",
+      },
+      {
+        name: "spawnRate",
+        type: "number",
+        default: "10",
+        description: "Stems per second of pointer movement.",
+      },
+      {
+        name: "maxBlooms",
+        type: "number",
+        default: "80",
+        description:
+          "Cap on active stem/flower records, not on pigment already painted.",
+      },
+      {
+        name: "resetOnLeave",
+        type: "boolean",
+        default: "false",
+        description:
+          "Clear the painting on pointer leave and enable trail fading.",
+      },
+      {
+        name: "backgroundColor / paperTint",
+        type: "string",
+        default: '"#FFFFFF" / "#F5F5F5"',
+        description: "Canvas background and translucent diagonal paper wash.",
+      },
+      {
+        name: "grid / gridSize / gridDotSize / gridColor",
+        type: "boolean / number / number / string",
+        default: 'true / 24 / 1 / "#CCCCCC"',
+        description:
+          "CSS dot grid behind the painted canvas. The opaque painting can cover it.",
+      },
+      {
+        name: "palette",
+        type: '"mixed" | "warm" | "cool" | "pink"',
+        default: '"mixed"',
+        description: "Preset flower hue collection.",
+      },
+      {
+        name: "customPalette",
+        type: "readonly string[]",
+        description: "Nonempty valid hex colors override the preset palette.",
+      },
+      {
+        name: "stemHue / stemSaturation / stemLightness",
+        type: "number",
+        default: "115 / 28 / 38",
+        description:
+          "Stem HSL values, hue in degrees and saturation/lightness in percent.",
+      },
+      {
+        name: "flowerSaturation / flowerLightness",
+        type: "number",
+        default: "78 / 66",
+        description: "Flower saturation and lightness for preset palettes.",
+      },
+      {
+        name: "bloomScale",
+        type: "number",
+        default: "1",
+        description: "Scale multiplier for stems, leaves and flowers.",
+      },
+      {
+        name: "blur / watercolor / trailFade",
+        type: "number",
+        default: "0.6 / 0.8 / 0.08",
+        description:
+          "Post-process blur in pixels, watercolor strength and reset-mode fade amount.",
+      },
+      {
+        name: "className / style / aria-label",
+        type: "string / CSSProperties / string",
+        description: "Container sizing and accessible canvas description.",
+      },
+    ],
+    nuance: [
+      {
+        label: "Accumulating paint",
+        description:
+          "Translucent ellipses and strokes deposit pigment on a persistent offscreen Canvas 2D layer. No flower sprites or image assets.",
+      },
+      {
+        label: "Resize and settings",
+        description:
+          "Resize keeps existing artwork centered and bottom-aligned. Changing rendering settings starts a fresh painting so callbacks cannot retain stale colors.",
+      },
+      {
+        label: "Original source",
+        description:
+          "Ported from practical-assumptions-334944.framer.app. The demo uses its warm palette, cream tint and transparent dot grid.",
+      },
+    ],
+    editable: [],
+    assets: [],
+  },
+  "fluid-refraction": {
+    demoPath: "src/components/demos/fluid-refraction.tsx",
+    api: [
+      {
+        name: "image / video",
+        type: "exclusive string media union",
+        description:
+          "Supply exactly one media URL, with CORS permission for WebGL texture upload. Rendered with cover cropping.",
+      },
+      {
+        name: "refractionAmount",
+        type: "number",
+        default: "15",
+        description: "Distortion strength, source scale 0 to 100.",
+      },
+      {
+        name: "chromaticAberration",
+        type: "number",
+        default: "10",
+        description: "RGB refraction separation, source scale 0 to 100.",
+      },
+      {
+        name: "highlight",
+        type: "number",
+        default: "50",
+        description: "Density-masked specular light, source scale 0 to 200.",
+      },
+      {
+        name: "disappearSpeed",
+        type: "number",
+        default: "2",
+        description: "Density percentage removed per frame.",
+      },
+      {
+        name: "velocityDissipation",
+        type: "number",
+        default: "99",
+        description: "Velocity retention percentage per frame.",
+      },
+      {
+        name: "pressureDissipation",
+        type: "number",
+        default: "80",
+        description: "Pressure retention percentage per frame.",
+      },
+      {
+        name: "pressureIterations",
+        type: "number",
+        default: "25",
+        description:
+          "Pressure solver iterations per frame. The source-page demo uses 50.",
+      },
+      {
+        name: "curl",
+        type: "number",
+        default: "30",
+        description: "Vorticity force strength.",
+      },
+      {
+        name: "splatRadius",
+        type: "number",
+        default: "5",
+        description: "Interaction radius, divided by 1000 for the shader.",
+      },
+      {
+        name: "interactOnHover",
+        type: "boolean",
+        default: "true",
+        description: "Disturb fluid on hover, or require pressing when false.",
+      },
+      {
+        name: "className / style / aria-label",
+        type: "string / CSSProperties / string",
+        description:
+          "Container sizing and accessible description. Give it an explicit height.",
+      },
+    ],
+    nuance: [
+      {
+        label: "Media, not a model",
+        description:
+          "The metallic ribbon and slogan are pixels in the demo image. The GPU simulates fluid density and samples that image with refraction, chromatic separation and highlights.",
+      },
+      {
+        label: "Independent GPU resources",
+        description:
+          "Each instance owns its half-resolution velocity, pressure and density buffers. Resize and unmount release them. Offscreen/hidden scenes pause.",
+      },
+      {
+        label: "Reduced motion and fallback",
+        description:
+          "Reduced motion renders the media without moving fluid. Unsupported half-float WebGL uses ordinary cover-cropped media.",
+      },
+      {
+        label: "Original source",
+        description:
+          "Ported from real-result-504144.framer.app with its original image and simulation settings in the demo.",
+      },
+    ],
+    editable: [],
+    assets: assetItems.filter((a) => a.id === "fluid-refraction-music"),
+  },
   "blur-study-box": {
     demoPath: "src/components/demos/blur-study-box.tsx",
     nuance: [

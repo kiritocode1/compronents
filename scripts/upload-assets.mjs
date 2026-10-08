@@ -20,6 +20,7 @@ const TYPES = {
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".avif": "image/avif",
   ".glb": "model/gltf-binary",
   ".gltf": "model/gltf+json",
   ".bin": "application/octet-stream",

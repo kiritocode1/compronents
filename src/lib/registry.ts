@@ -157,6 +157,86 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "warped-gallery",
+    title: "Warped Gallery",
+    description:
+      "Infinite project cards that bend as you scroll or drag. Raw WebGL renders images, video and titles together, with vertical browsing on mobile. Pure React and TypeScript, no graphics dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/warped-gallery/index.tsx",
+        target: "components/ui/warped-gallery/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/warped-gallery/renderer.ts",
+        target: "components/ui/warped-gallery/renderer.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/warped-gallery/shaders.ts",
+        target: "components/ui/warped-gallery/shaders.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
+    name: "hover-bloom",
+    title: "Hover Bloom",
+    description:
+      "Grow watercolor stems and flowers along the pointer path. An accumulating Canvas 2D painting with warm, cool, pink or custom palettes. Pure TSX, no assets or animation dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/hover-bloom.tsx",
+        target: "components/ui/hover-bloom.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "fluid-refraction",
+    title: "Fluid Refraction",
+    description:
+      "Pointer-driven fluid refraction over an image or video. Raw WebGL simulates velocity, pressure and density, then samples the media with RGB separation and highlights. Pure React and TypeScript.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-08-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/fluid-refraction/index.tsx",
+        target: "components/ui/fluid-refraction/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/fluid-refraction/renderer.ts",
+        target: "components/ui/fluid-refraction/renderer.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/fluid-refraction/shaders.ts",
+        target: "components/ui/fluid-refraction/shaders.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "fisheye-scroll",
     title: "Fisheye Scroll",
     description:

@@ -1,0 +1,42 @@
+{
+  "baseline": "/Users/blank/Desktop/CREATE/compronents/.plannotator/framer-galleries/bloom-mobile-source.png",
+  "current": "/Users/blank/Desktop/CREATE/compronents/.plannotator/framer-galleries/bloom-mobile-current.png",
+  "viewport": [
+    390,
+    844
+  ],
+  "maskedChrome": [
+    [
+      230,
+      780,
+      390,
+      844
+    ],
+    [
+      340,
+      390,
+      390,
+      455
+    ],
+    [
+      330,
+      0,
+      390,
+      70
+    ],
+    [
+      0,
+      760,
+      80,
+      844
+    ]
+  ],
+  "perChannelTolerance": 2,
+  "maximumChangedPercent": 0.1,
+  "changedPixels": 0,
+  "comparedPixels": 304750,
+  "changedPercent": 0.0,
+  "meanAbsoluteChannelError": 0.0,
+  "maxChannelDelta": 0,
+  "passed": true
+}

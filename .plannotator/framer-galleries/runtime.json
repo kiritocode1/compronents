@@ -1,0 +1,53 @@
+[
+  {
+    "name": "warped-gallery",
+    "url": "https://compronents.localhost:1355/components/warped-gallery/preview",
+    "desktop": {
+      "width": 1280,
+      "height": 577,
+      "overflow": false,
+      "documentOverflow": false
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "documentOverflow": true
+    },
+    "runtimeErrors": []
+  },
+  {
+    "name": "hover-bloom",
+    "url": "https://compronents.localhost:1355/components/hover-bloom/preview",
+    "desktop": {
+      "width": 1280,
+      "height": 577,
+      "overflow": false,
+      "documentOverflow": false
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "documentOverflow": true
+    },
+    "runtimeErrors": []
+  },
+  {
+    "name": "fluid-refraction",
+    "url": "https://compronents.localhost:1355/components/fluid-refraction/preview",
+    "desktop": {
+      "width": 1280,
+      "height": 577,
+      "overflow": false,
+      "documentOverflow": false
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "documentOverflow": true
+    },
+    "runtimeErrors": []
+  }
+]

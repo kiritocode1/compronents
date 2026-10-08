@@ -77,6 +77,7 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Galleries and grids",
     names: [
+      "warped-gallery",
       "spiral-gallery",
       "scroll-wave-gallery",
       "shader-grid-gallery",
@@ -187,6 +188,8 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Cursor and hover effects",
     names: [
+      "hover-bloom",
+      "fluid-refraction",
       "grid-scramble-hover",
       "client-hover-preview",
       "folder-preview-hover",

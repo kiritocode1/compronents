@@ -2826,7 +2826,48 @@ const mossyTypeAssets = mossyTypeAssetPaths.map(
     }) satisfies AssetItem,
 );
 
+const warpedGalleryAssets = [
+  "inter-variable.woff2",
+  "nav-in-motion.mp4",
+  ...Array.from(
+    { length: 7 },
+    (_, i) => `source-project-${i + 1}.${i < 5 ? "jpg" : "avif"}`,
+  ),
+  ...Array.from({ length: 7 }, (_, i) =>
+    [512, 1024, 2048, 4096]
+      .filter(
+        (scale) =>
+          !(i === 1 && scale === 512) &&
+          !((i === 3 || i === 5) && scale === 4096),
+      )
+      .map((scale) => `source-project-${i + 1}-${scale}.avif`),
+  ).flat(),
+].map(
+  (filename) =>
+    ({
+      id: `warped-gallery-${filename.replace(/\.[^.]+$/, "")}`,
+      label: `Warped Gallery ${filename}`,
+      provider: "vercel-blob",
+      pathname: `warped-gallery/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/warped-gallery/${filename}`,
+      role: filename.endsWith("woff2")
+        ? "Inter variable font for the bent card titles."
+        : "Original gallery demo media.",
+      notes: "Pinned source asset uploaded to a stable Vercel Blob pathname.",
+    }) satisfies AssetItem,
+);
+
 export const assetItems = [
+  ...warpedGalleryAssets,
+  {
+    id: "fluid-refraction-music",
+    label: "Fluid Refraction music image",
+    provider: "vercel-blob",
+    pathname: "fluid-refraction/music-cover.png",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/fluid-refraction/music-cover.png`,
+    role: "Original metallic ribbon and slogan image, sampled by the fluid display shader.",
+    notes: "Pinned source image uploaded to a stable Vercel Blob pathname.",
+  } satisfies AssetItem,
   typeGardenAsset,
   ...mossyTypeAssets,
   ...moneybeeAlpinePageAssets,

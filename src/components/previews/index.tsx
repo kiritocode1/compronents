@@ -24,10 +24,12 @@ import FilmStudioPagePreview from "./film-studio-page";
 import FisheyeScrollPreview from "./fisheye-scroll";
 import FlowFieldTextPreview from "./flow-field-text";
 import FluidMosaicPreview from "./fluid-mosaic";
+import FluidRefractionPreview from "./fluid-refraction";
 import FluidRevealCarouselPreview from "./fluid-reveal-carousel";
 import FrameScrollPreview from "./frame-scroll";
 import GrainGradientFieldPreview from "./grain-gradient-field";
 import GrainGradientNavPreview from "./grain-gradient-nav";
+import HoverBloomPreview from "./hover-bloom";
 import ImageRevealPreview from "./image-reveal";
 import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
@@ -52,6 +54,7 @@ import SpiralGalleryPreview from "./spiral-gallery";
 import SurpriseBoxPreview from "./surprise-box";
 import TypeGardenPreview from "./type-garden";
 import VideoSummagatorPreview from "./video-summagator";
+import WarpedGalleryPreview from "./warped-gallery";
 
 /**
  * Optional full-viewport preview for a registry item, shown at
@@ -62,6 +65,9 @@ import VideoSummagatorPreview from "./video-summagator";
  * full-page preview) and register it here.
  */
 export const previews: Record<string, ComponentType> = {
+  "warped-gallery": WarpedGalleryPreview,
+  "hover-bloom": HoverBloomPreview,
+  "fluid-refraction": FluidRefractionPreview,
   "animated-footer": AnimatedFooterPreview,
   "accordion-frames": AccordionFramesPreview,
   "ascii-image-reveal": AsciiImageRevealPreview,

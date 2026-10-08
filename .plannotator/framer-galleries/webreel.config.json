@@ -1,0 +1,46 @@
+{
+  "$schema": "https://webreel.dev/schema/v1.json",
+  "baseUrl": "https://compronents.localhost:1355",
+  "outDir": "./videos",
+  "viewport": { "width": 1280, "height": 578 },
+  "videos": {
+    "browse-warped-projects": {
+      "url": "/components/warped-gallery/preview",
+      "output": "browse-warped-projects.mp4",
+      "steps": [
+        { "action": "wait", "selector": "[data-warped-gallery][data-ready=true]" },
+        { "action": "pause", "ms": 800 },
+        { "action": "moveTo", "selector": "[data-warped-gallery] a:nth-of-type(2)" },
+        { "action": "pause", "ms": 600 },
+        { "action": "drag", "from": { "selector": "[data-warped-gallery] a:nth-of-type(2)" }, "to": { "selector": "[data-warped-gallery] a:nth-of-type(3)" } },
+        { "action": "pause", "ms": 1200 },
+        { "action": "key", "key": "PageDown", "target": "[data-warped-gallery]" },
+        { "action": "pause", "ms": 1400 }
+      ]
+    },
+    "grow-watercolor-blooms": {
+      "url": "/components/hover-bloom/preview",
+      "output": "grow-watercolor-blooms.mp4",
+      "steps": [
+        { "action": "wait", "selector": "[aria-label='Hover Bloom canvas'] canvas" },
+        { "action": "click", "selector": "[aria-label='Hover Bloom canvas'] canvas" },
+        { "action": "moveTo", "selector": "a[aria-label='Close fullscreen']" },
+        { "action": "pause", "ms": 4000 }
+      ]
+    },
+    "refract-cover-with-pointer": {
+      "url": "/components/fluid-refraction/preview",
+      "output": "refract-cover-with-pointer.mp4",
+      "steps": [
+        { "action": "wait", "selector": "[data-fluid-refraction][data-ready=true]" },
+        { "action": "pause", "ms": 800 },
+        { "action": "moveTo", "selector": "[data-fluid-refraction] canvas" },
+        { "action": "pause", "ms": 600 },
+        { "action": "moveTo", "selector": "a[aria-label='Close fullscreen']" },
+        { "action": "pause", "ms": 400 },
+        { "action": "moveTo", "selector": "[data-fluid-refraction] canvas" },
+        { "action": "pause", "ms": 1800 }
+      ]
+    }
+  }
+}

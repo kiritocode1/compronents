@@ -85,6 +85,7 @@ import FloatingModelScrollDemo from "./floating-model-scroll";
 import FlowFieldTextDemo from "./flow-field-text";
 import FluidImageDemo from "./fluid-image";
 import FluidMosaicDemo from "./fluid-mosaic";
+import FluidRefractionDemo from "./fluid-refraction";
 import FluidRevealCarouselDemo from "./fluid-reveal-carousel";
 import FlyingCubeScrollDemo from "./flying-cube-scroll";
 import FolderPreviewHoverDemo from "./folder-preview-hover";
@@ -103,6 +104,7 @@ import HalftoneSceneFooterDemo from "./halftone-scene-footer";
 import HalftoneWaveHeroDemo from "./halftone-wave-hero";
 import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
+import HoverBloomDemo from "./hover-bloom";
 import ImageExplosionFooterDemo from "./image-explosion-footer";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
@@ -239,6 +241,7 @@ import VideoSummagatorDemo from "./video-summagator";
 import ViewTransitionFolioPageDemo from "./view-transition-folio-page";
 import VinylOrbitPlayerDemo from "./vinyl-orbit-player";
 import VokuImageSliderDemo from "./voku-image-slider";
+import WarpedGalleryDemo from "./warped-gallery";
 import WebglDissolveScrollDemo from "./webgl-dissolve-scroll";
 import WedgeClipWorkScrollDemo from "./wedge-clip-work-scroll";
 import WheelClipSliderDemo from "./wheel-clip-slider";
@@ -255,6 +258,9 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "warped-gallery": WarpedGalleryDemo,
+  "hover-bloom": HoverBloomDemo,
+  "fluid-refraction": FluidRefractionDemo,
   "blnk-agency-page": BlnkAgencyPageDemo,
   "content-architecture-page": ContentArchitecturePageDemo,
   "chrome-folio-page": ChromeFolioPageDemo,

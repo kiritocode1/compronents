@@ -1,0 +1,44 @@
+{
+  "disposed": {
+    "gpu": {
+      "Buffer": 0,
+      "Framebuffer": 0,
+      "Program": 0,
+      "Shader": 0,
+      "Texture": 0
+    },
+    "observers": 0,
+    "pendingAnimationFrames": 0
+  },
+  "initialized": {
+    "gpu": {
+      "Buffer": 10,
+      "Framebuffer": 16,
+      "Program": 22,
+      "Shader": 20,
+      "Texture": 26
+    },
+    "observers": 8,
+    "pendingAnimationFrames": 2
+  },
+  "isolated": true,
+  "resized": [
+    {
+      "height": 320,
+      "width": 300
+    },
+    {
+      "height": 320,
+      "width": 300
+    },
+    {
+      "height": 320,
+      "width": 300
+    },
+    {
+      "height": 320,
+      "width": 300
+    }
+  ],
+  "scope": "real WebGL renderers, not React prop reconciliation"
+}
