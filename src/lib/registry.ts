@@ -157,6 +157,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "vertical-dial-nav",
+    title: "Vertical Dial Nav",
+    description:
+      "Scroll-linked section navigation with distance-faded labels. The active section gains weight and scale as it crosses 30% of the viewport. Click a label to scroll to its section. Pure React, with support for nested scroll containers.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-10-08",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/vertical-dial-nav.tsx",
+        target: "components/ui/vertical-dial-nav.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "warped-gallery",
     title: "Warped Gallery",
     description:

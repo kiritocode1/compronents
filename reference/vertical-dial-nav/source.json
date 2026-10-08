@@ -1,0 +1,10 @@
+{
+  "url": "https://miracle-building-262247.framer.app/",
+  "capturedAt": "2026-10-08T15:48:31.260Z",
+  "sha256": {
+    "index.html": "919a6e70db6313b2550493baed6b242618492b28ff779e3613603e960dc71e22",
+    "component.mjs": "c5de66aa94d89215d2410b97528d1f28ecf152ae354cfa838555fd5e4ce22d7e",
+    "page.mjs": "0cdc2612b890606d21b6fcda308a8d59224e5c0dcadc11fa4fda1ccf2d488d68",
+    "shared-lib.mjs": "905f386b2d23fb025f70652846eb98e539a8aabfb75c01a4f8224be248638b5f"
+  }
+}

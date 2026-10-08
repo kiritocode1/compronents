@@ -53,6 +53,7 @@ import SoftTypePreview from "./soft-type";
 import SpiralGalleryPreview from "./spiral-gallery";
 import SurpriseBoxPreview from "./surprise-box";
 import TypeGardenPreview from "./type-garden";
+import VerticalDialNavPreview from "./vertical-dial-nav";
 import VideoSummagatorPreview from "./video-summagator";
 import WarpedGalleryPreview from "./warped-gallery";
 
@@ -65,6 +66,7 @@ import WarpedGalleryPreview from "./warped-gallery";
  * full-page preview) and register it here.
  */
 export const previews: Record<string, ComponentType> = {
+  "vertical-dial-nav": VerticalDialNavPreview,
   "warped-gallery": WarpedGalleryPreview,
   "hover-bloom": HoverBloomPreview,
   "fluid-refraction": FluidRefractionPreview,

@@ -208,6 +208,7 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Menus and navigation",
     names: [
+      "vertical-dial-nav",
       "model-menu-3d",
       "overlay-menu",
       "expanding-navbar-reveal",

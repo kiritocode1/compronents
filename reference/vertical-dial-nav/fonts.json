@@ -1,0 +1,14 @@
+[
+  {
+    "filename": "geist-400.woff2",
+    "source": "https://fonts.gstatic.com/s/geist/v3/gyBhhwUxId8gMGYQMKR3pzfaWI_RnOMImpna.woff2",
+    "hosted": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/vertical-dial-nav/geist-400.woff2",
+    "sha256": "b0b100102383185bfa74d8d1eedaf9d226971436f11d1d10ddc9fda8a6b6a150"
+  },
+  {
+    "filename": "geist-500.woff2",
+    "source": "https://fonts.gstatic.com/s/geist/v3/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2",
+    "hosted": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/vertical-dial-nav/geist-500.woff2",
+    "sha256": "d69a03165d04b0a98a115d28e3507f419abe5cc04edb518857ee458d6bf1a9cf"
+  }
+]

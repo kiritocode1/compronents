@@ -236,6 +236,7 @@ import TriangleFillScrollDemo from "./triangle-fill-scroll";
 import TypeGardenDemo from "./type-garden";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
+import VerticalDialNavDemo from "./vertical-dial-nav";
 import VideoCardStackDemo from "./video-card-stack";
 import VideoSummagatorDemo from "./video-summagator";
 import ViewTransitionFolioPageDemo from "./view-transition-folio-page";
@@ -258,6 +259,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "vertical-dial-nav": VerticalDialNavDemo,
   "warped-gallery": WarpedGalleryDemo,
   "hover-bloom": HoverBloomDemo,
   "fluid-refraction": FluidRefractionDemo,

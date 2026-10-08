@@ -751,6 +751,120 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "vertical-dial-nav": {
+    demoPath: "src/components/demos/vertical-dial-nav.tsx",
+    studioPath: "src/components/studios/vertical-dial-nav.tsx",
+    api: [
+      {
+        name: "sections",
+        type: "readonly DialSection[]",
+        description:
+          "Section IDs and labels, in scroll order. IDs must match elements inside the scroll root.",
+      },
+      {
+        name: "scrollRoot",
+        type: "RefObject<HTMLElement | null>",
+        description:
+          "Optional section scroll container. Omit to observe window scrolling.",
+      },
+      {
+        name: "activeColor",
+        type: "string",
+        default: "rgb(26, 26, 26)",
+        description: "Selected label color.",
+      },
+      {
+        name: "fadeDistance",
+        type: "number",
+        default: "2",
+        description: "Number of neighboring labels before opacity reaches 0.2.",
+      },
+      {
+        name: "font",
+        type: "CSSProperties",
+        description:
+          "Label font styling. Defaults to 16px Geist with -0.05em letter spacing.",
+      },
+      {
+        name: "dialWidth",
+        type: "number",
+        default: "180",
+        description: "Navigation width in pixels.",
+      },
+      {
+        name: "dialRadius",
+        type: "number",
+        default: "0",
+        description: "Clipping radius in pixels.",
+      },
+      {
+        name: "itemSpacing",
+        type: "number",
+        default: "12",
+        description: "Vertical gap between labels in pixels.",
+      },
+      {
+        name: "alignment",
+        type: '"left" | "center" | "right"',
+        default: '"right"',
+        description: "Label alignment.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description:
+          "Additional navigation container styling. Give its parent a height.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Additional navigation class.",
+      },
+    ],
+    nuance: [
+      {
+        label: "Source mechanism",
+        description:
+          "The linked Framer navigation selects the last section whose top crosses 30% of the viewport. Its labels stay in place, with distance-based opacity, active weight 500, scale 1.06 and a 0.4-second cubic-bezier transition.",
+      },
+      {
+        label: "Scroll roots",
+        description:
+          "Use a scrollRoot ref for bounded sections. Selection measures that container, and link activation scrolls only that root.",
+      },
+      {
+        label: "Motion and focus",
+        description:
+          "Reduced motion removes smooth scrolling and transitions. Keyboard focus remains visible. Scroll listeners and scheduled frames clean up on unmount.",
+      },
+      {
+        label: "Font",
+        description:
+          "The component inherits your font styling. The demo uses the original Geist 400 and 500 files hosted on Vercel Blob.",
+      },
+    ],
+    editable: [
+      {
+        name: "activeColor",
+        control: "color",
+        description: "Selected label color.",
+      },
+      {
+        name: "fadeDistance",
+        control: "slider",
+        description: "Neighboring label fade range.",
+      },
+      {
+        name: "itemSpacing",
+        control: "slider",
+        description: "Vertical label spacing.",
+      },
+    ],
+    assets: assetsByIds([
+      "vertical-dial-nav-geist-400",
+      "vertical-dial-nav-geist-500",
+    ]),
+  },
   "warped-gallery": {
     demoPath: "src/components/demos/warped-gallery.tsx",
     api: [

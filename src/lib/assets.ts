@@ -2858,6 +2858,24 @@ const warpedGalleryAssets = [
 );
 
 export const assetItems = [
+  {
+    id: "vertical-dial-nav-geist-400",
+    label: "Vertical Dial Nav regular font",
+    provider: "vercel-blob",
+    pathname: "vertical-dial-nav/geist-400.woff2",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/vertical-dial-nav/geist-400.woff2`,
+    role: "Original Geist regular font for inactive labels.",
+    notes: "Source font uploaded byte-for-byte to Vercel Blob.",
+  } satisfies AssetItem,
+  {
+    id: "vertical-dial-nav-geist-500",
+    label: "Vertical Dial Nav medium font",
+    provider: "vercel-blob",
+    pathname: "vertical-dial-nav/geist-500.woff2",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/vertical-dial-nav/geist-500.woff2`,
+    role: "Original Geist medium font for active labels and headings.",
+    notes: "Source font uploaded byte-for-byte to Vercel Blob.",
+  } satisfies AssetItem,
   ...warpedGalleryAssets,
   {
     id: "fluid-refraction-music",

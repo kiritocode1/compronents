@@ -51,6 +51,7 @@ import SpiralGalleryStudio from "./spiral-gallery";
 import SunlitStudio from "./sunlit";
 import UnusualStudioPageStudio from "./unusual-studio-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
+import VerticalDialNavStudio from "./vertical-dial-nav";
 import VideoSummagatorStudio from "./video-summagator";
 import WuWeiPageStudio from "./wu-wei-page";
 
@@ -61,6 +62,7 @@ export type StudioComponent = ComponentType;
  * need bespoke controls instead of a generic prop editor.
  */
 export const studios: Record<string, StudioComponent> = {
+  "vertical-dial-nav": VerticalDialNavStudio,
   "blnk-agency-page": BlnkAgencyPageStudio,
   "blur-study-grid": BlurStudyGridStudio,
   "animated-footer": AnimatedFooterStudio,
