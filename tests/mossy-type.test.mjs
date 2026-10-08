@@ -18,9 +18,15 @@ function elements(html) {
   }));
 }
 
-test("the isolated document preserves every source body element, attribute and label", () => {
+test("the isolated document preserves the source except the removed credit and separator", () => {
   assert.ok(markup, "missing pinned page document");
-  assert.deepEqual(elements(markup), elements(source));
+  const { document } = new JSDOM(source).window;
+  document.querySelector(".credit-bar .credit").remove();
+  document.querySelector(".credit-bar .sep").remove();
+  assert.deepEqual(
+    elements(markup),
+    elements(document.documentElement.outerHTML),
+  );
 });
 
 test("the source runtime and stylesheet resolve from registered stable assets", async () => {

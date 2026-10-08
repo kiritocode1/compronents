@@ -6,6 +6,7 @@ from pathlib import Path
 
 SOURCE = Path("reference/type-garden/index.html")
 OUTPUT = Path("reference/type-garden/core.html")
+COMPONENT = Path("src/registry/type-garden.tsx")
 source = SOURCE.read_text()
 match = re.search(r'(<script type="__bundler/template">\s*)([\s\S]*?)(\s*</script>)', source)
 if match is None:
@@ -42,10 +43,23 @@ for removed in ('Copy code', '<div data-tg="modes"', '<div data-tg="poster"', '<
         raise ValueError(f"Removed control remains: {removed}")
 
 bundled = source[:match.start(2)] + json.dumps(page, ensure_ascii=True).replace("<", "\\u003c") + source[match.end(2):]
+component = COMPONENT.read_text()
+markup_pattern = r'const documentMarkup =\s*("(?:[^"\\]|\\.)*");'
+markup_match = re.search(markup_pattern, component)
+if markup_match is None:
+    raise ValueError("Type Garden component document string is missing")
+
 if "--check" in sys.argv:
     if not OUTPUT.exists() or OUTPUT.read_text() != bundled:
         raise SystemExit("Type Garden core.html differs from pinned source. Run python3 scripts/build-type-garden.py")
-    print("Type Garden core.html matches the pinned source and control removals")
+    if json.loads(markup_match[1]) != bundled:
+        raise SystemExit("Type Garden component differs from core.html. Run python3 scripts/build-type-garden.py")
+    print("Type Garden core.html and standalone component match the pinned source and control removals")
 else:
     OUTPUT.write_text(bundled)
-    print(f"Wrote {OUTPUT}")
+    COMPONENT.write_text(
+        component[:markup_match.start(1)]
+        + json.dumps(bundled, ensure_ascii=True)
+        + component[markup_match.end(1):]
+    )
+    print(f"Wrote {OUTPUT} and embedded it in {COMPONENT}")

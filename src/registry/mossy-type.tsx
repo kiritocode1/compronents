@@ -23,8 +23,6 @@ const documentMarkup = `<!doctype html>
   <textarea id="type-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="48" aria-label="Type text to grow moss"></textarea>
   <footer class="credit-bar">
     <span>Build with Claude Code</span>
-    <span class="sep" aria-hidden="true">•</span>
-    <a class="credit" href="https://x.com/panic_puriii" target="_blank" rel="noopener">By panic_puriii</a>
   </footer>
   <p id="hint" class="hint">Start typing...</p>
   <div class="dock">

@@ -17,7 +17,21 @@ const templateOf = (html) => {
 const core = templateOf(file);
 const original = templateOf(source);
 
-test("core asset is reproducible from the pinned source", () => {
+test("the standalone document is identical to the pinned core without a hosted HTML dependency", async () => {
+  const component = await readFile("src/registry/type-garden.tsx", "utf8");
+  const markup = component.match(
+    /const documentMarkup =\s*("(?:[^"\\]|\\.)*");/,
+  );
+  assert.ok(markup, "missing embedded scene document");
+  assert.equal(JSON.parse(markup[1]), file);
+  assert.match(component, /srcDoc=\{documentMarkup\}/);
+  assert.doesNotMatch(
+    component,
+    /SOURCE_URL|https:\/\/ui\.aryank\.space\/assets\/type-garden\/core\.html/,
+  );
+});
+
+test("core asset and standalone component are reproducible from the pinned source", () => {
   const check = spawnSync(
     "python3",
     ["scripts/build-type-garden.py", "--check"],
