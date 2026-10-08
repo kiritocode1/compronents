@@ -1,0 +1,688 @@
+diff --git a/package.json b/package.json
+index 1d50cc5..c93b94b 100644
+--- a/package.json
++++ b/package.json
+@@ -15,7 +15,7 @@
+     "lint": "biome check",
+     "format": "biome format --write",
+     "typecheck:registry": "tsc --noEmit -p tsconfig.check.json",
+-    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/token-contract.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-research.test.mjs tests/inspiration-mcp.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs tests/frosted-plate-carousel.test.mjs tests/blur-study-box.test.mjs tests/blur-study-grid.test.mjs tests/soft-type.test.mjs tests/mossy-type.test.mjs tests/type-garden.test.mjs tests/framer-components.test.mjs tests/vertical-dial-nav.test.mjs",
++    "test": "node --import ./tests/alias-hooks.mjs --test tests/registry-integrity.test.mjs tests/token-contract.test.mjs tests/portrayal.test.mjs tests/inspiration-search.test.mjs tests/inspiration-recommend.test.mjs tests/inspiration-browse.test.mjs tests/inspiration-database.test.mjs tests/inspiration-retrieval-quality.test.mjs tests/inspiration-engagement.test.mjs tests/inspiration-research.test.mjs tests/inspiration-mcp.test.mjs tests/inspiration-discover.test.mjs tests/direction-discover.test.mjs tests/search-time.test.mjs tests/direction-regression.test.mjs tests/type-tokens.test.mjs tests/backend-viz-completeness.test.mjs tests/backend-viz-tokens.test.mjs tests/grain-gradient-shaders.test.mjs tests/frosted-plate-carousel.test.mjs tests/blur-study-box.test.mjs tests/blur-study-grid.test.mjs tests/soft-type.test.mjs tests/mossy-type.test.mjs tests/type-garden.test.mjs tests/scroll-blur-footer.test.mjs tests/framer-components.test.mjs tests/vertical-dial-nav.test.mjs",
+     "test:install": "node --test tests/shadcn-install.test.mjs"
+   },
+   "dependencies": {
+diff --git a/src/components/demos/index.tsx b/src/components/demos/index.tsx
+index 65429f7..48c1f50 100644
+--- a/src/components/demos/index.tsx
++++ b/src/components/demos/index.tsx
+@@ -183,6 +183,7 @@ import SandyGrainBackgroundDemo from "./sandy-grain-background";
+ import ScatterLetterIntroDemo from "./scatter-letter-intro";
+ import ScatterPhotoPhysicsDemo from "./scatter-photo-physics";
+ import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
++import ScrollBlurFooterDemo from "./scroll-blur-footer";
+ import ScrollFlipCardsDemo from "./scroll-flip-cards";
+ import ScrollScrubSliderDemo from "./scroll-scrub-slider";
+ import ScrollTextBlocksDemo from "./scroll-text-blocks";
+@@ -259,6 +260,7 @@ import WuWeiPageDemo from "./wu-wei-page";
+  * `Demo` component) and register it here.
+  */
+ export const demos: Record<string, ComponentType> = {
++  "scroll-blur-footer": ScrollBlurFooterDemo,
+   "vertical-dial-nav": VerticalDialNavDemo,
+   "warped-gallery": WarpedGalleryDemo,
+   "hover-bloom": HoverBloomDemo,
+diff --git a/src/components/previews/index.tsx b/src/components/previews/index.tsx
+index ff68cfc..a1d0271 100644
+--- a/src/components/previews/index.tsx
++++ b/src/components/previews/index.tsx
+@@ -46,6 +46,7 @@ import PortfolioPagePreview from "./portfolio-page";
+ import PreloaderRevealPreview from "./preloader-reveal";
+ import PrismLightInstrumentPreview from "./prism-light-instrument";
+ import ProceduralComputerPagePreview from "./procedural-computer-page";
++import ScrollBlurFooterPreview from "./scroll-blur-footer";
+ import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
+ import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
+ import SettlementLayerPagePreview from "./settlement-layer-page";
+@@ -66,6 +67,7 @@ import WarpedGalleryPreview from "./warped-gallery";
+  * full-page preview) and register it here.
+  */
+ export const previews: Record<string, ComponentType> = {
++  "scroll-blur-footer": ScrollBlurFooterPreview,
+   "vertical-dial-nav": VerticalDialNavPreview,
+   "warped-gallery": WarpedGalleryPreview,
+   "hover-bloom": HoverBloomPreview,
+diff --git a/src/lib/assets.ts b/src/lib/assets.ts
+index 9970650..a3f0aa9 100644
+--- a/src/lib/assets.ts
++++ b/src/lib/assets.ts
+@@ -2858,6 +2858,16 @@ const warpedGalleryAssets = [
+ );
+ 
+ export const assetItems = [
++  {
++    id: "scroll-blur-footer-gradient",
++    label: "Scroll Blur Footer gradient",
++    provider: "vercel-blob",
++    pathname: "scroll-blur-footer/gradient.avif",
++    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/scroll-blur-footer/gradient.avif`,
++    role: "Original grainy mint, white and black image used in the demo, not required by the blur overlay.",
++    notes:
++      "Pinned source browser-delivered AVIF uploaded byte-for-byte to Vercel Blob. Source: scrollingblur.framer.website.",
++  } satisfies AssetItem,
+   {
+     id: "vertical-dial-nav-geist-400",
+     label: "Vertical Dial Nav regular font",
+diff --git a/src/lib/component-meta.ts b/src/lib/component-meta.ts
+index ea22381..0080e93 100644
+--- a/src/lib/component-meta.ts
++++ b/src/lib/component-meta.ts
+@@ -751,6 +751,58 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
+ const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
+ 
+ export const componentMeta: Record<string, ComponentMeta> = {
++  "scroll-blur-footer": {
++    demoPath: "src/components/demos/scroll-blur-footer.tsx",
++    api: [
++      {
++        name: "direction",
++        type: '"bottom" | "top"',
++        default: '"bottom"',
++        description:
++          "Viewport edge where the blur is strongest. Top reverses the masks and overlay placement.",
++      },
++      {
++        name: "height",
++        type: 'CSSProperties["height"]',
++        default: "150",
++        description:
++          "Overlay height. Numbers use pixels; CSS lengths are also accepted.",
++      },
++      {
++        name: "position",
++        type: '"fixed" | "absolute"',
++        default: '"fixed"',
++        description:
++          "Fixed for a viewport edge, absolute inside a positioned container such as a bounded preview.",
++      },
++      { name: "className", type: "string", description: "Overlay class." },
++      {
++        name: "style",
++        type: "CSSProperties",
++        description:
++          "Additional overlay styles. Pointer events remain disabled.",
++      },
++    ],
++    nuance: [
++      {
++        label: "Scroll activity, not scroll position",
++        description:
++          "The scrollingblur.framer.website source activates blur on any scroll event, including nested containers. After 180ms without scrolling, it clears. It does not track distance down the page.",
++      },
++      {
++        label: "Progressive backdrop layers",
++        description:
++          "Six masked layers use 2, 4, 6, 8, 10 and 12px blur coefficients. The shared strength springs in with stiffness 300 and damping 30, then out with stiffness 80 and damping 26. Scrolling during the return retargets the spring.",
++      },
++      {
++        label: "Decorative overlay",
++        description:
++          "Place over existing content. The component loads no images or Framer code, cannot intercept pointer input, and disables its animation when reduced motion is requested.",
++      },
++    ],
++    editable: [],
++    assets: assetsByIds(["scroll-blur-footer-gradient"]),
++  },
+   "vertical-dial-nav": {
+     demoPath: "src/components/demos/vertical-dial-nav.tsx",
+     studioPath: "src/components/studios/vertical-dial-nav.tsx",
+diff --git a/src/lib/registry-groups.ts b/src/lib/registry-groups.ts
+index 3a30a20..35d4da3 100644
+--- a/src/lib/registry-groups.ts
++++ b/src/lib/registry-groups.ts
+@@ -19,6 +19,7 @@ export const componentGroups: RegistryGroup[] = [
+       "portfolio-page",
+       "creative-clutter",
+       "animated-footer",
++      "scroll-blur-footer",
+       "iris-outro-footer",
+       "halftone-scene-footer",
+       "vinyl-orbit-player",
+diff --git a/src/lib/registry.ts b/src/lib/registry.ts
+index 6b6e2d4..34f168c 100644
+--- a/src/lib/registry.ts
++++ b/src/lib/registry.ts
+@@ -156,6 +156,26 @@ export function matchesRegistrySearch(
+ }
+ 
+ export const registryItems: RegistryItem[] = [
++  {
++    name: "scroll-blur-footer",
++    title: "Scroll Blur Footer",
++    description:
++      "Six progressive backdrop-blur layers activate while scrolling and clear at rest. A fixed viewport-edge overlay with the original spring response, support for nested scrollers and reduced motion. Standalone React and Motion, no Framer runtime.",
++    section: "components",
++    category: "Layout",
++    pro: true,
++    date: "2026-10-08",
++    type: "registry:ui",
++    dependencies: ["motion"],
++    registryDependencies: [],
++    files: [
++      {
++        path: "src/registry/scroll-blur-footer.tsx",
++        target: "components/ui/scroll-blur-footer.tsx",
++        type: "registry:ui",
++      },
++    ],
++  },
+   {
+     name: "vertical-dial-nav",
+     title: "Vertical Dial Nav",
+diff --git a/src/registry/scroll-blur-footer.tsx b/src/registry/scroll-blur-footer.tsx
+new file mode 100644
+index 0000000..653a71e
+--- /dev/null
++++ b/src/registry/scroll-blur-footer.tsx
+@@ -0,0 +1,126 @@
++"use client";
++
++import { animate, motionValue } from "motion";
++import { type CSSProperties, useEffect, useRef } from "react";
++
++const MAX_BLUR = 12;
++const LAYERS = 6;
++const IDLE_DELAY = 180;
++const FADE_IN = { type: "spring", stiffness: 300, damping: 30 } as const;
++const FADE_OUT = { type: "spring", stiffness: 80, damping: 26 } as const;
++
++export interface ScrollBlurFooterProps {
++  /** Which viewport edge carries the strongest blur. */
++  direction?: "bottom" | "top";
++  /** The source footer is 150px tall. */
++  height?: CSSProperties["height"];
++  /** Use absolute positioning inside a positioned preview shell. */
++  position?: "fixed" | "absolute";
++  className?: string;
++  style?: CSSProperties;
++}
++
++/** Six progressive backdrop layers activate during scrolling and clear at rest. */
++export default function ScrollBlurFooter({
++  direction = "bottom",
++  height = 150,
++  position = "fixed",
++  className,
++  style,
++}: ScrollBlurFooterProps) {
++  const ref = useRef<HTMLDivElement>(null);
++
++  useEffect(() => {
++    const element = ref.current;
++    if (!element) return;
++    const strength = motionValue(0);
++    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
++    let scrolling = false;
++    let idleTimer: ReturnType<typeof setTimeout> | undefined;
++
++    const update = (value: number) =>
++      element.style.setProperty("--sb", String(Math.max(0, value)));
++    update(0);
++    const unsubscribe = strength.on("change", update);
++
++    const clearTimer = () => {
++      clearTimeout(idleTimer);
++      idleTimer = undefined;
++    };
++    const reset = () => {
++      clearTimer();
++      scrolling = false;
++      strength.stop();
++      strength.set(0);
++    };
++    const onScroll = () => {
++      if (preference.matches) return;
++      if (!scrolling) {
++        scrolling = true;
++        animate(strength, 1, FADE_IN);
++      }
++      clearTimer();
++      idleTimer = setTimeout(() => {
++        scrolling = false;
++        animate(strength, 0, FADE_OUT);
++      }, IDLE_DELAY);
++    };
++
++    // Capture sees nested scrolling containers as well as document scrolling.
++    window.addEventListener("scroll", onScroll, {
++      passive: true,
++      capture: true,
++    });
++    preference.addEventListener("change", reset);
++    return () => {
++      window.removeEventListener("scroll", onScroll, true);
++      preference.removeEventListener("change", reset);
++      reset();
++      unsubscribe();
++      strength.destroy();
++    };
++  }, []);
++
++  const gradientDirection = direction === "top" ? "to bottom" : "to top";
++  const step = 100 / LAYERS;
++
++  return (
++    <div
++      ref={ref}
++      aria-hidden="true"
++      data-scroll-blur-footer=""
++      className={className}
++      style={{
++        position,
++        height,
++        left: 0,
++        right: 0,
++        ...(direction === "top" ? { top: 0 } : { bottom: 0 }),
++        zIndex: 7,
++        overflow: "hidden",
++        ...style,
++        pointerEvents: "none",
++      }}
++    >
++      {Array.from({ length: LAYERS }, (_, index) => {
++        const blur = (MAX_BLUR * (index + 1)) / LAYERS;
++        const end = 100 - index * step;
++        const mask = `linear-gradient(${gradientDirection}, rgba(255,255,255,1) 0%, rgba(255,255,255,1) ${Math.max(0, end - step)}%, rgba(255,255,255,0) ${end}%)`;
++        const filter = `blur(calc(var(--sb, 0) * ${blur}px))`;
++        return (
++          <div
++            key={blur}
++            style={{
++              position: "absolute",
++              inset: 0,
++              backdropFilter: filter,
++              WebkitBackdropFilter: filter,
++              maskImage: mask,
++              WebkitMaskImage: mask,
++            }}
++          />
++        );
++      })}
++    </div>
++  );
++}
+diff --git a/src/components/demos/scroll-blur-footer.tsx b/src/components/demos/scroll-blur-footer.tsx
+new file mode 100644
+index 0000000..7b372c8
+--- /dev/null
++++ b/src/components/demos/scroll-blur-footer.tsx
+@@ -0,0 +1,55 @@
++"use client";
++
++import { getHostedAssetUrl } from "@/lib/assets";
++import ScrollBlurFooter from "@/registry/scroll-blur-footer";
++
++const image = getHostedAssetUrl("scroll-blur-footer/gradient.avif");
++
++export default function ScrollBlurFooterDemo({
++  fullscreen = false,
++}: {
++  fullscreen?: boolean;
++}) {
++  return (
++    <div
++      style={{
++        position: "relative",
++        width: "100%",
++        height: fullscreen ? "100dvh" : 560,
++        overflow: "hidden",
++        background: "#000",
++      }}
++    >
++      <section
++        data-scroll-blur-scroller=""
++        // biome-ignore lint/a11y/noNoninteractiveTabindex: The scroll region must support keyboard scrolling.
++        tabIndex={0}
++        aria-label="Scroll blur preview"
++        style={{ height: "100%", overflowY: "auto" }}
++      >
++        {[0, 1].map((index) => (
++          <section
++            key={index}
++            style={{ height: "100%", padding: 10, boxSizing: "border-box" }}
++          >
++            {/* biome-ignore lint/performance/noImgElement: Preserve the pinned source image without recompression. */}
++            <img
++              src={image}
++              srcSet={`${image} 2048w`}
++              sizes="calc(100vw - 20px)"
++              alt="Abstract mint, white and black gradient"
++              style={{
++                width: "100%",
++                height: "100%",
++                objectFit: "cover",
++                borderRadius: 10,
++                display: "block",
++              }}
++            />
++          </section>
++        ))}
++      </section>
++      <ScrollBlurFooter position="absolute" />
++    </div>
++  );
++}
+diff --git a/src/components/previews/scroll-blur-footer.tsx b/src/components/previews/scroll-blur-footer.tsx
+new file mode 100644
+index 0000000..7505786
+--- /dev/null
++++ b/src/components/previews/scroll-blur-footer.tsx
+@@ -0,0 +1,7 @@
++"use client";
++
++import ScrollBlurFooterDemo from "@/components/demos/scroll-blur-footer";
++
++export default function ScrollBlurFooterPreview() {
++  return <ScrollBlurFooterDemo fullscreen />;
++}
+diff --git a/tests/scroll-blur-footer.test.mjs b/tests/scroll-blur-footer.test.mjs
+new file mode 100644
+index 0000000..3e6c726
+--- /dev/null
++++ b/tests/scroll-blur-footer.test.mjs
+@@ -0,0 +1,228 @@
++import assert from "node:assert/strict";
++import { readFileSync } from "node:fs";
++import { createRequire } from "node:module";
++import test from "node:test";
++import { runInNewContext } from "node:vm";
++import { JSDOM } from "jsdom";
++import React, { act } from "react";
++import { createRoot } from "react-dom/client";
++import { renderToStaticMarkup } from "react-dom/server";
++import ts from "typescript";
++
++const port = readFileSync("src/registry/scroll-blur-footer.tsx", "utf8");
++const source = readFileSync("reference/scroll-blur-footer/page.mjs", "utf8");
++const html = readFileSync("reference/scroll-blur-footer/index.html", "utf8");
++const parsed = ts.createSourceFile(
++  "footer.tsx",
++  port,
++  ts.ScriptTarget.Latest,
++  true,
++  ts.ScriptKind.TSX,
++);
++const names = ["MAX_BLUR", "LAYERS", "IDLE_DELAY", "FADE_IN", "FADE_OUT"];
++const declarations = parsed.statements
++  .filter(
++    (statement) =>
++      ts.isVariableStatement(statement) &&
++      statement.declarationList.declarations.some((declaration) =>
++        names.includes(declaration.name.getText(parsed)),
++      ),
++  )
++  .map((statement) => statement.getText(parsed))
++  .join("\n");
++const mechanics = { exports: {} };
++runInNewContext(
++  ts.transpileModule(`${declarations}\nexport { ${names.join(", ")} };`, {
++    compilerOptions: { module: ts.ModuleKind.CommonJS },
++  }).outputText,
++  { exports: mechanics.exports },
++);
++const constants = mechanics.exports;
++
++test("blur coefficients, inactivity delay and both springs agree with the pinned source", () => {
++  const configuration = source.match(
++    /F=(\d+),I=\{type:`spring`,stiffness:(\d+),damping:(\d+)\},L=\{type:`spring`,stiffness:(\d+),damping:(\d+)\},R=(\d+)/,
++  );
++  assert.ok(configuration, "source spring configuration missing");
++  const [, blur, inStiffness, inDamping, outStiffness, outDamping, layers] =
++    configuration.map(Number);
++  assert.equal(constants.MAX_BLUR, blur);
++  assert.equal(constants.LAYERS, layers);
++  assert.equal(constants.FADE_IN.type, "spring");
++  assert.equal(constants.FADE_IN.stiffness, inStiffness);
++  assert.equal(constants.FADE_IN.damping, inDamping);
++  assert.equal(constants.FADE_OUT.type, "spring");
++  assert.equal(constants.FADE_OUT.stiffness, outStiffness);
++  assert.equal(constants.FADE_OUT.damping, outDamping);
++  const inactivity = source.match(/f\.current=_\(c,0,L\)\},(\d+)\)/);
++  assert.ok(inactivity);
++  assert.equal(constants.IDLE_DELAY, Number(inactivity[1]));
++});
++
++test("rendered masks match the source; real Motion handles scroll, interruption, preferences and cleanup", async () => {
++  const dom = new JSDOM('<div id="mount"></div><div id="scroller"></div>', {
++    pretendToBeVisual: true,
++  });
++  const previous = Object.fromEntries(
++    [
++      "window",
++      "document",
++      "requestAnimationFrame",
++      "cancelAnimationFrame",
++      "HTMLElement",
++      "Element",
++      "SVGElement",
++      "IS_REACT_ACT_ENVIRONMENT",
++    ].map((key) => [key, globalThis[key]]),
++  );
++  Object.assign(globalThis, {
++    window: dom.window,
++    document: dom.window.document,
++    HTMLElement: dom.window.HTMLElement,
++    Element: dom.window.Element,
++    SVGElement: dom.window.SVGElement,
++    requestAnimationFrame: dom.window.requestAnimationFrame.bind(dom.window),
++    cancelAnimationFrame: dom.window.cancelAnimationFrame.bind(dom.window),
++    IS_REACT_ACT_ENVIRONMENT: true,
++  });
++  const preference = new dom.window.EventTarget();
++  preference.matches = false;
++  dom.window.matchMedia = () => preference;
++  const timers = new Map();
++  const module = { exports: {} };
++  runInNewContext(
++    ts.transpileModule(port, {
++      compilerOptions: {
++        module: ts.ModuleKind.CommonJS,
++        jsx: ts.JsxEmit.ReactJSX,
++      },
++    }).outputText,
++    {
++      exports: module.exports,
++      require: createRequire(import.meta.url),
++      window: dom.window,
++      setTimeout(callback, delay) {
++        const id = Symbol("idle");
++        timers.set(id, { callback, delay });
++        return id;
++      },
++      clearTimeout(id) {
++        timers.delete(id);
++      },
++    },
++  );
++  const Footer = module.exports.default;
++  const root = createRoot(dom.window.document.getElementById("mount"));
++  const strength = () =>
++    Number(
++      dom.window.document
++        .querySelector("[data-scroll-blur-footer]")
++        .style.getPropertyValue("--sb"),
++    );
++  const waitUntil = async (predicate) => {
++    const start = performance.now();
++    while (!predicate()) {
++      assert.ok(
++        performance.now() - start < 2500,
++        "Motion did not reach the expected state",
++      );
++      await new Promise((resolve) => dom.window.requestAnimationFrame(resolve));
++    }
++  };
++  const scroll = () =>
++    dom.window.document
++      .getElementById("scroller")
++      .dispatchEvent(new dom.window.Event("scroll"));
++  const expire = () => {
++    assert.equal(timers.size, 1);
++    const [id, timer] = [...timers][0];
++    timers.delete(id);
++    assert.equal(timer.delay, constants.IDLE_DELAY);
++    timer.callback();
++  };
++  try {
++    const rendered = new JSDOM(
++      renderToStaticMarkup(React.createElement(Footer)),
++    ).window.document;
++    const pinned = new JSDOM(html).window.document;
++    const originalLayers = pinned.querySelectorAll(
++      ".framer-b81453-container > div > div",
++    );
++    const layers = rendered.querySelectorAll("[data-scroll-blur-footer] > div");
++    assert.equal(layers.length, constants.LAYERS);
++    assert.equal(originalLayers.length, constants.LAYERS);
++    layers.forEach((layer, index) => {
++      assert.equal(
++        layer.style.backdropFilter,
++        originalLayers[index].style.backdropFilter,
++      );
++      assert.equal(
++        layer.style.maskImage,
++        originalLayers[index].style.maskImage,
++      );
++    });
++    const top = new JSDOM(
++      renderToStaticMarkup(React.createElement(Footer, { direction: "top" })),
++    ).window.document;
++    assert.equal(
++      top.querySelector("[data-scroll-blur-footer]").style.top,
++      "0px",
++    );
++    const expectedTop = top.createElement("div");
++    expectedTop.style.maskImage = layers[0].style.maskImage.replace(
++      "to top",
++      "to bottom",
++    );
++    assert.equal(
++      top.querySelector("[data-scroll-blur-footer] > div").style.maskImage,
++      expectedTop.style.maskImage,
++    );
++
++    await act(async () => root.render(React.createElement(Footer)));
++    assert.equal(strength(), 0);
++    assert.equal(
++      dom.window.document.querySelector("[data-scroll-blur-footer]").style
++        .pointerEvents,
++      "none",
++    );
++    scroll();
++    await waitUntil(() => strength() > 0.8);
++    scroll();
++    assert.equal(
++      timers.size,
++      1,
++      "continued scroll replaces the inactivity timer",
++    );
++    expire();
++    await waitUntil(() => strength() < 0.5);
++    scroll();
++    await waitUntil(() => strength() > 0.8);
++    expire();
++    await waitUntil(() => strength() === 0);
++
++    scroll();
++    await waitUntil(() => strength() > 0.2);
++    preference.matches = true;
++    preference.dispatchEvent(new dom.window.Event("change"));
++    assert.equal(strength(), 0);
++    assert.equal(timers.size, 0);
++    scroll();
++    assert.equal(timers.size, 0, "reduced motion ignores scrolling");
++    preference.matches = false;
++    preference.dispatchEvent(new dom.window.Event("change"));
++    scroll();
++    assert.equal(timers.size, 1);
++    await act(async () => root.unmount());
++    assert.equal(
++      timers.size,
++      0,
++      "unmount cancels the pending inactivity timer",
++    );
++    scroll();
++    assert.equal(timers.size, 0, "unmount removes the capture listener");
++  } finally {
++    await act(async () => root.unmount());
++    Object.assign(globalThis, previous);
++    dom.window.close();
++  }
++});
+diff --git a/reference/scroll-blur-footer/README.md b/reference/scroll-blur-footer/README.md
+new file mode 100644
+index 0000000..b86a9b6
+--- /dev/null
++++ b/reference/scroll-blur-footer/README.md
+@@ -0,0 +1,28 @@
++# Scroll blur footer source
++
++Captured 2026-10-08 from https://scrollingblur.framer.website/.
++
++- `index.html` contains the published HTML and compiled CSS.
++- `main.mjs` maps routes to published page chunks.
++- `page.mjs` contains the blur component inline as `P`.
++- `motion.mjs` is the published animation runtime imported by that page.
++
++The source uses six backdrop layers with blur coefficients 2, 4, 6, 8, 10 and 12px. Masks cover successive sixths of the overlay. Scroll activity drives strength toward 1 with stiffness 300 and damping 30. After 180ms of inactivity it returns to 0 with stiffness 80 and damping 26. The bottom overlay is 150px tall and has z-index 7.
++
++The React port preserves these values and uses the npm `motion` package instead of published Framer modules. It adds reduced-motion handling and explicit cleanup. No source-host JavaScript loads at runtime.
++
++## Demo image
++
++Source URL:
++
++https://framerusercontent.com/images/QaPKJVIGqlVdLI4luv7VueVzR0.jpg?scale-down-to=2048&width=5120&height=2880
++
++Chromium negotiates AVIF through its image Accept header. The JPEG returned to a default curl request is not visually equivalent for screenshot comparison. The AVIF response is uploaded without conversion to:
++
++https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/scroll-blur-footer/gradient.avif
++
++SHA-256: `bc3a3b3fcc704d3e9101e92a12d904e63085120e8447c4fc74b119a5fbe10b64`.
++
++The installable overlay needs no image. This asset is only for the catalog demo and fullscreen preview. Redistribution rights have not been established from the public source.
++
++Screenshot evidence and comparison scripts are under `.plannotator/scroll-blur-footer/`. Captures are verification artifacts and should not be committed as asset binaries.
+diff --git a/.plannotator/scroll-blur-footer/verification.md b/.plannotator/scroll-blur-footer/verification.md
+new file mode 100644
+index 0000000..cffba6d
+--- /dev/null
++++ b/.plannotator/scroll-blur-footer/verification.md
+@@ -0,0 +1,28 @@
++# Verified implementation
++
++Plan approved through Plannotator. Component, demo, fullscreen preview, asset registration and API metadata are implemented.
++
++## Checks
++
++- Desktop fullscreen, 1280 by 577: nested scrolling activates the overlay, observed peak strength 1.0020687561673556, then returns to exactly 0 at rest. Six layers, pointer events disabled, no desktop overflow.
++- Keyboard: focused preview region and ArrowDown changed the internal scroll position.
++- Reduced-motion preference changed while mounted: strength resets to 0 and stays there after scrolling.
++- Mobile, 390 by 844: overlay height 150px, overlay and internal scroller both exactly 390px wide. The existing global site header extends to 479.875px and causes document scrollWidth 488px. This is outside the new component; it remains unfixed.
++- Detail page: bounded demo, installation panel, API props and source-mechanism notes render.
++- No browser console errors observed.
++- All 1,090 tests passed. Registry typecheck, scoped Biome checks and production build passed before the final demo asset correction. Rerun output is recorded separately.
++- Source tests check exact constants and rendered masks, then use real Motion to test nested scroll, inactivity, interruption, preference changes and cleanup.
++
++## Visual comparison
++
++[Implementation results](implementation-comparison.json), [rest capture](implementation-rest.png), [full-blur capture](implementation-full-blur.png), [mobile capture](implementation-mobile.png).
++
++The desktop endpoint comparisons report 0 changed pixels among 719,215 compared pixels, with the original per-channel tolerance 8 and maximum changed fraction 0.1%. Ignore rectangles cover only the source hosting badge, registry close button and Next dev indicator. Capture viewport, scroll position and blur strength match the source.
++
++The first Blob asset was a JPEG, while Chromium receives AVIF from Framer's content negotiation. That produced a failed comparison. Uploading the exact AVIF resolved it. No tolerance changes. A single 2048w source candidate with the original viewport sizes expression keeps the desktop responsive image geometry consistent.
++
++Transition curves have source-value tests and working runtime checks, but no synchronized frame-by-frame comparison against the original. Mobile source pixel parity has not been measured. Reduced motion deliberately differs from the original by keeping the decorative blur off.
++
++## Source and artifacts
++
++Pinned source files are in `reference/scroll-blur-footer/`. Screenshots are local verification artifacts, not committed image assets. The only image used by the demo is uploaded to Blob and registered in `src/lib/assets.ts`. The installable component has no asset or remote runtime dependency.

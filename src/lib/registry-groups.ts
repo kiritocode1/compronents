@@ -19,6 +19,7 @@ export const componentGroups: RegistryGroup[] = [
       "portfolio-page",
       "creative-clutter",
       "animated-footer",
+      "scroll-blur-footer",
       "iris-outro-footer",
       "halftone-scene-footer",
       "vinyl-orbit-player",

@@ -1,0 +1,140 @@
+
+portless
+
+-- Proxy is running
+-- compronents.localhost (auto-resolves to 127.0.0.1)
+-- Using port 4801
+
+  -> https://compronents.localhost:8443
+
+Running: PORT=4801 HOST=127.0.0.1 PORTLESS_URL=https://compronents.localhost:8443 NODE_EXTRA_CA_CERTS="/Users/blank/.portless/ca.pem" ./node_modules/.bin/next dev
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:4801
+- Network:       http://192.168.1.10:4801
+- Environments: .env.local
+✓ Ready in 344ms
+
+ GET /components/vertical-dial-nav/preview 200 in 1554ms (next.js: 369ms, generate-params: 249ms, application-code: 1186ms)
+ GET /assets/content-architecture-page/geist-sans.woff2 307 in 2.1s (next.js: 1565ms, generate-params: 493ms, application-code: 519ms)
+✓ Compiled in 375ms
+✓ Compiled in 187ms
+ GET /assets/vertical-dial-nav/geist-500.woff2 307 in 423ms (next.js: 20ms, generate-params: 14µs, application-code: 403ms)
+ GET /assets/vertical-dial-nav/geist-400.woff2 307 in 532ms (next.js: 9ms, generate-params: 3ms, application-code: 523ms)
+✓ Compiled in 158ms
+ GET /components/vertical-dial-nav/preview 200 in 97ms (next.js: 11ms, generate-params: 1356µs, application-code: 86ms)
+[browser] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled (src/components/demos/vertical-dial-nav.tsx:33:3)
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/component..." tree={[...]} params={{name:"vert..."}} cacheNode={{rsc:{...}, ...}} ...>
+          <SegmentViewNode type="page" pagePath="components...">
+            <SegmentTrieNode>
+            <PreviewPage>
+              <FullscreenPreview name="vertical-d...">
+                <div className="fixed inse...">
+                  <VerticalDialNavPreview>
+                    <VerticalDialScene fullscreen={true}>
+                      <div className="vertical-d..." style={{position:"...", ...}}>
+                        <style>
+                        <div ref={{current:null}} data-dial-scroll-root={true} style={{height:"100%", ...}}>
+                          <section id="_R_aatpesn..." style={{height:"10...", ...}}>
+                            <motion.h1 initial={false} whileInView={{opacity:1,y:0}} viewport={{root:{...}, ...}} ...>
+                              <h1
+                                style={{
+-                                 opacity: "0"
+-                                 transform: "translateY(80px)"
+                                }}
+                                ref={function useMotionRef.useCallback}
+                              >
++                               AI Coder
+                          <section id="_R_aatpesn..." style={{height:"10...", ...}}>
+                            <motion.h1 initial={false} whileInView={{opacity:1,y:0}} viewport={{root:{...}, ...}} ...>
+                              <h1
+                                style={{
+-                                 opacity: "0"
+-                                 transform: "translateY(80px)"
+                                }}
+                                ref={function useMotionRef.useCallback}
+                              >
++                               3D Generalist
+                          <section id="_R_aatpesn..." style={{height:"10...", ...}}>
+                            <motion.h1 initial={false} whileInView={{opacity:1,y:0}} viewport={{root:{...}, ...}} ...>
+                              <h1
+                                style={{
+-                                 opacity: "0"
+-                                 transform: "translateY(80px)"
+                                }}
+                                ref={function useMotionRef.useCallback}
+                              >
++                               Digital Artist
+                          <section id="_R_aatpesn..." style={{height:"10...", ...}}>
+                            <motion.h1 initial={false} whileInView={{opacity:1,y:0}} viewport={{root:{...}, ...}} ...>
+                              <h1
+                                style={{
+-                                 opacity: "0"
+-                                 transform: "translateY(80px)"
+                                }}
+                                ref={function useMotionRef.useCallback}
+                              >
++                               Product Designer
+                          <section id="_R_aatpesn..." style={{height:"10...", ...}}>
+                            <motion.h1 initial={false} whileInView={{opacity:1,y:0}} viewport={{root:{...}, ...}} ...>
+                              <h1
+                                style={{
+-                                 opacity: "0"
+-                                 transform: "translateY(80px)"
+                                }}
+                                ref={function useMotionRef.useCallback}
+                              >
++                               Detail Obessed
+                          <section id="_R_aatpesn..." style={{height:"10...", ...}}>
+                            <motion.h1 initial={false} whileInView={{opacity:1,y:0}} viewport={{root:{...}, ...}} ...>
+                              <h1
+                                style={{
+-                                 opacity: "0"
+-                                 transform: "translateY(80px)"
+                                }}
+                                ref={function useMotionRef.useCallback}
+                              >
++                               Curious
+                        ...
+          ...
+        ...
+ 
+✓ Compiled in 143ms
+ HEAD /assets/vertical-dial-nav/geist-400.woff2 307 in 350ms (next.js: 10ms, generate-params: 1793µs, application-code: 341ms)
+✓ Compiled in 276ms
+ GET /assets/vertical-dial-nav/geist-400.woff2 307 in 376ms (next.js: 21ms, generate-params: 36µs, application-code: 355ms)
+ GET /assets/vertical-dial-nav/geist-500.woff2 307 in 389ms (next.js: 9ms, generate-params: 2ms, application-code: 380ms)
+ GET /assets/vertical-dial-nav/geist-400.woff2 307 in 792ms (next.js: 3ms, generate-params: 1497µs, application-code: 789ms)
+ GET /assets/vertical-dial-nav/geist-500.woff2 307 in 260ms (next.js: 4ms, generate-params: 1854µs, application-code: 256ms)
+ GET /components/type-garden/preview 200 in 874ms (next.js: 76ms, generate-params: 2ms, application-code: 797ms)
+ GET /components/mossy-type/preview 200 in 56ms (next.js: 5ms, generate-params: 1841µs, application-code: 52ms)
+ GET /components/mossy-type/preview 200 in 65ms (next.js: 6ms, generate-params: 2ms, application-code: 59ms)
+ GET / 200 in 2.1s (next.js: 1736ms, application-code: 361ms)
+✓ Compiled in 1003ms
+ GET /components/scroll-blur-footer/preview 200 in 997ms (next.js: 103ms, generate-params: 2ms, application-code: 894ms)
+ GET /components/scroll-blur-footer 200 in 902ms (next.js: 619ms, generate-params: 376ms, application-code: 283ms)
+ POST /components/scroll-blur-footer 200 in 46ms (next.js: 8ms, generate-params: 1577µs, application-code: 37ms)
+  └─ ƒ isSourceUnlocked() in 12ms src/lib/source-access.ts
+ GET /components/scroll-blur-footer/preview 200 in 58ms (next.js: 6ms, generate-params: 2ms, application-code: 51ms)
+ GET /assets/scroll-blur-footer/gradient.jpg 307 in 630ms (next.js: 181ms, generate-params: 1887µs, application-code: 449ms)
+ GET /components/scroll-blur-footer/preview 200 in 58ms (next.js: 7ms, generate-params: 1875µs, application-code: 51ms)
+ GET /components/scroll-blur-footer/preview 200 in 53ms (next.js: 8ms, generate-params: 1314µs, application-code: 45ms)
+✓ Compiled in 132ms
+ GET /components/scroll-blur-footer/preview 200 in 57ms (next.js: 6ms, generate-params: 1135µs, application-code: 51ms)
+ GET /components/scroll-blur-footer/preview 200 in 80ms (next.js: 11ms, generate-params: 3ms, application-code: 68ms)
+[?25h

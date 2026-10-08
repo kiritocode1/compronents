@@ -1,0 +1,98 @@
+▲ Next.js 16.2.9 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./next.config.ts
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import traces:
+  Server Component:
+    ./next.config.ts
+    ./src/lib/source-access.ts
+
+  App Route:
+    ./next.config.ts
+    ./src/lib/registry-server.ts
+    ./src/app/r/registry.json/route.ts
+
+
+✓ Compiled successfully in 28.2s
+  Running TypeScript ...
+  Finished TypeScript in 17.8s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/3230) ...
+  Generating static pages using 7 workers (807/3230) 
+  Generating static pages using 7 workers (1614/3230) 
+  Generating static pages using 7 workers (2422/3230) 
+✓ Generating static pages using 7 workers (3230/3230) in 3.1s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/inspiration/[operation]
+├ ƒ /api/registry-assets
+├ ƒ /api/registry-assets/[...pathname]
+├ ƒ /archive-commerce-page/[[...pathname]]
+├ ƒ /assets/[...pathname]
+├ ○ /backend
+├ ● /backend/[name]
+│ ├ /backend/alchemy-cloudflare-access-gateway
+│ ├ /backend/effect-cloudflare-event-api
+│ ├ /backend/websocket-route-handler
+│ └ [+113 more paths]
+├ ○ /backend/llms.txt
+├ ○ /components
+├ ● /components/[name]
+│ ├ /components/vertical-dial-nav
+│ ├ /components/warped-gallery
+│ ├ /components/hover-bloom
+│ └ [+208 more paths]
+├ ● /components/[name]/preview
+│ ├ /components/vertical-dial-nav/preview
+│ ├ /components/warped-gallery/preview
+│ ├ /components/hover-bloom/preview
+│ └ [+208 more paths]
+├ ƒ /direction
+├ ƒ /direction/discover
+├ ○ /docs
+├ ○ /frontend/llms.txt
+├ ○ /icon.svg
+├ ƒ /inspiration
+├ ○ /inspiration/llms-full.txt
+├ ○ /inspiration/llms.txt
+├ ƒ /inspiration/recommend
+├ ƒ /inspiration/search
+├ ƒ /interior-studio-page/[[...pathname]]
+├ ○ /opengraph-image
+├ ○ /pages
+├ ● /pages/[name]
+│ ├ /pages/blnk-agency-page
+│ ├ /pages/chrome-folio-page
+│ ├ /pages/procedural-computer-page
+│ └ [+36 more paths]
+├ ● /pages/[name]/preview
+│ ├ /pages/blnk-agency-page/preview
+│ ├ /pages/chrome-folio-page/preview
+│ ├ /pages/procedural-computer-page/preview
+│ └ [+36 more paths]
+├ ƒ /r/[...name]
+├ ƒ /r/registry.json
+└ ƒ /registry/search
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

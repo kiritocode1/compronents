@@ -183,6 +183,7 @@ import SandyGrainBackgroundDemo from "./sandy-grain-background";
 import ScatterLetterIntroDemo from "./scatter-letter-intro";
 import ScatterPhotoPhysicsDemo from "./scatter-photo-physics";
 import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
+import ScrollBlurFooterDemo from "./scroll-blur-footer";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
 import ScrollScrubSliderDemo from "./scroll-scrub-slider";
 import ScrollTextBlocksDemo from "./scroll-text-blocks";
@@ -259,6 +260,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "scroll-blur-footer": ScrollBlurFooterDemo,
   "vertical-dial-nav": VerticalDialNavDemo,
   "warped-gallery": WarpedGalleryDemo,
   "hover-bloom": HoverBloomDemo,

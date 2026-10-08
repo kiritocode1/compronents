@@ -1,0 +1,72 @@
+[
+  {
+    "kind": "source",
+    "width": 1280,
+    "height": 577,
+    "label": "AI Coder",
+    "filename": "source-1280-ai-coder.png"
+  },
+  {
+    "kind": "local",
+    "width": 1280,
+    "height": 577,
+    "label": "AI Coder",
+    "filename": "local-1280-ai-coder.png"
+  },
+  {
+    "kind": "source",
+    "width": 1280,
+    "height": 577,
+    "label": "Digital Artist",
+    "filename": "source-1280-digital-artist.png"
+  },
+  {
+    "kind": "local",
+    "width": 1280,
+    "height": 577,
+    "label": "Digital Artist",
+    "filename": "local-1280-digital-artist.png"
+  },
+  {
+    "kind": "source",
+    "width": 1280,
+    "height": 577,
+    "label": "Curious",
+    "filename": "source-1280-curious.png"
+  },
+  {
+    "kind": "local",
+    "width": 1280,
+    "height": 577,
+    "label": "Curious",
+    "filename": "local-1280-curious.png"
+  },
+  {
+    "kind": "source",
+    "width": 390,
+    "height": 844,
+    "label": "AI Coder",
+    "filename": "source-390-ai-coder.png"
+  },
+  {
+    "kind": "local",
+    "width": 390,
+    "height": 844,
+    "label": "AI Coder",
+    "filename": "local-390-ai-coder.png"
+  },
+  {
+    "kind": "source",
+    "width": 390,
+    "height": 844,
+    "label": "Digital Artist",
+    "filename": "source-390-digital-artist.png"
+  },
+  {
+    "kind": "local",
+    "width": 390,
+    "height": 844,
+    "label": "Digital Artist",
+    "filename": "local-390-digital-artist.png"
+  }
+]

@@ -1,0 +1,145 @@
+src/lib/component-meta.ts format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+      756   756 │       studioPath: "src/components/studios/vertical-dial-nav.tsx",
+      757   757 │       api: [
+      758       │ - ······{·name:·"sections",·type:·"readonly·DialSection[]",·description:·"Section·IDs·and·labels,·in·scroll·order.·IDs·must·match·elements·inside·the·scroll·root."·},
+      759       │ - ······{·name:·"scrollRoot",·type:·"RefObject<HTMLElement·|·null>",·description:·"Optional·section·scroll·container.·Omit·to·observe·window·scrolling."·},
+      760       │ - ······{·name:·"activeColor",·type:·"string",·default:·"rgb(26,·26,·26)",·description:·"Selected·label·color."·},
+      761       │ - ······{·name:·"fadeDistance",·type:·"number",·default:·"2",·description:·"Number·of·neighboring·labels·before·opacity·reaches·0.2."·},
+      762       │ - ······{·name:·"font",·type:·"CSSProperties",·description:·"Label·font·styling.·Defaults·to·16px·Geist·with·-0.05em·letter·spacing."·},
+      763       │ - ······{·name:·"dialWidth",·type:·"number",·default:·"180",·description:·"Navigation·width·in·pixels."·},
+      764       │ - ······{·name:·"dialRadius",·type:·"number",·default:·"0",·description:·"Clipping·radius·in·pixels."·},
+      765       │ - ······{·name:·"itemSpacing",·type:·"number",·default:·"12",·description:·"Vertical·gap·between·labels·in·pixels."·},
+      766       │ - ······{·name:·"alignment",·type:·'"left"·|·"center"·|·"right"',·default:·'"right"',·description:·"Label·alignment."·},
+      767       │ - ······{·name:·"style",·type:·"CSSProperties",·description:·"Additional·navigation·container·styling.·Give·its·parent·a·height."·},
+      768       │ - ······{·name:·"className",·type:·"string",·description:·"Additional·navigation·class."·},
+            758 │ + ······{
+            759 │ + ········name:·"sections",
+            760 │ + ········type:·"readonly·DialSection[]",
+            761 │ + ········description:
+            762 │ + ··········"Section·IDs·and·labels,·in·scroll·order.·IDs·must·match·elements·inside·the·scroll·root.",
+            763 │ + ······},
+            764 │ + ······{
+            765 │ + ········name:·"scrollRoot",
+            766 │ + ········type:·"RefObject<HTMLElement·|·null>",
+            767 │ + ········description:
+            768 │ + ··········"Optional·section·scroll·container.·Omit·to·observe·window·scrolling.",
+            769 │ + ······},
+            770 │ + ······{
+            771 │ + ········name:·"activeColor",
+            772 │ + ········type:·"string",
+            773 │ + ········default:·"rgb(26,·26,·26)",
+            774 │ + ········description:·"Selected·label·color.",
+            775 │ + ······},
+            776 │ + ······{
+            777 │ + ········name:·"fadeDistance",
+            778 │ + ········type:·"number",
+            779 │ + ········default:·"2",
+            780 │ + ········description:·"Number·of·neighboring·labels·before·opacity·reaches·0.2.",
+            781 │ + ······},
+            782 │ + ······{
+            783 │ + ········name:·"font",
+            784 │ + ········type:·"CSSProperties",
+            785 │ + ········description:
+            786 │ + ··········"Label·font·styling.·Defaults·to·16px·Geist·with·-0.05em·letter·spacing.",
+            787 │ + ······},
+            788 │ + ······{
+            789 │ + ········name:·"dialWidth",
+            790 │ + ········type:·"number",
+            791 │ + ········default:·"180",
+            792 │ + ········description:·"Navigation·width·in·pixels.",
+            793 │ + ······},
+            794 │ + ······{
+            795 │ + ········name:·"dialRadius",
+            796 │ + ········type:·"number",
+            797 │ + ········default:·"0",
+            798 │ + ········description:·"Clipping·radius·in·pixels.",
+            799 │ + ······},
+            800 │ + ······{
+            801 │ + ········name:·"itemSpacing",
+            802 │ + ········type:·"number",
+            803 │ + ········default:·"12",
+            804 │ + ········description:·"Vertical·gap·between·labels·in·pixels.",
+            805 │ + ······},
+            806 │ + ······{
+            807 │ + ········name:·"alignment",
+            808 │ + ········type:·'"left"·|·"center"·|·"right"',
+            809 │ + ········default:·'"right"',
+            810 │ + ········description:·"Label·alignment.",
+            811 │ + ······},
+            812 │ + ······{
+            813 │ + ········name:·"style",
+            814 │ + ········type:·"CSSProperties",
+            815 │ + ········description:
+            816 │ + ··········"Additional·navigation·container·styling.·Give·its·parent·a·height.",
+            817 │ + ······},
+            818 │ + ······{
+            819 │ + ········name:·"className",
+            820 │ + ········type:·"string",
+            821 │ + ········description:·"Additional·navigation·class.",
+            822 │ + ······},
+      769   823 │       ],
+      770   824 │       nuance: [
+      771       │ - ······{·label:·"Source·mechanism",·description:·"The·linked·Framer·navigation·selects·the·last·section·whose·top·crosses·30%·of·the·viewport.·Its·labels·stay·in·place,·with·distance-based·opacity,·active·weight·500,·scale·1.06·and·a·0.4-second·cubic-bezier·transition."·},
+      772       │ - ······{·label:·"Scroll·roots",·description:·"Use·a·scrollRoot·ref·for·bounded·sections.·Selection·measures·that·container,·and·link·activation·scrolls·only·that·root."·},
+      773       │ - ······{·label:·"Motion·and·focus",·description:·"Reduced·motion·removes·smooth·scrolling·and·transitions.·Keyboard·focus·remains·visible.·Scroll·listeners·and·scheduled·frames·clean·up·on·unmount."·},
+      774       │ - ······{·label:·"Font",·description:·"The·component·inherits·your·font·styling.·The·demo·uses·the·original·Geist·400·and·500·files·hosted·on·Vercel·Blob."·},
+            825 │ + ······{
+            826 │ + ········label:·"Source·mechanism",
+            827 │ + ········description:
+            828 │ + ··········"The·linked·Framer·navigation·selects·the·last·section·whose·top·crosses·30%·of·the·viewport.·Its·labels·stay·in·place,·with·distance-based·opacity,·active·weight·500,·scale·1.06·and·a·0.4-second·cubic-bezier·transition.",
+            829 │ + ······},
+            830 │ + ······{
+            831 │ + ········label:·"Scroll·roots",
+            832 │ + ········description:
+            833 │ + ··········"Use·a·scrollRoot·ref·for·bounded·sections.·Selection·measures·that·container,·and·link·activation·scrolls·only·that·root.",
+            834 │ + ······},
+            835 │ + ······{
+            836 │ + ········label:·"Motion·and·focus",
+            837 │ + ········description:
+            838 │ + ··········"Reduced·motion·removes·smooth·scrolling·and·transitions.·Keyboard·focus·remains·visible.·Scroll·listeners·and·scheduled·frames·clean·up·on·unmount.",
+            839 │ + ······},
+            840 │ + ······{
+            841 │ + ········label:·"Font",
+            842 │ + ········description:
+            843 │ + ··········"The·component·inherits·your·font·styling.·The·demo·uses·the·original·Geist·400·and·500·files·hosted·on·Vercel·Blob.",
+            844 │ + ······},
+      775   845 │       ],
+      776   846 │       editable: [
+      777       │ - ······{·name:·"activeColor",·control:·"color",·description:·"Selected·label·color."·},
+      778       │ - ······{·name:·"fadeDistance",·control:·"slider",·description:·"Neighboring·label·fade·range."·},
+      779       │ - ······{·name:·"itemSpacing",·control:·"slider",·description:·"Vertical·label·spacing."·},
+            847 │ + ······{
+            848 │ + ········name:·"activeColor",
+            849 │ + ········control:·"color",
+            850 │ + ········description:·"Selected·label·color.",
+            851 │ + ······},
+            852 │ + ······{
+            853 │ + ········name:·"fadeDistance",
+            854 │ + ········control:·"slider",
+            855 │ + ········description:·"Neighboring·label·fade·range.",
+            856 │ + ······},
+            857 │ + ······{
+            858 │ + ········name:·"itemSpacing",
+            859 │ + ········control:·"slider",
+            860 │ + ········description:·"Vertical·label·spacing.",
+            861 │ + ······},
+      780   862 │       ],
+      781       │ - ····assets:·assetsByIds(["vertical-dial-nav-geist-400",·"vertical-dial-nav-geist-500"]),
+            863 │ + ····assets:·assetsByIds([
+            864 │ + ······"vertical-dial-nav-geist-400",
+            865 │ + ······"vertical-dial-nav-geist-500",
+            866 │ + ····]),
+      782   867 │     },
+      783   868 │     "warped-gallery": {
+  
+
+Checked 13 files in 99ms. No fixes applied.
+Found 1 error.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

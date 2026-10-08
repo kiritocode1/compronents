@@ -157,6 +157,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "scroll-blur-footer",
+    title: "Scroll Blur Footer",
+    description:
+      "Six progressive backdrop-blur layers activate while scrolling and clear at rest. A fixed viewport-edge overlay with the original spring response, support for nested scrollers and reduced motion. Standalone React and Motion, no Framer runtime.",
+    section: "components",
+    category: "Layout",
+    pro: true,
+    date: "2026-10-08",
+    type: "registry:ui",
+    dependencies: ["motion"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scroll-blur-footer.tsx",
+        target: "components/ui/scroll-blur-footer.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "vertical-dial-nav",
     title: "Vertical Dial Nav",
     description:

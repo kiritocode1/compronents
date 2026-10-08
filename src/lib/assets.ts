@@ -2859,6 +2859,16 @@ const warpedGalleryAssets = [
 
 export const assetItems = [
   {
+    id: "scroll-blur-footer-gradient",
+    label: "Scroll Blur Footer gradient",
+    provider: "vercel-blob",
+    pathname: "scroll-blur-footer/gradient.avif",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/scroll-blur-footer/gradient.avif`,
+    role: "Original grainy mint, white and black image used in the demo, not required by the blur overlay.",
+    notes:
+      "Pinned source browser-delivered AVIF uploaded byte-for-byte to Vercel Blob. Source: scrollingblur.framer.website.",
+  } satisfies AssetItem,
+  {
     id: "vertical-dial-nav-geist-400",
     label: "Vertical Dial Nav regular font",
     provider: "vercel-blob",

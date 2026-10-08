@@ -46,6 +46,7 @@ import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
 import PrismLightInstrumentPreview from "./prism-light-instrument";
 import ProceduralComputerPagePreview from "./procedural-computer-page";
+import ScrollBlurFooterPreview from "./scroll-blur-footer";
 import ScrollTunnel3DPreview from "./scroll-tunnel-3d";
 import ScrollWaveGalleryPreview from "./scroll-wave-gallery";
 import SettlementLayerPagePreview from "./settlement-layer-page";
@@ -66,6 +67,7 @@ import WarpedGalleryPreview from "./warped-gallery";
  * full-page preview) and register it here.
  */
 export const previews: Record<string, ComponentType> = {
+  "scroll-blur-footer": ScrollBlurFooterPreview,
   "vertical-dial-nav": VerticalDialNavPreview,
   "warped-gallery": WarpedGalleryPreview,
   "hover-bloom": HoverBloomPreview,

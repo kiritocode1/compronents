@@ -1,0 +1,37 @@
+[
+  {
+    "width": 1280,
+    "label": "ai-coder",
+    "exact_changed_pixels": 1538,
+    "total_pixels": 77400,
+    "exact_mismatch_percent": 1.9870801033591732
+  },
+  {
+    "width": 1280,
+    "label": "digital-artist",
+    "exact_changed_pixels": 1552,
+    "total_pixels": 77400,
+    "exact_mismatch_percent": 2.005167958656331
+  },
+  {
+    "width": 1280,
+    "label": "curious",
+    "exact_changed_pixels": 471,
+    "total_pixels": 77400,
+    "exact_mismatch_percent": 0.6085271317829457
+  },
+  {
+    "width": 390,
+    "label": "ai-coder",
+    "exact_changed_pixels": 1230,
+    "total_pixels": 77400,
+    "exact_mismatch_percent": 1.5891472868217054
+  },
+  {
+    "width": 390,
+    "label": "digital-artist",
+    "exact_changed_pixels": 1291,
+    "total_pixels": 77400,
+    "exact_mismatch_percent": 1.6679586563307494
+  }
+]

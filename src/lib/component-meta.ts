@@ -751,6 +751,58 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "scroll-blur-footer": {
+    demoPath: "src/components/demos/scroll-blur-footer.tsx",
+    api: [
+      {
+        name: "direction",
+        type: '"bottom" | "top"',
+        default: '"bottom"',
+        description:
+          "Viewport edge where the blur is strongest. Top reverses the masks and overlay placement.",
+      },
+      {
+        name: "height",
+        type: 'CSSProperties["height"]',
+        default: "150",
+        description:
+          "Overlay height. Numbers use pixels; CSS lengths are also accepted.",
+      },
+      {
+        name: "position",
+        type: '"fixed" | "absolute"',
+        default: '"fixed"',
+        description:
+          "Fixed for a viewport edge, absolute inside a positioned container such as a bounded preview.",
+      },
+      { name: "className", type: "string", description: "Overlay class." },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description:
+          "Additional overlay styles. Pointer events remain disabled.",
+      },
+    ],
+    nuance: [
+      {
+        label: "Scroll activity, not scroll position",
+        description:
+          "The scrollingblur.framer.website source activates blur on any scroll event, including nested containers. After 180ms without scrolling, it clears. It does not track distance down the page.",
+      },
+      {
+        label: "Progressive backdrop layers",
+        description:
+          "Six masked layers use 2, 4, 6, 8, 10 and 12px blur coefficients. The shared strength springs in with stiffness 300 and damping 30, then out with stiffness 80 and damping 26. Scrolling during the return retargets the spring.",
+      },
+      {
+        label: "Decorative overlay",
+        description:
+          "Place over existing content. The component loads no images or Framer code, cannot intercept pointer input, and disables its animation when reduced motion is requested.",
+      },
+    ],
+    editable: [],
+    assets: assetsByIds(["scroll-blur-footer-gradient"]),
+  },
   "vertical-dial-nav": {
     demoPath: "src/components/demos/vertical-dial-nav.tsx",
     studioPath: "src/components/studios/vertical-dial-nav.tsx",
