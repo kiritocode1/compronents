@@ -9881,6 +9881,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Machine learning and deep learning",
     links: [
       {
+        title: "Handwired",
+        href: "https://chenglou.me/handwired/",
+        dateAdded: "2026-10-15",
+        kind: "tool",
+        stack: ["javascript", "webgpu"],
+        useFor: [
+          "compile javascript into a neural net",
+          "hand-written neural network weights",
+          "differentiable programs without training",
+          "train a compiled program's weights",
+          "run program logic as matrix multiplication",
+          "relu if-else branch selection",
+          "webgpu parallel json search",
+        ],
+        description:
+          "Handwired, by Cheng Lou, turns ordinary JavaScript into an equivalent neural network whose weights are written by construction instead of learned: no training, exact, and still fully differentiable. Programs made of if-else, loops and state become matrix multiplication and ReLU over floats, so a ternary like a > 4 ? 10 : 12 becomes relu(a - 4) - relu(a - 5) selecting between both branches, and the whole program runs as one large matmul on plain JS or WebGPU. The page links three live demos: HandwiredOS, a small desktop rendering to the DOM from 9,909 weights over 130 layers; a gallery whose compiled weights you unfreeze and train in real time; and a search over 100,000 JSON documents with regex matching and parsing compiled to WebGPU kernels. The MIT-licensed source and a tutorial are on GitHub at chenglou/handwired.",
+      },
+      {
         title: "The Ultimate Guide to Reinforcement Learning",
         href: "https://www.reinforcement-learning.com/",
         dateAdded: "2026-10-04",
@@ -14707,6 +14725,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Marketing and growth tools",
     links: [
       {
+        title: "YouTube Playbook for Technical Creators",
+        href: "https://howtoyoutube.dev/",
+        dateAdded: "2026-10-09",
+        kind: "essay",
+        useFor: [
+          "technical youtube video planning",
+          "youtube titles and thumbnails",
+          "developer video scripting",
+          "youtube audience retention",
+          "creator editor collaboration",
+          "video publishing checklist",
+          "youtube retention analytics",
+        ],
+        description:
+          "A written playbook and per-video checklist for developers making YouTube videos, covering planning, recording, editing and publishing. It recommends choosing the title and thumbnail before recording, scripting the intro, planning re-engagement beats and giving editors concrete feedback. The guide also explains how to read retention graphs and when to replace an underperforming title or thumbnail, drawing on Theo's packaging masterclass and strategy and editing calls with 10xn.",
+      },
+      {
         href: "https://loops.so/",
         title: "Loops",
         kind: "tool",
@@ -15392,6 +15427,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Developer profiles and socials",
     links: [
+      {
+        title: "Top 40 DevRels on X",
+        href: "https://topdevrels.vercel.app/",
+        dateAdded: "2026-10-09",
+        kind: "directory",
+        useFor: [
+          "devrel people to follow",
+          "developer relations profiles",
+          "developer experience professionals",
+          "developer community professionals",
+          "devrel x accounts",
+        ],
+        description:
+          "A directory of developer relations and adjacent developer-experience, community and growth professionals on X, titled Top 40 DevRels on X by aasha. The inspected page lists 44 profiles with names, avatars, roles or affiliations and links to their X accounts, including Matt Palmer, Nader Dabit and Pauline Narvas. Use it to find people to follow and browse their profiles; the page does not explain a ranking methodology.",
+      },
       {
         title: "Runlayer on X",
         href: "https://x.com/runlayer",
