@@ -3558,6 +3558,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "Interfere Design System",
+        href: "https://design.interfere.com/",
+        dateAdded: "2026-10-17",
+        kind: "library",
+        useFor: [
+          "design system reference",
+          "typography reference",
+          "color foundations",
+          "radius and shadow reference",
+          "ui component examples",
+          "light and dark themes",
+        ],
+        description:
+          "Interfere's design-system reference organizes brand, colors, radius, shadows, typography, and UI primitives into a searchable site. Typography sections cover font families, headings, text, captions, and code; component sections include buttons, comboboxes, dialogs, drawers, tables, toasts, and tooltips. Use it to study a product design system's foundations and component examples, with system, light, and dark theme options.",
+      },
+      {
         title: "Interface Cheat Sheet",
         href: "https://interfaces.dev/cheat-sheet",
         dateAdded: "2026-10-04",
