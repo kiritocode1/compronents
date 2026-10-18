@@ -3905,6 +3905,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Designeer",
+        href: "https://designeer.xyz/",
+        dateAdded: "2026-10-18",
+        kind: "directory",
+        useFor: [
+          "design inspiration browsing",
+          "curated design resources",
+          "design gallery directory",
+          "designer portfolio discovery",
+          "ui component resources",
+          "design tools directory",
+          "visual reference research",
+        ],
+        description:
+          "Independently curated catalogue of websites, practical tools, design resources and practitioner portfolios, reviewed by hand by Dhruv Jaradi. It splits into five sections: Finds, selected visual work from across the web filterable by type and colour; Inspiration, galleries and editorial collections such as Awwwards, Mobbin, Cosmos and Minimal Gallery; Resources, covering components, icons, type and colour (shadcn/ui, Base UI, Motion Primitives, Fontshare); Tools, from Cursor and Biome to v0; and Portfolios from designers and engineers including Emil Kowalski, Paco Coursey and Rauno Freiberg. Browsing needs no account, signing in adds Favourites and Folders, and entries where motion matters carry short preview recordings. Submissions are free, featured placement costs $49 per week, and sponsor slots are labelled as promotional.",
+      },
+      {
         title: "Dead Simple Sites",
         href: "https://deadsimplesites.com/",
         dateAdded: "2026-10-04",
