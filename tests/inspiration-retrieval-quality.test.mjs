@@ -102,6 +102,9 @@ test("less vibe coded preserves the established interface-craft intent", async (
         // Design-craft essay matching the vibe-coded phrase expansion
         // ("design craft essay"); entered the catalog 2026-09-18.
         "The invisible side of design engineering",
+        // Design-system reference; entered the catalog 2026-10-17 and now
+        // sits in the top five for this query.
+        "Interfere Design System",
       ].includes(title),
     ),
     `Returned: ${hits.join(", ") || "nothing"}`,
