@@ -8050,6 +8050,37 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Animation and motion",
     links: [
       {
+        title: "Prompt Motion",
+        href: "https://prompt-motion.com/",
+        dateAdded: "2026-10-26",
+        kind: "gallery",
+        useFor: [
+          "claude motion video prompts",
+          "motion video prompt examples",
+          "study ai motion videos",
+          "find motion design skills",
+          "customize video prompts",
+        ],
+        description:
+          "Gallery of motion videos made with Claude Opus 5.5, with the prompts and skills behind the examples. Browse the videos to study motion treatments and inspect how creators prompted them. A customization page lets visitors adapt prompts for their own projects.",
+      },
+      {
+        title: "MotionVideo",
+        href: "https://motionvideo.xyz/",
+        dateAdded: "2026-10-26",
+        kind: "gallery",
+        useFor: [
+          "motion video inspiration",
+          "kinetic typography video references",
+          "product launch video references",
+          "motion designer showreels",
+          "motion video prompt examples",
+          "animated explainer references",
+        ],
+        description:
+          "Motion video inspiration gallery with entries marked as prompts or skills and a form for submitting videos. Its examples include kinetic typography, UI shape morphing, product launch films, motion designer showreels and animated explainers. Use the linked video pages to study a particular treatment rather than treating the gallery as a rendering tool.",
+      },
+      {
         title: "Kinetic Type and Dot Fields Cut Against Product UI",
         href: "https://movin.design/video/kinetic-type-and-dot-fields-cut-against-product-ui/",
         dateAdded: "2026-10-04",
@@ -9378,6 +9409,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Audio, video and media",
     links: [
+      {
+        title:
+          "Ultra-low latency live with WebRTC is now Generally Available in Stream",
+        href: "https://developers.cloudflare.com/changelog/post/2026-10-15-stream-live-webrtc-ga/",
+        dateAdded: "2026-10-17",
+        kind: "essay",
+        stack: ["cloudflare", "webrtc", "whip", "whep"],
+        useFor: [
+          "low latency live video broadcasting",
+          "cloudflare stream webrtc",
+          "one to many live streams",
+          "browser based broadcasting",
+          "whip ingest and whep playback",
+          "live video delivery analytics",
+        ],
+        description:
+          "Cloudflare's October 15, 2026 announcement makes ultra-low latency WebRTC live streaming generally available in Stream for one-to-many broadcasts. Rebuilt on Cloudflare Realtime, it supports WHIP broadcast and WHEP playback, with Trickle ICE, server and client offer modes, and counter-offer support; creators can broadcast from browsers or supported software, and viewers can use Stream's player or compatible libraries. WebRTC delivery now appears in analytics and billable usage charts, with billing starting on the announcement date at standard delivered-video-minute rates. The article distinguishes Stream broadcasting from Realtime's many-to-many use cases.",
+      },
       {
         title: "Moving Image Archive",
         href: "https://www.movingimagearchive.com/",
@@ -11270,6 +11319,91 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Backend engineering",
     links: [
       {
+        title: "Backends on Vercel: Python, containers, and Daemons",
+        href: "https://vercel.com/blog/backends-on-vercel-python-containers-and-daemons",
+        dateAdded: "2026-10-17",
+        kind: "essay",
+        stack: ["vercel", "python", "docker"],
+        useFor: [
+          "vercel backend hosting",
+          "continuous background workers",
+          "pull based queue consumers",
+          "python backend deployment",
+          "container system dependencies",
+          "ffmpeg background processing",
+        ],
+        description:
+          "Vercel's October 15, 2026 backend announcement introduces Daemons in public beta for continuously running pull-based workers, alongside generally available Python support and container-backed Functions. It explains configured worker capacity and process restarts, with a Dockerfile example that installs ffmpeg for a Python video-processing worker consuming Vercel Queues. Use it to distinguish request-serving Functions from workers that stay running between jobs and to evaluate deploying a backend alongside a frontend with Services.",
+      },
+      {
+        title: "Introducing Vercel Drives: persistent storage for agents",
+        href: "https://vercel.com/blog/introducing-vercel-drives-persistent-storage-for-agents",
+        dateAdded: "2026-10-17",
+        kind: "essay",
+        stack: ["vercel"],
+        useFor: [
+          "persistent agent workspaces",
+          "sandbox files across runs",
+          "shared agent datasets",
+          "fork isolated workspaces",
+          "file based agent memory",
+          "vercel sandbox storage",
+        ],
+        description:
+          "Vercel's October 15, 2026 announcement of generally available Drives for Sandbox explains how mounted files survive sandbox shutdown and remain available when an agent changes environments. CLI and SDK examples create a drive and mount it at /workspace; further examples share read-only data and fork independent writable workspaces whose changes do not merge back. The announcement lists availability on all plans, default capacities of 1 TiB or 1 GiB on Hobby, and up to 16 TiB available.",
+      },
+      {
+        title: "Vercel Sandbox now runs on Vercel Managed Images",
+        href: "https://vercel.com/changelog/vercel-sandbox-managed-images",
+        dateAdded: "2026-10-17",
+        kind: "essay",
+        stack: ["vercel", "node.js", "python"],
+        useFor: [
+          "sandbox runtime migration",
+          "managed sandbox images",
+          "preinstalled coding agent tools",
+          "ubuntu sandbox environments",
+          "reproducible image digest pinning",
+          "sandbox sdk v3 defaults",
+        ],
+        description:
+          "Vercel's August 10, 2026 changelog replaces predefined Sandbox runtimes with Vercel Managed Images while keeping the deprecated runtime property working for existing code. Sandbox SDK v3 defaults to an Ubuntu-based universal image with Node.js, Python, coding agents including Claude Code, Codex and Pi, and common command-line tools. It documents the image property, nightly managed releases, digest pinning for reproducibility, and migration differences including the operating system and default user.",
+      },
+      {
+        title: "Node.js 20 is being deprecated on October 1, 2026",
+        href: "https://vercel.com/changelog/node-js-20-is-being-deprecated",
+        dateAdded: "2026-10-17",
+        kind: "essay",
+        stack: ["vercel", "node.js"],
+        useFor: [
+          "vercel node 20 deprecation",
+          "upgrade vercel to node 24",
+          "fix unsupported node deployment",
+          "node version project settings",
+          "package json engines override",
+          "node runtime migration checks",
+        ],
+        description:
+          "Vercel's July 14, 2026 notice sets October 1, 2026 as the deprecation date for Node.js 20 Builds and Functions: new deployments fail on that version, while already-deployed functions continue working. It gives a Node.js 24 upgrade procedure covering package.json engines, local and CI version pins, dependency installation, builds and tests, and deployed runtime verification. A container fallback is described for teams unable to upgrade immediately, with runtime security updates becoming their responsibility.",
+      },
+      {
+        title: "Vercel Ship 2026 recap",
+        href: "https://vercel.com/blog/vercel-ship-2026-recap",
+        dateAdded: "2026-10-17",
+        kind: "essay",
+        stack: ["vercel", "python"],
+        useFor: [
+          "vercel ship 2026 announcements",
+          "vercel backend capabilities overview",
+          "python services deployment",
+          "daemon worker support",
+          "persistent sandbox workspaces",
+          "agent platform release overview",
+        ],
+        description:
+          "Vercel's October 15, 2026 event recap summarizes backend and agent-platform announcements, including generally available Python, frontend and backend deployments with Services, and Daemons in public beta. It names Celery, Dramatiq and Temporal workers as Daemon use cases and describes generally available Drives for persistent Sandbox workspaces. Use it as an overview of the releases and a starting point for their individual announcements rather than a configuration or limits reference.",
+      },
+      {
         title:
           "Open-Sourcing Rebalancer: A Generic, High-Performance Library for Solving Assignment Problems",
         href: "https://engineering.fb.com/2026/09/21/open-source/rebalancer-generic-high-performance-library-assignment-problems/",
@@ -11514,6 +11648,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Databases and storage",
     links: [
+      {
+        title: "bbtree",
+        href: "https://github.com/XiangpengHao/bbtree",
+        dateAdded: "2026-10-26",
+        kind: "library",
+        stack: ["rust"],
+        useFor: [
+          "rust concurrent ordered map",
+          "rust btree map replacement",
+          "single threaded ordered maps",
+          "batched ordered map lookups",
+          "no_std ordered collections",
+          "btree implementation research",
+        ],
+        description:
+          "Rust B-tree ordered-map library by Xiangpeng Hao with concurrent and single-threaded variants. The README describes a zero-dependency, no_std-compatible implementation and presents unsync::BBTreeMap as a replacement for the standard library's ordered collections, alongside batched lookup examples. The repository links benchmarks, implementation notes and checks using formal verification, model checking, deterministic simulation and fuzzing. Dual licensed under MIT or Apache-2.0.",
+      },
       {
         title: "Neki",
         href: "https://www.neki.dev/",
@@ -11828,6 +11979,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Infrastructure, observability and runtimes",
     links: [
+      {
+        title: "pwn.watch",
+        href: "https://pwn.watch/all",
+        dateAdded: "2026-10-23",
+        kind: "tool",
+        stack: ["security", "cve", "json", "rss", "webmcp"],
+        useFor: [
+          "track live security incidents",
+          "check if software is affected by a cve",
+          "find fixed versions for a vulnerability",
+          "monitor breaches and supply chain attacks",
+          "feed security advisories to a coding agent",
+          "subscribe to cve rss feeds",
+          "watch incidents by vendor tag",
+        ],
+        description:
+          "pwn.watch is Kitze's (@thekitze) live tracker of security incidents worldwide, and each one is filed under a single category: patch (a bug in software you run, update to a fixed version), breach (something happened to a company or service, nothing to patch) or supply chain (malicious packages, hijacked releases, compromised certificates). At the time of review it listed 728 incidents, 47 of them live and 22 of those critical, split 29 Patch now, 13 breaches and 5 supply chain. Each incident carries severity, patch status, CVE IDs, affected and fixed versions, a timeline with sources, and a Markdown agentBrief. The static site rebuilds on every content change and publishes incidents.json, changes.json, RSS and JSON feeds, llms.txt, per-tag feeds and WebMCP tools, with CORS enabled and no auth or rate limits.",
+      },
       {
         title: "Vercel Security",
         href: "https://vercel.com/security",
@@ -16918,6 +17087,39 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "Anatomy",
+        href: "https://skills.wheresryan.sh/anatomy",
+        dateAdded: "2026-10-26",
+        kind: "skill",
+        stack: ["claude-code", "typescript", "svg", "react"],
+        useFor: [
+          "interactive isometric technical illustrations",
+          "explain algorithms with physical models",
+          "svg mechanism diagrams",
+          "interactive technical explainers",
+          "printable technical figures",
+          "react isometric figures",
+        ],
+        description:
+          "Claude Code skill that turns an idea into an isometric figure of a physical object whose moving parts explain the concept. It writes framework-free TypeScript with SVG and HTML or React components, with optional pointer and keyboard interaction and readouts driven by the same model as the drawing. Examples explain hash maps, bloom filters, mutexes and mechanical watches; printable outputs include A4 posters, technical drawings and handouts. The site also offers the collection as themeable React components and custom elements.",
+      },
+      {
+        title: "design.how skills",
+        href: "https://design.how/skills",
+        dateAdded: "2026-10-26",
+        kind: "skill",
+        useFor: [
+          "design system agent skills",
+          "build a design system",
+          "migrate onto a design system",
+          "map values to design tokens",
+          "review a ui screen",
+          "document a ui component",
+        ],
+        description:
+          "Arlan Marat's collection of six agent skills for design-system work. design-system-boss runs the other five: build-design-system, migrate-design-system, token-mapping, ui-review and component-docs. They cover building and adopting a system, mapping values to tokens, reviewing a screen and documenting a component. The page requires an email address to unlock the skills and installation details.",
+      },
       {
         title: "Superpowers",
         href: "https://github.com/obra/superpowers",
