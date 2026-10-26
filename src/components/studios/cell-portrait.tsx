@@ -1,8 +1,8 @@
 "use client";
 
-import { RefreshCw, Sparkles } from "lucide-react";
+import { RefreshCw, Sparkles, Upload } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   SliderComfortable,
   StudioColor,
@@ -41,13 +41,39 @@ const PRESETS = [
 
 type Preset = (typeof PRESETS)[number];
 
+const SAMPLE_SRC = "/assets/cell-portrait/miku.webp";
+const SAMPLE_ALT = "Illustration of Hatsune Miku drawn as joined circles";
+
 export default function CellPortraitStudio() {
+  const fileInput = useRef<HTMLInputElement>(null);
+  // Blob URL of the uploaded image, revoked when replaced or on unmount.
+  const objectUrl = useRef<string | null>(null);
+  const [src, setSrc] = useState(SAMPLE_SRC);
+  const [alt, setAlt] = useState(SAMPLE_ALT);
   const [preset, setPreset] = useState<Preset>(PRESETS[0]);
   const [background, setBackground] = useState<string>(preset.background);
   const [stroke, setStroke] = useState<string>(preset.stroke);
   const [cellFrom, setCellFrom] = useState<number>(preset.cellFrom);
   const [cellTo, setCellTo] = useState<number>(preset.cellTo);
   const [speed, setSpeed] = useState<number>(preset.speed);
+
+  useEffect(() => {
+    return () => {
+      if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
+    };
+  }, []);
+
+  function chooseFile(file: File) {
+    if (objectUrl.current) URL.revokeObjectURL(objectUrl.current);
+    objectUrl.current = URL.createObjectURL(file);
+    setSrc(objectUrl.current);
+    setAlt(`${file.name} drawn as joined circles`);
+  }
+
+  function backToSample() {
+    setSrc(SAMPLE_SRC);
+    setAlt(SAMPLE_ALT);
+  }
 
   function applyPreset(next: Preset) {
     setPreset(next);
@@ -70,8 +96,8 @@ export default function CellPortraitStudio() {
           Fullscreen
         </Link>
         <CellPortrait
-          src="/assets/cell-portrait/miku.webp"
-          alt="Illustration of Hatsune Miku drawn as joined circles"
+          src={src}
+          alt={alt}
           background={background}
           stroke={stroke}
           cellFrom={cellFrom}
@@ -92,7 +118,10 @@ export default function CellPortraitStudio() {
             </div>
             <button
               type="button"
-              onClick={() => applyPreset(PRESETS[0])}
+              onClick={() => {
+                applyPreset(PRESETS[0]);
+                backToSample();
+              }}
               aria-label="Reset studio"
               title="Reset studio"
               className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
@@ -121,6 +150,39 @@ export default function CellPortraitStudio() {
 
         <div className="grid gap-x-5 gap-y-6 border-t p-4 sm:p-5 lg:grid-cols-[minmax(240px,1fr)_minmax(280px,1.1fr)_minmax(240px,1fr)]">
           <section className="grid content-start gap-3">
+            <div className="flex flex-col gap-2">
+              <span className="label">Image</span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => fileInput.current?.click()}
+                  className="flex h-10 flex-1 items-center justify-center gap-2 rounded-md border bg-card px-3 text-xs transition-colors hover:border-border-strong"
+                >
+                  <Upload className="size-3.5" />
+                  Choose image
+                </button>
+                {src !== SAMPLE_SRC ? (
+                  <button
+                    type="button"
+                    onClick={backToSample}
+                    className="h-10 rounded-md border bg-card px-3 text-xs transition-colors hover:border-border-strong"
+                  >
+                    Sample
+                  </button>
+                ) : null}
+              </div>
+              <input
+                ref={fileInput}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (file) chooseFile(file);
+                }}
+              />
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <StudioColor
                 label="Back"
