@@ -25,6 +25,7 @@ import CardPartingRevealDemo from "./card-parting-reveal";
 import CarouselDiscScrollDemo from "./carousel-disc-scroll";
 import CarouselRingGalleryDemo from "./carousel-ring-gallery";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
+import CellPortraitDemo from "./cell-portrait";
 import ChromeFolioPageDemo from "./chrome-folio-page";
 import CirclePreloaderHeroDemo from "./circle-preloader-hero";
 import CircularWidgetDialDemo from "./circular-widget-dial";
@@ -260,6 +261,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "cell-portrait": CellPortraitDemo,
   "scroll-blur-footer": ScrollBlurFooterDemo,
   "vertical-dial-nav": VerticalDialNavDemo,
   "warped-gallery": WarpedGalleryDemo,

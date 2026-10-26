@@ -1,0 +1,12 @@
+{
+  "file": "Dhruv - computational experiments by opus 5.5.mp4",
+  "sha256": "0743726c85c7d0ba1d7759a78510ff86e9d28f3d38fdb59d372e0d95af422dfe",
+  "bytes": 3560687,
+  "width": 1078,
+  "height": 974,
+  "fps": 30,
+  "frames": 180,
+  "durationSeconds": 6,
+  "measuredAt": "2026-10-26",
+  "note": "The recording itself is not committed. measurements.json holds the values read from it frame by frame; cell sizes are CSS px of the 540px square the source rendered at 2x."
+}

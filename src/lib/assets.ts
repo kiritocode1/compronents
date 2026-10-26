@@ -2859,6 +2859,16 @@ const warpedGalleryAssets = [
 
 export const assetItems = [
   {
+    id: "cell-portrait-miku",
+    label: "Cell Portrait demo illustration",
+    provider: "vercel-blob",
+    pathname: "cell-portrait/miku.webp",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cell-portrait/miku.webp`,
+    role: "Opaque illustration on white used by the demo. The component keys out its background, including the pockets between strands of hair.",
+    notes:
+      "WebP at quality 92 of the illustration supplied for the demo, uploaded to Vercel Blob.",
+  } satisfies AssetItem,
+  {
     id: "scroll-blur-footer-gradient",
     label: "Scroll Blur Footer gradient",
     provider: "vercel-blob",

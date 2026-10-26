@@ -11,6 +11,7 @@ import BlnkAgencyPageStudio from "./blnk-agency-page";
 import BlurStudyGridStudio from "./blur-study-grid";
 import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
+import CellPortraitStudio from "./cell-portrait";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
 import CurveGalleryStudio from "./curve-gallery";
@@ -62,6 +63,7 @@ export type StudioComponent = ComponentType;
  * need bespoke controls instead of a generic prop editor.
  */
 export const studios: Record<string, StudioComponent> = {
+  "cell-portrait": CellPortraitStudio,
   "vertical-dial-nav": VerticalDialNavStudio,
   "blnk-agency-page": BlnkAgencyPageStudio,
   "blur-study-grid": BlurStudyGridStudio,

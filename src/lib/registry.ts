@@ -157,6 +157,26 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "cell-portrait",
+    title: "Cell Portrait",
+    description:
+      "A portrait drawn as a grid of circles that join into capsules and thin bridges. The cells shrink from 36px to 7px while the joins reshuffle every 133ms, then the image colors in and the loop runs back out. Dark areas hold the most circles, so a face reads before any color arrives. Canvas 2D and GSAP, timed frame by frame against the reference recording.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-10-26",
+    type: "registry:ui",
+    dependencies: ["gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cell-portrait.tsx",
+        target: "components/ui/cell-portrait.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "scroll-blur-footer",
     title: "Scroll Blur Footer",
     description:
@@ -9823,6 +9843,13 @@ export function getRegistryDesignGuidance(
       "for a brand reveal, campaign signature, or section marker where the identity deserves a brief focal moment.",
       "clear surrounding space, a restrained palette, and static brand usage elsewhere on the page.",
       "for repeated decoration or when the animation makes the mark harder to recognize.",
+    );
+  }
+  if (name === "cell-portrait") {
+    return component(
+      "for an about page, team profile, or speaker section where one portrait should assemble itself before it resolves into color.",
+      "a portrait with a clean silhouette (a transparent PNG is best), a page background close to the component's, and static text beside it.",
+      "for photos with busy backgrounds, avatars too small for the cells to resolve a face, or beside another looping animation.",
     );
   }
   if (name === "line-rise-text") {

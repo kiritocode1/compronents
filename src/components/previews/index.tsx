@@ -10,6 +10,7 @@ import AwardListPreview from "./award-list";
 import BlurStudyBoxPreview from "./blur-study-box";
 import BlurStudyGridPreview from "./blur-study-grid";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
+import CellPortraitPreview from "./cell-portrait";
 import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
 import CurveGalleryPreview from "./curve-gallery";
@@ -67,6 +68,7 @@ import WarpedGalleryPreview from "./warped-gallery";
  * full-page preview) and register it here.
  */
 export const previews: Record<string, ComponentType> = {
+  "cell-portrait": CellPortraitPreview,
   "scroll-blur-footer": ScrollBlurFooterPreview,
   "vertical-dial-nav": VerticalDialNavPreview,
   "warped-gallery": WarpedGalleryPreview,

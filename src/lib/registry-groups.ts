@@ -89,6 +89,7 @@ export const componentGroups: RegistryGroup[] = [
       "mosaic-flip",
       "fluid-mosaic",
       "ascii-image-reveal",
+      "cell-portrait",
       "image-reveal",
       "liquid-stat-grid",
       "curve-gallery",

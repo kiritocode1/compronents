@@ -751,6 +751,122 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "cell-portrait": {
+    demoPath: "src/components/demos/cell-portrait.tsx",
+    studioPath: "src/components/studios/cell-portrait.tsx",
+    api: [
+      {
+        name: "src",
+        type: "string",
+        default: "Hosted demo illustration",
+        description:
+          "Portrait image, served with CORS. A transparent PNG gives the exact silhouette; an opaque image has its background keyed out.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        default: '"Portrait drawn as joined circles"',
+        description: "Accessible label for the canvas.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#2253E9"',
+        description:
+          "Frame color, also used to fill each shape in the outline phase.",
+      },
+      {
+        name: "stroke",
+        type: "string",
+        default: '"#FFFFFF"',
+        description: "Outline and silhouette color.",
+      },
+      {
+        name: "cellFrom",
+        type: "number",
+        default: "36",
+        description: "Coarsest cell, in px on a 540px frame.",
+      },
+      {
+        name: "cellTo",
+        type: "number",
+        default: "7",
+        description: "Finest outline cell, in px on a 540px frame.",
+      },
+      {
+        name: "cellDetail",
+        type: "number",
+        default: "5",
+        description: "Cell size while the image is in color.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        default: "1",
+        description: "Multiplier on the six-second loop.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Additional root class. The component fills its parent.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional root styling.",
+      },
+    ],
+    nuance: [
+      {
+        label: "Source mechanism",
+        description:
+          "Measured frame by frame from the reference recording: circles of radius cell/3, thin bridges cell/6 wide, 42% of neighbors joined, cells shrinking from 36px to 7px on a log scale with sine.inOut, and a new layout every 133ms. Darker cells are likelier to draw a circle, and cells above 70% luma never do.",
+      },
+      {
+        label: "Images",
+        description:
+          "A transparent PNG keeps its own alpha. On an opaque image the most common border color is keyed out, along with enclosed pockets larger than 0.4% of the image. Smaller regions such as eye whites stay.",
+      },
+      {
+        label: "Edges",
+        description:
+          "Only whole cells are drawn, so no circle is cut by the frame and the silhouette outline always closes inside it.",
+      },
+      {
+        label: "Motion and cost",
+        description:
+          "Reduced motion holds the full-color frame with no reshuffle. The loop pauses offscreen and resamples on resize. Sampling runs at 540px on the shorter side, so cost stays flat as the component grows.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description: "Frame color.",
+      },
+      {
+        name: "stroke",
+        control: "color",
+        description: "Outline color.",
+      },
+      {
+        name: "cellFrom",
+        control: "slider",
+        description: "Coarsest cell size.",
+      },
+      {
+        name: "cellTo",
+        control: "slider",
+        description: "Finest cell size.",
+      },
+      {
+        name: "speed",
+        control: "slider",
+        description: "Loop speed.",
+      },
+    ],
+    assets: assetsByIds(["cell-portrait-miku"]),
+  },
   "scroll-blur-footer": {
     demoPath: "src/components/demos/scroll-blur-footer.tsx",
     api: [
