@@ -17088,6 +17088,33 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Agent skills directories",
     links: [
       {
+        title: "Transitions UI generation",
+        href: "https://github.com/Jakubantalik/transitions.dev/tree/main/skills/transitions-ui-generation",
+        dateAdded: "2026-10-26",
+        kind: "skill",
+        stack: [
+          "javascript",
+          "css",
+          "react",
+          "next.js",
+          "vue",
+          "svelte",
+          "claude-code",
+          "codex",
+          "cursor",
+        ],
+        useFor: [
+          "ai generating ui animation",
+          "dotted wireframe to ui reveal",
+          "agent building component animation",
+          "headline glyph outline reveal",
+          "halftone image reveal",
+          "generative ui launch animation",
+        ],
+        description:
+          "Agent skill from Jakub Antalik's Transitions.dev that plays an animation of an AI agent generating an element, then reveals the real element. The default ui variant traces a dotted wireframe measured from the element's own boxes, text lines and icons, with guides and size labels, before a scan line reveals the UI; text and image variants trace headline glyph outlines and build photos from a halftone of their own pixels. A skeleton-texts mode adds an agent log, the motion CSS being written and a step line. One dependency-free JavaScript runtime exposes generate() for vanilla, React, Next.js, Vue and Svelte and installs with npx skills add Jakubantalik/transitions.dev.",
+      },
+      {
         title: "Anatomy",
         href: "https://skills.wheresryan.sh/anatomy",
         dateAdded: "2026-10-26",
