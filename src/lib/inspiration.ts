@@ -467,6 +467,41 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "JavaScript and TypeScript",
     links: [
       {
+        title: "Motherload",
+        href: "https://motherload.dev/",
+        dateAdded: "2026-10-29",
+        kind: "library",
+        stack: ["typescript", "node", "bun", "vite", "esbuild", "webpack", "nextjs"],
+        useFor: [
+          "import toml as typed module",
+          "import yaml as typed module",
+          "import csv as typed module",
+          "import env file typed",
+          "import markdown frontmatter",
+          "import jsonc and json5",
+          "typescript content mappers",
+          "typed data file loaders",
+        ],
+        description:
+          "TypeScript loaders by Colin McDonnell (colinhacks, the author of Zod) that turn data files into typed modules: import a TOML, YAML, JSONC, JSON5, CSV, TSV, Markdown, text or .env file and get its data with full static types. It runs as a TypeScript 7.1 content mapper, so hover types, tsc and the editor all come from the file itself, while a preload or bundler plugin (Node, Bun, nub, Vite, esbuild, webpack, Rspack, Next.js, Jest, Cloudflare) loads the same files at run time, where each bundle holds the data as an object literal and no parser. Each loader's default export is typed as as const would type it; .md gives typed frontmatter plus the body as named exports, .env sets process.env with every declared name typed and a misspelling an error, and invalid data is a type error at the file's line and column. The loaders are also published à la carte as @motherload/toml through @motherload/md, the docs are one page also served as Markdown at motherload.dev/llms.txt, and the sister project Reylo covers type-safe .sql imports.",
+      },
+      {
+        title: "Motherload (GitHub)",
+        href: "https://github.com/colinhacks/motherload",
+        dateAdded: "2026-10-29",
+        kind: "library",
+        stack: ["typescript", "node", "bun", "vite", "esbuild", "webpack", "nextjs"],
+        useFor: [
+          "motherload source code",
+          "read content mapper setup",
+          "example projects per runtime",
+          "report loader issues",
+          "typescript data file imports",
+        ],
+        description:
+          "Repository for Motherload, the TypeScript loaders that import TOML, YAML, JSONC, JSON5, CSV, TSV, Markdown, text and .env files as fully typed modules on TypeScript 7.1 content mappers. The README covers requirements (TypeScript 7.1 beta, Node 24+), plugin wiring for Node, Bun, nub, Vite, esbuild, webpack, Rspack, Next.js and Jest, and editor setup for VS Code, Cursor and Zed, with a complete working example project per setup under examples/. Created 6 October 2026 by Colin McDonnell (colinhacks, the author of Zod), TypeScript, 259 stars and no license file at time of adding.",
+      },
+      {
         title: "gdp-ts",
         href: "https://github.com/rauchg/gdp-ts",
         dateAdded: "2026-10-05",
