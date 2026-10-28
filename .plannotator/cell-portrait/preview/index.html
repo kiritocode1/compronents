@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cell Portrait preview</title>
+<style>
+  html, body { margin: 0; background: #2253E9; }
+  body { min-height: 100svh; display: grid; place-items: center; }
+  .frame { position: relative; }
+  canvas { display: block; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="frame" id="frame"><canvas id="c"></canvas></div>
+<script src="./gsap.min.js"></script>
+<script type="module">
+  import { createCellPortrait } from "./cell-portrait.js";
+  const q = new URLSearchParams(location.search);
+  const name = q.get("img") ?? "miku";
+  const img = new Image();
+  img.src = name === "dhruv" ? "./dhruv-rebuilt.png" : "./miku.png";
+  await img.decode();
+  const frame = document.getElementById("frame");
+  const w = Number(q.get("w") ?? (name === "dhruv" ? 539 : 540));
+  const h = Number(q.get("h") ?? (name === "dhruv" ? 539 : Math.round(w * img.naturalHeight / img.naturalWidth)));
+  frame.style.width = `${w}px`;
+  frame.style.height = `${h}px`;
+  const dpr = q.has("dpr") ? Number(q.get("dpr")) : undefined;
+  const cp = createCellPortrait(document.getElementById("c"), img, { dpr });
+  if (q.has("t")) cp.seek(Number(q.get("t")));
+  window.__cp = cp;
+  window.__ready = true;
+</script>
+</body>
+</html>

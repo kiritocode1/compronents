@@ -12772,6 +12772,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Developer tools and utilities",
     links: [
       {
+        title: "x18n",
+        href: "https://x18n.dev/",
+        dateAdded: "2026-10-28",
+        kind: "tool",
+        stack: ["nodejs", "typescript", "vscode", "mcp"],
+        useFor: [
+          "check locale files for missing unused broken keys",
+          "find the key behind a shown text",
+          "rename translation keys across locales and code",
+          "browse and edit i18n keys in a browser ui",
+          "connect coding agents to i18n over mcp",
+          "translate missing messages with an agent",
+          "fail ci builds on broken translations",
+          "migrate i18n-ally settings to x18n",
+        ],
+        description:
+          "x18n, by Anthony Fu (antfu), reads a project's locale files and translate calls and reports missing, unused, broken and stale keys with `x18n check`, which exits 1 on errors like `tsc --noEmit` and prints JSON; other commands get a key's value in every locale, search for the key behind a string the app shows, rename keys across code and every locale, and open `x18n ui`, a browser table that also serves MCP for agents. One engine powers the CLI, a language server, a VS Code extension and the UI, with dependency-detection presets for vue-i18n, i18next, next-intl, ngx-translate, Laravel, Rails, Flutter and other frameworks from the i18n-ally family. `x18n migrate i18n-ally` converts existing settings, review files let teammates approve or request changes on messages, and every docs page is published as raw markdown for agents. MIT licensed at x18n-dev/x18n.",
+      },
+      {
         title: "Tester Army E2E",
         href: "https://tester.army/e2e",
         dateAdded: "2026-09-19",
