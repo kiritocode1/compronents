@@ -11,6 +11,7 @@ import AsciiLogoDemo from "./ascii-logo";
 import AsciiMonogramHeroDemo from "./ascii-monogram-hero";
 import AsciiTvHeroDemo from "./ascii-tv-hero";
 import AwardListDemo from "./award-list";
+import BalloonZinniaDemo from "./balloon-zinnia";
 import BlnkAgencyPageDemo from "./blnk-agency-page";
 import BlockLogoTransitionPageDemo from "./block-logo-transition-page";
 import BlockPageTransitionDemo from "./block-page-transition";
@@ -261,6 +262,7 @@ import WuWeiPageDemo from "./wu-wei-page";
  * `Demo` component) and register it here.
  */
 export const demos: Record<string, ComponentType> = {
+  "balloon-zinnia": BalloonZinniaDemo,
   "cell-portrait": CellPortraitDemo,
   "scroll-blur-footer": ScrollBlurFooterDemo,
   "vertical-dial-nav": VerticalDialNavDemo,

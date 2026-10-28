@@ -1,0 +1,10 @@
+{
+  "url": "https://www.originkit.dev/components/balloon-zinnia?preset=base",
+  "moduleUrl": "https://auth.originkit.dev/storage/v1/object/public/component-modules/balloon-zinnia/bd5f6e081e7d1959.mjs",
+  "module": "component.mjs",
+  "sha256": "bd5f6e081e7d195940f53672b5f1a4d4b4d3ecc76a483d584676443a39106328",
+  "bytes": 41616,
+  "pinnedAt": "2026-10-28",
+  "readable": "component.pretty.mjs",
+  "note": "The installable component uses the editor defaults the live base preset shows. Internal fallbacks in the module (petals 15, lean 50, cup 50, phase 72) only apply when a prop is missing or not a number."
+}

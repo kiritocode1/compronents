@@ -157,6 +157,46 @@ export function matchesRegistrySearch(
 
 export const registryItems: RegistryItem[] = [
   {
+    name: "balloon-zinnia",
+    title: "Balloon Zinnia",
+    description:
+      "Twenty-two egg-shaped petals hinge around a small throat and sit on a short S-curved stem. A 512-wide ramp stripes both of them, and one 14 second clock keeps the sway, the breath, the colour flow and the band pulse in step. The pointer turns the head and swells the petals under it. A tap bobs the flower and squashes it. Raw WebGL2, no extra libraries.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-10-28",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/balloon-zinnia/index.tsx",
+        target: "components/ui/balloon-zinnia/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/balloon-zinnia/engine.ts",
+        target: "components/ui/balloon-zinnia/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/balloon-zinnia/shaders.ts",
+        target: "components/ui/balloon-zinnia/shaders.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/balloon-zinnia/geometry.ts",
+        target: "components/ui/balloon-zinnia/geometry.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/balloon-zinnia/model.ts",
+        target: "components/ui/balloon-zinnia/model.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "cell-portrait",
     title: "Cell Portrait",
     description:

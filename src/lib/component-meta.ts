@@ -751,6 +751,173 @@ const scatterLetterIntroAssetDocs = assetsByIds(["scatter-letter-intro-video"]);
 const sunlitAssetDocs = assetsByIds(["sunlit-leaves"]);
 
 export const componentMeta: Record<string, ComponentMeta> = {
+  "balloon-zinnia": {
+    demoPath: "src/components/demos/balloon-zinnia.tsx",
+    nuance: [
+      {
+        label: "The petals are ellipsoids, not a mesh",
+        description:
+          "Each petal is an egg hinged at the throat, instanced from a float texture. The stem is a tube from a second texture. One perspective function projects both, and both fragment shaders sample the same 512-wide ramp.",
+      },
+      {
+        label: "One 14 second clock runs four motions",
+        description:
+          "The period holds one sway, eight breaths, eight colour flows and six band pulses. They share the clock, so the stripes and the breath stay locked. Grain is off in the base preset. The only noise left is a 1/255 dither so the long blends do not band.",
+      },
+      {
+        label: "No props paints the base preset",
+        description:
+          "22 petals, puff 134, 5 bands, scale 100, grain 0, lean 48, cup 25, phase 60. A second set of numbers (15 petals, lean 50, cup 50, phase 72) only fills a control that is not a finite number.",
+      },
+      {
+        label: "The loop stops when nobody is looking",
+        description:
+          "Reduced motion freezes the clock and skips the entrance. A hidden tab or an offscreen host stops the frame loop. If WebGL2 is missing, the canvas hides and the background colour stays.",
+      },
+      {
+        label: "A slow frame drops mesh density",
+        description:
+          "Petal longitude and latitude, and the stem's ring count, step down a ladder when a frame runs long. A fast machine stays on the finest mesh, so the ladder does not change the picture there.",
+      },
+    ],
+    editable: [
+      {
+        name: "background",
+        control: "color",
+        description:
+          "Colour behind the canvas. The canvas itself clears transparent.",
+      },
+      {
+        name: "petals",
+        control: "slider",
+        description:
+          "Petals in the outer ring, from 6 to 24. The base preset uses 22.",
+      },
+      {
+        name: "puff",
+        control: "slider",
+        description:
+          "How fat each petal is blown, as a percent. 134 is the base preset.",
+      },
+      {
+        name: "bands",
+        control: "slider",
+        description:
+          "How many colour bands span the flower. 5 matches the base preset. Each step of 2.5 doubles them.",
+      },
+      {
+        name: "scale",
+        control: "slider",
+        description:
+          "Size of the flower in the frame, as a percent. 100 is the base framing.",
+      },
+      {
+        name: "grain",
+        control: "slider",
+        description:
+          "Film grain over the flower, one grain per CSS pixel. 0 leaves the background clean.",
+      },
+      {
+        name: "motion",
+        control: "tuple",
+        description:
+          "Sway, breathe, speed, flow and pulse, each on a 0 to 10 dial. 5 is the base preset. Speed 0 holds the clock.",
+      },
+      {
+        name: "response",
+        control: "tuple",
+        description:
+          "Reach, swell, follow and bounce, each on a 0 to 10 dial. Follow turns the head toward the pointer. Bounce is the tap.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "background",
+        type: "string",
+        default: '"#000000"',
+        description:
+          "Colour behind the flower. The canvas clears transparent so this shows through.",
+      },
+      {
+        name: "colors",
+        type: "{ color: string; width: number }[]",
+        default:
+          "13 stops, green through pink, navy and blue, back to a pale ground",
+        description:
+          "The colour loop the bands run through, in order. Width is that stop's share of the loop. The last colour blends back into the first. Fewer than two stops keeps the base ramp.",
+      },
+      {
+        name: "petals",
+        type: "number",
+        default: "22",
+        description: "Petals in the outer ring. Clamped to 6..24.",
+      },
+      {
+        name: "stem",
+        type: "{ show: boolean; curve: number; thickness: number }",
+        default: "{ show: true, curve: 100, thickness: 100 }",
+        description:
+          "Whether the stem is drawn, how deep its S-bends are, and its thickness. Curve and thickness are percents. 0 curve is a straight stem.",
+      },
+      {
+        name: "petalLength / petalWidth / puff",
+        type: "number",
+        default: "200 / 100 / 134",
+        description:
+          "Length from the throat, width across the ring, and how fat the petals are blown. All percents.",
+      },
+      {
+        name: "bands / grain / scale",
+        type: "number",
+        default: "5 / 0 / 100",
+        description:
+          "Colour bands across the flower, film grain amplitude, and the flower's size in the frame. Grain 0 is off. Scale is a percent.",
+      },
+      {
+        name: "placement",
+        type: "{ x: number; y: number; angle: number; tilt: number }",
+        default: "{ x: 0, y: 0, angle: 0, tilt: 0 }",
+        description:
+          "Offset in percent of the frame, then a roll and a tilt in degrees. Positive x is right.",
+      },
+      {
+        name: "entrance",
+        type: "{ animate: boolean; delay: number; stagger: number }",
+        default: "{ animate: false, delay: 0, stagger: 5 }",
+        description:
+          "Inflates the petals in turn when animate is on. Delay is seconds. Stagger is a 0..10 dial. Off, the flower appears full.",
+      },
+      {
+        name: "response",
+        type: "{ reach: number; swell: number; follow: number; bounce: number }",
+        default: "5 / 5 / 5 / 5",
+        description:
+          "How far the head leans, how much nearby petals swell, how quickly the head follows the pointer, and how hard a tap bobs it. Each is a 0..10 dial.",
+      },
+      {
+        name: "motion",
+        type: "{ sway: number; breathe: number; speed: number; flow: number; pulse: number }",
+        default: "5 / 5 / 5 / 5 / 5",
+        description:
+          "Idle sway, petal breath, clock speed, colour flow and band pulse. Each is a 0..10 dial. Speed 0 holds the picture.",
+      },
+      {
+        name: "advanced",
+        type: "AdvancedSettings",
+        default:
+          "lean 48, bandAxis 48, lens 12, cup 25, twist 0, ribs 10, swayYaw 29, breatheAngle 35, nodAngle 0, swayPeriod 14, pulseDepth 36, phase 60, bloomTime 0.9, followEase 0.3",
+        description:
+          "The silhouette and the timing that the base preset was tuned with. swayPeriod is the loop length in seconds.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description:
+          "The root fills its parent. With no height of its own it keeps a 720 / 1280 box. A parent with both axes set, such as the demo's 600px stage, ignores that ratio.",
+      },
+    ],
+  },
   "cell-portrait": {
     demoPath: "src/components/demos/cell-portrait.tsx",
     studioPath: "src/components/studios/cell-portrait.tsx",
