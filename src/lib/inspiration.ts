@@ -906,6 +906,36 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Icons",
     links: [
       {
+        title: "3dicons",
+        href: "https://3dicons.co/",
+        dateAdded: "2026-10-31",
+        kind: "library",
+        useFor: [
+          "3d icon library",
+          "download free 3d icons",
+          "get a figma 3d icon file",
+          "recolor and remix 3d icons",
+          "find 3d icons for a landing page",
+        ],
+        description:
+          "3dicons is a library of more than 1,500 handmade 3D icon renders across about 200 icon sets, by @realvjy of Overlayz Studio. Icons come as open source, free and premium renders, with a free Figma file and plugin, and an online editor for changing colour, angle and remixing a set before download. The catalogue is browsable by collection and popularity.",
+      },
+      {
+        title: "Iconly",
+        href: "https://iconly.design/",
+        dateAdded: "2026-10-31",
+        kind: "gallery",
+        useFor: [
+          "app icon inspiration",
+          "browse ios app icons",
+          "find an app icon by popularity",
+          "study app icon design trends",
+          "search game and web app icons",
+        ],
+        description:
+          "Iconly is a gallery of app, game and web app icons, organised by type and filtered by most popular. It lists more than 900 icons from apps such as Spotify, Shopify, Todoist, Netflix, Discord and Revolut, each with a detail page. A saved list keeps references together, and Pro unlocks the full library from $4.99 per month.",
+      },
+      {
         title: "Nucleo Isometric",
         href: "https://nucleoapp.com/app/?library=isometric",
         dateAdded: "2026-10-04",
@@ -1189,6 +1219,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "UI kit directories",
     links: [
       {
+        title: "Wedoflow",
+        href: "https://wedoflow.com/",
+        dateAdded: "2026-10-31",
+        kind: "directory",
+        stack: ["webflow"],
+        useFor: [
+          "buy a webflow template",
+          "browse webflow templates",
+          "find a saas webflow template",
+          "get an all access webflow pass",
+          "compare webflow template prices",
+        ],
+        description:
+          "Wedoflow is Azwedo's Webflow template store, built around single templates that each ship a full site rather than a component pack. The catalogue advertises 1,300+ unique pages, with individual templates priced from $79 to $169, and an all-access pass sold at a discount for people building several sites. Templates are grouped by category such as SaaS, agency, finance, medical and architecture.",
+      },
+      {
         title: "Design Minis",
         href: "https://www.designminis.com/",
         dateAdded: "2026-09-18",
@@ -1451,6 +1497,49 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component libraries and blocks",
     links: [
+      {
+        title: "Scrolltide",
+        href: "https://scrolltide.co/",
+        dateAdded: "2026-10-31",
+        kind: "library",
+        stack: [
+          "react",
+          "vite",
+          "nextjs",
+          "tailwind",
+          "framer-motion",
+          "gsap",
+          "threejs",
+          "webgl",
+          "lenis",
+        ],
+        useFor: [
+          "scroll animation templates",
+          "copy scroll driven sections",
+          "find a lenis scroll effect",
+          "add gsap scrolltrigger sections",
+          "build a threejs scroll page",
+          "browse shader sections",
+        ],
+        description:
+          "Scrolltide is a library of scroll-driven templates and prompts, organised into components, sections, UI and shaders, with 132 templates at the time of writing. Each entry gives a preview and prompt you can paste into an AI coding tool, and the examples cover landing pages, hero sections, portfolio sites, ecommerce and 3D websites. The library spans React, Vite, Next.js, Tailwind, Framer Motion, GSAP, Three.js, WebGL, shaders and Lenis, and costs $29 per month.",
+      },
+      {
+        title: "Wonderlist",
+        href: "https://wonderlist.design/",
+        dateAdded: "2026-10-31",
+        kind: "library",
+        stack: ["figma"],
+        useFor: [
+          "figma website design library",
+          "copy website sections in figma",
+          "find a figma landing page kit",
+          "build a site from figma designs",
+          "buy premium figma website designs",
+        ],
+        description:
+          "Wonderlist is a Figma library of 127 website designs and 1,137 unique pages from Azwedo, intended as a starting point for development rather than finished code. The Lite package covers 25 designs for $329, Pro unlocks all 127 for $599, and Business adds three team seats for $999. Each plan includes MIT-licensed images and fonts, unlimited projects and live updates, and the site reports a 4.9/5 rating from more than 400 reviews.",
+      },
       {
         title: "Libraries.dev",
         href: "https://libraries.dev/",
@@ -2611,6 +2700,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Component demos and micro-interactions",
     links: [
+      {
+        title: "Motionin",
+        href: "https://motionin.design/",
+        dateAdded: "2026-10-31",
+        kind: "gallery",
+        useFor: [
+          "motion section inspiration",
+          "copy motion prompts",
+          "browse animated hero sections",
+          "study interactive section motion",
+          "find product showcase animations",
+        ],
+        description:
+          "Motionin is a gallery of motion sections with the prompt behind each one, aimed at pasting a description into an AI builder instead of rebuilding the effect by hand. Sections are grouped into Portfolio, Hero, Interactive, Product Showcase and Immersive, and filter by free or paid. The featured examples describe scroll behaviour in detail, such as a photograph wall that bows around a focal line as you scroll and expands a frame on click. Full access starts at $9 per month.",
+      },
       {
         title: "Anish's lab",
         href: "https://lab.anishfn.ink/",
@@ -3939,6 +4043,51 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "Landdding",
+        href: "https://landdding.com/",
+        dateAdded: "2026-10-31",
+        kind: "gallery",
+        useFor: [
+          "landing page inspiration",
+          "browse landing page designs",
+          "find a landing page by category",
+          "study webflow and framer sites",
+          "discover designers behind landing pages",
+        ],
+        description:
+          "Landdding is a landing page gallery run by Azwedo, updated daily with website designs across Webflow, Framer, WordPress, Wix and Squarespace. It lists about 2,700 designs from 1,700 designers, sorted into 40 categories, with filters for platform, tag and colour. Each entry credits the designer and links to the live site, and the site runs a free and PRO tier with a submission form for new work.",
+      },
+      {
+        title: "CTA Gallery",
+        href: "https://cta.gallery/",
+        dateAdded: "2026-10-31",
+        kind: "gallery",
+        useFor: [
+          "cta button inspiration",
+          "browse newsletter signup ctas",
+          "study pricing page calls to action",
+          "find modal and popup examples",
+          "filter ctas by industry",
+        ],
+        description:
+          "CTA Gallery collects calls to action from live websites and groups them by type: button, call-to-buy, download, form, modal or pop-up, navigation, newsletter, and pricing or subscription. Entries can be filtered by industry and mode, and some are free Webflow or Framer templates. The gallery is made by webestica and also links out to writing tips and a submission form.",
+      },
+      {
+        title: "on.design",
+        href: "https://on.design/",
+        dateAdded: "2026-10-31",
+        kind: "gallery",
+        useFor: [
+          "share design work with peers",
+          "browse a feed of new design work",
+          "find designers to follow",
+          "join an invite only design community",
+          "see what designers are shipping",
+        ],
+        description:
+          "on.design is an invite-only community where designers share work, follow people they admire and discuss projects in a shared feed with likes and comments. Profiles collect a member's work in one place, and membership grows through invitations from existing members. It is operated by Charles Patterson, trading as on.design, and sign-in runs through Google, Apple or X.",
+      },
       {
         title: "Designeer",
         href: "https://designeer.xyz/",
@@ -6663,6 +6812,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Illustration and visual assets",
     links: [
       {
+        title: "Tripo",
+        href: "https://www.tripo3d.ai/",
+        dateAdded: "2026-10-31",
+        kind: "tool",
+        stack: ["blender", "unity", "unreal", "godot"],
+        useFor: [
+          "generate a 3d model from text",
+          "turn an image into a 3d model",
+          "rig a generated character",
+          "export glb fbx obj usd",
+          "make game ready 3d assets",
+        ],
+        description:
+          "Tripo generates 3D models from text prompts or reference images, with a high-detail mode that reaches up to 2 million polygons and a Smart Mesh mode that produces 500 to 25,000 quads. Exports cover GLB, FBX, OBJ, USD, STL and 3MF, and the service can auto-rig characters and bake 8K PBR textures. Plugins connect it to Blender, Unity, Unreal, Maya, Godot and Roblox.",
+      },
+      {
         title: "hairline",
         href: "https://hairline.lucasmarkes.com/",
         dateAdded: "2026-10-04",
@@ -7040,6 +7205,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Typography tools",
     links: [
+      {
+        title: "Font in Logo",
+        href: "https://fontinlogo.com/",
+        dateAdded: "2026-10-31",
+        kind: "tool",
+        useFor: [
+          "find the font in a logo",
+          "identify a brand typeface",
+          "browse fonts used by famous logos",
+          "test a logo font with your own text",
+          "search fonts from movies and games",
+        ],
+        description:
+          "Font in Logo identifies the typefaces behind well-known logos, movie titles, TV shows, games and anime, listing the font name and whether it is free. Entries range from Anton for Thunderbolts and Pacifico for Barbie to Orbitron for Star Wars, with filters for verified matches, industries and fonts. A text generator previews a typeface with your own words before you download it.",
+      },
       {
         title: "Type Garden",
         href: "https://type-garden.vercel.app/",
@@ -7760,6 +7940,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Branding and logo archives",
     links: [
       {
+        title: "LogoToUse",
+        href: "https://logotouse.com/",
+        dateAdded: "2026-10-31",
+        kind: "asset",
+        stack: ["figma", "svg"],
+        useFor: [
+          "download brand logos",
+          "find a company logo svg",
+          "get a logo in black or white",
+          "browse logos by industry",
+          "copy a logo into figma",
+        ],
+        description:
+          "LogoToUse is a hand-curated library of brand marks for mockups, decks and templates, with every logo supplied in colour, black and white. Files come as SVG, PNG or editable Figma, and the site also ships Figma, Sketch and Webflow downloads. Browsing is free without a card, while Pro from $5 per month adds commercial licensing and bulk ZIP downloads.",
+      },
+      {
         title: "Logosystem",
         href: "http://logosystem.co/",
         dateAdded: "2026-09-18",
@@ -8084,6 +8280,36 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Animation and motion",
     links: [
+      {
+        title: "Paper Animation",
+        href: "https://paperanimation.ai/",
+        dateAdded: "2026-10-31",
+        kind: "tool",
+        useFor: [
+          "turn an image into a paper animation",
+          "newspaper style video intro",
+          "make a paper fold title",
+          "export a paper animation as mp4 or gif",
+          "make a newspaper clipping animation",
+        ],
+        description:
+          "Paper Animation turns a still image into a newspaper-style clip: you upload an image, select the object, and get an animation ready to drop into a video edit. It offers four treatments, paper folds, highlighted newspaper clippings, magazine letters and press coverage, with more than 10 newspaper frames and 15 typefaces per generation. Clips export in seconds, the tool runs in the browser, and a free tier needs no card.",
+      },
+      {
+        title: "Launch Videos",
+        href: "https://launchvideos.gallery/",
+        dateAdded: "2026-10-31",
+        kind: "gallery",
+        useFor: [
+          "product launch video inspiration",
+          "browse launch videos from x",
+          "study launch video breakdowns",
+          "save launch videos for reference",
+          "find a launch video by brand",
+        ],
+        description:
+          "Launch Videos is a daily curated feed of product launch videos posted on X, with 713 brands and 777 profiles represented at the time of writing. Videos are grouped by category such as AI, agents, development, design, video generation, voice and brand films, and sorted by recency or popularity. Individual entries carry engagement counts, breakdowns and prompts, and a saved list keeps references together. Anyone can submit a video through the site.",
+      },
       {
         title: "Prompt Motion",
         href: "https://prompt-motion.com/",
@@ -8472,6 +8698,25 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "WebGL, shaders and creative coding",
     links: [
+      {
+        title: "Pixel Plays",
+        href: "https://github.com/amirmushichge/pixel-plays",
+        dateAdded: "2026-10-31",
+        kind: "demo",
+        stack: ["javascript", "canvas", "html", "web-audio"],
+        useFor: [
+          "isometric pixel art browser games",
+          "software rasteriser in plain javascript",
+          "pixel diorama scenes",
+          "bayer dither shading",
+          "hue shifted color ramps",
+          "pixel art cast shadows",
+          "no build canvas games",
+          "stepped wind sway animation",
+        ],
+        description:
+          "Pixel Plays is a set of five small browser games (Balote, Stari Most, Rooftop Laundry, Tie-Break and Mini Ramp), each drawn as an isometric pixel diorama floating on white. Every game is one HTML page of plain JavaScript that shares a software rasteriser in engine.js: a fixed 30-degree orthographic camera on a 360x280 canvas, a depth buffer, four shade levels with Bayer dither, hue-shifted colour ramps, long screen-right cast shadows and grass that sways at 8 fps. There is no build step, no dependencies and no image assets, and the README lists the visual rules and how to add a game. Game by AmirMushich, concept by abhi; the code is MIT licensed, but the Suno-generated music is not licensed for reuse.",
+      },
       {
         title: "Shaders",
         href: "https://github.com/shader-effects-inc/shaders",
@@ -10164,6 +10409,54 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI tools, agents and search",
     links: [
+      {
+        title: "Banani",
+        href: "https://www.banani.co/",
+        dateAdded: "2026-10-31",
+        kind: "tool",
+        stack: ["figma"],
+        useFor: [
+          "generate ui from a text prompt",
+          "turn a screenshot into editable ui",
+          "export a design to figma",
+          "export html and css from a design",
+          "prototype a multi screen app",
+          "restyle a design with ai",
+        ],
+        description:
+          "Banani is an AI design tool that turns a plain-language description into editable, multi-screen UI prototypes. You can also drop in images, screenshots or Figma links to pull the visual style and layout from an existing interface, then ask the AI to adjust mood or tune colour and type tokens by hand. Finished screens share as links and export to Figma, HTML/CSS or images, and the free tier covers getting started.",
+      },
+      {
+        title: "BestAIBuilder",
+        href: "https://bestaibuilder.website/",
+        dateAdded: "2026-10-31",
+        kind: "directory",
+        useFor: [
+          "compare ai website builders",
+          "read ai builder reviews",
+          "check ai builder scores",
+          "pick a builder for a landing page",
+          "see how ai builders rank",
+        ],
+        description:
+          "BestAIBuilder is an editorial index that scores AI website builders on craft, speed, control and value after giving each one the same brief. The index lists 101 tools, with 18 fully reviewed at the time of writing, and was last updated July 31, 2026. It is published by Modulify AI, which discloses that its own builder holds first place and is scored on the same rubric as the rest. There are no sponsored slots or affiliate ordering.",
+      },
+      {
+        title: "ScaleDown",
+        href: "https://scaledown.ai/",
+        dateAdded: "2026-10-31",
+        kind: "tool",
+        useFor: [
+          "compress prompts to save tokens",
+          "classify text at high volume",
+          "extract structured fields from text",
+          "summarize long documents",
+          "self-host small language models",
+          "cut llm api costs",
+        ],
+        description:
+          "ScaleDown is an applied research lab building task-specific small language models for classification, extraction, summarization and compression. Each model handles one task with a 1M token context and is priced at $0.05 per 1M input tokens with free output, and new accounts get 1M free tokens. It advertises zero data retention, no training on customer data, and a self-hosted or dedicated deployment option for enterprise.",
+      },
       {
         title: "Ideogram",
         href: "https://ideogram.ai/",
