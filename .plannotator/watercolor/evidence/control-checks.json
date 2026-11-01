@@ -1,0 +1,359 @@
+[
+  {
+    "after": 0.041,
+    "before": 0.042,
+    "group": "brush",
+    "key": "radius",
+    "pass": true
+  },
+  {
+    "after": 1.99,
+    "before": 2,
+    "group": "brush",
+    "key": "water",
+    "pass": true
+  },
+  {
+    "after": 2.99,
+    "before": 3,
+    "group": "brush",
+    "key": "wash",
+    "pass": true
+  },
+  {
+    "after": 4.49,
+    "before": 4.5,
+    "group": "brush",
+    "key": "speedWater",
+    "pass": true
+  },
+  {
+    "after": 2.59,
+    "before": 2.6,
+    "group": "brush",
+    "key": "pigment",
+    "pass": true
+  },
+  {
+    "after": 2.99,
+    "before": 3,
+    "group": "brush",
+    "key": "speedPigment",
+    "pass": true
+  },
+  {
+    "after": 6.99,
+    "before": 7,
+    "group": "brush",
+    "key": "reservoir",
+    "pass": true
+  },
+  {
+    "after": 0.79,
+    "before": 0.8,
+    "group": "brush",
+    "key": "refill",
+    "pass": true
+  },
+  {
+    "after": 0.29,
+    "before": 0.3,
+    "group": "brush",
+    "key": "trickle",
+    "pass": true
+  },
+  {
+    "after": 0.066,
+    "before": 0.067,
+    "group": "brush",
+    "key": "rest",
+    "pass": true
+  },
+  {
+    "after": 0.19,
+    "before": 0.2,
+    "group": "brush",
+    "key": "empty",
+    "pass": true
+  },
+  {
+    "after": 1.59,
+    "before": 1.6,
+    "group": "brush",
+    "key": "dryBrush",
+    "pass": true
+  },
+  {
+    "after": 1.99,
+    "before": 2,
+    "group": "brush",
+    "key": "thin",
+    "pass": true
+  },
+  {
+    "after": 11.9,
+    "before": 12,
+    "group": "brush",
+    "key": "follow",
+    "pass": true
+  },
+  {
+    "after": 0.29,
+    "before": 0.3,
+    "group": "brush",
+    "key": "force",
+    "pass": true
+  },
+  {
+    "after": 3.19,
+    "before": 3.2,
+    "group": "brush",
+    "key": "washForce",
+    "pass": true
+  },
+  {
+    "after": 5.9,
+    "before": 6,
+    "group": "brush",
+    "key": "lift",
+    "pass": true
+  },
+  {
+    "after": 139,
+    "before": 140,
+    "group": "rainbow",
+    "key": "distance",
+    "pass": true
+  },
+  {
+    "after": 11.9,
+    "before": 12,
+    "group": "rainbow",
+    "key": "time",
+    "pass": true
+  },
+  {
+    "after": 1.39,
+    "before": 1.4,
+    "group": "wipe",
+    "key": "duration",
+    "pass": true
+  },
+  {
+    "after": 0.17,
+    "before": 0.18,
+    "group": "wipe",
+    "key": "edge",
+    "pass": true
+  },
+  {
+    "after": 0.299,
+    "before": 0.3,
+    "group": "spread",
+    "key": "rate",
+    "pass": true
+  },
+  {
+    "after": 51,
+    "before": 52,
+    "group": "spread",
+    "key": "iterations",
+    "pass": true
+  },
+  {
+    "after": 0.25,
+    "before": 0.26,
+    "group": "spread",
+    "key": "pinning",
+    "pass": true
+  },
+  {
+    "after": 1.49,
+    "before": 1.5,
+    "group": "spread",
+    "key": "depth",
+    "pass": true
+  },
+  {
+    "after": 0.119,
+    "before": 0.12,
+    "group": "spread",
+    "key": "dry",
+    "pass": true
+  },
+  {
+    "after": 0.069,
+    "before": 0.07,
+    "group": "spread",
+    "key": "diffusion",
+    "pass": true
+  },
+  {
+    "after": 0.089,
+    "before": 0.09,
+    "group": "settle",
+    "key": "evaporation",
+    "pass": true
+  },
+  {
+    "after": 0.014,
+    "before": 0.015,
+    "group": "settle",
+    "key": "adsorb",
+    "pass": true
+  },
+  {
+    "after": 0.149,
+    "before": 0.15,
+    "group": "settle",
+    "key": "lift",
+    "pass": true
+  },
+  {
+    "after": 1.19,
+    "before": 1.2,
+    "group": "settle",
+    "key": "granulation",
+    "pass": true
+  },
+  {
+    "after": 1.49,
+    "before": 1.5,
+    "group": "settle",
+    "key": "edge",
+    "pass": true
+  },
+  {
+    "after": 0.34,
+    "before": 0.35,
+    "group": "dry",
+    "key": "damp",
+    "pass": true
+  },
+  {
+    "after": 0.0039,
+    "before": 0.004,
+    "group": "dry",
+    "key": "fade",
+    "pass": true
+  },
+  {
+    "after": 1.59,
+    "before": 1.6,
+    "group": "flow",
+    "key": "friction",
+    "pass": true
+  },
+  {
+    "after": 1.19,
+    "before": 1.2,
+    "group": "flow",
+    "key": "vorticity",
+    "pass": true
+  },
+  {
+    "after": 19,
+    "before": 21,
+    "group": "flow",
+    "key": "iterations",
+    "pass": true
+  },
+  {
+    "after": 0.019,
+    "before": 0.02,
+    "group": "flow",
+    "key": "threshold",
+    "pass": true
+  },
+  {
+    "after": 0.79,
+    "before": 0.8,
+    "group": "look",
+    "key": "granulation",
+    "pass": true
+  },
+  {
+    "after": 0.34,
+    "before": 0.35,
+    "group": "look",
+    "key": "mottle",
+    "pass": true
+  },
+  {
+    "after": 0.14,
+    "before": 0.15,
+    "group": "look",
+    "key": "paper",
+    "pass": true
+  },
+  {
+    "after": 0.11,
+    "before": 0.12,
+    "group": "look",
+    "key": "sheen",
+    "pass": true
+  },
+  {
+    "after": 0.15,
+    "before": 0.16,
+    "group": "look",
+    "key": "wet",
+    "pass": true
+  },
+  {
+    "after": -0.811592653589793,
+    "before": -0.8,
+    "group": "light",
+    "key": "azimuth",
+    "pass": true
+  },
+  {
+    "after": 0.89,
+    "before": 0.9,
+    "group": "light",
+    "key": "elevation",
+    "pass": true
+  },
+  {
+    "after": 0.599,
+    "before": 0.6,
+    "group": "color",
+    "key": "lightness",
+    "pass": true
+  },
+  {
+    "after": 0.159,
+    "before": 0.16,
+    "group": "color",
+    "key": "swing",
+    "pass": true
+  },
+  {
+    "after": 0.169,
+    "before": 0.17,
+    "group": "color",
+    "key": "chroma",
+    "pass": true
+  },
+  {
+    "after": 0.93,
+    "before": 0.94,
+    "group": "grade",
+    "key": "saturation",
+    "pass": true
+  },
+  {
+    "after": 0.11,
+    "before": 0.12,
+    "group": "grade",
+    "key": "vignette",
+    "pass": true
+  },
+  {
+    "after": 0.021,
+    "before": 0.022,
+    "group": "grade",
+    "key": "grain",
+    "pass": true
+  }
+]

@@ -2647,6 +2647,24 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "watercolor",
+    title: "Watercolor",
+    description: "Interactive WebGPU watercolor from watercolor.bizar.ro. Paint and smudge wet pigment on procedural paper, with spreading, granulation, evaporation and a centre-out wash. Brush, water, lighting and paper controls live in the external studio panel.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-01",
+    type: "registry:ui",
+    dependencies: ["@webgpu/types"],
+    registryDependencies: [],
+    files: [
+      { path: "src/registry/watercolor/index.tsx", target: "components/ui/watercolor/index.tsx", type: "registry:ui" },
+      { path: "src/registry/watercolor/engine.ts", target: "components/ui/watercolor/engine.ts", type: "registry:lib" },
+      { path: "src/registry/watercolor/settings.ts", target: "components/ui/watercolor/settings.ts", type: "registry:lib" },
+      { path: "src/registry/watercolor/shaders.ts", target: "components/ui/watercolor/shaders.ts", type: "registry:lib" },
+    ],
+  },
+  {
     name: "ink-field",
     title: "Ink Field",
     description:

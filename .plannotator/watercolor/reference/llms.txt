@@ -1,0 +1,18 @@
+# Watercolor
+
+> A sheet of watercolor paper in the browser: paint with a loaded brush, smudge, and watch washes bleed, bloom and dry. A real-time WebGPU experiment by Luis Bizarro.
+
+The browser window becomes a sheet of cold-press watercolor paper. Holding the mouse button paints with a loaded round brush: water and pigment bleed into the paper, bloom, settle into its grain and dry with dark tide-line edges, and the brush runs dry over long strokes. Holding the right button smudges the paint with clear water. Scrolling turns the hue, shift and scroll change the brush size, R toggles rainbow mode (on by default) and D washes the sheet clean from the centre out. Every hue is turned into a watercolor paint and colors mix like pigment, not light, so blue through wet yellow turns green. Water flow, pigment transport, settling and drying all run on the GPU in WebGPU compute shaders.
+
+- Live: https://watercolor.bizar.ro/ (needs WebGPU: a recent Chrome, Edge or Safari)
+- Desktop apps: https://watercolor.bizar.ro/downloads/Watercolor-macOS.zip, https://watercolor.bizar.ro/downloads/Watercolor-Windows.zip, https://watercolor.bizar.ro/downloads/Watercolor-Linux.tar.gz
+- Built with: Raw WebGPU and WGSL, TypeScript and Vite; the desktop apps in Rust on wgpu.
+- Author: Luis Bizarro, creative technologist and real-time 3D developer for the web
+
+## Author
+
+Luis Bizarro builds real-time 3D for the web with WebGL and WebGPU: shaders, interactive scenes and award-winning creative websites. His work includes Apple, Airbnb, Active Theory, National Design Studio, UNIT9 and independent studios.
+
+- [Portfolio](https://bizar.ro/): every project and experiment
+- [Portfolio for agents](https://bizar.ro/llms.txt)
+- Contact: luis@bizar.ro

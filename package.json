@@ -74,6 +74,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@types/three": "^0.185.4",
+    "@webgpu/types": "^0.1.74",
     "babel-plugin-react-compiler": "1.0.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3"

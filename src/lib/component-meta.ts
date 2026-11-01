@@ -5708,6 +5708,28 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  watercolor: {
+    demoPath: "src/components/demos/watercolor.tsx",
+    studioPath: "src/components/studios/watercolor.tsx",
+    assets: [],
+    nuance: [
+      { label: "Wet and settled pigment", description: "Separate GPU textures carry wet pigment and deposited pigment. Water flow moves the wet paint; evaporation leaves pigment in the paper grain." },
+      { label: "Original shaders", description: "The ten WGSL modules come from watercolor.bizar.ro. The engine sizes the simulation to the component box and keeps tuning outside the canvas." },
+      { label: "WebGPU required", description: "The component shows a fallback message when WebGPU cannot initialize. Resizing or changing quality can start a new sheet." },
+    ],
+    editable: [
+      { name: "hue / brushSize / rainbow", control: "slider", description: "Starting pigment hue, brush scale and automatic hue changes along a stroke." },
+      { name: "tuning", control: "text", description: "Partial overrides for brush, color, dry, flow, paper, rainbow, grade, light, look, settle, wipe and spread settings." },
+    ],
+    api: [
+      { name: "tuning", type: "WatercolorTuning", default: "DEFAULT_SETTINGS", description: "Nested partial settings. Updates apply without recreating the GPU device." },
+      { name: "hue / brushSize / rainbow", type: "number / number / boolean", default: "330 / 1 / true", description: "Pigment hue in degrees, brush scale from 0.3 to 3 and rainbow painting." },
+      { name: "quality", type: '"auto" | "high" | "low"', default: '"auto"', description: "Simulation resolution. A resolution change clears the sheet." },
+      { name: "wheelControls / keyboardShortcuts", type: "boolean", default: "false", description: "Opt-in wheel hue and size controls and focused-canvas shortcuts. R toggles rainbow, D washes, brackets change size and left/right arrows change hue." },
+      { name: "ref", type: "Ref<WatercolorHandle>", description: "wash() animates a clean wash. clear() immediately starts a new sheet." },
+      { name: "className / style", type: "string / CSSProperties", description: "Root styling. Give the parent a height; the canvas fills its box." },
+    ],
+  },
   "ink-field": {
     demoPath: "src/components/demos/ink-field.tsx",
     studioPath: "src/components/studios/ink-field.tsx",

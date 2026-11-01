@@ -1,0 +1,28 @@
+const fs=require('node:fs'), ts=require('typescript');
+const dir='.plannotator/watercolor/';
+const uri=s=>'data:text/javascript;base64,'+Buffer.from(s).toString('base64');
+const transpile=p=>ts.transpileModule(fs.readFileSync(p,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+const settings=uri(transpile('src/registry/watercolor/settings.ts'));
+const shaders=uri(transpile('src/registry/watercolor/shaders.ts'));
+const engine=uri(transpile('src/registry/watercolor/engine.ts').replace('"./settings"',JSON.stringify(settings)).replace('"./shaders"',JSON.stringify(shaders)));
+let original=fs.readFileSync(dir+'reference/pretty.js','utf8').split('await new Promise((e) => requestAnimationFrame(() => setTimeout(e)));')[0];
+original=original.replace('"./Settings-DyGoQMeO.js"',JSON.stringify(uri(fs.readFileSync(dir+'reference/assets/Settings-DyGoQMeO.js','utf8'))));
+original+='\nexport { W };';
+const script=`(async()=>{
+ history.replaceState(null,'','?capture&quality=low');
+ document.body.innerHTML=''; document.documentElement.style.cssText='background:#f7f3ec'; document.body.style.cssText='margin:0';
+ const make=()=>{const c=document.createElement('canvas'); c.style.cssText='position:fixed;inset:0;width:100vw;height:100vh';document.body.append(c);return c;};
+ const sourceCanvas=make(), portCanvas=make();
+ const {W}=await import(${JSON.stringify(uri(original))});
+ const {WatercolorEngine}=await import(${JSON.stringify(engine)});
+ const {resolveSettings}=await import(${JSON.stringify(settings)});
+ const source=new W({element:sourceCanvas,onFailure:()=>{throw Error('Source failed')}}); await source.ready;
+ let port; await new Promise((resolve,reject)=>{port=new WatercolorEngine({canvas:portCanvas,settings:resolveSettings(),quality:'low',wheelControls:false,keyboardShortcuts:false,onReady:resolve,onFailure:reject})});
+ cancelAnimationFrame(port.raf); port.resizeObserver.disconnect(); port.visibilityObserver.disconnect(); clearTimeout(port.resizeTimeout);clearTimeout(source.resizeTimeout);
+ source.removeEventListeners?.(); port.removeEventListeners();
+ const reset=e=>{e.clear();e.time=0;e.frameIndex=0;e.isRevealed=true;e.hue=330;e.strokes=0;e.load=1;e.travelled=0;e.pointer={isInside:false,mode:null,position:[0,0],previous:[0,0],target:[0,0]};e.wipe={center:[0,0],progress:1}};
+ reset(source);reset(port);
+ window.wcCompare={source,port,sourceCanvas,portCanvas,step:0,images:{}};
+ return {width:innerWidth,height:innerHeight,dpr:devicePixelRatio,sourceSheet:source.sheet,portSheet:port.sheet};
+})()`;
+fs.writeFileSync(dir+'comparison-setup.js',script);

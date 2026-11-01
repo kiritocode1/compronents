@@ -263,6 +263,7 @@ export const componentGroups: RegistryGroup[] = [
       "motion-tracking",
       "lego-dither",
       "ink-field",
+      "watercolor",
       "grain-gradient-field",
       "prism-light-instrument",
       "starry-night-flow",

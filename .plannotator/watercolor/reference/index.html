@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7f3ec" />
+    <title>Watercolor — Luis Bizarro</title>
+    <meta name="description" content="A sheet of watercolor paper in the browser: paint with a loaded brush, smudge, and watch washes bleed, bloom and dry. A real-time WebGPU experiment by Luis Bizarro." />
+    <meta property="og:site_name" content="Luis Bizarro" />
+    <meta property="og:type" content="video.other" />
+    <meta property="og:url" content="https://watercolor.bizar.ro/" />
+    <meta property="og:title" content="Watercolor — Luis Bizarro" />
+    <meta property="og:description" content="Watercolor, an experiment in WebGPU and WGSL by Luis Bizarro" />
+    <meta property="og:image" content="https://watercolor.bizar.ro/og.jpg" />
+    <meta property="og:image:alt" content="Watercolor — Luis Bizarro" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:video" content="https://watercolor.bizar.ro/og.mp4" />
+    <meta property="og:video:height" content="720" />
+    <meta property="og:video:secure_url" content="https://watercolor.bizar.ro/og.mp4" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1280" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@LuisBizarro" />
+    <meta name="twitter:description" content="Watercolor, an experiment in WebGPU and WGSL by Luis Bizarro" />
+    <meta name="twitter:image" content="https://watercolor.bizar.ro/og.jpg" />
+    <meta name="twitter:image:alt" content="Watercolor — Luis Bizarro" />
+    <meta name="twitter:title" content="Watercolor — Luis Bizarro" />
+    <link href="/favicon.png" media="(prefers-color-scheme: light)" rel="icon" sizes="96x96" type="image/png" />
+    <link href="/favicon-dark.png" media="(prefers-color-scheme: dark)" rel="icon" sizes="96x96" type="image/png" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link as="font" crossorigin href="/assets/Inter-BL_kVj0B.woff2" rel="preload" type="font/woff2" />
+    <link href="https://watercolor.bizar.ro/" rel="canonical" />
+    <link href="/llms.txt" rel="alternate" type="text/markdown" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","author":{"@id":"https://bizar.ro/#person","@type":"Person","email":"mailto:luis@bizar.ro","jobTitle":"Creative Technologist","knowsAbout":["Real-time 3D","WebGL","WebGPU","WGSL","GLSL","Shaders","Three.js","Creative development","Interactive websites"],"name":"Luis Bizarro","sameAs":["https://github.com/bizarro","https://www.linkedin.com/in/luis-bizarro/","https://x.com/LuisBizarro"],"url":"https://bizar.ro/"},"dateCreated":"2026-10-31","description":"A sheet of watercolor paper in the browser: paint with a loaded brush, smudge, and watch washes bleed, bloom and dry. A real-time WebGPU experiment by Luis Bizarro.","genre":"Real-time WebGPU experiment","image":"https://watercolor.bizar.ro/og.jpg","inLanguage":"en","isPartOf":{"@id":"https://bizar.ro/#website"},"keywords":"WebGPU, WGSL, watercolor, fluid simulation, compute shaders, Kubelka-Munk, creative coding, interactive","name":"Watercolor","url":"https://watercolor.bizar.ro/","video":{"@type":"VideoObject","contentUrl":"https://watercolor.bizar.ro/og.mp4","description":"A sheet of watercolor paper in the browser: paint with a loaded brush, smudge, and watch washes bleed, bloom and dry. A real-time WebGPU experiment by Luis Bizarro.","name":"Watercolor","thumbnailUrl":"https://watercolor.bizar.ro/og.jpg","uploadDate":"2026-10-31"},"workExample":[{"@type":"SoftwareApplication","applicationCategory":"MultimediaApplication","downloadUrl":"https://watercolor.bizar.ro/downloads/Watercolor-macOS.zip","name":"Watercolor for macOS","operatingSystem":"macOS"},{"@type":"SoftwareApplication","applicationCategory":"MultimediaApplication","downloadUrl":"https://watercolor.bizar.ro/downloads/Watercolor-Windows.zip","name":"Watercolor for Windows","operatingSystem":"Windows"},{"@type":"SoftwareApplication","applicationCategory":"MultimediaApplication","downloadUrl":"https://watercolor.bizar.ro/downloads/Watercolor-Linux.tar.gz","name":"Watercolor for Linux","operatingSystem":"Linux"}]}</script>
+    <script type="module" crossorigin src="/assets/index-2ZPewFcs.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/Settings-DyGoQMeO.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-BEGWC5Jj.css">
+  </head>
+  <body>
+    <div class="about">
+      <h1>Watercolor</h1>
+      <p>A sheet of watercolor paper in the browser: paint with a loaded brush, smudge, and watch washes bleed, bloom and dry. A real-time WebGPU experiment by Luis Bizarro.</p>
+    </div>
+    <canvas class="canvas" aria-label="A sheet of watercolor paper that the pointer paints on, with washes that bleed, bloom and dry" role="img"></canvas>
+    <header class="chrome">
+      <a class="chrome__logo" data-interface href="https://bizar.ro/">
+        <img alt="Bizarro" class="chrome__wordmark" decoding="async" height="22" src="/images/bizarro.svg" width="114" />
+      </a>
+      <div class="chrome__contact">
+        <p class="chrome__downloads">
+          Download for <a class="chrome__link" data-interface href="/downloads/Watercolor-macOS.zip">Mac</a>,
+          <a class="chrome__link" data-interface href="/downloads/Watercolor-Windows.zip">Windows</a> and
+          <a class="chrome__link" data-interface href="/downloads/Watercolor-Linux.tar.gz">Linux</a>.
+        </p>
+        <a class="chrome__link" data-interface href="mailto:luis@bizar.ro">luis@bizar.ro</a>
+      </div>
+      <div class="instructions" data-interface>
+        <p class="instructions__title">Controls</p>
+        <dl class="instructions__list">
+          <div class="instructions__row">
+            <dt><kbd>Hold</kbd></dt>
+            <dd>Paint</dd>
+          </div>
+          <div class="instructions__row">
+            <dt><kbd>Right Click</kbd></dt>
+            <dd>Smudge</dd>
+          </div>
+          <div class="instructions__row">
+            <dt><kbd>Scroll</kbd></dt>
+            <dd>Change Color</dd>
+          </div>
+          <div class="instructions__row">
+            <dt><kbd>Shift</kbd><span class="instructions__plus">+</span><kbd>Scroll</kbd></dt>
+            <dd>Change Size</dd>
+          </div>
+          <div class="instructions__row">
+            <dt><kbd>R</kbd></dt>
+            <dd>Rainbow Mode <span class="instructions__state" data-rainbow>on</span></dd>
+          </div>
+          <div class="instructions__row">
+            <dt><kbd>D</kbd></dt>
+            <dd>Clean</dd>
+          </div>
+        </dl>
+      </div>
+      <p class="instructions instructions--touch">Touch to Paint</p>
+    </header>
+    <p class="fallback" hidden>WebGPU is not available in this browser.</p>
+  </body>
+</html>

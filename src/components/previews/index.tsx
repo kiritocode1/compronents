@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentType } from "react";
+import WatercolorPreview from "./watercolor";
 import AccordionFramesPreview from "./accordion-frames";
 import AnimatedFooterPreview from "./animated-footer";
 import ArchiveCommercePagePreview from "./archive-commerce-page";
@@ -86,6 +87,7 @@ export const previews: Record<string, ComponentType> = {
   "monogram-morph-page": MonogramMorphPagePreview,
   "mosaic-flip": MosaicFlipPreview,
   "image-reveal": ImageRevealPreview,
+  watercolor: WatercolorPreview,
   "ink-field": InkFieldPreview,
   "iris-outro-footer": IrisOutroFooterPreview,
   "video-summagator": VideoSummagatorPreview,

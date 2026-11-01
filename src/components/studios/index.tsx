@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentType } from "react";
+import WatercolorStudio from "./watercolor";
 import AccordionFramesStudio from "./accordion-frames";
 import AnimatedFooterStudio from "./animated-footer";
 import ArchiveCommercePageStudio from "./archive-commerce-page";
@@ -77,6 +78,7 @@ export const studios: Record<string, StudioComponent> = {
   "overlay-menu": OverlayMenuStudio,
   "mosaic-flip": MosaicFlipStudio,
   "image-reveal": ImageRevealStudio,
+  watercolor: WatercolorStudio,
   "ink-field": InkFieldStudio,
   "award-list": AwardListStudio,
   "inversa-scroll": InversaScrollStudio,
