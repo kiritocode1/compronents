@@ -4044,6 +4044,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Figs From Plums",
+        href: "https://figsfromplums.com/",
+        dateAdded: "2026-11-01",
+        kind: "gallery",
+        useFor: [
+          "art and design inspiration",
+          "poster and print references",
+          "photography references",
+          "browse a daily creative feed",
+          "find artists and studios",
+          "visual research for moodboards",
+        ],
+        description:
+          "Figs From Plums is a daily gallery of art, design, music, photography and miscellaneous work, credited on its about page to Ricky Retouch. The archive published 48 posts between 21 and 31 October 2026, so roughly four a day, each tagged with a section and date. A post opens as an article page that credits the artist and links to their own site and social profiles. The layout runs several columns that scroll independently with a colour swatch that shifts hue as a column advances, plus section filters and an in-page reader.",
+      },
+      {
         title: "Landdding",
         href: "https://landdding.com/",
         dateAdded: "2026-10-31",
