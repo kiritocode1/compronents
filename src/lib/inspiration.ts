@@ -2701,6 +2701,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component demos and micro-interactions",
     links: [
       {
+        title: "Refracted Text (React Drops)",
+        href: "https://reactdrops.dev/components/text-effect/refracted-text",
+        dateAdded: "2026-11-01",
+        kind: "demo",
+        stack: ["react", "typescript"],
+        useFor: [
+          "glass text effect",
+          "refracted light lettering",
+          "hero headline entrance animation",
+          "per character lift animation",
+          "cursor responsive light beam",
+          "react text effect source",
+        ],
+        description:
+          "Refracted Text is a React component from React Drops that sets a short display word in glass letters with a light beam refracting through it. Its 31 props cover the entrance, the beam and the lettering: character stagger and lift duration, eight preset easing curves, six colour inputs for the glass and the spectrum, beam height and cursor steering, font size and weight, extra bold, height and corner rounding. The default face is Square Display, bundled with the component, and the original Librestile face stays available. Usage ships as a copyable TypeScript example, and the licence allows personal and commercial use while redistributing the components or kits needs permission.",
+      },
+      {
         title: "Motionin",
         href: "https://motionin.design/",
         dateAdded: "2026-10-31",
