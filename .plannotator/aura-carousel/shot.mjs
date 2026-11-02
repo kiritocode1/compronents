@@ -1,0 +1,20 @@
+// node shot.mjs <url> <out.png> <width> <height> [waitExpr]
+import { writeFileSync } from "node:fs";
+const [, , url, out, w = 1920, h = 1034, wait = "true"] = process.argv;
+const t = await (await fetch("http://localhost:9222/json/new?about:blank", { method: "PUT" })).json();
+const ws = new WebSocket(t.webSocketDebuggerUrl);
+await new Promise((r) => ws.addEventListener("open", r, { once: true }));
+let id = 0; const pend = new Map();
+ws.addEventListener("message", (e) => { const m = JSON.parse(e.data); pend.get(m.id)?.(m); pend.delete(m.id); });
+const send = (method, params = {}) => new Promise((r) => { const n = ++id; pend.set(n, r); ws.send(JSON.stringify({ id: n, method, params })); });
+const ev = async (x) => (await send("Runtime.evaluate", { expression: x, awaitPromise: true, returnByValue: true })).result?.result?.value;
+await send("Emulation.setDeviceMetricsOverride", { width: +w, height: +h, deviceScaleFactor: 1, mobile: false });
+await send("Page.navigate", { url });
+const end = Date.now() + 30000;
+while (Date.now() < end && !(await ev(wait).catch(() => false))) await new Promise((r) => setTimeout(r, 200));
+await ev("document.fonts.ready.then(()=>new Promise(r=>setTimeout(()=>r(1),800)))");
+const s = await send("Page.captureScreenshot", { format: "png" });
+writeFileSync(out, Buffer.from(s.result.data, "base64"));
+const errs = await ev("window.__errs || null");
+await fetch(`http://localhost:9222/json/close/${t.id}`);
+console.log("saved", out); process.exit(0);

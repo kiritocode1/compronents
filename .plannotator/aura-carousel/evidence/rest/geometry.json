@@ -1,0 +1,150 @@
+{
+  "scale": 2,
+  "source": {
+    "geo": {
+      "surface": [
+        1920,
+        1034
+      ],
+      "scrollLeft": "1856.000",
+      "header": {
+        "x": 960,
+        "y": 160,
+        "w": 1472,
+        "h": 106,
+        "font": "16px / 24px \"Inter Variable\", sans-serif",
+        "ls": "normal",
+        "color": "oklch(0.985 0 0)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "title": {
+        "x": 960,
+        "y": 160,
+        "w": 607,
+        "h": 106,
+        "font": "",
+        "ls": "-0.96px",
+        "color": "rgb(0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      "nav": {
+        "x": 2324,
+        "y": 212,
+        "w": 108,
+        "h": 54,
+        "font": "16px / 24px \"Inter Variable\", sans-serif",
+        "ls": "normal",
+        "color": "oklch(0.985 0 0)",
+        "bg": "rgba(0, 0, 0, 0.03)"
+      },
+      "navButton": {
+        "x": 2329,
+        "y": 216,
+        "w": 45,
+        "h": 46,
+        "font": "16px / 24px \"Inter Variable\", sans-serif",
+        "ls": "normal",
+        "color": "rgb(0, 0, 0)",
+        "bg": "rgb(254, 254, 254)"
+      },
+      "rail": {
+        "x": 0,
+        "y": 314,
+        "w": 1920,
+        "h": 560,
+        "font": "16px / 24px \"Inter Variable\", sans-serif",
+        "ls": "normal",
+        "color": "oklch(0.985 0 0)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      "dispersion": {
+        "x": 0,
+        "y": 250,
+        "w": 1920,
+        "h": 688,
+        "font": "16px / 24px \"Inter Variable\", sans-serif",
+        "ls": "normal",
+        "color": "oklch(0.985 0 0)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      "titleLines": 2
+    },
+    "canvas": [
+      3840,
+      1376
+    ]
+  },
+  "port": {
+    "geo": {
+      "surface": [
+        1920,
+        1034
+      ],
+      "header": {
+        "x": 960,
+        "y": 160,
+        "w": 1472,
+        "h": 106,
+        "font": "16px / 24px Geist, \"Geist Fallback\", ui-sans-serif, system-ui, sans-serif",
+        "ls": "normal",
+        "color": "rgb(230, 230, 230)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "title": {
+        "x": 960,
+        "y": 160,
+        "w": 607,
+        "h": 106,
+        "font": "",
+        "ls": "-0.96px",
+        "color": "rgb(0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      "nav": {
+        "x": 2324,
+        "y": 212,
+        "w": 108,
+        "h": 54,
+        "font": "16px / 24px Geist, \"Geist Fallback\", ui-sans-serif, system-ui, sans-serif",
+        "ls": "normal",
+        "color": "rgb(230, 230, 230)",
+        "bg": "rgba(0, 0, 0, 0.03)"
+      },
+      "navButton": {
+        "x": 2329,
+        "y": 216,
+        "w": 45,
+        "h": 46,
+        "font": "16px / 24px Geist, \"Geist Fallback\", ui-sans-serif, system-ui, sans-serif",
+        "ls": "normal",
+        "color": "rgb(0, 0, 0)",
+        "bg": "rgb(254, 254, 254)"
+      },
+      "rail": {
+        "x": 0,
+        "y": 314,
+        "w": 1920,
+        "h": 560,
+        "font": "16px / 24px Geist, \"Geist Fallback\", ui-sans-serif, system-ui, sans-serif",
+        "ls": "normal",
+        "color": "rgb(230, 230, 230)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      "dispersion": {
+        "x": 0,
+        "y": 250,
+        "w": 1920,
+        "h": 688,
+        "font": "16px / 24px Geist, \"Geist Fallback\", ui-sans-serif, system-ui, sans-serif",
+        "ls": "normal",
+        "color": "rgb(230, 230, 230)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      "titleLines": 2
+    },
+    "canvas": [
+      3840,
+      1376
+    ]
+  }
+}

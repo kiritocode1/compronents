@@ -5794,6 +5794,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "aura-carousel",
+    title: "Aura Carousel",
+    description:
+      "Looping customer-story carousel from toolcraft.sh/demos/aura-carousel, without its control panel. The cards and their testimonials are painted once into a 2x strip texture, and one WebGL fragment shader redraws the rail from it. At each side of the viewport a stationary zone bends the cards with a stretch warp and a sideways ripple, smears them into a 20-tap spectral dispersion, adds a ragged noise-shaped aura and fades them into the page. A light band at each zone boundary flares and refracts cards as they cross it, and scroll speed adds a motion streak. Drag with the mouse, swipe a trackpad or touch, or use the arrow buttons and keys; the rail snaps to the nearest card 480ms after a wheel stops.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-02",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/aura-carousel.tsx",
+        target: "components/ui/aura-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "frosted-plate-carousel",
     title: "Frosted Plate Carousel",
     description:

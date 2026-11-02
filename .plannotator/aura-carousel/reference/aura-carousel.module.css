@@ -1,0 +1,26 @@
+._surface_vtock_9{box-sizing:border-box;contain:layout paint style;isolation:isolate;position:relative;overflow:hidden}
+._header_vtock_17{background-color:inherit;box-sizing:border-box;z-index:4;justify-content:space-between;align-items:flex-end;width:min(1472px,100%);max-width:1472px;height:106px;display:flex;position:absolute;top:160px;left:50%;transform:translate(-50%)}
+._title_vtock_33{color:#000;font-feature-settings:"liga" 0;letter-spacing:-.96px;width:607.43px;margin:0;font-family:Dispersion Figtree,sans-serif;font-size:48px;font-style:normal;font-weight:500;line-height:1.1;overflow:hidden}
+._navigation_vtock_47{box-sizing:border-box;background:#00000008;border:1px solid #0000000d;border-radius:99px;flex:none;align-items:center;gap:8px;width:108px;height:54px;padding:4px;display:flex}
+._navigationButton_vtock_61{appearance:none;color:#000;cursor:pointer;background:#fefefe;border:1px solid #0000001a;border-radius:99px;justify-content:center;align-items:center;width:46px;height:46px;margin:0;padding:0;transition:opacity .16s,transform .16s,box-shadow .16s;display:inline-flex}
+._surface_vtock_9 ._navigationButton_vtock_61:hover:not(:disabled){transform:scale(1.04);box-shadow:0 2px 5px #00000014;cursor:pointer!important}
+._surface_vtock_9 ._navigationButton_vtock_61:hover:not(:disabled) ._chevron_vtock_84{cursor:pointer!important}
+._navigationButton_vtock_61:focus-visible{outline-offset:2px;outline:2px solid #111}
+._navigationButton_vtock_61:disabled{cursor:default;opacity:.28;background:0 0}
+._chevron_vtock_84{border-top:1.8px solid;border-right:1.8px solid;width:8px;height:8px;display:block;transform:rotate(45deg)}
+._chevronPrevious_vtock_108{transform:rotate(-135deg)}
+._railViewport_vtock_112{overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x;-webkit-user-select:none;user-select:none;z-index:1;outline:none;width:100%;height:560px;position:absolute;top:314px;left:0;overflow:scroll hidden}
+._surface_vtock_9 ._railViewport_vtock_112[data-carousel-base]{cursor:grab!important}
+._surface_vtock_9 ._railViewport_vtock_112[data-carousel-dragging=true]{cursor:grabbing!important}
+._surface_vtock_9 ._railViewport_vtock_112[data-carousel-base] *{cursor:inherit!important}
+._railViewport_vtock_112::-webkit-scrollbar{display:none}
+._railTrack_vtock_145{gap:16px;height:560px;display:flex}
+._card_vtock_151{-webkit-user-select:none;user-select:none;border-radius:12px;flex:0 0 448px;width:448px;height:560px;margin:0;display:block;position:relative;overflow:hidden}
+._cardImage_vtock_163{border-radius:inherit;object-fit:cover;width:100%;height:100%;display:block;position:absolute;inset:0}
+._testimonial_vtock_173{color:#fff;font-feature-settings:normal;letter-spacing:0;margin:0;font-family:Dispersion Figtree,sans-serif;font-size:20px;font-style:normal;font-weight:400;line-height:1.3;position:absolute;bottom:24px;left:24px;right:24px}
+._railViewport_vtock_112[data-rail-visual=hidden] ._cardImage_vtock_163,._railViewport_vtock_112[data-rail-visual=hidden] ._testimonial_vtock_173{display:none}
+._dispersionRail_vtock_199{pointer-events:none;z-index:2;width:100%;height:688px;position:absolute;top:250px;left:0}
+._dispersionRailCanvas_vtock_209{width:100%;height:100%;display:block}
+._cleanTextViewport_vtock_215{pointer-events:none;z-index:3;width:100%;height:560px;position:absolute;top:314px;left:0;overflow:hidden}
+._cleanTextTrack_vtock_226{will-change:transform;gap:16px;height:560px;display:flex}
+._cleanTextCard_vtock_233{flex:0 0 448px;width:448px;height:560px;position:relative}

@@ -16292,6 +16292,89 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "aura-carousel": {
+    demoPath: "src/components/demos/aura-carousel.tsx",
+    nuance: [
+      {
+        label: "The DOM rail is only the input surface",
+        description:
+          "A native horizontal scroller holds three copies of the cards for scrolling, dragging and keyboard focus. Once WebGL is ready its images and text are hidden and the shader draws everything from one wrapped scroll value, so the loop has no seam and no clone bookkeeping.",
+      },
+      {
+        label: "Effects anchored to the viewport, not the cards",
+        description:
+          "Warp, dispersion, aura and edge fade are functions of screen x, so a card is clean in the middle and picks up the effect only while it passes through the outer 13% at each side.",
+      },
+      {
+        label: "Painted once, sampled every frame",
+        description:
+          "Images and testimonials are drawn into two canvases at 2x and uploaded once. Frames render only while scroll or velocity changes, and the backing canvas runs at devicePixelRatio times renderScale.",
+      },
+      {
+        label: "CORS images",
+        description:
+          "Card images become WebGL textures, so they must be served with CORS. If a texture cannot be built the plain DOM cards stay visible.",
+      },
+    ],
+    editable: [
+      {
+        name: "cards",
+        control: "asset-url",
+        description: "Card photos, alt text and the testimonial on each card.",
+      },
+      {
+        name: "title",
+        control: "text",
+        description: "Heading above the rail.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Surface colour behind the header and rail.",
+      },
+    ],
+    assets: assetsByIds([
+      "aura-carousel-figtree",
+      "liquid-glass-carousel-img-12",
+      "liquid-glass-carousel-img-5",
+      "liquid-glass-carousel-img-8",
+      "liquid-glass-carousel-img-1",
+      "liquid-glass-carousel-img-9",
+    ]),
+    api: [
+      {
+        name: "cards",
+        type: "{ src, alt, testimonial }[]",
+        default: "Five BLANK editorial stills",
+        description:
+          "One loop cycle. Images are cover-cropped to 448 by 560 with a bottom scrim under the white testimonial.",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: '"How focused teams turn insights into action."',
+        description: "Heading beside the arrow buttons.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#FFFFFF"',
+        description: "Surface colour. The edge fade dissolves cards toward it.",
+      },
+      {
+        name: "renderScale",
+        type: "number",
+        default: "2",
+        description: "Backing-pixel multiplier on top of devicePixelRatio.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description:
+          "Root styling. The root fills its parent; give the parent a height. It matches the source exactly at 1034px tall.",
+      },
+    ],
+  },
   "liquid-glass-carousel": {
     demoPath: "src/components/demos/liquid-glass-carousel.tsx",
     nuance: [

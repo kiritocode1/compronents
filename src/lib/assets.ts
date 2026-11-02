@@ -2648,6 +2648,16 @@ const scatterLetterIntroAssets = [
   } as const satisfies AssetItem,
 ];
 
+const auraCarouselFontAsset = {
+  id: "aura-carousel-figtree",
+  label: "Aura Carousel Figtree variable font",
+  provider: "vercel-blob",
+  pathname: "aura-carousel/figtree-latin-wght-normal.woff2",
+  fallbackPath: `${BLOB_PUBLIC_ORIGIN}/aura-carousel/figtree-latin-wght-normal.woff2`,
+  role: "Figtree latin variable font for the heading and the testimonials drawn into the strip texture.",
+  notes: "The source demo's own woff2, uploaded byte for byte to Vercel Blob.",
+} as const satisfies AssetItem;
+
 const liquidGlassCarouselAssets = Array.from({ length: 12 }, (_, i) => {
   const n = i + 1;
   return {
@@ -2912,6 +2922,7 @@ export const assetItems = [
   ...moneybeeEditorialPageAssets,
   ...dustMorphHeroAssets,
   ...liquidGlassCarouselAssets,
+  auraCarouselFontAsset,
   ...panVideoCanvasAssets,
   ...filmstripVideoPlayerAssets,
   ...scatterLetterIntroAssets,
