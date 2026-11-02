@@ -2,6 +2,7 @@
 
 import type { ComponentType } from "react";
 import WatercolorDemo from "./watercolor";
+import HologramWalkwayDemo from "./hologram-walkway";
 import AccordionFramesDemo from "./accordion-frames";
 import AnimatedFooterDemo from "./animated-footer";
 import ApertureZoomHeroDemo from "./aperture-zoom-hero";
@@ -291,6 +292,7 @@ export const demos: Record<string, ComponentType> = {
   "motion-tracking": MotionTrackingDemo,
   "image-reveal": ImageRevealDemo,
   watercolor: WatercolorDemo,
+  "hologram-walkway": HologramWalkwayDemo,
   "ink-field": InkFieldDemo,
   "ink-core-layout": InkCoreLayoutDemo,
   "iris-outro-footer": IrisOutroFooterDemo,

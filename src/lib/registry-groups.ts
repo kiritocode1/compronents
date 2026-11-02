@@ -264,6 +264,7 @@ export const componentGroups: RegistryGroup[] = [
       "lego-dither",
       "ink-field",
       "watercolor",
+      "hologram-walkway",
       "grain-gradient-field",
       "prism-light-instrument",
       "starry-night-flow",

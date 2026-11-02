@@ -5708,6 +5708,20 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "hologram-walkway": {
+    demoPath: "src/components/demos/hologram-walkway.tsx",
+    assets: [],
+    nuance: [
+      { label: "One walk, one scene", description: "The man starts down the walkway. When he reaches her place he stops and cannot move until she has spoken: she projects with her back to him, turns, greets him with her cheek on her hand, then points at him. Walking on plays her parting line." },
+      { label: "Baked, then shifted", description: "The walkway and the city repeat along the walk, so each bakes once and the camera takes a shifted window. Her 15 frames ray-march in Web Workers while he walks in." },
+      { label: "Canvas sizing", description: "The scene is 960 by 540 pixels and scales to its box in whole-pixel steps when the box is large enough. Give the parent a height." },
+    ],
+    editable: [],
+    api: [
+      { name: "subtitles", type: "boolean", default: "true", description: "Her lines as subtitles, announced through a polite live region." },
+      { name: "className / style", type: "string / CSSProperties", description: "Root styling. The scene fills its box on a near-black background." },
+    ],
+  },
   watercolor: {
     demoPath: "src/components/demos/watercolor.tsx",
     studioPath: "src/components/studios/watercolor.tsx",

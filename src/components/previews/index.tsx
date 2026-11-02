@@ -2,6 +2,7 @@
 
 import type { ComponentType } from "react";
 import WatercolorPreview from "./watercolor";
+import HologramWalkwayPreview from "./hologram-walkway";
 import AccordionFramesPreview from "./accordion-frames";
 import AnimatedFooterPreview from "./animated-footer";
 import ArchiveCommercePagePreview from "./archive-commerce-page";
@@ -88,6 +89,7 @@ export const previews: Record<string, ComponentType> = {
   "mosaic-flip": MosaicFlipPreview,
   "image-reveal": ImageRevealPreview,
   watercolor: WatercolorPreview,
+  "hologram-walkway": HologramWalkwayPreview,
   "ink-field": InkFieldPreview,
   "iris-outro-footer": IrisOutroFooterPreview,
   "video-summagator": VideoSummagatorPreview,
