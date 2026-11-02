@@ -309,91 +309,12 @@ export function mountHologramWalkway(
     }
     bones.length = 0;
   };
-  interface FigurePose {
-    crouch: number;
-    lean: number;
-    stance: number;
-    armR: number;
-    armL: number;
-  }
   interface Palette {
     shirt: Color;
     legs: Color;
     hair: Color;
     skin: Color;
   }
-  // the Pixel Plays figure rig: legs, torso, head and two arms from a handful of pose angles
-  const figure = (
-    px: number,
-    py: number,
-    yaw: number,
-    pose: FigurePose,
-    t: Palette,
-  ) => {
-    const fx = Math.cos(yaw),
-      fy = Math.sin(yaw),
-      sx = -fy,
-      sy = fx;
-    const P = (a: number, b: number, c: number): Vec3 => [
-      px + fx * a + sx * b,
-      py + fy * a + sy * b,
-      c,
-    ];
-    const { crouch, lean, stance } = pose;
-    const hipZ = 1.28 - crouch * 0.4,
-      hipA = -crouch * 0.15;
-    const shA = hipA + Math.sin(lean) * 0.95,
-      shZ = hipZ + Math.cos(lean) * 0.95;
-    const neck = P(shA, 0, shZ + 0.08),
-      head = P(shA + Math.sin(lean) * 0.32, 0, shZ + 0.36);
-    const footB = P(-stance * 1.2, 0.2, 0.12),
-      footF = P(stance * 2, -0.2, 0.12);
-    const kneeB = P(-stance * 0.4 + crouch * 0.12, 0.22, 0.68 - crouch * 0.1);
-    const kneeF = P(stance * 1.2 + crouch * 0.34, -0.22, 0.72 - crouch * 0.08);
-    const hipB = P(hipA, 0.15, hipZ),
-      hipF = P(hipA, -0.15, hipZ);
-    bone(hipB, kneeB, 0.17, 0.13, t.legs);
-    bone(kneeB, footB, 0.13, 0.1, t.legs);
-    bone(hipF, kneeF, 0.17, 0.13, t.legs);
-    bone(kneeF, footF, 0.13, 0.1, t.legs);
-    bone(footB, P(-stance * 1.2 + 0.16, 0.2, 0.08), 0.1, 0.09, SHOE);
-    bone(footF, P(stance * 2 + 0.16, -0.2, 0.08), 0.1, 0.09, SHOE);
-    bone(P(hipA, 0, hipZ), neck, 0.3, 0.32, t.shirt);
-    bone(neck, head, 0.11, 0.12, t.skin);
-    bone(head, head, 0.24, 0.24, t.skin);
-    const crown: Vec3 = [
-      head[0] - fx * 0.06,
-      head[1] - fy * 0.06,
-      head[2] + 0.08,
-    ];
-    bone(crown, crown, 0.205, 0.205, t.hair);
-    const shR = P(shA, 0.36, shZ - 0.03),
-      shL = P(shA, -0.36, shZ - 0.03);
-    const elbowR = P(
-      shA + Math.sin(pose.armR) * 0.46,
-      0.4,
-      shZ - 0.03 - Math.cos(pose.armR) * 0.46,
-    );
-    const handR = P(
-      shA + Math.sin(pose.armR + 0.18) * 0.95,
-      0.42,
-      shZ - 0.03 - Math.cos(pose.armR + 0.18) * 0.95,
-    );
-    const elbowL = P(
-      shA + Math.sin(pose.armL) * 0.46,
-      -0.42,
-      shZ - 0.03 - Math.cos(pose.armL) * 0.46,
-    );
-    const handL = P(
-      shA + Math.sin(pose.armL + 0.2) * 0.9,
-      -0.43,
-      shZ - 0.03 - Math.cos(pose.armL + 0.2) * 0.9,
-    );
-    bone(shR, elbowR, 0.12, 0.1, t.shirt);
-    bone(elbowR, handR, 0.09, 0.08, t.skin);
-    bone(shL, elbowL, 0.12, 0.1, t.shirt);
-    bone(elbowL, handL, 0.09, 0.08, t.skin);
-  };
 
   /* ---------- palette ---------- */
   const VOID = rgb(7, 6, 11);
@@ -869,7 +790,16 @@ export function mountHologramWalkway(
   // Text rasterised from the system Japanese font into a 1-bit mask, then stood up in the world on a plane
   // along x or y, so it slants with the isometric grid. Drawn every frame as translucent light with
   // scanlines and flicker, like the advertising holograms over the city.
-  const glyphMask = (text: string, px: number, vertical: boolean) => {
+  const JP_FONT =
+    '"Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif';
+  const LOGO_FONT = '"Helvetica Neue", "Arial Black", Arial, sans-serif';
+  const glyphMask = (
+    text: string,
+    px: number,
+    vertical: boolean,
+    family = JP_FONT,
+    weight = 700,
+  ) => {
     const chars = [...text],
       cell = px + 2;
     const c = document.createElement("canvas");
@@ -878,7 +808,7 @@ export function mountHologramWalkway(
     const g = c.getContext("2d");
     if (!g) return null;
     g.fillStyle = "#fff";
-    g.font = `700 ${px}px "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif`;
+    g.font = `${weight} ${px}px ${family}`;
     g.textBaseline = "top";
     chars.forEach((ch, n) =>
       g.fillText(ch, vertical ? 1 : 1 + n * cell, vertical ? 1 + n * cell : 1),
@@ -901,6 +831,7 @@ export function mountHologramWalkway(
     col: Color;
     seed: number;
     bright: number; // 1 for the names; the rest are faint and fade with the city's fog
+    led: boolean; // a giant LED logo: a dot grid of light seen through the fog, with a wider halo
   }
   const signs: Sign[] = [];
   const addSign = (
@@ -914,8 +845,11 @@ export function mountHologramWalkway(
     col: Color,
     vertical = false,
     bright = 0.3,
+    led = false,
   ) => {
-    const m = glyphMask(text, px, vertical);
+    const m = led
+      ? glyphMask(text, px, false, LOGO_FONT, 900)
+      : glyphMask(text, px, vertical);
     if (!m) return;
     const o = worldAt(sx, sy, D),
       along = R2 / S,
@@ -923,7 +857,7 @@ export function mountHologramWalkway(
       pts: number[] = [];
     for (let j = 0; j < m.h; j++)
       for (let i = 0; i < m.w; i++) {
-        if (!m.mask[j * m.w + i]) continue;
+        if (!m.mask[j * m.w + i] || (led && (i + j) % 2)) continue; // LED logos light every other pixel
         for (let b = 0; b < scale; b++)
           for (let a = 0; a < scale; a++) {
             const s = (i * scale + a) * along * 0.5; // half steps: each mask pixel is `scale` screen pixels wide
@@ -939,6 +873,7 @@ export function mountHologramWalkway(
       col,
       seed: signs.length * 7.3,
       bright,
+      led,
     });
   };
   const bakeSigns = () => {
@@ -949,6 +884,33 @@ export function mountHologramWalkway(
     addSign("電脳", 380, 40, -34, "x", 11, 2, [120, 220, 255], true);
     addSign("夜", 30, 70, -40, "x", 16, 2, [255, 170, 70]);
     addSign("愛", 920, 230, -22, "y", 14, 2, [255, 90, 170]);
+    // giant LED logos for the world he walks through, like the advertising over the city
+    addSign(
+      "BLANK",
+      250,
+      6,
+      -38,
+      "x",
+      46,
+      1,
+      [150, 240, 228],
+      false,
+      0.6,
+      true,
+    );
+    addSign(
+      "COMPRONENTS",
+      40,
+      330,
+      -24,
+      "y",
+      22,
+      1,
+      [150, 240, 228],
+      false,
+      0.45,
+      true,
+    );
   };
   const drawSigns = (t: number) => {
     const cy = camY();
@@ -978,7 +940,7 @@ export function mountHologramWalkway(
           flick *
           (iy % 3 === 0 ? 0.55 : 1) *
           s.bright *
-          (s.bright < 1 ? CITY_VIS[i] : 1);
+          (s.led ? 0.35 + 0.65 * CITY_VIS[i] : s.bright < 1 ? CITY_VIS[i] : 1);
         if (a <= 0.01) continue;
         const c = pix[i];
         pix[i] = rgb(
@@ -986,8 +948,11 @@ export function mountHologramWalkway(
           ((c >> 8) & 255) + g * a * 0.8,
           ((c >> 16) & 255) + b * a * 0.8,
         );
-        // a soft halo around each lit pixel
-        for (const j of [i - 1, i + 1, i - W, i + W]) {
+        // a soft halo around each lit pixel; LED logos glow wider, as if through fog
+        for (const j of s.led
+          ? [i - 2, i - 1, i + 1, i + 2, i - W, i + W, i - 2 * W, i + 2 * W]
+          : [i - 1, i + 1, i - W, i + W]) {
+          if (j < 0 || j >= W * H) continue;
           if (p.d <= zb[j]) continue;
           const q = pix[j];
           pix[j] = rgb(
@@ -1011,6 +976,7 @@ export function mountHologramWalkway(
     walking: boolean;
     still: number;
     look: number; // 0 to 1: how far he tips his head back to look up at her
+    stride: number; // 0 standing to 1 full stride, eased so starts and stops blend
   }
   const COAT: Palette = {
     shirt: [40, 37, 52],
@@ -1018,8 +984,13 @@ export function mountHologramWalkway(
     hair: [25, 21, 29],
     skin: [177, 117, 146],
   };
+  // His gait. Each thigh swings on a sine; the knee folds through the swing and straightens to plant the
+  // foot. The hips sit wherever puts the lower foot on the deck, so they bob twice a stride. The arms swing
+  // against the legs with soft elbows, the shoulders turn against the hips, and the coat hem follows the
+  // front leg. `stride` eases in and out, so starting and stopping blend instead of snapping.
   const drawMan = (M: Walker) => {
-    const swing = M.walking ? Math.sin(M.phase) : 0;
+    const s = M.stride,
+      ph = M.phase;
     const fx = Math.cos(M.yaw),
       fy = Math.sin(M.yaw),
       sx = -fy,
@@ -1029,28 +1000,76 @@ export function mountHologramWalkway(
       M.y + fy * a + sy * b,
       z,
     ];
-    const pose: FigurePose = M.walking
-      ? {
-          crouch: 0.04,
-          lean: 0.06,
-          stance: 0.2 * swing,
-          armR: 0.3 * swing,
-          armL: -0.3 * swing,
-        }
-      : {
-          crouch: 0.02,
-          lean: -0.12 - 0.22 * M.look,
-          stance: 0.16,
-          armR: 0.03,
-          armL: 0.04,
-        };
-    figure(M.x, M.y, M.yaw, pose, COAT);
-    // medium hair: volume on top, a fringe swept to one side, over the ears and down to his collar.
-    // The head sits where the figure rig puts it for this pose.
-    const hipZ = 1.28 - pose.crouch * 0.4,
-      hipA = -pose.crouch * 0.15;
-    const hx = hipA + Math.sin(pose.lean) * 1.27,
-      hz = hipZ + Math.cos(pose.lean) * 0.95 + 0.36;
+    const L1 = 0.62,
+      L2 = 0.6,
+      ANKLE = 0.11;
+    const leg = (side: number) => {
+      const p = ph + (side > 0 ? 0 : Math.PI);
+      const thigh = 0.44 * s * Math.sin(p) + (1 - s) * 0.05 * side;
+      const fold = s * 0.85 * Math.max(0, Math.cos(p)) ** 1.6 + 0.05;
+      const ka = L1 * Math.sin(thigh),
+        kz = -L1 * Math.cos(thigh);
+      return {
+        ka,
+        kz,
+        fa: ka + L2 * Math.sin(thigh - fold),
+        fz: kz - L2 * Math.cos(thigh - fold),
+        flat: Math.cos(p) < 0,
+      };
+    };
+    const R = leg(1),
+      Lg = leg(-1);
+    const hipZ = Math.max(-R.fz, -Lg.fz) + ANKLE; // the planted foot rests on the deck
+    const lean = 0.08 * s - 0.1 * (1 - s) - 0.22 * M.look;
+    const tw = 0.14 * s * Math.sin(ph); // shoulders counter-rotate against the hips
+    for (const [side, l] of [
+      [1, R],
+      [-1, Lg],
+    ] as const) {
+      const hip = P(0, side * 0.15, hipZ),
+        knee = P(l.ka, side * 0.16, hipZ + l.kz),
+        foot = P(l.fa, side * 0.16, hipZ + l.fz);
+      bone(hip, knee, 0.17, 0.13, COAT.legs);
+      bone(knee, foot, 0.13, 0.1, COAT.legs);
+      // the toe points forward when planted and tips down when the foot lifts
+      bone(
+        foot,
+        P(l.fa + 0.17, side * 0.16, hipZ + l.fz - (l.flat ? 0.02 : 0.06 * s)),
+        0.1,
+        0.09,
+        SHOE,
+      );
+    }
+    const shA = Math.sin(lean) * 0.95,
+      shZ = hipZ + Math.cos(lean) * 0.95;
+    const neck = P(shA, 0, shZ + 0.08),
+      head = P(shA + Math.sin(lean) * 0.32, 0, shZ + 0.36);
+    bone(P(0, 0, hipZ), neck, 0.3, 0.32, COAT.shirt);
+    bone(neck, head, 0.11, 0.12, COAT.skin);
+    bone(head, head, 0.24, 0.24, COAT.skin);
+    for (const side of [1, -1]) {
+      const sh = P(shA - side * 0.36 * Math.sin(tw), side * 0.37, shZ - 0.03);
+      const swing = s * 0.5 * Math.sin(ph) * -side + (1 - s) * 0.04; // each arm against its leg
+      const elbow = P(
+        shA - side * 0.36 * Math.sin(tw) + Math.sin(swing) * 0.46,
+        side * 0.4,
+        shZ - 0.03 - Math.cos(swing) * 0.46,
+      );
+      const bend = swing + 0.25 + 0.2 * s;
+      const hand = P(
+        shA -
+          side * 0.36 * Math.sin(tw) +
+          Math.sin(swing) * 0.46 +
+          Math.sin(bend) * 0.44,
+        side * 0.41,
+        shZ - 0.03 - Math.cos(swing) * 0.46 - Math.cos(bend) * 0.44,
+      );
+      bone(sh, elbow, 0.12, 0.1, COAT.shirt);
+      bone(elbow, hand, 0.09, 0.08, COAT.skin);
+    }
+    // medium hair: volume on top, a fringe swept to one side, over the ears and down to his collar
+    const hx = shA + Math.sin(lean) * 0.32,
+      hz = shZ + 0.36;
     const HAIR: Color = [36, 28, 34];
     capsule(
       P(hx - 0.05, 0, hz + 0.1),
@@ -1081,18 +1100,25 @@ export function mountHologramWalkway(
       0.1,
       HAIR,
     );
-    for (let z = 0.68; z <= 2.18; z += 0.025) {
-      const v = (z - 0.68) / 1.5,
+    // the long coat, from below the hips to the shoulders; its hem follows the forward leg
+    const front = (R.ka + Lg.ka) * 0.5;
+    for (let z = hipZ - 0.6; z <= hipZ + 0.9; z += 0.025) {
+      const v = (z - hipZ + 0.6) / 1.5,
         width = lerp(0.38, 0.29, v),
         depth = lerp(0.23, 0.24, v);
       for (let a = 0; a < Math.PI * 2; a += 0.035) {
-        if (z < 1.06 && Math.abs(Math.sin(a)) < 0.09 && Math.cos(a) > 0)
+        if (v < 0.25 && Math.abs(Math.sin(a)) < 0.09 && Math.cos(a) > 0)
           continue; // the coat's open front
         const seam = Math.abs(Math.sin(a)) < 0.06,
           lit = Math.max(0, Math.cos(a));
-        const flare = (1 - v) * 0.06 * swing * Math.cos(a); // the hem swings with his stride
+        const flare =
+          (1 - v) ** 2 * (front * 0.5 + 0.05 * s * Math.sin(ph * 2 + a)); // hem sways with his stride
         plot(
-          ...P(Math.cos(a) * depth - 0.07 * v + flare, Math.sin(a) * width, z),
+          ...P(
+            Math.cos(a) * depth + Math.sin(lean) * v * 0.9 - 0.07 * v + flare,
+            Math.sin(a) * width,
+            z,
+          ),
           seam
             ? rgb(22, 19, 29)
             : rgb(27 + lit * 39, 26 + lit * 13, 39 + lit * 30),
@@ -1101,15 +1127,15 @@ export function mountHologramWalkway(
     }
     for (const side of [-1, 1]) {
       capsule(
-        P(0.12, side * 0.17, 2.1),
-        P(-0.06, side * 0.16, 2.37),
+        P(shA + 0.12, side * 0.17, shZ - 0.11),
+        P(shA - 0.06, side * 0.16, shZ + 0.16),
         0.065,
         0.05,
         [87, 65, 84],
       );
       for (let t = 0; t < 1; t += 0.04)
         plot(
-          ...P(0.245, side * (0.2 - 0.15 * t), 2.08 - 0.34 * t),
+          ...P(shA + 0.245, side * (0.2 - 0.15 * t), shZ - 0.13 - 0.34 * t),
           rgb(87, 62, 83),
         );
     }
@@ -1357,6 +1383,7 @@ export function mountHologramWalkway(
       walking: false,
       still: 0,
       look: 0,
+      stride: 0,
     },
   };
   const camY = () => (G.k * R2) / S; // the camera offset the current pixel shift stands for
@@ -1492,6 +1519,7 @@ export function mountHologramWalkway(
       script = [];
       G.met = false;
     }
+    M.stride = clamp(M.stride + (M.walking ? dt * 5 : -dt * 4), 0, 1);
     M.look = clamp(
       M.look + (G.locked && G.act !== "hidden" ? dt : -dt) * 1.5,
       0,

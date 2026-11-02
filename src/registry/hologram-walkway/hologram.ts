@@ -337,7 +337,8 @@ const torsoSamples = Array.from({ length: TORSO_STEPS + 1 }, (_, n) => {
 });
 
 const PIV: Vec3 = [0.02, 0, 2.02]; // hip joints: the upper body folds here
-const LEAN_CROUCH = 0.85;
+const LEAN_CROUCH = 0.85; // the fold her head height is measured against
+const LEAN_SIT = 0.32;
 const TAG_LIPS = 1,
   TAG_EYE = 2,
   TAG_LID = 3;
@@ -363,8 +364,9 @@ const buildModel = (pose: HoloPose): Model => {
     pt = ease(clamp(pose.point, 0, 1));
   const sw = pose.sway,
     amp = pose.amp * (1 - st * 0.6);
+  // seated with her knees drawn up she leans forward onto them, and further when she points
   const lean = lerp(
-    LEAN_CROUCH + amp * 0.035 * Math.sin(sw) + 0.07 * pt,
+    LEAN_SIT + amp * 0.035 * Math.sin(sw) + 0.25 * pt,
     0.06,
     st,
   );
@@ -468,20 +470,20 @@ const buildModel = (pose: HoloPose): Model => {
     Eb([-0.25, 0.25, 2.2], [0.28, 0.29, 0.34], 0.16), // seat
     Eb([0.4, 0, 2.98], [0.022, 0.02, 0.03], 0.02, SUB), // navel
   ];
-  // legs swing by angle from straight down: standing, then folded back under her
+  // legs swing by angle from straight down: standing, then seated with her knees drawn up and together
   const legs = (sgn: number): Prim[] => {
     const hip: Vec3 = [0.02, 0.3 * sgn, 2.02];
-    const a1 = lerp(1.1, 0.03, st),
-      a2 = lerp(-1.46, -0.02, st),
-      a3 = lerp(-1.38, 1.3, st);
+    const a1 = lerp(2.2, 0.03, st),
+      a2 = lerp(0.25, -0.02, st),
+      a3 = lerp(1.35, 1.3, st);
     const knee: Vec3 = [
       hip[0] + THIGH * Math.sin(a1),
-      lerp(0.36, 0.3, st) * sgn,
+      lerp(0.17, 0.3, st) * sgn,
       hip[2] - THIGH * Math.cos(a1),
     ];
     const ankle: Vec3 = [
       knee[0] + SHIN * Math.sin(a2),
-      0.3 * sgn,
+      lerp(0.2, 0.3, st) * sgn,
       knee[2] - SHIN * Math.cos(a2),
     ];
     const toe: Vec3 = [
@@ -643,7 +645,7 @@ const buildModel = (pose: HoloPose): Model => {
     rFr = blendFrame(cheekR.fr, hangR.fr, st);
     rIdx = lerp(0.35, 0.6, st);
     rCurl = lerp(0.45, 0.5, st);
-    rPole = lerp3([-0.2, -0.6, -1], worldV([-0.6, -0.3, -0.2]), st);
+    rPole = lerp3([0.6, -0.2, -1], worldV([-0.6, -0.3, -0.2]), st);
   } else {
     // the hand leaves her cheek in an arc, out and down to him
     rPalm = add3(lerp3(cheekR.p, PALM_LOCAL, pt), [
@@ -654,26 +656,22 @@ const buildModel = (pose: HoloPose): Model => {
     rFr = blendFrame(cheekR.fr, pointR.fr, pt);
     rIdx = lerp(0.35, 0, pt);
     rCurl = lerp(0.45, 1, pt);
-    rPole = lerp3([-0.2, -0.6, -1], [0, -0.3, -1], pt);
+    rPole = lerp3([0.6, -0.2, -1], [0, -0.3, -1], pt);
   }
   const right = arm(shR, rPalm, rFr.f, rFr.w, rFr.n, 1, rIdx, rCurl, rPole);
 
-  // Left hand: hanging at her side standing; crouched, it rests on her thigh and slides with the sway.
-  const kneeL = Lp([
-    0.02 + THIGH * Math.sin(1.1) * 0.82,
-    0.38,
-    2.02 - THIGH * Math.cos(1.1) * 0.82 + 0.16,
-  ]);
-  const glide = amp * 0.12 * Math.sin(sw);
-  const thighL = add3(kneeL, worldV([-0.9, 0, 0.45]), 0.3 + glide);
+  // Left hand: hanging at her side standing; seated, her forearm lies across her knees, the hand on the
+  // far knee, sliding a little with the sway.
+  const glide = amp * 0.08 * Math.sin(sw);
+  const thighL = Lp([1.42 + glide, -0.12, 3.24]);
   const hangL = {
     p: Bp([0.06, 0.8, 2.12]),
     fr: frame(worldV([0, 0, -1]), worldV([-1, 0, 0])),
   };
   const restL = {
     fr: frame(
-      worldV([0.9, 0.05, -0.4]),
-      cross3([0, 0, 1], norm3(worldV([0.9, 0.05, -0.4]))),
+      worldV([0.15, -1, -0.05]),
+      cross3([0, 0, 1], norm3(worldV([0.15, -1, -0.05]))),
     ),
   };
   const lFr = blendFrame(restL.fr, hangL.fr, st);
@@ -686,7 +684,7 @@ const buildModel = (pose: HoloPose): Model => {
     -1,
     lerp(0.8, 0.6, st),
     0.5,
-    lerp3(worldV([-0.3, 0.6, -0.2]), worldV([-0.6, 0.3, -0.2]), st),
+    lerp3(worldV([0.2, 0.8, -0.6]), worldV([-0.6, 0.3, -0.2]), st),
   );
 
   const HA: Axes = [hf, hs, hu];
