@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Differential Growth Count</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0e0e0e; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+  #hud {
+    position: fixed; left: 12px; bottom: 10px;
+    font: 11px/1.5 ui-monospace, Menlo, monospace; color: #77746c;
+    pointer-events: none; user-select: none; white-space: pre;
+  }
+  #gui {
+    position: fixed; top: 10px; right: 10px; width: 250px;
+    max-height: calc(100vh - 20px); overflow-y: auto;
+    background: rgba(24, 24, 22, 0.88); border: 1px solid #2c2b28; border-radius: 6px;
+    font: 11px/1.4 ui-monospace, Menlo, monospace; color: #bdb8ac;
+    padding: 8px 10px; box-sizing: border-box;
+  }
+  #gui.hidden, #hud.hidden { display: none; }
+  #gui h4 { margin: 10px 0 4px; font-size: 10px; font-weight: normal; color: #6f6b62; text-transform: uppercase; letter-spacing: .08em; }
+  #gui h4:first-child { margin-top: 0; }
+  .row { display: grid; grid-template-columns: 74px 1fr 46px; align-items: center; gap: 6px; margin: 3px 0; }
+  .row output { text-align: right; color: #efe9da; }
+  .row input[type=range] { width: 100%; margin: 0; accent-color: #d8cfb8; }
+  .row input[type=color] { width: 100%; height: 18px; margin: 0; padding: 0; border: 1px solid #3a3934; border-radius: 3px; background: none; cursor: pointer; }
+  #gui select, #gui button {
+    font: inherit; color: #efe9da; background: #2a2926; border: 1px solid #3a3934;
+    border-radius: 4px; padding: 3px 6px;
+  }
+  #gui select { width: 100%; }
+  .btns { display: flex; gap: 6px; margin-top: 10px; }
+  .btns button { flex: 1; cursor: pointer; }
+  .btns button:hover { background: #34332f; }
+  @media (max-width: 520px) { #gui { width: calc(100vw - 20px); max-height: 45vh; } }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="gui" class="hidden"></div>
+<div id="hud" class="hidden"></div>
+<script>
+(() => {
+  'use strict';
+
+  // ---- parameters (world units: glyph sits in a WORLD x WORLD square) ----
+  const WORLD = 1000;
+  const DIGITS = '0123456789';
+  const CAP_N = 60000;        // buffer capacity (upper bound of the maxN slider)
+  const MIN_R = 3;            // lower bound of the R slider (sizes the grid)
+  const MODES = ['outside', 'free', 'inside'];
+
+  const P = {
+    mode: 0,
+    fontPx: 700,
+    erode: 3,         // 'outside' mode: how far growth may sink into the glyph
+    dilate: 14,       // 'inside' mode: how far growth may leave the outline
+    L: 6,             // rest edge length
+    split: 1.6,       // split edges longer than L * split
+    R: 17,            // repulsion radius (= grid cell size)
+    kSpring: 0.25,
+    kAlign: 0.35,
+    kRep: 0.6,
+    maxStep: 1.2,
+    pInsert: 0.0025,  // random insertion probability per edge per step
+    maxN: 8000,
+    steps: 1,         // simulation steps per frame
+    lineW: 1.1,       // css px
+    smooth: 1,        // 1 = midpoint quadratic beziers, 0 = polyline
+    guide: 1,         // 1 = draw horizontal / vertical guide lines through the centre
+    fill: 1,          // 1 = fill the closed loops when the second changes
+    fillColor: '#ffffff',
+    fillAlpha: 0.2,     // opacity of the fill at the second change (it fades from here to 0)
+    fillFade: 0.3,   // seconds the fill takes to fade out after the morph
+    shrink: false,    // true = stop growing, remove nodes and return to the current digit
+    pRemove: 0.03,    // removal probability per node per frame while shrinking / morphing
+    kHome: 0.04,      // pull toward each node's home
+    v0: 5,            // |initial velocity| given in a random direction at the start of each digit
+    damping: 0.95,    // velocity is multiplied by this every step
+    clock: true,      // follow the ones digit of the wall-clock seconds
+    morphSec: 0.1,    // duration of the morph to the next digit
+    presets: true,    // cycle through PRESETS every 10 s
+  };
+
+  // applied in turn every 10 s, aligned to the clock: :00-:09 -> 0, :10-:19 -> 1, :20-:29 -> 2, ...
+  // (only the listed keys change; anything else keeps its GUI value)
+  const PRESETS = [
+    { name: 'scribble', mode: 0, v0: 5, damping: 0.95, pInsert: 0.0025, L: 6, R: 17, kRep: 0.6, kAlign: 0.35, maxStep: 1.2 },
+    { name: 'scribble1', mode: 0, v0: 8, damping: 0.9, pInsert: 0.0025, L: 6, R: 14, kRep: 0.6, kAlign: 0.35, maxStep: 1.2 },
+    { name: 'scribble2', mode: 0, v0: 12, damping: 0.85, pInsert: 0.0025, L: 6, R: 12, kRep: 0.6, kAlign: 0.35, maxStep: 1.2 },
+  ];
+  let presetIdx = -1;
+  const presetFor = () => Math.floor(new Date().getSeconds() / 10) % PRESETS.length;
+
+  function applyPreset(i) {
+    presetIdx = i;
+    const { name, ...values } = PRESETS[i];
+    Object.assign(P, values);
+    syncGui();
+  }
+
+  // ---- buffers (preallocated at capacity, no per-frame allocation) ----
+  let X = new Float32Array(CAP_N), Y = new Float32Array(CAP_N);
+  let X2 = new Float32Array(CAP_N), Y2 = new Float32Array(CAP_N);
+  // home = where the node belongs on the target outline (inserted nodes take the midpoint)
+  let HX = new Float32Array(CAP_N), HY = new Float32Array(CAP_N);
+  let HX2 = new Float32Array(CAP_N), HY2 = new Float32Array(CAP_N);
+  // 1 = default node of the outline: never removed, returns exactly to its home
+  let O = new Uint8Array(CAP_N), O2 = new Uint8Array(CAP_N);
+  // velocity: only carries the random kick, decays by P.damping every step
+  let VX = new Float32Array(CAP_N), VY = new Float32Array(CAP_N);
+  let VX2 = new Float32Array(CAP_N), VY2 = new Float32Array(CAP_N);
+  const FX = new Float32Array(CAP_N), FY = new Float32Array(CAP_N);
+  // positions at the start of a morph
+  const SX = new Float32Array(CAP_N), SY = new Float32Array(CAP_N);
+  const GMAX = Math.ceil(WORLD / MIN_R);
+  const head = new Int32Array(GMAX * GMAX);
+  const nextI = new Int32Array(CAP_N);
+  let n = 0, origN = 0;
+
+  // ---- loops ----
+  // every digit is up to 3 independent closed loops: outer outline, upper hole, lower hole.
+  // all 3 always exist in the arrays (contiguous, in slot order); a slot the digit lacks is
+  // hidden (vis = false): collapsed to a point, not simulated, not drawn
+  const SLOTS = 3;
+  let LID = new Uint8Array(CAP_N), LID2 = new Uint8Array(CAP_N); // slot of each node
+  const LS = new Int32Array(SLOTS), LE = new Int32Array(SLOTS);  // [start, end) of each slot
+  let vis = [true, false, false], visNext = vis;
+
+  function ranges() {
+    let i = 0;
+    for (let l = 0; l < SLOTS; l++) {
+      LS[l] = i;
+      while (i < n && LID[i] === l) i++;
+      LE[l] = i;
+    }
+  }
+
+  // ---- glyphs ----
+  function rasterize(ch, dilate) {
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = WORLD;
+    const g = cv.getContext('2d', { willReadFrequently: true });
+    g.font = `900 ${P.fontPx}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
+    g.textAlign = 'center';
+    g.textBaseline = 'alphabetic';
+    const m = g.measureText(ch);
+    const x = WORLD / 2 + (m.actualBoundingBoxLeft - m.actualBoundingBoxRight) / 2;
+    const y = WORLD / 2 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+    g.fillStyle = g.strokeStyle = '#fff';
+    g.fillText(ch, x, y);
+    if (dilate !== 0) {
+      // negative = erode: cut the stroke away from the fill
+      if (dilate < 0) g.globalCompositeOperation = 'destination-out';
+      g.lineJoin = 'round';
+      g.lineWidth = Math.abs(dilate) * 2;
+      g.strokeText(ch, x, y);
+    }
+    const d = g.getImageData(0, 0, WORLD, WORLD).data;
+    const bin = new Uint8Array(WORLD * WORLD);
+    for (let i = 0; i < bin.length; i++) bin[i] = d[i * 4 + 3] > 127 ? 1 : 0;
+    return bin;
+  }
+
+  // Moore-neighbour contour tracing (clockwise, y down), Jacob's stopping criterion
+  function trace(bin) {
+    const W = WORLD, H = WORLD;
+    let s = bin.indexOf(1);
+    if (s < 0) return [];
+    const DX = [-1, -1, 0, 1, 1, 1, 0, -1];
+    const DY = [0, -1, -1, -1, 0, 1, 1, 1];
+    const DIR = new Int8Array(9);
+    for (let d = 0; d < 8; d++) DIR[(DX[d] + 1) * 3 + DY[d] + 1] = d;
+    const sx = s % W, sy = (s / W) | 0;
+    let px = sx, py = sy, bd = 0, firstD = -1;
+    const pts = [];
+    for (let it = 0; it < 1e6; it++) {
+      let found = -1;
+      for (let k = 1; k <= 8; k++) {
+        const d = (bd + k) & 7, nx = px + DX[d], ny = py + DY[d];
+        if (nx >= 0 && ny >= 0 && nx < W && ny < H && bin[ny * W + nx]) { found = d; break; }
+      }
+      if (found < 0) break;
+      if (px === sx && py === sy) {
+        if (firstD < 0) firstD = found;
+        else if (found === firstD) break;
+      }
+      const pd = (found + 7) & 7;
+      const bx = px + DX[pd], by = py + DY[pd];
+      px += DX[found]; py += DY[found];
+      bd = DIR[(bx - px + 1) * 3 + by - py + 1];
+      pts.push(px + 0.5, py + 0.5);
+    }
+    return pts;
+  }
+
+  // background regions not touching the border = holes (0, 4, 6, 8, 9), one bitmap each,
+  // in scan order (topmost first)
+  function holes(bin) {
+    const W = WORLD, N = W * W;
+    const lab = new Int32Array(N), stack = new Int32Array(N);
+    const out = [];
+    let id = 0;
+    for (let s = 0; s < N; s++) {
+      if (bin[s] || lab[s]) continue;
+      id++;
+      let sp = 0, border = false, count = 0;
+      stack[sp++] = s; lab[s] = id;
+      while (sp) {
+        const i = stack[--sp], x = i % W, y = (i / W) | 0;
+        count++;
+        if (x === 0 || y === 0 || x === W - 1 || y === W - 1) border = true;
+        if (x > 0 && !bin[i - 1] && !lab[i - 1]) { lab[i - 1] = id; stack[sp++] = i - 1; }
+        if (x < W - 1 && !bin[i + 1] && !lab[i + 1]) { lab[i + 1] = id; stack[sp++] = i + 1; }
+        if (y > 0 && !bin[i - W] && !lab[i - W]) { lab[i - W] = id; stack[sp++] = i - W; }
+        if (y < W - 1 && !bin[i + W] && !lab[i + W]) { lab[i + W] = id; stack[sp++] = i + W; }
+      }
+      if (!border && count > 30) {
+        const h = new Uint8Array(N);
+        for (let i = 0; i < N; i++) h[i] = lab[i] === id ? 1 : 0;
+        out.push(h);
+      }
+    }
+    return out;
+  }
+
+  // moving average over a closed loop of [x, y, x, y, ...]
+  function smoothLoop(pts) {
+    const m = pts.length >> 1, win = 4, out = new Array(m * 2);
+    for (let i = 0; i < m; i++) {
+      let ax = 0, ay = 0;
+      for (let k = -win; k <= win; k++) {
+        const j = (i + k + m) % m;
+        ax += pts[j * 2]; ay += pts[j * 2 + 1];
+      }
+      out[i * 2] = ax / (win * 2 + 1); out[i * 2 + 1] = ay / (win * 2 + 1);
+    }
+    return out;
+  }
+
+  function perimeter(loop) {
+    const m = loop.length >> 1;
+    let s = 0;
+    for (let i = 0; i < m; i++) {
+      const j = (i + 1) % m;
+      s += Math.hypot(loop[j * 2] - loop[i * 2], loop[j * 2 + 1] - loop[i * 2 + 1]);
+    }
+    return s;
+  }
+
+  // exactly N points evenly spaced along the loop
+  function resample(loop, N) {
+    const m = loop.length >> 1, step = perimeter(loop) / N;
+    const x = new Float32Array(N), y = new Float32Array(N);
+    let k = 0, carry = 0;
+    for (let i = 0; i < m && k < N; i++) {
+      const j = (i + 1) % m;
+      const dx = loop[j * 2] - loop[i * 2], dy = loop[j * 2 + 1] - loop[i * 2 + 1];
+      const seg = Math.hypot(dx, dy);
+      let t = carry;
+      while (t < seg && k < N) {
+        const u = t / seg;
+        x[k] = loop[i * 2] + dx * u; y[k] = loop[i * 2 + 1] + dy * u; k++;
+        t += step;
+      }
+      carry = t - seg;
+    }
+    for (; k < N; k++) { x[k] = x[k - 1]; y[k] = y[k - 1]; } // float rounding guard
+    return { x, y };
+  }
+
+  // SHAPES[digit][slot] = outline resampled to NS[slot] points, or null if the digit has no
+  // such loop. Each slot has the same default-node count in every digit, so they morph 1:1
+  let SHAPES = [], NS = [0, 0, 0];
+  function buildDigits() {
+    const raw = [], per = [[], [], []];
+    for (const ch of DIGITS) {
+      const solid = rasterize(ch, 0);
+      const loops = [smoothLoop(trace(solid))];
+      for (const h of holes(solid).slice(0, SLOTS - 1)) loops.push(smoothLoop(trace(h)));
+      loops.forEach((l, k) => per[k].push(perimeter(l)));
+      raw.push(loops);
+    }
+    NS = per.map(p => p.length ? Math.max(8, Math.round(p.reduce((a, b) => a + b, 0) / p.length / P.L)) : 8);
+    SHAPES = raw.map(loops => NS.map((N, k) => loops[k] ? resample(loops[k], N) : null));
+    maskCache = [];
+  }
+
+  function centroid(xs, ys, idx, count) {
+    let cx = 0, cy = 0;
+    for (let j = 0; j < count; j++) { cx += xs[idx(j)]; cy += ys[idx(j)]; }
+    return [cx / count, cy / count];
+  }
+
+  // confinement bitmaps, built lazily per digit
+  let maskCache = [], mask, core;
+  function useMasks(d) {
+    if (!maskCache[d]) maskCache[d] = { mask: rasterize(DIGITS[d], P.dilate), core: rasterize(DIGITS[d], -P.erode) };
+    ({ mask, core } = maskCache[d]);
+  }
+  // build the remaining digits' masks one per idle slot, so digit changes don't hitch
+  function warmMasks(d = 0) {
+    if (d >= DIGITS.length) return;
+    const idle = window.requestIdleCallback || (f => setTimeout(f, 50));
+    idle(() => {
+      if (!maskCache[d]) maskCache[d] = { mask: rasterize(DIGITS[d], P.dilate), core: rasterize(DIGITS[d], -P.erode) };
+      warmMasks(d + 1);
+    });
+  }
+
+  // ---- clock / morph state ----
+  let cur = 0, target = 0, morphing = false, morphT0 = 0, morphEndT = -Infinity;
+  const clockDigit = () => new Date().getSeconds() % 10;
+
+  // independent random direction per node (same as growth-2.html); hidden loops stay still
+  function kick() {
+    for (let i = 0; i < n; i++) {
+      if (!vis[LID[i]]) { VX[i] = VY[i] = 0; continue; }
+      const a = Math.random() * Math.PI * 2;
+      VX[i] = Math.cos(a) * P.v0; VY[i] = Math.sin(a) * P.v0;
+    }
+  }
+
+  function loadDigit(d) {
+    const sh = SHAPES[d], outer = sh[0];
+    const c = centroid(outer.x, outer.y, j => j, NS[0]);
+    n = 0;
+    for (let l = 0; l < SLOTS; l++) {
+      const s = sh[l];
+      for (let k = 0; k < NS[l]; k++, n++) {
+        X[n] = HX[n] = s ? s.x[k] : c[0];
+        Y[n] = HY[n] = s ? s.y[k] : c[1];
+        O[n] = 1; LID[n] = l;
+      }
+    }
+    origN = n;
+    ranges();
+    vis = visNext = sh.map(Boolean);
+    cur = target = d;
+    morphing = false;
+    useMasks(d);
+    kick();
+  }
+
+  // retarget homes to digit d, loop by loop: defaults get its outline (rotated to the closest
+  // match), grown nodes are spread on the chords between their neighbouring defaults, so at the
+  // end of the morph they lie on the new outline and can be dropped without a visible jump.
+  // A hole that appears grows out of its own centre; one that disappears shrinks into its centre
+  function beginMorph(d, now) {
+    const sh = SHAPES[d];
+    visNext = sh.map(Boolean);
+    for (let l = 0; l < SLOTS; l++) {
+      const s = sh[l], a0 = LS[l], a1 = LE[l], N = NS[l];
+      if (!vis[l] && !s) continue;
+      const D = new Int32Array(N);
+      let c = 0;
+      for (let i = a0; i < a1 && c < N; i++) if (O[i]) D[c++] = i;
+
+      if (!vis[l]) {
+        const p = centroid(s.x, s.y, j => j, N);
+        for (let i = a0; i < a1; i++) { X[i] = HX[i] = p[0]; Y[i] = HY[i] = p[1]; VX[i] = VY[i] = 0; }
+      }
+
+      let bestK = 0;
+      if (s && vis[l]) {
+        let best = Infinity;
+        for (let k = 0; k < N; k++) {
+          let e = 0;
+          for (let j = 0; j < N; j += 4) {
+            const t = (j + k) % N, dx = HX[D[j]] - s.x[t], dy = HY[D[j]] - s.y[t];
+            e += dx * dx + dy * dy;
+          }
+          if (e < best) { best = e; bestK = k; }
+        }
+      }
+      const p = s ? null : centroid(HX, HY, j => D[j], N);
+      for (let j = 0; j < N; j++) {
+        const t = (j + bestK) % N;
+        HX[D[j]] = s ? s.x[t] : p[0];
+        HY[D[j]] = s ? s.y[t] : p[1];
+      }
+      for (let j = 0; j < N; j++) {
+        const a = D[j], b = j === N - 1 ? a1 : D[j + 1];
+        const bi = b === a1 ? D[0] : b;
+        for (let i = a + 1; i < b; i++) {
+          const f = (i - a) / (b - a);
+          HX[i] = HX[a] + (HX[bi] - HX[a]) * f;
+          HY[i] = HY[a] + (HY[bi] - HY[a]) * f;
+        }
+      }
+      vis[l] = true; // draw it while it morphs, even if it is about to vanish
+    }
+    SX.set(X.subarray(0, n));
+    SY.set(Y.subarray(0, n));
+    target = d;
+    morphing = true;
+    morphT0 = now;
+  }
+
+  // time-based: ease every node from its start position to its home
+  function stepMorph(now) {
+    const t = Math.min(1, (now - morphT0) / (P.morphSec * 1000));
+    const e = t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t);
+    for (let i = 0; i < n; i++) {
+      X[i] = SX[i] + (HX[i] - SX[i]) * e;
+      Y[i] = SY[i] + (HY[i] - SY[i]) * e;
+    }
+    if (t >= 1) finishMorph();
+  }
+
+  function finishMorph() {
+    let m = 0;
+    for (let i = 0; i < n; i++) if (O[i]) copy(i, m++);
+    swap();
+    n = m;
+    ranges();
+    vis = visNext;
+    cur = target;
+    morphing = false;
+    morphEndT = performance.now();
+    useMasks(cur);
+    kick();
+  }
+
+  // ---- simulation ----
+  let paused = false, running = false;
+
+  function relax() {
+    const R = P.R, R2 = R * R, L = P.L;
+    const G = Math.ceil(WORLD / R);
+    const kS = P.kSpring, kA = P.kAlign, kR = P.kRep / R, ms = P.maxStep;
+    const kH = P.shrink ? P.kHome : 0;
+
+    // only default nodes left: ease them straight home (other forces would bend the outline)
+    if (P.shrink && n === origN) {
+      const e = Math.max(kH, 0.05);
+      for (let i = 0; i < n; i++) { X[i] += (HX[i] - X[i]) * e; Y[i] += (HY[i] - Y[i]) * e; }
+      return;
+    }
+    head.fill(-1, 0, G * G);
+    for (let i = 0; i < n; i++) {
+      if (!vis[LID[i]]) continue;
+      let cx = (X[i] / R) | 0, cy = (Y[i] / R) | 0;
+      cx = cx < 0 ? 0 : cx >= G ? G - 1 : cx;
+      cy = cy < 0 ? 0 : cy >= G ? G - 1 : cy;
+      const c = cy * G + cx;
+      nextI[i] = head[c]; head[c] = i;
+    }
+
+    for (let i = 0; i < n; i++) {
+      const l = LID[i];
+      if (!vis[l]) { FX[i] = FY[i] = 0; continue; }
+      const x = X[i], y = Y[i];
+      const a = i === LS[l] ? LE[l] - 1 : i - 1;
+      const b = i === LE[l] - 1 ? LS[l] : i + 1;
+      let fx = ((X[a] + X[b]) * 0.5 - x) * kA;
+      let fy = ((Y[a] + Y[b]) * 0.5 - y) * kA;
+
+      let dx = X[a] - x, dy = Y[a] - y, d = Math.sqrt(dx * dx + dy * dy);
+      if (d > 1e-6) { const s = (d - L) / d * kS; fx += dx * s; fy += dy * s; }
+      dx = X[b] - x; dy = Y[b] - y; d = Math.sqrt(dx * dx + dy * dy);
+      if (d > 1e-6) { const s = (d - L) / d * kS; fx += dx * s; fy += dy * s; }
+
+      const cx = (x / R) | 0, cy = (y / R) | 0;
+      const x0 = cx > 0 ? cx - 1 : 0, x1 = cx < G - 1 ? cx + 1 : G - 1;
+      const y0 = cy > 0 ? cy - 1 : 0, y1 = cy < G - 1 ? cy + 1 : G - 1;
+      for (let gy = y0; gy <= y1; gy++) {
+        const row = gy * G;
+        for (let gx = x0; gx <= x1; gx++) {
+          for (let j = head[row + gx]; j >= 0; j = nextI[j]) {
+            if (j === i) continue;
+            const rx = x - X[j], ry = y - Y[j];
+            const d2 = rx * rx + ry * ry;
+            if (d2 < R2 && d2 > 1e-6) {
+              const dd = Math.sqrt(d2);
+              const s = (R - dd) / dd * kR;
+              fx += rx * s; fy += ry * s;
+            }
+          }
+        }
+      }
+
+      if (kH > 0) { fx += (HX[i] - x) * kH; fy += (HY[i] - y) * kH; }
+
+      const m2 = fx * fx + fy * fy;
+      if (m2 > ms * ms) { const s = ms / Math.sqrt(m2); fx *= s; fy *= s; }
+      FX[i] = fx; FY[i] = fy;
+    }
+
+    const mode = P.mode, damp = P.damping;
+    for (let i = 0; i < n; i++) {
+      if (!vis[LID[i]]) continue;
+      const vx = VX[i], vy = VY[i];
+      VX[i] = vx * damp; VY[i] = vy * damp;
+      const nx = X[i] + FX[i] + vx, ny = Y[i] + FY[i] + vy;
+      let blocked = nx < 1 || ny < 1 || nx >= WORLD - 1 || ny >= WORLD - 1;
+      if (!blocked) {
+        const k = (ny | 0) * WORLD + (nx | 0);
+        blocked = mode === 0 ? core[k] : mode === 2 && !mask[k];
+      }
+      if (blocked) { VX[i] = VY[i] = 0; continue; }
+      X[i] = nx; Y[i] = ny;
+    }
+  }
+
+  // split long edges and randomly insert nodes; writes into the back buffers, then swaps.
+  // Every existing node is always copied (the cap only limits insertions), so no loop is cut
+  function grow() {
+    const split2 = (P.L * P.split) ** 2, pIns = P.pInsert, maxN = P.maxN;
+    let m = 0;
+    for (let i = 0; i < n; i++) {
+      const l = LID[i];
+      const j = i === LE[l] - 1 ? LS[l] : i + 1;
+      copy(i, m++);
+      if (!vis[l] || m + (n - i) > maxN) continue;
+      const dx = X[j] - X[i], dy = Y[j] - Y[i];
+      if (dx * dx + dy * dy > split2 || Math.random() < pIns) {
+        X2[m] = X[i] + dx * 0.5; Y2[m] = Y[i] + dy * 0.5;
+        HX2[m] = (HX[i] + HX[j]) * 0.5; HY2[m] = (HY[i] + HY[j]) * 0.5;
+        VX2[m] = (VX[i] + VX[j]) * 0.5; VY2[m] = (VY[i] + VY[j]) * 0.5;
+        O2[m] = 0; LID2[m] = l;
+        m++;
+      }
+    }
+    swap();
+    n = m;
+    ranges();
+  }
+
+  // randomly remove grown nodes; default nodes are always kept, so only they remain
+  // (manual 'shrink' back to the current digit)
+  function shrink() {
+    const pr = P.pRemove;
+    let m = 0;
+    for (let i = 0; i < n; i++) {
+      if (!O[i] && Math.random() < pr) continue;
+      copy(i, m++);
+    }
+    swap();
+    n = m;
+    ranges();
+  }
+
+  // front buffer node i -> back buffer slot m
+  function copy(i, m) {
+    X2[m] = X[i]; Y2[m] = Y[i]; HX2[m] = HX[i]; HY2[m] = HY[i];
+    VX2[m] = VX[i]; VY2[m] = VY[i]; O2[m] = O[i]; LID2[m] = LID[i];
+  }
+
+  function swap() {
+    let t = X; X = X2; X2 = t;
+    t = Y; Y = Y2; Y2 = t;
+    t = HX; HX = HX2; HX2 = t;
+    t = HY; HY = HY2; HY2 = t;
+    t = VX; VX = VX2; VX2 = t;
+    t = VY; VY = VY2; VY2 = t;
+    let o = O; O = O2; O2 = o;
+    o = LID; LID = LID2; LID2 = o;
+  }
+
+  // ---- rendering ----
+  const cv = document.getElementById('c');
+  const ctx = cv.getContext('2d', { alpha: false });
+  const hud = document.getElementById('hud');
+  let dpr = 1, scale = 1, ox = 0, oy = 0;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * dpr);
+    cv.height = Math.round(innerHeight * dpr);
+    scale = Math.min(cv.width, cv.height) / WORLD * 0.94;
+    ox = (cv.width - WORLD * scale) / 2;
+    oy = (cv.height - WORLD * scale) / 2;
+    draw();
+  }
+
+  function draw() {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = '#0e0e0e';
+    ctx.fillRect(0, 0, cv.width, cv.height);
+    if (P.guide) {
+      // crosshair through the world centre, across the whole canvas
+      const cx = Math.round(ox + WORLD / 2 * scale) + 0.5, cy = Math.round(oy + WORLD / 2 * scale) + 0.5;
+      ctx.beginPath();
+      ctx.moveTo(0, cy); ctx.lineTo(cv.width, cy);
+      ctx.moveTo(cx, 0); ctx.lineTo(cx, cv.height);
+      ctx.lineWidth = dpr;
+      ctx.strokeStyle = 'rgba(239, 233, 218, 0.18)';
+      ctx.stroke();
+    }
+    if (n < 2) return;
+    ctx.setTransform(scale, 0, 0, scale, ox, oy);
+    ctx.beginPath();
+    for (let l = 0; l < SLOTS; l++) {
+      const a = LS[l], e = LE[l];
+      if (!vis[l] || e - a < 2) continue;
+      if (P.smooth) {
+        // quadratic beziers between edge midpoints, nodes as control points
+        // (stays inside the control polygon, so no overshoot into neighbours)
+        let mx = (X[e - 1] + X[a]) * 0.5, my = (Y[e - 1] + Y[a]) * 0.5;
+        ctx.moveTo(mx, my);
+        for (let i = a; i < e; i++) {
+          const j = i === e - 1 ? a : i + 1;
+          mx = (X[i] + X[j]) * 0.5; my = (Y[i] + Y[j]) * 0.5;
+          ctx.quadraticCurveTo(X[i], Y[i], mx, my);
+        }
+      } else {
+        ctx.moveTo(X[a], Y[a]);
+        for (let i = a + 1; i < e; i++) ctx.lineTo(X[i], Y[i]);
+      }
+      ctx.closePath();
+    }
+    // fill only around the second change: solid while morphing, then fading out.
+    // evenodd keeps the holes (0, 4, 6, 8, 9) empty
+    const fa = !P.fill ? 0 : morphing ? 1 : 1 - (performance.now() - morphEndT) / (P.fillFade * 1000);
+    if (fa > 0 && P.fillAlpha > 0) {
+      ctx.globalAlpha = P.fillAlpha * Math.min(1, fa);
+      ctx.fillStyle = P.fillColor;
+      ctx.fill('evenodd');
+      ctx.globalAlpha = 1;
+    }
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = P.lineW * dpr / scale;
+    ctx.strokeStyle = '#efe9da';
+    ctx.stroke();
+  }
+
+  let frames = 0, lastT = performance.now(), fps = 0;
+  function updateHud(now) {
+    frames++;
+    if (now - lastT >= 500) {
+      fps = Math.round(frames * 1000 / (now - lastT));
+      frames = 0; lastT = now;
+      const state = paused ? 'paused'
+        : morphing ? `morphing ${DIGITS[cur]} → ${DIGITS[target]}`
+        : P.shrink ? 'shrinking' : n >= P.maxN ? 'relaxing' : 'growing';
+      hud.textContent =
+        `digit ${DIGITS[cur]}   nodes ${n} / ${P.maxN}   ${fps} fps   ${state}   mode ${MODES[P.mode]}` +
+        `   preset ${P.presets ? PRESETS[presetIdx]?.name : 'off'}\n` +
+        `click: restart   space: pause   n: next   a: clock   p: presets   s: shrink   c: mode   d: gui`;
+    }
+  }
+
+  function frame(now) {
+    if (!paused) {
+      if (P.presets) {
+        const p = presetFor();
+        if (p !== presetIdx) applyPreset(p);
+      }
+      if (!morphing && P.clock) {
+        const d = clockDigit();
+        if (d !== cur) beginMorph(d, now);
+      }
+      if (morphing) stepMorph(now);
+      else {
+        for (let s = 0; s < P.steps; s++) {
+          if (P.shrink) shrink();
+          else if (n < P.maxN) grow();
+          relax();
+        }
+      }
+      draw();
+    }
+    updateHud(now);
+    requestAnimationFrame(frame);
+  }
+
+  function start() {
+    if (!running) { running = true; requestAnimationFrame(frame); }
+  }
+
+  // redraw while paused so live parameter changes (e.g. line width) show up
+  function nudge() {
+    if (paused) draw();
+  }
+
+  function restart() {
+    loadDigit(P.clock ? clockDigit() : 0);
+    paused = false;
+    syncPause();
+    draw();
+    start();
+  }
+
+  // manual step (only meaningful with the clock off, otherwise the clock pulls it back)
+  function next() {
+    if (!morphing) beginMorph((cur + 1) % 10, performance.now());
+  }
+
+  // ---- GUI ----
+  // on: 'live' = applies immediately, 'glyph' = rebuild digits + restart, 'masks' = rebuild masks
+  const SPEC = [
+    ['Clock'],
+    ['morphSec', 'morph sec', 0.02, 0.9, 0.01, 'live'],
+    ['Glyph'],
+    ['fontPx', 'size', 200, 900, 10, 'glyph'],
+    ['erode', 'erode', 0, 40, 1, 'masks'],
+    ['dilate', 'dilate', 0, 80, 1, 'masks'],
+    ['Growth'],
+    ['pInsert', 'insert', 0, 0.02, 0.0005, 'live'],
+    ['maxN', 'max nodes', 1000, CAP_N, 1000, 'live'],
+    ['L', 'edge len', 1.5, 10, 0.1, 'live'],
+    ['split', 'split ×', 1.1, 3, 0.05, 'live'],
+    ['Shrink / Morph'],
+    ['pRemove', 'remove', 0, 0.2, 0.005, 'live'],
+    ['kHome', 'home k', 0, 0.3, 0.005, 'live'],
+    ['Velocity'],
+    ['v0', '|v0|', 0, 10, 0.1, 'live'],
+    ['damping', 'damping', 0.8, 1, 0.005, 'live'],
+    ['Forces'],
+    ['R', 'repel R', MIN_R, 30, 0.5, 'live'],
+    ['kRep', 'repel k', 0, 2, 0.01, 'live'],
+    ['kSpring', 'spring k', 0, 1, 0.01, 'live'],
+    ['kAlign', 'align k', 0, 1, 0.01, 'live'],
+    ['maxStep', 'max step', 0.1, 5, 0.1, 'live'],
+    ['Render'],
+    ['steps', 'steps/frame', 1, 6, 1, 'live'],
+    ['lineW', 'line px', 0.3, 4, 0.1, 'live'],
+    ['smooth', 'smooth', 0, 1, 1, 'live'],
+    ['guide', 'guide', 0, 1, 1, 'live'],
+    ['fill', 'fill', 0, 1, 1, 'live'],
+    ['fillColor', 'fill color', 'color'],
+    ['fillAlpha', 'fill alpha', 0, 1, 0.01, 'live'],
+    ['fillFade', 'fill fade', 0, 1, 0.01, 'live'],
+  ];
+
+  const gui = document.getElementById('gui');
+  let pauseBtn, shrinkBtn, clockBtn, presetsBtn, modeSel;
+  const ctl = {}; // key -> { input, out, dec } so presets can update the sliders
+  const syncGui = () => {
+    for (const k in ctl) {
+      const c = ctl[k];
+      c.input.value = P[k];
+      c.out.textContent = P[k].toFixed(c.dec);
+    }
+    if (modeSel) modeSel.value = P.mode;
+  };
+  const syncPause = () => { if (pauseBtn) pauseBtn.textContent = paused ? 'resume' : 'pause'; };
+  const syncFlag = (btn, on, label) => {
+    btn.textContent = `${label}: ${on ? 'on' : 'off'}`;
+    btn.style.borderColor = on ? '#d8cfb8' : '';
+  };
+  const syncShrink = () => syncFlag(shrinkBtn, P.shrink, 'shrink');
+  const syncClock = () => syncFlag(clockBtn, P.clock, 'clock');
+  const syncPresets = () => syncFlag(presetsBtn, P.presets, 'presets');
+
+  function button(label, fn) {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.onclick = () => { b.blur(); fn(); };
+    return b;
+  }
+
+  function colorRow(key, label) {
+    const row = document.createElement('label');
+    row.className = 'row';
+    row.innerHTML = `<span>${label}</span><input type="color"><output></output>`;
+    const input = row.querySelector('input'), out = row.querySelector('output');
+    input.value = out.textContent = P[key];
+    input.oninput = () => { P[key] = out.textContent = input.value; nudge(); };
+    input.onchange = () => input.blur();
+    return row;
+  }
+
+  function buildGui() {
+    const h = document.createElement('h4');
+    h.textContent = 'Mode';
+    gui.appendChild(h);
+    const sel = modeSel = document.createElement('select');
+    MODES.forEach((m, i) => sel.add(new Option(m, i)));
+    sel.value = P.mode;
+    sel.onchange = () => { P.mode = +sel.value; sel.blur(); nudge(); };
+    gui.appendChild(sel);
+
+    for (const s of SPEC) {
+      if (s.length === 1) {
+        const t = document.createElement('h4');
+        t.textContent = s[0];
+        gui.appendChild(t);
+        continue;
+      }
+      if (s[2] === 'color') { gui.appendChild(colorRow(s[0], s[1])); continue; }
+      const [key, label, min, max, step, on] = s;
+      const dec = Math.max(0, (String(step).split('.')[1] || '').length);
+      const row = document.createElement('label');
+      row.className = 'row';
+      row.innerHTML = `<span>${label}</span><input type="range"><output></output>`;
+      const input = row.querySelector('input'), out = row.querySelector('output');
+      Object.assign(input, { min, max, step, value: P[key] });
+      out.textContent = P[key].toFixed(dec);
+      ctl[key] = { input, out, dec };
+      let timer = 0;
+      input.onchange = () => input.blur(); // give keyboard shortcuts back
+      input.oninput = () => {
+        P[key] = +input.value;
+        out.textContent = P[key].toFixed(dec);
+        if (on === 'live') { nudge(); return; }
+        // rasterizing is ~tens of ms per bitmap; debounce while dragging
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          if (on === 'glyph') { buildDigits(); restart(); }
+          else { maskCache = []; useMasks(cur); nudge(); }
+          warmMasks();
+        }, 150);
+      };
+      gui.appendChild(row);
+    }
+
+    const row1 = document.createElement('div');
+    row1.className = 'btns';
+    pauseBtn = button('', togglePause);
+    syncPause();
+    row1.append(button('restart', restart), pauseBtn, button('next', next));
+    const row2 = document.createElement('div');
+    row2.className = 'btns';
+    clockBtn = button('', toggleClock);
+    shrinkBtn = button('', toggleShrink);
+    presetsBtn = button('', togglePresets);
+    syncClock();
+    syncShrink();
+    syncPresets();
+    row2.append(clockBtn, presetsBtn, shrinkBtn);
+    gui.append(row1, row2);
+  }
+
+  function toggleShrink() { P.shrink = !P.shrink; syncShrink(); }
+  function toggleClock() { P.clock = !P.clock; syncClock(); }
+  function togglePresets() { P.presets = !P.presets; presetIdx = -1; syncPresets(); }
+  function togglePause() { paused = !paused; syncPause(); }
+
+  addEventListener('resize', resize);
+  cv.addEventListener('click', restart);
+  addEventListener('keydown', e => {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
+    if (e.code === 'Space') { togglePause(); e.preventDefault(); }
+    else if (e.key === 'c' || e.key === 'C') {
+      P.mode = (P.mode + 1) % MODES.length;
+      gui.querySelector('select').value = P.mode;
+      nudge();
+    }
+    else if (e.key === 'r' || e.key === 'R') restart();
+    else if (e.key === 'n' || e.key === 'N') next();
+    else if (e.key === 'a' || e.key === 'A') toggleClock();
+    else if (e.code === 'KeyP') togglePresets();
+    else if (e.key === 's' || e.key === 'S') toggleShrink();
+    else if (e.code === 'KeyD' || e.code === 'KeyH') {
+      gui.classList.toggle('hidden');
+      hud.classList.toggle('hidden', gui.classList.contains('hidden'));
+    }
+  });
+
+  buildDigits();
+  buildGui();
+  resize();
+  restart();
+  warmMasks();
+})();
+</script>
+</body>
+</html>

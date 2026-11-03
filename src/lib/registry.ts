@@ -495,7 +495,7 @@ export const registryItems: RegistryItem[] = [
     name: "type-garden",
     title: "Type Garden",
     description:
-      "Type into a canvas and watch stems, leaves and roses grow through each letter. Space cuts the vines, Backspace withers the last letter, and Enter clears the garden. The source's ten palettes remain; its poster editor, mode switch, copy and export controls are removed.",
+      "Type and stems, leaves and roses grow through each letter, from type-garden.vercel.app without its poster editor, mode switch, export and copy controls. Each key generates its growth once, from a seed the whole word shares: stems that weave in front of and behind the letter, leaves, roses that open petal by petal, and a tendril reaching toward the next letter. Space cuts that tendril so it springs back and sprouts roses, Backspace withers the last letter, Enter clears the garden. Stems lean toward the pointer, roses turn to face it, and clicking calls in a butterfly that lands on the nearest rose. Drawn on a canvas in GT Ultra, with the source's ten palettes.",
     section: "components",
     category: "Text",
     pro: true,
@@ -5789,6 +5789,26 @@ export const registryItems: RegistryItem[] = [
       {
         path: "src/registry/liquid-glass-carousel.tsx",
         target: "components/ui/liquid-glass-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "growth-clock",
+    title: "Growth Clock",
+    description:
+      "The ones digit of the wall-clock seconds, drawn as closed loops that grow, from Growth in kitasenjudesign.com/clock without its GUI. Each digit is rasterised, its outline and holes traced, and every loop resampled to a fixed node count so any digit morphs node for node into any other. Every frame splits long edges and inserts nodes at random, then relaxes them with spring, align and grid-bucketed repulsion forces plus a decaying random kick, and growth may not sink more than 3px into the glyph. When the second changes the line eases onto the next digit in 0.1s, the grown nodes are dropped, the loops flash a white fill and growth starts over. Every 10s it switches between three presets with a harder kick. Click to restart the current digit.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-03",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/growth-clock.tsx",
+        target: "components/ui/growth-clock.tsx",
         type: "registry:ui",
       },
     ],

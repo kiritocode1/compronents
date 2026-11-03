@@ -4,6 +4,7 @@ import type { ComponentType } from "react";
 import WatercolorDemo from "./watercolor";
 import AuraCarouselDemo from "./aura-carousel";
 import NeonIcebergDemo from "./neon-iceberg";
+import GrowthClockDemo from "./growth-clock";
 import HologramWalkwayDemo from "./hologram-walkway";
 import AccordionFramesDemo from "./accordion-frames";
 import AnimatedFooterDemo from "./animated-footer";
@@ -517,6 +518,7 @@ export const demos: Record<string, ComponentType> = {
   "liquid-glass-carousel": LiquidGlassCarouselDemo,
   "aura-carousel": AuraCarouselDemo,
   "neon-iceberg": NeonIcebergDemo,
+  "growth-clock": GrowthClockDemo,
   "elastic-string-field": ElasticStringFieldDemo,
   "wind-drift-field": WindDriftFieldDemo,
   "prism-light-instrument": PrismLightInstrumentDemo,

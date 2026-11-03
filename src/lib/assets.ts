@@ -2800,15 +2800,30 @@ const moneybeeEditorialPageAssets = [
     }) as const satisfies AssetItem,
 );
 
-const typeGardenAsset = {
-  id: "type-garden-core",
-  label: "Type Garden core document",
-  provider: "vercel-blob",
-  pathname: "type-garden/core.html",
-  fallbackPath: `${BLOB_PUBLIC_ORIGIN}/type-garden/core.html`,
-  role: "Self-contained source runtime, fonts and canvas document with editor and export controls removed.",
-  notes: "Rebuild from the pinned source with scripts/build-type-garden.py.",
-} as const satisfies AssetItem;
+const typeGardenFontAssets = (
+  [
+    ["gt-ultra.otf", "GT Ultra", "Letter face drawn on the garden canvas."],
+    ["playfair-display-700-latin.woff2", "Playfair Display 700 latin", "Fallback face for letters GT Ultra lacks."],
+    ["playfair-display-700-latin-ext.woff2", "Playfair Display 700 latin-ext", "Fallback face for letters GT Ultra lacks."],
+    ["playfair-display-700-cyrillic.woff2", "Playfair Display 700 cyrillic", "Fallback face for letters GT Ultra lacks."],
+    ["playfair-display-700-vietnamese.woff2", "Playfair Display 700 vietnamese", "Fallback face for letters GT Ultra lacks."],
+    ["dm-mono-400-latin.woff2", "DM Mono 400 latin", "Key hints along the bottom."],
+    ["dm-mono-400-latin-ext.woff2", "DM Mono 400 latin-ext", "Key hints along the bottom."],
+    ["dm-mono-500-latin.woff2", "DM Mono 500 latin", "Key hints along the bottom."],
+    ["dm-mono-500-latin-ext.woff2", "DM Mono 500 latin-ext", "Key hints along the bottom."],
+  ] as const
+).map(
+  ([filename, face, role]) =>
+    ({
+      id: `type-garden-${filename.replace(/\.[a-z0-9]+$/, "")}`,
+      label: `Type Garden ${face}`,
+      provider: "vercel-blob",
+      pathname: `type-garden/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/type-garden/${filename}`,
+      role,
+      notes: "Extracted byte for byte from the pinned source bundle in reference/type-garden/index.html.",
+    }) as const satisfies AssetItem,
+);
 
 const mossyTypeAssetPaths = [
   "index.js",
@@ -2916,7 +2931,7 @@ export const assetItems = [
     role: "Original metallic ribbon and slogan image, sampled by the fluid display shader.",
     notes: "Pinned source image uploaded to a stable Vercel Blob pathname.",
   } satisfies AssetItem,
-  typeGardenAsset,
+  ...typeGardenFontAssets,
   ...mossyTypeAssets,
   ...moneybeeAlpinePageAssets,
   ...moneybeeEditorialPageAssets,

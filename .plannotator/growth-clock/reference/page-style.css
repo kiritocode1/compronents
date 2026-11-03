@@ -1,0 +1,200 @@
+body{
+    background-color: #000;
+    color: #fff;
+    margin: 50px;
+    font-size: 16px;
+    font-family: Times New Roman, Times, serif;
+}
+h1{
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 50px;
+}
+a {
+    color: #fff;
+}
+/* 下線のあるリンクは、ロールオーバーで下線を点線にする */
+a:hover,
+#prompt-button:hover {
+    text-decoration-style: dashed;
+}
+#list {
+    display: grid;
+    /* 横は最大4列。狭い画面では1マス150px以上を保って列を減らす */
+    grid-template-columns: repeat(auto-fill, minmax(max(150px, calc((100% - 30px) / 4)), 1fr));
+    gap: 10px;
+}
+#list > * {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #444;
+    text-decoration: none;
+    position: relative;
+}
+#list .num,
+#list .title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #444;
+}
+/* hover した瞬間に 20% 白く光り、透明に戻る */
+#list a:hover {
+    animation: flash 0.6s ease-out;
+    border-color: #fff;
+    border-style: dashed;
+}
+@keyframes flash {
+    from { background-color: rgba(255, 255, 255, 0.1); }
+    to   { background-color: transparent; }
+}
+#list a:hover .num,
+#list a:hover .title {
+    color: #fff;
+}
+#list .num {
+    top: 12px;
+}
+#list .title {
+    bottom: 12px;
+    padding: 0 8px;
+}
+#list .na {
+    color: #555;
+}
+#viewer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000;
+}
+#viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    /* クリックを iframe に渡さず #viewer で受ける */
+    pointer-events: none;
+}
+#viewer {
+    cursor: pointer;
+}
+/* 時計の上に出る「番号 タイトル」。クリックは下の #viewer に通す */
+#clock-label {
+    display: none;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+    mix-blend-mode: difference;
+}
+#clock-label,
+#prompt-button {
+    transition: opacity 0.5s;
+}
+/* 5秒操作が無いとき */
+body.idle #clock-label,
+body.idle #prompt-button {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 時計の下に出る </> ボタンと、prompt.txt を見せるパネル */
+#prompt-button {
+    display: none;
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    padding: 6px 14px;
+    background: none;
+    color: #fff;
+    border: none;
+    text-decoration: underline;
+    font: inherit;
+    cursor: pointer;
+    mix-blend-mode: difference;
+}
+#prompt {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.9);
+    color: #ddd;
+    line-height: 1.7;
+}
+#prompt .prompt-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 100px;
+}
+#prompt .msg {
+    margin: 12px 0;
+}
+#prompt .msg.user {
+    margin-top: 32px;
+    padding: 10px 14px;
+    border-left: 3px solid #fff;
+    background: #1a1a1a;
+    color: #fff;
+}
+#prompt .msg.tool {
+    margin: 2px 0;
+    color: #777;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#prompt .msg.tool::before {
+    content: "⏺ ";
+}
+#prompt .p + .p {
+    margin-top: 0.6em;
+}
+#prompt .li {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+#prompt pre {
+    margin: 0.6em 0;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* About はブラウザの言語に合わせて日本語か英語の片方だけを出す */
+html[lang="ja"] #about [lang="en"],
+html:not([lang="ja"]) #about [lang="ja"] {
+    display: none;
+}
+
+/* About は #about のときだけ全画面で表示する */
+#about {
+    display: none;
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    background: #000;
+    cursor: pointer;
+    text-align: center;
+}
+
+footer{
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+}

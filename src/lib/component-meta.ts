@@ -16292,6 +16292,67 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "growth-clock": {
+    demoPath: "src/components/demos/growth-clock.tsx",
+    nuance: [
+      {
+        label: "Digits that morph node for node",
+        description:
+          "Every digit is traced into an outline plus up to two holes, and each loop is resampled to the same node count for all ten digits. A morph rotates the next outline to the closest match, spreads grown nodes along the chords between the original ones, then drops them once they lie on the new line, so nothing jumps.",
+      },
+      {
+        label: "Growth held off the glyph",
+        description:
+          "An eroded bitmap of the digit blocks any node from moving more than 3px inside it, so the scribble piles up around the figure instead of filling it. Repulsion is bucketed on a grid the size of the repel radius, so 8000 nodes stay cheap.",
+      },
+      {
+        label: "Pauses when unseen",
+        description:
+          "The loop stops offscreen and in hidden tabs and picks up at the current second. With reduced motion the plain outline of each digit swaps once a second, with no growth and no fill flash.",
+      },
+    ],
+    editable: [
+      {
+        name: "settings",
+        control: "tuple",
+        description:
+          "Growth, force, glyph and render values, the confinement mode and the fill colour.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Colour behind the clock.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "settings",
+        type: "Partial<GrowthClockSettings>",
+        default: "GROWTH_CLOCK_DEFAULTS",
+        description:
+          "Overrides for any value the source exposes on its GUI. They also win over the presets.",
+      },
+      {
+        name: "presets",
+        type: "boolean",
+        default: "true",
+        description:
+          "Cycle three presets every 10s, aligned to the clock, each with a harder kick and a smaller repel radius.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#0e0e0e"',
+        description: "Colour behind the clock.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description: "Root styling. Fills its parent; the digit is contained and centred.",
+      },
+    ],
+  },
   "neon-iceberg": {
     demoPath: "src/components/demos/neon-iceberg.tsx",
     nuance: [
@@ -17245,19 +17306,40 @@ export const componentMeta: Record<string, ComponentMeta> = {
     demoPath: "src/components/demos/type-garden.tsx",
     nuance: [
       {
-        label: "Typing grows the garden",
+        label: "Growth decided at the keypress",
         description:
-          "The source canvas draws a GT Ultra letter and generates vines, leaves and roses around it. Space cuts the last stem, Backspace withers the last letter, and pointer motion bends the growth.",
+          "Each letter's stems, leaves and roses are generated once when its key goes down, from a seed the whole word shares, each with its own delay. Every frame draws that list at the letter's age, so growth, the sway after birth and the wither are all functions of time.",
       },
       {
-        label: "Only the core scene remains",
+        label: "Woven through the letter",
         description:
-          "The Type/Poster switch, poster editor, Copy code control, PNG and SVG buttons, and export shortcut are removed from the bundled document. Palette selection and the typing hints remain.",
+          "Each stem is cut into runs that alternate between a layer behind the letter and one in front. A rose that would sit over the letter body mostly goes behind it, so the type stays readable.",
+      },
+      {
+        label: "Phone keyboards",
+        description:
+          "Predictive keyboards rewrite the field instead of sending key events. A hidden field holds a zero-width sentinel, and every change is diffed: new characters grow, removed ones wither.",
+      },
+      {
+        label: "Scoped to its box",
+        description:
+          "Keys and pointer are listened for on the component, not the window, so it never takes typing from the rest of the page. It stops drawing offscreen, and reduced motion turns off the line boil.",
       },
     ],
-    editable: [],
+    editable: [
+      {
+        name: "palette",
+        control: "slider",
+        description: "Starting palette, an index from 0 to 9 into the source's ten.",
+      },
+      {
+        name: "density",
+        control: "slider",
+        description: "Leaves, extra stems and bridges between letters.",
+      },
+    ],
     assets: assetItems
-      .filter((asset) => asset.id === "type-garden-core")
+      .filter((asset) => asset.id.startsWith("type-garden-"))
       .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
         id,
         label,
@@ -17268,21 +17350,47 @@ export const componentMeta: Record<string, ComponentMeta> = {
       })),
     api: [
       {
-        name: "className",
-        type: "string",
+        name: "palette",
+        type: "number",
+        default: "0",
         description:
-          "Class on the full-size scene container. Its parent needs a height.",
+          "Index into TYPE_GARDEN_PALETTES to start on (0 is Rose noir). The swatches change it after that.",
       },
       {
-        name: "style",
-        type: "CSSProperties",
-        description: "Additional styles for the scene container.",
+        name: "boil",
+        type: "boolean",
+        default: "true",
+        description: "Redraw the line work with a small jitter every 120ms. Off under reduced motion.",
       },
       {
-        name: "title",
-        type: "string",
-        default: '"Type Garden"',
-        description: "Accessible frame title.",
+        name: "recoil",
+        type: "number",
+        default: "20",
+        description: "How far, in px, a stem springs back when Space cuts it.",
+      },
+      {
+        name: "density",
+        type: "number",
+        default: "1",
+        description: "Multiplier on leaves, extra stems and bridges between letters, 0.5 to 1.6.",
+      },
+      {
+        name: "showHint",
+        type: "boolean",
+        default: "true",
+        description: "Key hints and palette swatches along the bottom.",
+      },
+      {
+        name: "autoFocus",
+        type: "boolean",
+        default: "false",
+        description:
+          "Focus the hidden field on mount so typing works without a click. Leave off when the garden is not the main thing on the page.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description: "Root styling. Fills its parent; give the parent a height.",
       },
     ],
   },

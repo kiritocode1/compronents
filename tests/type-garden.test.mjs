@@ -1,71 +1,53 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { JSDOM } from "jsdom";
+import { assetItems } from "@/lib/assets";
 
-const file = await readFile("reference/type-garden/core.html", "utf8");
-const source = await readFile("reference/type-garden/index.html", "utf8");
-const templateOf = (html) => {
-  const script = new JSDOM(html).window.document.querySelector(
-    'script[type="__bundler/template"]',
+const source = await readFile("reference/type-garden/unpacked.html", "utf8");
+const component = await readFile("src/registry/type-garden.tsx", "utf8");
+
+// rows of ['Name', '#RRGGBB', ...] in a PAL / PALETTES array literal
+const paletteRows = (text, start) => {
+  const from = text.indexOf(start);
+  assert.ok(from >= 0, `missing ${start}`);
+  const block = text.slice(
+    from,
+    text.indexOf("]\n", text.indexOf("Mono", from)) + 1,
   );
-  assert.ok(script);
-  return JSON.parse(script.textContent);
+  return [
+    ...block.matchAll(
+      /\[\s*["']([^"']+)["']((?:\s*,\s*["']#[0-9A-F]{6}["'])+)\s*\]/gi,
+    ),
+  ].map((m) => [
+    m[1],
+    ...[...m[2].matchAll(/#[0-9A-F]{6}/gi)].map((c) => c[0]),
+  ]);
 };
 
-const core = templateOf(file);
-const original = templateOf(source);
-
-test("the standalone document is identical to the pinned core without a hosted HTML dependency", async () => {
-  const component = await readFile("src/registry/type-garden.tsx", "utf8");
-  const markup = component.match(
-    /const documentMarkup =\s*("(?:[^"\\]|\\.)*");/,
+test("the ten palettes match the pinned source", () => {
+  const original = paletteRows(source, "PAL = [");
+  assert.equal(original.length, 10);
+  assert.deepEqual(
+    paletteRows(component, "TYPE_GARDEN_PALETTES = ["),
+    original,
   );
-  assert.ok(markup, "missing embedded scene document");
-  assert.equal(JSON.parse(markup[1]), file);
-  assert.match(component, /srcDoc=\{documentMarkup\}/);
+});
+
+test("every font the component loads is a registered Blob asset", () => {
+  const files = [...component.matchAll(/\$\{ASSET_BASE\}\/([\w.-]+)/g)].map(
+    (m) => m[1],
+  );
+  assert.equal(new Set(files).size, 9);
+  const registered = new Set(assetItems.map((a) => a.pathname));
+  for (const file of files)
+    assert.ok(registered.has(`type-garden/${file}`), file);
+});
+
+test("it renders its own canvas and listens on its root, not in a frame or on the window", () => {
+  assert.doesNotMatch(component, /<iframe|srcDoc/);
   assert.doesNotMatch(
     component,
-    /SOURCE_URL|https:\/\/ui\.aryank\.space\/assets\/type-garden\/core\.html/,
+    /window\.addEventListener\(\s*"(keydown|pointermove)"/,
   );
-});
-
-test("core asset and standalone component are reproducible from the pinned source", () => {
-  const check = spawnSync(
-    "python3",
-    ["scripts/build-type-garden.py", "--check"],
-    { encoding: "utf8" },
-  );
-  assert.equal(check.status, 0, check.stderr || check.stdout);
-});
-
-test("the source scene keeps input, canvas, palettes and keyboard behaviors", () => {
-  const { document } = new JSDOM(core).window;
-  assert.ok(document.querySelector('canvas[ref="{{ cv }}"]'));
-  assert.ok(
-    document.querySelector('input[aria-label="Type to grow a garden"]'),
-  );
-  assert.ok(document.querySelector('[data-tg="pal"]'));
-  assert.match(core, /space cuts/);
-  assert.match(core, /Backspace/);
-  assert.match(core, /this\.grow\(/);
-  assert.match(core, /this\.drawFlies\(/);
-  assert.ok(original.length > core.length);
-});
-
-test("named controls and their keyboard shortcut are absent", () => {
-  const { document } = new JSDOM(core).window;
-  for (const selector of [
-    '[data-tg="modes"]',
-    '[data-tg="poster"]',
-    "#tg-copy",
-    '[data-tg="btn"]',
-  ]) {
-    assert.equal(document.querySelector(selector), null, selector);
-  }
-  assert.doesNotMatch(core, /this\.saveSVG\(\) : this\.savePNG\(\)/);
-  assert.doesNotMatch(core, /Copy code/);
-  assert.doesNotMatch(core, /<button[^>]*>SVG<\/button>/);
-  assert.doesNotMatch(core, /<button[^>]*>PNG<\/button>/);
+  assert.match(component, /root\.addEventListener\("keydown", key\)/);
 });

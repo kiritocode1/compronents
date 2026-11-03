@@ -4,6 +4,7 @@ import type { ComponentType } from "react";
 import WatercolorPreview from "./watercolor";
 import AuraCarouselPreview from "./aura-carousel";
 import NeonIcebergPreview from "./neon-iceberg";
+import GrowthClockPreview from "./growth-clock";
 import HologramWalkwayPreview from "./hologram-walkway";
 import AccordionFramesPreview from "./accordion-frames";
 import AnimatedFooterPreview from "./animated-footer";
@@ -93,6 +94,7 @@ export const previews: Record<string, ComponentType> = {
   watercolor: WatercolorPreview,
   "aura-carousel": AuraCarouselPreview,
   "neon-iceberg": NeonIcebergPreview,
+  "growth-clock": GrowthClockPreview,
   "hologram-walkway": HologramWalkwayPreview,
   "ink-field": InkFieldPreview,
   "iris-outro-footer": IrisOutroFooterPreview,

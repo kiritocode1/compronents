@@ -1,0 +1,315 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>The last 12 o'clocks</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The last 12 o'clocks">
+    <meta property="og:url" content="https://kitasenjudesign.com/clock/">
+    <meta property="og:image" content="https://kitasenjudesign.com/clock/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // ?lang=ja / ?lang=en があればそれを、無ければブラウザが日本語なら ja、それ以外は en。About の出し分けに使う
+        const langParam = new URLSearchParams(location.search).get('lang');
+        document.documentElement.lang = ['ja', 'en'].includes(langParam) ? langParam
+            : navigator.language.startsWith('ja') ? 'ja' : 'en';
+    </script>
+</head>
+<body>
+    <h1>The last 12 o'clocks</h1>
+
+    <div id="list"></div>
+
+    <div id="viewer"></div>
+
+    <div id="clock-label"></div>
+    <button id="prompt-button">Prompt</button>
+    <div id="prompt"></div>
+
+    <div id="about"><div lang="ja">
+
+    「かつてコーダーという職業があったらしい」<br>
+    2026年AIによってその職業は失われた<br>
+    職を失った職人はどこへ向かうのか?<br>
+    人間の創造性は何なのか?<br>
+    元コーダーがコーディングをせずAI*のみで、
+    時計を作った<br>「時計」を基準点とし、
+    AI時代の創造性を考える<br>
+    ジョン前田の<a href="https://codingtrain.github.io/12oclocks/">12o'clocks</a>から30年<br>
+    コーディング文化に感謝を捧げる<br>
+    最後の時計作品<br><br>
+
+    * ClaudeCode Opus5.5
+    </div><div lang="en">
+
+    "Apparently, there was once a profession called coder."<br>
+    In 2026, AI made that profession disappear.<br>
+    Where do craftspeople go when their craft is gone?<br>
+    What is human creativity?<br>
+    A former coder made these clocks with AI* alone,
+    without writing any code.<br>Taking "the clock" as a point of reference,
+    this work reflects on creativity in the age of AI.<br>
+    30 years after John Maeda's <a href="https://codingtrain.github.io/12oclocks/">12 o'clocks</a>.<br>
+    A tribute to coding culture.<br>
+    The last clock work.<br><br>
+
+    * ClaudeCode Opus5.5
+    </div></div>
+
+    <footer>
+        <a href="#about">About</a>
+    </footer>
+
+    <script src="prompt.js"></script>
+    <script>
+        const viewer = document.getElementById('viewer');
+        const promptButton = document.getElementById('prompt-button');
+        const promptPanel = document.getElementById('prompt');
+        const about = document.getElementById('about');
+        const clockLabel = document.getElementById('clock-label');
+        let currentDir = '';
+        let clockList = [];
+
+        // 時計の上部に「番号 タイトル」を出す
+        function updateLabel() {
+            const i = clockList.findIndex(c => c && c.dir === currentDir);
+            clockLabel.textContent = i < 0 ? '' : `${String(i + 1).padStart(2, '0')} ${clockList[i].title}`;
+            clockLabel.style.display = i < 0 ? 'none' : 'block';
+        }
+
+        // URL の #フォルダ名 を見て、時計か一覧を表示する。#about は About を表示する
+        function route() {
+            const dir = decodeURIComponent(location.hash.slice(1));
+            if (dir === currentDir) return;
+            currentDir = dir;
+
+            about.style.display = dir === 'about' ? 'flex' : 'none';
+
+            // iframe の src を書き換えるとブラウザ履歴が増えるので、毎回作り直す
+            viewer.innerHTML = '';
+            promptButton.style.display = 'none';
+            promptPanel.style.display = 'none';
+            if (dir && dir !== 'about') {
+                const frame = document.createElement('iframe');
+                frame.src = `${dir}/index.html`;
+                viewer.appendChild(frame);
+                viewer.style.display = 'block';
+                loadPrompt(dir);
+            } else {
+                viewer.style.display = 'none';
+            }
+            updateLabel();
+        }
+
+        // prompt.txt があれば </> ボタンを出す
+        function loadPrompt(dir) {
+            fetch(`${dir}/prompt.txt`)
+                .then(res => res.ok ? res.text() : null)
+                .then(text => {
+                    if (!text || dir !== currentDir) return;
+                    renderPrompt(text, promptPanel);
+                    promptPanel.scrollTop = 0;
+                    promptButton.style.display = 'block';
+                })
+                .catch(() => {});
+        }
+
+        promptButton.addEventListener('click', () => {
+            const open = promptPanel.style.display === 'block';
+            promptPanel.style.display = open ? 'none' : 'block';
+        });
+        // プロンプトを読んでいる間のクリックで音を鳴らさない
+        promptPanel.addEventListener('click', e => e.stopPropagation());
+
+        // 表示中は画面のどこをクリックしても一覧に戻る
+        function backToList() {
+            // ?lang=en などのクエリは残す
+            history.pushState(null, '', location.pathname + location.search);
+            route();
+        }
+        viewer.addEventListener('click', backToList);
+        about.addEventListener('click', backToList);
+        // ブラウザの戻る・進むでも URL に合わせて切り替える
+        window.addEventListener('popstate', route);
+        window.addEventListener('hashchange', route);
+
+        // 5秒操作が無ければ上部のタイトルと下部の prompt を隠す。操作があれば出す
+        let idleTimer = null;
+        function wake() {
+            document.body.classList.remove('idle');
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+                // プロンプトを読んでいる間は隠さない
+                if (promptPanel.style.display !== 'block') {
+                    document.body.classList.add('idle');
+                }
+            }, 5000);
+        }
+        ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart'].forEach(type => {
+            document.addEventListener(type, wake, { passive: true });
+        });
+        wake();
+
+        // 時計の表示中は ← → で前後の時計へ (端まで行くと反対側に回る)
+        let clockDirs = [];
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            const i = clockDirs.indexOf(currentDir);
+            if (i < 0) return;
+            const step = e.key === 'ArrowRight' ? 1 : -1;
+            const next = clockDirs[(i + step + clockDirs.length) % clockDirs.length];
+            location.hash = next;
+        });
+
+        fetch('clocks.json')
+            .then(res => res.json())
+            .then(clocks => {
+                clockList = clocks;
+                clockDirs = clocks.filter(Boolean).map(c => c.dir);
+                updateLabel();
+                const list = document.getElementById('list');
+                // 24マス作り、まだ無いところは N/A にする
+                // 各マスは 上: 番号 / 中央: 時刻 / 下: タイトル
+                const span = (className, text) => {
+                    const s = document.createElement('span');
+                    s.className = className;
+                    s.textContent = text;
+                    return s;
+                };
+                for (let i = 0; i < 24; i++) {
+                    const clock = clocks[i];
+                    const cell = document.createElement(clock ? 'a' : 'div');
+                    cell.appendChild(span('num', String(i + 1).padStart(2, '0')));
+                    if (clock) {
+                        cell.href = `#${clock.dir}`;
+                        // ロールオーバーは秒の音より高く短い「チッ」。音は最初のクリック後から鳴る
+                        // クリックで番号を英語で読み上げる (1 〜 24)
+                        cell.addEventListener('click', () => speak(String(i + 1)));
+                        cell.addEventListener('mouseenter', () => {
+                            if (audioCtx) beep(tone.freq * 3, 0.04);
+                        });
+                        cell.appendChild(span('time', ''));
+                        cell.appendChild(span('title', clock.title));
+                    } else {
+                        cell.className = 'na';
+                        cell.appendChild(span('', 'N/A'));
+                    }
+                    list.appendChild(cell);
+                }
+                updateTimes();
+            });
+
+        // リンクは全部、現在時刻 HH:MM:SS を表示する
+        function updateTimes() {
+            const text = new Date().toTimeString().slice(0, 8);
+            document.querySelectorAll('#list .time').forEach(a => {
+                a.textContent = text;
+            });
+            setTimeout(updateTimes, 1000 - new Date().getMilliseconds());
+        }
+
+        route();
+
+        // 時報: 毎秒短く鳴らし、毎分0秒は1オクターブ上を長めに鳴らす
+        let audioCtx = null;
+        let tone = { type: 'sine', freq: 440, volume: 0.3 };
+
+        // クリックごとに音色をランダムに変える
+        function randomizeTone() {
+            const types = ['sine', 'square', 'sawtooth', 'triangle'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            tone = {
+                type,
+                freq: 220 + Math.random() * 660,
+                // sine 以外は耳に刺さりやすいので音量を下げる
+                volume: type === 'sine' ? 0.3 : 0.1,
+            };
+        }
+
+        function beep(freq, duration) {
+            const t = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = tone.type;
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(tone.volume, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start(t);
+            osc.stop(t + duration);
+        }
+
+        // 合成音声に対応したブラウザなら、毎分0秒に英語で時刻を読み上げる
+        // 女性・男性の英語の声を名前で探す。見つからなければ標準の声1種類で話す
+        const FEMALE_VOICES = ['Samantha', 'Karen', 'Moira', 'Tessa', 'Victoria', 'Allison', 'Ava', 'Susan', 'Zira', 'Google US English', 'Female'];
+        const MALE_VOICES = ['Daniel', 'Alex', 'Fred', 'Tom', 'Aaron', 'Arthur', 'David', 'Mark', 'Rishi', 'Male'];
+        let voicePair = [null];
+
+        function findVoice(voices, names) {
+            for (const name of names) {
+                const v = voices.find(v => v.lang.startsWith('en') && v.name.includes(name));
+                if (v) return v;
+            }
+            return null;
+        }
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            const female = findVoice(voices, FEMALE_VOICES);
+            const male = findVoice(voices, MALE_VOICES);
+            voicePair = female && male ? [female, male] : [null];
+        }
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            // 声の一覧は後から届くことがある
+            speechSynthesis.addEventListener('voiceschanged', loadVoices);
+        }
+
+        // 女性・男性のどちらかの声をランダムに選んで話す
+        // 読み上げのオン/オフ
+        const SPEECH_ENABLED = true;
+        function speak(text) {
+            if (!SPEECH_ENABLED || !('speechSynthesis' in window)) return;
+            const voice = voicePair[Math.floor(Math.random() * voicePair.length)];
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            if (voice) utterance.voice = voice;
+            utterance.volume = 0.4;
+            utterance.rate = 4;
+            speechSynthesis.speak(utterance);
+        }
+        function speakTime(date) {
+            speak(date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }));
+        }
+
+        function tick() {
+            const now = new Date();
+            if (now.getSeconds() === 0) {
+                beep(tone.freq * 2, 1.0);
+                speakTime(now);
+            } else if (now.getSeconds() % 10 === 0) {
+                // 10秒ごとは5度上を少し長めに
+                beep(tone.freq * 1.5, 0.3);
+            } else {
+                beep(tone.freq, 0.1);
+            }
+            // 次の秒の頭に合わせる
+            setTimeout(tick, 1000 - new Date().getMilliseconds());
+        }
+
+        // ブラウザの自動再生制限のため、最初のクリックで開始する
+        document.addEventListener('click', () => {
+            if (audioCtx) {
+                randomizeTone();
+            } else {
+                audioCtx = new AudioContext();
+                setTimeout(tick, 1000 - new Date().getMilliseconds());
+            }
+            // クリック音は10秒ごとと同じ音
+            beep(tone.freq * 1.5, 0.3);
+        });
+    </script>
+    <script async src="https://kitasenjudesign.com/access/tag.js"></script>
+</body>
+</html>
