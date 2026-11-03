@@ -4061,6 +4061,21 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Museum of Ads",
+        href: "https://themuseumofads.com/",
+        dateAdded: "2026-11-03",
+        kind: "gallery",
+        useFor: [
+          "find advertising campaign references",
+          "study how brands made their ads",
+          "filter ads by format, industry or tone",
+          "watch behind the scenes ad making-of films",
+          "look up a brand's ads by year",
+        ],
+        description:
+          "Museum of Ads is a searchable archive of 184 advertisements, each listed with its brand, year and an Open original source link. Entries include Apple, Honda, Heineken and Calvin Klein, and the years shown run from 1998 to 2026. Ads can be filtered by format, industry and tone, and a Behind the scenes section includes making-of films such as the Sonos Ace and Calvin Klein entries. Use it to find campaign references or to see how a specific ad was produced.",
+      },
+      {
         title: "Figs From Plums",
         href: "https://figsfromplums.com/",
         dateAdded: "2026-11-01",
