@@ -268,6 +268,7 @@ export const componentGroups: RegistryGroup[] = [
       "hologram-walkway",
       "grain-gradient-field",
       "prism-light-instrument",
+      "neon-iceberg",
       "starry-night-flow",
       "flying-cube-scroll",
       "surprise-box",

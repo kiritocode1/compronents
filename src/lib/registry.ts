@@ -5794,6 +5794,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "neon-iceberg",
+    title: "Neon Iceberg",
+    description:
+      "An engraved mountain on a gridded ice block, from toolcraft.sh/demos/neon-iceberg without its control panel. One three.js mesh holds a 192 by 192 height field, four perimeter walls and four base plates, and a single vertex shader raises the peak, folds its ridges and cuts the jagged seam where rock meets ice. The fragment shader lights the rock from a low side angle and engraves it with horizontal hatching that thickens in shadow, draws a square ink grid on every wall, and prints flowing lines on the plate tops. Every two seconds the base eases apart into four plates. Drag on the iceberg to orbit it.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-03",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/neon-iceberg.tsx",
+        target: "components/ui/neon-iceberg.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "aura-carousel",
     title: "Aura Carousel",
     description:

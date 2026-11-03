@@ -16292,6 +16292,85 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "neon-iceberg": {
+    demoPath: "src/components/demos/neon-iceberg.tsx",
+    nuance: [
+      {
+        label: "One mesh, shaped on the GPU",
+        description:
+          "The geometry is a flat grid, four unit walls and four unit boxes tagged with region and slice attributes. The vertex shader turns them into the mountain, the walls up to the seam, and plates of equal thickness under the deepest recess, so every setting is a uniform and nothing is rebuilt.",
+      },
+      {
+        label: "Print screens anchored to the view",
+        description:
+          "The rock hatching runs on a view-space coordinate, so strokes stay horizontal as you orbit. Each stroke is integrated over the pixel footprint, so fine lines keep their average tone instead of aliasing when small.",
+      },
+      {
+        label: "Grid through the seam",
+        description:
+          "Ice that reaches up into the mountain cap is inked on the virtual cube plane along the sight ray, so grid lines continue straight through the rock and ice join.",
+      },
+      {
+        label: "Orbit only on the object",
+        description:
+          "A drag starts only where the pixel under the pointer is opaque, so empty background still scrolls the page. Reduced motion holds the plates fully parted.",
+      },
+    ],
+    editable: [
+      {
+        name: "settings",
+        control: "tuple",
+        description:
+          "Shape, seam, grid, plate print, light and engraving values, plus rock and ice colours.",
+      },
+      {
+        name: "background",
+        control: "color",
+        description: "Colour behind the iceberg.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "settings",
+        type: "Partial<NeonIcebergSettings>",
+        default: "NEON_ICEBERG_DEFAULTS",
+        description:
+          "Overrides for any of the 38 shape, pattern and material values or the two colours.",
+      },
+      {
+        name: "orbit",
+        type: "{ position, up }",
+        default: "The demo's three-quarter view",
+        description: "Initial camera pose. Dragging orbits from here.",
+      },
+      {
+        name: "playing / duration",
+        type: "boolean / number",
+        default: "true / 2",
+        description:
+          "Loop the plates parting, seconds per loop. When off, the plates rest fully parted.",
+      },
+      {
+        name: "background",
+        type: "string",
+        default: '"#FAFAFA"',
+        description: "Colour behind the iceberg.",
+      },
+      {
+        name: "renderScale",
+        type: "number",
+        default: "2",
+        description: "Backing-pixel multiplier on top of devicePixelRatio.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description:
+          "Root styling. Fills its parent; the 3:4 artboard is contained and centred.",
+      },
+    ],
+  },
   "aura-carousel": {
     demoPath: "src/components/demos/aura-carousel.tsx",
     nuance: [
