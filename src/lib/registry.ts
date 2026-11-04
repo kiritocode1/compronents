@@ -2739,6 +2739,56 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "gather-field",
+    title: "Gather Field",
+    description:
+      "Points hold a picture, then throw and settle into the next one. Drift pulls one side of a line. Splash is how hard they throw. Gather is how fast they come back. Depth lifts the bright pixels off the page. Swarm remixes which point goes where. Melt keeps each point's place and lets the near layer leave first. Drop in up to four pictures. The sand is brightness, edge, and a blur, with no depth model.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-04",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/gather-field/index.tsx",
+        target: "components/ui/gather-field/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/gather-field/engine.ts",
+        target: "components/ui/gather-field/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/gather-field/shaders.ts",
+        target: "components/ui/gather-field/shaders.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/gather-field/motion.ts",
+        target: "components/ui/gather-field/motion.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/gather-field/plates.ts",
+        target: "components/ui/gather-field/plates.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/gather-field/sample.ts",
+        target: "components/ui/gather-field/sample.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/gather-field/tokens.ts",
+        target: "components/ui/gather-field/tokens.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "inversa-scroll",
     title: "Inversa Scroll",
     description:

@@ -5712,14 +5712,37 @@ export const componentMeta: Record<string, ComponentMeta> = {
     demoPath: "src/components/demos/hologram-walkway.tsx",
     assets: [],
     nuance: [
-      { label: "One walk, one scene", description: "The man starts down the walkway. When he reaches her place he stops and cannot move until she has spoken: she projects with her back to him, turns, greets him with her cheek on her hand, then points at him. Walking on plays her parting line." },
-      { label: "Baked, then shifted", description: "The walkway and the city repeat along the walk, so each bakes once and the camera takes a shifted window. Her 15 frames ray-march in Web Workers while he walks in." },
-      { label: "Canvas sizing", description: "The scene is 960 by 540 pixels and scales to its box in whole-pixel steps when the box is large enough. Give the parent a height." },
+      {
+        label: "One walk, one scene",
+        description:
+          "The man starts down the walkway. When he reaches her place he stops and cannot move until she has spoken: she projects with her back to him, turns, greets him with her cheek on her hand, then points at him. Walking on plays her parting line.",
+      },
+      {
+        label: "Baked, then shifted",
+        description:
+          "The walkway and the city repeat along the walk, so each bakes once and the camera takes a shifted window. Her 15 frames ray-march in Web Workers while he walks in.",
+      },
+      {
+        label: "Canvas sizing",
+        description:
+          "The scene is 960 by 540 pixels and scales to its box in whole-pixel steps when the box is large enough. Give the parent a height.",
+      },
     ],
     editable: [],
     api: [
-      { name: "subtitles", type: "boolean", default: "true", description: "Her lines as subtitles, announced through a polite live region." },
-      { name: "className / style", type: "string / CSSProperties", description: "Root styling. The scene fills its box on a near-black background." },
+      {
+        name: "subtitles",
+        type: "boolean",
+        default: "true",
+        description:
+          "Her lines as subtitles, announced through a polite live region.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description:
+          "Root styling. The scene fills its box on a near-black background.",
+      },
     ],
   },
   watercolor: {
@@ -5727,21 +5750,77 @@ export const componentMeta: Record<string, ComponentMeta> = {
     studioPath: "src/components/studios/watercolor.tsx",
     assets: [],
     nuance: [
-      { label: "Wet and settled pigment", description: "Separate GPU textures carry wet pigment and deposited pigment. Water flow moves the wet paint; evaporation leaves pigment in the paper grain." },
-      { label: "Original shaders", description: "The ten WGSL modules come from watercolor.bizar.ro. The engine sizes the simulation to the component box and keeps tuning outside the canvas." },
-      { label: "WebGPU required", description: "The component shows a fallback message when WebGPU cannot initialize. Resizing or changing quality can start a new sheet." },
+      {
+        label: "Wet and settled pigment",
+        description:
+          "Separate GPU textures carry wet pigment and deposited pigment. Water flow moves the wet paint; evaporation leaves pigment in the paper grain.",
+      },
+      {
+        label: "Original shaders",
+        description:
+          "The ten WGSL modules come from watercolor.bizar.ro. The engine sizes the simulation to the component box and keeps tuning outside the canvas.",
+      },
+      {
+        label: "WebGPU required",
+        description:
+          "The component shows a fallback message when WebGPU cannot initialize. Resizing or changing quality can start a new sheet.",
+      },
     ],
     editable: [
-      { name: "hue / brushSize / rainbow", control: "slider", description: "Starting pigment hue, brush scale and automatic hue changes along a stroke." },
-      { name: "tuning", control: "text", description: "Partial overrides for brush, color, dry, flow, paper, rainbow, grade, light, look, settle, wipe and spread settings." },
+      {
+        name: "hue / brushSize / rainbow",
+        control: "slider",
+        description:
+          "Starting pigment hue, brush scale and automatic hue changes along a stroke.",
+      },
+      {
+        name: "tuning",
+        control: "text",
+        description:
+          "Partial overrides for brush, color, dry, flow, paper, rainbow, grade, light, look, settle, wipe and spread settings.",
+      },
     ],
     api: [
-      { name: "tuning", type: "WatercolorTuning", default: "DEFAULT_SETTINGS", description: "Nested partial settings. Updates apply without recreating the GPU device." },
-      { name: "hue / brushSize / rainbow", type: "number / number / boolean", default: "330 / 1 / true", description: "Pigment hue in degrees, brush scale from 0.3 to 3 and rainbow painting." },
-      { name: "quality", type: '"auto" | "high" | "low"', default: '"auto"', description: "Simulation resolution. A resolution change clears the sheet." },
-      { name: "wheelControls / keyboardShortcuts", type: "boolean", default: "false", description: "Opt-in wheel hue and size controls and focused-canvas shortcuts. R toggles rainbow, D washes, brackets change size and left/right arrows change hue." },
-      { name: "ref", type: "Ref<WatercolorHandle>", description: "wash() animates a clean wash. clear() immediately starts a new sheet." },
-      { name: "className / style", type: "string / CSSProperties", description: "Root styling. Give the parent a height; the canvas fills its box." },
+      {
+        name: "tuning",
+        type: "WatercolorTuning",
+        default: "DEFAULT_SETTINGS",
+        description:
+          "Nested partial settings. Updates apply without recreating the GPU device.",
+      },
+      {
+        name: "hue / brushSize / rainbow",
+        type: "number / number / boolean",
+        default: "330 / 1 / true",
+        description:
+          "Pigment hue in degrees, brush scale from 0.3 to 3 and rainbow painting.",
+      },
+      {
+        name: "quality",
+        type: '"auto" | "high" | "low"',
+        default: '"auto"',
+        description:
+          "Simulation resolution. A resolution change clears the sheet.",
+      },
+      {
+        name: "wheelControls / keyboardShortcuts",
+        type: "boolean",
+        default: "false",
+        description:
+          "Opt-in wheel hue and size controls and focused-canvas shortcuts. R toggles rainbow, D washes, brackets change size and left/right arrows change hue.",
+      },
+      {
+        name: "ref",
+        type: "Ref<WatercolorHandle>",
+        description:
+          "wash() animates a clean wash. clear() immediately starts a new sheet.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description:
+          "Root styling. Give the parent a height; the canvas fills its box.",
+      },
     ],
   },
   "ink-field": {
@@ -16349,7 +16428,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "className / style",
         type: "string / CSSProperties",
-        description: "Root styling. Fills its parent; the digit is contained and centred.",
+        description:
+          "Root styling. Fills its parent; the digit is contained and centred.",
       },
     ],
   },
@@ -17330,7 +17410,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "palette",
         control: "slider",
-        description: "Starting palette, an index from 0 to 9 into the source's ten.",
+        description:
+          "Starting palette, an index from 0 to 9 into the source's ten.",
       },
       {
         name: "density",
@@ -17360,7 +17441,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "boil",
         type: "boolean",
         default: "true",
-        description: "Redraw the line work with a small jitter every 120ms. Off under reduced motion.",
+        description:
+          "Redraw the line work with a small jitter every 120ms. Off under reduced motion.",
       },
       {
         name: "recoil",
@@ -17372,7 +17454,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "density",
         type: "number",
         default: "1",
-        description: "Multiplier on leaves, extra stems and bridges between letters, 0.5 to 1.6.",
+        description:
+          "Multiplier on leaves, extra stems and bridges between letters, 0.5 to 1.6.",
       },
       {
         name: "showHint",
@@ -17390,7 +17473,8 @@ export const componentMeta: Record<string, ComponentMeta> = {
       {
         name: "className / style",
         type: "string / CSSProperties",
-        description: "Root styling. Fills its parent; give the parent a height.",
+        description:
+          "Root styling. Fills its parent; give the parent a height.",
       },
     ],
   },
@@ -17575,6 +17659,134 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string",
         default: '"Type to change the letters"',
         description: "Accessible name for the text input.",
+      },
+    ],
+  },
+  "gather-field": {
+    demoPath: "src/components/demos/gather-field.tsx",
+    studioPath: "src/components/studios/gather-field.tsx",
+    assets: [],
+    nuance: [
+      {
+        label: "Same index, next picture",
+        description:
+          "Points are handed out along a Hilbert curve in proportion to brightness and edge. Melt keeps that order, so a point on the orb lands on the matching place in the ripple. Swarm shuffles the destination.",
+      },
+      {
+        label: "Every point keeps its own flight",
+        description:
+          "Each point leaves on its own delay: in seed order for swarm, nearest layers first for melt. Splash sets how sharply the throw opens, Gather how long the whole flight takes. Turning the page mid-flight keeps every point where it is and starts the next flight from there.",
+      },
+      {
+        label: "The mouse moves the sand",
+        description:
+          "Hovering leaves a short wake. The last six places the pointer passed push nearby points along the way it was moving, then let go over about a second. Dragging orbits instead, and reduced motion turns the wake, the sway and the drift off.",
+      },
+      {
+        label: "Paper waits until the field is gone",
+        description:
+          "Changing paper, tone, or the point count fades the sand out, resamples, then fades in. The clear colour stays on the old paper until the fade hits zero.",
+      },
+      {
+        label: "The line is a moment, not a fixture",
+        description:
+          "The split line, its wind tick, and the tip show for 1.6 seconds after the angle, offset, or side changes, then fade over the last 0.6 seconds. Drift still runs while the line is hidden.",
+      },
+      {
+        label: "Brightness stands in for a depth model",
+        description:
+          "Bright pixels, edges, and a small blur decide which points exist and how far they lift. There is no neural depth pass.",
+      },
+    ],
+    editable: [
+      {
+        name: "drift / splash / gather / depth",
+        control: "slider",
+        description:
+          "Drift 0 holds every point. Splash 100 is a short throw. Gather 100 returns at once. Depth 0 flattens the picture.",
+      },
+      {
+        name: "lineAngle / lineOffset / fadeSide",
+        control: "slider",
+        description:
+          "The split is a line through the picture. fadeSide picks which side lifts.",
+      },
+      {
+        name: "track / links / scan / trails / marks / trackers",
+        control: "text",
+        description:
+          "Trackers, the hairlines between them, the depth scan, drift streaks, the ruler, and sparse or dense tracker counts.",
+      },
+      {
+        name: "lightColor / paper / tone / pointCount",
+        control: "color",
+        description:
+          "Lamp colour, black or white paper, whether white or black pixels are the sand, and how many points.",
+      },
+    ],
+    api: [
+      {
+        name: "drift / splash / gather / depth",
+        type: "number",
+        default: "80 / 70 / 33 / 80",
+        description:
+          "0 to 100. Drift is how far the held side lifts. Splash and Gather are the throw and the return. Depth is how far bright pixels come off the page.",
+      },
+      {
+        name: "travel",
+        type: '"swarm" | "melt"',
+        default: "swarm",
+        description:
+          "Swarm sends each point to a random place in the next picture. Melt keeps the curve order and lets nearer points leave first.",
+      },
+      {
+        name: "track / links / scan / trails / marks",
+        type: "boolean",
+        default: "true / true / false / false / true",
+        description:
+          "Trackers and their links, a plane that walks through depth every 8 seconds, streaks while drift is up, and the ruler with the readouts.",
+      },
+      {
+        name: "trackers",
+        type: '"sparse" | "dense"',
+        default: "sparse",
+        description:
+          "Sparse locks 7 trackers onto bright edges and lets 3 ride the drifting sand. Dense locks 24 and lets 6 ride.",
+      },
+      {
+        name: "lineAngle / lineOffset / fadeSide",
+        type: "number",
+        default: "100 / 0 / -1",
+        description:
+          "Angle is the direction the line runs, in degrees. Offset slides it along its normal. fadeSide is 1 or -1, the side that blows away.",
+      },
+      {
+        name: "lightColor",
+        type: "string",
+        default: "#fbe7c6",
+        description:
+          "Colour of the lamp. S, or Fire in the studio, strikes one inside the cloud near a bright part of the picture.",
+      },
+      {
+        name: "paper / tone",
+        type: '"dark" | "light" / "negative" | "true"',
+        default: "dark / negative",
+        description:
+          "Dark paper draws pale sand on black. Light paper draws ink. Negative keeps bright pixels. True, on white paper, keeps the dark ones.",
+      },
+      {
+        name: "pointCount",
+        type: "number",
+        default: "0",
+        description:
+          "How many points. 0 picks 524288 on an 8-core machine, 262144 on others and 131072 on narrow screens, then halves once if the field runs under 30 fps.",
+      },
+      {
+        name: "autoplay",
+        type: "boolean",
+        default: "true",
+        description:
+          "Turns the page at 5.5 seconds, then every 6.5, until a pointer, a key, or a studio control.",
       },
     ],
   },

@@ -37,6 +37,7 @@ import GrainGradientFieldPreview from "./grain-gradient-field";
 import GrainGradientNavPreview from "./grain-gradient-nav";
 import HoverBloomPreview from "./hover-bloom";
 import ImageRevealPreview from "./image-reveal";
+import GatherFieldPreview from "./gather-field";
 import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
@@ -97,6 +98,7 @@ export const previews: Record<string, ComponentType> = {
   "growth-clock": GrowthClockPreview,
   "hologram-walkway": HologramWalkwayPreview,
   "ink-field": InkFieldPreview,
+  "gather-field": GatherFieldPreview,
   "iris-outro-footer": IrisOutroFooterPreview,
   "video-summagator": VideoSummagatorPreview,
   "grain-gradient-field": GrainGradientFieldPreview,

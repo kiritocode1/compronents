@@ -117,6 +117,7 @@ import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InfiniteDragCanvasDemo from "./infinite-drag-canvas";
 import InkCoreLayoutDemo from "./ink-core-layout";
+import GatherFieldDemo from "./gather-field";
 import InkFieldDemo from "./ink-field";
 import InteriorStudioPageDemo from "./interior-studio-page";
 import InterlockTitleScrollDemo from "./interlock-title-scroll";
@@ -297,6 +298,7 @@ export const demos: Record<string, ComponentType> = {
   watercolor: WatercolorDemo,
   "hologram-walkway": HologramWalkwayDemo,
   "ink-field": InkFieldDemo,
+  "gather-field": GatherFieldDemo,
   "ink-core-layout": InkCoreLayoutDemo,
   "iris-outro-footer": IrisOutroFooterDemo,
   "video-summagator": VideoSummagatorDemo,

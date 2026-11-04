@@ -27,6 +27,7 @@ import FilmStudioPageStudio from "./film-studio-page";
 import FisheyeScrollStudio from "./fisheye-scroll";
 import FrameScrollStudio from "./frame-scroll";
 import ImageRevealStudio from "./image-reveal";
+import GatherFieldStudio from "./gather-field";
 import InkFieldStudio from "./ink-field";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
@@ -80,6 +81,7 @@ export const studios: Record<string, StudioComponent> = {
   "image-reveal": ImageRevealStudio,
   watercolor: WatercolorStudio,
   "ink-field": InkFieldStudio,
+  "gather-field": GatherFieldStudio,
   "award-list": AwardListStudio,
   "inversa-scroll": InversaScrollStudio,
   "material-spotlight": MaterialSpotlightStudio,
