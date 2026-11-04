@@ -1,7 +1,7 @@
 /**
  * Lists the evaluation ("decision") models available on the Vercel AI Gateway,
  * with per-token pricing. The noul semantic gate needs a decision model, and
- * typesafe-ai/jev (the CLI's JEV_MODEL) is plan-gated, so this shows which
+ * some are refused on the free tier (see JUDGE_MODEL in judge.ts), so this shows which
  * substitutes exist and what they cost.
  *
  * Run under the production wrapper for auth (VERCEL_OIDC_TOKEN, or an

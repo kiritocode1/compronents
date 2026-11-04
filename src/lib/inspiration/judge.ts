@@ -1,11 +1,12 @@
 /**
- * Post-inspo semantic gate. After import and retrieval checks, Jev judges
- * whether the entry is semantically sound from all collected data: the
- * catalog text, its facets, where retrieval surfaces it, and whether source
- * passages exist. Atomic Noul questions in one call, combined in code.
+ * Post-inspo semantic gate. After import and retrieval checks, a gateway
+ * decision model judges whether the entry is semantically sound from all
+ * collected data: the catalog text, its facets, where retrieval surfaces it,
+ * and whether source passages exist. Atomic Noul questions in one call,
+ * combined in code.
  *
  * Injectable evaluate function keeps tests hermetic; production passes the
- * AI SDK experimental_evaluate bound to typesafe-ai/jev on AI Gateway.
+ * AI SDK experimental_evaluate bound to JUDGE_MODEL on AI Gateway.
  */
 
 export interface InspoEvidence {
@@ -36,7 +37,12 @@ export type EvaluateFn = (input: {
   questions: Record<string, { type: "boolean"; instructions: string }>;
 }) => Promise<{ answers: Record<string, { probability?: number }> }>;
 
-export const JEV_MODEL = "typesafe-ai/jev";
+/**
+ * typesafe-ai/jev was the judge until the gateway started refusing it on the
+ * free tier (403). Of the decision models this account can call, this one
+ * separated a true and a false description best (0.96 against 0.00, 2026-11-04).
+ */
+export const JUDGE_MODEL = "perplexity/pplx-decider-v1.2";
 export const PASS_THRESHOLD = 0.5;
 
 export function buildInspoState(evidence: InspoEvidence): string {
@@ -83,7 +89,7 @@ export async function judgeInspo(
       { type: "boolean" as const, instructions },
     ]),
   );
-  const result = await evaluateFn({ model: JEV_MODEL, state, questions });
+  const result = await evaluateFn({ model: JUDGE_MODEL, state, questions });
   const verdicts = Object.keys(QUESTIONS).map((name) => {
     const probability = result.answers[name]?.probability;
     if (typeof probability !== "number" || Number.isNaN(probability)) {

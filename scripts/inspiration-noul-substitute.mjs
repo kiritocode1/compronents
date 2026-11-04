@@ -1,12 +1,9 @@
 /**
- * Noul gate substitute. The CLI's `noul` command hardcodes
- * JEV_MODEL = "typesafe-ai/jev" in src/lib/inspiration/judge.ts, which the
- * gateway rejects on plan-gated accounts ("Free tier users do not have access
- * to this model"). This script replicates the CLI noul flow exactly (same
- * evidence, same three questions, same 0.5 threshold via judgeInspo) and
- * probes gateway decision models cheapest-first for the first accessible one,
- * printing which model judged. When the account gains jev access, prefer the
- * real `noul` command; the candidates below keep it working until then.
+ * Noul gate substitute. The CLI's `noul` command judges with JUDGE_MODEL in
+ * src/lib/inspiration/judge.ts. This script replicates that flow exactly
+ * (same evidence, same three questions, same 0.5 threshold via judgeInspo)
+ * but probes the candidates below for the first accessible one, printing
+ * which model judged. Use it when JUDGE_MODEL itself is refused or down.
  *
  * Usage (under the production wrapper):
  *   node --import ./tests/alias-hooks.mjs scripts/inspiration-noul-substitute.mjs <url> [url...]
@@ -23,21 +20,19 @@ if (urls.length === 0)
   );
 
 // Gateway decision models from /config (see scripts/inspiration-eval-models.mjs),
-// cheapest first. Plan-gated jev variants sit last as a fallback.
+// best judge first: ordered by how far apart they scored a true and a false
+// description (2026-11-04). Only models the free tier can call: liquid/d1,
+// microsoft/microsoft-decision-1, openai/gpt-6-luna-decisions and the three
+// typesafe-ai/jev versions all return 403 "Free tier users do not have access
+// to this model", so they are left out until the team has credits.
 const CANDIDATES = [
-  "convaiinnovations/laya",
-  "perplexity/pplx-decider-flash-v1.2",
-  "liquid/d1",
   "perplexity/pplx-decider-v1.2",
-  "baseten/elephant-1",
-  "liquid/d1-ultra",
-  "microsoft/microsoft-decision-1",
-  "typesafe-ai/jev",
-  "typesafe-ai/jev-1.13.0",
-  "typesafe-ai/jev-1.14.0",
-  "scaledown/scaledown-classify-1",
   "baseten/mammoth-1",
-  "openai/gpt-6-luna-decisions",
+  "convaiinnovations/laya",
+  "liquid/d1-ultra",
+  "perplexity/pplx-decider-flash-v1.2",
+  "baseten/elephant-1",
+  "scaledown/scaledown-classify-1",
 ];
 
 async function findModel() {
