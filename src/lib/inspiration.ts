@@ -11082,6 +11082,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI agent platforms and infrastructure",
     links: [
       {
+        title: "voxl",
+        href: "https://github.com/tembo/voxl",
+        dateAdded: "2026-11-03",
+        kind: "tool",
+        stack: ["rust", "linux", "macos", "windows", "computer-use", "agents"],
+        useFor: [
+          "stream a desktop to the browser",
+          "low latency remote desktop",
+          "novnc alternative",
+          "watch an agent sandbox desktop",
+          "computer use screenshots and recordings",
+          "wait for the screen to settle",
+          "embed a remote desktop in a page",
+        ],
+        description:
+          "voxl is a Rust server from Tembo that streams an X11 display, a Mac's screen or a Windows desktop to the browser as H.264 over a WebSocket, decoded with WebCodecs, with input, clipboard, audio, microphone, file transfer and dynamic resolution. For agents and scripts it exposes /screenshot, /record for MP4 clips, and /wait, which returns when the screen settles or a region changes so an agent does not have to sleep after each action. Its README benchmarks it at about 60 FPS against selkies, KasmVNC, Neko, noVNC and Daytona on a 2560x1600 Xvfb desktop. Installed with cargo install voxl-server, MIT licensed.",
+      },
+      {
         title: "Abide",
         href: "https://github.com/coldteadotai/abide",
         dateAdded: "2026-10-04",
@@ -12024,6 +12042,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Databases and storage",
     links: [
+      {
+        title: "Git for Global Law",
+        href: "https://github.com/lexifina/global-law",
+        dateAdded: "2026-11-03",
+        kind: "tool",
+        stack: ["git", "mcp", "python"],
+        useFor: [
+          "law of every country as git history",
+          "read a statute as it stood on a date",
+          "find which law changed a provision",
+          "legal mcp server for ai agents",
+          "check citations against law in force",
+          "open legislation data",
+          "diff legislation between two dates",
+        ],
+        description:
+          "Git for Global Law, from Lexifina, arranges the law of many jurisdictions as one git history: each country's law is a submodule repository where every commit is one law taking effect, and this repository interleaves them by in-force date. Its tools/law.py reads a provision on a date, credits each word to the law that wrote it, and diffs or lists laws between dates, while tools/mcp_server.py is a local read-only MCP server with 18 tools for Claude Code, Cursor, VS Code and Codex. Coverage varies by corpus: some hold a whole statute book (Czechia, Spain, Switzerland), while the US corpus is nine titles of the United States Code, and manifest.json records each one's coverage and how its history is known. The repository is CC0, with law text under each country repository's own terms.",
+      },
       {
         title: "bbtree",
         href: "https://github.com/XiangpengHao/bbtree",
