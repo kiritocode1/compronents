@@ -4,6 +4,7 @@ import type { ComponentType } from "react";
 import WatercolorPreview from "./watercolor";
 import AuraCarouselPreview from "./aura-carousel";
 import NeonIcebergPreview from "./neon-iceberg";
+import ExtrudeTypePreview from "./extrude-type";
 import GrowthClockPreview from "./growth-clock";
 import HologramWalkwayPreview from "./hologram-walkway";
 import AccordionFramesPreview from "./accordion-frames";
@@ -95,6 +96,7 @@ export const previews: Record<string, ComponentType> = {
   watercolor: WatercolorPreview,
   "aura-carousel": AuraCarouselPreview,
   "neon-iceberg": NeonIcebergPreview,
+  "extrude-type": ExtrudeTypePreview,
   "growth-clock": GrowthClockPreview,
   "hologram-walkway": HologramWalkwayPreview,
   "ink-field": InkFieldPreview,

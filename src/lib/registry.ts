@@ -5884,6 +5884,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "extrude-type",
+    title: "Extrude Type",
+    description:
+      "A slab of marble with every letter cut into it. Each letter is a marble piston resting just below the surface, so at rest the text reads as an engraving. Letters near the pointer slide up out of their slots into pale towers, hold for a moment, then sink back. Three.js with a rounded-glyph instanced mesh, a per-instance height attribute, soft key lights and a warm fill, plus a 0.9px soft focus.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-07",
+    type: "registry:ui",
+    dependencies: ["three"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/extrude-type.tsx",
+        target: "components/ui/extrude-type.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "aura-carousel",
     title: "Aura Carousel",
     description:

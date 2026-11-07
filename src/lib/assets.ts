@@ -2232,6 +2232,18 @@ const floatingModelScrollAssets = [
   } as const satisfies AssetItem,
 ];
 
+const extrudeTypeAssets = [
+  {
+    id: "extrude-type-font",
+    label: "Extrude Type helvetiker bold font",
+    provider: "vercel-blob",
+    pathname: "extrude-type/helvetiker_bold.typeface.json",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/extrude-type/helvetiker_bold.typeface.json`,
+    role: "Typeface JSON used by the extruded marble letters.",
+    notes: "Served from Vercel Blob at the stable registry pathname.",
+  } as const satisfies AssetItem,
+];
+
 const emojiTrailPreloaderAssets = [
   ["cursor", "cursor.svg", "Custom pointer used across the page."],
   ["logo", "logo.png", "Wordmark in the middle of the navigation row."],
@@ -3124,6 +3136,7 @@ export const assetItems = [
   ...frameScrollAssets,
   ...fallingTagListAssets,
   ...crtDisplayAssets,
+  ...extrudeTypeAssets,
   ...creativeClutterAssets,
   ...accordionFramesAssets,
   ...asciiImageRevealAssets,
