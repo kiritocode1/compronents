@@ -3,7 +3,10 @@
 import { type CSSProperties, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Font, type FontData } from "three/addons/loaders/FontLoader.js";
-import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+import {
+  mergeGeometries,
+  mergeVertices,
+} from "three/addons/utils/BufferGeometryUtils.js";
 
 export type ExtrudeTypeOptions = {
   title: string;
@@ -115,7 +118,11 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
   const font = new Font(options.font);
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: false,
+    stencil: true,
+  });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
@@ -172,28 +179,90 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
   );
   const depthMaterial = withHeight(new THREE.MeshDepthMaterial());
 
-  const slab = new THREE.Mesh(new THREE.BufferGeometry(), slabMaterial);
-  slab.castShadow = true;
-  slab.receiveShadow = true;
-  scene.add(slab);
+  // The marble surface is one flat plane. Letter openings are punched through it with the
+  // stencil buffer instead of cutting holes into the mesh: triangulating a line of text as
+  // one polygon with dozens of holes fails and covers some slots back over.
+  slabMaterial.stencilWrite = true;
+  slabMaterial.stencilRef = 1;
+  slabMaterial.stencilFunc = THREE.NotEqualStencilFunc;
+  const surface = new THREE.Mesh(
+    new THREE.PlaneGeometry(4000, 4000),
+    slabMaterial,
+  );
+  surface.receiveShadow = true;
+  surface.renderOrder = 1;
+  scene.add(surface);
 
-  const outlines = new Map<
+  // Letter-shaped masks at the surface, drawn first, mark where the plane must not draw.
+  const maskMaterial = new THREE.MeshBasicMaterial({
+    colorWrite: false,
+    depthWrite: false,
+    stencilWrite: true,
+    stencilRef: 1,
+    stencilFunc: THREE.AlwaysStencilFunc,
+    stencilZPass: THREE.ReplaceStencilOp,
+  });
+  const masks = new THREE.Mesh(new THREE.BufferGeometry(), maskMaterial);
+  masks.renderOrder = 0;
+  scene.add(masks);
+
+  // The inside walls of every slot, seen from within the opening, so they render back faces.
+  // They cast the shadows that fall onto a sunken letter.
+  const wallMaterial = new THREE.MeshPhysicalMaterial({
+    ...marbleParams,
+    side: THREE.BackSide,
+    shadowSide: THREE.DoubleSide,
+  });
+  const walls = new THREE.Mesh(new THREE.BufferGeometry(), wallMaterial);
+  walls.castShadow = true;
+  walls.receiveShadow = true;
+  scene.add(walls);
+
+  // Per-character unit-size pieces: the flat opening (counters stay solid) and the slot's
+  // side walls running from the surface down to the slab floor.
+  const pieces = new Map<
     string,
-    { outers: THREE.Vector2[][]; counters: THREE.Vector2[][] }
+    { mask: THREE.BufferGeometry; wall: THREE.BufferGeometry }
   >();
-  const outlineOf = (ch: string) => {
-    let o = outlines.get(ch);
-    if (!o) {
+  const pieceOf = (ch: string) => {
+    let piece = pieces.get(ch);
+    if (!piece) {
       const shapes = font.generateShapes(ch, 1);
-      o = {
-        outers: shapes.map((s) => s.getPoints(CURVE_SEGMENTS)),
-        counters: shapes.flatMap((s) =>
-          s.holes.map((h) => h.getPoints(CURVE_SEGMENTS)),
-        ),
-      };
-      outlines.set(ch, o);
+      const mask = new THREE.ShapeGeometry(shapes, CURVE_SEGMENTS);
+      mask.deleteAttribute("normal");
+      mask.deleteAttribute("uv");
+      const extruded = new THREE.ExtrudeGeometry(shapes, {
+        depth: SLAB,
+        bevelEnabled: false,
+        curveSegments: CURVE_SEGMENTS,
+      });
+      // ExtrudeGeometry tags caps as material 0 and side walls as material 1.
+      const position = extruded.getAttribute("position");
+      const normal = extruded.getAttribute("normal");
+      const kept: number[] = [];
+      const keptNormals: number[] = [];
+      for (const group of extruded.groups) {
+        if (group.materialIndex !== 1) continue;
+        for (let i = group.start; i < group.start + group.count; i++) {
+          kept.push(
+            position.getX(i),
+            position.getY(i),
+            position.getZ(i) - SLAB,
+          );
+          keptNormals.push(normal.getX(i), normal.getY(i), normal.getZ(i));
+        }
+      }
+      extruded.dispose();
+      const wall = new THREE.BufferGeometry();
+      wall.setAttribute("position", new THREE.Float32BufferAttribute(kept, 3));
+      wall.setAttribute(
+        "normal",
+        new THREE.Float32BufferAttribute(keptNormals, 3),
+      );
+      piece = { mask, wall };
+      pieces.set(ch, piece);
     }
-    return o;
+    return piece;
   };
 
   const glyphs = new Map<string, THREE.InstancedMesh>();
@@ -246,11 +315,9 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
     advance: number;
     word: number;
   };
-  type Row = { top: number; bottom: number };
 
   const layout = (w: number) => {
     const placements: Placement[] = [];
-    const rows: Row[] = [];
     let wordIndex = 0;
     const set = (
       text: string,
@@ -277,7 +344,6 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
       if (line.length) lines.push(line);
       let y = top;
       for (const ln of lines) {
-        const rowTop = y;
         y -= size;
         const natural =
           ln.reduce((s, word) => s + wordWidth(word) * size, 0) +
@@ -293,83 +359,32 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
           wordIndex++;
         }
         y -= size * (LINE_HEIGHT - 1);
-        rows.push({ top: rowTop, bottom: y });
       }
       return y;
     };
     const titleBottom = set(title, TITLE_SCALE, 0, "center");
     const bottom = set(body, 1, titleBottom - TITLE_GAP, "left");
-    return { placements, rows, height: -bottom };
+    return { placements, height: -bottom };
   };
 
-  const buildSlab = (
-    placements: Placement[],
-    rows: Row[],
-    w: number,
-    height: number,
-    shiftY: number,
-  ) => {
-    const left = -w / 2 - MARGIN;
-    const right = w / 2 + MARGIN;
-    const top = shiftY + MARGIN;
-    const bottom = shiftY - height - MARGIN;
-    const shapes: THREE.Shape[] = [];
-    const rect = (x0: number, y0: number, x1: number, y1: number) =>
-      new THREE.Shape([
-        new THREE.Vector2(x0, y0),
-        new THREE.Vector2(x1, y0),
-        new THREE.Vector2(x1, y1),
-        new THREE.Vector2(x0, y1),
-      ]);
-
-    const reachX = w * 3;
-    const reachY = height * 3 + 20;
-    const frame = rect(
-      left - reachX,
-      bottom - reachY,
-      right + reachX,
-      top + reachY,
-    );
-    frame.holes.push(
-      new THREE.Path(rect(left, bottom, right, top).getPoints()),
-    );
-    shapes.push(frame);
-
-    const bands: Row[] = [];
-    let cursor = top;
-    for (const row of rows) {
-      const rt = row.top + shiftY;
-      const rb = row.bottom + shiftY;
-      if (cursor > rt + 1e-6) bands.push({ top: cursor, bottom: rt });
-      bands.push({ top: rt, bottom: rb });
-      cursor = rb;
+  // Places a copy of every letter's opening and walls; rebuilt on each layout.
+  const buildSlots = (placements: Placement[], shiftY: number) => {
+    const maskParts: THREE.BufferGeometry[] = [];
+    const wallParts: THREE.BufferGeometry[] = [];
+    const placed = new THREE.Matrix4();
+    for (const p of placements) {
+      const { mask, wall } = pieceOf(p.ch);
+      placed.makeScale(p.size, p.size, 1);
+      placed.setPosition(p.x, p.y + shiftY, 0);
+      maskParts.push(mask.clone().applyMatrix4(placed));
+      wallParts.push(wall.clone().applyMatrix4(placed));
     }
-    if (cursor > bottom + 1e-6) bands.push({ top: cursor, bottom });
-
-    for (const band of bands) {
-      const strip = rect(left, band.bottom, right, band.top);
-      for (const p of placements) {
-        const py = p.y + shiftY;
-        if (py >= band.top || py <= band.bottom) continue;
-        const { outers, counters } = outlineOf(p.ch);
-        const place = (pts: THREE.Vector2[]) =>
-          pts.map(
-            (v) => new THREE.Vector2(p.x + v.x * p.size, py + v.y * p.size),
-          );
-        for (const outer of outers)
-          strip.holes.push(new THREE.Path(place(outer)));
-        for (const counter of counters)
-          shapes.push(new THREE.Shape(place(counter)));
-      }
-      shapes.push(strip);
-    }
-    const geometry = new THREE.ExtrudeGeometry(shapes, {
-      depth: SLAB,
-      bevelEnabled: false,
-      curveSegments: CURVE_SEGMENTS,
-    });
-    geometry.translate(0, 0, -SLAB);
-    return geometry;
+    const merged = {
+      mask: mergeGeometries(maskParts) ?? new THREE.BufferGeometry(),
+      wall: mergeGeometries(wallParts) ?? new THREE.BufferGeometry(),
+    };
+    for (const part of [...maskParts, ...wallParts]) part.dispose();
+    return merged;
   };
 
   let letters: {
@@ -406,12 +421,15 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
       const score = Math.abs(Math.log(w / (result.height + 1.5) / aspect));
       if (score < best.score) best = { w, score, result };
     }
-    const { placements, rows, height } = best.result;
+    const { placements, height } = best.result;
     const w = best.w;
     const shiftY = height / 2;
 
-    slab.geometry.dispose();
-    slab.geometry = buildSlab(placements, rows, w, height, shiftY);
+    const slots = buildSlots(placements, shiftY);
+    masks.geometry.dispose();
+    masks.geometry = slots.mask;
+    walls.geometry.dispose();
+    walls.geometry = slots.wall;
 
     restDepth = Float32Array.from(
       placements,
@@ -603,8 +621,16 @@ function mountExtrudeType(host: HTMLElement, options: ExtrudeTypeOptions) {
     renderer.domElement.removeEventListener("pointerleave", onLeave);
     for (const mesh of glyphs.values()) mesh.geometry.dispose();
     for (const sun of suns) sun.shadow.dispose();
-    slab.geometry.dispose();
+    masks.geometry.dispose();
+    walls.geometry.dispose();
+    surface.geometry.dispose();
+    for (const piece of pieces.values()) {
+      piece.mask.dispose();
+      piece.wall.dispose();
+    }
     slabMaterial.dispose();
+    maskMaterial.dispose();
+    wallMaterial.dispose();
     letterMaterial.dispose();
     depthMaterial.dispose();
     renderer.dispose();
