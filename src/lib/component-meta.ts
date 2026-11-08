@@ -16371,6 +16371,60 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  phatake: {
+    demoPath: "src/components/demos/phatake.tsx",
+    nuance: [
+      {
+        label: "The logo is a heightmap, not a sprite",
+        description:
+          "The BLANK Interfaces paths are rasterized once into a slab mask and a letter mask, then the slab lives as a 0.1-unit height grid with soot and litter beside it. Bombs lower cells and drop the thin ones to zero, so breaks chip the real outline and expose sandy cut stone on the walls that face the camera.",
+      },
+      {
+        label: "Two floors for shadows",
+        description:
+          "Ground-plane shadows only land on ground pixels, and the slab top is excluded from them. Children cast onto whatever height they stand on through a second mask, so their shadows sit on the logo instead of sliding off to the courtyard below.",
+      },
+      {
+        label: "Soot is grain, not dither",
+        description:
+          "Soot and ash use a per-pixel hash instead of the Bayer matrix, because an ordered pattern on black reads as a checkerboard. Litter never settles in a fresh break, so craters keep a clean cut-stone form.",
+      },
+      {
+        label: "Rebakes, not redraws",
+        description:
+          "The courtyard, slab and static shadows are baked into one buffer and rebaked at most every 100 ms when something changes. A frame only adds the children, crackers, sparks and smoke on top.",
+      },
+      {
+        label: "Whole-pixel scaling",
+        description:
+          "The 360 by 280 canvas is scaled by a whole number of device pixels to fit the container and drawn with pixelated rendering, so no pixel is ever interpolated.",
+      },
+    ],
+    editable: [
+      {
+        name: "label",
+        control: "text",
+        description: "Accessible name for the canvas.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "sound",
+        type: "boolean",
+        default: "true",
+        description:
+          "Synthesized booms, whistles and crackles, started on the first tap.",
+      },
+      {
+        name: "label / className",
+        type: "string / string",
+        default: "description / undefined",
+        description:
+          "Accessible name for the canvas, and classes for the white wrapper that sizes it.",
+      },
+    ],
+  },
   "growth-clock": {
     demoPath: "src/components/demos/growth-clock.tsx",
     nuance: [

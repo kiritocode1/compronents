@@ -167,6 +167,7 @@ import ParallaxModelFooterDemo from "./parallax-model-footer";
 import ParticleFluidHeroDemo from "./particle-fluid-hero";
 import PhotoSphereOrbDemo from "./photo-sphere-orb";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
+import PhatakeDemo from "./phatake";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
 import PinnedShrinkCardsDemo from "./pinned-shrink-cards";
 import PixelCubeAvatarDemo from "./pixel-cube-avatar";
@@ -518,6 +519,7 @@ export const demos: Record<string, ComponentType> = {
   "scatter-letter-intro": ScatterLetterIntroDemo,
   "pixel-cube-avatar": PixelCubeAvatarDemo,
   "pixel-cube-field": PixelCubeFieldDemo,
+  phatake: PhatakeDemo,
   "liquid-glass-carousel": LiquidGlassCarouselDemo,
   "aura-carousel": AuraCarouselDemo,
   "neon-iceberg": NeonIcebergDemo,

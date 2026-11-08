@@ -5804,6 +5804,41 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "phatake",
+    title: "Phatake",
+    description:
+      "Diwali crackers on the BLANK Interfaces logo, as an isometric pixel diorama. The logo is extruded into a black slab on a sandstone courtyard with a rangoli and diyas, and kept as a heightmap with soot and litter grids so every cracker leaves a mark. Tap a spot on the logo and the nearest of three children, in a lehenga, a kurta and a Nehru jacket, runs over, crouches to light the next cracker with an agarbatti, runs off and covers their ears. Sutli bombs break chunks out of the slab down to the cut stone, rockets climb off it and burst (one in four skids across instead), anaar fountains and chakris scorch it, and ladis litter it with red paper. Twelve crackers a round; after the last one a tap sweeps the logo clean. A 360 by 280 software rasteriser with a depth buffer, Bayer dither, hue-shifted ramps and long screen-right shadows, scaled by whole device pixels. Renders only the canvas, pauses off screen, synthesizes its sounds. Renderer ported from Pixel Plays (MIT). No dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-08",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/phatake/index.tsx",
+        target: "components/ui/phatake/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/phatake/game.ts",
+        target: "components/ui/phatake/game.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/phatake/engine.ts",
+        target: "components/ui/phatake/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/phatake/logo.ts",
+        target: "components/ui/phatake/logo.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "pixel-cube-field",
     title: "Pixel Cube Field",
     description:
