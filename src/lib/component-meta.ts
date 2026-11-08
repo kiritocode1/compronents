@@ -17532,6 +17532,69 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "cassette-tower": {
+    demoPath: "src/components/demos/cassette-tower.tsx",
+    nuance: [
+      {
+        label: "Every cassette is modeled geometry",
+        description:
+          "Shells, hubs, tape and glints are instanced meshes, and each label is a canvas texture drawn per project. The stack loops vertically while it rotates, and a post chain adds motion blur, depth of field, bloom, chromatic aberration, ACES tone mapping, grain and a vignette.",
+      },
+      {
+        label: "Hover slows the stack",
+        description:
+          "Pointing at a cassette eases the rotation down and draws that project's image as fragments around it. Dragging adds spin and vertical travel; the project list beside it follows the active cassette.",
+      },
+      {
+        label: "Isolated document",
+        description:
+          "The source runtime looks up elements by selector on the global document and owns window listeners. An iframe keeps those, its CSS and the WebGPU device inside this component and releases them on unmount.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("cassette-tower-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "projects",
+        type: "CassetteProject[]",
+        description:
+          "One cassette per entry: name, client, year, url and image. Images are fetched inside the frame, so their host must send CORS headers. Defaults to 17 BLANK projects.",
+      },
+      {
+        name: "label",
+        type: "string",
+        default: '"BLANK"',
+        description:
+          "Text printed on every cassette label and used as the wordmark.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Class on the full-size frame. Its parent should have a height.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the frame.",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: '"Cassette tower"',
+        description: "Accessible frame title.",
+      },
+    ],
+  },
   "mossy-type": {
     demoPath: "src/components/demos/mossy-type.tsx",
     nuance: [

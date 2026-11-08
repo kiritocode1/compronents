@@ -31,6 +31,7 @@ import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
 import CardPartingRevealDemo from "./card-parting-reveal";
 import CarouselDiscScrollDemo from "./carousel-disc-scroll";
 import CarouselRingGalleryDemo from "./carousel-ring-gallery";
+import CassetteTowerDemo from "./cassette-tower";
 import CatalogSwapGalleryDemo from "./catalog-swap-gallery";
 import CellPortraitDemo from "./cell-portrait";
 import ChromeFolioPageDemo from "./chrome-folio-page";
@@ -530,5 +531,6 @@ export const demos: Record<string, ComponentType> = {
   "prism-light-instrument": PrismLightInstrumentDemo,
   "soft-type": SoftTypeDemo,
   "mossy-type": MossyTypeDemo,
+  "cassette-tower": CassetteTowerDemo,
   "type-garden": TypeGardenDemo,
 };

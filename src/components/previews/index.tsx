@@ -16,6 +16,7 @@ import AwardListPreview from "./award-list";
 import BlurStudyBoxPreview from "./blur-study-box";
 import BlurStudyGridPreview from "./blur-study-grid";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
+import CassetteTowerPreview from "./cassette-tower";
 import CellPortraitPreview from "./cell-portrait";
 import CreativeClutterPreview from "./creative-clutter";
 import CrtDisplayPreview from "./crt-display";
@@ -138,5 +139,6 @@ export const previews: Record<string, ComponentType> = {
   "prism-light-instrument": PrismLightInstrumentPreview,
   "soft-type": SoftTypePreview,
   "mossy-type": MossyTypePreview,
+  "cassette-tower": CassetteTowerPreview,
   "type-garden": TypeGardenPreview,
 };

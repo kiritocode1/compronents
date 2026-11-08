@@ -2863,6 +2863,19 @@ const mossyTypeAssets = mossyTypeAssetPaths.map(
     }) satisfies AssetItem,
 );
 
+const cassetteTowerAssets = [
+  {
+    id: "cassette-tower-index-js",
+    label: "Cassette Tower index.js",
+    provider: "vercel-blob",
+    pathname: "cassette-tower/index.js",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/cassette-tower/index.js`,
+    role: "Pinned bizar.ro WebGPU runtime with the project list and label read from the frame config.",
+    notes:
+      "Built from reference/cassette-tower/index.js. Only the project source, label text and bootstrap handle differ, and the external-link arrow is removed.",
+  },
+] as const satisfies readonly AssetItem[];
+
 const warpedGalleryAssets = [
   "inter-variable.woff2",
   "nav-in-motion.mp4",
@@ -2945,6 +2958,7 @@ export const assetItems = [
   } satisfies AssetItem,
   ...typeGardenFontAssets,
   ...mossyTypeAssets,
+  ...cassetteTowerAssets,
   ...moneybeeAlpinePageAssets,
   ...moneybeeEditorialPageAssets,
   ...dustMorphHeroAssets,

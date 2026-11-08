@@ -512,6 +512,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "cassette-tower",
+    title: "Cassette Tower",
+    description:
+      "A rotating, looping tower of modeled cassettes, one per project, rendered in WebGPU with motion blur, depth of field, bloom and film grain. Pointer movement tilts the camera, hovering a cassette slows the stack and shows its project image, and dragging spins it. Pass your own projects and label. The bizar.ro renderer runs inside an isolated document.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-08",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/cassette-tower.tsx",
+        target: "components/ui/cassette-tower.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "mossy-type",
     title: "Mossy Type",
     description:
