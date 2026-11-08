@@ -1498,6 +1498,31 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Native Cook",
+        href: "https://nativecook.dev/",
+        dateAdded: "2026-11-08",
+        kind: "library",
+        stack: [
+          "react native",
+          "expo",
+          "reanimated",
+          "swiftui",
+          "jetpack compose",
+          "kotlin",
+        ],
+        useFor: [
+          "find mobile ui block prompts",
+          "copy a react native block prompt",
+          "copy a swiftui block prompt",
+          "copy a jetpack compose block prompt",
+          "watch mobile interaction recordings",
+          "browse onboarding and gesture blocks",
+          "rebuild an app interaction from video",
+        ],
+        description:
+          "Native Cook is a catalog of 768 mobile UI blocks, each shown as a short screen recording and paired with a prompt your coding agent can rebuild it from. Every block carries three prompts, one each for React Native with Expo and Reanimated, SwiftUI on iOS 17 and later, and Jetpack Compose with Material 3. Blocks are sorted into 18 categories including onboarding, gestures, sheets, modals, forms, cards, charts, animations, pickers and splash screens, and the full catalog is searchable. One developer builds, records and writes up every block, some original and some recreating an interaction first seen in another app, and every block and prompt is free for now.",
+      },
+      {
         title: "Scrolltide",
         href: "https://scrolltide.co/",
         dateAdded: "2026-10-31",
