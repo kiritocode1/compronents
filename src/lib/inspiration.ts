@@ -1498,6 +1498,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "Modulify Templates",
+        href: "https://modulify.ai/templates",
+        dateAdded: "2026-11-08",
+        kind: "library",
+        useFor: [
+          "browse free website templates",
+          "clone a saas landing page template",
+          "clone a portfolio website template",
+          "find an agency website template",
+          "preview a website template before cloning",
+          "start a site from a template",
+        ],
+        description:
+          "Modulify Templates is a gallery of production-ready websites built with Modulify, each with a live preview and a clone button that copies it into your dashboard. Templates are tagged by industry, including SaaS, agency, architecture, travel, portfolio, marketing, photography, restaurant, fitness, finance, ecommerce and creative studio. The gallery describes the templates as free to clone, and each one opens as an editable site in the platform's AI builder.",
+      },
+      {
         title: "Native Cook",
         href: "https://nativecook.dev/",
         dateAdded: "2026-11-08",
@@ -10483,6 +10499,22 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "AI tools, agents and search",
     links: [
       {
+        title: "Modulify",
+        href: "https://modulify.ai/",
+        dateAdded: "2026-11-08",
+        kind: "tool",
+        useFor: [
+          "generate a landing page from a prompt",
+          "build a dashboard from a prompt",
+          "refine a generated site in chat",
+          "clone a website template",
+          "compare ai website builder pricing",
+          "import a webflow site",
+        ],
+        description:
+          "Modulify turns a written prompt into a landing page, website, dashboard or app, which you then edit and refine in a chat panel. Sites include a database, storage, realtime analytics and a free subdomain, and paid plans add custom domains and branding removal. The free plan is one site with 35 one time AI credits, Starter is $20 a month and Pro is $40 a month, both billed yearly with a 20 percent discount. A Webflow import is on a waitlist and claims to preserve pages, CMS content and the content model, and the template gallery is free to clone.",
+      },
+      {
         title: "Banani",
         href: "https://www.banani.co/",
         dateAdded: "2026-10-31",
@@ -15147,6 +15179,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "File sharing and conversion tools",
     links: [
+      {
+        title: "Aimg",
+        href: "https://animg.vercel.app/",
+        dateAdded: "2026-11-08",
+        kind: "tool",
+        useFor: [
+          "compress an image in the browser",
+          "resize images in bulk",
+          "convert png to jpg",
+          "remove an image background on device",
+          "strip exif data before sharing",
+          "make a favicon set",
+          "upscale a small image",
+          "extract a color palette from an image",
+        ],
+        description:
+          "Aimg is a free image editor and converter with 19 tools that run entirely in the browser, so files are never uploaded. Tools cover compress, resize, crop, JPG conversion both ways, a photo editor, 2x to 4x upscaling, background removal with an on-device AI model, watermarking, meme captions, rotation, HTML to image, face blurring, GIF making, image to PDF, palette extraction, favicon generation, EXIF stripping and Base64 encoding. Processing uses the Canvas API, WebAssembly and on-device models that download once and cache, and the site offers unlimited files, batch ZIP export and offline use with no account or watermark.",
+      },
       {
         title: "MarkItDown",
         href: "https://github.com/microsoft/markitdown",
