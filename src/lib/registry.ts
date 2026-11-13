@@ -512,6 +512,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "blur-trail-video",
+    title: "Blur Trail Video",
+    description:
+      "A full-bleed video that blurs and splits into red and blue wherever the pointer has just moved, then sharpens again as the trail fades over about a second. An eased brush paints a float mask each frame, and the mask mixes the plain video with an RGB-shifted, 35-tap Gaussian blur of it. Ported from the seitaroyamazaki.com hero in WebGL2, so it runs without WebGPU.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-13",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/blur-trail-video.tsx",
+        target: "components/ui/blur-trail-video.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "cassette-tower",
     title: "Cassette Tower",
     description:
@@ -2669,7 +2689,8 @@ export const registryItems: RegistryItem[] = [
   {
     name: "hologram-walkway",
     title: "Hologram Walkway",
-    description: "An isometric pixel scene in the rain. Walk a man up an endless elevated walkway with the up and down arrows; when he reaches her place, a giant pink hologram projects in, turns, greets him with her cheek on her hand and points down at him, with subtitles. Software rasteriser, a ray-marched hologram baked in Web Workers, fog, puddle reflections, an isometric city and neon signs.",
+    description:
+      "An isometric pixel scene in the rain. Walk a man up an endless elevated walkway with the up and down arrows; when he reaches her place, a giant pink hologram projects in, turns, greets him with her cheek on her hand and points down at him, with subtitles. Software rasteriser, a ray-marched hologram baked in Web Workers, fog, puddle reflections, an isometric city and neon signs.",
     section: "components",
     category: "Animations",
     pro: true,
@@ -2678,17 +2699,38 @@ export const registryItems: RegistryItem[] = [
     dependencies: [],
     registryDependencies: [],
     files: [
-      { path: "src/registry/hologram-walkway/index.tsx", target: "components/ui/hologram-walkway/index.tsx", type: "registry:ui" },
-      { path: "src/registry/hologram-walkway/engine.ts", target: "components/ui/hologram-walkway/engine.ts", type: "registry:lib" },
-      { path: "src/registry/hologram-walkway/hologram.ts", target: "components/ui/hologram-walkway/hologram.ts", type: "registry:lib" },
-      { path: "src/registry/hologram-walkway/hologram.worker.ts", target: "components/ui/hologram-walkway/hologram.worker.ts", type: "registry:lib" },
-      { path: "src/registry/hologram-walkway/pixel.ts", target: "components/ui/hologram-walkway/pixel.ts", type: "registry:lib" },
+      {
+        path: "src/registry/hologram-walkway/index.tsx",
+        target: "components/ui/hologram-walkway/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/hologram-walkway/engine.ts",
+        target: "components/ui/hologram-walkway/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/hologram-walkway/hologram.ts",
+        target: "components/ui/hologram-walkway/hologram.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/hologram-walkway/hologram.worker.ts",
+        target: "components/ui/hologram-walkway/hologram.worker.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/hologram-walkway/pixel.ts",
+        target: "components/ui/hologram-walkway/pixel.ts",
+        type: "registry:lib",
+      },
     ],
   },
   {
     name: "watercolor",
     title: "Watercolor",
-    description: "Interactive WebGPU watercolor from watercolor.bizar.ro. Paint and smudge wet pigment on procedural paper, with spreading, granulation, evaporation and a centre-out wash. Brush, water, lighting and paper controls live in the external studio panel.",
+    description:
+      "Interactive WebGPU watercolor from watercolor.bizar.ro. Paint and smudge wet pigment on procedural paper, with spreading, granulation, evaporation and a centre-out wash. Brush, water, lighting and paper controls live in the external studio panel.",
     section: "components",
     category: "Animations",
     pro: true,
@@ -2697,10 +2739,26 @@ export const registryItems: RegistryItem[] = [
     dependencies: ["@webgpu/types"],
     registryDependencies: [],
     files: [
-      { path: "src/registry/watercolor/index.tsx", target: "components/ui/watercolor/index.tsx", type: "registry:ui" },
-      { path: "src/registry/watercolor/engine.ts", target: "components/ui/watercolor/engine.ts", type: "registry:lib" },
-      { path: "src/registry/watercolor/settings.ts", target: "components/ui/watercolor/settings.ts", type: "registry:lib" },
-      { path: "src/registry/watercolor/shaders.ts", target: "components/ui/watercolor/shaders.ts", type: "registry:lib" },
+      {
+        path: "src/registry/watercolor/index.tsx",
+        target: "components/ui/watercolor/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/watercolor/engine.ts",
+        target: "components/ui/watercolor/engine.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/watercolor/settings.ts",
+        target: "components/ui/watercolor/settings.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/watercolor/shaders.ts",
+        target: "components/ui/watercolor/shaders.ts",
+        type: "registry:lib",
+      },
     ],
   },
   {

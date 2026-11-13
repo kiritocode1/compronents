@@ -2815,14 +2815,46 @@ const moneybeeEditorialPageAssets = [
 const typeGardenFontAssets = (
   [
     ["gt-ultra.otf", "GT Ultra", "Letter face drawn on the garden canvas."],
-    ["playfair-display-700-latin.woff2", "Playfair Display 700 latin", "Fallback face for letters GT Ultra lacks."],
-    ["playfair-display-700-latin-ext.woff2", "Playfair Display 700 latin-ext", "Fallback face for letters GT Ultra lacks."],
-    ["playfair-display-700-cyrillic.woff2", "Playfair Display 700 cyrillic", "Fallback face for letters GT Ultra lacks."],
-    ["playfair-display-700-vietnamese.woff2", "Playfair Display 700 vietnamese", "Fallback face for letters GT Ultra lacks."],
-    ["dm-mono-400-latin.woff2", "DM Mono 400 latin", "Key hints along the bottom."],
-    ["dm-mono-400-latin-ext.woff2", "DM Mono 400 latin-ext", "Key hints along the bottom."],
-    ["dm-mono-500-latin.woff2", "DM Mono 500 latin", "Key hints along the bottom."],
-    ["dm-mono-500-latin-ext.woff2", "DM Mono 500 latin-ext", "Key hints along the bottom."],
+    [
+      "playfair-display-700-latin.woff2",
+      "Playfair Display 700 latin",
+      "Fallback face for letters GT Ultra lacks.",
+    ],
+    [
+      "playfair-display-700-latin-ext.woff2",
+      "Playfair Display 700 latin-ext",
+      "Fallback face for letters GT Ultra lacks.",
+    ],
+    [
+      "playfair-display-700-cyrillic.woff2",
+      "Playfair Display 700 cyrillic",
+      "Fallback face for letters GT Ultra lacks.",
+    ],
+    [
+      "playfair-display-700-vietnamese.woff2",
+      "Playfair Display 700 vietnamese",
+      "Fallback face for letters GT Ultra lacks.",
+    ],
+    [
+      "dm-mono-400-latin.woff2",
+      "DM Mono 400 latin",
+      "Key hints along the bottom.",
+    ],
+    [
+      "dm-mono-400-latin-ext.woff2",
+      "DM Mono 400 latin-ext",
+      "Key hints along the bottom.",
+    ],
+    [
+      "dm-mono-500-latin.woff2",
+      "DM Mono 500 latin",
+      "Key hints along the bottom.",
+    ],
+    [
+      "dm-mono-500-latin-ext.woff2",
+      "DM Mono 500 latin-ext",
+      "Key hints along the bottom.",
+    ],
   ] as const
 ).map(
   ([filename, face, role]) =>
@@ -2833,7 +2865,8 @@ const typeGardenFontAssets = (
       pathname: `type-garden/${filename}`,
       fallbackPath: `${BLOB_PUBLIC_ORIGIN}/type-garden/${filename}`,
       role,
-      notes: "Extracted byte for byte from the pinned source bundle in reference/type-garden/index.html.",
+      notes:
+        "Extracted byte for byte from the pinned source bundle in reference/type-garden/index.html.",
     }) as const satisfies AssetItem,
 );
 
@@ -2862,6 +2895,19 @@ const mossyTypeAssets = mossyTypeAssetPaths.map(
         "Original Moss Type source asset, hosted at a stable Blob pathname.",
     }) satisfies AssetItem,
 );
+
+const blurTrailVideoAssets = [
+  {
+    id: "blur-trail-video-bg",
+    label: "Blur Trail Video bg.mp4",
+    provider: "vercel-blob",
+    pathname: "blur-trail-video/bg.mp4",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/blur-trail-video/bg.mp4`,
+    role: "Default video under the trail: the seitaroyamazaki.com hero footage, 1280x720 at 23.976fps.",
+    notes:
+      "Pinned source video. Served with CORS so WebGL can upload its frames.",
+  },
+] as const satisfies readonly AssetItem[];
 
 const cassetteTowerAssets = [
   {
@@ -2959,6 +3005,7 @@ export const assetItems = [
   ...typeGardenFontAssets,
   ...mossyTypeAssets,
   ...cassetteTowerAssets,
+  ...blurTrailVideoAssets,
   ...moneybeeAlpinePageAssets,
   ...moneybeeEditorialPageAssets,
   ...dustMorphHeroAssets,

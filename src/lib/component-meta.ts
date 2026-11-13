@@ -17532,6 +17532,106 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "blur-trail-video": {
+    demoPath: "src/components/demos/blur-trail-video.tsx",
+    nuance: [
+      {
+        label: "The trail is a float mask",
+        description:
+          "Each frame adds a soft brush at the eased pointer and multiplies the previous mask by 0.92, so a stroke fades over about 50 frames. The brush only paints while the follower trails the pointer by more than 3px, so a resting cursor leaves nothing behind.",
+      },
+      {
+        label: "Blur in linear light",
+        description:
+          "The video is decoded to linear, shifted by 0.03 UV at 45 degrees per channel, blurred by a 35-tap Gaussian in two passes, mixed by the mask and encoded back to sRGB. Blur taps step in drawing-buffer pixels, so on a 2x display the blur covers half as many CSS pixels, as it does on the source.",
+      },
+      {
+        label: "Frame-rate dependent, like the source",
+        description:
+          "Decay and easing are per frame. On a 120Hz display the trail fades twice as fast, which matches the original site.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("blur-trail-video-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "src",
+        type: "string",
+        description:
+          "Video URL. Must be same-origin or sent with CORS headers, since WebGL reads its frames. Defaults to the hosted source footage.",
+      },
+      {
+        name: "decay",
+        type: "number",
+        default: "0.92",
+        description: "Share of the trail kept each frame.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        default: "0.2",
+        description:
+          "Brush radius as a fraction of the container's short side.",
+      },
+      {
+        name: "smoothing",
+        type: "number",
+        default: "0.1",
+        description:
+          "How far the brush moves toward the pointer each frame, from 0 to 1.",
+      },
+      {
+        name: "shiftAmount",
+        type: "number",
+        default: "0.03",
+        description: "Colour split distance in UV units.",
+      },
+      {
+        name: "shiftAngle",
+        type: "number",
+        default: "45",
+        description:
+          "Colour split direction in degrees. 45 sends red down and to the right.",
+      },
+      {
+        name: "blurSigma",
+        type: "number",
+        default: "16",
+        description:
+          "Gaussian sigma. Sets the tap count per pass (3 + 2 * sigma); changing it rebuilds the shaders.",
+      },
+      {
+        name: "blurStep",
+        type: "number",
+        default: "4",
+        description: "Distance between blur taps in drawing-buffer pixels.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Class on the root. Its parent should have a height.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Content layered above the video.",
+      },
+    ],
+  },
   "cassette-tower": {
     demoPath: "src/components/demos/cassette-tower.tsx",
     nuance: [

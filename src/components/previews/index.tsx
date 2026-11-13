@@ -1,20 +1,16 @@
 "use client";
 
 import type { ComponentType } from "react";
-import WatercolorPreview from "./watercolor";
-import AuraCarouselPreview from "./aura-carousel";
-import NeonIcebergPreview from "./neon-iceberg";
-import ExtrudeTypePreview from "./extrude-type";
-import GrowthClockPreview from "./growth-clock";
-import HologramWalkwayPreview from "./hologram-walkway";
 import AccordionFramesPreview from "./accordion-frames";
 import AnimatedFooterPreview from "./animated-footer";
 import ArchiveCommercePagePreview from "./archive-commerce-page";
 import AsciiImageRevealPreview from "./ascii-image-reveal";
 import AsciiLogoPreview from "./ascii-logo";
+import AuraCarouselPreview from "./aura-carousel";
 import AwardListPreview from "./award-list";
 import BlurStudyBoxPreview from "./blur-study-box";
 import BlurStudyGridPreview from "./blur-study-grid";
+import BlurTrailVideoPreview from "./blur-trail-video";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
 import CassetteTowerPreview from "./cassette-tower";
 import CellPortraitPreview from "./cell-portrait";
@@ -27,6 +23,7 @@ import DepoluxeSidewaysCarouselPreview from "./depoluxe-sideways-carousel";
 import DetroitParisSliderPreview from "./detroit-paris-slider";
 import DiningRoomPagePreview from "./dining-room-page";
 import EdgeWarpRailPreview from "./edge-warp-rail";
+import ExtrudeTypePreview from "./extrude-type";
 import FallingTagListPreview from "./falling-tag-list";
 import FilmStudioPagePreview from "./film-studio-page";
 import FisheyeScrollPreview from "./fisheye-scroll";
@@ -35,11 +32,13 @@ import FluidMosaicPreview from "./fluid-mosaic";
 import FluidRefractionPreview from "./fluid-refraction";
 import FluidRevealCarouselPreview from "./fluid-reveal-carousel";
 import FrameScrollPreview from "./frame-scroll";
+import GatherFieldPreview from "./gather-field";
 import GrainGradientFieldPreview from "./grain-gradient-field";
 import GrainGradientNavPreview from "./grain-gradient-nav";
+import GrowthClockPreview from "./growth-clock";
+import HologramWalkwayPreview from "./hologram-walkway";
 import HoverBloomPreview from "./hover-bloom";
 import ImageRevealPreview from "./image-reveal";
-import GatherFieldPreview from "./gather-field";
 import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
 import InversaScrollPreview from "./inversa-scroll";
@@ -50,6 +49,7 @@ import MaterialSpotlightPreview from "./material-spotlight";
 import MonogramMorphPagePreview from "./monogram-morph-page";
 import MosaicFlipPreview from "./mosaic-flip";
 import MossyTypePreview from "./mossy-type";
+import NeonIcebergPreview from "./neon-iceberg";
 import OverlayMenuPreview from "./overlay-menu";
 import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
@@ -66,6 +66,7 @@ import TypeGardenPreview from "./type-garden";
 import VerticalDialNavPreview from "./vertical-dial-nav";
 import VideoSummagatorPreview from "./video-summagator";
 import WarpedGalleryPreview from "./warped-gallery";
+import WatercolorPreview from "./watercolor";
 
 /**
  * Optional full-viewport preview for a registry item, shown at
@@ -140,5 +141,6 @@ export const previews: Record<string, ComponentType> = {
   "soft-type": SoftTypePreview,
   "mossy-type": MossyTypePreview,
   "cassette-tower": CassetteTowerPreview,
+  "blur-trail-video": BlurTrailVideoPreview,
   "type-garden": TypeGardenPreview,
 };
