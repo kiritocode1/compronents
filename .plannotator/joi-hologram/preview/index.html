@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>hologram walkway, preview</title>
+<style>
+  html, body { height: 100%; margin: 0; background: #07060b; }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  canvas { display: block; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="c" aria-label="An isometric pixel diorama: a giant pink hologram woman with a blue bob leans over a rainy elevated walkway and points at a small figure in a long coat."></canvas></div>
+<script>window.PP_SCENE = { W: 504, H: 392, S: 14, originX: -12, originY: 50, shadowX: .9, shadowY: .35 };</script>
+<script src="./engine.js"></script>
+<script>
+'use strict';
+
+/* ---------- palette ---------- */
+const VOID = rgb(7, 6, 11);
+const CONCRETE = [[22, 22, 34], [30, 29, 44], [38, 36, 54], [48, 44, 64], [60, 54, 76]];
+const STEEL = [74, 40, 52];          // rust red gantry, lit from behind
+const RAIL = [58, 52, 70];
+const COAT = [34, 32, 40];
+const PINK = [255, 74, 178];
+const SKIN = [[96, 24, 96], [158, 46, 140], [214, 84, 176], [244, 132, 206], [255, 190, 234]];
+const HAIR = [[30, 30, 120], [44, 70, 190], [66, 128, 236], [116, 186, 255], [196, 232, 255]];
+const HAIR_HI = HAIR.map((c, k) => HAIR[Math.min(4, k + 1)]);
+const FACE = SKIN.map(c => c.slice());   // same tones, its own identity so the face can be found later
+const LIPS = [[110, 8, 60], [168, 18, 84], [214, 34, 112], [244, 84, 146], [255, 150, 192]];
+const LASH = rgb(52, 10, 66);
+
+/* ---------- the place ---------- */
+const DECK = { x0: 1.4, x1: 6.2, y0: -15, y1: 5.2 };
+const K = { x: 3.0, y: 1.0 };
+// she faces screen right, turned a little toward the viewer, so the reach reads in profile
+const HF = (() => { const d = Math.hypot(1.3, -.7); return [1.3 / d, -.7 / d]; })();
+const HOLO = { x: K.x - HF[0] * 12.6, y: K.y - HF[1] * 12.6, z: -2.6, scale: 1.45 };
+
+function onDeck(x, y, ix, iy) {
+  if (x < DECK.x0 || x > DECK.x1) return false;
+  // the ends dissolve into the dark, the long edges stay cut
+  const end = Math.max((DECK.y0 + 2.4 - y) / 2.4, (y - DECK.y1 + 2.4) / 2.4);
+  if (end > 1) return false;
+  if (end > 0 && hash(ix, iy) < end + (noise(x * 1.3, y) - .5) * .3) return false;
+  return true;
+}
+// how much pink light reaches a point on the deck
+function holoLight(x, y) {
+  const d = Math.hypot(x - HOLO.x - HF[0] * 4, y - HOLO.y - HF[1] * 4);
+  return clamp(1.25 - d / 11, 0, 1);
+}
+function deckColor(x, y, ix, iy) {
+  const slab = Math.floor((y + 40) / 1.6), joint = ((y + 40) / 1.6) % 1 < .05;
+  let t = 1.4 + (noise(x * .9, y * .5) - .5) * 1.1 + (hash(slab, 3) - .5) * .5 + (bayerAt(ix, iy) - .5) * .55;
+  if (joint) t -= 1;
+  const wet = noise(x * .55 + 9, y * .42);         // puddles
+  const L = holoLight(x, y);
+  let c = CONCRETE[clamp(Math.round(t), 0, 4)];
+  let r = c[0], g = c[1], b = c[2];
+  const puddle = wet > .6;
+  const spill = L * (puddle ? .75 : .32);
+  r += PINK[0] * spill * .2; g += PINK[1] * spill * .14; b += PINK[2] * spill * .22;
+  // reflections stretch straight down the screen in standing water
+  if (puddle && hash(ix, Math.floor(iy / 5)) > .8 - L * .25) { r += 90 * L; g += 26 * L; b += 70 * L; }
+  else if (puddle && hash(ix, Math.floor(iy / 3) + 9) > .93) { r += 24; g += 26; b += 40; }
+  // painted edge line on the walkway
+  if (Math.abs(x - (DECK.x0 + .35)) < .05 || Math.abs(x - (DECK.x1 - .35)) < .05) { r += 26; g += 24; b += 28; }
+  return rgb(r, g, b);
+}
+
+/* ---------- static build ---------- */
+function deckSides() {
+  const step = .04;
+  // long side facing the viewer, then the near end
+  for (let y = DECK.y0 + 1.8; y <= DECK.y1 - .6; y += step) for (let z = -.9; z <= 0; z += step) {
+    const p = project(DECK.x1, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+    const i = iy * W + ix;
+    if (p.d <= zb[i]) continue;
+    zb[i] = p.d;
+    const band = z > -.12 ? 3 : z > -.2 ? 0 : 1 + (bayerAt(ix, iy) > .7 ? 1 : 0);
+    pix[i] = rgb(...CONCRETE[band]);
+  }
+}
+// a box lit from behind: dark faces toward the viewer, a pink rim on top
+function litBox(x0, y0, z0, x1, y1, z1, base, rim = .6) {
+  const step = .035;
+  const put = (x, y, z, level, extra) => {
+    const p = project(x, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H) return;
+    const i = iy * W + ix;
+    if (p.d <= zb[i]) return;
+    zb[i] = p.d;
+    const k = level + (bayerAt(ix, iy) - .5) * .25;
+    pix[i] = rgb(base[0] * k + PINK[0] * extra, base[1] * k + PINK[1] * extra, base[2] * k + PINK[2] * extra);
+  };
+  for (let a = x0; a <= x1; a += step) for (let b = y0; b <= y1; b += step) put(a, b, z1, .95, (a - x0 < .07 ? rim : .12) * .5);
+  for (let a = x0; a <= x1; a += step) for (let b = z0; b <= z1; b += step) put(a, y1, b, .62, a - x0 < .05 ? rim * .45 : 0);
+  for (let a = y0; a <= y1; a += step) for (let b = z0; b <= z1; b += step) put(x1, a, b, .42, 0);
+}
+function railing(x, ya, yb, side) {
+  const posts = Math.round((yb - ya) / 1.1);
+  for (let k = 0; k <= posts; k++) {
+    const y = lerp(ya, yb, k / posts);
+    for (let z = 0; z <= 1.12; z += .03) plot(x, y, z, rgb(...RAIL.map((v, j) => v + (side < 0 ? PINK[j] * .16 : 0))));
+    castShadow(x, y, .6, .08);
+  }
+  for (const z of [1.12, .62]) for (let y = ya; y <= yb; y += .03) {
+    const lit = side < 0 && z > 1;
+    plot(x, y, z, lit ? rgb(196, 92, 170) : rgb(RAIL[0] + 10, RAIL[1] + 8, RAIL[2] + 14));
+  }
+}
+// a thin steel member between two points, square in section
+function strut(a, b, t, base, rim) {
+  const n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]) / .03);
+  for (let k = 0; k <= n; k++) {
+    const x = lerp(a[0], b[0], k / n), y = lerp(a[1], b[1], k / n), z = lerp(a[2], b[2], k / n);
+    for (let u = -t; u <= t; u += .03) for (let v = -t; v <= t; v += .03) {
+      const p = project(x + u, y + v, z), ix = p.sx | 0, iy = p.sy | 0;
+      if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+      const i = iy * W + ix;
+      if (p.d <= zb[i]) continue;
+      zb[i] = p.d;
+      const lit = u < -t + .04 ? rim : 0, k2 = v > t - .04 ? .6 : .42;
+      pix[i] = rgb(base[0] * k2 + PINK[0] * lit, base[1] * k2 + PINK[1] * lit, base[2] * k2 + PINK[2] * lit);
+    }
+  }
+}
+// an industrial portal frame over the walkway: two columns, a box beam, knee braces, a hanging lamp
+function gantry(y, lamp) {
+  const t = .2, h = 7.2, xa = DECK.x0 - .1, xb = DECK.x1 + .1;
+  litBox(xa - t, y - t, 0, xa + t, y + t, h, STEEL, .55);
+  litBox(xb - t, y - t, 0, xb + t, y + t, h, STEEL, .2);
+  litBox(xa - t, y - t, h, xb + t, y + t, h + .45, STEEL, .5);
+  strut([xa + t, y, h - 1.3], [xa + 1.3, y, h], .07, STEEL, .3);
+  strut([xb - t, y, h - 1.3], [xb - 1.3, y, h], .07, STEEL, .1);
+  // base plates and bolts
+  litBox(xa - t - .08, y - t - .08, 0, xa + t + .08, y + t + .08, .12, STEEL, .3);
+  litBox(xb - t - .08, y - t - .08, 0, xb + t + .08, y + t + .08, .12, STEEL, .1);
+  if (lamp) {
+    const mx = (xa + xb) / 2;
+    strut([mx, y, h], [mx, y, h - .9], .02, RAIL, 0);
+    litBox(mx - .35, y - .18, h - 1.15, mx + .35, y + .18, h - .9, [40, 38, 50], .2);
+    LAMPS.push({ x: mx, y, z: h - 1.18 });
+  }
+  castShadow(xa, y, 3, .3); castShadow(xb, y, 3, .3);
+}
+const LAMPS = [];
+
+const staticAdd = (a, b, r0, r1, f) => { capsule(a, b, r0, r1, f, 'solid'); castShadow(a[0], a[1], a[2], r0 * .9); };
+function k() {
+  const yaw = Math.atan2(HOLO.y - K.y, HOLO.x - K.x);
+  figure(K.x, K.y, yaw, { crouch: 0, lean: -.06, stance: .1, armR: .05, armL: .05 }, {
+    shirt: COAT, stripe: COAT, legs: [26, 24, 32], hair: [20, 18, 22], skin: [150, 110, 118],
+  }, staticAdd);
+  // the long coat, a cone from the chest to the shins
+  const fx = Math.cos(yaw), fy = Math.sin(yaw);
+  capsule([K.x - fx * .05, K.y - fy * .05, 1.45], [K.x - fx * .12, K.y - fy * .12, .42], .3, .42, () => COAT, 'solid');
+  castShadow(K.x, K.y, .3, .3, 2, 0);
+}
+
+/* ---------- the hologram, in its own buffer ---------- */
+const holoC = new Uint32Array(W * H), holoZ = new Float32Array(W * H), holoA = new Float32Array(W * H);
+const holoKind = new Uint8Array(W * H);  // 1 skin, 2 hair, 3 feature
+const CAM_R = [Math.SQRT1_2, -Math.SQRT1_2, 0], CAM_D = [SIN / R2, SIN / R2, -COS], CAM_V = [COS / R2, COS / R2, SIN];
+const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const FADE0 = -2.4, FADE1 = 3.2;
+function fadeAt(z) { return clamp((z - FADE0) / (FADE1 - FADE0), 0, 1); }
+
+// one sphere of light; classify(n, z) returns a ramp or null to skip the pixel
+function holoSphere(x, y, z, r, classify) {
+  const p = project(x, y, z), rp = r * S;
+  const y0 = Math.max(0, Math.floor(p.sy - rp)), y1 = Math.min(H - 1, Math.ceil(p.sy + rp));
+  const x0 = Math.max(0, Math.floor(p.sx - rp)), x1 = Math.min(W - 1, Math.ceil(p.sx + rp));
+  for (let iy = y0; iy <= y1; iy++) for (let ix = x0; ix <= x1; ix++) {
+    const dx = (ix + .5 - p.sx) / rp, dy = (iy + .5 - p.sy) / rp, nn = dx * dx + dy * dy;
+    if (nn > 1) continue;
+    const nz = Math.sqrt(1 - nn), d = p.d + r * nz, i = iy * W + ix;
+    if (d <= holoZ[i]) continue;
+    const n = [dx * CAM_R[0] + dy * CAM_D[0] + nz * CAM_V[0], dx * CAM_R[1] + dy * CAM_D[1] + nz * CAM_V[1], dx * CAM_R[2] + dy * CAM_D[2] + nz * CAM_V[2]];
+    const wz = z + n[2] * r;
+    const ramp = classify ? classify(n, wz) : SKIN;
+    if (!ramp) continue;
+    // light from the front and above, plus a strong rim: holograms glow at the silhouette
+    let l = clamp(-.45 * dx - .55 * dy + .5 * nz, 0, 1) * .85 + .22 + Math.pow(nn, 3) * .55;
+    if (ramp === FACE) l = l * .7 + .38;   // the face carries its own light
+    const level = clamp(Math.floor(l * 4.2 + (bayerAt(ix, iy) - .5) * .6), 0, 4);
+    holoZ[i] = d;
+    holoC[i] = rgb(...ramp[level]);
+    holoA[i] = fadeAt(wz);
+    holoKind[i] = ramp === HAIR || ramp === HAIR_HI ? 2 : ramp === FACE ? 4 : ramp === LIPS ? 3 : 1;
+  }
+}
+function holoCapsule(a, b, r0, r1, classify) {
+  const len = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]);
+  const n = Math.max(1, Math.ceil(len / (Math.min(r0, r1) * .3)));
+  for (let k = 0; k <= n; k++) {
+    const t = k / n;
+    holoSphere(lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t), lerp(r0, r1, t), classify);
+  }
+}
+
+function buildHologram() {
+  holoZ.fill(-1e9);
+  const sc = HOLO.scale, f = HF, s = [-HF[1], HF[0]];
+  // local frame: a forward toward K, b to her left (toward the viewer), c up
+  const L = (a, b, c) => [HOLO.x + (f[0] * a + s[0] * b) * sc, HOLO.y + (f[1] * a + s[1] * b) * sc, c * sc + HOLO.z];
+  const cap = (a, b, r0, r1, cl) => holoCapsule(a, b, r0 * sc, r1 * sc, cl);
+  const ball = (c, r, cl) => holoSphere(c[0], c[1], c[2], r * sc, cl);
+
+  // kneeling, sitting back on the heels
+  cap(L(-.2, .95, 1.5), L(2.5, 1.05, .8), 1.05, .72);      // near thigh
+  cap(L(-.2, -.95, 1.5), L(2.5, -1.05, .8), 1.05, .72);    // far thigh
+  cap(L(2.5, 1.05, .8), L(.2, 1.15, -.6), .7, .5);         // near shin folded back
+  // torso leaning toward him
+  cap(L(0, 0, 1.7), L(.55, 0, 4.0), 1.55, 1.12);           // hips to waist
+  cap(L(.55, 0, 4.0), L(1.15, 0, 6.3), 1.12, 1.5);         // waist to ribs
+  cap(L(1.15, -.9, 6.7), L(1.15, .9, 6.7), 1.12, 1.12);    // chest, broad
+  cap(L(1.25, -1.55, 7.55), L(1.25, 1.55, 7.55), .62, .62); // shoulder line
+  // far arm, hanging, hand on the knee
+  cap(L(1.2, -1.7, 7.4), L(1.6, -2.15, 4.7), .5, .4);
+  cap(L(1.6, -2.15, 4.7), L(2.6, -1.6, 2.2), .4, .3);
+  ball(L(2.75, -1.5, 2.0), .38);
+  // neck, then the head tilted down at him
+  cap(L(1.35, 0, 7.7), L(1.85, 0, 9.0), .5, .46);
+  buildHead(L(2.15, 0, 9.95), 1.0 * sc);
+  // the pointing arm, reaching past the railing
+  const sh = L(1.3, 1.65, 7.45), el = L(3.4, 2.25, 6.0), wr = L(5.75, 2.05, 4.9);
+  cap(sh, L(1.3, 1.65, 7.45), .66, .66);
+  cap(sh, el, .56, .44);
+  cap(el, wr, .42, .3);
+  buildHand(wr, L(6.6, 1.98, 4.62), L(8.05, 1.9, 4.05), L, sc);
+}
+
+function buildHand(wr, palm, tip, L, sc) {
+  holoCapsule(wr, palm, .3 * sc, .36 * sc);
+  holoSphere(palm[0], palm[1], palm[2], .4 * sc);
+  // index finger, straight out
+  holoCapsule(L(6.85, 1.95, 4.55), tip, .14 * sc, .11 * sc);
+  // three curled fingers under the palm
+  for (const [b, c] of [[1.78, 4.32], [1.98, 4.24], [2.18, 4.3]]) {
+    holoCapsule(L(6.75, b, c), L(7.15, b, c - .12), .13 * sc, .12 * sc);
+    holoSphere(...L(7.18, b, c - .32), .12 * sc);
+  }
+  // thumb along the top
+  holoCapsule(L(6.35, 2.3, 4.7), L(6.95, 2.25, 4.78), .13 * sc, .11 * sc);
+}
+
+let HEAD = null;
+// head space: a forward (her gaze), b toward the viewer, u up; units of the skull radius
+function hp(a, b, u) {
+  const { c, r, fwd, up, side } = HEAD;
+  return [c[0] + (fwd[0] * a + side[0] * b + up[0] * u) * r, c[1] + (fwd[1] * a + side[1] * b + up[1] * u) * r, c[2] + (fwd[2] * a + side[2] * b + up[2] * u) * r];
+}
+function buildHead(c, r) {
+  const tilt = .32, f = HF, s = [-HF[1], HF[0]];
+  const fwd = [f[0] * Math.cos(tilt), f[1] * Math.cos(tilt), -Math.sin(tilt)];
+  const up = [f[0] * Math.sin(tilt), f[1] * Math.sin(tilt), Math.cos(tilt)];
+  const side = [s[0], s[1], 0];
+  HEAD = { c, r, fwd, up, side };
+  const ball = (p, k, cl) => holoSphere(p[0], p[1], p[2], r * k, cl);
+  const cap = (a, b, k0, k1, cl) => holoCapsule(a, b, r * k0, r * k1, cl);
+  const cut = c[2] - r * .86;            // the bob ends level with the chin
+  const face = () => FACE;
+
+  // the bob: a crown shell, two side curtains and a back, all cut straight at the bottom
+  ball(hp(-.24, 0, .1), 1.04, (n, wz) => {
+    if (wz < cut) return null;
+    const nf = dot3(n, HEAD.fwd), nu = dot3(n, HEAD.up);
+    if (nf > .1 && nu < .46) return null;          // open over the face, fringe above the brow
+    return nu > .5 && nu < .64 ? HAIR_HI : HAIR;   // a sheen band across the crown
+  });
+  // the fringe: a thin shell over the forehead, cut straight just above the brow
+  ball(hp(.06, 0, .1), 1.07, (n) => {
+    const nf = dot3(n, HEAD.fwd), nu = dot3(n, HEAD.up);
+    return nf > -.45 && nu > .34 ? (nu > .58 && nu < .7 ? HAIR_HI : HAIR) : null;
+  });
+  const curtain = (b) => (n, wz) => (wz < cut ? null : HAIR);
+  cap(hp(-.42, .6, .25), hp(-.36, .64, -.86), .42, .4, curtain(1));
+  cap(hp(-.42, -.6, .25), hp(-.36, -.64, -.86), .42, .4, curtain(-1));
+  cap(hp(-.66, 0, .1), hp(-.6, 0, -.86), .66, .62, curtain(0));
+
+  // skull, cheek and jaw
+  ball(hp(0, 0, 0), 1, face);
+  ball(hp(.3, .1, -.3), .72, face);
+  cap(hp(-.1, .05, -.5), hp(.56, 0, -.8), .44, .28, face);
+  ball(hp(.66, 0, -.84), .25, face);                         // chin
+  // brow ridge, nose, lips: these make the profile against the dark
+  ball(hp(.78, .1, .24), .24, face);
+  cap(hp(.84, 0, .1), hp(1.2, 0, -.26), .11, .12, face);     // bridge to tip
+  ball(hp(1.1, .06, -.3), .13, face);                        // tip and nostril wing
+  ball(hp(.98, 0, -.5), .12, () => LIPS);                    // upper lip
+  ball(hp(.94, 0, -.62), .13, () => LIPS);                   // lower lip
+}
+// a point on or just off the face, on the screen
+function headPx(a, b, u) { const p = hp(a, b, u); return project(p[0], p[1], p[2]); }
+function featurePx(p, color, dx = 0, dy = 0) {
+  const ix = Math.round(p.sx + dx), iy = Math.round(p.sy + dy);
+  if (ix < 0 || iy < 0 || ix >= W || iy >= H) return;
+  const i = iy * W + ix;
+  if (holoKind[i] !== 4 && holoKind[i] !== 3) return;   // only on the face, never over the fringe
+  holoC[i] = color; holoKind[i] = 3;
+}
+function paintFace() {
+  const lash = LASH, lid = rgb(...FACE[1]), lidLight = rgb(...FACE[3]);
+  // near eye, lowered, looking down at him: a curved lash line, a lid above, a glint of iris below
+  const eye = headPx(.72, .58, .04);
+  [[-2, 0], [-1, 0], [0, 0], [1, 0], [2, 1], [3, 1]].forEach(([x, y]) => featurePx(eye, lash, x, y));
+  [[-1, -1], [0, -1], [1, -1]].forEach(([x, y]) => featurePx(eye, lid, x, y));
+  [[-1, -2], [0, -2], [1, -2], [2, -1]].forEach(([x, y]) => featurePx(eye, lidLight, x, y));
+  featurePx(eye, rgb(96, 190, 255), 0, 1); featurePx(eye, rgb(40, 80, 170), 1, 1);
+  featurePx(eye, lash, 4, 2);                                   // outer lashes
+  // brow, thin and straight under the fringe
+  const brow = headPx(.74, .58, .22);
+  [[-2, 0], [-1, 0], [0, 0], [1, 0], [2, 1]].forEach(([x, y]) => featurePx(brow, rgb(...HAIR[1]), x, y));
+  // nostril and the shadow under the nose
+  const nose = headPx(1.04, .14, -.34);
+  featurePx(nose, rgb(...FACE[0]), 0, 0); featurePx(nose, rgb(...FACE[1]), -1, 0);
+  // the parting between the lips, and a highlight on the lower lip
+  const mouth = headPx(.97, .08, -.56);
+  [[-2, 0], [-1, 0], [0, 0], [1, 0]].forEach(([x, y]) => featurePx(mouth, rgb(120, 10, 70), x, y));
+  [[-1, 2], [0, 2]].forEach(([x, y]) => featurePx(mouth, rgb(255, 150, 196), x, y));
+  // cheekbone light and a little colour
+  const cheek = headPx(.5, .78, -.24);
+  [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1]].forEach(([x, y]) => featurePx(cheek, rgb(255, 128, 196), x, y));
+  [[-1, -2], [0, -2], [1, -2]].forEach(([x, y]) => featurePx(cheek, lidLight, x, y));
+  // jaw line into the neck
+  const jaw = headPx(.1, .5, -.86);
+  [[0, 0], [1, 0], [2, 1], [3, 1], [4, 1]].forEach(([x, y]) => featurePx(jaw, lid, x, y));
+}
+// strands: partings follow the fall of the hair, so the bob reads as hair, not a helmet
+function paintHair() {
+  for (let i = 0; i < W * H; i++) {
+    if (holoKind[i] !== 2) continue;
+    const ix = i % W, iy = (i / W) | 0, lv = levelOf(holoC[i]);
+    const col = hash(ix, 7);
+    if (col > .8 && hash(ix, iy >> 3) > .3) holoC[i] = HAIR_PX[Math.max(0, lv - 1)];
+    else if (col < .1 && lv < 4) holoC[i] = HAIR_PX[lv + 1];
+  }
+  // the fringe edge is cut straight: a bright line of tips along its bottom
+  for (let i = W; i < W * H; i++) {
+    if (holoKind[i] === 2 && (holoKind[i + W] === 4 || holoKind[i + W] === 3)) holoC[i] = HAIR_PX[4];
+  }
+}
+const HAIR_PX = HAIR.map(c => rgb(...c));
+function levelOf(c) { const k = HAIR_PX.indexOf(c); return k < 0 ? 3 : k; }
+
+// soft pink light around her, quantised so it stays pixel art
+const glow = new Float32Array(W * H);
+function bakeGlow() {
+  const src = new Float32Array(W * H), tmp = new Float32Array(W * H);
+  for (let i = 0; i < W * H; i++) if (holoZ[i] > -1e8) src[i] = holoA[i];
+  const R = 14;
+  for (let pass = 0; pass < 2; pass++) {
+    const from = pass ? glow : src;
+    for (let iy = 0; iy < H; iy++) {
+      let acc = 0;
+      for (let ix = -R; ix < W + R; ix++) {
+        if (ix + R < W) acc += from[iy * W + ix + R];
+        if (ix - R - 1 >= 0) acc -= from[iy * W + ix - R - 1];
+        if (ix >= 0 && ix < W) tmp[iy * W + ix] = acc / (2 * R + 1);
+      }
+    }
+    for (let ix = 0; ix < W; ix++) {
+      let acc = 0;
+      for (let iy = -R; iy < H + R; iy++) {
+        if (iy + R < H) acc += tmp[(iy + R) * W + ix];
+        if (iy - R - 1 >= 0) acc -= tmp[(iy - R - 1) * W + ix];
+        if (iy >= 0 && iy < H) glow[iy * W + ix] = acc / (2 * R + 1);
+      }
+    }
+  }
+}
+function applyGlow() {
+  for (let iy = 0; iy < H; iy++) for (let ix = 0; ix < W; ix++) {
+    const i = iy * W + ix, g = glow[i];
+    if (g < .02) continue;
+    const q = Math.floor(g * 9 + bayerAt(ix, iy) * .9) / 9;
+    if (q <= 0) continue;
+    const c = pix[i];
+    pix[i] = rgb((c & 255) + 150 * q, (c >> 8 & 255) + 30 * q, (c >> 16 & 255) + 120 * q);
+  }
+}
+
+// distant city far below the walkway
+function city() {
+  for (let k = 0; k < 140; k++) {
+    const x = -22 + hash(k, 501) * 40, y = -22 + hash(k, 502) * 40, z = -9 - hash(k, 503) * 8;
+    const p = project(x, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H || zb[iy * W + ix] > -1e8) continue;
+    const t = hash(k, 504);
+    pix[iy * W + ix] = t > .8 ? rgb(70, 150, 160) : t > .5 ? rgb(110, 50, 110) : rgb(52, 40, 70);
+  }
+}
+
+function bake() {
+  zb.fill(-1e9);
+  pix.fill(VOID);
+  for (let iy = 0; iy < H; iy++) for (let ix = 0; ix < W; ix++) {
+    const g = unproject(ix + .5, iy + .5), i = iy * W + ix;
+    if (!onDeck(g.x, g.y, ix, iy)) continue;
+    pix[i] = deckColor(g.x, g.y, ix, iy); ground[i] = 1;
+    zb[i] = (g.x + g.y) / R2 * COS;
+  }
+  groundZ.set(zb);
+  deckSides();
+  gantry(-12.6, true); gantry(-7.2, true); gantry(-1.8, false);
+  railing(DECK.x0 + .08, DECK.y0 + 1.6, DECK.y1 - 1.2, -1);
+  railing(DECK.x1 - .08, DECK.y0 + 1.6, DECK.y1 - 1.2, 1);
+  k();
+  bakeOcclusion();
+  staticShadow.set(shadowMask);
+  applyShadows(groundZ);
+  city();
+  buildHologram();
+  paintHair();
+  paintFace();
+  bakeGlow();
+  applyGlow();
+  bakedPix.set(pix);
+  bakedZ.set(zb);
+}
+
+/* ---------- rain ---------- */
+const DROPS = [];
+for (let n = 0; n < 340; n++) DROPS.push({ x: -9 + hash(n, 1) * 17, y: -16 + hash(n, 2) * 27, z: hash(n, 3) * 16, v: 15 + hash(n, 4) * 6 });
+const SPLASH = [];
+function stepRain(dt) {
+  for (const d of DROPS) {
+    d.z -= d.v * dt;
+    const onIt = d.x > DECK.x0 && d.x < DECK.x1 && d.y > DECK.y0 + 2 && d.y < DECK.y1 - 1.5;
+    if ((onIt && d.z <= 0) || d.z < -6) {
+      if (onIt && SPLASH.length < 60) SPLASH.push({ x: d.x, y: d.y, life: .14 });
+      d.z = 14 + Math.random() * 3;
+    }
+  }
+  for (const s of SPLASH) s.life -= dt;
+  for (let k = SPLASH.length - 1; k >= 0; k--) if (SPLASH[k].life <= 0) SPLASH.splice(k, 1);
+}
+function drawRain() {
+  for (const d of DROPS) {
+    const p = project(d.x, d.y, d.z);
+    for (let k = 0; k < 3; k++) {
+      const ix = (p.sx - k * .35) | 0, iy = (p.sy - k) | 0;
+      if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+      const i = iy * W + ix;
+      if (p.d <= zb[i]) continue;
+      // rain is only visible where something lights it
+      const g = glow[i], c = pix[i], lit = .25 + Math.min(g, .22) * 2.2;
+      if (lit < .3 && hash(ix, iy) > .5) continue;
+      pix[i] = rgb((c & 255) * .5 + (34 + 150 * g) * lit, (c >> 8 & 255) * .5 + (32 + 50 * g) * lit, (c >> 16 & 255) * .5 + (52 + 120 * g) * lit);
+    }
+  }
+  for (const s of SPLASH) {
+    const p = project(s.x, s.y, 0);
+    for (const dx of [-1, 1]) {
+      const ix = (p.sx + dx) | 0, iy = (p.sy - 1) | 0;
+      if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+      pix[iy * W + ix] = rgb(150, 120, 170);
+    }
+  }
+}
+
+/* ---------- the hologram, every frame ---------- */
+let glitchUntil = 0, nextGlitch = 3, glitchRows = [];
+function drawHologram(t) {
+  const band = STILL ? -99 : (t * 38) % (H + 80) - 40;
+  if (!STILL && t > nextGlitch) {
+    glitchUntil = t + .12; nextGlitch = t + 4 + Math.random() * 5;
+    glitchRows = [];
+    for (let k = 0; k < 3; k++) glitchRows.push([Math.random() * H | 0, 2 + (Math.random() * 6 | 0), (Math.random() < .5 ? -1 : 1) * (2 + (Math.random() * 3 | 0))]);
+  }
+  const glitch = t < glitchUntil;
+  const flick = STILL ? 1 : .93 + .07 * Math.sin(t * 23) * Math.sin(t * 3.1);
+  for (let iy = 0; iy < H; iy++) {
+    let shift = 0;
+    if (glitch) for (const [r, n, s] of glitchRows) if (iy >= r && iy < r + n) shift = s;
+    const scanRow = iy % 3 === 0;
+    const lift = Math.abs(iy - band) < 3 ? 1.22 : 1;
+    for (let ix = 0; ix < W; ix++) {
+      const sx = ix - shift;
+      if (sx < 0 || sx >= W) continue;
+      const j = iy * W + sx, i = iy * W + ix;
+      if (holoZ[j] < -1e8 || holoZ[j] <= zb[i]) continue;
+      const kind = holoKind[j], scan = scanRow ? (kind >= 3 ? .86 : .58) : 1;
+      let a = holoA[j] * .9 * scan * flick * lift;
+      if (a < bayerAt(ix, iy) * .35) continue;   // dithered fade into the fog
+      a = Math.min(1, a);
+      const h = holoC[j], c = pix[i];
+      pix[i] = rgb((c & 255) * (1 - a) + (h & 255) * a * lift, (c >> 8 & 255) * (1 - a) + (h >> 8 & 255) * a * lift, (c >> 16 & 255) * (1 - a) + (h >> 16 & 255) * a * lift);
+    }
+  }
+}
+
+function drawLamps(t) { LAMPS.forEach((l, n) => drawLamp(l, t, n)); }
+function drawLamp(LAMP, t, n) {
+  const p = project(LAMP.x, LAMP.y, LAMP.z), on = STILL || n || Math.sin(t * 1.3) > -.95;
+  const c = on ? rgb(120, 255, 236) : rgb(60, 120, 120);
+  for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+    const ix = (p.sx + dx) | 0, iy = (p.sy + dy) | 0;
+    if (ix >= 0 && iy >= 0 && ix < W && iy < H) pix[iy * W + ix] = c;
+  }
+  for (const [dx, dy] of [[-1, 0], [2, 0], [0, -1], [1, -1], [0, 2], [1, 2]]) {
+    const ix = (p.sx + dx) | 0, iy = (p.sy + dy) | 0;
+    if (ix >= 0 && iy >= 0 && ix < W && iy < H) { const q = pix[iy * W + ix]; pix[iy * W + ix] = rgb((q & 255) + 20, (q >> 8 & 255) + 90, (q >> 16 & 255) + 90); }
+  }
+}
+
+let time = 0;
+function draw() {
+  pix.set(bakedPix);
+  zb.set(bakedZ);
+  drawHologram(time);
+  drawLamps(time);
+  drawRain();
+  ctx.putImageData(image, 0, 0);
+}
+
+function fitDark() {
+  const dpr = window.devicePixelRatio || 1;
+  const fitScale = Math.min(innerWidth / W, innerHeight / H);
+  const scale = Math.max(1, Math.floor(fitScale * dpr)) / dpr;
+  canvas.style.width = W * scale + 'px';
+  canvas.style.height = H * scale + 'px';
+}
+addEventListener('resize', fitDark);
+fitDark();
+bake();
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(.04, (now - last) / 1000);
+  last = now;
+  if (!STILL) { time += dt; stepRain(dt); }
+  draw();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+window.__holo = { step(dt) { time += dt; stepRain(dt); draw(); }, get time() { return time; } };
+</script>
+</body>
+</html>

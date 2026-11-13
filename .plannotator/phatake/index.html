@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Phatake</title>
+<style>
+  :root { --ink: #1c1b19; --muted: #8b877f; --paper: #fff; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: var(--paper); color: var(--ink); }
+  body { font: 13px/1.35 ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; overflow: hidden; }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  canvas { display: block; image-rendering: pixelated; touch-action: none; cursor: pointer; outline: none; }
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="c" tabindex="0" aria-label="The BLANK Interfaces logo as a courtyard slab with three children. Tap the logo to have a child light the next cracker there. Space lights one at a random spot."></canvas></div>
+<script src="logo.js"></script>
+<script>window.PP_SCENE = { originY: 30, shadowX: 1.05, shadowY: -.14 };</script>
+<script src="engine.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

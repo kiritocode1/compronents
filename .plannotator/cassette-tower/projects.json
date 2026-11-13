@@ -1,0 +1,155 @@
+[
+  {
+    "name": "Field Atlas",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-1",
+    "slug": "project-1",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img1.jpg"
+  },
+  {
+    "name": "Signal Concept",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-2",
+    "slug": "project-2",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img2.jpg"
+  },
+  {
+    "name": "Registry 24",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-3",
+    "slug": "project-3",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img3.jpg"
+  },
+  {
+    "name": "Night Form",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-4",
+    "slug": "project-4",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img4.jpg"
+  },
+  {
+    "name": "Prism Study",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-5",
+    "slug": "project-5",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img5.jpg"
+  },
+  {
+    "name": "Soft Protocol",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-6",
+    "slug": "project-6",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img6.jpg"
+  },
+  {
+    "name": "Orbit Desk",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-7",
+    "slug": "project-7",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img7.jpg"
+  },
+  {
+    "name": "Teaching Grid",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-8",
+    "slug": "project-8",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img8.jpg"
+  },
+  {
+    "name": "Studio Notes",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-9",
+    "slug": "project-9",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img9.jpg"
+  },
+  {
+    "name": "Emulsion",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-10",
+    "slug": "project-10",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img10.jpg"
+  },
+  {
+    "name": "Glyph Press",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-11",
+    "slug": "project-11",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img11.jpg"
+  },
+  {
+    "name": "Black Frame",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-12",
+    "slug": "project-12",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img12.jpg"
+  },
+  {
+    "name": "Salience",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-13",
+    "slug": "project-13",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img13.jpg"
+  },
+  {
+    "name": "Modernist Trace",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-14",
+    "slug": "project-14",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img14.jpg"
+  },
+  {
+    "name": "Bioform",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-15",
+    "slug": "project-15",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img15.jpg"
+  },
+  {
+    "name": "Velocity",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-16",
+    "slug": "project-16",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img16.jpg"
+  },
+  {
+    "name": "Atmos",
+    "client": "BLANK",
+    "date": "2026-01-01",
+    "id": "project-17",
+    "slug": "project-17",
+    "url": "https://aryank.space",
+    "image": "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/award-list/img17.jpg"
+  }
+]

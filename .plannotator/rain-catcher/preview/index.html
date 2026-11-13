@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>rain catcher, preview</title>
+<style>
+  html, body { height: 100%; margin: 0; background: #07060b; }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  canvas { display: block; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="c" aria-label="An isometric pixel diorama: a giant woman made of amber light, in a gown woven from cyan light, kneels beside a rainy elevated walkway and holds her open palm over a small courier with a red umbrella. The rain falls through her hand."></canvas></div>
+<script>window.PP_SCENE = { W: 720, H: 560, S: 20, originX: -10, originY: 70, shadowX: .9, shadowY: .35, shoe: [40, 36, 44] };</script>
+<script src="./engine.js"></script>
+<script>
+'use strict';
+
+/* ---------- palette: amber light for her skin, cyan light for what she wears ---------- */
+const VOID = rgb(7, 6, 11);
+const CONCRETE = [[22, 22, 34], [30, 29, 44], [38, 36, 54], [48, 44, 64], [60, 54, 76]];
+const STEEL = [74, 44, 50];
+const RAIL = [58, 52, 70];
+const GLOW = [255, 70, 186], CYAN = [90, 220, 255];   // her pink light, the lamps' cyan
+const SKIN7 = [[70, 14, 74], [124, 30, 114], [178, 58, 158], [222, 98, 192], [244, 146, 216], [255, 196, 236], [255, 232, 249]];
+const HAIR7 = [[64, 40, 92], [104, 76, 142], [150, 120, 192], [194, 168, 228], [224, 206, 246], [242, 232, 253], [255, 251, 255]];
+const LIPS7 = [[86, 6, 46], [136, 14, 70], [186, 30, 96], [222, 60, 124], [244, 110, 160], [252, 168, 200], [255, 214, 230]];
+const RIM_CYAN = [150, 236, 255];
+
+/* ---------- the place ---------- */
+const DECK = { x0: 1.4, x1: 6.2, y0: -15, y1: 5.2 };
+const MAN = { x: 3.1, y: 0.7 };
+
+function onDeck(x, y, ix, iy) {
+  if (x < DECK.x0 || x > DECK.x1) return false;
+  // the ends dissolve into the dark, the long edges stay cut
+  const end = Math.max((DECK.y0 + 2.4 - y) / 2.4, (y - DECK.y1 + 2.4) / 2.4);
+  if (end > 1) return false;
+  if (end > 0 && hash(ix, iy) < end + (noise(x * 1.3, y) - .5) * .3) return false;
+  return true;
+}
+// how much of her light reaches a point on the deck
+function giantLight(x, y) {
+  const d = Math.hypot(x - GIANT.x - GIANT.f[0] * 3, y - GIANT.y - GIANT.f[1] * 3);
+  return clamp(1.3 - d / 10, 0, 1);
+}
+function deckColor(x, y, ix, iy) {
+  const slab = Math.floor((y + 40) / 1.6), joint = ((y + 40) / 1.6) % 1 < .04;
+  let t = 1.4 + (noise(x * .9, y * .5) - .5) * 1.1 + (hash(slab, 3) - .5) * .5 + (bayerAt(ix, iy) - .5) * .55;
+  if (joint) t -= 1;
+  const wet = noise(x * .55 + 9, y * .42);
+  const L = giantLight(x, y);
+  const c = CONCRETE[clamp(Math.round(t), 0, 4)];
+  let r = c[0], g = c[1], b = c[2];
+  const puddle = wet > .6;
+  const spill = L * (puddle ? .7 : .3);
+  r += GLOW[0] * spill * .2; g += GLOW[1] * spill * .16; b += GLOW[2] * spill * .14;
+  // reflections stretch straight down the screen in standing water: amber skin, cyan gown
+  if (puddle && hash(ix, Math.floor(iy / 6)) > .8 - L * .25) {
+    if (hash(ix >> 1, 77) > .7) { r += 30 * L; g += 80 * L; b += 96 * L; } else { r += 96 * L; g += 24 * L; b += 72 * L; }
+  } else if (puddle && hash(ix, Math.floor(iy / 4) + 9) > .93) { r += 24; g += 26; b += 40; }
+  if (Math.abs(x - (DECK.x0 + .35)) < .04 || Math.abs(x - (DECK.x1 - .35)) < .04) { r += 26; g += 24; b += 28; }
+  return rgb(r, g, b);
+}
+
+/* ---------- static build ---------- */
+function deckSides() {
+  const step = .035;
+  for (let y = DECK.y0 + 1.8; y <= DECK.y1 - .6; y += step) for (let z = -.9; z <= 0; z += step) {
+    const p = project(DECK.x1, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+    const i = iy * W + ix;
+    if (p.d <= zb[i]) continue;
+    zb[i] = p.d;
+    const band = z > -.1 ? 3 : z > -.16 ? 0 : 1 + (bayerAt(ix, iy) > .7 ? 1 : 0);
+    pix[i] = rgb(...CONCRETE[band]);
+  }
+}
+// a box lit from behind: dark faces toward the viewer, a warm rim on top
+function litBox(x0, y0, z0, x1, y1, z1, base, rim = .6) {
+  const step = .03;
+  const put = (x, y, z, level, extra) => {
+    const p = project(x, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H) return;
+    const i = iy * W + ix;
+    if (p.d <= zb[i]) return;
+    zb[i] = p.d;
+    const k = level + (bayerAt(ix, iy) - .5) * .25;
+    pix[i] = rgb(base[0] * k + GLOW[0] * extra, base[1] * k + GLOW[1] * extra, base[2] * k + GLOW[2] * extra);
+  };
+  for (let a = x0; a <= x1; a += step) for (let b = y0; b <= y1; b += step) put(a, b, z1, .95, (a - x0 < .06 ? rim : .1) * .45);
+  for (let a = x0; a <= x1; a += step) for (let b = z0; b <= z1; b += step) put(a, y1, b, .62, a - x0 < .04 ? rim * .4 : 0);
+  for (let a = y0; a <= y1; a += step) for (let b = z0; b <= z1; b += step) put(x1, a, b, .42, 0);
+}
+function railing(x, ya, yb, side) {
+  const posts = Math.round((yb - ya) / 1.1);
+  for (let k = 0; k <= posts; k++) {
+    const y = lerp(ya, yb, k / posts);
+    for (let z = 0; z <= 1.12; z += .025) plot(x, y, z, rgb(...RAIL.map((v, j) => v + (side < 0 ? GLOW[j] * .14 : 0))));
+    castShadow(x, y, .6, .08);
+  }
+  for (const z of [1.12, .62]) for (let y = ya; y <= yb; y += .025) {
+    const lit = side < 0 && z > 1;
+    plot(x, y, z, lit ? rgb(214, 96, 176) : rgb(RAIL[0] + 10, RAIL[1] + 8, RAIL[2] + 14));
+  }
+}
+function strut(a, b, t, base, rim) {
+  const n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]) / .025);
+  for (let k = 0; k <= n; k++) {
+    const x = lerp(a[0], b[0], k / n), y = lerp(a[1], b[1], k / n), z = lerp(a[2], b[2], k / n);
+    for (let u = -t; u <= t; u += .025) for (let v = -t; v <= t; v += .025) {
+      const p = project(x + u, y + v, z), ix = p.sx | 0, iy = p.sy | 0;
+      if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+      const i = iy * W + ix;
+      if (p.d <= zb[i]) continue;
+      zb[i] = p.d;
+      const lit = u < -t + .03 ? rim : 0, k2 = v > t - .03 ? .6 : .42;
+      pix[i] = rgb(base[0] * k2 + GLOW[0] * lit, base[1] * k2 + GLOW[1] * lit, base[2] * k2 + GLOW[2] * lit);
+    }
+  }
+}
+// an industrial portal frame over the walkway: two columns, a box beam, knee braces, a hanging lamp
+const LAMPS = [];
+function gantry(y, lamp) {
+  const t = .2, h = 7.2, xa = DECK.x0 - .1, xb = DECK.x1 + .1;
+  litBox(xa - t, y - t, 0, xa + t, y + t, h, STEEL, .55);
+  litBox(xb - t, y - t, 0, xb + t, y + t, h, STEEL, .2);
+  litBox(xa - t, y - t, h, xb + t, y + t, h + .45, STEEL, .5);
+  strut([xa + t, y, h - 1.3], [xa + 1.3, y, h], .07, STEEL, .3);
+  strut([xb - t, y, h - 1.3], [xb - 1.3, y, h], .07, STEEL, .1);
+  litBox(xa - t - .08, y - t - .08, 0, xa + t + .08, y + t + .08, .12, STEEL, .3);
+  litBox(xb - t - .08, y - t - .08, 0, xb + t + .08, y + t + .08, .12, STEEL, .1);
+  if (lamp) {
+    const mx = (xa + xb) / 2;
+    strut([mx, y, h], [mx, y, h - .9], .02, RAIL, 0);
+    litBox(mx - .35, y - .18, h - 1.15, mx + .35, y + .18, h - .9, [40, 38, 50], .2);
+    LAMPS.push({ x: mx, y, z: h - 1.18 });
+  }
+  castShadow(xa, y, 3, .3); castShadow(xb, y, 3, .3);
+}
+
+// the courier: dark rain jacket, looking up, a red umbrella held high
+const staticAdd = (a, b, r0, r1, f) => { capsule(a, b, r0, r1, f, 'solid'); castShadow(a[0], a[1], a[2], r0 * .9); };
+let UMBRELLA = null;
+function courier() {
+  const yaw = Math.atan2(GIANT.y - COURIER.y, GIANT.x - COURIER.x);
+  const hand = figure(COURIER.x, COURIER.y, yaw, { crouch: .02, lean: -.16, stance: .16, armR: 2.2, armL: .1 }, {
+    shirt: [40, 44, 58], stripe: [46, 50, 66], legs: [28, 26, 34], hair: [24, 20, 26], skin: [176, 128, 112],
+  }, staticAdd);
+  // shaft from the raised hand, canopy above the head
+  const top = [hand[0] - .05, hand[1], hand[2] + .55];
+  capsule(hand, top, .025, .025, () => [30, 28, 34], 'solid');
+  UMBRELLA = { x: top[0], y: top[1], z: top[2] };
+  const R = .78, red = rampOf([168, 30, 44]);
+  for (let r = 0; r <= R; r += .02) for (let a = 0; a < 6.283; a += .02 / Math.max(r, .05)) {
+    const x = top[0] + Math.cos(a) * r, y = top[1] + Math.sin(a) * r, z = top[2] - .3 * (r / R) * (r / R);
+    const rib = (a * 8 / 6.283) % 1 < .06;
+    const seg = (a * 8 / 6.283) % 1;
+    const p = project(x, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+    const i = iy * W + ix;
+    if (p.d <= zb[i]) continue;
+    zb[i] = p.d;
+    // each panel catches her light on the side facing her
+    const face = Math.cos(a - Math.atan2(GIANT.y - top[1], GIANT.x - top[0]));
+    let lv = 2 + (face > .2 ? 1 : 0) + (seg > .5 ? 0 : 0) - (r > R * .94 ? 1 : 0);
+    pix[i] = rib ? rgb(60, 14, 24) : red[clamp(lv + Math.round((bayerAt(ix, iy) - .5) * .6), 0, 4)];
+  }
+  castShadow(top[0], top[1], 1.5, R * 1.05);
+}
+
+/* ---------- the giant: a smooth distance model, ray-marched once into her own buffer ---------- */
+const U = 2.6;                                 // world units per head height
+const PALM_AT = [2.6, 0.95, 4.65];             // her open palm, above the courier
+const TO_VIEW = [Math.SQRT1_2, Math.SQRT1_2], TO_RIGHT = [Math.SQRT1_2, -Math.SQRT1_2];
+const GIANT = (() => {
+  const f = (() => { const x = TO_VIEW[0] * .78 + TO_RIGHT[0] * .62, y = TO_VIEW[1] * .78 + TO_RIGHT[1] * .62, d = Math.hypot(x, y); return [x / d, y / d]; })();
+  const s = [-f[1], f[0]];
+  const R = Math.sign(s[0] * TO_RIGHT[0] + s[1] * TO_RIGHT[1]);   // which local side faces the courier
+  const pa = 1.72, pb = 2.06 * R, pc = 2.88;
+  return { f, s, R, x: PALM_AT[0] - (f[0] * pa + s[0] * pb) * U, y: PALM_AT[1] - (f[1] * pa + s[1] * pb) * U, z: PALM_AT[2] - pc * U };
+})();
+
+const smin = (a, b, k) => { const h = Math.max(k - Math.abs(a - b), 0) / k; return Math.min(a, b) - h * h * k * .25; };
+const smax = (a, b, k) => -smin(-a, -b, k);
+const norm3 = v => { const m = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0] / m, v[1] / m, v[2] / m]; };
+const cross3 = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+// primitives. Ellipsoids carry their own axes so limbs and torso pieces can tilt.
+const ADD = 0, SUB = 1;
+function E(c, r, k = .1, axes = null, op = ADD, tag = 0) {
+  const [ax, ay, az] = axes || [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+  return { t: 0, cx: c[0], cy: c[1], cz: c[2], ax, ay, az, rx: r[0], ry: r[1], rz: r[2], k, op, tag };
+}
+function C(a, b, ra, rb, k = .1, tag = 0) {
+  const bx = b[0] - a[0], by = b[1] - a[1], bz = b[2] - a[2];
+  return { t: 1, ax: a[0], ay: a[1], az: a[2], bx, by, bz, bb: bx * bx + by * by + bz * bz, ra, rb, k, op: ADD, tag };
+}
+function prim(p, x, y, z) {
+  if (p.t === 0) {
+    const dx = x - p.cx, dy = y - p.cy, dz = z - p.cz;
+    const qx = dx * p.ax[0] + dy * p.ax[1] + dz * p.ax[2], qy = dx * p.ay[0] + dy * p.ay[1] + dz * p.ay[2], qz = dx * p.az[0] + dy * p.az[1] + dz * p.az[2];
+    const k0 = Math.sqrt((qx / p.rx) ** 2 + (qy / p.ry) ** 2 + (qz / p.rz) ** 2);
+    const k1 = Math.sqrt((qx / (p.rx * p.rx)) ** 2 + (qy / (p.ry * p.ry)) ** 2 + (qz / (p.rz * p.rz)) ** 2);
+    return k1 < 1e-9 ? -Math.min(p.rx, p.ry, p.rz) : k0 * (k0 - 1) / k1;
+  }
+  const px = x - p.ax, py = y - p.ay, pz = z - p.az;
+  const t = clamp((px * p.bx + py * p.by + pz * p.bz) / p.bb, 0, 1);
+  const ex = px - p.bx * t, ey = py - p.by * t, ez = pz - p.bz * t;
+  return Math.sqrt(ex * ex + ey * ey + ez * ez) - (p.ra + (p.rb - p.ra) * t);
+}
+function group(prims) {
+  // bounding sphere from the primitives' extents
+  let lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];
+  for (const p of prims) {
+    const pts = p.t === 0 ? [[p.cx, p.cy, p.cz]] : [[p.ax, p.ay, p.az], [p.ax + p.bx, p.ay + p.by, p.az + p.bz]];
+    const r = p.t === 0 ? Math.max(p.rx, p.ry, p.rz) : Math.max(p.ra, p.rb);
+    for (const q of pts) for (let j = 0; j < 3; j++) { lo[j] = Math.min(lo[j], q[j] - r); hi[j] = Math.max(hi[j], q[j] + r); }
+  }
+  const c = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2];
+  return { cx: c[0], cy: c[1], cz: c[2], r: Math.hypot(hi[0] - c[0], hi[1] - c[1], hi[2] - c[2]), prims };
+}
+function evalGroups(groups, x, y, z) {
+  let d = 1e9, bound = 1e9;
+  for (const g of groups) {
+    const lb = Math.hypot(x - g.cx, y - g.cy, z - g.cz) - g.r;
+    if (lb > d + .3) { if (lb < bound) bound = lb; continue; }
+    for (const p of g.prims) {
+      const v = prim(p, x, y, z);
+      if (p.op === SUB) d = smax(d, -v, p.k);
+      else d = p.k ? smin(d, v, p.k) : Math.min(d, v);
+    }
+  }
+  return Math.min(d, bound);
+}
+
+const TAG_LIPS = 1, TAG_EYE = 2, TAG_LID = 3;
+let SKIN_GROUPS, HAIR_GROUPS, HEADF;
+function buildGiant() {
+  const R = GIANT.R;
+  // torso axes: a slight backward arch, chest lifted
+  const tf = norm3([1, 0, .14]), tu = norm3([-.14, 0, 1]), ts = [0, 1, 0];
+  const TA = [tf, ts, tu];
+  const torso = [
+    E([0, -.05 * R, 2.18], [.46, .7, .44], .1, TA),                  // pelvis
+    E([-.26, .31, 2.06], [.33, .32, .36], .12), E([-.26, -.31, 2.06], [.33, .32, .36], .12),
+    E([.2, 0, 2.42], [.28, .48, .3], .12, TA),                       // lower belly
+    E([.02, 0, 2.86], [.34, .46, .4], .16, TA),                      // waist, narrow
+    E([.02, 0, 3.38], [.42, .6, .5], .16, TA),                       // rib cage
+    E([.36, .27, 3.4], [.25, .25, .24], .1), E([.36, -.27, 3.4], [.25, .25, .24], .1),   // bust
+    E([.0, 0, 3.8], [.3, .66, .26], .14, TA),                        // upper chest
+    C([.14, .06, 3.94], [.08, .7, 3.99], .045, .04, .05), C([.14, -.06, 3.94], [.08, -.7, 3.99], .045, .04, .05),   // collarbones
+    E([-.02, .84, 3.97], [.2, .2, .22], .1), E([-.02, -.84, 3.93], [.2, .2, .22], .1),   // shoulders
+    C([-.06, 0, 4.04], [-.02, .7, 3.98], .15, .1, .12), C([-.06, 0, 4.04], [-.02, -.7, 3.94], .15, .1, .12),
+    C([-.02, 0, 3.92], [.05, 0, 4.58], .19, .155, .1),               // long neck
+  ];
+  const leg = sgn => [
+    C([.05, .38 * sgn, 2.02], [.78, .42 * sgn, .3], .4, .21, .14),   // thigh
+    E([.78, .42 * sgn, .3], [.2, .19, .2], .08),                      // knee
+    C([.78, .42 * sgn, .3], [-.95, .36 * sgn, .14], .2, .1, .1),      // shin, folded back on the ground
+    C([.55, .42 * sgn, .32], [-.25, .4 * sgn, .3], .2, .17, .1),      // calf
+    E([-1.18, .34 * sgn, .12], [.27, .1, .09], .06),                  // foot
+  ];
+  // reaching arm, palm up
+  const sh = [-.02, .86 * R, 3.98], el = [.62, 1.42 * R, 3.45], wr = [1.45, 1.92 * R, 2.95];
+  const fd = norm3([wr[0] - el[0], wr[1] - el[1], 0]), wd = norm3(cross3([0, 0, 1], fd));
+  const palm = [1.72, 2.06 * R, 2.88];
+  const reach = [
+    C(sh, el, .17, .12, .08), C(el, wr, .115, .072, .06),
+    E(palm, [.2, .155, .052], .05, [fd, wd, [0, 0, 1]]),
+  ];
+  [-.105, -.036, .034, .1].forEach((o, n) => {
+    const len = [.23, .27, .25, .19][n];
+    const base = [palm[0] + fd[0] * .17 + wd[0] * o, palm[1] + fd[1] * .17 + wd[1] * o, palm[2] + .02];
+    const mid = [base[0] + fd[0] * len * .55 + wd[0] * o * .25, base[1] + fd[1] * len * .55 + wd[1] * o * .25, base[2] + .02];
+    const tip = [mid[0] + fd[0] * len * .45 + wd[0] * o * .2, mid[1] + fd[1] * len * .45 + wd[1] * o * .2, mid[2] + .06];
+    reach.push(C(base, mid, .04, .035, .025), C(mid, tip, .035, .028, .02));
+  });
+  {
+    const side = -Math.sign(R) * 1;   // the thumb sits on the side nearer her body
+    const tb = [palm[0] - fd[0] * .02 + wd[0] * .15 * side, palm[1] - fd[1] * .02 + wd[1] * .15 * side, palm[2] + .01];
+    const tt = [tb[0] + fd[0] * .16 + wd[0] * .1 * side, tb[1] + fd[1] * .16 + wd[1] * .1 * side, tb[2] + .05];
+    reach.push(C(tb, tt, .045, .032, .03));
+  }
+  // the other hand raised to the braid at her neck
+  // the other hand on her hip, elbow out
+  const sh2 = [-.02, -.86 * R, 3.93], el2 = [-.22, -1.28 * R, 3.12], wr2 = [-.02, -.74 * R, 2.56];
+  const raise = [
+    C(sh2, el2, .16, .115, .08), C(el2, wr2, .11, .07, .06),
+    E([.06, -.66 * R, 2.46], [.17, .06, .13], .05, [norm3([1, .25 * R, -.3]), norm3([-.25 * R, 1, 0]), norm3([.3, 0, 1])]),
+  ];
+  for (let n = 0; n < 4; n++) raise.push(C([.1 + n * .045, -.64 * R, 2.42], [.16 + n * .05, -.6 * R, 2.26 - (n === 3 ? .02 : 0)], .03, .025, .02));
+
+  // the head, in its own frame: turned toward the courier, tipped down, a slight tilt of the neck
+  const hc = [.16, .02 * R, 4.98];
+  const toC = [TO_RIGHT[0] * GIANT.f[0] + TO_RIGHT[1] * GIANT.f[1], TO_RIGHT[0] * GIANT.s[0] + TO_RIGHT[1] * GIANT.s[1]];
+  // face the viewer most of the way; the lowered eyes do the looking at him
+  const toV = [TO_VIEW[0] * GIANT.f[0] + TO_VIEW[1] * GIANT.f[1], TO_VIEW[0] * GIANT.s[0] + TO_VIEW[1] * GIANT.s[1]];
+  const psi = Math.atan2(toV[1], toV[0]) * .7, tau = .1, rho = .16 * R;
+  let hf = [Math.cos(psi), Math.sin(psi), 0], hs = [-Math.sin(psi), Math.cos(psi), 0], hu = [0, 0, 1];
+  [hf, hu] = [[hf[0] * Math.cos(tau) - hu[0] * Math.sin(tau), hf[1] * Math.cos(tau) - hu[1] * Math.sin(tau), hf[2] * Math.cos(tau) - hu[2] * Math.sin(tau)],
+              [hf[0] * Math.sin(tau) + hu[0] * Math.cos(tau), hf[1] * Math.sin(tau) + hu[1] * Math.cos(tau), hf[2] * Math.sin(tau) + hu[2] * Math.cos(tau)]];
+  [hs, hu] = [[hs[0] * Math.cos(rho) + hu[0] * Math.sin(rho), hs[1] * Math.cos(rho) + hu[1] * Math.sin(rho), hs[2] * Math.cos(rho) + hu[2] * Math.sin(rho)],
+              [-hs[0] * Math.sin(rho) + hu[0] * Math.cos(rho), -hs[1] * Math.sin(rho) + hu[1] * Math.cos(rho), -hs[2] * Math.sin(rho) + hu[2] * Math.cos(rho)]];
+  HEADF = { c: hc, f: hf, s: hs, u: hu };
+  const H = (a, b, u) => [hc[0] + hf[0] * a + hs[0] * b + hu[0] * u, hc[1] + hf[1] * a + hs[1] * b + hu[1] * u, hc[2] + hf[2] * a + hs[2] * b + hu[2] * u];
+  const HA = [hf, hs, hu];
+  const head = [
+    E(H(-.06, 0, .1), [.5, .41, .46], .08, HA),                      // cranium
+    E(H(.16, 0, -.15), [.37, .33, .35], .1, HA),                     // face
+    E(H(.28, .22, -.05), [.1, .08, .07], .06, HA), E(H(.28, -.22, -.05), [.1, .08, .07], .06, HA),   // cheekbones
+    C(H(-.1, .3, -.12), H(.3, .1, -.42), .085, .07, .08), C(H(-.1, -.3, -.12), H(.3, -.1, -.42), .085, .07, .08),
+    E(H(.34, 0, -.43), [.11, .12, .1], .06, HA),                     // chin
+    E(H(.38, .15, .1), [.07, .13, .05], .05, HA), E(H(.38, -.15, .1), [.07, .13, .05], .05, HA),   // brow
+    E(H(.4, .15, .02), [.08, .1, .066], .04, HA, SUB), E(H(.4, -.15, .02), [.08, .1, .066], .04, HA, SUB),   // sockets
+    E(H(.335, .15, .015), [.072, .072, .072], 0, HA, ADD, TAG_EYE), E(H(.335, -.15, .015), [.072, .072, .072], 0, HA, ADD, TAG_EYE),
+    E(H(.352, .15, .036), [.078, .088, .058], .015, HA, ADD, TAG_LID), E(H(.352, -.15, .036), [.078, .088, .058], .015, HA, ADD, TAG_LID),
+    C(H(.43, 0, .02), H(.535, 0, -.16), .04, .055, .04),             // nose
+    E(H(.5, .045, -.17), [.045, .04, .035], .03, HA), E(H(.5, -.045, -.17), [.045, .04, .035], .03, HA),
+    E(H(.47, 0, -.255), [.045, .12, .036], .03, HA, ADD, TAG_LIPS),   // upper lip
+    E(H(.455, 0, -.318), [.052, .108, .043], .025, HA, ADD, TAG_LIPS),// lower lip, fuller
+    E(H(-.02, .42, -.04), [.1, .035, .14], .03, HA), E(H(-.02, -.42, -.04), [.1, .035, .14], .03, HA),   // ears
+  ];
+  SKIN_GROUPS = [group(torso), group(leg(1)), group(leg(-1)), group(reach), group(raise), group(head)];
+
+  // hair: sleek, pulled back from the face, a side-swept wave, a long braid over one shoulder
+  const cap = { p: E(H(-.08, 0, .1), [.525, .44, .495], 0, HA), wave: E(H(.12, .18 * R, .38), [.26, .2, .085], 0, HA) };
+  const braid = [];
+  const path = [H(-.42, -.18 * R, -.12), [-.08, -.4 * R, 4.62], [.14, -.48 * R, 4.2], [.3, -.44 * R, 3.74], [.38, -.36 * R, 3.24], [.36, -.32 * R, 2.8], [.33, -.3 * R, 2.5]];
+  let n = 0;
+  for (let k = 0; k < path.length - 1; k++) {
+    const a = path[k], b = path[k + 1], len = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]);
+    const dir = norm3([b[0] - a[0], b[1] - a[1], b[2] - a[2]]), off = norm3(cross3(dir, [1, 0, 0]));
+    for (let t = 0; t < len; t += .085, n++) {
+      const f = (k + t / len) / (path.length - 1), r = lerp(.1, .05, f), w = (n % 2 ? 1 : -1) * r * .38;
+      const c = [a[0] + dir[0] * t + off[0] * w, a[1] + dir[1] * t + off[1] * w, a[2] + dir[2] * t + off[2] * w];
+      braid.push(E(c, [r * .9, r * .9, r * 1.25], .025, [off, cross3(dir, off), dir]));
+    }
+  }
+  const tip = path[path.length - 1];
+  braid.push(C(tip, [tip[0] + .02, tip[1], tip[2] - .22], .045, .015, .03));
+  HAIR_GROUPS = { cap, braid: group(braid) };
+}
+function hairSDF(x, y, z) {
+  const { c, f, s, u } = HEADF;
+  let d = 1e9;
+  const lb = Math.hypot(x - c[0], y - c[1], z - c[2]) - .75;
+  if (lb < .3) {
+    const dx = x - c[0], dy = y - c[1], dz = z - c[2];
+    const qa = dx * f[0] + dy * f[1] + dz * f[2], qs = dx * s[0] + dy * s[1] + dz * s[2], qu = dx * u[0] + dy * u[1] + dz * u[2];
+    let h = smin(prim(HAIR_GROUPS.cap.p, x, y, z), prim(HAIR_GROUPS.cap.wave, x, y, z), .06);
+    h = Math.max(h, Math.min(qa - .1 + (qu - .3) * .5, .36 - qu));   // hairline: the forehead stays bare
+    h = Math.max(h, Math.min(qa + .14, .02 - qu, Math.abs(qs) - .3));   // tucked behind the ears
+    h = Math.max(h, -.34 - qu);                                 // nape
+    d = h;
+  } else d = lb;
+  return Math.min(d, evalGroups([HAIR_GROUPS.braid], x, y, z));
+}
+function skinSDF(x, y, z) { return evalGroups(SKIN_GROUPS, x, y, z); }
+// which body part a surface point belongs to: 0 torso, 1-2 legs, 3 reaching arm, 4 hip arm, 5 head
+function partAt(x, y, z) {
+  let best = 1e9, k = 0;
+  SKIN_GROUPS.forEach((g, n) => { const v = evalGroups([g], x, y, z); if (v < best) { best = v; k = n; } });
+  return k;
+}
+function giantSDF(x, y, z) { return Math.min(skinSDF(x, y, z), hairSDF(x, y, z)); }
+function tagAt(x, y, z) {
+  const head = SKIN_GROUPS[5];
+  let best = 1e9, tag = 0;
+  for (const p of head.prims) if (p.tag) { const v = prim(p, x, y, z); if (v < best) { best = v; tag = p.tag; } }
+  return best < .012 ? tag : 0;
+}
+
+// buffers for her light
+const holoC = new Uint32Array(W * H), holoZ = new Float32Array(W * H), holoA = new Float32Array(W * H);
+const holoKind = new Uint8Array(W * H);   // 1 skin, 2 hair, 3 lips, 4 face, 5 gown, 6 eye, 7 lid
+const holoWarm = new Float32Array(W * H), holoCool = new Float32Array(W * H);
+const FADE0 = -2.6, FADE1 = 2.2;
+const fadeAt = z => clamp((z - FADE0) / (FADE1 - FADE0), 0, 1);
+function rasterGiant() {
+  const t0 = performance.now();
+  holoZ.fill(-1e9);
+  const f = GIANT.f, s = GIANT.s;
+  const toLocal = (x, y, z) => { const dx = x - GIANT.x, dy = y - GIANT.y; return [(dx * f[0] + dy * f[1]) / U, (dx * s[0] + dy * s[1]) / U, (z - GIANT.z) / U]; };
+  const V = [COS / R2, COS / R2, SIN];
+  const Dl = [V[0] * f[0] + V[1] * f[1], V[0] * s[0] + V[1] * s[1], V[2]];
+  const UP = [-SIN / R2, -SIN / R2, COS], LEFT = [-Math.SQRT1_2, Math.SQRT1_2, 0];
+  const loc = v => [v[0] * f[0] + v[1] * f[1], v[0] * s[0] + v[1] * s[1], v[2]];
+  const L1 = norm3(loc([V[0] * .55 + LEFT[0] * .5 + UP[0] * .6, V[1] * .55 + LEFT[1] * .5 + UP[1] * .6, V[2] * .55 + UP[2] * .6]));
+  const L2 = norm3(loc([-V[0] * .3 - LEFT[0] * .9 + UP[0] * .2, -V[1] * .3 - LEFT[1] * .9 + UP[1] * .2, -V[2] * .3 + UP[2] * .2]));
+  // screen bounds and depth range from her local bounding box
+  let x0 = W, x1 = 0, y0 = H, y1 = 0, dmin = 1e9, dmax = -1e9;
+  for (const a of [-1.5, 4.6]) for (const b of [-2.6, 2.6]) for (const c of [-.1, 5.7]) {
+    const wx = GIANT.x + (f[0] * a + s[0] * b) * U, wy = GIANT.y + (f[1] * a + s[1] * b) * U, wz = c * U + GIANT.z;
+    const p = project(wx, wy, wz);
+    x0 = Math.min(x0, p.sx); x1 = Math.max(x1, p.sx); y0 = Math.min(y0, p.sy); y1 = Math.max(y1, p.sy);
+    dmin = Math.min(dmin, p.d); dmax = Math.max(dmax, p.d);
+  }
+  x0 = Math.max(0, x0 | 0); x1 = Math.min(W - 1, Math.ceil(x1)); y0 = Math.max(0, y0 | 0); y1 = Math.min(H - 1, Math.ceil(y1));
+  const d0 = dmax + 1, tMax = (dmax - dmin + 2) / U;
+  const e = .004, K4 = [[1, -1, -1], [-1, -1, 1], [-1, 1, -1], [1, 1, 1]];
+  let hits = 0;
+  for (let iy = y0; iy <= y1; iy++) for (let ix = x0; ix <= x1; ix++) {
+    const a_ = (ix + .5 - OX) / S, sy_ = (iy + .5 - OY) / S;
+    const b_ = sy_ * SIN + d0 * COS, wz = -sy_ * COS + d0 * SIN;
+    const O = toLocal((a_ + b_) / R2, (b_ - a_) / R2, wz);
+    let t = 0, hit = false, px = 0, py = 0, pz = 0;
+    for (let n = 0; n < 140 && t < tMax; n++) {
+      px = O[0] - Dl[0] * t; py = O[1] - Dl[1] * t; pz = O[2] - Dl[2] * t;
+      const d = giantSDF(px, py, pz);
+      if (d < .0025) { hit = true; break; }
+      t += Math.max(d * .85, .002);
+    }
+    if (!hit) continue;
+    hits++;
+    const i = iy * W + ix;
+    let nx = 0, ny = 0, nz = 0;
+    for (const k of K4) { const v = giantSDF(px + k[0] * e, py + k[1] * e, pz + k[2] * e); nx += k[0] * v; ny += k[1] * v; nz += k[2] * v; }
+    const n = norm3([nx, ny, nz]);
+    let occ = 0, sca = 1;
+    for (let j = 1; j <= 3; j++) { const h = .04 * j; occ += (h - giantSDF(px + n[0] * h, py + n[1] * h, pz + n[2] * h)) * sca; sca *= .65; }
+    const ao = clamp(1 - 2.6 * occ, .25, 1);
+    const ndl = dot3(n, L1), wrap = clamp((ndl + .35) / 1.35, 0, 1);
+    const ndv = clamp(dot3(n, Dl), 0, 1), fres = (1 - ndv) ** 2.2;
+    const rim2 = clamp(dot3(n, L2), 0, 1) ** 2;
+    const isHair = hairSDF(px, py, pz) <= skinSDF(px, py, pz) + 1e-4;
+    const tag = isHair ? 0 : tagAt(px, py, pz);
+    const nearHead = Math.hypot(px - HEADF.c[0], py - HEADF.c[1], pz - HEADF.c[2]) < .62;
+    const part = isHair ? -1 : partAt(px, py, pz);
+    let kind = isHair ? 2 : tag === TAG_LIPS ? 3 : tag === TAG_EYE ? 6 : tag === TAG_LID ? 7 : part === 5 || nearHead ? 4 : 1;
+    let l = .12 + .66 * wrap * ao + .4 * fres;
+    if (kind === 4 || kind === 3 || kind === 7) l = l * .8 + .16;   // her face carries its own light
+    let ramp = kind === 2 ? HAIR7 : kind === 3 ? LIPS7 : SKIN7;
+    const dither = kind === 4 || kind === 3 || kind === 7 ? .25 : .8;
+    let lv = clamp(Math.floor(l * 6.4 + (bayerAt(ix, iy) - .5) * dither), 0, 6);
+    if (kind === 5) {
+      // the gown is woven from light: bright threads follow the body's contours
+      const thread = ((pz * 13 + noise(px * 6, py * 6) * .9) % 1 + 1) % 1;
+      if (thread < .12) lv = Math.min(6, lv + 2);
+      else if (hash(ix, iy) > .985) lv = 6;
+    }
+    if (kind === 2) {
+      // sleek strands running back from the hairline, and sheen across the crown
+      const { c, f: hf, s: hs, u: hu } = HEADF;
+      const dx = px - c[0], dy = py - c[1], dz = pz - c[2];
+      const qs = dx * hs[0] + dy * hs[1] + dz * hs[2], qu = dx * hu[0] + dy * hu[1] + dz * hu[2];
+      const strand = noise(qs * 46 + qu * 6, 3.3);
+      if (strand > .68) lv = Math.min(6, lv + 1); else if (strand < .25) lv = Math.max(0, lv - 1);
+    }
+    let col = ramp[lv];
+    if (kind === 6) col = lv > 4 ? [255, 236, 200] : [96, 44, 30];   // a wet glint on the eye, dark otherwise
+    if (rim2 > .35 && kind !== 6 && kind !== 3) col = [lerp(col[0], RIM_CYAN[0], .45), lerp(col[1], RIM_CYAN[1], .45), lerp(col[2], RIM_CYAN[2], .45)];
+    holoC[i] = rgb(...col);
+    holoZ[i] = d0 - t * U;
+    holoA[i] = fadeAt(pz * U + GIANT.z);
+    holoKind[i] = kind;
+    const lum = (col[0] + col[1] + col[2]) / 765 * holoA[i];
+    if (kind === 5) holoCool[i] = lum; else holoWarm[i] = lum;
+  }
+  window.__giantStats = { ms: Math.round(performance.now() - t0), hits, box: [x0, y0, x1, y1] };
+}
+
+// fine detail on top of the model: lash line with a wing, brows, shadow on the lids, gloss on the lips, a beauty mark
+function paintFace() {
+  const { c, f, s, u } = HEADF;
+  const toScreen = (a, b, q) => {
+    const lx = c[0] + f[0] * a + s[0] * b + u[0] * q, ly = c[1] + f[1] * a + s[1] * b + u[1] * q, lz = c[2] + f[2] * a + s[2] * b + u[2] * q;
+    return project(GIANT.x + (GIANT.f[0] * lx + GIANT.s[0] * ly) * U, GIANT.y + (GIANT.f[1] * lx + GIANT.s[1] * ly) * U, lz * U + GIANT.z);
+  };
+  const visible = (p, kinds) => {
+    const ix = Math.round(p.sx), iy = Math.round(p.sy);
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H) return -1;
+    const i = iy * W + ix;
+    return kinds.includes(holoKind[i]) && holoZ[i] - p.d < .5 ? i : -1;
+  };
+  const LASH = rgb(40, 10, 18), BROW = rgb(112, 92, 120), SHADOW = rgb(150, 64, 70);
+  // lash line: wherever the lid meets the eye, plus a short wing at the outer corner
+  for (let i = W; i < W * H - W; i++) if (holoKind[i] === 6 && holoKind[i - W] === 7) { holoC[i - W] = LASH; holoC[i] = LASH; }
+  for (const sb of [1, -1]) {
+    for (let k = 0; k <= 6; k++) {
+      const w = toScreen(.36 - k * .006, (.21 + k * .012) * sb, .03 + k * .009);
+      const i = visible(w, [4, 7, 6]);
+      if (i >= 0) holoC[i] = LASH;
+    }
+    // eyeshadow on the lid
+    for (let k = 0; k < 10; k++) {
+      const w = toScreen(.39, (.08 + k * .014) * sb, .06 + Math.sin(k / 9 * Math.PI) * .012);
+      const i = visible(w, [7, 4]);
+      if (i >= 0) holoC[i] = SHADOW;
+    }
+    // brow: thin, lifted at the tail
+    for (let k = 0; k <= 14; k++) {
+      const bq = .05 + k * .017, arch = Math.sin(Math.min(1, k / 10) * Math.PI * .55) * .03 - Math.max(0, k - 10) * .006;
+      const w = toScreen(.43 - k * .004, bq * sb, .135 + arch);
+      const i = visible(w, [4, 7]);
+      if (i >= 0) holoC[i] = BROW;
+    }
+  }
+  // nose: a lit bridge, shadowed nostrils, a soft shadow beneath
+  for (let k = 2; k <= 4; k++) { const i = visible(toScreen(.45 + k * .014, .03, .02 - k * .026), [4]); if (i >= 0) holoC[i] = rgb(...SKIN7[5]); }
+  for (const sb of [1, -1]) { const i = visible(toScreen(.5, .055 * sb, -.19), [4]); if (i >= 0) holoC[i] = rgb(...SKIN7[1]); }
+  { const i = visible(toScreen(.49, 0, -.215), [4, 3]); if (i >= 0) holoC[i] = rgb(...SKIN7[2]); }
+  // the parting between the lips
+  for (let k = -6; k <= 6; k++) { const i = visible(toScreen(.48, k * .014, -.288 - Math.abs(k) * .002), [3, 4]); if (i >= 0) holoC[i] = rgb(...LIPS7[0]); }
+  // gloss on the lower lip
+  for (let i = 0; i < W * H; i++) if (holoKind[i] === 3 && holoKind[i - W] === 3 && holoKind[i + W] !== 3 && hash(i, 5) > .55) holoC[i] = rgb(...LIPS7[6]);
+  // a small beauty mark under the courier-side eye
+  const m = toScreen(.4, -.2 * GIANT.R, -.12), mi = visible(m, [4]);
+  if (mi >= 0) holoC[mi] = rgb(90, 36, 30);
+}
+
+// soft light around her: warm from her skin, cool from the gown, quantised so it stays pixel art
+const glowW = new Float32Array(W * H), glowC = new Float32Array(W * H);
+function blur(src, out, R) {
+  const tmp = new Float32Array(W * H);
+  for (let pass = 0; pass < 2; pass++) {
+    const from = pass ? out : src;
+    for (let iy = 0; iy < H; iy++) {
+      let acc = 0;
+      for (let ix = -R; ix < W + R; ix++) {
+        if (ix + R < W) acc += from[iy * W + ix + R];
+        if (ix - R - 1 >= 0) acc -= from[iy * W + ix - R - 1];
+        if (ix >= 0 && ix < W) tmp[iy * W + ix] = acc / (2 * R + 1);
+      }
+    }
+    for (let ix = 0; ix < W; ix++) {
+      let acc = 0;
+      for (let iy = -R; iy < H + R; iy++) {
+        if (iy + R < H) acc += tmp[(iy + R) * W + ix];
+        if (iy - R - 1 >= 0) acc -= tmp[(iy - R - 1) * W + ix];
+        if (iy >= 0 && iy < H) out[iy * W + ix] = acc / (2 * R + 1);
+      }
+    }
+  }
+}
+function applyGlow() {
+  for (let iy = 0; iy < H; iy++) for (let ix = 0; ix < W; ix++) {
+    const i = iy * W + ix, gw = glowW[i] * 1.6, gc = glowC[i] * 1.6;
+    if (gw + gc < .015) continue;
+    const qw = Math.floor(gw * 8 + bayerAt(ix, iy) * .9) / 8, qc = Math.floor(gc * 8 + bayerAt(ix, iy) * .9) / 8;
+    const c = pix[i];
+    pix[i] = rgb((c & 255) + 170 * qw + 40 * qc, (c >> 8 & 255) + 34 * qw + 130 * qc, (c >> 16 & 255) + 128 * qw + 160 * qc);
+  }
+}
+
+function city() {
+  for (let k = 0; k < 200; k++) {
+    const x = -24 + hash(k, 501) * 44, y = -24 + hash(k, 502) * 44, z = -9 - hash(k, 503) * 8;
+    const p = project(x, y, z), ix = p.sx | 0, iy = p.sy | 0;
+    if (ix < 0 || iy < 0 || ix >= W || iy >= H || zb[iy * W + ix] > -1e8) continue;
+    const t = hash(k, 504);
+    pix[iy * W + ix] = t > .8 ? rgb(70, 150, 160) : t > .5 ? rgb(120, 70, 50) : rgb(52, 40, 70);
+  }
+}
+
+function bake() {
+  zb.fill(-1e9);
+  pix.fill(VOID);
+  for (let iy = 0; iy < H; iy++) for (let ix = 0; ix < W; ix++) {
+    const g = unproject(ix + .5, iy + .5), i = iy * W + ix;
+    if (!onDeck(g.x, g.y, ix, iy)) continue;
+    pix[i] = deckColor(g.x, g.y, ix, iy); ground[i] = 1;
+    zb[i] = (g.x + g.y) / R2 * COS;
+  }
+  groundZ.set(zb);
+  deckSides();
+  gantry(-12.6, true); gantry(-7.2, true); gantry(-1.8, false);
+  railing(DECK.x0 + .08, DECK.y0 + 1.6, DECK.y1 - 1.2, -1);
+  railing(DECK.x1 - .08, DECK.y0 + 1.6, DECK.y1 - 1.2, 1);
+  man();
+  bakeOcclusion();
+  staticShadow.set(shadowMask);
+  applyShadows(groundZ);
+  city();
+  buildGiant();
+  rasterGiant();
+  paintFace();
+  blur(holoWarm, glowW, 22); blur(holoCool, glowC, 16);
+  applyGlow();
+  bakedPix.set(pix);
+  bakedZ.set(zb);
+}
+
+/* ---------- rain ---------- */
+const DROPS = [];
+for (let n = 0; n < 460; n++) DROPS.push({ x: -10 + hash(n, 1) * 18, y: -16 + hash(n, 2) * 28, z: hash(n, 3) * 17, v: 15 + hash(n, 4) * 6 });
+const SPLASH = [];
+function stepRain(dt) {
+  for (const d of DROPS) {
+    d.z -= d.v * dt;
+    const onIt = d.x > DECK.x0 && d.x < DECK.x1 && d.y > DECK.y0 + 2 && d.y < DECK.y1 - 1.5;
+    if ((onIt && d.z <= 0) || d.z < -6) {
+      if (onIt && SPLASH.length < 80) SPLASH.push({ x: d.x, y: d.y, life: .14 });
+      d.z = 15 + Math.random() * 3;
+    }
+  }
+  for (const s of SPLASH) s.life -= dt;
+  for (let k = SPLASH.length - 1; k >= 0; k--) if (SPLASH[k].life <= 0) SPLASH.splice(k, 1);
+}
+function drawRain() {
+  for (const d of DROPS) {
+    const p = project(d.x, d.y, d.z);
+    for (let k = 0; k < 4; k++) {
+      const ix = (p.sx - k * .35) | 0, iy = (p.sy - k) | 0;
+      if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+      const i = iy * W + ix;
+      if (p.d <= zb[i]) continue;
+      // rain is only visible where something lights it; inside her light it turns to gold
+      const g = Math.min(glowW[i] + glowC[i], .25), c = pix[i], lit = .25 + g * 2.4;
+      if (lit < .3 && hash(ix, iy) > .5) continue;
+      pix[i] = rgb((c & 255) * .5 + (34 + 200 * g) * lit, (c >> 8 & 255) * .5 + (32 + 60 * g) * lit, (c >> 16 & 255) * .5 + (52 + 150 * g) * lit);
+    }
+  }
+  for (const s of SPLASH) {
+    const p = project(s.x, s.y, 0);
+    for (const dx of [-1, 1]) {
+      const ix = (p.sx + dx) | 0, iy = (p.sy - 1) | 0;
+      if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+      pix[iy * W + ix] = rgb(170, 140, 130);
+    }
+  }
+}
+
+/* ---------- her light, every frame ---------- */
+let glitchUntil = 0, nextGlitch = 3, glitchRows = [];
+function drawGiant(t) {
+  const band = STILL ? -99 : (t * 52) % (H + 120) - 60;
+  if (!STILL && t > nextGlitch) {
+    glitchUntil = t + .12; nextGlitch = t + 4 + Math.random() * 5;
+    glitchRows = [];
+    for (let k = 0; k < 3; k++) glitchRows.push([Math.random() * H | 0, 3 + (Math.random() * 8 | 0), (Math.random() < .5 ? -1 : 1) * (3 + (Math.random() * 4 | 0))]);
+  }
+  const glitch = t < glitchUntil;
+  const flick = STILL ? 1 : .94 + .06 * Math.sin(t * 23) * Math.sin(t * 3.1);
+  for (let iy = 0; iy < H; iy++) {
+    let shift = 0;
+    if (glitch) for (const [r, n, s] of glitchRows) if (iy >= r && iy < r + n) shift = s;
+    const scanRow = iy % 3 === 0;
+    const lift = Math.abs(iy - band) < 4 ? 1.2 : 1;
+    for (let ix = 0; ix < W; ix++) {
+      const sx = ix - shift;
+      if (sx < 0 || sx >= W) continue;
+      const j = iy * W + sx, i = iy * W + ix;
+      if (holoZ[j] < -1e8 || holoZ[j] <= zb[i]) continue;
+      const kind = holoKind[j], scan = scanRow ? (kind === 3 || kind === 4 || kind >= 6 ? .9 : .66) : 1;
+      let a = holoA[j] * .92 * scan * flick * lift;
+      if (a < bayerAt(ix, iy) * .35) continue;
+      a = Math.min(1, a);
+      const h = holoC[j], c = pix[i];
+      pix[i] = rgb((c & 255) * (1 - a) + (h & 255) * a * lift, (c >> 8 & 255) * (1 - a) + (h >> 8 & 255) * a * lift, (c >> 16 & 255) * (1 - a) + (h >> 16 & 255) * a * lift);
+    }
+  }
+}
+
+function drawLamps(t) { LAMPS.forEach((l, n) => drawLamp(l, t, n)); }
+function drawLamp(L, t, n) {
+  const p = project(L.x, L.y, L.z), on = STILL || n || Math.sin(t * 1.3) > -.95;
+  const c = on ? rgb(120, 255, 236) : rgb(60, 120, 120);
+  for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+    const ix = (p.sx + dx) | 0, iy = (p.sy + dy) | 0;
+    if (ix >= 0 && iy >= 0 && ix < W && iy < H) pix[iy * W + ix] = c;
+  }
+  for (const [dx, dy] of [[-1, 0], [2, 0], [0, -1], [1, -1], [0, 2], [1, 2]]) {
+    const ix = (p.sx + dx) | 0, iy = (p.sy + dy) | 0;
+    if (ix >= 0 && iy >= 0 && ix < W && iy < H) { const q = pix[iy * W + ix]; pix[iy * W + ix] = rgb((q & 255) + 20, (q >> 8 & 255) + 90, (q >> 16 & 255) + 90); }
+  }
+}
+
+let time = 0;
+function draw() {
+  pix.set(bakedPix);
+  zb.set(bakedZ);
+  drawGiant(time);
+  drawLamps(time);
+  drawRain();
+  ctx.putImageData(image, 0, 0);
+}
+function fitDark() {
+  const dpr = window.devicePixelRatio || 1;
+  const fitScale = Math.min(innerWidth / W, innerHeight / H);
+  const scale = Math.max(1, Math.floor(fitScale * dpr)) / dpr;
+  canvas.style.width = W * scale + 'px';
+  canvas.style.height = H * scale + 'px';
+}
+addEventListener('resize', fitDark);
+fitDark();
+bake();
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(.04, (now - last) / 1000);
+  last = now;
+  if (!STILL) { time += dt; stepRain(dt); }
+  draw();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+window.__holo = { step(dt) { time += dt; stepRain(dt); draw(); }, get time() { return time; } };
+</script>
+</body>
+</html>

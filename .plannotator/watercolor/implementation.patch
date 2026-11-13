@@ -1,0 +1,2822 @@
+diff --git a/package.json b/package.json
+index 43a2cab..3941aab 100644
+--- a/package.json
++++ b/package.json
+@@ -74,6 +74,7 @@
+     "@types/react": "^19.2.18",
+     "@types/react-dom": "^19.2.4",
+     "@types/three": "^0.185.4",
++    "@webgpu/types": "^0.1.74",
+     "babel-plugin-react-compiler": "1.0.0",
+     "tailwindcss": "^4.3.3",
+     "typescript": "^5.9.3"
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 360507f..5f34f83 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -171,6 +171,9 @@ importers:
+       '@types/three':
+         specifier: ^0.185.4
+         version: 0.185.4
++      '@webgpu/types':
++        specifier: ^0.1.74
++        version: 0.1.74
+       babel-plugin-react-compiler:
+         specifier: 1.0.0
+         version: 1.0.0
+@@ -2143,6 +2146,7 @@ packages:
+   '@smithy/core@3.32.0':
+     resolution: {integrity: sha512-NAiCSC78fzbNIEWoheoF74Ob5ZorLijCHpMY26Fqvqg/+9LuyIqMfHDg2p8Yk1rqOyowtiL3y7WX0AW+teL6zw==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Deprecated due to a bug in custom logger data redaction. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
+ 
+   '@smithy/credential-provider-imds@4.5.0':
+     resolution: {integrity: sha512-2jsPi+7Zv2hSzD9IXR9D7DTqSn7mv4XalzRm+bESh53jiaUS3NKEUbpQFTJP0HhQy9qzZvluxQ3yS24zdRrqsA==}
+@@ -2442,6 +2446,9 @@ packages:
+   '@webgpu/types@0.1.72':
+     resolution: {integrity: sha512-0cF7RFM2edNoiIS1ODJp0/Gzv4/xSXhwoR0YCza+OWpJWtn4wmo9DvK91aLlH9+uUnwIriP7ZiC3WitmyhuzBw==}
+ 
++  '@webgpu/types@0.1.74':
++    resolution: {integrity: sha512-lgiI4hbuLcI9unnm2cL/tvCaQU45dp0xcLWJh5uB/9MBGvIA4F8XIk7nSiBeg+K4xWGYwgZKn80LmERI5CxoTA==}
++
+   '@workflow/serde@4.1.0':
+     resolution: {integrity: sha512-pav4F2BoirECWR7Nf1TKt+2eETcBj7jj4cBefQ8VXQCA6NPkaKeLfj/zMgi+3zYV5ZIBT4GuUiphsj0/b9hPQQ==}
+ 
+@@ -6125,6 +6132,8 @@ snapshots:
+ 
+   '@webgpu/types@0.1.72': {}
+ 
++  '@webgpu/types@0.1.74': {}
++
+   '@workflow/serde@4.1.0': {}
+ 
+   ai@7.0.107(zod@4.5.4):
+diff --git a/src/components/demos/index.tsx b/src/components/demos/index.tsx
+index 5ea134a..3997f93 100644
+--- a/src/components/demos/index.tsx
++++ b/src/components/demos/index.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import type { ComponentType } from "react";
++import WatercolorDemo from "./watercolor";
+ import AccordionFramesDemo from "./accordion-frames";
+ import AnimatedFooterDemo from "./animated-footer";
+ import ApertureZoomHeroDemo from "./aperture-zoom-hero";
+@@ -289,6 +290,7 @@ export const demos: Record<string, ComponentType> = {
+   "mosaic-flip": MosaicFlipDemo,
+   "motion-tracking": MotionTrackingDemo,
+   "image-reveal": ImageRevealDemo,
++  watercolor: WatercolorDemo,
+   "ink-field": InkFieldDemo,
+   "ink-core-layout": InkCoreLayoutDemo,
+   "iris-outro-footer": IrisOutroFooterDemo,
+diff --git a/src/components/previews/index.tsx b/src/components/previews/index.tsx
+index f7dda1e..a4a904f 100644
+--- a/src/components/previews/index.tsx
++++ b/src/components/previews/index.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import type { ComponentType } from "react";
++import WatercolorPreview from "./watercolor";
+ import AccordionFramesPreview from "./accordion-frames";
+ import AnimatedFooterPreview from "./animated-footer";
+ import ArchiveCommercePagePreview from "./archive-commerce-page";
+@@ -86,6 +87,7 @@ export const previews: Record<string, ComponentType> = {
+   "monogram-morph-page": MonogramMorphPagePreview,
+   "mosaic-flip": MosaicFlipPreview,
+   "image-reveal": ImageRevealPreview,
++  watercolor: WatercolorPreview,
+   "ink-field": InkFieldPreview,
+   "iris-outro-footer": IrisOutroFooterPreview,
+   "video-summagator": VideoSummagatorPreview,
+diff --git a/src/components/studios/index.tsx b/src/components/studios/index.tsx
+index 80b2f0c..ed2f4a4 100644
+--- a/src/components/studios/index.tsx
++++ b/src/components/studios/index.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import type { ComponentType } from "react";
++import WatercolorStudio from "./watercolor";
+ import AccordionFramesStudio from "./accordion-frames";
+ import AnimatedFooterStudio from "./animated-footer";
+ import ArchiveCommercePageStudio from "./archive-commerce-page";
+@@ -77,6 +78,7 @@ export const studios: Record<string, StudioComponent> = {
+   "overlay-menu": OverlayMenuStudio,
+   "mosaic-flip": MosaicFlipStudio,
+   "image-reveal": ImageRevealStudio,
++  watercolor: WatercolorStudio,
+   "ink-field": InkFieldStudio,
+   "award-list": AwardListStudio,
+   "inversa-scroll": InversaScrollStudio,
+diff --git a/src/lib/component-meta.ts b/src/lib/component-meta.ts
+index ec3c4be..3d27205 100644
+--- a/src/lib/component-meta.ts
++++ b/src/lib/component-meta.ts
+@@ -5708,6 +5708,28 @@ export const componentMeta: Record<string, ComponentMeta> = {
+       },
+     ],
+   },
++  watercolor: {
++    demoPath: "src/components/demos/watercolor.tsx",
++    studioPath: "src/components/studios/watercolor.tsx",
++    assets: [],
++    nuance: [
++      { label: "Wet and settled pigment", description: "Separate GPU textures carry wet pigment and deposited pigment. Water flow moves the wet paint; evaporation leaves pigment in the paper grain." },
++      { label: "Original shaders", description: "The ten WGSL modules come from watercolor.bizar.ro. The engine sizes the simulation to the component box and keeps tuning outside the canvas." },
++      { label: "WebGPU required", description: "The component shows a fallback message when WebGPU cannot initialize. Resizing or changing quality can start a new sheet." },
++    ],
++    editable: [
++      { name: "hue / brushSize / rainbow", control: "slider", description: "Starting pigment hue, brush scale and automatic hue changes along a stroke." },
++      { name: "tuning", control: "text", description: "Partial overrides for brush, color, dry, flow, paper, rainbow, grade, light, look, settle, wipe and spread settings." },
++    ],
++    api: [
++      { name: "tuning", type: "WatercolorTuning", default: "DEFAULT_SETTINGS", description: "Nested partial settings. Updates apply without recreating the GPU device." },
++      { name: "hue / brushSize / rainbow", type: "number / number / boolean", default: "330 / 1 / true", description: "Pigment hue in degrees, brush scale from 0.3 to 3 and rainbow painting." },
++      { name: "quality", type: '"auto" | "high" | "low"', default: '"auto"', description: "Simulation resolution. A resolution change clears the sheet." },
++      { name: "wheelControls / keyboardShortcuts", type: "boolean", default: "false", description: "Opt-in wheel hue and size controls and focused-canvas shortcuts. R toggles rainbow, D washes, brackets change size and left/right arrows change hue." },
++      { name: "ref", type: "Ref<WatercolorHandle>", description: "wash() animates a clean wash. clear() immediately starts a new sheet." },
++      { name: "className / style", type: "string / CSSProperties", description: "Root styling. Give the parent a height; the canvas fills its box." },
++    ],
++  },
+   "ink-field": {
+     demoPath: "src/components/demos/ink-field.tsx",
+     studioPath: "src/components/studios/ink-field.tsx",
+diff --git a/src/lib/inspiration.ts b/src/lib/inspiration.ts
+index 51d653d..04f6a86 100644
+--- a/src/lib/inspiration.ts
++++ b/src/lib/inspiration.ts
+@@ -2700,6 +2700,23 @@ export const inspirationGroups: InspirationGroup[] = [
+   {
+     title: "Component demos and micro-interactions",
+     links: [
++      {
++        title: "Refracted Text (React Drops)",
++        href: "https://reactdrops.dev/components/text-effect/refracted-text",
++        dateAdded: "2026-11-01",
++        kind: "demo",
++        stack: ["react", "typescript"],
++        useFor: [
++          "glass text effect",
++          "refracted light lettering",
++          "hero headline entrance animation",
++          "per character lift animation",
++          "cursor responsive light beam",
++          "react text effect source",
++        ],
++        description:
++          "Refracted Text is a React component from React Drops that sets a short display word in glass letters with a light beam refracting through it. Its 31 props cover the entrance, the beam and the lettering: character stagger and lift duration, eight preset easing curves, six colour inputs for the glass and the spectrum, beam height and cursor steering, font size and weight, extra bold, height and corner rounding. The default face is Square Display, bundled with the component, and the original Librestile face stays available. Usage ships as a copyable TypeScript example, and the licence allows personal and commercial use while redistributing the components or kits needs permission.",
++      },
+       {
+         title: "Motionin",
+         href: "https://motionin.design/",
+diff --git a/src/lib/registry-groups.ts b/src/lib/registry-groups.ts
+index 79deca4..e2d60dd 100644
+--- a/src/lib/registry-groups.ts
++++ b/src/lib/registry-groups.ts
+@@ -263,6 +263,7 @@ export const componentGroups: RegistryGroup[] = [
+       "motion-tracking",
+       "lego-dither",
+       "ink-field",
++      "watercolor",
+       "grain-gradient-field",
+       "prism-light-instrument",
+       "starry-night-flow",
+diff --git a/src/lib/registry.ts b/src/lib/registry.ts
+index f64e503..2284c12 100644
+--- a/src/lib/registry.ts
++++ b/src/lib/registry.ts
+@@ -2646,6 +2646,24 @@ export const registryItems: RegistryItem[] = [
+       },
+     ],
+   },
++  {
++    name: "watercolor",
++    title: "Watercolor",
++    description: "Interactive WebGPU watercolor from watercolor.bizar.ro. Paint and smudge wet pigment on procedural paper, with spreading, granulation, evaporation and a centre-out wash. Brush, water, lighting and paper controls live in the external studio panel.",
++    section: "components",
++    category: "Animations",
++    pro: true,
++    date: "2026-11-01",
++    type: "registry:ui",
++    dependencies: ["@webgpu/types"],
++    registryDependencies: [],
++    files: [
++      { path: "src/registry/watercolor/index.tsx", target: "components/ui/watercolor/index.tsx", type: "registry:ui" },
++      { path: "src/registry/watercolor/engine.ts", target: "components/ui/watercolor/engine.ts", type: "registry:lib" },
++      { path: "src/registry/watercolor/settings.ts", target: "components/ui/watercolor/settings.ts", type: "registry:lib" },
++      { path: "src/registry/watercolor/shaders.ts", target: "components/ui/watercolor/shaders.ts", type: "registry:lib" },
++    ],
++  },
+   {
+     name: "ink-field",
+     title: "Ink Field",
+--- /dev/null
++++ b/src/registry/watercolor/shaders.ts
+@@ -0,0 +1,539 @@
++// GENERATED from the watercolor.bizar.ro bundle (index-2ZPewFcs.js).
++// Do not edit by hand. Every module below concatenates back to the original
++// WGSL byte for byte; the shared prelude and the brush and wash helpers are
++// factored out only to avoid shipping them ten times.
++
++const PRELUDE = `struct Frame {
++  paint: vec4f,
++  flow: vec4f,
++  time: vec4f,
++  brushStart: vec4f,
++  brushEnd: vec4f,
++  brushColor: vec4f,
++  brushVelocity: vec4f,
++  spread: vec4f,
++  settle: vec4f,
++  dry: vec4f,
++  motion: vec4f,
++  paper: vec4f,
++  light: vec4f,
++  look: vec4f,
++  grade: vec4f,
++  wipe: vec4f,
++}
++
++@group(0) @binding(0) var<uniform> frame: Frame;
++@group(0) @binding(1) var bilinear: sampler;
++@group(0) @binding(2) var nearest: sampler;
++
++fn paintSize() -> vec2i {
++  return vec2i(frame.paint.xy);
++}
++
++fn flowSize() -> vec2i {
++  return vec2i(frame.flow.xy);
++}
++
++fn clampPaint(cell: vec2i) -> vec2i {
++  return clamp(cell, vec2i(0), paintSize() - 1);
++}
++
++fn clampFlow(cell: vec2i) -> vec2i {
++  return clamp(cell, vec2i(0), flowSize() - 1);
++}
++
++fn hash(cell: vec2u, seed: u32) -> f32 {
++  var value = (cell.x * 1597334677u) ^ (cell.y * 3812015801u) ^ (seed * 2654435769u);
++  value = (value ^ (value >> 16u)) * 2246822519u;
++  value = (value ^ (value >> 13u)) * 3266489917u;
++  value = value ^ (value >> 16u);
++
++  return f32(value) / 4294967295.0;
++}
++
++fn valueNoise(position: vec2f, seed: u32) -> f32 {
++  let base = floor(position);
++  let fraction = position - base;
++  let blend = fraction * fraction * (3.0 - 2.0 * fraction);
++  let cell = vec2u(vec2i(base) + 65536);
++  let bottom = mix(hash(cell, seed), hash(cell + vec2u(1u, 0u), seed), blend.x);
++  let top = mix(hash(cell + vec2u(0u, 1u), seed), hash(cell + vec2u(1u, 1u), seed), blend.x);
++
++  return mix(bottom, top, blend.y);
++}
++
++fn fbm(position: vec2f, seed: u32, octaves: u32) -> f32 {
++  var amplitude = 0.5;
++  var frequency = 1.0;
++  var sum = 0.0;
++  var total = 0.0;
++
++  for (var octave = 0u; octave < octaves; octave++) {
++    sum += valueNoise(position * frequency, seed + octave * 31u) * amplitude;
++    total += amplitude;
++    amplitude *= 0.5;
++    frequency *= 2.07;
++  }
++
++  return sum / total;
++}
++
++`;
++
++const BRUSH = `fn capsuleDistance(position: vec2f) -> f32 {
++  let start = frame.brushStart.xy;
++  let segment = frame.brushEnd.xy - start;
++  let along = clamp(dot(position - start, segment) / max(dot(segment, segment), 1e-6), 0.0, 1.0);
++
++  return length(position - (start + segment * along));
++}
++
++fn brushFalloff(position: vec2f, ragged: f32, splay: f32) -> f32 {
++  let radius = frame.brushStart.z * (0.55 + 0.9 * splay) * (0.85 + 0.3 * ragged);
++
++  return 1.0 - smoothstep(radius * 0.78, radius, capsuleDistance(position));
++}
++`;
++
++const WIPE = `fn wipeDistance(position: vec2f) -> f32 {
++  let radius = frame.wipe.z;
++  let offset = position - frame.wipe.xy;
++  let wobble = fbm(position * 0.006 + 3.0, 53u, 4u) - 0.5;
++  let ragged = fbm(position * 0.03, 59u, 3u) - 0.5;
++
++  return length(offset) + (wobble * 0.22 + ragged * 0.05) * radius;
++}
++
++fn wipeMask(position: vec2f) -> f32 {
++  let radius = frame.wipe.z;
++
++  if (radius <= 0.0) {
++    return 0.0;
++  }
++`;
++
++export const RENDER = `${PRELUDE}struct VertexOutput {
++  @builtin(position) position: vec4f,
++  @location(0) uv: vec2f,
++}
++
++@vertex
++fn vs(@builtin(vertex_index) index: u32) -> VertexOutput {
++  let corner = vec2f(f32((index << 1u) & 2u), f32(index & 2u));
++  var out: VertexOutput;
++  out.position = vec4f(corner * 2.0 - 1.0, 0.0, 1.0);
++  out.uv = vec2f(corner.x, 1.0 - corner.y);
++  return out;
++}
++
++${WIPE}
++  return 1.0 - smoothstep(radius * (1.0 - frame.wipe.w), radius, wipeDistance(position));
++}
++
++
++@group(1) @binding(0) var carried: texture_2d<f32>;
++@group(1) @binding(1) var deposit: texture_2d<f32>;
++@group(1) @binding(2) var paper: texture_2d<f32>;
++
++fn reflectance(ratio: vec3f) -> vec3f {
++  return 1.0 + ratio - sqrt(ratio * ratio + 2.0 * ratio);
++}
++
++fn toSrgb(color: vec3f) -> vec3f {
++  let low = color * 12.92;
++  let high = 1.055 * pow(color, vec3f(1.0 / 2.4)) - 0.055;
++
++  return select(high, low, color <= vec3f(0.0031308));
++}
++
++@fragment
++fn fs(in: VertexOutput) -> @location(0) vec4f {
++  let uv = in.uv;
++  let texel = frame.paint.zw;
++  let sheet = textureSampleLevel(paper, bilinear, uv, 0.0);
++  let left = textureSampleLevel(paper, bilinear, uv - vec2f(texel.x, 0.0), 0.0).r;
++  let right = textureSampleLevel(paper, bilinear, uv + vec2f(texel.x, 0.0), 0.0).r;
++  let down = textureSampleLevel(paper, bilinear, uv - vec2f(0.0, texel.y), 0.0).r;
++  let up = textureSampleLevel(paper, bilinear, uv + vec2f(0.0, texel.y), 0.0).r;
++  let normal = normalize(vec3f((left - right) * 3.0, (up - down) * 3.0, 1.0));
++  let lightDirection = frame.light.xyz;
++  let shading = mix(1.0, clamp(dot(normal, lightDirection) / max(lightDirection.z, 0.2), 0.6, 1.25), frame.look.y);
++  let floating = textureSampleLevel(carried, bilinear, uv, 0.0);
++  let settled = textureSampleLevel(deposit, bilinear, uv, 0.0);
++  let granules = 1.0 + frame.look.x * (0.5 - sheet.r) * 2.0;
++  let mottle = 1.0 + frame.grade.w * (sheet.b - 0.5) * 2.0;
++  let ratio = settled.rgb * granules * mottle + floating.rgb * mix(1.0, granules, 0.4);
++  var color = frame.paper.rgb * reflectance(max(ratio, vec3f(0.0))) * shading;
++  let wet = smoothstep(0.02, 0.6, floating.a);
++  let waterLeft = textureSampleLevel(carried, bilinear, uv - vec2f(texel.x * 2.0, 0.0), 0.0).a;
++  let waterRight = textureSampleLevel(carried, bilinear, uv + vec2f(texel.x * 2.0, 0.0), 0.0).a;
++  let waterDown = textureSampleLevel(carried, bilinear, uv - vec2f(0.0, texel.y * 2.0), 0.0).a;
++  let waterUp = textureSampleLevel(carried, bilinear, uv + vec2f(0.0, texel.y * 2.0), 0.0).a;
++  let surface = normalize(vec3f((waterLeft - waterRight) * 1.5, (waterUp - waterDown) * 1.5, 1.0));
++  let halfway = normalize(lightDirection + vec3f(0.0, 0.0, 1.0));
++  let glint = pow(max(dot(surface, halfway), 0.0), 24.0) * wet * frame.look.z;
++
++  let wetLuma = dot(color, vec3f(0.2126, 0.7152, 0.0722));
++  color = mix(color, max(mix(vec3f(wetLuma), color, 1.25), vec3f(0.0)) * (1.0 - frame.look.w), wet);
++  color += glint;
++
++  if (frame.wipe.z > 0.0) {
++    let radius = frame.wipe.z;
++    let reach = wipeDistance(uv * frame.paint.xy) / radius;
++    let front = exp(-pow((reach - 1.0) / 0.012, 2.0));
++    let sheen = smoothstep(1.0 - frame.wipe.w * 1.6, 1.0, reach) * (1.0 - smoothstep(0.985, 1.0, reach));
++
++    color = mix(color, frame.paper.rgb * 1.015, sheen * 0.55);
++    color *= 1.0 - front * 0.06;
++  }
++
++  let luma = dot(color, vec3f(0.2126, 0.7152, 0.0722));
++  color = max(mix(vec3f(luma), color, frame.grade.x), vec3f(0.0));
++
++  let centered = uv * 2.0 - 1.0;
++  color *= 1.0 - frame.grade.y * 0.5 * dot(centered, centered);
++
++  let grain = (hash(vec2u(in.position.xy), u32(frame.time.z)) - 0.5) * frame.grade.z;
++
++  return vec4f(toSrgb(clamp(color, vec3f(0.0), vec3f(1.0))) + grain, 1.0);
++}
++`;
++
++export const ADVECT_PAINT = `${PRELUDE}${BRUSH}
++${WIPE}
++  return 1.0 - smoothstep(radius * (1.0 - frame.wipe.w), radius, wipeDistance(position));
++}
++
++
++@group(1) @binding(0) var velocity: texture_2d<f32>;
++@group(1) @binding(1) var carried: texture_2d<f32>;
++@group(1) @binding(2) var paper: texture_2d<f32>;
++@group(1) @binding(3) var carriedOut: texture_storage_2d<rgba16float, write>;
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++
++  if (any(cell >= paintSize())) {
++    return;
++  }
++
++  let uv = (vec2f(cell) + 0.5) * frame.paint.zw;
++  let flow = textureSampleLevel(velocity, bilinear, uv, 0.0).xy * frame.time.y * frame.flow.zw;
++  var next = textureSampleLevel(carried, bilinear, uv - flow, 0.0);
++  let sheet = textureLoad(paper, cell, 0);
++  let ragged = sheet.g;
++  let position = vec2f(cell) + 0.5;
++  let dryness = frame.brushEnd.w;
++  let bristles = smoothstep(dryness - 0.12, dryness + 0.12, sheet.r * 0.7 + ragged * 0.3 + 0.15);
++  let scale = 1.0 / max(frame.brushStart.z, 1.0);
++  let splay = fbm(position * scale * 0.9, 41u, 3u);
++  let load = 0.35 + 1.3 * fbm(position * scale * 1.7 + 17.0, 43u, 3u);
++  let stroke = brushFalloff(position, ragged, splay) * mix(1.0, bristles, smoothstep(0.2, 0.6, dryness));
++
++  next += vec4f(frame.brushColor.rgb * frame.brushEnd.z * load, frame.brushStart.w) * stroke;
++  next *= 1.0 - wipeMask(position);
++  next.a = min(next.a, 4.0);
++
++  textureStore(carriedOut, cell, max(next, vec4f(0.0)));
++}
++`;
++
++export const ADVECT_VELOCITY = `${PRELUDE}${BRUSH}
++
++@group(1) @binding(0) var velocity: texture_2d<f32>;
++@group(1) @binding(1) var curl: texture_2d<f32>;
++@group(1) @binding(2) var carried: texture_2d<f32>;
++@group(1) @binding(3) var velocityOut: texture_storage_2d<rgba16float, write>;
++
++fn curlAt(cell: vec2i) -> f32 {
++  return textureLoad(curl, clampFlow(cell), 0).x;
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++  let size = flowSize();
++
++  if (any(cell >= size)) {
++    return;
++  }
++
++  let delta = frame.time.y;
++  let uv = (vec2f(cell) + 0.5) * frame.flow.zw;
++  let current = textureLoad(velocity, cell, 0).xy;
++  var next = textureSampleLevel(velocity, bilinear, uv - current * delta * frame.flow.zw, 0.0).xy;
++  let around = textureLoad(velocity, clampFlow(cell + vec2i(1, 0)), 0).xy + textureLoad(velocity, clampFlow(cell - vec2i(1, 0)), 0).xy +
++    textureLoad(velocity, clampFlow(cell + vec2i(0, 1)), 0).xy + textureLoad(velocity, clampFlow(cell - vec2i(0, 1)), 0).xy;
++
++  next = mix(next, around * 0.25, 0.3);
++
++  let gradient = 0.5 * vec2f(
++    abs(curlAt(cell + vec2i(1, 0))) - abs(curlAt(cell - vec2i(1, 0))),
++    abs(curlAt(cell + vec2i(0, 1))) - abs(curlAt(cell - vec2i(0, 1))),
++  );
++  let normal = gradient / (length(gradient) + 1e-5);
++  let omega = curlAt(cell);
++
++  next += frame.motion.y * vec2f(normal.y, -normal.x) * omega * delta;
++  next *= frame.motion.x;
++
++  let paintPosition = uv * frame.paint.xy;
++  let reach = 1.0 - smoothstep(frame.brushStart.z * 0.5, frame.brushStart.z * frame.brushVelocity.w, capsuleDistance(paintPosition));
++
++  next = mix(next, frame.brushVelocity.xy, clamp(reach * frame.brushVelocity.z, 0.0, 1.0));
++
++  let water = textureSampleLevel(carried, bilinear, uv, 0.0).a;
++
++  next *= smoothstep(frame.motion.z * 0.5, frame.motion.z * 2.0, water);
++
++  if (cell.x == 0 || cell.x == size.x - 1) {
++    next.x = 0.0;
++  }
++
++  if (cell.y == 0 || cell.y == size.y - 1) {
++    next.y = 0.0;
++  }
++
++  textureStore(velocityOut, cell, vec4f(next, 0.0, 1.0));
++}
++`;
++
++export const CURL = `${PRELUDE}
++@group(1) @binding(0) var velocity: texture_2d<f32>;
++@group(1) @binding(1) var curlOut: texture_storage_2d<r32float, write>;
++
++fn velocityAt(cell: vec2i) -> vec2f {
++  return textureLoad(velocity, clampFlow(cell), 0).xy;
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++
++  if (any(cell >= flowSize())) {
++    return;
++  }
++
++  let curl = 0.5 * (
++    velocityAt(cell + vec2i(1, 0)).y - velocityAt(cell - vec2i(1, 0)).y -
++    velocityAt(cell + vec2i(0, 1)).x + velocityAt(cell - vec2i(0, 1)).x
++  );
++
++  textureStore(curlOut, cell, vec4f(curl, 0.0, 0.0, 0.0));
++}
++`;
++
++export const DIVERGENCE = `${PRELUDE}
++@group(1) @binding(0) var velocity: texture_2d<f32>;
++@group(1) @binding(1) var pressure: texture_2d<f32>;
++@group(1) @binding(2) var divergenceOut: texture_storage_2d<r32float, write>;
++@group(1) @binding(3) var pressureOut: texture_storage_2d<r32float, write>;
++
++fn velocityAt(cell: vec2i) -> vec2f {
++  return textureLoad(velocity, clampFlow(cell), 0).xy;
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++
++  if (any(cell >= flowSize())) {
++    return;
++  }
++
++  let divergence = 0.5 * (
++    velocityAt(cell + vec2i(1, 0)).x - velocityAt(cell - vec2i(1, 0)).x +
++    velocityAt(cell + vec2i(0, 1)).y - velocityAt(cell - vec2i(0, 1)).y
++  );
++
++  textureStore(divergenceOut, cell, vec4f(divergence, 0.0, 0.0, 0.0));
++  textureStore(pressureOut, cell, vec4f(textureLoad(pressure, cell, 0).x * frame.motion.w, 0.0, 0.0, 0.0));
++}
++`;
++
++export const PAPER = `${PRELUDE}
++@group(1) @binding(0) var paperOut: texture_storage_2d<rgba8unorm, write>;
++
++fn fibre(position: vec2f, seed: u32) -> f32 {
++  let angle = valueNoise(position * 0.004, seed) * 6.2831853;
++  let along = vec2f(cos(angle), sin(angle));
++  let stretched = vec2f(dot(position, along) * 0.06, dot(position, vec2f(-along.y, along.x)) * 0.5);
++
++  return valueNoise(stretched, seed + 7u);
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let size = textureDimensions(paperOut);
++
++  if (any(id.xy >= size)) {
++    return;
++  }
++
++  let position = vec2f(id.xy) / max(frame.time.w, 0.25);
++  let tooth = fbm(position * 0.11, 3u, 3u);
++  let grain = fbm(position * 0.45, 11u, 2u);
++  let fibres = max(fibre(position, 19u), fibre(position * 1.7, 23u));
++  let height = clamp(tooth * 0.62 + grain * 0.25 + fibres * 0.18 - 0.05, 0.0, 1.0);
++  let permeability = clamp((fbm(position * 0.03, 29u, 5u) - 0.5) * 1.9 + 0.5 + (fibres - 0.5) * 0.25 + (grain - 0.5) * 0.6, 0.0, 1.0);
++
++  let mottle = fbm(position * 0.012, 37u, 4u);
++
++  textureStore(paperOut, id.xy, vec4f(height, permeability, mottle, 1.0));
++}
++`;
++
++export const PRESSURE = `${PRELUDE}
++@group(1) @binding(0) var pressure: texture_2d<f32>;
++@group(1) @binding(1) var divergence: texture_2d<f32>;
++@group(1) @binding(2) var pressureOut: texture_storage_2d<r32float, write>;
++
++fn pressureAt(cell: vec2i) -> f32 {
++  return textureLoad(pressure, clampFlow(cell), 0).x;
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++
++  if (any(cell >= flowSize())) {
++    return;
++  }
++
++  let neighbours = pressureAt(cell - vec2i(1, 0)) + pressureAt(cell + vec2i(1, 0)) +
++    pressureAt(cell - vec2i(0, 1)) + pressureAt(cell + vec2i(0, 1));
++
++  textureStore(pressureOut, cell, vec4f((neighbours - textureLoad(divergence, cell, 0).x) * 0.25, 0.0, 0.0, 0.0));
++}
++`;
++
++export const PROJECT = `${PRELUDE}
++@group(1) @binding(0) var velocity: texture_2d<f32>;
++@group(1) @binding(1) var pressure: texture_2d<f32>;
++@group(1) @binding(2) var velocityOut: texture_storage_2d<rgba16float, write>;
++
++fn pressureAt(cell: vec2i) -> f32 {
++  return textureLoad(pressure, clampFlow(cell), 0).x;
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++  let size = flowSize();
++
++  if (any(cell >= size)) {
++    return;
++  }
++
++  let gradient = 0.5 * vec2f(
++    pressureAt(cell + vec2i(1, 0)) - pressureAt(cell - vec2i(1, 0)),
++    pressureAt(cell + vec2i(0, 1)) - pressureAt(cell - vec2i(0, 1)),
++  );
++  var next = textureLoad(velocity, cell, 0).xy - gradient;
++
++  if (cell.x == 0 || cell.x == size.x - 1) {
++    next.x = 0.0;
++  }
++
++  if (cell.y == 0 || cell.y == size.y - 1) {
++    next.y = 0.0;
++  }
++
++  textureStore(velocityOut, cell, vec4f(next, 0.0, 1.0));
++}
++`;
++
++export const SETTLE = `${PRELUDE}${BRUSH}
++${WIPE}
++  return 1.0 - smoothstep(radius * (1.0 - frame.wipe.w), radius, wipeDistance(position));
++}
++
++
++@group(1) @binding(0) var carried: texture_2d<f32>;
++@group(1) @binding(1) var deposit: texture_2d<f32>;
++@group(1) @binding(2) var paper: texture_2d<f32>;
++@group(1) @binding(3) var carriedOut: texture_storage_2d<rgba16float, write>;
++@group(1) @binding(4) var depositOut: texture_storage_2d<rgba16float, write>;
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++
++  if (any(cell >= paintSize())) {
++    return;
++  }
++
++  let floating = textureLoad(carried, cell, 0);
++  let settled = textureLoad(deposit, cell, 0);
++  let height = textureLoad(paper, cell, 0).r;
++  let thin = 1.0 - smoothstep(0.0, 0.3, floating.a);
++  let water = max(floating.a - frame.settle.x * (1.0 + frame.dry.z * thin), 0.0);
++  let isDry = water < frame.motion.z;
++  let shallow = 1.0 - smoothstep(0.0, 0.4, water);
++  let rate = frame.settle.y * (1.0 + frame.settle.w * (0.5 - height) * 2.0) * (1.0 + 0.8 * shallow);
++  let transfer = select(floating.rgb * clamp(rate, 0.0, 1.0), floating.rgb, isDry);
++  let radius = frame.brushStart.z;
++  let rub = (1.0 - smoothstep(radius * 0.5, radius, capsuleDistance(vec2f(cell) + 0.5))) * frame.brushColor.w;
++  let lift = settled.rgb * min(frame.settle.z * smoothstep(0.08, 0.8, water) + rub, 1.0);
++  let pigment = floating.rgb - transfer + lift;
++  let lifted = 1.0 - wipeMask(vec2f(cell) + 0.5);
++  let laid = (settled.rgb + transfer - lift) * frame.dry.y * lifted;
++  let damp = max(settled.a * frame.dry.x, smoothstep(0.0, 0.2, water)) * lifted;
++
++  textureStore(carriedOut, cell, vec4f(max(pigment, vec3f(0.0)), select(water, 0.0, isDry)));
++  textureStore(depositOut, cell, vec4f(max(laid, vec3f(0.0)), damp));
++}
++`;
++
++export const SPREAD = `${PRELUDE}
++@group(1) @binding(0) var carried: texture_2d<f32>;
++@group(1) @binding(1) var deposit: texture_2d<f32>;
++@group(1) @binding(2) var paper: texture_2d<f32>;
++@group(1) @binding(3) var carriedOut: texture_storage_2d<rgba16float, write>;
++
++const NEIGHBOURS = array<vec2i, 4>(vec2i(1, 0), vec2i(-1, 0), vec2i(0, 1), vec2i(0, -1));
++
++fn concentration(texel: vec4f) -> vec3f {
++  return select(texel.rgb / max(texel.a, 1e-3), vec3f(0.0), texel.a < 1e-3);
++}
++
++@compute @workgroup_size(8, 8)
++fn main(@builtin(global_invocation_id) id: vec3u) {
++  let cell = vec2i(id.xy);
++
++  if (any(cell >= paintSize())) {
++    return;
++  }
++
++  let here = textureLoad(carried, cell, 0);
++  let hereDamp = textureLoad(deposit, cell, 0).a;
++  let herePaper = textureLoad(paper, cell, 0).g;
++  let threshold = frame.motion.z;
++  var next = here;
++
++  for (var index = 0; index < 4; index++) {
++    let other = clampPaint(cell + NEIGHBOURS[index]);
++    let there = textureLoad(carried, other, 0);
++    let thereDamp = textureLoad(deposit, other, 0).a;
++    let permeability = 0.5 * (herePaper + textureLoad(paper, other, 0).g);
++    let isWet = min(here.a, there.a) > threshold;
++    let damp = max(max(hereDamp, thereDamp), f32(isWet));
++    let pinned = frame.spread.y * (0.45 + 1.1 * (1.0 - permeability));
++    let isOpen = isWet || max(here.a, there.a) > pinned || damp > 0.6;
++    let depth = pow(0.5 * (here.a + there.a), frame.dry.w);
++    let paperFlow = mix(frame.spread.z, 1.0, damp) * (0.15 + 0.85 * permeability * permeability);
++    let conductance = select(0.0, min(frame.spread.x * paperFlow * depth, 0.15), isOpen);
++    let flux = conductance * (there.a - here.a);
++
++    next.a += flux;
++    next = vec4f(next.rgb + select(concentration(here), concentration(there), flux > 0.0) * flux, next.a);
++
++    if (isWet) {
++      next = vec4f(next.rgb + frame.spread.w * (there.rgb - here.rgb), next.a);
++    }
++  }
++
++  textureStore(carriedOut, cell, max(next, vec4f(0.0)));
++}
++`;
+--- /dev/null
++++ b/src/registry/watercolor/index.tsx
+@@ -0,0 +1,149 @@
++"use client";
++
++import {
++  type CSSProperties,
++  type Ref,
++  useEffect,
++  useImperativeHandle,
++  useRef,
++  useState,
++} from "react";
++import { WatercolorEngine } from "./engine";
++import {
++  DEFAULT_HUE,
++  resolveSettings,
++  type WatercolorQuality,
++  type WatercolorTuning,
++} from "./settings";
++
++export type {
++  WatercolorQuality,
++  WatercolorSettings,
++  WatercolorTuning,
++} from "./settings";
++export { CONTROL_RANGES, DEFAULT_HUE, DEFAULT_SETTINGS } from "./settings";
++
++export interface WatercolorHandle {
++  wash: () => void;
++  clear: () => void;
++}
++
++export interface WatercolorProps {
++  ref?: Ref<WatercolorHandle>;
++  tuning?: WatercolorTuning;
++  hue?: number;
++  brushSize?: number;
++  rainbow?: boolean;
++  quality?: WatercolorQuality;
++  wheelControls?: boolean;
++  keyboardShortcuts?: boolean;
++  className?: string;
++  style?: CSSProperties;
++}
++
++export default function Watercolor({
++  ref,
++  tuning,
++  hue = DEFAULT_HUE,
++  brushSize = 1,
++  rainbow = true,
++  quality = "auto",
++  wheelControls = false,
++  keyboardShortcuts = false,
++  className,
++  style,
++}: WatercolorProps) {
++  const canvas = useRef<HTMLCanvasElement>(null);
++  const engine = useRef<WatercolorEngine | null>(null);
++  const [status, setStatus] = useState("loading");
++
++  useImperativeHandle(
++    ref,
++    () => ({
++      wash: () => engine.current?.wash(),
++      clear: () => engine.current?.clear(),
++    }),
++    [],
++  );
++
++  useEffect(() => {
++    if (!canvas.current) return;
++    const instance = new WatercolorEngine({
++      canvas: canvas.current,
++      settings: resolveSettings(),
++      quality: "auto",
++      wheelControls: false,
++      keyboardShortcuts: false,
++      onReady: () => setStatus("ready"),
++      onFailure: () => setStatus("unavailable"),
++    });
++    engine.current = instance;
++    return () => {
++      instance.destroy();
++      engine.current = null;
++    };
++  }, []);
++
++  useEffect(() => {
++    if (engine.current) engine.current.settings = resolveSettings(tuning);
++  }, [tuning]);
++  useEffect(() => {
++    engine.current?.setHue(hue);
++  }, [hue]);
++  useEffect(() => {
++    engine.current?.setScale(brushSize);
++  }, [brushSize]);
++  useEffect(() => {
++    if (engine.current) engine.current.isRainbow = rainbow;
++  }, [rainbow]);
++  useEffect(() => {
++    engine.current?.setQuality(quality);
++  }, [quality]);
++  useEffect(() => {
++    engine.current?.setInput({ wheelControls, keyboardShortcuts });
++  }, [wheelControls, keyboardShortcuts]);
++
++  return (
++    <div
++      className={className}
++      data-watercolor-status={status}
++      style={{
++        position: "relative",
++        width: "100%",
++        height: "100%",
++        overflow: "hidden",
++        background: tuning?.paper ?? "#f7f3ec",
++        ...style,
++      }}
++    >
++      <canvas
++        ref={canvas}
++        tabIndex={keyboardShortcuts ? 0 : undefined}
++        aria-label="Watercolor canvas. Drag to paint, right-click and drag to smudge."
++        style={{
++          display: "block",
++          width: "100%",
++          height: "100%",
++          touchAction: "none",
++          opacity: status === "ready" ? 1 : 0,
++        }}
++      />
++      {status === "unavailable" && (
++        <output
++          style={{
++            position: "absolute",
++            inset: 0,
++            display: "grid",
++            placeItems: "center",
++            padding: 24,
++            color: "#34312e",
++            fontSize: 14,
++            textAlign: "center",
++          }}
++        >
++          Watercolor needs a browser with WebGPU support.
++        </output>
++      )}
++    </div>
++  );
++}
+--- /dev/null
++++ b/src/registry/watercolor/settings.ts
+@@ -0,0 +1,700 @@
++/**
++ * Watercolor tuning: every default is copied verbatim from the original
++ * `Settings` chunk, and every range from its lil-gui debug panel. The engine
++ * reads one mutable copy of this object each frame, so changing a value never
++ * rebuilds the GPU state.
++ */
++
++export interface WatercolorSettings {
++  brush: {
++    dryBrush: number;
++    empty: number;
++    follow: number;
++    force: number;
++    largest: number;
++    lift: number;
++    maximum: number;
++    pigment: number;
++    radius: number;
++    refill: number;
++    reservoir: number;
++    rest: number;
++    smallest: number;
++    speedPigment: number;
++    speedWater: number;
++    thin: number;
++    trickle: number;
++    wash: number;
++    washForce: number;
++    water: number;
++  };
++  color: { chroma: number; lightness: number; swing: number; wheel: number };
++  dry: { damp: number; fade: number };
++  flow: {
++    friction: number;
++    iterations: number;
++    pressure: number;
++    threshold: number;
++    vorticity: number;
++  };
++  paper: string;
++  rainbow: { distance: number; time: number };
++  grade: { grain: number; saturation: number; vignette: number };
++  light: { azimuth: number; elevation: number };
++  look: {
++    granulation: number;
++    mottle: number;
++    paper: number;
++    sheen: number;
++    wet: number;
++  };
++  settle: {
++    adsorb: number;
++    edge: number;
++    evaporation: number;
++    granulation: number;
++    lift: number;
++  };
++  wipe: { duration: number; edge: number };
++  spread: {
++    depth: number;
++    diffusion: number;
++    dry: number;
++    iterations: number;
++    pinning: number;
++    rate: number;
++  };
++}
++
++/** Partial override accepted by the component: any subset of any group. */
++export type WatercolorTuning = {
++  [K in keyof WatercolorSettings]?: WatercolorSettings[K] extends object
++    ? Partial<WatercolorSettings[K]>
++    : WatercolorSettings[K];
++};
++
++export const DEFAULT_SETTINGS: WatercolorSettings = {
++  brush: {
++    dryBrush: 1.6,
++    empty: 0.2,
++    follow: 12,
++    force: 0.3,
++    largest: 3,
++    lift: 6,
++    maximum: 2.9,
++    pigment: 2.6,
++    radius: 0.042,
++    refill: 0.8,
++    reservoir: 7,
++    rest: 0.067,
++    smallest: 0.3,
++    speedPigment: 3,
++    speedWater: 4.5,
++    thin: 2,
++    trickle: 0.3,
++    wash: 3,
++    washForce: 3.2,
++    water: 2,
++  },
++  color: { chroma: 0.17, lightness: 0.6, swing: 0.16, wheel: 0.12 },
++  dry: { damp: 0.35, fade: 0.004 },
++  flow: {
++    friction: 1.6,
++    iterations: 21,
++    pressure: 0.8,
++    threshold: 0.02,
++    vorticity: 1.2,
++  },
++  paper: "#f7f3ec",
++  rainbow: { distance: 140, time: 12 },
++  grade: { grain: 0.022, saturation: 0.94, vignette: 0.12 },
++  light: { azimuth: -0.8, elevation: 0.9 },
++  look: { granulation: 0.8, mottle: 0.35, paper: 0.15, sheen: 0.12, wet: 0.16 },
++  settle: {
++    adsorb: 0.015,
++    edge: 1.5,
++    evaporation: 0.09,
++    granulation: 1.2,
++    lift: 0.15,
++  },
++  wipe: { duration: 1.4, edge: 0.18 },
++  spread: {
++    depth: 1.5,
++    diffusion: 0.07,
++    dry: 0.12,
++    iterations: 52,
++    pinning: 0.26,
++    rate: 0.3,
++  },
++};
++
++export const DEFAULT_HUE = 330;
++
++/** Deep-merges a tuning override over the defaults into a fresh object. */
++export function resolveSettings(tuning?: WatercolorTuning): WatercolorSettings {
++  const out = structuredClone(DEFAULT_SETTINGS);
++  if (!tuning) return out;
++  for (const key of Object.keys(tuning) as (keyof WatercolorSettings)[]) {
++    const value = tuning[key];
++    if (value === undefined) continue;
++    if (key === "paper") out.paper = value as string;
++    else Object.assign(out[key], value);
++  }
++  return out;
++}
++
++export interface ControlRange {
++  group: Exclude<keyof WatercolorSettings, "paper">;
++  key: string;
++  label: string;
++  min: number;
++  max: number;
++  step: number;
++}
++
++/**
++ * The original debug panel, folder by folder: label, min, max and step as
++ * lil-gui had them. Two maxima are widened so the shipped default fits:
++ * dry brush (1.5 to 1.6) and spread (0.25 to 0.3).
++ */
++export const CONTROL_RANGES = {
++  brush: [
++    {
++      group: "brush",
++      key: "radius",
++      label: "Radius",
++      min: 0.005,
++      max: 0.2,
++      step: 0.001,
++    },
++    {
++      group: "brush",
++      key: "water",
++      label: "Water at rest",
++      min: 0,
++      max: 6,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "wash",
++      label: "Smudge water",
++      min: 0,
++      max: 8,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "speedWater",
++      label: "Water by speed",
++      min: 0,
++      max: 12,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "pigment",
++      label: "Pigment at rest",
++      min: 0,
++      max: 6,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "speedPigment",
++      label: "Pigment by speed",
++      min: 0,
++      max: 4,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "reservoir",
++      label: "Reservoir",
++      min: 0.2,
++      max: 12,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "refill",
++      label: "Refill per second",
++      min: 0,
++      max: 5,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "trickle",
++      label: "Refill while moving",
++      min: 0,
++      max: 2,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "rest",
++      label: "Refill below speed",
++      min: 0,
++      max: 0.5,
++      step: 0.001,
++    },
++    {
++      group: "brush",
++      key: "empty",
++      label: "Emptiest load",
++      min: 0,
++      max: 1,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "dryBrush",
++      label: "Dry brush",
++      min: 0,
++      max: 1.6,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "thin",
++      label: "Thinnest at speed",
++      min: 0.1,
++      max: 6,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "follow",
++      label: "Follow",
++      min: 0,
++      max: 60,
++      step: 0.1,
++    },
++    { group: "brush", key: "force", label: "Push", min: 0, max: 4, step: 0.01 },
++    {
++      group: "brush",
++      key: "washForce",
++      label: "Smudge push",
++      min: 0,
++      max: 6,
++      step: 0.01,
++    },
++    {
++      group: "brush",
++      key: "lift",
++      label: "Smudge lift",
++      min: 0,
++      max: 30,
++      step: 0.1,
++    },
++    {
++      group: "rainbow",
++      key: "distance",
++      label: "Rainbow per distance",
++      min: 0,
++      max: 600,
++      step: 1,
++    },
++    {
++      group: "rainbow",
++      key: "time",
++      label: "Rainbow per second",
++      min: 0,
++      max: 120,
++      step: 0.1,
++    },
++    {
++      group: "wipe",
++      key: "duration",
++      label: "Wash seconds",
++      min: 0.3,
++      max: 4,
++      step: 0.01,
++    },
++    {
++      group: "wipe",
++      key: "edge",
++      label: "Wash edge",
++      min: 0.02,
++      max: 0.6,
++      step: 0.01,
++    },
++  ],
++  water: [
++    {
++      group: "spread",
++      key: "rate",
++      label: "Spread",
++      min: 0,
++      max: 0.3,
++      step: 0.001,
++    },
++    {
++      group: "spread",
++      key: "iterations",
++      label: "Spread passes",
++      min: 0,
++      max: 64,
++      step: 1,
++    },
++    {
++      group: "spread",
++      key: "pinning",
++      label: "Pinning",
++      min: 0,
++      max: 2,
++      step: 0.01,
++    },
++    {
++      group: "spread",
++      key: "depth",
++      label: "Depth exponent",
++      min: 0,
++      max: 4,
++      step: 0.01,
++    },
++    {
++      group: "spread",
++      key: "dry",
++      label: "Into dry paper",
++      min: 0,
++      max: 1,
++      step: 0.001,
++    },
++    {
++      group: "spread",
++      key: "diffusion",
++      label: "Pigment diffusion",
++      min: 0,
++      max: 0.25,
++      step: 0.001,
++    },
++    {
++      group: "settle",
++      key: "evaporation",
++      label: "Evaporation",
++      min: 0,
++      max: 1,
++      step: 0.001,
++    },
++    {
++      group: "settle",
++      key: "adsorb",
++      label: "Settling",
++      min: 0,
++      max: 3,
++      step: 0.001,
++    },
++    {
++      group: "settle",
++      key: "lift",
++      label: "Lifting",
++      min: 0,
++      max: 2,
++      step: 0.001,
++    },
++    {
++      group: "settle",
++      key: "granulation",
++      label: "Settling in valleys",
++      min: 0,
++      max: 3,
++      step: 0.01,
++    },
++    {
++      group: "settle",
++      key: "edge",
++      label: "Edge evaporation",
++      min: 0,
++      max: 10,
++      step: 0.01,
++    },
++    {
++      group: "dry",
++      key: "damp",
++      label: "Paper drying",
++      min: 0,
++      max: 4,
++      step: 0.01,
++    },
++    {
++      group: "dry",
++      key: "fade",
++      label: "Paint fade",
++      min: 0,
++      max: 0.2,
++      step: 0.0001,
++    },
++    {
++      group: "flow",
++      key: "friction",
++      label: "Friction",
++      min: 0,
++      max: 10,
++      step: 0.01,
++    },
++    {
++      group: "flow",
++      key: "vorticity",
++      label: "Vorticity",
++      min: 0,
++      max: 6,
++      step: 0.01,
++    },
++    {
++      group: "flow",
++      key: "iterations",
++      label: "Pressure iterations",
++      min: 1,
++      max: 61,
++      step: 2,
++    },
++    {
++      group: "flow",
++      key: "threshold",
++      label: "Wet threshold",
++      min: 0,
++      max: 0.2,
++      step: 0.001,
++    },
++  ],
++  look: [
++    {
++      group: "look",
++      key: "granulation",
++      label: "Granulation",
++      min: 0,
++      max: 2,
++      step: 0.01,
++    },
++    {
++      group: "look",
++      key: "mottle",
++      label: "Mottle",
++      min: 0,
++      max: 1,
++      step: 0.01,
++    },
++    {
++      group: "look",
++      key: "paper",
++      label: "Paper relief",
++      min: 0,
++      max: 1,
++      step: 0.01,
++    },
++    {
++      group: "look",
++      key: "sheen",
++      label: "Wet sheen",
++      min: 0,
++      max: 2,
++      step: 0.01,
++    },
++    {
++      group: "look",
++      key: "wet",
++      label: "Wet darkening",
++      min: 0,
++      max: 0.5,
++      step: 0.01,
++    },
++    {
++      group: "light",
++      key: "azimuth",
++      label: "Light azimuth",
++      min: -Math.PI,
++      max: Math.PI,
++      step: 0.01,
++    },
++    {
++      group: "light",
++      key: "elevation",
++      label: "Light elevation",
++      min: 0.1,
++      max: 1.5,
++      step: 0.01,
++    },
++    {
++      group: "color",
++      key: "lightness",
++      label: "Paint lightness",
++      min: 0.3,
++      max: 0.9,
++      step: 0.001,
++    },
++    {
++      group: "color",
++      key: "swing",
++      label: "Lightness by hue",
++      min: 0,
++      max: 0.3,
++      step: 0.001,
++    },
++    {
++      group: "color",
++      key: "chroma",
++      label: "Paint chroma",
++      min: 0,
++      max: 0.3,
++      step: 0.001,
++    },
++    {
++      group: "grade",
++      key: "saturation",
++      label: "Saturation",
++      min: 0,
++      max: 2,
++      step: 0.01,
++    },
++    {
++      group: "grade",
++      key: "vignette",
++      label: "Vignette",
++      min: 0,
++      max: 1,
++      step: 0.01,
++    },
++    {
++      group: "grade",
++      key: "grain",
++      label: "Grain",
++      min: 0,
++      max: 0.1,
++      step: 0.001,
++    },
++  ],
++} satisfies Record<string, ControlRange[]>;
++
++// ---------------------------------------------------------------- maths
++
++export function clamp(value: number, min: number, max: number) {
++  return Math.min(Math.max(value, min), max);
++}
++
++export function smoothstep(edge0: number, edge1: number, x: number) {
++  const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
++  return t * t * (3 - 2 * t);
++}
++
++/** Frame-rate independent approach factor: 1 - e^(-rate * dt). */
++export function approach(rate: number, dt: number) {
++  return 1 - Math.exp(-rate * dt);
++}
++
++/** `#rrggbb` to linear RGB. */
++export function hexToLinear(hex: string): [number, number, number] {
++  const n = Number.parseInt(hex.replace("#", ""), 16);
++  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((c) => {
++    const v = c / 255;
++    return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
++  });
++  return [r, g, b];
++}
++
++function oklchToLinear(l: number, c: number, hueDeg: number) {
++  const h = (hueDeg * Math.PI) / 180;
++  const a = c * Math.cos(h);
++  const b = c * Math.sin(h);
++  const L = (l + 0.3963377774 * a + 0.2158037573 * b) ** 3;
++  const M = (l - 0.1055613458 * a - 0.0638541728 * b) ** 3;
++  const S = (l - 0.0894841775 * a - 1.291485548 * b) ** 3;
++  return [
++    4.0767416621 * L - 3.3077115913 * M + 0.2309699292 * S,
++    -1.2684380046 * L + 2.6097574011 * M - 0.3413193965 * S,
++    -0.0041960863 * L - 0.7034186147 * M + 1.707614701 * S,
++  ];
++}
++
++const inGamut = (rgb: number[]) => rgb.every((c) => c >= -5e-4 && c <= 1.0005);
++
++/** OKLCH paint colour for a hue, chroma reduced until it fits sRGB. */
++export function hueColor(
++  hue: number,
++  { chroma, lightness, swing }: WatercolorSettings["color"],
++) {
++  const h = ((hue % 360) + 360) % 360;
++  const l = lightness + swing * Math.cos(((h - 100) * Math.PI) / 180);
++  let c = chroma;
++  while (c > 0.005 && !inGamut(oklchToLinear(l, c, h))) c *= 0.94;
++  return oklchToLinear(l, c, h).map((v) => clamp(v, 0, 1));
++}
++
++/**
++ * Kubelka-Munk absorption over scattering for a reflectance, which is what
++ * the sim actually carries. Mixing K/S instead of RGB is why blue through wet
++ * yellow turns green.
++ */
++export function hueAbsorption(hue: number, color: WatercolorSettings["color"]) {
++  return hueColor(hue, color).map((r) => {
++    const t = clamp(r, 0.02, 0.985);
++    return (1 - t) ** 2 / (2 * t);
++  }) as [number, number, number];
++}
++
++// ---------------------------------------------------------------- sheet
++
++export type WatercolorQuality = "auto" | "high" | "low";
++
++const TIERS = {
++  high: {
++    flowScale: 0.5,
++    maximumCells: 4096e3,
++    paintScale: 1,
++    unitCells: 1100,
++  },
++  low: { flowScale: 0.5, maximumCells: 81e4, paintScale: 0.6, unitCells: 600 },
++} as const;
++
++/** The source's tier pick: low on coarse pointers with under 8 cores or 8GB. */
++export function resolveTier(quality: WatercolorQuality) {
++  if (quality !== "auto") return TIERS[quality];
++  const nav = navigator as Navigator & { deviceMemory?: number };
++  const cores = nav.hardwareConcurrency;
++  const memory = nav.deviceMemory;
++  const isFine = window.matchMedia("(pointer: fine)").matches;
++  const high =
++    !isFine ||
++    ((cores === undefined || cores >= 8) &&
++      (memory === undefined || memory >= 8));
++  return TIERS[high ? "high" : "low"];
++}
++
++export interface Sheet {
++  /** Paint grid in cells. */
++  paint: [number, number];
++  /** Velocity grid in cells, half the paint grid. */
++  flow: [number, number];
++  /** Paint cells per CSS pixel. */
++  pixel: number;
++}
++
++/** Grid sizes for a box of `width` x `height` CSS pixels. */
++export function sheetFor(
++  width: number,
++  height: number,
++  tier: (typeof TIERS)[keyof typeof TIERS],
++): Sheet {
++  const base = Math.min(
++    tier.paintScale,
++    tier.unitCells / Math.max(1, Math.min(width, height)),
++  );
++  const cells = width * height * base * base;
++  const scale =
++    cells > tier.maximumCells
++      ? base * Math.sqrt(tier.maximumCells / cells)
++      : base;
++  const paint: [number, number] = [
++    Math.max(16, Math.round(width * scale)),
++    Math.max(16, Math.round(height * scale)),
++  ];
++  return {
++    flow: [
++      Math.max(8, Math.round(paint[0] * tier.flowScale)),
++      Math.max(8, Math.round(paint[1] * tier.flowScale)),
++    ],
++    paint,
++    pixel: paint[0] / width,
++  };
++}
+--- /dev/null
++++ b/src/registry/watercolor/engine.ts
+@@ -0,0 +1,976 @@
++/// <reference types="@webgpu/types" />
++
++/**
++ * Watercolor engine: a port of the watercolor.bizar.ro simulation.
++ *
++ * Every frame runs one compute pass and one render pass:
++ *   curl → advect velocity → divergence → pressure (odd count) → project
++ *   → advect paint → spread × N → settle → render
++ *
++ * Water and floating pigment live in `carried` (rgb = pigment K/S, a = water).
++ * Pigment that has landed lives in `deposit` (rgb = pigment, a = paper damp).
++ * The velocity grid runs at half the paint resolution.
++ *
++ * Differences from the source are scoping only: the sheet, brush and wash are
++ * sized from the canvas box instead of the window, input is read relative to
++ * the canvas, and the debug timing and capture modes are gone.
++ */
++
++import {
++  approach,
++  clamp,
++  DEFAULT_HUE,
++  hexToLinear,
++  hueAbsorption,
++  resolveTier,
++  type Sheet,
++  sheetFor,
++  smoothstep,
++  type WatercolorQuality,
++  type WatercolorSettings,
++} from "./settings";
++import {
++  ADVECT_PAINT,
++  ADVECT_VELOCITY,
++  CURL,
++  DIVERGENCE,
++  PAPER,
++  PRESSURE,
++  PROJECT,
++  RENDER,
++  SETTLE,
++  SPREAD,
++} from "./shaders";
++
++const WORKGROUP = 8;
++const REDUCED_MOTION_FORCE = 0.35;
++const MAX_STEP = 1 / 30;
++const MAX_PIXEL_RATIO = 2;
++const RESIZE_DELAY = 250;
++const SCALE_STEP = 1.35;
++const HUE_STEP = 12;
++
++const UNIFORMS = [
++  "paint",
++  "flow",
++  "time",
++  "brushStart",
++  "brushEnd",
++  "brushColor",
++  "brushVelocity",
++  "spread",
++  "settle",
++  "dry",
++  "motion",
++  "paper",
++  "light",
++  "look",
++  "grade",
++  "wipe",
++] as const;
++type Uniform = (typeof UNIFORMS)[number];
++type Vec4 = [number, number, number, number];
++
++/** Mirrors the WGSL `Frame` struct: sixteen vec4f in declaration order. */
++class FrameData {
++  readonly data = new Float32Array(UNIFORMS.length * 4);
++  set(name: Uniform, value: Vec4) {
++    this.data.set(value, UNIFORMS.indexOf(name) * 4);
++  }
++}
++
++type Binding = "image" | "raw" | GPUTextureFormat;
++
++const PASSES = {
++  advectPaint: {
++    bindings: ["image", "image", "image", "rgba16float"],
++    source: ADVECT_PAINT,
++  },
++  advectVelocity: {
++    bindings: ["image", "raw", "image", "rgba16float"],
++    source: ADVECT_VELOCITY,
++  },
++  curl: { bindings: ["image", "r32float"], source: CURL },
++  divergence: {
++    bindings: ["image", "raw", "r32float", "r32float"],
++    source: DIVERGENCE,
++  },
++  paper: { bindings: ["rgba8unorm"], source: PAPER },
++  pressure: { bindings: ["raw", "raw", "r32float"], source: PRESSURE },
++  project: { bindings: ["image", "raw", "rgba16float"], source: PROJECT },
++  settle: {
++    bindings: ["image", "image", "image", "rgba16float", "rgba16float"],
++    source: SETTLE,
++  },
++  spread: {
++    bindings: ["image", "image", "image", "rgba16float"],
++    source: SPREAD,
++  },
++} satisfies Record<string, { bindings: Binding[]; source: string }>;
++type PassName = keyof typeof PASSES;
++
++function layoutEntry(
++  kind: Binding,
++  binding: number,
++  visibility: number,
++): GPUBindGroupLayoutEntry {
++  if (kind === "image") {
++    return {
++      binding,
++      texture: { sampleType: "float", viewDimension: "2d" },
++      visibility,
++    };
++  }
++  if (kind === "raw") {
++    return {
++      binding,
++      texture: { sampleType: "unfilterable-float", viewDimension: "2d" },
++      visibility,
++    };
++  }
++  return {
++    binding,
++    storageTexture: { access: "write-only", format: kind, viewDimension: "2d" },
++    visibility,
++  };
++}
++
++function createLayout(
++  device: GPUDevice,
++  label: string,
++  kinds: Binding[],
++  visibility: number,
++) {
++  return device.createBindGroupLayout({
++    entries: kinds.map((kind, i) => layoutEntry(kind, i, visibility)),
++    label,
++  });
++}
++
++function createGroup(
++  device: GPUDevice,
++  label: string,
++  layout: GPUBindGroupLayout,
++  views: GPUTextureView[],
++) {
++  return device.createBindGroup({
++    entries: views.map((resource, binding) => ({ binding, resource })),
++    label,
++    layout,
++  });
++}
++
++type Pair = [GPUTextureView, GPUTextureView];
++
++/** The ping-ponged simulation textures and the compute pass that steps them. */
++class PaintSim {
++  carried = 0;
++  deposit = 0;
++  isPaperPending = true;
++  layouts = {} as Record<PassName, GPUBindGroupLayout>;
++  pipelines = {} as Record<PassName, GPUComputePipeline>;
++  textures: GPUTexture[] = [];
++  sheet!: Sheet;
++  views!: {
++    carried: Pair;
++    curl: GPUTextureView;
++    deposit: Pair;
++    divergence: GPUTextureView;
++    paper: GPUTextureView;
++    pressure: Pair;
++    velocity: Pair;
++  };
++  groups: Record<string, GPUBindGroup> = {};
++
++  constructor(
++    private device: GPUDevice,
++    private frameLayout: GPUBindGroupLayout,
++  ) {}
++
++  async create() {
++    await Promise.all(
++      (Object.entries(PASSES) as [PassName, (typeof PASSES)[PassName]][]).map(
++        async ([name, { bindings, source }]) => {
++          this.layouts[name] = createLayout(
++            this.device,
++            name,
++            bindings,
++            GPUShaderStage.COMPUTE,
++          );
++          this.pipelines[name] = await this.device.createComputePipelineAsync({
++            compute: {
++              entryPoint: "main",
++              module: this.device.createShaderModule({
++                code: source,
++                label: name,
++              }),
++            },
++            label: name,
++            layout: this.device.createPipelineLayout({
++              bindGroupLayouts: [this.frameLayout, this.layouts[name]],
++            }),
++          });
++        },
++      ),
++    );
++  }
++
++  private texture(
++    label: string,
++    format: GPUTextureFormat,
++    size: [number, number],
++  ) {
++    const texture = this.device.createTexture({
++      format,
++      label,
++      size,
++      usage: GPUTextureUsage.STORAGE_BINDING | GPUTextureUsage.TEXTURE_BINDING,
++    });
++    this.textures.push(texture);
++    return texture.createView();
++  }
++
++  resize(sheet: Sheet) {
++    this.destroyTextures();
++    this.sheet = sheet;
++    this.carried = 0;
++    this.deposit = 0;
++    this.isPaperPending = true;
++
++    const { flow, paint } = sheet;
++    const pair = (
++      label: string,
++      format: GPUTextureFormat,
++      size: [number, number],
++    ): Pair => [
++      this.texture(`${label} a`, format, size),
++      this.texture(`${label} b`, format, size),
++    ];
++    const views = {
++      carried: pair("carried", "rgba16float", paint),
++      curl: this.texture("curl", "r32float", flow),
++      deposit: pair("deposit", "rgba16float", paint),
++      divergence: this.texture("divergence", "r32float", flow),
++      paper: this.texture("paper", "rgba8unorm", paint),
++      pressure: pair("pressure", "r32float", flow),
++      velocity: pair("velocity", "rgba16float", flow),
++    };
++    const {
++      carried: c,
++      curl,
++      deposit: s,
++      divergence,
++      paper,
++      pressure: p,
++      velocity: v,
++    } = views;
++    const group = (name: PassName, list: GPUTextureView[]) =>
++      createGroup(this.device, name, this.layouts[name], list);
++
++    const groups: Record<string, GPUBindGroup> = {
++      curl: group("curl", [v[1], curl]),
++      divergence: group("divergence", [v[0], p[0], divergence, p[1]]),
++      paper: group("paper", [paper]),
++      pressure0: group("pressure", [p[1], divergence, p[0]]),
++      pressure1: group("pressure", [p[0], divergence, p[1]]),
++      project: group("project", [v[0], p[0], v[1]]),
++    };
++    for (const e of [0, 1] as const) {
++      const other = 1 - e;
++      groups[`advectVelocity${e}`] = group("advectVelocity", [
++        v[1],
++        curl,
++        c[e],
++        v[0],
++      ]);
++      groups[`advectPaint${e}`] = group("advectPaint", [
++        v[1],
++        c[e],
++        paper,
++        c[other],
++      ]);
++      for (const n of [0, 1] as const) {
++        groups[`spread${e}${n}`] = group("spread", [
++          c[e],
++          s[n],
++          paper,
++          c[other],
++        ]);
++        groups[`settle${e}${n}`] = group("settle", [
++          c[e],
++          s[n],
++          paper,
++          c[other],
++          s[1 - n],
++        ]);
++      }
++    }
++    this.views = views;
++    this.groups = groups;
++  }
++
++  update(
++    encoder: GPUCommandEncoder,
++    frameGroup: GPUBindGroup,
++    { iterations, spreads }: { iterations: number; spreads: number },
++  ) {
++    const workgroups = (size: [number, number]): [number, number] => [
++      Math.ceil(size[0] / WORKGROUP),
++      Math.ceil(size[1] / WORKGROUP),
++    ];
++    const flow = workgroups(this.sheet.flow);
++    const paint = workgroups(this.sheet.paint);
++    const pass = encoder.beginComputePass({ label: "paint" });
++    const run = (name: PassName, group: string, [x, y]: [number, number]) => {
++      pass.setPipeline(this.pipelines[name]);
++      pass.setBindGroup(1, this.groups[group]);
++      pass.dispatchWorkgroups(x, y);
++    };
++    const flip = () => {
++      this.carried = 1 - this.carried;
++    };
++
++    pass.setBindGroup(0, frameGroup);
++    if (this.isPaperPending) {
++      run("paper", "paper", paint);
++      this.isPaperPending = false;
++    }
++    run("curl", "curl", flow);
++    run("advectVelocity", `advectVelocity${this.carried}`, flow);
++    run("divergence", "divergence", flow);
++    // Always odd, so the last write lands in pressure[0] where project reads.
++    const pressureSteps = Math.floor(Math.max(1, iterations) / 2) * 2 + 1;
++    for (let i = 0; i < pressureSteps; i++)
++      run("pressure", `pressure${i % 2}`, flow);
++    run("project", "project", flow);
++    run("advectPaint", `advectPaint${this.carried}`, paint);
++    flip();
++    for (let i = 0; i < spreads; i++) {
++      run("spread", `spread${this.carried}${this.deposit}`, paint);
++      flip();
++    }
++    run("settle", `settle${this.carried}${this.deposit}`, paint);
++    flip();
++    this.deposit = 1 - this.deposit;
++    pass.end();
++  }
++
++  destroyTextures() {
++    for (const texture of this.textures) texture.destroy();
++    this.textures = [];
++  }
++}
++
++/** Bristle load wobble along a stroke. */
++function bristlePulse(t: number) {
++  return 0.5 + 0.3 * Math.sin(t * 2.1) + 0.2 * Math.sin(t * 5.3 + 1.7);
++}
++
++function easeInOutCubic(t: number) {
++  return t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
++}
++
++export interface WatercolorEngineOptions {
++  canvas: HTMLCanvasElement;
++  settings: WatercolorSettings;
++  quality: WatercolorQuality;
++  wheelControls: boolean;
++  keyboardShortcuts: boolean;
++  onReady: () => void;
++  onFailure: () => void;
++}
++
++type PointerMode = "paint" | "smudge" | null;
++
++export class WatercolorEngine {
++  settings: WatercolorSettings;
++  hue = DEFAULT_HUE;
++  isRainbow = true;
++  scale = 1;
++
++  private canvas: HTMLCanvasElement;
++  private quality: WatercolorQuality;
++  private wheelControls: boolean;
++  private keyboardShortcuts: boolean;
++  private onReady: () => void;
++  private onFailure: () => void;
++
++  private device!: GPUDevice;
++  private context!: GPUCanvasContext;
++  private frameBuffer!: GPUBuffer;
++  private frameGroup!: GPUBindGroup;
++  private renderLayout!: GPUBindGroupLayout;
++  private render!: GPURenderPipeline;
++  private renderGroups: Record<string, GPUBindGroup> = {};
++  private paint!: PaintSim;
++  private sheet: Sheet | null = null;
++
++  private frame = new FrameData();
++  private frameIndex = 0;
++  private time = 0;
++  private last = 0;
++  private raf = 0;
++  private isDestroyed = false;
++  private isRevealed = false;
++  private isVisible = true;
++  private motion = 1;
++  private strokes = 0;
++  private load = 1;
++  private travelled = 0;
++  private box = { width: 0, height: 0 };
++  private size = { width: 0, height: 0 };
++  private resizeTimeout = 0;
++  private pointer = {
++    isInside: false,
++    mode: null as PointerMode,
++    position: [0, 0] as [number, number],
++    previous: [0, 0] as [number, number],
++    target: [0, 0] as [number, number],
++  };
++  private wipe = { center: [0, 0] as [number, number], progress: 1 };
++  private reducedMotion: MediaQueryList;
++  private pixelRatioQuery: MediaQueryList | null = null;
++  private resizeObserver: ResizeObserver | null = null;
++  private visibilityObserver: IntersectionObserver | null = null;
++
++  constructor(options: WatercolorEngineOptions) {
++    this.canvas = options.canvas;
++    this.settings = options.settings;
++    this.quality = options.quality;
++    this.wheelControls = options.wheelControls;
++    this.keyboardShortcuts = options.keyboardShortcuts;
++    this.onReady = options.onReady;
++    this.onFailure = options.onFailure;
++    this.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
++    this.onReducedMotionChange();
++    this.reducedMotion.addEventListener("change", this.onReducedMotionChange);
++    this.create().catch((error) => {
++      if (this.isDestroyed) return;
++      console.error(error);
++      this.fail();
++    });
++  }
++
++  // ------------------------------------------------------------ setup
++
++  private async create() {
++    if (!navigator.gpu) throw Error("WebGPU is not available.");
++    const adapter = await navigator.gpu.requestAdapter({
++      powerPreference: "high-performance",
++    });
++    if (!adapter) throw Error("No WebGPU adapter.");
++    const device = await adapter.requestDevice({ label: "watercolor" });
++    if (this.isDestroyed) {
++      device.destroy();
++      return;
++    }
++    this.device = device;
++    device.lost.then(() => {
++      if (!this.isDestroyed) this.fail();
++    });
++    device.addEventListener("uncapturederror", (event) => {
++      console.error((event as GPUUncapturedErrorEvent).error.message);
++    });
++
++    const format = navigator.gpu.getPreferredCanvasFormat();
++    const context = this.canvas.getContext("webgpu");
++    if (!context) throw Error("No WebGPU canvas context.");
++    this.context = context;
++    context.configure({ alphaMode: "opaque", device, format });
++
++    const all =
++      GPUShaderStage.COMPUTE | GPUShaderStage.FRAGMENT | GPUShaderStage.VERTEX;
++    const frameLayout = device.createBindGroupLayout({
++      entries: [
++        { binding: 0, buffer: { type: "uniform" }, visibility: all },
++        { binding: 1, sampler: { type: "filtering" }, visibility: all },
++        { binding: 2, sampler: { type: "filtering" }, visibility: all },
++      ],
++      label: "frame",
++    });
++    this.frameBuffer = device.createBuffer({
++      label: "frame",
++      size: this.frame.data.byteLength,
++      usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
++    });
++    this.frameGroup = device.createBindGroup({
++      entries: [
++        { binding: 0, resource: { buffer: this.frameBuffer } },
++        {
++          binding: 1,
++          resource: device.createSampler({
++            magFilter: "linear",
++            minFilter: "linear",
++          }),
++        },
++        {
++          binding: 2,
++          resource: device.createSampler({
++            magFilter: "nearest",
++            minFilter: "nearest",
++          }),
++        },
++      ],
++      label: "frame",
++      layout: frameLayout,
++    });
++    this.paint = new PaintSim(device, frameLayout);
++    this.renderLayout = createLayout(
++      device,
++      "render",
++      ["image", "image", "image"],
++      GPUShaderStage.FRAGMENT,
++    );
++    const module = device.createShaderModule({ code: RENDER, label: "render" });
++    const [render] = await Promise.all([
++      device.createRenderPipelineAsync({
++        fragment: { entryPoint: "fs", module, targets: [{ format }] },
++        label: "render",
++        layout: device.createPipelineLayout({
++          bindGroupLayouts: [frameLayout, this.renderLayout],
++        }),
++        primitive: { topology: "triangle-list" },
++        vertex: { entryPoint: "vs", module },
++      }),
++      this.paint.create(),
++    ]);
++    this.render = render;
++    if (this.isDestroyed) return;
++
++    this.measure();
++    this.createSheet(true);
++    this.onResize();
++    this.addEventListeners();
++    this.onLoopFrame(0);
++    await device.queue.onSubmittedWorkDone();
++    if (this.isDestroyed) return;
++    this.raf = requestAnimationFrame((now) => {
++      this.last = now;
++      this.isRevealed = true;
++      this.onReady();
++      this.raf = requestAnimationFrame(this.onLoop);
++    });
++  }
++
++  private fail() {
++    this.destroy();
++    this.onFailure();
++  }
++
++  destroy() {
++    this.isDestroyed = true;
++    cancelAnimationFrame(this.raf);
++    window.clearTimeout(this.resizeTimeout);
++    this.removeEventListeners();
++    this.reducedMotion.removeEventListener(
++      "change",
++      this.onReducedMotionChange,
++    );
++    this.pixelRatioQuery?.removeEventListener("change", this.onResize);
++    this.resizeObserver?.disconnect();
++    this.visibilityObserver?.disconnect();
++    this.paint?.destroyTextures();
++    this.frameBuffer?.destroy();
++    this.device?.destroy();
++  }
++
++  // ------------------------------------------------------------ public
++
++  /** Rebuilds the sheet, discarding the painting and the paper grain. */
++  clear() {
++    if (this.sheet && !this.isDestroyed) this.createSheet(true);
++  }
++
++  /** Washes the sheet clean from the centre out with a ragged wet front. */
++  wash() {
++    this.wipe = {
++      center: [this.box.width / 2, this.box.height / 2],
++      progress: 0,
++    };
++  }
++
++  setHue(hue: number) {
++    this.hue = ((hue % 360) + 360) % 360;
++  }
++
++  setScale(scale: number) {
++    this.scale = clamp(
++      scale,
++      this.settings.brush.smallest,
++      this.settings.brush.largest,
++    );
++  }
++
++  setQuality(quality: WatercolorQuality) {
++    if (quality === this.quality) return;
++    this.quality = quality;
++    if (this.sheet && !this.isDestroyed) this.createSheet();
++  }
++
++  setInput({
++    wheelControls,
++    keyboardShortcuts,
++  }: {
++    wheelControls: boolean;
++    keyboardShortcuts: boolean;
++  }) {
++    this.wheelControls = wheelControls;
++    this.keyboardShortcuts = keyboardShortcuts;
++  }
++
++  // ------------------------------------------------------------ sizing
++
++  private measure() {
++    this.box = {
++      width: Math.max(1, this.canvas.clientWidth),
++      height: Math.max(1, this.canvas.clientHeight),
++    };
++  }
++
++  private createSheet(force = false) {
++    const sheet = sheetFor(
++      this.box.width,
++      this.box.height,
++      resolveTier(this.quality),
++    );
++    if (
++      !force &&
++      this.sheet &&
++      this.sheet.paint[0] === sheet.paint[0] &&
++      this.sheet.paint[1] === sheet.paint[1]
++    ) {
++      return;
++    }
++    this.sheet = sheet;
++    this.paint.resize(sheet);
++    const { carried, deposit, paper } = this.paint.views;
++    this.renderGroups = {};
++    for (const c of [0, 1])
++      for (const d of [0, 1])
++        this.renderGroups[`${c}${d}`] = createGroup(
++          this.device,
++          "render",
++          this.renderLayout,
++          [carried[c], deposit[d], paper],
++        );
++  }
++
++  private onResize = () => {
++    this.watchPixelRatio();
++    this.measure();
++    const ratio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
++    const width = Math.max(1, Math.round(this.box.width * ratio));
++    const height = Math.max(1, Math.round(this.box.height * ratio));
++    if (width !== this.size.width || height !== this.size.height) {
++      this.size = { height, width };
++      this.canvas.width = width;
++      this.canvas.height = height;
++    }
++    window.clearTimeout(this.resizeTimeout);
++    this.resizeTimeout = window.setTimeout(() => {
++      if (!this.isDestroyed) this.createSheet();
++    }, RESIZE_DELAY);
++  };
++
++  private watchPixelRatio() {
++    this.pixelRatioQuery?.removeEventListener("change", this.onResize);
++    this.pixelRatioQuery = window.matchMedia(
++      `(resolution: ${window.devicePixelRatio}dppx)`,
++    );
++    this.pixelRatioQuery.addEventListener("change", this.onResize);
++  }
++
++  // ------------------------------------------------------------ input
++
++  private addEventListeners() {
++    this.resizeObserver = new ResizeObserver(this.onResize);
++    this.resizeObserver.observe(this.canvas);
++    this.visibilityObserver = new IntersectionObserver(([entry]) => {
++      this.isVisible = entry.isIntersecting;
++    });
++    this.visibilityObserver.observe(this.canvas);
++    window.addEventListener("pointermove", this.onPointerMove);
++    window.addEventListener("pointerup", this.onPointerUp);
++    window.addEventListener("pointercancel", this.onPointerUp);
++    this.canvas.addEventListener("pointerdown", this.onPointerDown);
++    this.canvas.addEventListener("pointerleave", this.onPointerLeave);
++    this.canvas.addEventListener("contextmenu", this.onContextMenu);
++    this.canvas.addEventListener("wheel", this.onWheel, { passive: false });
++    this.canvas.addEventListener("keydown", this.onKeyDown);
++  }
++
++  private removeEventListeners() {
++    window.removeEventListener("pointermove", this.onPointerMove);
++    window.removeEventListener("pointerup", this.onPointerUp);
++    window.removeEventListener("pointercancel", this.onPointerUp);
++    this.canvas.removeEventListener("pointerdown", this.onPointerDown);
++    this.canvas.removeEventListener("pointerleave", this.onPointerLeave);
++    this.canvas.removeEventListener("contextmenu", this.onContextMenu);
++    this.canvas.removeEventListener("wheel", this.onWheel);
++    this.canvas.removeEventListener("keydown", this.onKeyDown);
++  }
++
++  private updateTarget(event: PointerEvent) {
++    const rect = this.canvas.getBoundingClientRect();
++    this.pointer.target = [event.clientX - rect.left, event.clientY - rect.top];
++  }
++
++  private onPointerMove = (event: PointerEvent) => {
++    this.updateTarget(event);
++    this.pointer.isInside = event.target === this.canvas;
++  };
++
++  private onPointerDown = (event: PointerEvent) => {
++    if (event.button !== 0 && event.button !== 2) return;
++    this.canvas.focus({ preventScroll: true });
++    this.updateTarget(event);
++    this.pointer.position = [...this.pointer.target];
++    this.pointer.previous = this.pointer.position;
++    this.pointer.isInside = true;
++    this.pointer.mode = event.button === 2 ? "smudge" : "paint";
++    this.travelled = 0;
++    this.strokes++;
++  };
++
++  private onPointerUp = () => {
++    this.pointer.mode = null;
++  };
++
++  private onPointerLeave = () => {
++    this.pointer.isInside = false;
++  };
++
++  private onContextMenu = (event: Event) => {
++    event.preventDefault();
++  };
++
++  private onWheel = (event: WheelEvent) => {
++    if (!this.wheelControls) return;
++    event.preventDefault();
++    const delta =
++      Math.abs(event.deltaY) >= Math.abs(event.deltaX)
++        ? event.deltaY
++        : event.deltaX;
++    const amount = event.deltaMode === 1 ? delta * 16 : delta;
++    if (event.ctrlKey) this.setScale(this.scale * Math.exp(-amount * 0.01));
++    else if (event.shiftKey)
++      this.setScale(this.scale * Math.exp(-amount * 0.0025));
++    else this.setHue(this.hue + amount * this.settings.color.wheel);
++  };
++
++  private onKeyDown = (event: KeyboardEvent) => {
++    if (
++      !this.keyboardShortcuts ||
++      event.metaKey ||
++      event.ctrlKey ||
++      event.altKey
++    )
++      return;
++    const key = event.key.toLowerCase();
++    if (key === "[" || key === "]")
++      this.setScale(this.scale * SCALE_STEP ** (key === "]" ? 1 : -1));
++    else if (key === "arrowleft" || key === "arrowright")
++      this.setHue(this.hue + (key === "arrowright" ? HUE_STEP : -HUE_STEP));
++    else if (key === "r") this.isRainbow = !this.isRainbow;
++    else if (key === "d" || key === "backspace" || key === "delete")
++      this.wash();
++    else return;
++    event.preventDefault();
++  };
++
++  private onReducedMotionChange = () => {
++    this.motion = this.reducedMotion.matches ? REDUCED_MOTION_FORCE : 1;
++  };
++
++  // ------------------------------------------------------------ frame
++
++  private get isPointerActive() {
++    const { isInside, mode } = this.pointer;
++    return this.isRevealed && isInside && mode !== null;
++  }
++
++  private onLoop = (now: number) => {
++    if (this.isDestroyed) return;
++    const dt = Math.min((now - this.last) / 1000, 0.1);
++    this.last = now;
++    // Offscreen boxes skip the GPU work; the clamped dt absorbs the gap.
++    if (this.isVisible) this.onLoopFrame(dt);
++    this.raf = requestAnimationFrame(this.onLoop);
++  };
++
++  private updateBrush(dt: number) {
++    const { frame, pointer } = this;
++    const sheet = this.sheet as Sheet;
++    const { brush, rainbow } = this.settings;
++    const active = this.isPointerActive;
++    const smudge = active && pointer.mode === "smudge";
++    const on = active ? 1 : 0;
++    const [x, y] = pointer.position;
++    const [px, py] = pointer.previous;
++    const span = Math.min(this.box.width, this.box.height);
++    const vx = dt > 0 ? (x - px) / dt : 0;
++    const vy = dt > 0 ? (y - py) / dt : 0;
++    const speed = Math.min(Math.hypot(vx, vy) / span, brush.maximum);
++    const resting = speed < brush.rest || !active;
++
++    this.load = clamp(
++      this.load -
++        (speed * dt) / brush.reservoir +
++        (brush.trickle + (resting ? brush.refill : 0)) * dt,
++      brush.empty,
++      1,
++    );
++    const { load } = this;
++    const water =
++      (brush.water + brush.speedWater * speed) *
++      dt *
++      on *
++      (smudge ? brush.wash : 0.35 + 0.65 * load);
++    const pigment = smudge
++      ? 0
++      : (brush.pigment + brush.speedPigment * speed) * dt * on * load ** 0.8;
++    const push =
++      sheet.pixel *
++      (sheet.flow[0] / sheet.paint[0]) *
++      this.motion *
++      (smudge ? brush.washForce : brush.force);
++    const follow =
++      on > 0 ? approach(brush.follow, dt) * clamp(speed / 0.17, 0, 1) : 0;
++    const limit = Math.min(
++      1,
++      (brush.maximum * span) / Math.max(Math.hypot(vx, vy), 1e-6),
++    );
++
++    this.travelled += speed * dt;
++    if (active && this.isRainbow && !smudge) {
++      this.hue =
++        (this.hue + (rainbow.distance * speed + rainbow.time) * dt) % 360;
++    }
++    const thinness = 1.25 - 0.6 * smoothstep(0, brush.thin, speed);
++    const pulse =
++      (0.75 + 0.5 * bristlePulse(this.travelled * 3.6 + this.strokes * 13.1)) *
++      thinness;
++
++    frame.set("brushStart", [
++      px * sheet.pixel,
++      py * sheet.pixel,
++      brush.radius * (active ? this.scale : 1) * span * pulse * sheet.pixel,
++      water,
++    ]);
++    frame.set("brushEnd", [
++      x * sheet.pixel,
++      y * sheet.pixel,
++      pigment,
++      Math.max(0, 0.6 - load) * brush.dryBrush,
++    ]);
++    frame.set("brushColor", [
++      ...hueAbsorption(this.hue, this.settings.color),
++      smudge ? approach(brush.lift, dt) : 0,
++    ]);
++    frame.set("brushVelocity", [
++      vx * push * limit,
++      vy * push * limit,
++      follow,
++      2.2,
++    ]);
++  }
++
++  private wipeFrame(dt: number): Vec4 {
++    const { edge, duration } = this.settings.wipe;
++    const { center, progress } = this.wipe;
++    if (progress >= 1) return [0, 0, 0, edge];
++    const next = Math.min(1, progress + dt / duration);
++    const { pixel } = this.sheet as Sheet;
++    const reach = Math.hypot(this.box.width, this.box.height) * 0.5 * 1.45;
++    const radius = Math.max(1, easeInOutCubic(next) * reach);
++    this.wipe.progress = next;
++    return [center[0] * pixel, center[1] * pixel, radius * pixel, edge];
++  }
++
++  private updateFrame(dt: number) {
++    const { dry, flow, grade, light, look, settle, spread } = this.settings;
++    const { frame } = this;
++    const sheet = this.sheet as Sheet;
++    const [pw, ph] = sheet.paint;
++    const [fw, fh] = sheet.flow;
++    frame.set("paint", [pw, ph, 1 / pw, 1 / ph]);
++    frame.set("flow", [fw, fh, 1 / fw, 1 / fh]);
++    frame.set("time", [this.time, dt, this.frameIndex, sheet.pixel]);
++    frame.set("spread", [
++      spread.rate,
++      spread.pinning,
++      spread.dry,
++      spread.diffusion,
++    ]);
++    frame.set("settle", [
++      settle.evaporation * dt,
++      settle.adsorb * dt,
++      settle.lift * dt,
++      settle.granulation,
++    ]);
++    frame.set("dry", [
++      Math.exp(-dry.damp * dt),
++      Math.exp(-dry.fade * dt),
++      settle.edge,
++      spread.depth,
++    ]);
++    frame.set("motion", [
++      Math.exp(-flow.friction * dt),
++      flow.vorticity,
++      flow.threshold,
++      flow.pressure,
++    ]);
++    frame.set("paper", [...hexToLinear(this.settings.paper), 0]);
++    frame.set("light", [
++      Math.cos(light.elevation) * Math.cos(light.azimuth),
++      Math.cos(light.elevation) * Math.sin(light.azimuth),
++      Math.sin(light.elevation),
++      0,
++    ]);
++    frame.set("look", [look.granulation, look.paper, look.sheen, look.wet]);
++    frame.set("grade", [
++      grade.saturation,
++      grade.vignette,
++      grade.grain,
++      look.mottle,
++    ]);
++    frame.set("wipe", this.wipeFrame(dt));
++    this.device.queue.writeBuffer(this.frameBuffer, 0, this.frame.data);
++  }
++
++  private onLoopFrame(elapsed: number) {
++    const dt = this.isRevealed ? Math.min(elapsed, MAX_STEP) : 0;
++    this.time += dt;
++    this.frameIndex++;
++    this.pointer.previous = this.pointer.position;
++    this.pointer.position = [...this.pointer.target];
++    this.updateBrush(dt);
++    this.updateFrame(dt);
++
++    const encoder = this.device.createCommandEncoder({ label: "frame" });
++    this.paint.update(encoder, this.frameGroup, {
++      iterations: this.settings.flow.iterations,
++      spreads: dt > 0 ? this.settings.spread.iterations : 0,
++    });
++    const pass = encoder.beginRenderPass({
++      colorAttachments: [
++        {
++          clearValue: [1, 1, 1, 1],
++          loadOp: "clear",
++          storeOp: "store",
++          view: this.context.getCurrentTexture().createView(),
++        },
++      ],
++      label: "render",
++    });
++    pass.setPipeline(this.render);
++    pass.setBindGroup(0, this.frameGroup);
++    pass.setBindGroup(
++      1,
++      this.renderGroups[`${this.paint.carried}${this.paint.deposit}`],
++    );
++    pass.draw(3);
++    pass.end();
++    this.device.queue.submit([encoder.finish()]);
++  }
++}
+--- /dev/null
++++ b/src/components/studios/watercolor.tsx
+@@ -0,0 +1,204 @@
++"use client";
++
++import Link from "next/link";
++import { useId, useRef, useState } from "react";
++import {
++  SliderComfortable,
++  StudioColor,
++} from "@/components/site/studio-controls";
++import {
++  TabsSubtle,
++  TabsSubtleItem,
++  TabsSubtlePanel,
++} from "@/components/ui/tabs-subtle";
++import Watercolor, {
++  CONTROL_RANGES,
++  DEFAULT_HUE,
++  DEFAULT_SETTINGS,
++  type WatercolorHandle,
++  type WatercolorQuality,
++} from "@/registry/watercolor";
++
++const buttonClass =
++  "rounded-md border px-3 py-2 text-xs transition-colors hover:bg-muted aria-pressed:bg-muted aria-pressed:border-border-strong";
++
++export default function WatercolorStudio() {
++  const field = useRef<WatercolorHandle>(null);
++  const [settings, setSettings] = useState(() =>
++    structuredClone(DEFAULT_SETTINGS),
++  );
++  const [hue, setHue] = useState(DEFAULT_HUE);
++  const [brushSize, setBrushSize] = useState(1);
++  const [rainbow, setRainbow] = useState(true);
++  const [quality, setQuality] = useState<WatercolorQuality>("auto");
++  const [tab, setTab] = useState(0);
++  const id = useId();
++
++  return (
++    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-surface">
++      <div className="h-[520px] w-full sm:h-[620px] xl:h-[720px]">
++        <Watercolor
++          ref={field}
++          tuning={settings}
++          hue={hue}
++          brushSize={brushSize}
++          rainbow={rainbow}
++          quality={quality}
++        />
++      </div>
++      <aside
++        aria-label="Watercolor controls"
++        className="border-t bg-background"
++      >
++        <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5">
++          <div>
++            <p className="label">Studio</p>
++            <h2 className="mt-1 text-sm uppercase">Watercolor</h2>
++          </div>
++          <div className="flex flex-wrap gap-2">
++            <button
++              type="button"
++              className={buttonClass}
++              onClick={() => field.current?.wash()}
++            >
++              Wash clean
++            </button>
++            <button
++              type="button"
++              className={buttonClass}
++              onClick={() => field.current?.clear()}
++            >
++              New sheet
++            </button>
++            <button
++              type="button"
++              className={buttonClass}
++              onClick={() => {
++                setSettings(structuredClone(DEFAULT_SETTINGS));
++                setHue(DEFAULT_HUE);
++                setBrushSize(1);
++                setRainbow(true);
++                setQuality("auto");
++              }}
++            >
++              Reset controls
++            </button>
++            <Link
++              className={buttonClass}
++              href="/components/watercolor/preview"
++              target="_blank"
++              rel="noopener noreferrer"
++            >
++              Fullscreen
++            </Link>
++          </div>
++          <p className="w-full text-xs text-muted-foreground">
++            Drag to paint. Right-click and drag to smudge.
++          </p>
++        </div>
++        <div className="border-t px-4 pt-2 sm:px-5">
++          <TabsSubtle selectedIndex={tab} onSelect={setTab} idPrefix={id}>
++            {["Brush", "Water", "Look", "Sheet"].map((label, index) => (
++              <TabsSubtleItem key={label} index={index} label={label} />
++            ))}
++          </TabsSubtle>
++        </div>
++        <div className="p-4 sm:p-5">
++          {Object.entries(CONTROL_RANGES).map(([name, ranges], index) => (
++            <TabsSubtlePanel
++              key={name}
++              selectedIndex={tab}
++              index={index}
++              idPrefix={id}
++            >
++              <div className="grid gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
++                {index === 0 && (
++                  <>
++                    <SliderComfortable
++                      variant="scrubber"
++                      label="Hue"
++                      min={0}
++                      max={360}
++                      step={1}
++                      value={hue}
++                      onChange={setHue}
++                    />
++                    <SliderComfortable
++                      variant="scrubber"
++                      label="Brush size"
++                      min={0.3}
++                      max={3}
++                      step={0.05}
++                      value={brushSize}
++                      onChange={setBrushSize}
++                    />
++                    <button
++                      type="button"
++                      aria-pressed={rainbow}
++                      className={buttonClass}
++                      onClick={() => setRainbow(!rainbow)}
++                    >
++                      Rainbow {rainbow ? "on" : "off"}
++                    </button>
++                  </>
++                )}
++                {ranges.map(({ group, key, label, min, max, step }) => (
++                  <SliderComfortable
++                    key={`${group}.${key}`}
++                    variant="scrubber"
++                    label={label}
++                    min={min}
++                    max={max}
++                    step={step}
++                    value={(settings[group] as Record<string, number>)[key]}
++                    onChange={(value) =>
++                      setSettings((current) => ({
++                        ...current,
++                        [group]: { ...current[group], [key]: value },
++                      }))
++                    }
++                    formatValue={(value) => String(Number(value.toFixed(4)))}
++                  />
++                ))}
++              </div>
++            </TabsSubtlePanel>
++          ))}
++          <TabsSubtlePanel selectedIndex={tab} index={3} idPrefix={id}>
++            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
++              <StudioColor
++                label="Paper"
++                value={settings.paper}
++                onChange={(paper) =>
++                  setSettings((current) => ({ ...current, paper }))
++                }
++              />
++              <fieldset>
++                <legend className="label mb-3">Quality</legend>
++                <div className="flex gap-2">
++                  {(["auto", "high", "low"] as const).map((value) => (
++                    <button
++                      type="button"
++                      key={value}
++                      className={buttonClass}
++                      aria-pressed={quality === value}
++                      onClick={() => setQuality(value)}
++                    >
++                      {value === "auto"
++                        ? "Auto"
++                        : value === "high"
++                          ? "High"
++                          : "Low"}
++                    </button>
++                  ))}
++                </div>
++                <p className="mt-3 text-xs text-muted-foreground">
++                  Changing resolution starts a new sheet.
++                </p>
++              </fieldset>
++            </div>
++          </TabsSubtlePanel>
++        </div>
++      </aside>
++    </div>
++  );
++}
+--- /dev/null
++++ b/src/components/demos/watercolor.tsx
+@@ -0,0 +1,9 @@
++"use client";
++import Watercolor from "@/registry/watercolor";
++export default function WatercolorDemo() {
++  return (
++    <div className="h-[680px] w-full overflow-hidden">
++      <Watercolor />
++    </div>
++  );
++}
+--- /dev/null
++++ b/src/components/previews/watercolor.tsx
+@@ -0,0 +1,9 @@
++"use client";
++import Watercolor from "@/registry/watercolor";
++export default function WatercolorPreview() {
++  return (
++    <main className="h-dvh overflow-hidden">
++      <Watercolor wheelControls keyboardShortcuts />
++    </main>
++  );
++}
