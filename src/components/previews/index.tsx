@@ -11,6 +11,7 @@ import AwardListPreview from "./award-list";
 import BlurStudyBoxPreview from "./blur-study-box";
 import BlurStudyGridPreview from "./blur-study-grid";
 import BlurTrailVideoPreview from "./blur-trail-video";
+import BunkerScenePreview from "./bunker-scene";
 import CappenFluidSimulationPreview from "./cappen-fluid-simulation";
 import CassetteTowerPreview from "./cassette-tower";
 import CellPortraitPreview from "./cell-portrait";
@@ -33,11 +34,13 @@ import FluidRefractionPreview from "./fluid-refraction";
 import FluidRevealCarouselPreview from "./fluid-reveal-carousel";
 import FrameScrollPreview from "./frame-scroll";
 import GatherFieldPreview from "./gather-field";
+import GlyphRainPreview from "./glyph-rain";
 import GrainGradientFieldPreview from "./grain-gradient-field";
 import GrainGradientNavPreview from "./grain-gradient-nav";
 import GrowthClockPreview from "./growth-clock";
 import HologramWalkwayPreview from "./hologram-walkway";
 import HoverBloomPreview from "./hover-bloom";
+import ImagePixelationPreview from "./image-pixelation";
 import ImageRevealPreview from "./image-reveal";
 import InkFieldPreview from "./ink-field";
 import InteriorStudioPagePreview from "./interior-studio-page";
@@ -51,6 +54,7 @@ import MosaicFlipPreview from "./mosaic-flip";
 import MossyTypePreview from "./mossy-type";
 import NeonIcebergPreview from "./neon-iceberg";
 import OverlayMenuPreview from "./overlay-menu";
+import PhoneStackCarouselPreview from "./phone-stack-carousel";
 import PortfolioPagePreview from "./portfolio-page";
 import PreloaderRevealPreview from "./preloader-reveal";
 import PrismLightInstrumentPreview from "./prism-light-instrument";
@@ -142,5 +146,9 @@ export const previews: Record<string, ComponentType> = {
   "mossy-type": MossyTypePreview,
   "cassette-tower": CassetteTowerPreview,
   "blur-trail-video": BlurTrailVideoPreview,
+  "phone-stack-carousel": PhoneStackCarouselPreview,
+  "image-pixelation": ImagePixelationPreview,
+  "glyph-rain": GlyphRainPreview,
+  "bunker-scene": BunkerScenePreview,
   "type-garden": TypeGardenPreview,
 };

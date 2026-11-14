@@ -21,6 +21,7 @@ import BlurStudyBoxDemo from "./blur-study-box";
 import BlurStudyGridDemo from "./blur-study-grid";
 import BlurTrailVideoDemo from "./blur-trail-video";
 import BrutalistPortfolioPageDemo from "./brutalist-portfolio-page";
+import BunkerSceneDemo from "./bunker-scene";
 import CalendarPadCardsDemo from "./calendar-pad-cards";
 import CappenFluidSimulationDemo from "./cappen-fluid-simulation";
 import CardFanLandingRevealDemo from "./card-fan-landing-reveal";
@@ -102,6 +103,7 @@ import FrameSequenceHeroDemo from "./frame-sequence-hero";
 import FrostedPlateCarouselDemo from "./frosted-plate-carousel";
 import GarageScene3DDemo from "./garage-scene-3d";
 import GatherFieldDemo from "./gather-field";
+import GlyphRainDemo from "./glyph-rain";
 import GrainGradientFieldDemo from "./grain-gradient-field";
 import GrainGradientNavDemo from "./grain-gradient-nav";
 import GravityDropLandingDemo from "./gravity-drop-landing";
@@ -115,6 +117,7 @@ import HourTimelineSliderDemo from "./hour-timeline-slider";
 import HouseOfEpochsPageDemo from "./house-of-epochs-page";
 import HoverBloomDemo from "./hover-bloom";
 import ImageExplosionFooterDemo from "./image-explosion-footer";
+import ImagePixelationDemo from "./image-pixelation";
 import ImageRevealDemo from "./image-reveal";
 import InfiniteContactScrollDemo from "./infinite-contact-scroll";
 import InfiniteDragCanvasDemo from "./infinite-drag-canvas";
@@ -167,6 +170,7 @@ import ParallaxDragRailDemo from "./parallax-drag-rail";
 import ParallaxModelFooterDemo from "./parallax-model-footer";
 import ParticleFluidHeroDemo from "./particle-fluid-hero";
 import PhatakeDemo from "./phatake";
+import PhoneStackCarouselDemo from "./phone-stack-carousel";
 import PhotoSphereOrbDemo from "./photo-sphere-orb";
 import PhysicsTagFooterDemo from "./physics-tag-footer";
 import PinnedScaleMosaicDemo from "./pinned-scale-mosaic";
@@ -534,5 +538,9 @@ export const demos: Record<string, ComponentType> = {
   "mossy-type": MossyTypeDemo,
   "cassette-tower": CassetteTowerDemo,
   "blur-trail-video": BlurTrailVideoDemo,
+  "phone-stack-carousel": PhoneStackCarouselDemo,
+  "image-pixelation": ImagePixelationDemo,
+  "glyph-rain": GlyphRainDemo,
+  "bunker-scene": BunkerSceneDemo,
   "type-garden": TypeGardenDemo,
 };

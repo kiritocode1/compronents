@@ -144,15 +144,18 @@ export interface RegistryDesignGuidance {
 
 /**
  * Whether one item survives the ranked catalog search for `rawQuery`.
- * Implemented via `rankRegistryItems` so the boolean filter and the searchbar
- * never disagree about relevance.
+ * Ranks the whole catalog, as the searchbar does, so the relative score floor
+ * applies: an item ranked alone has no leader to fall behind and would keep
+ * hits the searchbar drops.
  */
 export function matchesRegistrySearch(
   item: RegistryItem,
   rawQuery: string,
   now = new Date(),
 ) {
-  return rankRegistryItems([item], rawQuery, now).length > 0;
+  return rankRegistryItems(registryItems, rawQuery, now).some(
+    (hit) => hit.name === item.name,
+  );
 }
 
 export const registryItems: RegistryItem[] = [
@@ -507,6 +510,86 @@ export const registryItems: RegistryItem[] = [
       {
         path: "src/registry/type-garden.tsx",
         target: "components/ui/type-garden.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "phone-stack-carousel",
+    title: "Phone Stack Carousel",
+    description:
+      "A phone in the middle of a row of cards. Drag, scroll or click a card and the row slides on a spring while the phone screen wipes to the next slide through a wobbling circle. Side cards shrink, tuck under each other and darken with distance, and videos play on the phone and on the cards. Device finish, card shape, spring feel, wipe style and background are all props.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/phone-stack-carousel.tsx",
+        target: "components/ui/phone-stack-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "image-pixelation",
+    title: "Image Pixelation",
+    description:
+      "An image that arrives as a few giant squares and sharpens in four steps. A canvas draws the image at 1, 1, 2 and 3 percent of its size and scales it back up with smoothing off, then the sharp image replaces it. It starts on scroll into view, on hover, on click or from a ref.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-14",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/image-pixelation.tsx",
+        target: "components/ui/image-pixelation.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "glyph-rain",
+    title: "Glyph Rain",
+    description:
+      "Seventy-two extruded BLANK letters fall row by row into a box and pile up, drawn through an 8x8 ordered dither in one orange. matter-js runs the fall with a convex hull per letter, and three.js lights each letter and dithers it to two tones. The cursor tilts the camera and moves the light. Pass your own glyph set to drop other letters.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-14",
+    type: "registry:ui",
+    dependencies: ["three", "postprocessing", "gsap", "matter-js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/glyph-rain.tsx",
+        target: "components/ui/glyph-rain.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "bunker-scene",
+    title: "Bunker Scene",
+    description:
+      "A concrete bunker at night with a red BLANK sign. Behind it a hidden light flickers on, off and on again, and red god rays push through every opening in the facade. Dust drifts in front, film noise sits on top, and the camera circles slowly until the cursor takes over.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-14",
+    type: "registry:ui",
+    dependencies: ["three", "postprocessing", "gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/bunker-scene.tsx",
+        target: "components/ui/bunker-scene.tsx",
         type: "registry:ui",
       },
     ],

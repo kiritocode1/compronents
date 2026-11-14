@@ -2896,6 +2896,68 @@ const mossyTypeAssets = mossyTypeAssetPaths.map(
     }) satisfies AssetItem,
 );
 
+const phoneStackCarouselAssets = (
+  [
+    ["chrome-study.jpg", "image/jpeg 736x958"],
+    ["soft-ritual.png", "image/png 800x1200"],
+    ["lattice.mp4", "video/mp4"],
+    ["glass-edge.jpg", "image/jpeg 736x919"],
+    ["plume.png", "image/png 1796x2400"],
+    ["quiet-form.mp4", "video/mp4"],
+    ["night-grain.jpg", "image/jpeg 1200x1600"],
+    ["drift.mp4", "video/mp4"],
+  ] as const
+).map(
+  ([filename, format]) =>
+    ({
+      id: `phone-stack-carousel-${filename.replace(/\.[^.]+$/, "")}`,
+      label: `Phone Stack Carousel ${filename}`,
+      provider: "vercel-blob",
+      pathname: `phone-stack-carousel/${filename}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/phone-stack-carousel/${filename}`,
+      role: `Default slide media (${format}), in the order the original page shows it.`,
+      notes:
+        "Pinned source media at the sizes the original page requests, uploaded to a stable Vercel Blob pathname.",
+    }) satisfies AssetItem,
+);
+
+const imagePixelationAssets = [
+  {
+    id: "image-pixelation-beanie",
+    label: "Image Pixelation beanie.jpg",
+    provider: "vercel-blob",
+    pathname: "image-pixelation/beanie.jpg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/image-pixelation/beanie.jpg`,
+    role: "Default image: the BLANK beanie render, 2737x1825.",
+    notes:
+      "Served with CORS. The canvas only draws it, so no crossOrigin attribute is needed.",
+  },
+] as const satisfies readonly AssetItem[];
+
+const glyphRainAssets = [
+  {
+    id: "glyph-rain-blank-mark",
+    label: "Glyph Rain blank-mark.svg",
+    provider: "vercel-blob",
+    pathname: "glyph-rain/blank-mark.svg",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/glyph-rain/blank-mark.svg`,
+    role: "BLANK wordmark. The default loader cuts it into five letters and extrudes each one.",
+    notes: "Even-odd SVG from the BLANK brand kit, viewBox 0 0 1030 240.",
+  },
+] as const satisfies readonly AssetItem[];
+
+const bunkerSceneAssets = [
+  {
+    id: "bunker-scene-model",
+    label: "Bunker Scene bunker.glb",
+    provider: "vercel-blob",
+    pathname: "bunker-scene/bunker.glb",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/bunker-scene/bunker.glb`,
+    role: "Bunker facade and interior with its baked texture. The original sign letters are removed; the component extrudes the BLANK mark in their place.",
+    notes: "952 KB, not Draco compressed, so no decoder is fetched.",
+  },
+] as const satisfies readonly AssetItem[];
+
 const blurTrailVideoAssets = [
   {
     id: "blur-trail-video-bg",
@@ -3005,6 +3067,10 @@ export const assetItems = [
   ...typeGardenFontAssets,
   ...mossyTypeAssets,
   ...cassetteTowerAssets,
+  ...phoneStackCarouselAssets,
+  ...imagePixelationAssets,
+  ...glyphRainAssets,
+  ...bunkerSceneAssets,
   ...blurTrailVideoAssets,
   ...moneybeeAlpinePageAssets,
   ...moneybeeEditorialPageAssets,

@@ -78,6 +78,7 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Galleries and grids",
     names: [
+      "image-pixelation",
       "warped-gallery",
       "spiral-gallery",
       "scroll-wave-gallery",
@@ -112,6 +113,7 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "Sliders and carousels",
     names: [
+      "phone-stack-carousel",
       "voku-image-slider",
       "threejs-infinite-slider",
       "scroll-scrub-slider",
@@ -249,6 +251,8 @@ export const componentGroups: RegistryGroup[] = [
   {
     title: "3D and WebGL scenes",
     names: [
+      "bunker-scene",
+      "glyph-rain",
       "blur-trail-video",
       "cassette-tower",
       "balloon-zinnia",

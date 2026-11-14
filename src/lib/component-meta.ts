@@ -17532,6 +17532,387 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "phone-stack-carousel": {
+    demoPath: "src/components/demos/phone-stack-carousel.tsx",
+    nuance: [
+      {
+        label: "One spring drives everything",
+        description:
+          "Position eases toward the target index on a damped spring (silk is stiffness 110, damping ratio 1). Card offset, scale, shade, lean and the screen wipe are all read from that one position each frame, so a drag, a wheel flick and a card click land the same way.",
+      },
+      {
+        label: "The screen wipe is a polygon",
+        description:
+          "The next slide is clipped to a 60-point polygon that grows from the middle of the screen's right edge. In liquid mode its radius wobbles on two sine waves around the circle, and in iris mode it stays round. The clip-path updates every frame instead of through a CSS transition, so it follows a drag.",
+      },
+      {
+        label: "Sizes come from the container",
+        description:
+          "Every length is a multiple of min(1cqh, 1.95cqw), so the phone and cards keep their proportions at any box size. Give the root's parent a height.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("phone-stack-carousel-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "items",
+        type: "PhoneStackSlide[]",
+        description:
+          "Slides as { image?, video?, title?, link? }. A video wins over an image. Defaults to eight hosted slides.",
+      },
+      {
+        name: "start",
+        type: "number",
+        default: "0",
+        description: "Index shown first.",
+      },
+      {
+        name: "device",
+        type: "{ size, finish, screen, statusBar, clock, homeBar, glare }",
+        description:
+          "Phone height as a percentage of the box (50 to 96), finish (obsidian, graphite, ink, silver), screen colour and chrome toggles. Defaults to ink with no status bar.",
+      },
+      {
+        name: "cards",
+        type: "{ width, height, radius, overlap, depth, dim, span, sideVideo, edgeFade, newTab }",
+        description:
+          "Side card size relative to the phone, corner radius, how far cards tuck under each other, scale lost and darkening per step, cards per side, and whether side videos play.",
+      },
+      {
+        name: "motion",
+        type: "{ autoplay, interval, hoverPause, wheel, feel, morph, lean, intro }",
+        description:
+          "Autoplay timing, wheel axis, spring feel (silk, brisk, drift), wipe style (liquid or iris), lean in degrees and the fan-out intro.",
+      },
+      {
+        name: "surface",
+        type: "{ background, grid, gridColor, halo }",
+        description:
+          "Background colour, an optional grid and a halo colour behind the phone. Background defaults to #FFFFFF.",
+      },
+      {
+        name: "indicator",
+        type: "{ show, color, active }",
+        description: "Dot indicator under the stack. Off by default.",
+      },
+      { name: "className", type: "string", description: "Class on the root." },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+    ],
+  },
+  "image-pixelation": {
+    demoPath: "src/components/demos/image-pixelation.tsx",
+    nuance: [
+      {
+        label: "Draw small, scale up with smoothing off",
+        description:
+          "Each step draws the image into the canvas corner at factor percent of the canvas size, then draws that corner back over the whole canvas with imageSmoothingEnabled false. The factors are the first `steps` Fibonacci numbers, then 100.",
+      },
+      {
+        label: "Blocks are CSS pixels",
+        description:
+          "The canvas is not scaled by devicePixelRatio, so the squares are the same size on a 2x display. After the last step the canvas hides and the plain image shows.",
+      },
+      {
+        label: "Nothing shows before the first play",
+        description:
+          "initial defaults to hidden. Set it to pixelated to show the coarsest step while waiting, or sharp to show the image.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("image-pixelation-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "src",
+        type: "string",
+        description: "Image URL. Defaults to the hosted BLANK beanie render.",
+      },
+      { name: "alt", type: "string", default: '""', description: "Alt text." },
+      {
+        name: "steps",
+        type: "number",
+        default: "4",
+        description:
+          "Fibonacci steps before the full-resolution step, 1 to 11.",
+      },
+      {
+        name: "stepsDuration",
+        type: "number",
+        default: "1",
+        description: "Multiplies the 100ms each step is held, 0.1 to 3.",
+      },
+      {
+        name: "trigger",
+        type: '"inView" | "hover" | "click" | "manual"',
+        default: '"inView"',
+        description:
+          "What starts the resolve. manual waits for the ref's play().",
+      },
+      {
+        name: "initial",
+        type: '"hidden" | "pixelated" | "sharp"',
+        default: '"hidden"',
+        description: "What shows before the first play.",
+      },
+      {
+        name: "ratio",
+        type: "number",
+        description:
+          "Width over height of the box. Defaults to the image's own ratio.",
+      },
+      {
+        name: "fit",
+        type: '"cover" | "contain"',
+        default: '"cover"',
+        description: "How the image fills a box with a different ratio.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "Called when the sharp image shows.",
+      },
+      {
+        name: "ref",
+        type: "ImagePixelationHandle",
+        description: "play() runs the resolve again from the coarsest step.",
+      },
+      { name: "className", type: "string", description: "Class on the root." },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+    ],
+  },
+  "glyph-rain": {
+    demoPath: "src/components/demos/glyph-rain.tsx",
+    nuance: [
+      {
+        label: "Planar physics in matter-js",
+        description:
+          "Each letter's collider is the 2D convex hull of its vertices at 50 px per world unit, with friction 0.5, no bounce and gravity 4. Nine rows of eight spawn above the box at random heights and angles, so the pile is different every run.",
+      },
+      {
+        label: "Two tones from a Bayer matrix",
+        description:
+          "The shader takes Lambert light from one point, compares it with an 8x8 ordered dither threshold and multiplies by the colour. Dither cells are measured against canvas height (ditherSize per height), so the pattern scales with the box.",
+      },
+      {
+        label: "Stops drawing when the pile is still",
+        description:
+          "Rendering pauses off screen, and after 30 frames with no letter or camera moving. Under reduced motion the fall is solved off screen and the settled pile is drawn once.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("glyph-rain-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "rows",
+        type: "string[][]",
+        description:
+          "Glyph keys per row, bottom row first. Defaults to nine rows of B L A N K repeated to eight per row.",
+      },
+      {
+        name: "loadGlyphs",
+        type: "() => Promise<GlyphSet>",
+        description:
+          "Returns a Map of key to BufferGeometry, about 25 units tall and 7.3 deep, centred on the origin. Defaults to the BLANK wordmark letters.",
+      },
+      {
+        name: "markUrl",
+        type: "string",
+        description: "Wordmark SVG the default loader cuts into letters.",
+      },
+      {
+        name: "color",
+        type: "string",
+        default: '"#ff4300"',
+        description: "The one colour the dither draws in.",
+      },
+      {
+        name: "ditherSize",
+        type: "number",
+        default: "200",
+        description: "Dither cells per canvas height.",
+      },
+      {
+        name: "gravity",
+        type: "number",
+        default: "4",
+        description: "Downward acceleration in world units per second squared.",
+      },
+      {
+        name: "vignetteOffset",
+        type: "number",
+        default: "0.4",
+        description: "Vignette offset.",
+      },
+      {
+        name: "vignetteDarkness",
+        type: "number",
+        default: "0.6",
+        description: "Vignette darkness.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        default: "false",
+        description: "Freezes the simulation.",
+      },
+      {
+        name: "ratio",
+        type: "number",
+        default: "21 / 9",
+        description: "Width over height of the canvas.",
+      },
+      {
+        name: "ref",
+        type: "GlyphRainHandle",
+        description: "replay() drops every letter again from the top.",
+      },
+      { name: "className", type: "string", description: "Class on the root." },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+    ],
+  },
+  "bunker-scene": {
+    demoPath: "src/components/demos/bunker-scene.tsx",
+    nuance: [
+      {
+        label: "The flicker is a hidden light source",
+        description:
+          "A red box behind the facade is the god rays light. 2.5s after load a gsap timeline turns it on, off, on, off and on in 0.05s and 0.2s steps, and each change switches the shafts through the facade openings.",
+      },
+      {
+        label: "God rays at half resolution",
+        description:
+          "The light is drawn alone at half resolution, masked against scene depth, blurred radially over 100 samples and blended with screen. That is how postprocessing 6.36 drew it; later versions change the shafts, so the component carries that pass itself.",
+      },
+      {
+        label: "The sign is extruded at load",
+        description:
+          "The BLANK mark is cut from SVG paths with its counters as holes and extruded over the depth the original letters had. It is scaled to their lit face area, so it is about as bright as the sign it replaces.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("bunker-scene-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        description:
+          "GLB with the facade and interior meshes. Defaults to the hosted bunker without its sign.",
+      },
+      {
+        name: "dracoDecoderPath",
+        type: "string",
+        description:
+          "Draco decoder folder, only needed for a Draco-compressed model.",
+      },
+      {
+        name: "sign",
+        type: '"blank" | "model"',
+        default: '"blank"',
+        description:
+          "blank extrudes the BLANK mark. model keeps whatever sign the model has; the hosted model has none.",
+      },
+      {
+        name: "sunColor",
+        type: "ColorRepresentation",
+        default: '"#ff0000"',
+        description: "Colour of the hidden light and its rays.",
+      },
+      {
+        name: "godRays",
+        type: "Partial<BunkerSceneGodRays>",
+        description:
+          "samples 100, density 0.9, decay 0.92, weight 0.4, exposure 0.4, clampMax 1, kernelSize MEDIUM, blur true.",
+      },
+      {
+        name: "noiseOpacity",
+        type: "number",
+        default: "0.75",
+        description: "Colour-dodge film noise opacity. 0 removes it.",
+      },
+      {
+        name: "particleCount",
+        type: "number",
+        default: "1000",
+        description: "Dust points in front of the facade.",
+      },
+      {
+        name: "particleSize",
+        type: "number",
+        default: "25",
+        description: "Point size.",
+      },
+      {
+        name: "particleSpeed",
+        type: "number",
+        default: "0.1",
+        description: "Speed of the noise the dust drifts on.",
+      },
+      {
+        name: "particleDisplacement",
+        type: "number",
+        default: "0.5",
+        description: "How far the dust drifts, in world units.",
+      },
+      {
+        name: "rotationStrength",
+        type: "number",
+        default: "1",
+        description: "Camera swing. 0 holds the camera still.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Class on the root. Its parent should have a height.",
+      },
+    ],
+  },
   "blur-trail-video": {
     demoPath: "src/components/demos/blur-trail-video.tsx",
     nuance: [
