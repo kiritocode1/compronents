@@ -53,6 +53,7 @@ import MonogramMorphPagePreview from "./monogram-morph-page";
 import MosaicFlipPreview from "./mosaic-flip";
 import MossyTypePreview from "./mossy-type";
 import NeonIcebergPreview from "./neon-iceberg";
+import NeonSignScenePreview from "./neon-sign-scene";
 import OverlayMenuPreview from "./overlay-menu";
 import PhoneStackCarouselPreview from "./phone-stack-carousel";
 import PortfolioPagePreview from "./portfolio-page";
@@ -150,5 +151,6 @@ export const previews: Record<string, ComponentType> = {
   "image-pixelation": ImagePixelationPreview,
   "glyph-rain": GlyphRainPreview,
   "bunker-scene": BunkerScenePreview,
+  "neon-sign-scene": NeonSignScenePreview,
   "type-garden": TypeGardenPreview,
 };

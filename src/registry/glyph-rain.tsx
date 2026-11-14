@@ -60,6 +60,8 @@ export type GlyphRainProps = {
   gravity?: number;
   vignetteOffset?: number;
   vignetteDarkness?: number;
+  /** Vignette blend opacity, 0 to 1. */
+  vignetteOpacity?: number;
   paused?: boolean;
   /** Width over height. The source canvas is 21:9. */
   ratio?: number;
@@ -261,6 +263,7 @@ const GlyphRain = forwardRef<GlyphRainHandle, GlyphRainProps>(
       gravity = 4,
       vignetteOffset = 0.4,
       vignetteDarkness = 0.6,
+      vignetteOpacity = 1,
       paused = false,
       ratio = 21 / 9,
       className,
@@ -276,6 +279,7 @@ const GlyphRain = forwardRef<GlyphRainHandle, GlyphRainProps>(
       gravity,
       vignetteOffset,
       vignetteDarkness,
+      vignetteOpacity,
       paused,
     });
     live.current = {
@@ -284,6 +288,7 @@ const GlyphRain = forwardRef<GlyphRainHandle, GlyphRainProps>(
       gravity,
       vignetteOffset,
       vignetteDarkness,
+      vignetteOpacity,
       paused,
     };
     const applyRef = useRef<() => void>(() => {});
@@ -322,6 +327,7 @@ const GlyphRain = forwardRef<GlyphRainHandle, GlyphRainProps>(
         offset: vignetteOffset,
         darkness: vignetteDarkness,
       });
+      vignette.blendMode.opacity.value = live.current.vignetteOpacity;
       composer.addPass(new EffectPass(camera, vignette));
 
       // One uniform set shared by every glyph, as all source materials move together.
@@ -343,6 +349,7 @@ const GlyphRain = forwardRef<GlyphRainHandle, GlyphRainProps>(
         uniforms.ditherSize.value = l.ditherSize;
         vignette.offset = l.vignetteOffset;
         vignette.darkness = l.vignetteDarkness;
+        vignette.blendMode.opacity.value = l.vignetteOpacity;
         engine.gravity.scale = (l.gravity * PX) / 1e6;
         if (!l.paused) kick();
       };

@@ -1,7 +1,6 @@
 "use client";
 
 import type { ComponentType } from "react";
-import WatercolorStudio from "./watercolor";
 import AccordionFramesStudio from "./accordion-frames";
 import AnimatedFooterStudio from "./animated-footer";
 import ArchiveCommercePageStudio from "./archive-commerce-page";
@@ -11,6 +10,7 @@ import AwardListStudio from "./award-list";
 import BlnkAgencyPageStudio from "./blnk-agency-page";
 import BlurStudyGridStudio from "./blur-study-grid";
 import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
+import BunkerSceneStudio from "./bunker-scene";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CellPortraitStudio from "./cell-portrait";
 import CreativeClutterStudio from "./creative-clutter";
@@ -26,8 +26,10 @@ import FallingTagListStudio from "./falling-tag-list";
 import FilmStudioPageStudio from "./film-studio-page";
 import FisheyeScrollStudio from "./fisheye-scroll";
 import FrameScrollStudio from "./frame-scroll";
-import ImageRevealStudio from "./image-reveal";
 import GatherFieldStudio from "./gather-field";
+import GlyphRainStudio from "./glyph-rain";
+import ImagePixelationStudio from "./image-pixelation";
+import ImageRevealStudio from "./image-reveal";
 import InkFieldStudio from "./ink-field";
 import InteriorStudioPageStudio from "./interior-studio-page";
 import InversaScrollStudio from "./inversa-scroll";
@@ -38,6 +40,7 @@ import LiquidStatGridStudio from "./liquid-stat-grid";
 import March2025TemplateStudio from "./march-2025-template";
 import MaterialSpotlightStudio from "./material-spotlight";
 import MosaicFlipStudio from "./mosaic-flip";
+import NeonSignSceneStudio from "./neon-sign-scene";
 import NeotericPageStudio from "./neoteric-page";
 import NullStudioPageStudio from "./null-studio-page";
 import OtisValenPageStudio from "./otis-valen-page";
@@ -56,6 +59,7 @@ import UnusualStudioPageStudio from "./unusual-studio-page";
 import VelascoSolariPageStudio from "./velasco-solari-page";
 import VerticalDialNavStudio from "./vertical-dial-nav";
 import VideoSummagatorStudio from "./video-summagator";
+import WatercolorStudio from "./watercolor";
 import WuWeiPageStudio from "./wu-wei-page";
 
 export type StudioComponent = ComponentType;
@@ -66,6 +70,10 @@ export type StudioComponent = ComponentType;
  */
 export const studios: Record<string, StudioComponent> = {
   "cell-portrait": CellPortraitStudio,
+  "bunker-scene": BunkerSceneStudio,
+  "neon-sign-scene": NeonSignSceneStudio,
+  "glyph-rain": GlyphRainStudio,
+  "image-pixelation": ImagePixelationStudio,
   "vertical-dial-nav": VerticalDialNavStudio,
   "blnk-agency-page": BlnkAgencyPageStudio,
   "blur-study-grid": BlurStudyGridStudio,

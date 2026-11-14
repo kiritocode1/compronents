@@ -20,12 +20,17 @@ import { uiSliderTick } from "@/lib/sounds";
  * change, rate-limited to ~35ms, whose pitch rises with the slider position
  * (roughly one octave across the range) so dragging is audible without being
  * a machine gun.
+ *
+ * Snapping adds `step` in floating point (8.8 + 0.1 * 496 = 58.400000000000006),
+ * so values are trimmed to 12 significant digits before they are emitted and
+ * shown. That drops the float error without rounding a value off the step grid.
  */
 export function SliderComfortable({
   value,
   onChange,
   min = 0,
   max = 100,
+  formatValue = String,
   ...props
 }: SliderComfortableProps) {
   // Pitch follows the current value: useSound reads opts from a ref, so the
@@ -35,7 +40,8 @@ export function SliderComfortable({
   const lastValue = useRef(value);
   const lastTickAt = useRef(0);
 
-  function handleChange(next: number) {
+  function handleChange(raw: number) {
+    const next = trimFloat(raw);
     if (next !== lastValue.current) {
       lastValue.current = next;
       const now = performance.now();
@@ -53,9 +59,15 @@ export function SliderComfortable({
       onChange={handleChange}
       min={min}
       max={max}
+      formatValue={(v) => formatValue(trimFloat(v))}
       {...props}
     />
   );
+}
+
+/** 58.400000000000006 becomes 58.4; 1.25 stays 1.25. */
+function trimFloat(value: number) {
+  return Number(value.toPrecision(12));
 }
 
 // The color picker reads `--popover` (which this site doesn't define) for its

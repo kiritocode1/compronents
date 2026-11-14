@@ -595,6 +595,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "neon-sign-scene",
+    title: "Neon Sign Scene",
+    description:
+      "A lightbox sign with the BLANK wordmark hangs in a dark room corner. Two seconds in it flickers on, off and on again, and the room brightens with it. Lights sliding past the room sweep across the walls while the camera orbits slowly until the cursor takes over.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-14",
+    type: "registry:ui",
+    dependencies: ["three", "postprocessing", "gsap"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/neon-sign-scene.tsx",
+        target: "components/ui/neon-sign-scene.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "blur-trail-video",
     title: "Blur Trail Video",
     description:

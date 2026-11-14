@@ -157,6 +157,7 @@ import MossyTypeDemo from "./mossy-type";
 import MotionTrackingDemo from "./motion-tracking";
 import NamePreloaderRevealDemo from "./name-preloader-reveal";
 import NeonIcebergDemo from "./neon-iceberg";
+import NeonSignSceneDemo from "./neon-sign-scene";
 import NeotericPageDemo from "./neoteric-page";
 import NestedMaskBannerDemo from "./nested-mask-banner";
 import NullStudioPageDemo from "./null-studio-page";
@@ -542,5 +543,6 @@ export const demos: Record<string, ComponentType> = {
   "image-pixelation": ImagePixelationDemo,
   "glyph-rain": GlyphRainDemo,
   "bunker-scene": BunkerSceneDemo,
+  "neon-sign-scene": NeonSignSceneDemo,
   "type-garden": TypeGardenDemo,
 };

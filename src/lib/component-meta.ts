@@ -17614,6 +17614,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
   },
   "image-pixelation": {
     demoPath: "src/components/demos/image-pixelation.tsx",
+    studioPath: "src/components/studios/image-pixelation.tsx",
     nuance: [
       {
         label: "Draw small, scale up with smoothing off",
@@ -17707,6 +17708,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
   },
   "glyph-rain": {
     demoPath: "src/components/demos/glyph-rain.tsx",
+    studioPath: "src/components/studios/glyph-rain.tsx",
     nuance: [
       {
         label: "Planar physics in matter-js",
@@ -17784,6 +17786,12 @@ export const componentMeta: Record<string, ComponentMeta> = {
         description: "Vignette darkness.",
       },
       {
+        name: "vignetteOpacity",
+        type: "number",
+        default: "1",
+        description: "Vignette blend opacity.",
+      },
+      {
         name: "paused",
         type: "boolean",
         default: "false",
@@ -17810,6 +17818,7 @@ export const componentMeta: Record<string, ComponentMeta> = {
   },
   "bunker-scene": {
     demoPath: "src/components/demos/bunker-scene.tsx",
+    studioPath: "src/components/studios/bunker-scene.tsx",
     nuance: [
       {
         label: "The flicker is a hidden light source",
@@ -17862,54 +17871,300 @@ export const componentMeta: Record<string, ComponentMeta> = {
         name: "sunColor",
         type: "ColorRepresentation",
         default: '"#ff0000"',
-        description: "Colour of the hidden light and its rays.",
+        description:
+          "Colour of the hidden light box and so of the rays. Updates live.",
+      },
+      {
+        name: "sunPosition",
+        type: "[number, number, number]",
+        default: "[-0.1, -0.15, -0.45]",
+        description:
+          "Light box position inside the rotated world group. Updates live.",
       },
       {
         name: "godRays",
         type: "Partial<BunkerSceneGodRays>",
         description:
-          "samples 100, density 0.9, decay 0.92, weight 0.4, exposure 0.4, clampMax 1, kernelSize MEDIUM, blur true.",
+          "samples 100, density 0.9, decay 0.92, weight 0.4, exposure 0.4, clampMax 1, kernelSize MEDIUM, blur true. density, decay, weight, exposure and clampMax update live; samples, kernelSize and blur rebuild the scene.",
+      },
+      {
+        name: "noise",
+        type: "boolean",
+        default: "true",
+        description: "Colour-dodge film noise on or off. Updates live.",
       },
       {
         name: "noiseOpacity",
         type: "number",
         default: "0.75",
-        description: "Colour-dodge film noise opacity. 0 removes it.",
+        description: "Film noise opacity, 0 to 1. Updates live.",
+      },
+      {
+        name: "fogColor",
+        type: "ColorRepresentation",
+        default: '"#000000"',
+        description: "Linear fog colour. Updates live.",
+      },
+      {
+        name: "fogNear",
+        type: "number",
+        default: "8.8",
+        description: "Fog start distance. Updates live.",
+      },
+      {
+        name: "fogFar",
+        type: "number",
+        default: "9.6",
+        description:
+          "Fog end distance. Fog hides the far side of the facade. Updates live.",
+      },
+      {
+        name: "ambientLightIntensity",
+        type: "number",
+        default: "0.8",
+        description: "White ambient light, 0 to 1. Updates live.",
       },
       {
         name: "particleCount",
         type: "number",
         default: "1000",
-        description: "Dust points in front of the facade.",
+        description:
+          "Dust points in front of the facade. Changing it rebuilds the scene.",
       },
       {
         name: "particleSize",
         type: "number",
         default: "25",
-        description: "Point size.",
+        description: "Point size, 0 to 300. Updates live.",
+      },
+      {
+        name: "particleColor",
+        type: "ColorRepresentation",
+        default: '"#ffffff"',
+        description: "Dust colour. Updates live.",
+      },
+      {
+        name: "particleAlpha",
+        type: "number",
+        default: "0.25",
+        description: "Peak alpha of each additive point, 0 to 1. Updates live.",
       },
       {
         name: "particleSpeed",
         type: "number",
         default: "0.1",
-        description: "Speed of the noise the dust drifts on.",
+        description:
+          "Speed of the noise the dust drifts on, 0 to 1. Updates live.",
       },
       {
         name: "particleDisplacement",
         type: "number",
         default: "0.5",
-        description: "How far the dust drifts, in world units.",
+        description:
+          "How far the dust drifts in world units, 0 to 1. Updates live.",
       },
       {
         name: "rotationStrength",
         type: "number",
         default: "1",
-        description: "Camera swing. 0 holds the camera still.",
+        description: "Camera swing. 0 holds the camera still. Updates live.",
+      },
+      {
+        name: "ratio",
+        type: "number",
+        default: "21 / 9",
+        description: "Width over height of the canvas.",
       },
       {
         name: "className",
         type: "string",
-        description: "Class on the root. Its parent should have a height.",
+        description: "Class on the root.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+    ],
+  },
+  "neon-sign-scene": {
+    demoPath: "src/components/demos/neon-sign-scene.tsx",
+    studioPath: "src/components/studios/neon-sign-scene.tsx",
+    nuance: [
+      {
+        label: "Bloom follows postprocessing 6.36",
+        description:
+          "The source shipped postprocessing 6.36, whose luminance pass weights each colour by its own luminance. 6.37 and later drop that term, so the component carries the 6.36 shader into the bloom's luminance material.",
+      },
+      {
+        label: "Each material owns its environment map",
+        description:
+          "Since three r163, a material lit by scene.environment reads scene.environmentIntensity (1) instead of its own envMapIntensity. The source relies on the room at 0.08 and the sign at 0, so the cube texture goes on each material's envMap instead.",
+      },
+      {
+        label: "The wordmark is drawn at load",
+        description:
+          "The sign texture is copied to a canvas and the BLANK mark is painted at the measured box of the original letters. The hosted model ships with its letters painted out, so no source typeface is left in the file.",
+      },
+      {
+        label: "The first cursor move snaps",
+        description:
+          "In gsap 3.11, context.revert() reverts tweens without suppressing events, so the orbit's last update sets the camera back to the orbit start pose and overwrites the first cursor tween. The port keeps it because it is source behaviour.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("neon-sign-scene-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "modelSrc",
+        type: "string",
+        description:
+          "GLB with the room and the lightbox sign. Defaults to the hosted model with its letters painted out. Changing it rebuilds the scene.",
+      },
+      {
+        name: "environmentSrc",
+        type: "string",
+        description:
+          "Equirectangular HDR behind the moving rect lights. Defaults to the hosted city panorama. Changing it rebuilds the scene.",
+      },
+      {
+        name: "sign",
+        type: '"blank" | "model"',
+        default: '"blank"',
+        description:
+          "blank draws the BLANK mark on the lightbox. model keeps the sign texture the GLB ships with. Changing it rebuilds the scene.",
+      },
+      {
+        name: "ratio",
+        type: "number",
+        default: "21 / 9",
+        description:
+          "Width over height of the canvas. Ignored when the root has a fixed height.",
+      },
+      {
+        name: "vignetteOffset",
+        type: "number",
+        default: "0.46",
+        description:
+          "Where the vignette starts, from the centre. Updates live.",
+      },
+      {
+        name: "vignetteDarkness",
+        type: "number",
+        default: "0.64",
+        description: "Vignette darkness. Updates live.",
+      },
+      {
+        name: "vignetteOpacity",
+        type: "number",
+        default: "0.73",
+        description: "Vignette blend opacity. Updates live.",
+      },
+      {
+        name: "bloomRadius",
+        type: "number",
+        default: "0.64",
+        description: "Bloom mipmap blur radius. Updates live.",
+      },
+      {
+        name: "bloomLuminanceSmoothing",
+        type: "number",
+        default: "0.4",
+        description:
+          "Luminance smoothing where the bloom mask ramps in. Updates live.",
+      },
+      {
+        name: "bloomLuminanceThreshold",
+        type: "number",
+        default: "0.87",
+        description: "Luminance above which a pixel blooms. Updates live.",
+      },
+      {
+        name: "noiseOpacity",
+        type: "number",
+        default: "0.2",
+        description:
+          "Colour-dodge film noise opacity. 0 leaves the frame plain. Updates live.",
+      },
+      {
+        name: "neonTarget",
+        type: "number",
+        default: "0.54",
+        description:
+          "Sign emission once the flicker settles. Changing it rebuilds the scene and the default timeline.",
+      },
+      {
+        name: "ambientRange",
+        type: "[number, number]",
+        default: "[0.02, 1]",
+        description:
+          "Ambient intensity at neon 0 and neon 1. It follows the neon linearly. Changing it rebuilds the scene.",
+      },
+      {
+        name: "rotationMultipliers",
+        type: "{ x: number; y: number }",
+        default: "{ x: 1 / 30, y: 1 / 40 }",
+        description:
+          "Orbit swing: x scales the azimuth and y the polar angle, both times pi. Updates live.",
+      },
+      {
+        name: "particleSize",
+        type: "number",
+        default: "10",
+        description: "Point size. Updates live.",
+      },
+      {
+        name: "particleVelocity",
+        type: "number",
+        default: "0.1",
+        description:
+          "Noise speed of the particle drift. 0.1 is what the source renders. Updates live.",
+      },
+      {
+        name: "spotSpeed",
+        type: "number",
+        default: "35",
+        description:
+          "World units per second the environment's rect lights travel. Updates live.",
+      },
+      {
+        name: "spotIntensity",
+        type: "number",
+        default: "5",
+        description:
+          "Brightness of the six rect lights. Changing it rebuilds the scene.",
+      },
+      {
+        name: "flickerDelay",
+        type: "number",
+        default: "2",
+        description:
+          "Seconds after load before the flicker starts. Changing it rebuilds the scene.",
+      },
+      {
+        name: "flicker",
+        type: "NeonSignFlickerStep[]",
+        description:
+          "Neon timeline: value, duration, delay and gsap ease per step. Omitted, it is the source's timeline built from neonTarget. Changing it rebuilds the scene.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Class on the root.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
       },
     ],
   },

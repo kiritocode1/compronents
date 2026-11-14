@@ -2958,6 +2958,28 @@ const bunkerSceneAssets = [
   },
 ] as const satisfies readonly AssetItem[];
 
+const neonSignSceneAssets = [
+  {
+    id: "neon-sign-scene-model",
+    label: "Neon Sign Scene neon-sign.glb",
+    provider: "vercel-blob",
+    pathname: "neon-sign-scene/neon-sign.glb",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/neon-sign-scene/neon-sign.glb`,
+    role: "The dark room corner and the lightbox sign. Its letters are painted white and the sign normal map is dropped; the component draws the wordmark on the lightbox at load.",
+    notes:
+      "2.2 MB, from the pinned lab scene. Image names are renamed so no source typeface name is left in the file.",
+  },
+  {
+    id: "neon-sign-scene-environment",
+    label: "Neon Sign Scene Potsdamer Platz HDR",
+    provider: "vercel-blob",
+    pathname: "neon-sign-scene/potsdamer-platz-1k.hdr",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/neon-sign-scene/potsdamer-platz-1k.hdr`,
+    role: "Equirectangular city panorama that the cube camera renders every frame. Six white rect lights slide past it, so reflections sweep across the room.",
+    notes: "1k HDR, 1.5 MB, from the pinned lab scene.",
+  },
+] as const satisfies readonly AssetItem[];
+
 const blurTrailVideoAssets = [
   {
     id: "blur-trail-video-bg",
@@ -3071,6 +3093,7 @@ export const assetItems = [
   ...imagePixelationAssets,
   ...glyphRainAssets,
   ...bunkerSceneAssets,
+  ...neonSignSceneAssets,
   ...blurTrailVideoAssets,
   ...moneybeeAlpinePageAssets,
   ...moneybeeEditorialPageAssets,
