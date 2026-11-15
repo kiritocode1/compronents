@@ -4102,6 +4102,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Design inspiration galleries",
     links: [
       {
+        title: "Savee",
+        href: "https://savee.com/",
+        dateAdded: "2026-11-15",
+        kind: "tool",
+        stack: ["mcp"],
+        useFor: [
+          "design inspiration bookmarking",
+          "search saved references by color",
+          "search saved references by image",
+          "design reference boards for teams",
+          "design references for ai agents",
+          "designer portfolio site builder",
+        ],
+        description:
+          "Savee is a library for saving and sharing design references, with saves collected in one click and sorted into boards. Search works by word, color, image or tag, and boards can stay private or be shared with a team that comments on individual saves. It ships iOS and Android apps plus Figma, Chrome, Safari, Firefox and Edge extensions, and Savee MCP connects Claude, Cursor or any MCP-compatible tool to your library and to 6M+ curated references. Paid plans add a portfolio editor published on your own domain, a marketplace of 150+ motion and design templates and a nine-episode design masterclass, from $9 per month billed yearly for Pro to $12 per seat for Team.",
+      },
+      {
         title: "Museum of Ads",
         href: "https://themuseumofads.com/",
         dateAdded: "2026-11-03",
