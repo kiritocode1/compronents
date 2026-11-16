@@ -3059,6 +3059,26 @@ export const assetItems = [
       "Pinned source browser-delivered AVIF uploaded byte-for-byte to Vercel Blob. Source: scrollingblur.framer.website.",
   } satisfies AssetItem,
   {
+    id: "halftone-hands-sheet",
+    label: "Halftone Hands pose sheet",
+    provider: "vercel-blob",
+    pathname: "halftone-hands/hands-sheet.webp",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/halftone-hands/hands-sheet.webp`,
+    role: "2x2 sheet of the reaching hands: left and right in pose A on top, pose B below. The component crops the four hands and turns them into dots.",
+    notes:
+      "Pinned source WebP (1600x905) uploaded byte-for-byte to Vercel Blob. Source: thehalftonepro.framer.website.",
+  } satisfies AssetItem,
+  {
+    id: "unfocused-arch-dark",
+    label: "Unfocused default image",
+    provider: "vercel-blob",
+    pathname: "unfocused/arch-dark.avif",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/unfocused/arch-dark.avif`,
+    role: "Default media: a white sphere among curved black metallic ribbons, 1920x1280.",
+    notes:
+      "Pinned source browser-delivered AVIF uploaded byte-for-byte to Vercel Blob. Source: unfocused.framer.website.",
+  } satisfies AssetItem,
+  {
     id: "vertical-dial-nav-geist-400",
     label: "Vertical Dial Nav regular font",
     provider: "vercel-blob",

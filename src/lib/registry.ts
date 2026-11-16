@@ -615,6 +615,66 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "scribble-cursor",
+    title: "Scribble Cursor",
+    description:
+      "A blue pen line that chases the pointer and redraws itself every frame with random control points, so it reads as a hand-drawn scribble. A chain of spring points follows the cursor and the line clears 100ms after the pointer stops. Tracks the whole page or only a hovered element. Canvas 2D, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-16",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/scribble-cursor.tsx",
+        target: "components/ui/scribble-cursor.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "halftone-hands",
+    title: "Halftone Hands",
+    description:
+      "Two hands reach in from the sides, drawn as a live halftone dot field. Each frame both poses are painted into a small offscreen field, sampled per cell and redrawn as dots quantised to six tone steps. The hands drift and breathe on a 20 second loop, cells dissolve between two poses, rows glitch sideways, and a lens under the cursor swells and darkens the dots. Eleven ink themes. Canvas 2D, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-17",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/halftone-hands.tsx",
+        target: "components/ui/halftone-hands.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
+    name: "unfocused",
+    title: "Unfocused",
+    description:
+      "An image or video under a directional lens blur that ramps from sharp at one edge to heavy blur at the other, with red and blue split apart and a fixed grain in the shadows. On mount the blur, grain and distortion run to zero over two seconds, so the picture pulls into focus. One WebGL fragment shader, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-17",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/unfocused.tsx",
+        target: "components/ui/unfocused.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "blur-trail-video",
     title: "Blur Trail Video",
     description:

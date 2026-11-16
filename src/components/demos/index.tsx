@@ -109,6 +109,7 @@ import GrainGradientNavDemo from "./grain-gradient-nav";
 import GravityDropLandingDemo from "./gravity-drop-landing";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import GrowthClockDemo from "./growth-clock";
+import HalftoneHandsDemo from "./halftone-hands";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
 import HalftoneWaveHeroDemo from "./halftone-wave-hero";
@@ -198,6 +199,7 @@ import RotatingPanelSliderDemo from "./rotating-panel-slider";
 import SandyGrainBackgroundDemo from "./sandy-grain-background";
 import ScatterLetterIntroDemo from "./scatter-letter-intro";
 import ScatterPhotoPhysicsDemo from "./scatter-photo-physics";
+import ScribbleCursorDemo from "./scribble-cursor";
 import ScrollAdvanceProjectPageDemo from "./scroll-advance-project-page";
 import ScrollBlurFooterDemo from "./scroll-blur-footer";
 import ScrollFlipCardsDemo from "./scroll-flip-cards";
@@ -251,6 +253,7 @@ import TiltAwayMenuDemo from "./tilt-away-menu";
 import TiltCardStackDemo from "./tilt-card-stack";
 import TriangleFillScrollDemo from "./triangle-fill-scroll";
 import TypeGardenDemo from "./type-garden";
+import UnfocusedDemo from "./unfocused";
 import UnusualStudioPageDemo from "./unusual-studio-page";
 import VelascoSolariPageDemo from "./velasco-solari-page";
 import VerticalDialNavDemo from "./vertical-dial-nav";
@@ -544,5 +547,8 @@ export const demos: Record<string, ComponentType> = {
   "glyph-rain": GlyphRainDemo,
   "bunker-scene": BunkerSceneDemo,
   "neon-sign-scene": NeonSignSceneDemo,
+  "scribble-cursor": ScribbleCursorDemo,
+  "halftone-hands": HalftoneHandsDemo,
+  unfocused: UnfocusedDemo,
   "type-garden": TypeGardenDemo,
 };

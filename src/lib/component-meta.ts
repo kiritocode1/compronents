@@ -17987,6 +17987,256 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "scribble-cursor": {
+    demoPath: "src/components/demos/scribble-cursor.tsx",
+    nuance: [
+      {
+        label: "Redrawn every frame",
+        description:
+          "Nothing is kept between frames. The canvas clears, the spring chain steps once, and each segment is drawn as a quadratic curve whose control point lands at a new random offset, so the line wobbles in place even while the cursor holds a straight path.",
+      },
+      {
+        label: "Only while moving",
+        description:
+          "Each pointer move restarts a 100ms timer. When it runs out the canvas clears, so the scribble exists only during motion and never leaves a trail behind.",
+      },
+    ],
+    editable: [
+      { name: "color", control: "color", description: "Stroke colour." },
+      {
+        name: "jitter",
+        control: "slider",
+        description: "Max random control-point offset in px.",
+      },
+    ],
+    assets: [],
+    api: [
+      {
+        name: "color / strokeWidth",
+        type: "string / number",
+        default: '"#3DA8FF" / 2',
+        description: "Stroke colour and width in px.",
+      },
+      {
+        name: "points",
+        type: "number",
+        default: "8",
+        description:
+          "Spring points in the chain, minimum 2. More gives a longer tail.",
+      },
+      {
+        name: "tension / friction",
+        type: "number / number",
+        default: "0.95 / 0.38",
+        description:
+          "Pull towards the point ahead, and the share of velocity kept each frame.",
+      },
+      {
+        name: "jitter",
+        type: "number",
+        default: "65",
+        description:
+          "Max random control-point offset in px. 0 draws a smooth line.",
+      },
+      {
+        name: "tracking",
+        type: '"global" | "hover"',
+        default: '"global"',
+        description:
+          "Draw for movement anywhere, or only while the pointer is over this component's children.",
+      },
+      {
+        name: "container",
+        type: "RefObject<HTMLElement | null>",
+        description:
+          "Keep the canvas and global tracking inside this element. Omit for a fixed canvas over the viewport.",
+      },
+      {
+        name: "className / style / children",
+        type: "string / CSSProperties / ReactNode",
+        description: "Wrapper props; children are the hover target.",
+      },
+    ],
+  },
+  "halftone-hands": {
+    demoPath: "src/components/demos/halftone-hands.tsx",
+    nuance: [
+      {
+        label: "Both poses are sampled every frame",
+        description:
+          "Each frame paints the left and right hand of pose A and pose B into an offscreen field two samples wide and three tall per dot, then averages the red channel per cell. A per-cell seed decides which pose a dot reads from, so the swap dissolves cell by cell instead of crossfading.",
+      },
+      {
+        label: "The image must allow CORS",
+        description:
+          "Sampling reads the field back with getImageData. An image served without CORS headers taints the canvas, and the component falls back to drawing the hands directly through a fixed dot mask, without tone steps, morph or lens.",
+      },
+      {
+        label: "Stills under reduced motion",
+        description:
+          "With prefers-reduced-motion the loop stops and one frame is drawn at phase zero with no intro, glitch, shimmer or lens. Drawing also pauses when the component leaves the viewport or the tab is hidden.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("halftone-hands-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "theme",
+        type: "HalftoneThemeId | HalftoneTheme",
+        default: '"paper"',
+        description:
+          "One of paper, graphite, phosphor, amber, blueprint, riso, ember, neon, sage, gilt, glacier, or a custom { bg, inkA, inkB, glow, vignette, scan, dark }. Ink colours ease to a new theme.",
+      },
+      {
+        name: "glow / vignette / scanlines",
+        type: "number / boolean / boolean",
+        default: "100 / true / true",
+        description:
+          "Glow as a % of the theme's glow radius, and whether the theme's vignette and scanlines show.",
+      },
+      {
+        name: "hands",
+        type: "Partial<HandsOptions>",
+        default:
+          '{ source: "sheet", width: 56, centerY: 50, bleed: 4.5, gap: 9 }',
+        description:
+          'A 2x2 `sheet` URL, or `source: "split"` with leftA, rightA, leftB, rightB. Width, vertical centre, edge bleed and the faded centre gap are in %.',
+      },
+      {
+        name: "dots",
+        type: "Partial<DotsOptions>",
+        default:
+          '{ shape: "circle", density: 190, rowGap: 1.9, size: 94, levels: 6, minDot: 30, threshold: 14, softness: 44, contrast: 1.15, detail: 0.9 }',
+        description:
+          "Dot shape (circle, square, diamond, bar), columns across, row spacing, tone steps and the tone curve. Density and row spacing rebuild the grid.",
+      },
+      {
+        name: "motion",
+        type: "Partial<MotionOptions>",
+        default:
+          "{ loop: 20, speed: 1, drift: 100, breathe: 100, roll: 100, morph: true, glitch: true, shimmer: 100, intro: true }",
+        description:
+          "Loop length in seconds, the hand motion amounts in %, and the pose swap, row glitch, shimmer and build-in.",
+      },
+      {
+        name: "lens",
+        type: "Partial<LensOptions>",
+        default:
+          "{ enabled: true, radius: 130, swell: 40, push: 6, reveal: 25 }",
+        description:
+          "Cursor lens radius in px, dot growth in %, outward push in px and extra tone in %.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description: "Root props. The component fills its parent.",
+      },
+    ],
+  },
+  unfocused: {
+    demoPath: "src/components/demos/unfocused.tsx",
+    nuance: [
+      {
+        label: "The grain hashes the pixel position",
+        description:
+          "Each pixel jitters its 24 disc samples with a sine hash of its uv, so the blur reads as grain rather than a smooth gaussian. The hash is sensitive to the last bits of uv, which is why the plane, camera and index order follow the source's OGL scene.",
+      },
+      {
+        label: "Rests a hair short of focus",
+        description:
+          "Like the source, the loop stops on the frame the focus pull completes without drawing it. The resting frame keeps a blur of about 0.03 at 60Hz, which reads as sharp.",
+      },
+      {
+        label: "Media needs CORS",
+        description:
+          "The image or video is uploaded as a WebGL texture, so it must be same-origin or served with CORS headers. Images get mipmaps; video frames upload every frame while playing.",
+      },
+    ],
+    editable: [],
+    assets: assetItems
+      .filter((asset) => asset.id.startsWith("unfocused-"))
+      .map(({ id, label, provider, pathname, fallbackPath, role }) => ({
+        id,
+        label,
+        provider,
+        pathname,
+        fallbackPath,
+        role,
+      })),
+    api: [
+      {
+        name: "src / type",
+        type: 'string / "image" | "video"',
+        default: 'hosted image / "image"',
+        description: "Media URL and kind. Changing either rebuilds the scene.",
+      },
+      {
+        name: "alt",
+        type: "string",
+        description: "Image description, set as the canvas label.",
+      },
+      {
+        name: "fit / loop",
+        type: '"cover" | "contain" / boolean',
+        default: '"cover" / true',
+        description: "How the media fills the box, and whether video loops.",
+      },
+      {
+        name: "blur / angle / falloff",
+        type: "number / number / number",
+        default: "200 / 45 / 1",
+        description:
+          "Blur strength (0 to 1000), the direction it grows in degrees, and how much it ramps: 0 blurs evenly, 1 runs from sharp at the origin to full.",
+      },
+      {
+        name: "falloffType",
+        type: '"linear" | "quadratic" | "cubic" | "square"',
+        default: '"linear"',
+        description:
+          "Ramp curve. Linear is a smoothstep, square a square root.",
+      },
+      {
+        name: "originX / originY",
+        type: "number / number",
+        default: "0 / 0.5",
+        description: "Where the ramp starts, 0 to 1 from the left and bottom.",
+      },
+      {
+        name: "distortion / dispersion",
+        type: "number / number",
+        default: "0.3 / 0.4",
+        description:
+          "Radial lens distortion (-1 to 1) and the red and blue split, which scales with blur.",
+      },
+      {
+        name: "noise / noiseBlend",
+        type: 'number / "none" | "lighter" | "darker" | "both"',
+        default: '1 / "darker"',
+        description: "Grain amount and the tones it shows in.",
+      },
+      {
+        name: "appear / duration / ease",
+        type: "boolean / number / [number, number, number, number]",
+        default: "true / 2 / [0.44, 0, 0.56, 1]",
+        description:
+          "Pull from the blurred state into focus on mount. With appear off the media stays blurred.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        description: "Root props. The component fills its parent.",
+      },
+    ],
+  },
   "neon-sign-scene": {
     demoPath: "src/components/demos/neon-sign-scene.tsx",
     studioPath: "src/components/studios/neon-sign-scene.tsx",

@@ -39,7 +39,7 @@ import {
   Resolution,
   ShaderPass,
 } from "postprocessing";
-import { useEffect, useRef } from "react";
+import { type CSSProperties, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import {
@@ -68,20 +68,64 @@ export interface BunkerSceneProps {
   dracoDecoderPath?: string;
   /** "blank" extrudes the BLANK wordmark; "model" keeps the model's own sign. */
   sign?: "blank" | "model";
+  /** Colour of the hidden light box and so of the rays. Source panel: Sun. */
   sunColor?: THREE.ColorRepresentation;
+  /** Light box position inside the rotated world group. Source panel: Sun. */
+  sunPosition?: [number, number, number];
+  /**
+   * God rays settings. density, decay, weight, exposure and clampMax update
+   * live; samples, kernelSize and blur rebuild the scene.
+   */
   godRays?: Partial<BunkerSceneGodRays>;
-  /** Colour-dodge film noise opacity. 0 removes the effect. */
+  /** Colour-dodge film noise on or off. Source panel: Post Processing. */
+  noise?: boolean;
+  /** Film noise opacity, 0 to 1. Source panel: Post Processing. */
   noiseOpacity?: number;
+  /** Linear fog colour and range. Fog hides the far side of the facade. */
+  fogColor?: THREE.ColorRepresentation;
+  fogNear?: number;
+  fogFar?: number;
+  /** White ambient light intensity, 0 to 1. */
+  ambientLightIntensity?: number;
+  /** Dust points. Changing the count rebuilds the scene. */
   particleCount?: number;
+  /** Point size, 0 to 300. */
   particleSize?: number;
-  /** Noise speed of the particle drift. */
+  particleColor?: THREE.ColorRepresentation;
+  /** Peak alpha of each additive point, 0 to 1. */
+  particleAlpha?: number;
+  /** Noise speed of the particle drift, 0 to 1. */
   particleSpeed?: number;
-  /** Noise amplitude of the particle drift, in world units. */
+  /** Noise amplitude of the particle drift in world units, 0 to 1. */
   particleDisplacement?: number;
   /** 1 is the source's camera swing; 0 holds the camera still. */
   rotationStrength?: number;
+  /** Width over height. The source canvas is 21:9. */
+  ratio?: number;
   className?: string;
+  style?: CSSProperties;
 }
+
+/** Props applied to the running scene each frame, without a rebuild. */
+type LiveSettings = Required<
+  Pick<
+    BunkerSceneProps,
+    | "sunColor"
+    | "sunPosition"
+    | "noise"
+    | "noiseOpacity"
+    | "fogColor"
+    | "fogNear"
+    | "fogFar"
+    | "ambientLightIntensity"
+    | "particleSize"
+    | "particleColor"
+    | "particleAlpha"
+    | "particleSpeed"
+    | "particleDisplacement"
+    | "rotationStrength"
+  >
+> & { godRays: BunkerSceneGodRays };
 
 const GOD_RAYS: BunkerSceneGodRays = {
   samples: 100,
@@ -274,6 +318,8 @@ class SourceGodRaysEffect extends Effect {
   private readonly depthMaskMaterial: DepthMaskMaterial;
   private readonly depthMaskPass: ShaderPass;
   private readonly godRaysPass: ShaderPass;
+  /** density, decay, weight, exposure and maxIntensity are live uniforms. */
+  readonly godRaysMaterial: GodRaysMaterial;
   private readonly resolution: Resolution;
   private readonly camera: THREE.Camera;
 
@@ -329,6 +375,7 @@ class SourceGodRaysEffect extends Effect {
     godRaysMaterial.exposure = settings.exposure;
     godRaysMaterial.maxIntensity = settings.clampMax;
     godRaysMaterial.samples = settings.samples;
+    this.godRaysMaterial = godRaysMaterial;
     this.godRaysPass = new ShaderPass(godRaysMaterial);
 
     this.resolution = new Resolution(
@@ -539,28 +586,56 @@ export default function BunkerScene({
   dracoDecoderPath,
   sign = "blank",
   sunColor = "#ff0000",
+  sunPosition = [-0.1, -0.15, -0.45],
   godRays,
+  noise = true,
   noiseOpacity = 0.75,
+  fogColor = "#000000",
+  fogNear = 8.8,
+  fogFar = 9.6,
+  ambientLightIntensity = 0.8,
   particleCount = 1000,
   particleSize = 25,
+  particleColor = "#ffffff",
+  particleAlpha = 0.25,
   particleSpeed = 0.1,
   particleDisplacement = 0.5,
   rotationStrength = 1,
+  ratio = 21 / 9,
   className,
+  style,
 }: BunkerSceneProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const godRaysKey = JSON.stringify(godRays ?? {});
+  const rays: BunkerSceneGodRays = { ...GOD_RAYS, ...godRays };
+  // Latest live settings, read by the render loop.
+  const live = useRef<LiveSettings>(null as unknown as LiveSettings);
+  live.current = {
+    sunColor,
+    sunPosition,
+    noise,
+    noiseOpacity,
+    fogColor,
+    fogNear,
+    fogFar,
+    ambientLightIntensity,
+    particleSize,
+    particleColor,
+    particleAlpha,
+    particleSpeed,
+    particleDisplacement,
+    rotationStrength,
+    godRays: rays,
+  };
+  // Only these god rays settings need new passes.
+  const raysBuildKey = `${rays.samples}|${rays.kernelSize}|${rays.blur}`;
 
   useEffect(() => {
     const root = rootRef.current;
     const canvas = canvasRef.current;
     if (!root || !canvas) return;
 
-    const rays: BunkerSceneGodRays = {
-      ...GOD_RAYS,
-      ...(JSON.parse(godRaysKey) as Partial<BunkerSceneGodRays>),
-    };
+    const buildRays = live.current.godRays;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -581,8 +656,10 @@ export default function BunkerScene({
     renderer.toneMapping = THREE.NoToneMapping;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x000000, 8.8, 9.6);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const fog = new THREE.Fog(0x000000, 8.8, 9.6);
+    scene.fog = fog;
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambient);
 
     const camera = new THREE.PerspectiveCamera(10, width / height, 0.1, 1000);
     camera.position.copy(CAMERA_POSITION);
@@ -602,23 +679,23 @@ export default function BunkerScene({
 
     const sun = new THREE.Mesh(
       new THREE.BoxGeometry(2.55, 1, 2.55),
-      new THREE.MeshBasicMaterial({ color: sunColor }),
+      new THREE.MeshBasicMaterial({ color: "#ff0000" }),
     );
-    sun.position.set(-0.1, -0.15, -0.45);
     sun.visible = reducedMotion;
     world.add(sun);
 
     const particles = new THREE.Points(
       createParticles(particleCount),
       new THREE.ShaderMaterial({
+        // Live values are written by applyLive below.
         uniforms: {
           uTime: { value: 0 },
-          uParticleVelocity: { value: particleSpeed },
-          uParticleDisplaceFactor: { value: particleDisplacement },
+          uParticleVelocity: { value: 0 },
+          uParticleDisplaceFactor: { value: 0 },
           uPixelRatio: { value: pixelRatio },
-          uSize: { value: particleSize },
-          uColor: { value: new THREE.Color("#fff") },
-          uAlpha: { value: 0.25 },
+          uSize: { value: 0 },
+          uColor: { value: new THREE.Color() },
+          uAlpha: { value: 0 },
         },
         vertexShader: PARTICLES_VERT,
         fragmentShader: PARTICLES_FRAG,
@@ -634,16 +711,40 @@ export default function BunkerScene({
       frameBufferType: THREE.HalfFloatType,
     });
     composer.addPass(new RenderPass(scene, camera));
-    const effects: Effect[] = [new SourceGodRaysEffect(camera, sun, rays)];
-    if (noiseOpacity > 0) {
-      const noise = new NoiseEffect({
-        blendFunction: BlendFunction.COLOR_DODGE,
-      });
-      noise.blendMode.opacity.value = noiseOpacity;
-      effects.push(noise);
-    }
+    const godRaysEffect = new SourceGodRaysEffect(camera, sun, buildRays);
+    // Always present; noise off is opacity 0, which colour dodge leaves as the
+    // plain frame, so toggling it never rebuilds the pass.
+    const noiseEffect = new NoiseEffect({
+      blendFunction: BlendFunction.COLOR_DODGE,
+    });
+    const effects: Effect[] = [godRaysEffect, noiseEffect];
     composer.addPass(new EffectPass(camera, ...effects));
     composer.setSize(width, height);
+
+    /** Copies the live props onto the scene. Runs every frame. */
+    const applyLive = () => {
+      const s = live.current;
+      sun.material.color.set(s.sunColor);
+      sun.position.set(...s.sunPosition);
+      noiseEffect.blendMode.opacity.value = s.noise ? s.noiseOpacity : 0;
+      fog.color.set(s.fogColor);
+      fog.near = s.fogNear;
+      fog.far = s.fogFar;
+      ambient.intensity = s.ambientLightIntensity;
+      const u = particles.material.uniforms;
+      u.uSize.value = s.particleSize;
+      (u.uColor.value as THREE.Color).set(s.particleColor);
+      u.uAlpha.value = s.particleAlpha;
+      u.uParticleVelocity.value = s.particleSpeed;
+      u.uParticleDisplaceFactor.value = s.particleDisplacement;
+      const m = godRaysEffect.godRaysMaterial;
+      m.density = s.godRays.density;
+      m.decay = s.godRays.decay;
+      m.weight = s.godRays.weight;
+      m.exposure = s.godRays.exposure;
+      m.maxIntensity = s.godRays.clampMax;
+    };
+    applyLive();
 
     // Camera: the source's spherical offset. The result is used as the camera
     // position directly, without adding the target back, as the source does.
@@ -652,8 +753,9 @@ export default function BunkerScene({
     const cameraOffset = (x: number, y: number) => {
       offset.copy(CAMERA_POSITION).sub(CAMERA_TARGET);
       spherical.setFromVector3(offset);
-      spherical.theta += ((Math.PI * x) / 40) * rotationStrength;
-      spherical.phi += (-(Math.PI * y) / 30) * rotationStrength;
+      const strength = live.current.rotationStrength;
+      spherical.theta += ((Math.PI * x) / 40) * strength;
+      spherical.phi += (-(Math.PI * y) / 30) * strength;
       return offset.setFromSpherical(spherical);
     };
     const lookAtTarget = () => camera.lookAt(CAMERA_TARGET);
@@ -757,6 +859,7 @@ export default function BunkerScene({
         lastTime = now;
       }
       particles.material.uniforms.uTime.value = (now - clockStart) / 1000;
+      applyLive();
       composer.render((now - lastTime) / 1000);
       lastTime = now;
     };
@@ -855,19 +958,7 @@ export default function BunkerScene({
       composer.dispose();
       renderer.dispose();
     };
-  }, [
-    modelSrc,
-    dracoDecoderPath,
-    sign,
-    sunColor,
-    godRaysKey,
-    noiseOpacity,
-    particleCount,
-    particleSize,
-    particleSpeed,
-    particleDisplacement,
-    rotationStrength,
-  ]);
+  }, [modelSrc, dracoDecoderPath, sign, particleCount, raysBuildKey]);
 
   return (
     <div
@@ -876,9 +967,10 @@ export default function BunkerScene({
       style={{
         position: "relative",
         width: "100%",
-        aspectRatio: "21 / 9",
+        aspectRatio: String(ratio),
         overflow: "hidden",
         background: "#000",
+        ...style,
       }}
     >
       <canvas
