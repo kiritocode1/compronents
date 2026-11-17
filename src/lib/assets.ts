@@ -1912,6 +1912,54 @@ const brutalistPortfolioPageAssets = brutalistPortfolioPageAssetPaths.map(
     }) as const satisfies AssetItem,
 );
 
+const colouristReelPageClips = [
+  "orange",
+  "knit",
+  "violet",
+  "haze",
+  "helmet",
+  "shoot",
+  "backstage",
+  "range",
+  "dusk",
+  "corridor",
+  "foil",
+  "gallery",
+  "talk",
+  "print",
+  "studio",
+  "ocean",
+  "bloom",
+  "ridge",
+  "flock",
+];
+
+const colouristReelPageAssetPaths = [
+  "reel.mp4",
+  "reel.jpg",
+  "booton-medium.woff2",
+  ...colouristReelPageClips.flatMap((clip) => [
+    `cut-${clip}.mp4`,
+    `cut-${clip}-1.jpg`,
+    `cut-${clip}-2.jpg`,
+    `cut-${clip}-3.jpg`,
+  ]),
+];
+
+const colouristReelPageAssets = colouristReelPageAssetPaths.map(
+  (rel) =>
+    ({
+      id: `colourist-reel-page-${rel.replace(/\.[a-z0-9]+$/i, "").replace(/[^a-z0-9]+/gi, "-")}`,
+      label: `Colourist Reel Page asset ${rel}`,
+      provider: "vercel-blob",
+      pathname: `colourist-reel-page/${rel}`,
+      fallbackPath: `${BLOB_PUBLIC_ORIGIN}/colourist-reel-page/${rel}`,
+      role: "Colourist reel clip, still, showreel or Booton Medium font.",
+      notes:
+        "Clips and stills are cut from BLANK Blob footage (template library and a CC0 sample); the font is pinned from the source.",
+    }) as const satisfies AssetItem,
+);
+
 const unusualStudioPageAssetPaths = [
   "images/about-feature.jpg",
   "images/about-hero.jpg",
@@ -3253,6 +3301,7 @@ export const assetItems = [
   ...neotericPageAssets,
   ...unusualStudioPageAssets,
   ...brutalistPortfolioPageAssets,
+  ...colouristReelPageAssets,
   ...nullStudioPageAssets,
   ...isochromePageAssets,
   ...landingImageRevealAssets,

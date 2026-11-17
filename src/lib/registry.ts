@@ -8962,6 +8962,40 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "colourist-reel-page",
+    title: "Colourist Reel Page",
+    description:
+      "A one-screen portfolio for a film colourist, ported from the compiled source of a working colourist's site. Home is a single sentence whose role word takes its hue from the cursor's position across the page, while the reel waits as a 64px peek at the bottom edge with its own frames drawn at an eighth of their size into a canvas blurred by 100px, so the footage's colour spills up as a glow. Scroll, click or press an arrow key and the reel lifts to full bleed. Projects open as a vertical looping embla list driven by wheel gestures, where each row's opacity falls off by its distance from centre and the centred row grows a colour swatch, or as a 3-column grid whose cards swap their still for the clip on hover. Any project plays edge to edge with a seek bar, mute and timecode that fade after two idle seconds, plus a gallery and a credits view. P, I and Escape move between screens. Ships with BLANK footage on Blob and the source's Booton Medium face.",
+    section: "pages",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-18",
+    type: "registry:ui",
+    dependencies: [
+      "motion",
+      "embla-carousel-react",
+      "embla-carousel-wheel-gestures",
+    ],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/colourist-reel-page/index.tsx",
+        target: "components/ui/colourist-reel-page/index.tsx",
+        type: "registry:ui",
+      },
+      {
+        path: "src/registry/colourist-reel-page/styles.ts",
+        target: "components/ui/colourist-reel-page/styles.ts",
+        type: "registry:lib",
+      },
+      {
+        path: "src/registry/colourist-reel-page/data.ts",
+        target: "components/ui/colourist-reel-page/data.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
+  {
     name: "effect-browser-peer-channel",
     title: "Effect Browser Peer Channel",
     description:

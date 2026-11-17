@@ -13,6 +13,7 @@ import BrutalistPortfolioPageStudio from "./brutalist-portfolio-page";
 import BunkerSceneStudio from "./bunker-scene";
 import CappenFluidSimulationStudio from "./cappen-fluid-simulation";
 import CellPortraitStudio from "./cell-portrait";
+import ColouristReelPageStudio from "./colourist-reel-page";
 import CreativeClutterStudio from "./creative-clutter";
 import CrtDisplayStudio from "./crt-display";
 import CurveGalleryStudio from "./curve-gallery";
@@ -119,6 +120,7 @@ export const studios: Record<string, StudioComponent> = {
   "wu-wei-page": WuWeiPageStudio,
   "lemon-bureau-page": LemonBureauPageStudio,
   "brutalist-portfolio-page": BrutalistPortfolioPageStudio,
+  "colourist-reel-page": ColouristReelPageStudio,
   "isochrome-page": IsochromePageStudio,
   "dither-studio-page": DitherStudioPageStudio,
   "liquid-stat-grid": LiquidStatGridStudio,

@@ -421,6 +421,7 @@ const brutalistPortfolioPageAssetDocs = pageAssets(
   5,
 );
 const nullStudioPageAssetDocs = pageAssets("null-studio-page-", 5);
+const colouristReelPageAssetDocs = pageAssets("colourist-reel-page-", 5);
 const isochromePageAssetDocs = pageAssets("isochrome-page-", 5);
 const landingImageRevealAssetDocs = pageAssets("landing-image-reveal-", 5);
 const spotlightGalleryScrollAssetDocs = pageAssets(
@@ -6624,6 +6625,77 @@ export const componentMeta: Record<string, ComponentMeta> = {
         type: "string / CSSProperties",
         default: "undefined",
         description: "Passed to the root wrapper for sizing and layout.",
+      },
+    ],
+  },
+  "colourist-reel-page": {
+    demoPath: "src/components/demos/colourist-reel-page.tsx",
+    studioPath: "src/components/studios/colourist-reel-page.tsx",
+    nuance: [
+      {
+        label: "Loop-aware row falloff",
+        description:
+          "Each list row's opacity comes from its distance to centre in slide units, read from embla's scroll progress and loop points, then eased through 1, 0.6, 0.35, 0.2, 0.12 and 0.06 to zero at six rows.",
+      },
+      {
+        label: "Ambient glow from the clip",
+        description:
+          "The playing frame is drawn at an eighth of its size into a canvas that CSS blurs by 100px and saturates by 1.5, so the peeking reel lights the white page with its own colour.",
+      },
+      {
+        label: "Fits its box",
+        description:
+          "Viewport units from the source are container units on the root and fixed layers are contained by a transform, so the page runs the same in a studio frame as full screen.",
+      },
+    ],
+    editable: [
+      {
+        name: "initialView",
+        control: "text",
+        description: "Screen shown first: home, projects, grid or information.",
+      },
+      {
+        name: "assetBase",
+        control: "asset-url",
+        description: `Blob-hosted clips, stills and font starting at ${getHostedAssetUrl(
+          "colourist-reel-page/reel.mp4",
+        )}.`,
+      },
+    ],
+    assets: colouristReelPageAssetDocs,
+    api: [
+      {
+        name: "assetBase",
+        type: "string",
+        default: '"https://ui.aryank.space/assets/colourist-reel-page"',
+        description:
+          "Base URL prefixed to every relative clip, still and font path.",
+      },
+      {
+        name: "site",
+        type: "Partial<ColouristSite>",
+        default: "DEFAULT_SITE",
+        description:
+          "Name, contact links, location and timezone for the live clock, home copy, info text and showreel. Merged over the defaults.",
+      },
+      {
+        name: "projects",
+        type: "ColouristProject[]",
+        default: "DEFAULT_PROJECTS",
+        description:
+          "Client, title, type, year, swatch colour, clip, poster, gallery and credits for each project.",
+      },
+      {
+        name: "initialView",
+        type: '"home" | "projects" | "grid" | "information"',
+        default: '"home"',
+        description: "Screen mounted first.",
+      },
+      {
+        name: "className / style",
+        type: "string / CSSProperties",
+        default: "undefined",
+        description: "Passed to the root, which fills its parent.",
       },
     ],
   },

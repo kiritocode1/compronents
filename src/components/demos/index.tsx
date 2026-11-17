@@ -37,6 +37,7 @@ import CircularWidgetDialDemo from "./circular-widget-dial";
 import ClientHoverPreviewDemo from "./client-hover-preview";
 import ClipMaskTransitionPageDemo from "./clip-mask-transition-page";
 import ClipRevealServicesDemo from "./clip-reveal-services";
+import ColouristReelPageDemo from "./colourist-reel-page";
 import ContactSheetZoomDemo from "./contact-sheet-zoom";
 import ContentArchitecturePageDemo from "./content-architecture-page";
 import ConvergingIconsTextDemo from "./converging-icons-text";
@@ -425,6 +426,7 @@ export const demos: Record<string, ComponentType> = {
   "moneybee-alpine-page": MoneybeeAlpinePageDemo,
   "moneybee-editorial-page": MoneybeeEditorialPageDemo,
   "brutalist-portfolio-page": BrutalistPortfolioPageDemo,
+  "colourist-reel-page": ColouristReelPageDemo,
   "isochrome-page": IsochromePageDemo,
   "dither-studio-page": DitherStudioPageDemo,
   "liquid-stat-grid": LiquidStatGridDemo,
