@@ -172,6 +172,7 @@ import PanVideoCanvasDemo from "./pan-video-canvas";
 import ParallaxDragRailDemo from "./parallax-drag-rail";
 import ParallaxModelFooterDemo from "./parallax-model-footer";
 import ParticleFluidHeroDemo from "./particle-fluid-hero";
+import PatchCablesDemo from "./patch-cables";
 import PhatakeDemo from "./phatake";
 import PhoneStackCarouselDemo from "./phone-stack-carousel";
 import PhotoSphereOrbDemo from "./photo-sphere-orb";
@@ -548,6 +549,7 @@ export const demos: Record<string, ComponentType> = {
   "image-pixelation": ImagePixelationDemo,
   "glyph-rain": GlyphRainDemo,
   "bunker-scene": BunkerSceneDemo,
+  "patch-cables": PatchCablesDemo,
   "neon-sign-scene": NeonSignSceneDemo,
   "scribble-cursor": ScribbleCursorDemo,
   "halftone-hands": HalftoneHandsDemo,

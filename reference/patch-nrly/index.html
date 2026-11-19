@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Patch Lab Experiment</title>
+<meta name="description" content="Play with the Kables mark: hover to stir, drag to patch cables, and let the pattern make sound.">
+<meta name="theme-color" content="#475e62">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Patch Lab Experiment">
+<meta property="og:description" content="Hover to stir, drag to patch cables, and let the pattern make sound.">
+<meta property="og:image" content="https://patch.nrly.fun/og.png">
+<meta property="og:url" content="https://patch.nrly.fun/">
+<link rel="canonical" href="https://patch.nrly.fun/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font-size:14px;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-bleed shader canvas as the stage, one floating "module" faceplate of controls, a mono readout in the corner. Single deliberate brand look. */
+:root{
+  --slate:#4b5b5d;
+  --lime:#e5f56b;
+  --paper:#ebebe9;
+  --panel:#f4f4f2;
+  --glass:rgba(244,244,242,.7);
+  --ink:#2c2c2b;
+  --ink-soft:#6b6f6e;
+  --line:rgba(44,44,43,.14);
+  --canvas-bg:#4b5b5d;
+  --canvas-fg:#e5f56b;
+  --f-display:"DM Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono-track:.04em;
+  --f-mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+html,body{height:100%}
+html{background:var(--canvas-bg)}
+body{background:var(--canvas-bg);color:var(--ink);font-family:var(--f-display);overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#stage{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+#stage.erasing{cursor:cell}
+
+.module{position:fixed;z-index:5;
+  top:calc(16px + env(safe-area-inset-top,0px));
+  left:max(16px,calc(16px + env(safe-area-inset-left,0px)));
+  width:292px;max-height:calc(100% - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+  overflow:auto;background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);border:1px solid rgba(255,255,255,.45);border-radius:18px;
+  box-shadow:0 18px 50px -24px rgba(20,26,27,.55);display:flex;flex-direction:column}
+.module-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px;border-bottom:1px solid var(--line)}
+.mark{width:34px;height:34px;flex:none}
+.brand{display:flex;flex-direction:column;min-width:0;flex:1}
+.brand b{font-weight:500;font-size:19px;letter-spacing:-.02em;line-height:1.05}
+.brand span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:var(--mono-track);text-transform:uppercase;color:var(--ink-soft)}
+.collapse{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink);
+  border-radius:999px;height:30px;padding:0 12px 0 9px;font:500 12px var(--f-display);cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;gap:6px}
+.collapse svg{width:15px;height:15px;transition:transform .4s ease}
+.collapse:hover svg{transform:rotate(60deg)}
+@media (prefers-reduced-motion:reduce){.collapse svg{transition:none}}
+.module-body{display:flex;flex-direction:column;gap:18px;padding:16px}
+.module.closed .module-body{display:none}
+.module.closed .module-head{border-bottom:0}
+
+.group{display:flex;flex-direction:column;gap:10px}
+.label{font-family:var(--f-mono);font-size:10.5px;letter-spacing:var(--mono-track);text-transform:uppercase;color:var(--ink-soft);
+  display:flex;justify-content:space-between;align-items:baseline}
+.label output{color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:var(--mono-track)}
+
+.swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.swatch{appearance:none;border:1px solid var(--line);border-radius:10px;aspect-ratio:5/3;max-width:100%;cursor:pointer;
+  position:relative;padding:0;display:grid;place-items:center;background:var(--sbg)}
+.swatch::after{content:"";height:44%;width:auto;aspect-ratio:1;border-radius:50%;background:var(--sfg)}
+.swatch.cable{border-radius:50%}
+.swatch.cable::after{display:none}
+.swatch[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:2px}
+
+.fader{display:flex;flex-direction:column;gap:6px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;margin:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(to right,var(--slate) var(--p,50%),rgba(44,44,43,.14) var(--p,50%))}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:rgba(44,44,43,.14)}
+input[type=range]::-moz-range-progress{height:4px;border-radius:4px;background:var(--slate)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-7px;border-radius:50%;
+  background:var(--lime);border:2px solid var(--slate)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--lime);border:2px solid var(--slate)}
+
+.seg{display:grid;grid-template-columns:1fr 1fr;background:rgba(44,44,43,.06);border-radius:10px;padding:3px;gap:3px}
+.seg button,.btn{appearance:none;border:0;font:500 13px var(--f-display);color:var(--ink);cursor:pointer;border-radius:8px;height:32px}
+.seg button{background:transparent}
+.seg button[aria-pressed="true"]{background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.seg4{grid-template-columns:repeat(4,1fr)}
+.seg5{grid-template-columns:repeat(5,1fr)}
+.seg5 button{padding:0 2px;font-size:12.5px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:30px}
+.tlabel{font-size:13px;color:var(--ink)}
+.switch{appearance:none;width:40px;height:22px;border-radius:999px;background:rgba(44,44,43,.18);position:relative;cursor:pointer;border:0;flex:none;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .18s}
+.switch[aria-checked="true"]{background:var(--slate)}
+.switch[aria-checked="true"]::after{transform:translateX(18px);background:var(--lime)}
+@media (prefers-reduced-motion:reduce){.switch::after{transition:none}}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.group > .label:first-child{color:var(--ink);font-weight:500;letter-spacing:var(--mono-track)}
+.genbox{background:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.6);border-radius:14px;padding:12px}
+.gens{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chip.gen{height:auto;min-height:46px;border-radius:10px;border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.4);
+  flex-direction:column;align-items:flex-start;justify-content:center;padding:7px 10px;gap:2px;text-align:left}
+.chip.gen::before{display:none}
+.chip.gen:hover{background:rgba(255,255,255,.75)}
+.chip.gen b{font-weight:500;font-size:13px;display:flex;align-items:center;gap:7px}
+.chip.gen b::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid var(--slate);box-sizing:border-box;flex:none}
+.chip.gen small{font-size:11px;line-height:1.25;color:var(--ink-soft)}
+.chip.gen[aria-pressed="true"]{background:var(--slate);color:var(--lime);border-color:var(--slate)}
+.chip.gen[aria-pressed="true"] small{color:rgba(229,245,107,.75)}
+.chip.gen[aria-pressed="true"] b::before{background:var(--lime);border-color:var(--lime);animation:beat var(--beat,.56s) ease-out infinite}
+.chip.gen.wide{grid-column:1/-1}
+@keyframes beat{0%{transform:scale(1.6)}55%,100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.chip.gen[aria-pressed="true"] b::before{animation:none}}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.btn{background:rgba(44,44,43,.06);padding:0 10px}
+.btn:hover{background:rgba(44,44,43,.11)}
+.btn.primary{background:var(--slate);color:var(--lime)}
+.btn.primary:hover{background:#3f4d4f}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.chip{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;height:30px;
+  font:500 12.5px var(--f-display);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid var(--slate);box-sizing:border-box}
+.chip[aria-pressed="true"]{background:var(--slate);color:var(--lime);border-color:var(--slate)}
+.chip[aria-pressed="true"]::before{background:var(--lime);border-color:var(--lime)}
+.hint{font-size:12.5px;line-height:1.45;color:var(--ink-soft);margin:0}
+.hint kbd{font-family:var(--f-mono);letter-spacing:var(--mono-track);font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 4px;color:var(--ink)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--slate);outline-offset:2px}
+
+.readout{position:fixed;z-index:4;right:max(16px,calc(16px + env(safe-area-inset-right,0px)));bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  font-family:var(--f-mono);font-size:11px;letter-spacing:var(--mono-track);text-transform:uppercase;color:var(--canvas-fg);opacity:.75;
+  font-variant-numeric:tabular-nums;pointer-events:none}
+
+.reset{position:fixed;z-index:5;top:calc(16px + env(safe-area-inset-top,0px));right:max(16px,calc(16px + env(safe-area-inset-right,0px)));
+  appearance:none;border:1px solid rgba(255,255,255,.45);background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);color:var(--ink);border-radius:999px;height:52px;padding:0 22px 0 18px;
+  display:flex;align-items:center;gap:10px;font:500 15px var(--f-display);cursor:pointer;box-shadow:0 18px 50px -24px rgba(20,26,27,.55);
+  transition:transform .15s ease,background .15s ease}
+.reset svg{width:20px;height:20px}
+.reset.spin svg{transform:rotate(-360deg);transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.reset:hover{background:rgba(255,255,255,.8)}
+.reset:active{transform:scale(.96)}
+.hint-pill{position:fixed;z-index:4;left:max(50%,500px);bottom:calc(22px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:14px;height:46px;padding:0 22px 0 5px;border-radius:999px;
+  background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.45);box-shadow:0 18px 50px -24px rgba(20,26,27,.55);pointer-events:none;white-space:nowrap;
+  opacity:0;transform:translate(-50%,10px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+.hint-pill.show{opacity:1;transform:translate(-50%,0)}
+.hint-pill.gone{opacity:0;transform:translate(-50%,10px) scale(.96)}
+.hint-mark{width:36px;height:36px;border-radius:50%;background:#23383a;display:grid;place-items:center;flex:none}
+.hint-mark svg{width:47%;height:47%}
+.hint-text{font:500 13px var(--f-mono);letter-spacing:var(--mono-track);text-transform:uppercase;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.hint-pill{transition:opacity .3s ease;transform:translate(-50%,0)}}
+.overlay[hidden]{display:none}
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(20,24,25,.62);display:grid;place-items:center;
+  padding:calc(24px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--panel);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;max-width:min(920px,100%);max-height:100%;min-width:0}
+.sheet img{display:block;max-width:100%;max-height:62vh;border-radius:10px;object-fit:contain;background:var(--paper)}
+.sheet-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.nogl{position:fixed;inset:0;display:grid;place-items:center;color:var(--lime);font-size:15px;text-align:center;padding:24px}
+
+@media (max-width:640px){
+  .hint-pill{left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));height:40px;gap:10px;padding-right:16px}
+  .hint-mark{width:30px;height:30px}
+  .hint-text{font-size:11px;letter-spacing:var(--mono-track)}
+  .reset{top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));right:max(12px,calc(12px + env(safe-area-inset-right,0px)))}
+  .module{left:max(12px,calc(12px + env(safe-area-inset-left,0px)));right:max(12px,calc(12px + env(safe-area-inset-right,0px)));
+    top:calc(12px + env(safe-area-inset-top,0px));width:auto;max-height:72%}
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="stage" aria-label="Kables pattern canvas. Hover to merge dots, drag to patch cables, click to send a ripple."></canvas>
+
+<section class="module" id="module" aria-label="Pattern controls">
+  <header class="module-head">
+    <svg class="mark" viewBox="-62 -62 384 384" aria-hidden="true"><rect x="-62" y="-62" width="384" height="384" rx="84" fill="#4b5b5d"/><path fill="#e5f56b" d="M84.9434 216.135C84.9434 239.591 65.9281 258.606 42.4717 258.606C19.0152 258.606 0 239.591 0 216.135C0 192.678 19.0152 173.663 42.4717 173.663C65.9281 173.663 84.9434 192.678 84.9434 216.135ZM259.606 42.4717C259.606 65.9281 240.591 84.9434 217.135 84.9434L201.706 84.9434C192.153 84.9434 182.991 88.7384 176.236 95.4937C169.481 102.249 165.686 111.411 165.686 120.964L165.686 135.903C165.686 145.918 169.664 155.522 176.745 162.604C183.826 169.685 193.431 173.663 203.445 173.663L217.259 173.663C240.715 173.663 259.73 192.678 259.73 216.135C259.73 239.591 240.715 258.606 217.259 258.606C193.802 258.606 174.786 239.591 174.786 216.134L174.786 201.106C174.786 193.309 171.689 185.831 166.176 180.318C160.663 174.805 153.185 171.708 145.389 171.708L123.213 171.708C99.7564 171.708 80.7412 152.693 80.7412 129.236C80.7412 105.78 99.7564 86.7646 123.213 86.7646L143.965 86.7646C152.107 86.7646 159.915 83.5304 165.672 77.7734C171.429 72.0165 174.663 64.2083 174.663 56.0667V42.4717C174.663 19.0152 193.678 0 217.135 0C240.591 0 259.606 19.0152 259.606 42.4717ZM84.9434 42.4717C84.9434 65.9281 65.9281 84.9434 42.4717 84.9434C19.0152 84.9434 0 65.9281 0 42.4717C0 19.0152 19.0152 0 42.4717 0C65.9281 0 84.9434 19.0152 84.9434 42.4717Z"/></svg>
+    <div class="brand"><b>Patch Lab</b><span>Kables</span></div>
+    <button class="collapse" id="collapse" aria-expanded="true" aria-controls="moduleBody">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 13.5a7.7 7.7 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.4 2 1.6a7.7 7.7 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.4-2-1.6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <span id="collapseLbl">Hide</span>
+    </button>
+  </header>
+
+  <div class="module-body" id="moduleBody">
+    <div class="group">
+      <div class="label">Palette <output id="palName">Dash of Lime</output></div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+
+    <div class="group genbox">
+      <div class="label">Generators <output id="genCount">Off</output></div>
+      <div class="gens" role="group" aria-label="Generators">
+        <button class="chip gen" data-fx="wander" aria-pressed="false"><b>Wander</b><small>Ghost cursor drifts</small></button>
+        <button class="chip gen" data-fx="rain" aria-pressed="false"><b>Rain</b><small>Ripples on the beat</small></button>
+        <button class="chip gen" data-fx="selfpatch" aria-pressed="false"><b>Patcher</b><small>Draws its own cables</small></button>
+        <button class="chip gen" data-fx="lfo" aria-pressed="false"><b>LFO</b><small>Sweeping waves</small></button>
+        <button class="chip gen wide" data-fx="seq" aria-pressed="false"><b>Sequencer</b><small>Steps across the grid and plays your patches</small></button>
+      </div>
+      <div class="fader"><div class="label"><label for="fBpm">Tempo</label><output id="oBpm"></output></div>
+        <input type="range" id="fBpm" min="60" max="180" step="1" value="108"></div>
+    </div>
+
+    <div class="group">
+      <div class="label">Sound</div>
+      <div class="seg seg5" role="group" aria-label="Sound voice">
+        <button data-voice="off" aria-pressed="false">Off</button>
+        <button data-voice="mist" aria-pressed="true">Mist</button>
+        <button data-voice="pluck" aria-pressed="false">Pluck</button>
+        <button data-voice="bloop" aria-pressed="false">Bloop</button>
+        <button data-voice="acid" aria-pressed="false">Acid</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Effects</div>
+      <div class="chips" role="group" aria-label="Effects">
+        <button class="chip" data-fx="magnet" aria-pressed="true">Magnet</button>
+        <button class="chip" data-fx="ripples" aria-pressed="true">Ripples</button>
+        <button class="chip" data-fx="breathe" aria-pressed="false">Breathe</button>
+        <button class="chip" data-fx="sockets" aria-pressed="true">Sockets</button>
+        <button class="chip" data-fx="signal" aria-pressed="true">Signal</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Cursor</div>
+      <div class="fader"><div class="label"><label for="fReach">Reach</label><output id="oReach"></output></div>
+        <input type="range" id="fReach" min="0.6" max="6" step="0.1" value="2.2"></div>
+      <div class="fader"><div class="label"><label for="fSmooth">Smoothing</label><output id="oSmooth"></output></div>
+        <input type="range" id="fSmooth" min="0" max="1" step="0.01" value="0.55"></div>
+      <div class="fader"><div class="label"><label for="fTrail">Trail decay</label><output id="oTrail"></output></div>
+        <input type="range" id="fTrail" min="0" max="3" step="0.05" value="1"></div>
+    </div>
+
+    <div class="group">
+      <div class="label">Patching</div>
+      <div class="seg" role="group" aria-label="Drag tool">
+        <button id="tPatch" aria-pressed="true">Patch</button>
+        <button id="tErase" aria-pressed="false">Unpatch</button>
+      </div>
+      <div class="toggle-row">
+        <span class="tlabel" id="pFadeLbl">Fade patches after 5s</span>
+        <button class="switch" id="pFade" role="switch" aria-checked="true" aria-labelledby="pFadeLbl"></button>
+      </div>
+      <div class="row3">
+        <button class="btn" id="pLogo">K grid</button>
+        <button class="btn" id="pBay">Patchbay</button>
+        <button class="btn" id="pClear">Clear</button>
+      </div>
+      <p class="hint">Hover to merge, click to send a ripple, drag to patch cables. Hold <kbd>Shift</kbd> to swap tools.</p>
+    </div>
+
+    <div class="group">
+      <div class="label">Shape</div>
+      <div class="fader"><div class="label"><label for="fSpacing">Spacing</label><output id="oSpacing"></output></div>
+        <input type="range" id="fSpacing" min="16" max="90" step="1" value="40"></div>
+      <div class="fader"><div class="label"><label for="fSize">Dot size</label><output id="oSize"></output></div>
+        <input type="range" id="fSize" min="0.28" max="0.62" step="0.01" value="0.47"></div>
+      <div class="fader"><div class="label"><label for="fGoo">Goo</label><output id="oGoo"></output></div>
+        <input type="range" id="fGoo" min="0" max="1" step="0.01" value="0.79"></div>
+      <div class="fader"><div class="label"><label for="fMin">Min neck</label><output id="oMin"></output></div>
+        <input type="range" id="fMin" min="0.2" max="1" step="0.01" value="0.62"></div>
+    </div>
+
+  </div>
+</section>
+
+<button class="reset" id="resetAll" aria-label="Clear all patches">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Clear patches
+</button>
+
+<div class="hint-pill" id="hintPill" aria-live="polite">
+  <span class="hint-mark"><svg viewBox="92 90 111.1 110.6" aria-hidden="true"><path fill="#e8fe43" d="M128.331 182.441C128.331 192.474 120.198 200.606 110.166 200.606C100.133 200.606 92 192.474 92 182.441C92 172.409 100.133 164.276 110.166 164.276C120.198 164.276 128.331 172.409 128.331 182.441ZM203.035 108.166C203.035 118.198 194.902 126.331 184.87 126.331L178.268 126.331C174.183 126.331 170.265 127.954 167.376 130.843C164.487 133.732 162.864 137.65 162.864 141.735L162.864 148.126C162.864 152.409 164.566 156.517 167.595 159.546C170.624 162.575 174.732 164.276 179.015 164.276H184.922C194.954 164.276 203.087 172.409 203.087 182.441C203.087 192.474 194.954 200.606 184.922 200.606C174.89 200.606 166.757 192.474 166.757 182.441L166.757 176.013C166.757 172.678 165.432 169.48 163.074 167.122C160.716 164.764 157.518 163.439 154.184 163.439L144.698 163.439C134.666 163.439 126.533 155.307 126.533 145.274C126.533 135.242 134.666 127.109 144.698 127.109L153.574 127.109C157.056 127.109 160.396 125.726 162.858 123.264C165.321 120.801 166.704 117.462 166.704 113.979L166.704 108.166C166.704 98.133 174.837 90 184.87 90C194.902 90 203.035 98.133 203.035 108.166ZM128.331 108.166C128.331 118.198 120.198 126.331 110.166 126.331C100.133 126.331 92 118.198 92 108.166C92 98.133 100.133 90 110.166 90C120.198 90 128.331 98.133 128.331 108.166Z"/></svg></span>
+  <span class="hint-text" id="hintText">Click and hold to patch</span>
+</div>
+
+<div class="readout" id="readout"></div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="exTitle">
+    <div class="label" id="exTitle">Export <output id="exSize"></output></div>
+    <img id="exImg" alt="Exported Kables pattern">
+    <textarea id="exText" readonly hidden rows="6" style="width:100%;font:12px var(--f-mono);border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--paper);color:var(--ink);resize:none"></textarea>
+    <div class="sheet-foot">
+      <p class="hint">Download it, or right-click the image to save.</p>
+      <div class="row2"><button class="btn" id="exClose">Close</button><button class="btn primary" id="exDownload">Download</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+// Final brand palettes: background, dots, patch ink, jack sockets, signal pulse core.
+const PALETTES = [
+  {name:"Dash of Lime", bg:"#475e62", fg:"#e5f56b", patch:"#648279", socket:"#e5f56b", signal:"#475e62"},
+  {name:"Lime Cordial", bg:"#e5f56b", fg:"#4b5b5d", patch:"#7a9394", socket:"#e5f56b", signal:"#ffffff"},
+  {name:"Slated",       bg:"#8ea49d", fg:"#475e62", patch:"#607171", socket:"#d5e273", signal:"#e5f56b", fluid:"#e5f56b"},
+];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const S = {patchFade:true,flStr:.79,flSwirl:51,flFade:2.4,flSize:.26,flForce:.9,fade:3.5,life:20,ink:.8,cable:0,smooth:.55,spacing:40,size:.47,goo:.79,reach:2.2,trail:1,rate:.9,tool:"patch",pal:0,
+  fx:{magnet:true,ripples:true,breathe:false,sockets:true,fluid:true,signal:true,scope:false,grain:true,lfo:false,rain:false,wander:false,selfpatch:false,seq:false},bpm:108,minNeck:.62,voice:"mist"};
+
+const canvas = document.getElementById("stage");
+const gl = canvas.getContext("webgl2",{antialias:false});
+if(!gl){document.body.insertAdjacentHTML("beforeend",'<div class="nogl">This tool needs WebGL2. Try a recent Chrome, Safari or Firefox.</div>');return;}
+
+const VS = `#version 300 es
+in vec2 a; void main(){ gl_Position=vec4(a,0.,1.); }`;
+// Texel per lattice cell: r = cable strength, g = dot swell, b/a = dot offset (corner dot only).
+const FS = `#version 300 es
+precision highp float;
+uniform sampler2D uS,uC; uniform ivec2 uN; uniform vec2 uO;
+uniform float uSc,uH,uR,uNeck,uK,uKb,uT,uGrain,uGlow,uMin;
+uniform vec3 uBg,uFg,uPc,uSock,uSigc;
+uniform sampler2D uD,uA; uniform float uFl; uniform vec2 uRes; uniform vec3 uFc;
+uniform vec3 uPu[24]; uniform int uPn;
+out vec4 o;
+// Cubic smooth union (C2, so joins have no visible crease) that also blends the patch-colour weight.
+void U(inout float d,inout float m,float d2,float m2,float k){
+  float h=max(k-abs(d-d2),0.)/k, s=h*h*h;
+  float w=d2<d? 1.-.5*s : .5*s;
+  d=min(d,d2)-s*k/6.; m=mix(m,m2,w);
+}
+float seg(vec2 p,vec2 a,vec2 b){ vec2 pa=p-a,ba=b-a; float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.); return length(pa-ba*h); }
+float hash(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
+float vn(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y); }
+// Slowly creeping noise that roughens the ink front.
+float bleed(vec2 p){ return vn(p*5.+vec2(uT*.35,-uT*.2))*.6+vn(p*11.-vec2(uT*.25,uT*.3))*.4-.5; }
+bool inb(ivec2 q){ return q.x>=0&&q.y>=0&&q.x<uN.x&&q.y<uN.y; }
+vec2 pos(ivec2 q){ return inb(q)? vec2(q)+(texelFetch(uS,q,0).ba-.5) : vec2(q); }
+void main(){
+  vec2 fc=vec2(gl_FragCoord.x,uH-gl_FragCoord.y);
+  vec2 p=(fc-uO)/uSc;
+  ivec2 c=ivec2(floor(p));
+  float d=1e3,m=0.,hd=1e3;
+  // Wide enough window that displaced dots and long necks are never clipped at a cell edge.
+  for(int y=-2;y<=3;y++) for(int x=-2;x<=3;x++){
+    ivec2 q=c+ivec2(x,y);
+    if(!inb(q)) continue;
+    if(((q.x+q.y)&1)!=0) continue;
+    if(length(p-vec2(q))>1.65) continue;
+    vec4 s=texelFetch(uS,q,0);
+    vec2 bp=vec2(q)+s.ba-.5;
+    float db=length(p-bp)-uR*(1.+.2*s.g);
+    // Jack socket: a hole that opens in dots with a patched cable plugged in.
+    if(length(p-bp)<.45*uR){
+      float jv=floor(texelFetch(uC,q,0).a*255.+.5);
+      float J=mod(jv,128.)/127.;
+      if(J>.01) hd=min(hd,length(p-bp)-.38*uR*J);
+    }
+    float kb=.03+uKb*s.g;
+    if(db>d+kb) continue;
+    // Dot ink: grows from its entry point (centre for the first dot, the cable side for the rest).
+    vec4 cc=texelFetch(uC,q,0); float mi=0.;
+    if(cc.g>.004){
+      float bv=floor(cc.a*255.+.5),ang=(cc.b-.5)*6.2831853;
+      vec2 dir=bv>=128.?vec2(cos(ang),sin(ang)):vec2(0.); float rr=uR*(1.+.2*s.g);
+      float reach=rr*(1.15+1.15*min(length(dir),1.))*cc.g;
+      mi=cc.g>.995?1.:smoothstep(-.04,.04,reach-length(p-(bp+dir*rr))+bleed(p)*.22*rr);
+    }
+    U(d,m,db,mi,kb);
+  }
+  // The activity map says whether any cable within two cells is live, so most pixels skip this loop.
+  bool anyC=inb(c)&&texelFetch(uA,c,0).r>0.;
+  for(int y=-2;y<=2;y++) for(int x=-2;x<=2;x++){
+    if(!anyC) break;
+    ivec2 q=c+ivec2(x,y);
+    if(!inb(q)) continue;
+    if(length(p-vec2(q)-.5)>2.1) continue;
+    float e=texelFetch(uS,q,0).r*1.5-.25;
+    if(e<.004) continue;
+    ivec2 a,b;
+    if(((q.x+q.y)&1)==0){ a=q; b=q+ivec2(1,1); } else { a=q+ivec2(0,1); b=q+ivec2(1,0); }
+    // Below 0.5 two stubs grow out of each dot and meet; above 0.5 the joined neck thickens.
+    vec2 pa=pos(a),pb=pos(b);
+    // Cable ink: progress P travels from the source end (high bit flips direction).
+    float cv=floor(texelFetch(uC,q,0).r*255.+.5), P=mod(cv,128.)/127.;
+    vec2 ab=pb-pa; float hh=clamp(dot(p-pa,ab)/dot(ab,ab),0.,1.); float tt=cv>=128.?1.-hh:hh;
+    float pc=P<=0.?0.:(P>=1.?1.:smoothstep(-.05,.05,P*1.12-.06-tt+bleed(p)*.1));
+    float full=uNeck*uR,base=uMin*full;
+    if(e>=.5){
+      float s=(e-.5)/.5;
+      U(d,m,seg(p,pa,pb)-mix(base,full,s),pc,mix(uK*.85,uK,clamp(s,0.,1.)));
+    } else {
+      // Blend strength fades with the stub, so a retracting stub sinks into its dot with no pop.
+      float s=e/.5,L=.5*s*(2.-s),g=smoothstep(0.,.42,s),rad=base*mix(.7,1.,s),k=mix(.015,uK*.85,g);
+      // Join the two stubs with a hard min first, so they meet without a bulge and match the full neck exactly.
+      U(d,m,min(seg(p,pa,mix(pa,pb,L)),seg(p,pb,mix(pb,pa,L)))-rad,pc,k);
+    }
+  }
+  // Signal pulses: a bead that bulges the cable as it travels, with a bright core.
+  float core=1e3;
+  for(int i=0;i<24;i++){
+    if(i>=uPn) break;
+    vec3 pu=uPu[i]; float dp=length(p-pu.xy);
+    if(dp>1.2) continue;
+    U(d,m,dp-uR*.66*pu.z,1.,uK*.7);
+    core=min(core,dp-uR*.24*pu.z);
+  }
+  float aa=.9/uSc;
+  float mask=smoothstep(aa,-aa,d);
+  vec3 ink=mix(uFg,uPc,clamp(m,0.,1.));
+  // Fluid dye tints only the background, in the palette's patch colour.
+  float dye=uFl>0.?1.-exp(-1.8*max(texture(uD,gl_FragCoord.xy/uRes).r,0.)):0.;
+  vec3 bgc=mix(uBg,uFc,dye*uFl);
+  vec3 col=mix(bgc,ink,mask);
+  col=mix(col,uSock,smoothstep(aa,-aa,hd)*mask);
+  col=mix(col,uSigc,smoothstep(aa,-aa,core)*mask*.9);
+  col+=(hash(gl_FragCoord.xy+fract(uT*7.)*311.)-.5)*uGrain;
+  o=vec4(col,1.);
+}`;
+function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(x));return x;}
+const prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);gl.useProgram(prog);
+const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const aLoc=gl.getAttribLocation(prog,"a");gl.enableVertexAttribArray(aLoc);gl.vertexAttribPointer(aLoc,2,gl.FLOAT,false,0,0);
+const U={};["uS","uN","uO","uSc","uH","uR","uNeck","uK","uKb","uT","uGrain","uGlow","uMin","uBg","uFg","uPc","uC","uPu","uPn","uSock","uSigc","uD","uFl","uRes","uFc","uA"].forEach(n=>U[n]=gl.getUniformLocation(prog,n));
+gl.uniform1i(U.uS,0);gl.uniform1i(U.uC,1);
+gl.activeTexture(gl.TEXTURE1);
+const ctex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,ctex);
+[gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(p=>gl.texParameteri(gl.TEXTURE_2D,p,gl.NEAREST));
+gl.activeTexture(gl.TEXTURE0);
+const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+[gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(p=>gl.texParameteri(gl.TEXTURE_2D,p,gl.NEAREST));
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);
+
+// ---------- Fluid: ink carried by a curl-noise flow plus your cursor's wake, drawn behind the dots ----------
+// No pressure solve: the swirl field is divergence-free by construction, so it never stalls or blows up.
+const FL=(()=>{
+  const ok=!!(gl.getExtension("EXT_color_buffer_float")||gl.getExtension("EXT_color_buffer_half_float"));
+  if(!ok)return null;
+  const FVS=`#version 300 es
+in vec2 a; out vec2 uv; void main(){ uv=a*.5+.5; gl_Position=vec4(a,0.,1.); }`;
+  const head=`#version 300 es
+precision highp float; in vec2 uv; out vec4 o; uniform vec2 tx;`;
+  const noise=`
+float h2(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
+float vn(vec2 p){ vec2 i=floor(p),f=fract(p); vec2 u=f*f*f*(f*(f*6.-15.)+10.);
+  return mix(mix(h2(i),h2(i+vec2(1,0)),u.x),mix(h2(i+vec2(0,1)),h2(i+vec2(1,1)),u.x),u.y); }
+float psi(vec2 p,float t){ return vn(p+vec2(t*.11,-t*.07))+.5*vn(p*2.03-vec2(t*.13,t*.09)); }
+vec2 curl(vec2 p,float t){ float e=.02; return vec2(psi(p+vec2(0,e),t)-psi(p-vec2(0,e),t),-(psi(p+vec2(e,0),t)-psi(p-vec2(e,0),t)))/(2.*e); }`;
+  const srcs={
+    // Up to 16 splats in one pass.
+    splat:`${head} uniform sampler2D uSrc; uniform vec4 uPt[16]; uniform vec3 uVal[16]; uniform int uN; uniform float asp,cap,rs;
+      void main(){ vec4 b=texture(uSrc,uv); vec3 acc=vec3(0);
+        for(int i=0;i<16;i++){ if(i>=uN) break; vec2 d=uv-uPt[i].xy; d.x*=asp; acc+=uVal[i]*exp(-dot(d,d)/(uPt[i].z*rs)); }
+        o=b+vec4(acc,0.); o.x=min(o.x,cap); }`,
+    // Wake: the cursor's push, carried along itself, softened and decaying.
+    wake:`${head} uniform sampler2D uSrc; uniform float dt,diss;
+      void main(){ vec2 v=texture(uSrc,uv).xy; vec2 c=uv-v*dt;
+        vec4 s=texture(uSrc,c)*.6+.1*(texture(uSrc,c+vec2(tx.x,0))+texture(uSrc,c-vec2(tx.x,0))+texture(uSrc,c+vec2(0,tx.y))+texture(uSrc,c-vec2(0,tx.y)));
+        o=vec4(s.xy*diss,0,1); }`,
+    // Ink: moved by curl noise + wake, then faded.
+    ink:`${head} uniform sampler2D uSrc,uWake; uniform float dt,diss,amp,asp,t;${noise}
+      void main(){ vec2 q=uv*vec2(asp,1.)*2.6; vec2 v=curl(q,t)*amp*vec2(1./asp,1.)+texture(uWake,uv).xy;
+        vec2 c=uv-v*dt; float d=texture(uSrc,c).x;
+        // A touch of blur keeps the edges soft as it thins out.
+        float b=(texture(uSrc,c+vec2(tx.x,0)).x+texture(uSrc,c-vec2(tx.x,0)).x+texture(uSrc,c+vec2(0,tx.y)).x+texture(uSrc,c-vec2(0,tx.y)).x)*.25;
+        o=vec4(mix(d,b,.12)*diss,0,0,1); }`,
+  };
+  const vao=gl.createVertexArray();gl.bindVertexArray(vao);
+  const fb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,fb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);gl.bindVertexArray(null);
+  const P={};
+  for(const n in srcs){
+    const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,FVS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,srcs[n]));
+    gl.bindAttribLocation(pr,0,"a");gl.linkProgram(pr);
+    if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(pr));return null;}
+    const u={};const cnt=gl.getProgramParameter(pr,gl.ACTIVE_UNIFORMS);
+    for(let q=0;q<cnt;q++){const nm=gl.getActiveUniform(pr,q).name;u[nm]=gl.getUniformLocation(pr,nm);}
+    P[n]={pr,u};
+  }
+  let W=0,H=0,dye,wake,simT=0;
+  function target(w,h){
+    const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA16F,w,h,0,gl.RGBA,gl.HALF_FLOAT,null);
+    const f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);
+    gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
+    return {t,f,w,h};
+  }
+  const pair=(w,h)=>{const a=target(w,h),b=target(w,h);return {r:a,w:b,swap(){const x=this.r;this.r=this.w;this.w=x;}};};
+  function free(x){if(!x)return;for(const o of [x.r,x.w]){gl.deleteTexture(o.t);gl.deleteFramebuffer(o.f);}}
+  function resize(){
+    const s=Math.min(1,360/Math.max(cw,ch));
+    const nW=Math.max(16,Math.round(cw*s)),nH=Math.max(16,Math.round(ch*s));
+    if(nW===W&&nH===H)return;
+    free(dye);free(wake);W=nW;H=nH;
+    dye=pair(W,H);wake=pair(Math.ceil(W/2),Math.ceil(H/2));
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  }
+  function run(name,dst,set){
+    const p=P[name];gl.useProgram(p.pr);
+    if(p.u.tx)gl.uniform2f(p.u.tx,1/dst.w,1/dst.h);
+    let unit=3;
+    set((nm,tx)=>{gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,tx.t);gl.uniform1i(p.u[nm],unit);unit++;},p.u);
+    gl.viewport(0,0,dst.w,dst.h);gl.bindFramebuffer(gl.FRAMEBUFFER,dst.f);gl.drawArrays(gl.TRIANGLES,0,3);
+  }
+  const queue=[];
+  // Brushes are in lattice units. Splats are uv (y up); velocity is uv per second.
+  function addBrush(b,dt){
+    const ax=O[0]+b.ax*sc,ay=O[1]+b.ay*sc,bx=O[0]+b.bx*sc,by=O[1]+b.by*sc;
+    const dx=bx-ax,dy=by-ay,sp=Math.hypot(dx,dy)/dt;
+    if(b.amt<.05)return;
+    const r=Math.pow(S.reach*sc*S.flSize/ch,2);
+    // Spread splats along the segment so fast strokes leave a continuous ribbon.
+    const n=Math.min(6,1+Math.floor(Math.hypot(dx,dy)/(Math.sqrt(r)*ch*.6)));
+    const k=Math.min(1,.15+sp/(cw*.6))*b.amt;
+    for(let q=1;q<=n;q++){
+      const t=q/n,px=ax+dx*t,py=ay+dy*t;
+      lastFlT=performance.now();
+      queue.push({x:px/cw,y:1-py/ch,vx:dx/dt/cw*S.flForce*.5,vy:-dy/dt/ch*S.flForce*.5,d:k*.42/n*Math.min(1.5,dt*60),r});
+    }
+  }
+  function puff(lx,ly){
+    const px=O[0]+lx*sc,py=O[1]+ly*sc,r=Math.pow(sc*.9/ch,2);
+    lastFlT=performance.now();
+    for(let q=0;q<8;q++){const a=q/8*Math.PI*2;
+      queue.push({x:(px+Math.cos(a)*sc*.6)/cw,y:1-(py+Math.sin(a)*sc*.6)/ch,vx:Math.cos(a)*.25*S.flForce,vy:-Math.sin(a)*.25*S.flForce,d:.12,r});}
+  }
+  function step(dt){
+    resize();simT+=dt;
+    gl.bindVertexArray(vao);gl.disable(gl.BLEND);
+    const asp=cw/ch;
+    const all=queue.splice(0,64);queue.length=0;
+    for(let c0=0;c0<all.length;c0+=16){
+      const ch_=all.slice(c0,c0+16),n=ch_.length,pt=new Float32Array(64),vw=new Float32Array(48),vd=new Float32Array(48);
+      ch_.forEach((s_,q)=>{pt.set([s_.x,s_.y,s_.r,0],q*4);vw.set([s_.vx,s_.vy,0],q*3);vd.set([s_.d,0,0],q*3);});
+      const go=(pp,val,rsc,cap)=>run("splat",pp.w,(bind,u)=>{bind("uSrc",pp.r);gl.uniform4fv(u["uPt[0]"],pt);gl.uniform3fv(u["uVal[0]"],val);
+        gl.uniform1i(u.uN,n);gl.uniform1f(u.asp,asp);gl.uniform1f(u.cap,cap);gl.uniform1f(u.rs,rsc);});
+      go(wake,vw,1.4,1e3);wake.swap();
+      go(dye,vd,1,1.6);dye.swap();
+    }
+    run("wake",wake.w,(bind,u)=>{bind("uSrc",wake.r);gl.uniform1f(u.dt,dt);gl.uniform1f(u.diss,Math.exp(-dt*2.4));});wake.swap();
+    run("ink",dye.w,(bind,u)=>{bind("uSrc",dye.r);bind("uWake",wake.r);gl.uniform1f(u.dt,dt);gl.uniform1f(u.diss,Math.exp(-dt/S.flFade));
+      gl.uniform1f(u.amp,S.flSwirl*.0035);gl.uniform1f(u.asp,asp);gl.uniform1f(u.t,simT);});dye.swap();
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.bindVertexArray(null);gl.viewport(0,0,cw,ch);
+  }
+  return {step,addBrush,puff,dye:()=>dye&&dye.r.t};
+})();
+
+// Grid state. Cell (i,j) owns the diagonal joining its two even-parity corners, plus the dot at (i,j) when i+j is even.
+let mv=1,dirty=4,idleFrames=0,lastFlT=-1e9,rs=1,slowRuns=0,startT=performance.now(),ftAcc=0,ftN=0,dpr=1,cw=0,ch=0,sc=1,N=[0,0],O=[0,0];
+let JN,atex=null,abuf,atmp,FA,born,JK,CP,CS,CD,DF,DX,DY,DE,cbuf,E,V,H,B,BH,OX,OY,VX,VY,patched,ptime,onState,buf;
+function build(){
+  const old = E ? {N:N.slice(),patched} : null;
+  dpr=Math.min(window.devicePixelRatio||1,1.5)*rs;
+  cw=Math.max(1,Math.round(innerWidth*dpr)); ch=Math.max(1,Math.round(innerHeight*dpr));
+  canvas.width=cw; canvas.height=ch;
+  sc=S.spacing*dpr;
+  N=[Math.ceil(cw/sc)+4, Math.ceil(ch/sc)+4];
+  O=[(cw-(N[0]-1)*sc)/2,(ch-(N[1]-1)*sc)/2];
+  const n=N[0]*N[1];
+  const F=()=>new Float32Array(n);
+  E=F();V=F();H=F();CP=F();DF=F();JK=F();DX=F();DY=F();CS=new Uint8Array(n);CD=new Uint8Array(n);DE=new Uint8Array(n);B=F();BH=F();OX=F();OY=F();VX=F();VY=F();
+  patched=new Uint8Array(n);JN=new Uint8Array(n);born=new Float64Array(n);abuf=new Uint8Array(n);atmp=new Uint8Array(n);FA=new Float32Array(n);onState=new Uint8Array(n);ptime=new Float64Array(n);buf=new Uint8Array(n*4);cbuf=new Uint8Array(n*4);
+  if(old){
+    let di=Math.floor((N[0]-old.N[0])/2), dj=Math.floor((N[1]-old.N[1])/2);
+    if((di+dj)&1) dj+=1;
+    for(let j=0;j<old.N[1];j++)for(let i=0;i<old.N[0];i++){
+      const ni=i+di,nj=j+dj; if(ni<0||nj<0||ni>=N[0]||nj>=N[1])continue;
+      const b=nj*N[0]+ni; patched[b]=old.patched[j*old.N[0]+i]; if(patched[b]){E[b]=1;onState[b]=1;if(patched[b]===2){CP[b]=1;CS[b]=1;born[b]=performance.now();}}
+    }
+  }
+  if(old)for(let k=0;k<n;k++)if(patched[k]===2){const [a,b]=ends(k%N[0],Math.floor(k/N[0]));for(const x of [a,b])if(x>=0){DE[x]=1;DF[x]=1;}}
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,N[0],N[1],0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,ctex);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,N[0],N[1],0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+  if(!atex){atex=gl.createTexture();gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D,atex);
+    [gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(p=>gl.texParameteri(gl.TEXTURE_2D,p,gl.NEAREST));}
+  gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D,atex);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.R8,N[0],N[1],0,gl.RED,gl.UNSIGNED_BYTE,null);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
+  dirty=4;
+  // If the K grid preset is showing, re-tile it so it always fills the new size.
+  if(old&&lastPreset==="logo")tileLogo(false);
+  gl.viewport(0,0,cw,ch);
+}
+
+// Presets
+function clearAll(){lastPreset=null;patched.fill(0);if(typeof FA!=="undefined"&&FA)FA.fill(0);}
+function setCell(i,j,v,t){if(i<0||j<0||i>=N[0]||j>=N[1])return;const k=j*N[0]+i;patched[k]=v;ptime[k]=t||0;}
+function stagger(i,j){return reduce?0:performance.now()+(i+j*.6)*16;}
+let lastPreset=null;
+// Lay the K tiling over the whole grid, leaving hand-drawn patches alone.
+function tileLogo(animate){
+  for(let k=0,n=patched.length;k<n;k++)if(patched[k]===1)patched[k]=0;
+  const put=(i,j)=>{if(i<0||j<0||i>=N[0]||j>=N[1])return;if(patched[j*N[0]+i]!==2)setCell(i,j,1,animate?stagger(i,j):0);};
+  for(let b=-1;b*4<N[1]+4;b++)for(let a=-1;a*4<N[0]+4;a++){
+    const cx=4*a+2*(b&1)+1, cy=4*b+1;
+    put(cx,cy);put(cx,cy-1);
+  }
+}
+function presetLogo(){clearAll();lastPreset="logo";tileLogo(true);}
+function presetBay(){
+  clearAll();
+  const count=Math.round(N[0]*N[1]/16);
+  for(let c=0;c<count;c++){
+    let x=Math.floor(Math.random()*N[0]),y=Math.floor(Math.random()*N[1]);
+    if((x+y)&1)x+=1;
+    let dx=Math.random()<.5?1:-1,dy=Math.random()<.5?1:-1;
+    const len=2+Math.floor(Math.random()*6);
+    for(let s=0;s<len;s++){
+      if(Math.random()<.35)dy=-dy;
+      setCell(Math.min(x,x+dx),Math.min(y,y+dy),1,stagger(x,y));
+      x+=dx;y+=dy;
+    }
+  }
+}
+
+// Pointer
+const ptr={sx:-99,sy:-99,sIn:false,amt:0,x:-99,y:-99,px:-99,py:-99,in:false,down:false,lx:0,ly:0,shift:false,moved:0};
+const ripples=[];
+function toLattice(e){const r=canvas.getBoundingClientRect();return[((e.clientX-r.left)*dpr-O[0])/sc,((e.clientY-r.top)*dpr-O[1])/sc];}
+// Endpoint dots of cell (i,j) as cell indices (left end first), -1 if off-grid.
+function ends(i,j){
+  const nx=N[0],ny=N[1],id=(x,y)=>x>=0&&y>=0&&x<nx&&y<ny?y*nx+x:-1;
+  return ((i+j)&1)===0?[id(i,j),id(i+1,j+1)]:[id(i,j+1),id(i+1,j)];
+}
+function seedInk(k,sx,sy){
+  const i=k%N[0],j=Math.floor(k/N[0]),[a,b]=ends(i,j);
+  if((a>=0&&DE[a])||(b>=0&&DE[b]))return;           // ink already nearby, it will flow in
+  const pick=(x)=>{if(x<0)return 1e9;return Math.hypot(x%N[0]-sx,Math.floor(x/N[0])-sy);};
+  const src=pick(a)<=pick(b)?a:b; if(src<0)return;
+  DE[src]=1;DF[src]=0;DX[src]=0;DY[src]=0;
+}
+function paintAt(x,y,val,sx,sy){
+  const i=Math.floor(x),j=Math.floor(y);if(i<0||j<0||i>=N[0]||j>=N[1])return;
+  const fx=x-i,fy=y-j;
+  const d=((i+j)&1)===0?Math.abs(fx-fy):Math.abs(fx+fy-1);
+  if(d/Math.SQRT2<.3){const k=j*N[0]+i;if(val===2&&patched[k]!==2)seedInk(k,sx,sy);patched[k]=val;ptime[k]=0;born[k]=val===2?performance.now():0;FA[k]=0;}
+}
+function paintSeg(x0,y0,x1,y1){
+  const val=(S.tool==="patch")!==ptr.shift?2:0;
+  const len=Math.hypot(x1-x0,y1-y0),n=Math.max(1,Math.ceil(len/.15));
+  for(let s=0;s<=n;s++){const t=s/n;paintAt(x0+(x1-x0)*t,y0+(y1-y0)*t,val,x0,y0);}
+}
+canvas.addEventListener("pointermove",e=>{
+  const [x,y]=toLattice(e);
+  if(!ptr.in){ptr.px=x;ptr.py=y;}
+  ptr.x=x;ptr.y=y;ptr.in=true;ptr.shift=e.shiftKey;
+  if(ptr.down){ptr.moved+=Math.hypot(x-ptr.lx,y-ptr.ly);if(ptr.moved>.35)paintSeg(ptr.lx,ptr.ly,x,y);ptr.lx=x;ptr.ly=y;}
+});
+canvas.addEventListener("pointerdown",e=>{
+  if(e.button!==0)return;canvas.setPointerCapture(e.pointerId);
+  const [x,y]=toLattice(e);
+  if(!ptr.in){ptr.px=x;ptr.py=y;}
+  ptr.x=x;ptr.y=y;ptr.in=true;ptr.down=true;ptr.lx=x;ptr.ly=y;ptr.moved=0;ptr.shift=e.shiftKey;
+  if(S.fx.ripples)ripples.push({x,y,t:performance.now()});
+  if(FL&&S.fx.fluid)FL.puff(x,y);
+  ensureAudio();
+});
+const up=e=>{
+  if(ptr.down&&ptr.moved>.35&&((S.tool==="patch")!==ptr.shift))hideHint();
+  if(ptr.down&&ptr.moved<=.35)paintSeg(ptr.lx,ptr.ly,ptr.lx,ptr.ly);
+  ptr.down=false;if(e.pointerType!=="mouse")ptr.in=false;
+};
+canvas.addEventListener("pointerup",up);canvas.addEventListener("pointercancel",up);
+canvas.addEventListener("pointerleave",()=>{if(!ptr.down)ptr.in=false;});
+const syncShift=e=>{ptr.shift=e.shiftKey;canvas.classList.toggle("erasing",(S.tool==="erase")!==ptr.shift);};
+addEventListener("keydown",syncShift);addEventListener("keyup",syncShift);
+
+// Sound: a small plucked voice per cable that connects, pentatonic by position.
+let analyser=null,scopeBuf=null,mistIn=null,ac=null,bus=null,lastNote=0,notesThisFrame=0;
+function ensureAudio(){
+  if(S.voice==="off")return;
+  try{
+    if(!ac){
+      ac=new (window.AudioContext||window.webkitAudioContext)();
+      bus=ac.createGain();bus.gain.value=.16;
+      const lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=2200;lp.Q.value=.7;
+      const dl=ac.createDelay(1);dl.delayTime.value=.27;const fb=ac.createGain();fb.gain.value=.34;const wet=ac.createGain();wet.gain.value=.3;
+      bus.connect(lp);lp.connect(ac.destination);
+      analyser=ac.createAnalyser();analyser.fftSize=1024;analyser.smoothingTimeConstant=0;bus.connect(analyser);
+      scopeBuf=new Float32Array(analyser.fftSize);
+      // A long, dark generated reverb for the Mist voice.
+      const sr=ac.sampleRate,len=Math.floor(sr*3.6),ir=ac.createBuffer(2,len,sr);
+      for(let c=0;c<2;c++){const d=ir.getChannelData(c);let lpv=0;for(let n=0;n<len;n++){lpv+=(Math.random()*2-1-lpv)*.18;d[n]=lpv*Math.pow(1-n/len,2.6);}}
+      const cv=ac.createConvolver();cv.buffer=ir;const rv=ac.createGain();rv.gain.value=.9;
+      mistIn=ac.createGain();mistIn.gain.value=.55;mistIn.connect(cv);cv.connect(rv);rv.connect(ac.destination);rv.connect(analyser);lp.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(wet);wet.connect(ac.destination);
+    }
+    if(ac.state==="suspended")ac.resume();
+  }catch(_){}
+}
+const SCALE=[0,3,5,7,10];
+const PLUCKS=["string","mallet","harp","fm","soft"];
+const ksCache=new Map();
+// Karplus-Strong plucked string, rendered once per pitch and cached.
+function ks(fr,damp,bright){
+  const key=Math.round(fr*4)+"|"+damp+"|"+bright;
+  if(ksCache.has(key))return ksCache.get(key);
+  if(ksCache.size>90)ksCache.clear();
+  const sr=ac.sampleRate,len=Math.floor(sr*1.6),P=Math.max(2,Math.round(sr/fr));
+  const b=ac.createBuffer(1,len,sr),d=b.getChannelData(0),ring=new Float32Array(P);
+  let prev=0;for(let n=0;n<P;n++){const w=Math.random()*2-1;prev=prev*(1-bright)+w*bright+w*(1-bright)*.35;ring[n]=prev;}
+  let p=0;
+  for(let n=0;n<len;n++){
+    const a=ring[p],nx=ring[(p+1)%P];
+    d[n]=a;ring[p]=damp*(bright*.35*a+(1-bright*.35)*.5*(a+nx));
+    p=(p+1)%P;
+  }
+  ksCache.set(key,b);return b;
+}
+function pluckVariant(kind,fr,vel,t0,dest){
+  const env=(peak,dec)=>{const g=ac.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(peak,t0+.004);g.gain.exponentialRampToValueAtTime(.0008,t0+dec);g.connect(dest);return g;};
+  const sine=(fq,type)=>{const o=ac.createOscillator();o.type=type||"sine";o.frequency.value=fq;return o;};
+  const run=(o,dur)=>{o.start(t0);o.stop(t0+dur+.05);};
+  if(kind==="string"||kind==="harp"){
+    const src=ac.createBufferSource();
+    src.buffer=kind==="string"?ks(fr,.995,.25):ks(fr,.9985,.8);
+    const g=env(vel*(kind==="string"?.9:.7),kind==="string"?.9:1.5);
+    src.connect(g);src.start(t0);src.stop(t0+1.6);
+  }else if(kind==="mallet"){
+    const parts=[[1,.7,.55],[3.98,.28,.12],[9.2,.1,.04]];
+    for(const [m,a,dec] of parts){const o=sine(fr*m);o.connect(env(vel*a,dec));run(o,dec);}
+  }else if(kind==="fm"){
+    const c=sine(fr),mo=sine(fr*3.5),mg=ac.createGain();
+    mg.gain.setValueAtTime(fr*2.6*vel,t0);mg.gain.exponentialRampToValueAtTime(1,t0+.32);
+    mo.connect(mg);mg.connect(c.frequency);c.connect(env(vel*.45,.75));run(c,.75);run(mo,.75);
+  }else{
+    const g=env(vel*.5,.55),o1=sine(fr,"triangle"),o2=sine(fr*2.003),g2=ac.createGain();g2.gain.value=.35;
+    o1.connect(g);o2.connect(g2);g2.connect(g);run(o1,.55);run(o2,.55);
+  }
+}
+function playVoice(i,j,force){
+  if(!ac||ac.state!=="running")return;
+  const now=ac.currentTime;
+  if(!force&&(now-lastNote<(S.voice==="mist"?.14:.05)||notesThisFrame>0))return;
+  lastNote=now;notesThisFrame++;
+  const deg=((i+(N[1]-j)*2)%15+15)%15;
+  const f=98*Math.pow(2,(SCALE[deg%5]+12*Math.floor(deg/5))/12);
+  let out=bus;
+  if(ac.createStereoPanner){const pan=ac.createStereoPanner();pan.pan.value=Math.max(-1,Math.min(1,(i/N[0])*2-1));pan.connect(bus);out=pan;}
+  const g=ac.createGain();g.connect(out);
+  const osc=(type,fr)=>{const o=ac.createOscillator();o.type=type;o.frequency.value=fr;return o;};
+  if(S.voice==="pluck"){
+    // Timbre changes in bands across the canvas; brightness follows height; small human variation per note.
+    const vel=.55+Math.random()*.45, fr=f*(Math.random()<.14?2:1)*Math.pow(2,(Math.random()-.5)*.012);
+    const lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=900+(1-j/N[1])*4200;lp.Q.value=.8;lp.connect(g);
+    const kind=PLUCKS[((Math.floor(i/5)%PLUCKS.length)+PLUCKS.length)%PLUCKS.length];
+    pluckVariant(kind,fr,vel,now,lp);
+    if(Math.random()<.18)pluckVariant(kind,fr*1.5,vel*.45,now+.055,lp);   // occasional strummed fifth
+  }else if(S.voice==="mist"){
+    // Soft and slow: detuned sines on a major pentatonic, gentle attack, long fade into reverb.
+    const MAJ=[0,2,4,7,9],dg=deg%10,fm=146.83*Math.pow(2,(MAJ[dg%5]+12*Math.floor(dg/5))/12);
+    const vel=.6+Math.random()*.4;
+    const lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=1500;lp.Q.value=.3;
+    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.2*vel,now+.08);g.gain.exponentialRampToValueAtTime(.0008,now+2.8);
+    lp.connect(g);
+    if(mistIn){const send=ac.createGain();send.gain.value=.8;g.connect(send);send.connect(mistIn);}
+    const parts=[[fm,-4,1],[fm,4,1],[fm*2,0,.18],[fm/2,0,.25]];
+    for(const [fq,cents,a] of parts){
+      const o=osc("sine",fq*Math.pow(2,cents/1200)),ga=ac.createGain();ga.gain.value=a*.5;
+      o.connect(ga);ga.connect(lp);o.start(now);o.stop(now+2.9);
+    }
+  }else if(S.voice==="bloop"){
+    // Droplet: a sine that glides up as it fades.
+    const o=osc("sine",f*.6);o.frequency.setValueAtTime(f*.6,now);o.frequency.exponentialRampToValueAtTime(f*1.45,now+.13);
+    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.75,now+.006);g.gain.exponentialRampToValueAtTime(.001,now+.3);
+    o.connect(g);o.start(now);o.stop(now+.34);
+  }else if(S.voice==="acid"){
+    // Saw bass through a resonant lowpass with a snappy filter envelope.
+    const lp=ac.createBiquadFilter();lp.type="lowpass";lp.Q.value=13;
+    lp.frequency.setValueAtTime(f*9,now);lp.frequency.exponentialRampToValueAtTime(f*.9,now+.24);
+    const o1=osc("sawtooth",f/2),o2=osc("sawtooth",f/2*1.006);
+    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.32,now+.005);g.gain.exponentialRampToValueAtTime(.001,now+.36);
+    o1.connect(lp);o2.connect(lp);lp.connect(g);
+    o1.start(now);o2.start(now);o1.stop(now+.4);o2.stop(now+.4);
+  }
+}
+
+// Colours
+function hex(h){const n=parseInt(h.slice(1),16);return[(n>>16&255)/255,(n>>8&255)/255,(n&255)/255];}
+function applyPalette(i){
+  dirty=4;
+  S.pal=i;const p=PALETTES[i];
+  document.documentElement.style.setProperty("--canvas-bg",p.bg);
+  document.documentElement.style.setProperty("--canvas-fg",p.fg);
+  document.getElementById("palName").textContent=p.name;
+  document.querySelectorAll("#swatches .swatch").forEach((b,k)=>b.setAttribute("aria-pressed",k===i));
+}
+
+// Frame
+function segDist(px,py,ax,ay,bx,by){
+  const dx=bx-ax,dy=by-ay,l=dx*dx+dy*dy;
+  let t=l>1e-6?((px-ax)*dx+(py-ay)*dy)/l:0;t=t<0?0:t>1?1:t;
+  return Math.hypot(px-ax-dx*t,py-ay-dy*t);
+}
+const sstep=h=>h<=0?0:h>=1?1:h*h*(3-2*h);
+let last=performance.now(),frame=0;
+function step(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;const f=dt*60;
+  const t=now/1000,reach=S.reach;
+  const decay=S.trail>0?Math.exp(-dt/(S.trail*.45)):0;
+  const damp=Math.pow(.74+.08*S.smooth,f),odamp=Math.pow(.8,f);
+  const nx=N[0],ny=N[1];
+  const follow=1-Math.exp(-dt*(42-37*S.smooth));
+  if(ptr.in&&!ptr.sIn){ptr.sx=ptr.x;ptr.sy=ptr.y;}
+  ptr.sIn=ptr.in;
+  const ax=ptr.sx,ay=ptr.sy;
+  if(ptr.in){ptr.sx+=(ptr.x-ptr.sx)*follow;ptr.sy+=(ptr.y-ptr.sy)*follow;}
+  const bx=ptr.sx,by=ptr.sy;
+  ptr.amt+=((ptr.in?1:0)-ptr.amt)*(1-Math.exp(-dt*(14-10*S.smooth)));
+  const amt=sstep(ptr.amt),hov=amt>.002;
+  const stiff=.22-.14*S.smooth;
+  const speed=Math.hypot(bx-ax,by-ay)/Math.max(dt,.001);
+  const reachV=reach*(1+Math.min(.6,speed*.02));   // fast strokes reach a little wider
+  for(let r=ripples.length-1;r>=0;r--)if(now-ripples[r].t>2400)ripples.splice(r,1);
+  const brushes=[];
+  if(hov)brushes.push({ax,ay,bx,by,amt,rv:reachV});
+  autoplay(now,dt,brushes);
+  const fx_=S.fx;
+  if(brushes.length||ripples.length||pulses.length||fx_.breathe||fx_.rain||fx_.wander||fx_.selfpatch||fx_.seq||fx_.lfo)mv=1;
+  if(FL&&S.fx.fluid)for(const B_ of brushes)FL.addBrush(B_,Math.max(dt,.001));
+
+  const pulse=colPulse.length===nx?colPulse:(colPulse=new Float32Array(nx));
+  const pd=Math.exp(-dt*4.5);
+  const mag=S.fx.magnet, br=S.fx.breathe, lfo=S.fx.lfo;
+  // Scope: one row of dots traces the live audio waveform.
+  let scopeRow=-1;const scope=scopeVals.length===nx?scopeVals:(scopeVals=new Float32Array(nx));scope.fill(0);
+  if(S.fx.scope){
+    const [vx0,vx1,vy0,vy1]=visible();scopeRow=Math.round(vy0+(vy1-vy0)*.8);
+    if(analyser&&ac.state==="running"){
+      analyser.getFloatTimeDomainData(scopeBuf);
+      // Start at a rising zero crossing so the trace holds still like a real scope.
+      let st=0;for(let q=1;q<scopeBuf.length/2;q++)if(scopeBuf[q-1]<0&&scopeBuf[q]>=0){st=q;break;}
+      const span=scopeBuf.length/2;
+      for(let i=Math.max(0,vx0);i<=Math.min(nx-1,vx1);i++){
+        const v=scopeBuf[st+Math.floor((i-vx0)/Math.max(1,vx1-vx0)*(span-1))]||0;
+        scope[i]=Math.max(-1,Math.min(1,v*9));
+      }
+    }
+  }
+  notesThisFrame=0;
+  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
+    const k=j*nx+i, even=((i+j)&1)===0;
+    // Cable target
+    let tg=(patched[k]&&now>=ptime[k])?1:0;
+    if(FA[k]>0)tg*=sstep(FA[k]);
+    let h=0;
+    for(const B_ of brushes){
+      const d=segDist(i+.5,j+.5,B_.ax,B_.ay,B_.bx,B_.by);
+      const v=sstep(1-Math.max(0,d-.25)/B_.rv)*B_.amt;if(v>h)h=v;
+    }
+    H[k]=Math.max(h,H[k]*decay);
+    if(H[k]>tg)tg=H[k];
+    let rip=0,rdx=0,rdy=0;
+    for(let r=0;r<ripples.length;r++){
+      const R=ripples[r],age=(now-R.t)/1000,front=age*8;
+      const dx=i+.5-R.x,dy=j+.5-R.y,d=Math.hypot(dx,dy);
+      const w=sstep(1-Math.abs(d-front)/1.1)*(1-age/2.4);
+      if(w>rip){rip=w;rdx=dx/(d||1);rdy=dy/(d||1);}
+    }
+    if(rip>tg)tg=rip;
+    if(pulse[i]*.95>tg)tg=pulse[i]*.95;
+    if(lfo){
+      const w=Math.sin(i*.38+j*.21-t*S.bpm/120*2.2)*Math.sin(j*.17-i*.07+t*S.bpm/120*.9);
+      const l=sstep((w-.35)/.65);if(l>tg)tg=l;
+    }
+    // Magnetic joins: a link never rests halfway. Below the join point it is only a small swell;
+    // past it, it snaps fully together, and it holds until the pull drops well below (hysteresis).
+    if(!JN[k]&&tg>.42)JN[k]=1;else if(JN[k]&&tg<.2)JN[k]=0;
+    tg=JN[k]?.62+.38*sstep((tg-.2)/.8):.16*sstep(tg/.42);
+    if(reduce){const de=(tg-E[k])*Math.min(1,.25*f);E[k]+=de;if(de>1e-4||de<-1e-4)mv=1;}
+    else if(tg>=E[k]){V[k]+=(tg-E[k])*stiff*f;V[k]*=damp;E[k]+=V[k]*f;if(V[k]>1e-4||V[k]<-1e-4)mv=1;}
+    else{
+      // Letting go: bleed off any spring motion, then ease down with no bounce.
+      // Fast while the neck thins and splits, slower as the halves sink back into their dots.
+      V[k]*=Math.pow(.55,f);
+      const rate=(E[k]>.5?6.5:2.6)*(1.35-.7*S.smooth);
+      const de=(tg-E[k])*(1-Math.exp(-dt*rate));
+      E[k]+=de+V[k]*f;if(E[k]<tg)E[k]=tg;
+      if(de<-1e-4||V[k]>1e-4||V[k]<-1e-4)mv=1;
+    }
+    // Note on when the stubs meet, reset once they have pulled well apart.
+    if(!onState[k]&&E[k]>.52){onState[k]=1;if(S.voice!=="off")playVoice(i,j);}
+    else if(onState[k]&&E[k]<.38)onState[k]=0;
+    // Corner dot: swell, trail and offset
+    let gx=0,gy=0;
+    if(even){
+      let bt=0;
+      for(const B_ of brushes){const d=segDist(i,j,B_.ax,B_.ay,B_.bx,B_.by);const v=sstep(1-d/(B_.rv*.85))*B_.amt;if(v>bt)bt=v;}
+      BH[k]=Math.max(bt,BH[k]*decay);
+      let bump=Math.max(BH[k],rip*.8,pulse[i]*.9);
+      if(br)bump=Math.max(bump,.18*(.5+.5*Math.sin(t*1.3+i*.45+j*.31)));
+      const db=(bump-B[k])*Math.min(1,.2*f);B[k]+=db;if(db>3e-4||db<-3e-4)mv=1;
+      if(mag)for(const B_ of brushes){
+        const dx=B_.bx-i,dy=B_.by-j,d=Math.hypot(dx,dy);
+        const w=sstep(1-d/(reach*1.4))*B_.amt;
+        if(w>0){const s=.24*w/Math.max(d,.7);gx+=dx*s;gy+=dy*s;}
+      }
+      if(rip>0){gx+=rdx*.16*rip;gy+=rdy*.16*rip;}
+      if(br){gx+=.035*Math.sin(t*.9+j*.6);gy+=.035*Math.cos(t*.8+i*.5);}
+      if(j===scopeRow){gy+=scope[i]*.44;B[k]=Math.max(B[k],Math.abs(scope[i])*.9);}
+      if(reduce){OX[k]+=(gx-OX[k])*.3;OY[k]+=(gy-OY[k])*.3;}
+      else{VX[k]+=(gx-OX[k])*.12*f;VY[k]+=(gy-OY[k])*.12*f;VX[k]*=odamp;VY[k]*=odamp;OX[k]+=VX[k]*f;OY[k]+=VY[k]*f;if(Math.abs(VX[k])+Math.abs(VY[k])>1e-4)mv=1;}
+      OX[k]=Math.max(-.45,Math.min(.45,OX[k]));OY[k]=Math.max(-.45,Math.min(.45,OY[k]));
+    }
+    const o=k*4;
+    buf[o]=Math.max(0,Math.min(255,Math.round((E[k]+.25)/1.5*255)));
+    buf[o+1]=Math.round(Math.min(1,B[k])*255);
+    buf[o+2]=Math.round((OX[k]+.5)*255);
+    buf[o+3]=Math.round((OY[k]+.5)*255);
+  }
+  for(let i=0;i<nx;i++)pulse[i]*=pd;
+  ptr.px=ptr.x;ptr.py=ptr.y;
+  inkStep(dt);
+  // Activity map: mark live cables, then grow the marks two cells each way.
+  {const nx_=N[0],ny_=N[1];
+    for(let k=0,n=nx_*ny_;k<n;k++)atmp[k]=E[k]>.004?1:0;
+    for(let j=0;j<ny_;j++){const r=j*nx_;for(let i=0;i<nx_;i++){let v=0;for(let d=-2;d<=2&&!v;d++){const x=i+d;if(x>=0&&x<nx_&&atmp[r+x])v=1;}abuf[r+i]=v;}}
+    for(let i=0;i<nx_;i++)for(let j=0;j<ny_;j++){let v=0;for(let d=-2;d<=2&&!v;d++){const y=j+d;if(y>=0&&y<ny_&&abuf[y*nx_+i])v=1;}atmp[j*nx_+i]=v?255:0;}}
+}
+// Autoplay: everything runs on one clock so modes stay in time with each other and with Sound.
+let scopeVals=new Float32Array(0),glowPts=[],glowTimer=0,colPulse=new Float32Array(0),beatAcc=0,beatN=0,seqCol=-1,ghost=null,autoWalks=[];
+function visible(){
+  return [Math.max(0,Math.floor(-O[0]/sc)),Math.min(N[0]-1,Math.ceil((cw-O[0])/sc)),
+          Math.max(0,Math.floor(-O[1]/sc)),Math.min(N[1]-1,Math.ceil((ch-O[1])/sc))];
+}
+function autoplay(now,dt,brushes){
+  const fx=S.fx,t=now/1000,[x0,x1,y0,y1]=visible();
+  const eighth=60/S.bpm/2;
+  beatAcc+=dt;
+  // Wander: a ghost cursor drifting on a slow looping path, with the same trail and magnet as yours.
+  if(fx.wander){
+    const sp=S.bpm/108,cx=(x0+x1)/2,cy=(y0+y1)/2,hx=(x1-x0)*.42,hy=(y1-y0)*.4;
+    const nx_=cx+hx*(Math.sin(t*.31*sp)*.7+Math.sin(t*.83*sp+1.7)*.3);
+    const ny_=cy+hy*(Math.cos(t*.27*sp+.6)*.65+Math.sin(t*.67*sp)*.35);
+    if(!ghost)ghost={x:nx_,y:ny_,amt:0};
+    ghost.amt=Math.min(1,ghost.amt+dt*1.5);
+    brushes.push({ax:ghost.x,ay:ghost.y,bx:nx_,by:ny_,amt:sstep(ghost.amt),rv:S.reach*1.15});
+    ghost.x=nx_;ghost.y=ny_;
+  }else if(ghost){ghost.amt-=dt*2;if(ghost.amt<=0)ghost=null;else brushes.push({ax:ghost.x,ay:ghost.y,bx:ghost.x,by:ghost.y,amt:sstep(ghost.amt),rv:S.reach*1.15});}
+  // Self-patch: retire old walks first.
+  for(let w=autoWalks.length-1;w>=0;w--){
+    if(now-autoWalks[w].t>9000){for(const k of autoWalks[w].cells)if(patched[k]===2)patched[k]=0;autoWalks.splice(w,1);}
+  }
+  if(beatAcc<eighth)return;
+  beatAcc-=eighth;if(beatAcc>eighth)beatAcc=0;
+  beatN++;
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  // Rain: a ripple on most beats, somewhere on screen.
+  if(fx.rain&&beatN%2===0&&Math.random()<.8&&ripples.length<7)ripples.push({x:rnd(x0,x1),y:rnd(y0,y1),t:now});
+  // Self-patch: every few beats, draw a short inked cable that later dissolves.
+  if(fx.selfpatch&&beatN%6===0&&autoWalks.length<6){
+    let x=Math.floor(rnd(x0+1,x1-1)),y=Math.floor(rnd(y0+1,y1-1));if((x+y)&1)x+=1;
+    let dx=Math.random()<.5?1:-1,dy=Math.random()<.5?1:-1;
+    const cells=[],len=3+Math.floor(Math.random()*4),sx=x,sy=y;
+    for(let st=0;st<len;st++){
+      if(Math.random()<.4)dy=-dy;
+      const ci=Math.min(x,x+dx),cj=Math.min(y,y+dy);
+      if(ci>=0&&cj>=0&&ci<N[0]&&cj<N[1]){
+        const k=cj*N[0]+ci;
+        if(!patched[k]){if(!cells.length)seedInk(k,sx,sy);patched[k]=2;ptime[k]=0;cells.push(k);}
+      }
+      x+=dx;y+=dy;
+    }
+    if(cells.length)autoWalks.push({cells,t:now});
+  }
+  // Sequencer: a playhead steps across the columns on eighth notes.
+  // Patched cables in the current column play notes, so what you draw becomes the pattern.
+  if(fx.seq){
+    seqCol=seqCol<x0||seqCol>=x1?x0:seqCol+1;
+    if(seqCol<colPulse.length)colPulse[seqCol]=1;
+    if(S.voice!=="off"){
+      let played=0;
+      for(let j=y0;j<=y1&&played<3;j++){const k=j*N[0]+seqCol;if(patched[k]){playVoice(seqCol,j,true);played++;j+=1;}}
+    }
+  }
+}
+// Signal pulses travel along fully inked cables and split at each jack they reach.
+let pulses=[],pulseAcc=0;
+function incident(k){
+  const nx=N[0],i=k%nx,j=Math.floor(k/nx),out=[];
+  for(const c of [k,(i>0&&j>0)?k-nx-1:-1,j>0?k-nx:-1,i>0?k-1:-1]){
+    if(c<0)continue;const [a,b]=ends(c%nx,Math.floor(c/nx));
+    if(a===k)out.push([c,0]);else if(b===k)out.push([c,1]);
+  }
+  return out;
+}
+const inked=c=>patched[c]===2&&CP[c]>=1;
+function pulseStep(dt){
+  const nx=N[0];
+  if(!S.fx.signal){pulses.length=0;return;}
+  pulseAcc+=dt;
+  const beat=60/S.bpm;
+  if(pulseAcc>beat){
+    pulseAcc=0;
+    if(pulses.length<16){
+      const live=[];for(let c=0,n=patched.length;c<n;c++)if(inked(c))live.push(c);
+      if(live.length){const c=live[Math.floor(Math.random()*live.length)];pulses.push({c,dir:Math.random()<.5?0:1,t:0,gen:0,from:-1});}
+    }
+  }
+  const sp=3.2*S.bpm/108/1.414;
+  for(let q=pulses.length-1;q>=0;q--){
+    const P_=pulses[q];
+    if(!inked(P_.c)){pulses.splice(q,1);continue;}
+    P_.t+=dt*sp;
+    if(P_.t>=1){
+      const [a,b]=ends(P_.c%nx,Math.floor(P_.c/nx)),dst=P_.dir?a:b;
+      pulses.splice(q,1);
+      if(dst<0)continue;
+      if(S.voice!=="off")playVoice(dst%nx,Math.floor(dst/nx));
+      if(P_.gen<9)for(const [c,dir] of incident(dst)){
+        if(c===P_.c||!inked(c)||pulses.length>=24)continue;
+        pulses.push({c,dir,t:0,gen:P_.gen+1});
+      }
+    }
+  }
+}
+function pulseUniforms(){
+  const nx=N[0],arr=new Float32Array(72);let n=0;
+  for(const P_ of pulses){
+    if(n>=24)break;
+    const [a,b]=ends(P_.c%nx,Math.floor(P_.c/nx));if(a<0||b<0)continue;
+    const ax=a%nx+OX[a],ay=Math.floor(a/nx)+OY[a],bx=b%nx+OX[b],by=Math.floor(b/nx)+OY[b];
+    const t=P_.dir?1-P_.t:P_.t;
+    arr[n*3]=ax+(bx-ax)*t;arr[n*3+1]=ay+(by-ay)*t;arr[n*3+2]=.55+.45*Math.sin(Math.PI*P_.t);n++;
+  }
+  gl.uniform3fv(U.uPu,arr);gl.uniform1i(U.uPn,n);
+}
+function inkStep(dt){
+  const nx=N[0],ny=N[1],sp=S.ink,now=performance.now(),lim=S.patchFade?5000:Infinity;
+  // One pass over cables: life expiry, fade out, then ink creeping along.
+  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
+    const k=j*nx+i;
+    if(patched[k]===2&&born[k]>0&&FA[k]===0&&now-born[k]>lim)FA[k]=1;
+    if(FA[k]>0){
+      mv=1;
+      if(patched[k]!==2)FA[k]=0;
+      else{FA[k]-=dt/S.fade;if(FA[k]<=0){FA[k]=0;patched[k]=0;born[k]=0;}}
+    }
+    if(patched[k]===2){
+      const [a,b]=ends(i,j);
+      if(!CS[k]){
+        const ra=a>=0&&DE[a]&&DF[a]>=.55, rb=b>=0&&DE[b]&&DF[b]>=.55;
+        if(ra||rb){CS[k]=1;CD[k]=ra?0:1;CP[k]=.001;}
+      }
+      if(CS[k]&&CP[k]<1){
+        mv=1;
+        CP[k]=Math.min(1,CP[k]+dt*sp/1.414);
+        if(CP[k]>=1){
+          const src=CD[k]?b:a,dst=CD[k]?a:b;
+          if(dst>=0&&!DE[dst]){
+            const dx=(src%nx)-(dst%nx),dy=Math.floor(src/nx)-Math.floor(dst/nx),l=Math.hypot(dx,dy)||1;
+            DE[dst]=1;DF[dst]=0;DX[dst]=dx/l;DY[dst]=dy/l;
+          }
+        }
+      }
+    }else if(CP[k]>0){mv=1;CP[k]=Math.max(0,CP[k]-dt*2.2);if(CP[k]===0)CS[k]=0;}
+    else CS[k]=0;
+  }
+  // One pass over dots: ink fill or drain, and jack sockets opening or closing.
+  const jr=Math.min(1,dt*(S.fx.sockets?6:8));
+  for(let j=0;j<ny;j++)for(let i=(j&1);i<nx;i+=2){
+    const k=j*nx+i;
+    const live=patched[k]===2||(i>0&&j>0&&patched[k-nx-1]===2)||(j>0&&patched[k-nx]===2)||(i>0&&patched[k-1]===2);
+    if(DE[k]){
+      if(live){if(DF[k]<1){DF[k]=Math.min(1,DF[k]+dt*sp*.75);mv=1;}}
+      else{mv=1;DF[k]-=dt*1.6;if(DF[k]<=0){DF[k]=0;DE[k]=0;}}
+    }
+    const jt=(S.fx.sockets&&live)?1:0,dj=(jt-JK[k])*jr;
+    if(dj>2e-3||dj<-2e-3){JK[k]+=dj;mv=1;}else JK[k]=jt;
+  }
+  pulseStep(dt);
+  for(let k=0,n=nx*ny;k<n;k++){
+    const o=k*4;
+    cbuf[o]=CP[k]>0?Math.max(1,Math.round(CP[k]*127))+(CD[k]?128:0):0;
+    cbuf[o+1]=Math.round(DF[k]*255);
+    const hasDir=DX[k]!==0||DY[k]!==0;
+    cbuf[o+2]=hasDir?Math.round((Math.atan2(DY[k],DX[k])/(Math.PI*2)+.5)*255)&255:0;
+    cbuf[o+3]=(hasDir?128:0)+Math.round(Math.min(1,JK[k])*127);
+  }
+}
+function render(now){
+  gl.useProgram(prog);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
+  gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,N[0],N[1],gl.RGBA,gl.UNSIGNED_BYTE,buf);
+  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,ctex);
+  gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,N[0],N[1],gl.RGBA,gl.UNSIGNED_BYTE,cbuf);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
+  const p=PALETTES[S.pal];
+  gl.uniform2i(U.uN,N[0],N[1]);gl.uniform2f(U.uO,O[0],O[1]);
+  gl.uniform1f(U.uSc,sc);gl.uniform1f(U.uH,ch);gl.uniform1f(U.uR,S.size);
+  gl.uniform1f(U.uNeck,.3+.75*S.goo);gl.uniform1f(U.uK,.12+.42*S.goo);gl.uniform1f(U.uKb,.06+.3*S.goo);
+  gl.uniform1f(U.uT,(now||0)/1000);gl.uniform1f(U.uMin,S.minNeck);
+  gl.uniform1f(U.uGrain,S.fx.grain?.085:0);gl.uniform1f(U.uGlow,0);
+  gl.uniform3fv(U.uBg,hex(p.bg));gl.uniform3fv(U.uFg,hex(p.fg));gl.uniform3fv(U.uPc,hex(p.patch));gl.uniform3fv(U.uSock,hex(p.socket));gl.uniform3fv(U.uSigc,hex(p.signal));pulseUniforms();
+  const dt_=FL&&S.fx.fluid?FL.dye():null;
+  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,dt_||null);gl.activeTexture(gl.TEXTURE0);
+  gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D,atex);
+  gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,N[0],N[1],gl.RED,gl.UNSIGNED_BYTE,atmp);
+  gl.activeTexture(gl.TEXTURE0);gl.uniform1i(U.uA,6);
+  gl.uniform1i(U.uD,2);gl.uniform3fv(U.uFc,hex(p.fluid||p.patch));gl.uniform1f(U.uFl,dt_?S.flStr:0);gl.uniform2f(U.uRes,cw,ch);
+  gl.drawArrays(gl.TRIANGLES,0,3);
+}
+function updateReadout(){
+  let c=0;const x0=Math.floor(-O[0]/sc),x1=Math.ceil((cw-O[0])/sc),y0=Math.floor(-O[1]/sc),y1=Math.ceil((ch-O[1])/sc);
+  for(let j=Math.max(0,y0);j<Math.min(N[1],y1);j++)for(let i=Math.max(0,x0);i<Math.min(N[0],x1);i++)if(patched[j*N[0]+i])c++;
+  document.getElementById("readout").textContent=`${x1-x0} × ${y1-y0} grid · ${c} cable${c===1?"":"s"}`;
+}
+function loop(now){
+  // Drop render resolution if the GPU can't keep up, so the page (and the panel) stays responsive.
+  const ft=now-last;
+  // Only judge speed after a warm-up, over a long window, and only while the tab is visible.
+  // A resize happens before drawing, so the canvas is never shown blank.
+  if(now-startT>3000&&!document.hidden&&idleFrames===0&&ft>0&&ft<250){ftAcc+=ft;ftN++;}
+  if(ftN>=120){
+    const avg=ftAcc/ftN;ftAcc=0;ftN=0;
+    slowRuns=avg>30?slowRuns+1:0;
+    if(slowRuns>=2&&rs>.75){rs=Math.max(.75,rs*.85);slowRuns=0;build();}
+  }
+  // When nothing is moving, keep the last frame on screen and do almost no work.
+  // The simulation still ticks (slower once idle and the cursor is away) so timers and hovers wake it.
+  const sleepy=idleFrames>30&&!ptr.in;
+  if(!sleepy||(frame%4)===0){
+    mv=0;step(now);
+    const flAct=!!(FL&&S.fx.fluid&&now-lastFlT<S.flFade*5000+500);
+    if(mv||flAct||dirty>0){
+      idleFrames=0;
+      if(flAct){try{FL.step(Math.min(.033,Math.max(.001,ft/1000)));}catch(e){console.error(e);}}
+      render(now);if(dirty>0)dirty--;
+    }else idleFrames++;
+  }
+  if((frame++&15)===0)updateReadout();
+  requestAnimationFrame(loop);
+}
+
+// Controls
+const sw=document.getElementById("swatches");
+function buildSwatches(){
+  sw.textContent="";
+  PALETTES.forEach((p,i)=>{const b=document.createElement("button");b.className="swatch";b.style.setProperty("--sbg",p.bg);b.style.setProperty("--sfg",p.fg);
+    b.setAttribute("aria-label",p.name);b.title=p.name;b.onclick=()=>applyPalette(i);sw.appendChild(b);});
+}
+buildSwatches();
+function fader(id,key,fmt,onChange){
+  const el=document.getElementById("f"+id),out=document.getElementById("o"+id);
+  const upd=()=>{S[key]=parseFloat(el.value);out.textContent=fmt(S[key]);
+    el.style.setProperty("--p",((el.value-el.min)/(el.max-el.min)*100)+"%");onChange&&onChange();};
+  el.addEventListener("input",upd);upd();
+}
+const pFade=document.getElementById("pFade");
+pFade.onclick=()=>{S.patchFade=!S.patchFade;pFade.setAttribute("aria-checked",S.patchFade);};
+fader("Spacing","spacing",v=>v+" px",()=>{if(E)build();});
+fader("Size","size",v=>"r "+v.toFixed(2)+" u");
+fader("Goo","goo",v=>Math.round(v*100)+"%");
+fader("Min","minNeck",v=>Math.round(v*100)+"%");
+fader("Reach","reach",v=>v.toFixed(1)+" u");
+fader("Smooth","smooth",v=>Math.round(v*100)+"%");
+fader("Trail","trail",v=>v===0?"off":v.toFixed(2)+" s");
+fader("Bpm","bpm",v=>v+" bpm",()=>document.documentElement.style.setProperty("--beat",(60/S.bpm).toFixed(3)+"s"));
+document.querySelectorAll(".chip").forEach(b=>{
+  const key=b.dataset.fx;b.setAttribute("aria-pressed",S.fx[key]);
+  b.onclick=()=>{S.fx[key]=!S.fx[key];b.setAttribute("aria-pressed",S.fx[key]);updateGenCount();};
+});
+document.querySelectorAll("[data-voice]").forEach(b=>{
+  b.onclick=()=>{S.voice=b.dataset.voice;document.querySelectorAll("[data-voice]").forEach(x=>x.setAttribute("aria-pressed",x===b));ensureAudio();if(S.voice!=="off")playVoice(Math.floor(N[0]/2),Math.floor(N[1]/2));};
+});
+function updateGenCount(){
+  const n=["wander","rain","selfpatch","lfo","seq"].filter(k=>S.fx[k]).length;
+  document.getElementById("genCount").textContent=n?n+" running":"Off";
+}
+updateGenCount();
+const tP=document.getElementById("tPatch"),tE=document.getElementById("tErase");
+function setTool(t){S.tool=t;tP.setAttribute("aria-pressed",t==="patch");tE.setAttribute("aria-pressed",t==="erase");canvas.classList.toggle("erasing",t==="erase");}
+tP.onclick=()=>setTool("patch");tE.onclick=()=>setTool("erase");
+document.getElementById("pLogo").onclick=presetLogo;
+document.getElementById("pBay").onclick=presetBay;
+document.getElementById("pClear").onclick=clearAll;
+
+const mod=document.getElementById("module"),col=document.getElementById("collapse");
+function setOpen(o){mod.classList.toggle("closed",!o);document.getElementById("collapseLbl").textContent=o?"Hide":"Controls";col.setAttribute("aria-expanded",o);}
+col.onclick=()=>setOpen(mod.classList.contains("closed"));
+if(matchMedia("(max-width:640px)").matches)setOpen(false);
+
+const ov=document.getElementById("overlay");
+const exBtn=document.getElementById("export");
+if(exBtn)exBtn.onclick=()=>{
+  render(performance.now());
+  document.getElementById("exImg").src=canvas.toDataURL("image/png");
+  document.getElementById("exImg").hidden=false;document.getElementById("exText").hidden=true;
+  document.getElementById("exTitle").firstChild.textContent="Export ";
+  ov.querySelector(".sheet-foot .hint").textContent="Download it, or right-click the image to save.";
+  document.getElementById("exSize").textContent=`${cw} × ${ch} px`;
+  ov.hidden=false;document.getElementById("exClose").focus();
+};
+async function copyText(txt,btn,title){
+  const label=btn.textContent;
+  try{await navigator.clipboard.writeText(txt);btn.textContent="Copied";setTimeout(()=>btn.textContent=label,1600);}
+  catch(_){
+    // Clipboard refused: show the text to copy by hand.
+    const ta=document.getElementById("exText");ta.value=txt;ta.hidden=false;
+    document.getElementById("exImg").hidden=true;
+    document.getElementById("exTitle").firstChild.textContent=title+" ";document.getElementById("exSize").textContent="";
+    ov.querySelector(".sheet-foot .hint").textContent="Copy this text and paste it into the chat.";
+    ov.hidden=false;ta.focus();ta.select();
+  }
+}
+document.getElementById("exDownload").onclick=()=>{
+  const a=document.createElement("a");a.href=document.getElementById("exImg").src;
+  a.download="kables-pattern-"+new Date().toISOString().slice(0,10)+".png";document.body.appendChild(a);a.click();a.remove();
+};
+document.getElementById("exClose").onclick=()=>{ov.hidden=true;};
+ov.addEventListener("click",e=>{if(e.target===ov)ov.hidden=true;});
+addEventListener("keydown",e=>{if(e.key==="Escape")ov.hidden=true;});
+
+addEventListener("pointerdown",ensureAudio,{passive:true});addEventListener("keydown",ensureAudio);
+const resetBtn=document.getElementById("resetAll");
+resetBtn.onclick=()=>{
+  clearAll();autoWalks.length=0;pulses.length=0;
+  resetBtn.classList.remove("spin");void resetBtn.offsetWidth;resetBtn.classList.add("spin");
+  setTimeout(()=>resetBtn.classList.remove("spin"),520);
+};
+// Any control change redraws, even if the field is otherwise still.
+document.getElementById("module").addEventListener("input",()=>{dirty=4;});
+document.getElementById("module").addEventListener("click",()=>{dirty=4;});
+document.addEventListener("visibilitychange",()=>{dirty=4;});
+// Usage hint: fades in after load, leaves once the first patch is drawn.
+const hintPill=document.getElementById("hintPill");
+if(matchMedia("(pointer: coarse)").matches)document.getElementById("hintText").textContent="Touch and drag to patch";
+let hintGone=false;
+setTimeout(()=>{if(!hintGone)hintPill.classList.add("show");},900);
+function hideHint(){if(hintGone)return;hintGone=true;hintPill.classList.add("gone");setTimeout(()=>{hintPill.hidden=true;},600);}
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(build,80);});
+applyPalette(S.pal);build();presetLogo();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

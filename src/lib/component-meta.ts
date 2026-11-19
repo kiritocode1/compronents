@@ -18214,6 +18214,156 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  "patch-cables": {
+    demoPath: "src/components/demos/patch-cables.tsx",
+    studioPath: "src/components/studios/patch-cables.tsx",
+    nuance: [
+      {
+        label: "One shader draws the whole field",
+        description:
+          "Dots sit on the even cells of a lattice and each cell owns one diagonal. A full-screen WebGL2 fragment shader reads two small state textures and draws dots, necks and signal beads as one signed distance field, joined with a C2 smooth union so the goo has no crease.",
+      },
+      {
+        label: "Joins snap, and each join is a note",
+        description:
+          "A spring per cell grows two stubs that meet in the middle. Past 0.42 of pull the cell snaps closed and holds until the pull drops under 0.2. When it closes past 0.52 it plays one note, at most one per frame and 140ms apart for Mist.",
+      },
+      {
+        label: "Position picks the pitch",
+        description:
+          "The note comes from (column + rows above the bottom \u00d7 2) mod 15 on G minor pentatonic from 98 Hz (Mist uses D major pentatonic), so any gesture stays in key. Pan follows the column.",
+      },
+      {
+        label: "Audio starts on the first press",
+        description:
+          "Browsers block sound before a gesture, so the AudioContext is created on the first pointer down in the canvas or a voice change.",
+      },
+    ],
+    editable: [],
+    assets: [],
+    api: [
+      {
+        name: "palette",
+        type: "PatchCablesPalette",
+        default: "PATCH_CABLES_PALETTES[0]",
+        description:
+          "Background, dots, patch ink, jack sockets and signal core, plus an optional fluid colour. PATCH_CABLES_PALETTES has the three palettes of the original.",
+      },
+      {
+        name: "voice",
+        type: '"off" | "mist" | "pluck" | "bloop" | "acid"',
+        default: '"mist"',
+        description:
+          "Synth voice. Changing it starts the audio and plays one note at the centre of the grid.",
+      },
+      {
+        name: "bpm",
+        type: "number",
+        default: "108",
+        description:
+          "Tempo shared by the generators, the signal pulses and the sequencer, 60 to 180.",
+      },
+      {
+        name: "effects",
+        type: "Partial<PatchCablesEffects>",
+        description:
+          "magnet, ripples, sockets, signal, fluid and grain on, breathe and scope off.",
+      },
+      {
+        name: "generators",
+        type: "Partial<PatchCablesGenerators>",
+        description:
+          "wander, rain, selfpatch, lfo and seq, all off. They play the field on their own, in time.",
+      },
+      {
+        name: "reach",
+        type: "number",
+        default: "2.2",
+        description:
+          "Cursor reach in lattice cells, 0.6 to 6. Fast strokes reach up to 60% wider.",
+      },
+      {
+        name: "smoothing",
+        type: "number",
+        default: "0.55",
+        description: "Cursor smoothing, 0 to 1. Also softens the springs.",
+      },
+      {
+        name: "trailDecay",
+        type: "number",
+        default: "1",
+        description: "Seconds a hovered cell keeps its pull, 0 (off) to 3.",
+      },
+      {
+        name: "tool",
+        type: '"patch" | "erase"',
+        default: '"patch"',
+        description: "What a drag does. Holding Shift swaps it.",
+      },
+      {
+        name: "fadePatches",
+        type: "boolean",
+        default: "true",
+        description: "Hand-drawn patches fade 5 seconds after they are drawn.",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        default: "40",
+        description:
+          "Lattice pitch in CSS px, 16 to 90. Changing it rebuilds the grid.",
+      },
+      {
+        name: "dotSize",
+        type: "number",
+        default: "0.47",
+        description: "Dot radius in lattice units, 0.28 to 0.62.",
+      },
+      {
+        name: "goo",
+        type: "number",
+        default: "0.79",
+        description: "Neck width and blend softness, 0 to 1.",
+      },
+      {
+        name: "minNeck",
+        type: "number",
+        default: "0.62",
+        description: "Narrowest neck as a share of the full one, 0.2 to 1.",
+      },
+      {
+        name: "pattern",
+        type: '"tiles" | "patchbay" | "none"',
+        default: '"tiles"',
+        description:
+          "Pattern laid down on mount. Later changes go through the ref: clear(), tiles(), patchbay().",
+      },
+      {
+        name: "showHint",
+        type: "boolean",
+        default: "true",
+        description:
+          "The pill that fades in after load and leaves after the first patch.",
+      },
+      {
+        name: "showReadout",
+        type: "boolean",
+        default: "true",
+        description: "The corner readout: visible grid size and cable count.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It fills its parent, so give the parent a height.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+    ],
+  },
   unfocused: {
     demoPath: "src/components/demos/unfocused.tsx",
     nuance: [

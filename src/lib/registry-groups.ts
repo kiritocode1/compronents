@@ -205,6 +205,7 @@ export const componentGroups: RegistryGroup[] = [
       "cursor-trail-scroll",
       "cursor-image-trail",
       "scribble-cursor",
+      "patch-cables",
       "halftone-hands",
       "smudge-cursor-reveal",
       "sandy-grain-background",

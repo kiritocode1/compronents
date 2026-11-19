@@ -1,0 +1,445 @@
+<title>Patch Cables Synth</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; each section pairs a short explanation with an instrument you can play. */
+:root{
+  --bg:#ecedea; --surface:#e0e3df; --cell:#d3d9d5; --ink:#22292a; --muted:#566162;
+  --accent:#475e62; --on-accent:#e5f56b; --hot:#e5f56b; --line:#9aa8a6;
+  --f-display:"DM Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1b2224; --surface:#253033; --cell:#2e3a3d; --ink:#e7ebe5; --muted:#9aa7a5;
+  --accent:#e5f56b; --on-accent:#1b2224; --hot:#e5f56b; --line:#5d6d6f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1b2224; --surface:#253033; --cell:#2e3a3d; --ink:#e7ebe5; --muted:#9aa7a5;
+  --accent:#e5f56b; --on-accent:#1b2224; --hot:#e5f56b; --line:#5d6d6f; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-display);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:760px;margin:0 auto;padding-block:56px 96px;display:flex;flex-direction:column;gap:72px}
+h1{font:500 clamp(34px,6vw,52px)/1.05 var(--f-display);letter-spacing:-.03em;margin:0;text-wrap:balance}
+h2{font:500 26px/1.15 var(--f-display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h3{font:600 15px/1.3 var(--f-display);margin:0}
+[hidden]{display:none!important}
+p{margin:0;max-width:65ch}
+.lede{font-size:19px;color:var(--ink)}
+.muted{color:var(--muted)}
+section{display:flex;flex-direction:column;gap:20px;min-width:0}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+pre{margin:0;background:var(--surface);border-radius:12px;padding:14px 16px;overflow-x:auto;font:13px/1.55 var(--f-mono)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{appearance:none;border:0;font:500 14px var(--f-display);color:var(--ink);background:var(--surface);border-radius:999px;height:36px;padding:0 16px;cursor:pointer}
+button:hover{filter:brightness(.96)}
+button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+button.go{background:var(--accent);color:var(--on-accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel{background:var(--surface);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel button{background:var(--bg)}
+.panel button[aria-pressed="true"],.panel button.go{background:var(--accent);color:var(--on-accent)}
+.ladder{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;touch-action:none;user-select:none}
+.ladder div{aspect-ratio:1;border-radius:50%;background:var(--cell);display:grid;place-items:center;font:500 11px var(--f-mono);color:var(--muted);transition:background .25s,color .25s}
+.ladder div.on{background:var(--hot);color:#22292a;transition:none}
+.scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.scale div{background:var(--bg);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;font-variant-numeric:tabular-nums}
+.scale b{font-weight:500}
+.scale span{font:12px var(--f-mono);color:var(--muted)}
+.layers{display:flex;flex-direction:column;gap:6px}
+.layer{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.layer p{font-size:14px;color:var(--muted)}
+.layer button{min-width:92px}
+canvas.wave{width:100%;height:84px;display:block;border-radius:10px;background:var(--bg)}
+.seq{display:grid;grid-template-columns:repeat(16,1fr);gap:3px;touch-action:none;user-select:none}
+.seq div{aspect-ratio:1;border-radius:50%;background:var(--bg);cursor:pointer}
+.seq div.p{background:var(--accent)}
+.seq div.col{box-shadow:inset 0 0 0 999px rgba(229,245,107,.35)}
+.seq div.hit{background:var(--hot)}
+.diagram{overflow-x:auto}
+.diagram svg{display:block;min-width:640px;width:100%;height:auto}
+label.slider{display:flex;align-items:center;gap:12px;font-size:14px}
+input[type=range]{accent-color:var(--accent);flex:1;min-width:0}
+ol.recipe{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;max-width:65ch}
+.foot{font-size:14px;color:var(--muted)}
+.foot a{color:inherit}
+@media (max-width:520px){.ladder{grid-template-columns:repeat(8,1fr)}.ladder div:nth-child(12n+9),.ladder div:nth-child(12n+10),.ladder div:nth-child(12n+11),.ladder div:nth-child(12n+12){display:none}.scale{grid-template-columns:repeat(3,minmax(0,1fr))}.layer{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.ladder div{transition:none}}
+</style>
+
+<main>
+  <header style="display:flex;flex-direction:column;gap:18px">
+    <h1>How the cables make music</h1>
+    <p class="lede">In the patch lattice, every time two dots fuse into a cable, that cable plays one note. Nobody composes anything. The music comes from three rules: positions map to a scale that cannot clash, each note is a tiny synth built from a few oscillators, and everything automatic runs on one tempo clock.</p>
+    <p class="muted">Every sound on this page is generated live with the Web Audio API, using the same numbers as the source code. Tap anything to start the audio.</p>
+  </header>
+
+  <section>
+    <h2>A note fires when a cable closes</h2>
+    <p>Each diagonal in the grid has a spring value <code>E</code> from 0 (two separate dots) to 1 (a fat cable). When <code>E</code> rises past 0.52 the cable plays its note. It cannot fire again until <code>E</code> falls below 0.38, so a cable wobbling around the threshold does not stutter. Two more limits keep a fast swipe from turning into noise: at most one note per animation frame, and a minimum gap between notes of 140ms for Mist and 50ms for the other voices.</p>
+    <pre>if (!onState[k] &amp;&amp; E[k] &gt; 0.52) { onState[k] = 1; playVoice(i, j); }
+else if (onState[k] &amp;&amp; E[k] &lt; 0.38) onState[k] = 0;</pre>
+  </section>
+
+  <section>
+    <h2>Where you are decides the pitch</h2>
+    <p>The cell's column and row pick a step on a ladder of 15 notes: <code>deg = (i + (rows &minus; j) &times; 2) mod 15</code>. Moving right climbs one step; moving up climbs two. The ladder is G minor pentatonic over three octaves, starting at G2, 98 Hz. Pentatonic scales have no semitone neighbours, so any two notes sound fine together, in any order. That is why a random swipe still sounds like a phrase.</p>
+    <div class="panel">
+      <div class="row" role="group" aria-label="Scale">
+        <button id="sPenta" aria-pressed="true">Pentatonic, as in the source</button>
+        <button id="sChrom" aria-pressed="false">Every semitone</button>
+      </div>
+      <div class="ladder" id="ladder" aria-label="Drag across the dots to play"></div>
+      <p class="muted" style="font-size:14px">Drag across the dots. Then switch to every semitone and drag the same path to hear the clashes the scale removes.</p>
+      <div class="scale" id="scale"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Each note is a small synth</h2>
+    <p>A voice is a recipe of layers: oscillators make the raw tone, a filter shapes its brightness, and a gain envelope shapes its loudness over time. Switch the layers below off and on to hear what each one adds.</p>
+    <div class="panel">
+      <div class="row" role="group" aria-label="Voice" id="voiceTabs"></div>
+      <p id="voiceIntro" style="font-size:15px"></p>
+      <div class="layers" id="layers"></div>
+      <canvas class="wave" id="wave" hidden></canvas>
+      <div class="row"><button class="go" id="playNote">Play a note</button><button id="playPhrase">Play a phrase</button></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>One room for every note</h2>
+    <p>All voices feed a shared bus at gain 0.16, then a lowpass at 2200 Hz that takes the harsh top off. A 270ms delay with 34% feedback repeats each note a few times, and Mist also sends into a 3.6 second reverb. The reverb has no recorded room: its impulse response is white noise, smoothed by a one-pole filter and faded out with <code>(1 &minus; n/len)^2.6</code>. Shared effects are what make separate notes sound like one piece.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 760 250" role="img" aria-label="Signal routing: voice to pan to bus to lowpass to output, with a feedback delay after the lowpass and a reverb send from Mist">
+        <g fill="none" stroke="var(--line)" stroke-width="1.5">
+          <path d="M120 70H160M260 70H300M400 70H440M540 70H640"/>
+          <path d="M490 90V150H520M620 150H660V95"/>
+          <path d="M600 170V200H560V170" stroke-dasharray="4 4"/>
+          <path d="M70 90V205H160M260 205H300M400 205H690V95"/>
+        </g>
+        <g fill="var(--surface)">
+          <rect x="20" y="50" width="100" height="40" rx="20"/><rect x="160" y="50" width="100" height="40" rx="20"/>
+          <rect x="300" y="50" width="100" height="40" rx="20"/><rect x="440" y="50" width="100" height="40" rx="20"/>
+          <rect x="640" y="50" width="100" height="40" rx="20" fill="var(--accent)"/>
+          <rect x="520" y="130" width="100" height="40" rx="20"/>
+          <rect x="160" y="185" width="100" height="40" rx="20"/><rect x="300" y="185" width="100" height="40" rx="20"/>
+        </g>
+        <g font-family="DM Sans, sans-serif" font-size="13" text-anchor="middle" fill="var(--ink)">
+          <text x="70" y="75">Voice</text><text x="210" y="75">Pan by x</text><text x="350" y="75">Bus 0.16</text>
+          <text x="490" y="75">Lowpass 2200</text><text x="690" y="75" fill="var(--on-accent)">Speakers</text>
+          <text x="570" y="155">Delay 0.27 s</text><text x="580" y="215" fill="var(--muted)" font-size="12">feedback 0.34</text>
+          <text x="652" y="124" fill="var(--muted)" font-size="12" text-anchor="end">wet 0.3</text>
+          <text x="210" y="210">Send 0.44</text><text x="350" y="210">Reverb 3.6 s</text>
+          <text x="110" y="180" fill="var(--muted)" font-size="12">Mist only</text>
+        </g>
+      </svg>
+    </div>
+    <div class="panel">
+      <div class="row" role="group" aria-label="Room effects">
+        <button data-fx="lowpass" aria-pressed="true">Lowpass</button>
+        <button data-fx="delay" aria-pressed="true">Delay</button>
+        <button data-fx="reverb" aria-pressed="true">Reverb</button>
+        <button class="go" id="roomPlay">Play</button>
+      </div>
+      <p class="muted" style="font-size:14px">These switches change the room for every demo on the page. Play with all three off, then turn them on one at a time.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>One clock keeps it in time</h2>
+    <p>The generators (rain, the self-patcher, signal pulses and the sequencer) all count beats from the same tempo, 108 bpm by default, so an eighth note is 278ms. The sequencer moves a playhead one column per eighth note and plays up to three patched cables in that column, skipping the row under each one it plays. What you draw becomes the pattern. Signal pulses add a second voice on the quarter note: one starts on a random inked cable each beat and plays a note at every jack it reaches.</p>
+    <div class="panel">
+      <div class="seq" id="seq" aria-label="Sequencer grid. Click cells to patch them."></div>
+      <div class="row">
+        <button class="go" id="seqPlay">Play</button>
+        <button id="seqClear">Clear</button>
+        <button id="seqDemo">Load example</button>
+        <span class="row" role="group" aria-label="Sequencer voice" id="seqVoices"></span>
+      </div>
+      <label class="slider" for="bpm">Tempo <input type="range" id="bpm" min="60" max="180" value="108"> <span class="mono" id="bpmOut">108 bpm</span></label>
+    </div>
+    <p class="muted" style="font-size:15px">One difference from the source: the source fires each note on the animation frame where the beat lands, so a note can be up to one frame (16.7ms) late. This demo schedules notes 100ms ahead on the audio clock, which keeps them exact.</p>
+  </section>
+
+  <section>
+    <h2>Making music like this yourself</h2>
+    <ol class="recipe">
+      <li><b>Pick a scale with no clashes.</b> Pentatonic or a single chord. Then nothing a person does can sound wrong.</li>
+      <li><b>Map space to pitch.</b> Position, speed or size picks the step on that scale. People hear their gesture in the melody.</li>
+      <li><b>Keep notes short and few.</b> Fast attacks, decays under three seconds, a minimum gap between notes, and a cap per frame.</li>
+      <li><b>Give the notes small imperfections.</b> Two oscillators a few cents apart, a random velocity, an occasional octave or fifth.</li>
+      <li><b>Put everything in one room.</b> One bus, one filter, one delay, one reverb.</li>
+      <li><b>Run every automatic part off one clock.</b> Quantise generators to beats so they line up with each other.</li>
+    </ol>
+  </section>
+
+  <p class="foot">Source: the patch experiment at <a href="https://patch.nrly.fun/">patch.nrly.fun</a>, read in full and ported as the Patch Cables component. The idea of describing each sound as a recipe of layers comes from <a href="https://procedural-sounds.vercel.app/">Procedural Sounds</a>.</p>
+</main>
+
+<script>
+(() => {
+const $ = (id) => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---- Audio graph: the source's bus, lowpass, delay and reverb ----
+let ac, bus, lp, wet, rv, mistIn;
+const FX = { lowpass: true, delay: true, reverb: true };
+function ctx() {
+  if (ac) { if (ac.state === "suspended") ac.resume(); return ac; }
+  ac = new (window.AudioContext || window.webkitAudioContext)();
+  bus = ac.createGain(); bus.gain.value = .16;
+  lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 2200; lp.Q.value = .7;
+  const dl = ac.createDelay(1); dl.delayTime.value = .27;
+  const fb = ac.createGain(); fb.gain.value = .34;
+  wet = ac.createGain(); wet.gain.value = .3;
+  bus.connect(lp); lp.connect(ac.destination);
+  lp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(ac.destination);
+  const sr = ac.sampleRate, len = Math.floor(sr * 3.6), ir = ac.createBuffer(2, len, sr);
+  for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); let v = 0;
+    for (let n = 0; n < len; n++) { v += (Math.random() * 2 - 1 - v) * .18; d[n] = v * Math.pow(1 - n / len, 2.6); } }
+  const cv = ac.createConvolver(); cv.buffer = ir;
+  rv = ac.createGain(); rv.gain.value = .9;
+  mistIn = ac.createGain(); mistIn.gain.value = .55;
+  mistIn.connect(cv); cv.connect(rv); rv.connect(ac.destination);
+  applyFx();
+  return ac;
+}
+function applyFx() {
+  if (!ac) return;
+  lp.frequency.value = FX.lowpass ? 2200 : 20000;
+  wet.gain.value = FX.delay ? .3 : 0;
+  rv.gain.value = FX.reverb ? .9 : 0;
+}
+
+// ---- Pitch: the source's ladder ----
+const MIN = [0, 3, 5, 7, 10], MAJ = [0, 2, 4, 7, 9];
+const NAMES = ["G", "G#", "A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#"];
+const minorHz = (deg) => 98 * Math.pow(2, (MIN[deg % 5] + 12 * Math.floor(deg / 5)) / 12);
+const semi = (deg) => MIN[deg % 5] + 12 * Math.floor(deg / 5);
+const noteName = (s) => NAMES[s % 12] + (2 + Math.floor((s + 7) / 12));
+let chromatic = false;
+const pitch = (deg) => chromatic ? 98 * Math.pow(2, deg / 12) : minorHz(deg);
+const pitchName = (deg) => noteName(chromatic ? deg : semi(deg));
+
+// ---- Voices, with switchable layers. Numbers are the source's. ----
+const ksCache = new Map();
+function ks(fr, damp, bright) {
+  const key = Math.round(fr * 4) + "|" + damp + "|" + bright;
+  if (ksCache.has(key)) return ksCache.get(key);
+  const sr = ac.sampleRate, len = Math.floor(sr * 1.6), P = Math.max(2, Math.round(sr / fr));
+  const b = ac.createBuffer(1, len, sr), d = b.getChannelData(0), ring = new Float32Array(P);
+  let prev = 0;
+  for (let n = 0; n < P; n++) { const w = Math.random() * 2 - 1; prev = prev * (1 - bright) + w * bright + w * (1 - bright) * .35; ring[n] = prev; }
+  let p = 0;
+  for (let n = 0; n < len; n++) { const a = ring[p], nx = ring[(p + 1) % P]; d[n] = a; ring[p] = damp * (bright * .35 * a + (1 - bright * .35) * .5 * (a + nx)); p = (p + 1) % P; }
+  ksCache.set(key, b); return b;
+}
+const osc = (type, f) => { const o = ac.createOscillator(); o.type = type; o.frequency.value = f; return o; };
+
+const VOICES = {
+  mist: {
+    label: "Mist",
+    intro: "The default voice. Soft sines on D major pentatonic, a slow swell and a long fade into the reverb.",
+    layers: [
+      ["pair", "Detuned pair", "Two sines 4 cents below and above the note. Their slow beating makes the tone shimmer."],
+      ["octave", "Octave", "A quiet sine one octave up at 18% adds air."],
+      ["sub", "Sub", "A sine one octave down at 25% adds weight."],
+      ["swell", "Slow envelope", "80ms to rise, 2.8 seconds to fade. Off, it is a 4ms click that dies in 0.4s."],
+      ["send", "Reverb send", "Sends 80% of the note into the 3.6 second reverb."],
+    ],
+    play(deg, t, L, out) {
+      const dg = deg % 10, f = 146.83 * Math.pow(2, (MAJ[dg % 5] + 12 * Math.floor(dg / 5)) / 12) * (chromatic ? pitch(deg) / minorHz(deg) : 1);
+      const vel = .6 + Math.random() * .4, g = ac.createGain(), fl = ac.createBiquadFilter();
+      fl.type = "lowpass"; fl.frequency.value = 1500; fl.Q.value = .3;
+      const rise = L.swell ? .08 : .004, fall = L.swell ? 2.8 : .4;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.2 * vel, t + rise); g.gain.exponentialRampToValueAtTime(.0008, t + fall);
+      fl.connect(g); g.connect(out);
+      if (L.send) { const s = ac.createGain(); s.gain.value = .8; g.connect(s); s.connect(mistIn); }
+      const parts = L.pair ? [[f, -4, 1], [f, 4, 1]] : [[f, 0, 2]];
+      if (L.octave) parts.push([f * 2, 0, .18]);
+      if (L.sub) parts.push([f / 2, 0, .25]);
+      for (const [fq, c, a] of parts) { const o = osc("sine", fq * Math.pow(2, c / 1200)), ga = ac.createGain(); ga.gain.value = a * .5; o.connect(ga); ga.connect(fl); o.start(t); o.stop(t + fall + .1); }
+      return { wave: null };
+    },
+  },
+  pluck: {
+    label: "Pluck",
+    intro: "Five instruments in bands across the field: string, mallet, harp, FM bell and a soft triangle. The string and harp use Karplus-Strong synthesis: a burst of noise goes round a delay loop one period long, and each pass averages neighbouring samples, so the noise turns into a tone that dies away.",
+    kinds: ["string", "mallet", "harp", "fm", "soft"],
+    layers: [
+      ["kind", "Instrument", ""],
+      ["bright", "Height filter", "A lowpass that opens as the cell gets higher: 900 Hz at the bottom up to 5100 Hz at the top."],
+      ["human", "Human variation", "Random velocity, a pitch drift of up to 0.6 cents, and an octave jump on 14% of notes."],
+      ["fifth", "Strummed fifth", "On 18% of notes a quieter fifth follows 55ms later."],
+    ],
+    kind: "string",
+    play(deg, t, L, out) {
+      const f0 = pitch(deg);
+      const vel = L.human ? .55 + Math.random() * .45 : .8;
+      const f = L.human ? f0 * (Math.random() < .14 ? 2 : 1) * Math.pow(2, (Math.random() - .5) * .012) : f0;
+      const g = ac.createGain(); g.connect(out);
+      let dest = g;
+      if (L.bright) { const fl = ac.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.value = 900 + (deg / 14) * 4200; fl.Q.value = .8; fl.connect(g); dest = fl; }
+      const wave = pluckVariant(this.kind, f, vel, t, dest);
+      if (L.fifth && Math.random() < .18) pluckVariant(this.kind, f * 1.5, vel * .45, t + .055, dest);
+      return { wave };
+    },
+  },
+  bloop: {
+    label: "Bloop",
+    intro: "A water drop: one sine that glides up while it fades out, in 0.3 seconds.",
+    layers: [["glide", "Pitch glide", "The sine starts at 0.6× the note and rises to 1.45× in 130ms. Off, it is a plain beep."]],
+    play(deg, t, L, out) {
+      const f = pitch(deg), o = osc("sine", f * .6), g = ac.createGain();
+      if (L.glide) { o.frequency.setValueAtTime(f * .6, t); o.frequency.exponentialRampToValueAtTime(f * 1.45, t + .13); }
+      else o.frequency.value = f;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.75, t + .006); g.gain.exponentialRampToValueAtTime(.001, t + .3);
+      o.connect(g); g.connect(out); o.start(t); o.stop(t + .34);
+      return { wave: null };
+    },
+  },
+  acid: {
+    label: "Acid",
+    intro: "A bass line in the style of the TB-303: sawtooth waves an octave down, through a lowpass filter that snaps shut on every note.",
+    layers: [
+      ["second", "Second saw", "Another sawtooth 0.6% sharp. The two drift against each other and thicken the sound."],
+      ["reso", "Resonance", "Filter Q of 13 boosts the frequencies at the cutoff, which gives the squelch. Off, Q is 0.7."],
+      ["sweep", "Filter sweep", "The cutoff starts at 9× the note and falls to 0.9× in 240ms. Off, it stays at 3×."],
+    ],
+    play(deg, t, L, out) {
+      const f = pitch(deg), fl = ac.createBiquadFilter(), g = ac.createGain();
+      fl.type = "lowpass"; fl.Q.value = L.reso ? 13 : .7;
+      if (L.sweep) { fl.frequency.setValueAtTime(f * 9, t); fl.frequency.exponentialRampToValueAtTime(f * .9, t + .24); }
+      else fl.frequency.value = f * 3;
+      const os = [osc("sawtooth", f / 2)]; if (L.second) os.push(osc("sawtooth", f / 2 * 1.006));
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.32, t + .005); g.gain.exponentialRampToValueAtTime(.001, t + .36);
+      for (const o of os) { o.connect(fl); o.start(t); o.stop(t + .4); }
+      fl.connect(g); g.connect(out);
+      return { wave: null };
+    },
+  },
+};
+function pluckVariant(kind, fr, vel, t0, dest) {
+  const env = (peak, dec) => { const g = ac.createGain(); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(peak, t0 + .004); g.gain.exponentialRampToValueAtTime(.0008, t0 + dec); g.connect(dest); return g; };
+  const run = (o, dur) => { o.start(t0); o.stop(t0 + dur + .05); };
+  if (kind === "string" || kind === "harp") {
+    const src = ac.createBufferSource(), buf = kind === "string" ? ks(fr, .995, .25) : ks(fr, .9985, .8);
+    src.buffer = buf; src.connect(env(vel * (kind === "string" ? .9 : .7), kind === "string" ? .9 : 1.5)); src.start(t0); src.stop(t0 + 1.6);
+    return buf;
+  }
+  if (kind === "mallet") { for (const [m, a, dec] of [[1, .7, .55], [3.98, .28, .12], [9.2, .1, .04]]) { const o = osc("sine", fr * m); o.connect(env(vel * a, dec)); run(o, dec); } return null; }
+  if (kind === "fm") {
+    const c = osc("sine", fr), mo = osc("sine", fr * 3.5), mg = ac.createGain();
+    mg.gain.setValueAtTime(fr * 2.6 * vel, t0); mg.gain.exponentialRampToValueAtTime(1, t0 + .32);
+    mo.connect(mg); mg.connect(c.frequency); c.connect(env(vel * .45, .75)); run(c, .75); run(mo, .75); return null;
+  }
+  const g = env(vel * .5, .55), o1 = osc("triangle", fr), o2 = osc("sine", fr * 2.003), g2 = ac.createGain(); g2.gain.value = .35;
+  o1.connect(g); o2.connect(g2); g2.connect(g); run(o1, .55); run(o2, .55); return null;
+}
+const LAYERS = {};
+for (const [k, v] of Object.entries(VOICES)) { LAYERS[k] = {}; for (const [id] of v.layers) LAYERS[k][id] = true; }
+
+// Plays one note on a voice through the room. Pan follows the column like the source.
+function note(voice, deg, t, pan) {
+  ctx();
+  let out = bus;
+  if (ac.createStereoPanner && pan !== undefined) { const p = ac.createStereoPanner(); p.pan.value = pan; p.connect(bus); out = p; }
+  return VOICES[voice].play(deg, t ?? ac.currentTime, LAYERS[voice], out);
+}
+
+// ---- Ladder ----
+const ROWS = 5, COLS = 12, ladder = $("ladder");
+const degAt = (i, j, rows) => ((i + (rows - j) * 2) % 15 + 15) % 15;
+function drawLadder() {
+  ladder.innerHTML = "";
+  for (let j = 0; j < ROWS; j++) for (let i = 0; i < COLS; i++) {
+    const d = document.createElement("div"), deg = degAt(i, j, ROWS);
+    d.dataset.deg = deg; d.dataset.i = i; d.textContent = pitchName(deg).replace(/\d/, "");
+    ladder.appendChild(d);
+  }
+  $("scale").innerHTML = Array.from({ length: 15 }, (_, d) => `<div><b>${pitchName(d)}</b><span>${pitch(d).toFixed(1)} Hz</span></div>`).join("");
+}
+let lastLad = 0, down = false, lastCell = null;
+function hit(el) {
+  if (!el || !el.dataset.deg || el === lastCell) return;
+  lastCell = el;
+  const now = performance.now(); if (now - lastLad < 50) return; lastLad = now;
+  note("pluck", +el.dataset.deg, undefined, (+el.dataset.i / COLS) * 2 - 1);
+  el.classList.add("on"); setTimeout(() => el.classList.remove("on"), reduce ? 0 : 120);
+}
+ladder.addEventListener("pointerdown", (e) => { down = true; lastCell = null; ladder.setPointerCapture(e.pointerId); hit(e.target); });
+ladder.addEventListener("pointermove", (e) => { if (down) hit(document.elementFromPoint(e.clientX, e.clientY)); });
+addEventListener("pointerup", () => { down = false; });
+const setScale = (c) => { chromatic = c; $("sPenta").setAttribute("aria-pressed", !c); $("sChrom").setAttribute("aria-pressed", c); drawLadder(); };
+$("sPenta").onclick = () => setScale(false); $("sChrom").onclick = () => setScale(true);
+drawLadder();
+
+// ---- Voice workbench ----
+let cur = "mist";
+function drawVoice() {
+  const v = VOICES[cur];
+  $("voiceTabs").innerHTML = Object.entries(VOICES).map(([k, x]) => `<button data-v="${k}" aria-pressed="${k === cur}">${x.label}</button>`).join("");
+  $("voiceIntro").textContent = v.intro;
+  $("layers").innerHTML = v.layers.map(([id, name, desc]) => id === "kind"
+    ? `<div class="layer"><div class="row" role="group" aria-label="Instrument">${v.kinds.map((k) => `<button data-kind="${k}" aria-pressed="${k === v.kind}">${k === "fm" ? "FM bell" : k[0].toUpperCase() + k.slice(1)}</button>`).join("")}</div><span></span></div>`
+    : `<div class="layer"><button data-l="${id}" aria-pressed="${LAYERS[cur][id]}">${name}</button><p>${desc}</p></div>`).join("");
+  $("wave").hidden = cur !== "pluck";
+}
+$("voiceTabs").onclick = (e) => { const b = e.target.closest("[data-v]"); if (!b) return; cur = b.dataset.v; drawVoice(); };
+$("layers").onclick = (e) => {
+  const l = e.target.closest("[data-l]"), k = e.target.closest("[data-kind]");
+  if (l) { LAYERS[cur][l.dataset.l] = !LAYERS[cur][l.dataset.l]; l.setAttribute("aria-pressed", LAYERS[cur][l.dataset.l]); }
+  if (k) { VOICES.pluck.kind = k.dataset.kind; drawVoice(); }
+};
+function drawWave(buf) {
+  const c = $("wave"), w = c.clientWidth, h = c.clientHeight, dpr = devicePixelRatio || 1;
+  c.width = w * dpr; c.height = h * dpr;
+  const g = c.getContext("2d"); g.scale(dpr, dpr); g.clearRect(0, 0, w, h);
+  if (!buf) { g.fillStyle = getComputedStyle(c).color; return; }
+  const d = buf.getChannelData(0), step = Math.floor(d.length / w);
+  g.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent");
+  for (let x = 0; x < w; x++) { let mn = 1, mx = -1; for (let n = x * step; n < (x + 1) * step; n++) { if (d[n] < mn) mn = d[n]; if (d[n] > mx) mx = d[n]; } g.fillRect(x, h / 2 - mx * h / 2.2, 1, Math.max(1, (mx - mn) * h / 2.2)); }
+}
+const showWave = (r) => { if (cur === "pluck") drawWave(r && r.wave); };
+$("playNote").onclick = () => showWave(note(cur, 7));
+$("playPhrase").onclick = () => { ctx(); const t = ac.currentTime, e = 60 / 108 / 2; [5, 7, 9, 7, 10, 12].forEach((d, k) => { const r = note(cur, d, t + k * e, (k / 5) * 1.4 - .7); if (k === 0) showWave(r); }); };
+drawVoice();
+
+// ---- Room ----
+document.querySelectorAll("[data-fx]").forEach((b) => b.onclick = () => { FX[b.dataset.fx] = !FX[b.dataset.fx]; b.setAttribute("aria-pressed", FX[b.dataset.fx]); ctx(); applyFx(); });
+$("roomPlay").onclick = () => { ctx(); const t = ac.currentTime; note("pluck", 7, t, -.4); note("mist", 9, t + .6, .4); };
+
+// ---- Sequencer: 16 columns on eighth notes, the source's column rule ----
+const SR = 8, SC = 16, seqEl = $("seq");
+let pat = new Uint8Array(SR * SC), sVoice = "pluck", bpm = 108, playing = false, col = -1, nextT = 0, timer = 0;
+const EXAMPLE = [[0, 6], [1, 5], [2, 4], [3, 3], [4, 5], [5, 2], [6, 4], [7, 1], [8, 6], [9, 3], [10, 5], [11, 2], [12, 4], [13, 0], [14, 3], [15, 5], [0, 2], [4, 1], [8, 2], [12, 1]];
+function loadExample() { pat.fill(0); for (const [i, j] of EXAMPLE) pat[j * SC + i] = 1; drawSeq(); }
+function drawSeq() {
+  if (!seqEl.children.length) for (let k = 0; k < SR * SC; k++) seqEl.appendChild(document.createElement("div"));
+  [...seqEl.children].forEach((d, k) => { d.classList.toggle("p", !!pat[k]); d.classList.toggle("col", k % SC === col); });
+}
+seqEl.onclick = (e) => { const k = [...seqEl.children].indexOf(e.target); if (k < 0) return; pat[k] ^= 1; drawSeq(); if (pat[k]) note(sVoice, degAt(k % SC, Math.floor(k / SC), SR), undefined, (k % SC / SC) * 2 - 1); };
+function tick() {
+  while (nextT < ac.currentTime + .1) {
+    col = (col + 1) % SC;
+    let played = 0;
+    for (let j = 0; j < SR && played < 3; j++) if (pat[j * SC + col]) { note(sVoice, degAt(col, j, SR), nextT, (col / SC) * 2 - 1); played++; j += 1; }
+    const c = col, at = (nextT - ac.currentTime) * 1000;
+    setTimeout(() => { if (!playing) return; col = c; drawSeq(); }, Math.max(0, at));
+    nextT += 60 / bpm / 2;
+  }
+}
+$("seqPlay").onclick = () => {
+  playing = !playing; $("seqPlay").textContent = playing ? "Stop" : "Play";
+  if (playing) { ctx(); col = -1; nextT = ac.currentTime + .05; tick(); timer = setInterval(tick, 25); }
+  else { clearInterval(timer); col = -1; drawSeq(); }
+};
+$("seqClear").onclick = () => { pat.fill(0); drawSeq(); };
+$("seqDemo").onclick = loadExample;
+$("seqVoices").innerHTML = Object.entries(VOICES).map(([k, v]) => `<button data-sv="${k}" aria-pressed="${k === sVoice}">${v.label}</button>`).join("");
+$("seqVoices").onclick = (e) => { const b = e.target.closest("[data-sv]"); if (!b) return; sVoice = b.dataset.sv; $("seqVoices").querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b)); };
+$("bpm").oninput = (e) => { bpm = +e.target.value; $("bpmOut").textContent = bpm + " bpm"; };
+loadExample();
+})();
+</script>

@@ -46,6 +46,7 @@ import NeotericPageStudio from "./neoteric-page";
 import NullStudioPageStudio from "./null-studio-page";
 import OtisValenPageStudio from "./otis-valen-page";
 import OverlayMenuStudio from "./overlay-menu";
+import PatchCablesStudio from "./patch-cables";
 import PixelgridStudioPageStudio from "./pixelgrid-studio-page";
 import PortfolioPageStudio from "./portfolio-page";
 import PreloaderRevealStudio from "./preloader-reveal";
@@ -72,6 +73,7 @@ export type StudioComponent = ComponentType;
 export const studios: Record<string, StudioComponent> = {
   "cell-portrait": CellPortraitStudio,
   "bunker-scene": BunkerSceneStudio,
+  "patch-cables": PatchCablesStudio,
   "neon-sign-scene": NeonSignSceneStudio,
   "glyph-rain": GlyphRainStudio,
   "image-pixelation": ImagePixelationStudio,

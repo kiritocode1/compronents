@@ -655,6 +655,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "patch-cables",
+    title: "Patch Cables",
+    description:
+      "A lattice of lime dots on slate that you play with the cursor. Hover and nearby dots fuse into gooey cables; drag to patch cables that fill with ink and carry signal beads from jack to jack. Every cable that closes plays a note on a pentatonic scale, through four synth voices with a shared delay and reverb. Generators can play it on their own, in time with one tempo. One WebGL2 shader and Web Audio, no dependencies.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-19",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/patch-cables.tsx",
+        target: "components/ui/patch-cables.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "unfocused",
     title: "Unfocused",
     description:
