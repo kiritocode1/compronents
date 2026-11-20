@@ -38,6 +38,7 @@ import GlyphRainPreview from "./glyph-rain";
 import GrainGradientFieldPreview from "./grain-gradient-field";
 import GrainGradientNavPreview from "./grain-gradient-nav";
 import GrowthClockPreview from "./growth-clock";
+import GyrePreview from "./gyre";
 import HologramWalkwayPreview from "./hologram-walkway";
 import HoverBloomPreview from "./hover-bloom";
 import ImagePixelationPreview from "./image-pixelation";
@@ -153,6 +154,7 @@ export const previews: Record<string, ComponentType> = {
   "glyph-rain": GlyphRainPreview,
   "bunker-scene": BunkerScenePreview,
   "patch-cables": PatchCablesPreview,
+  gyre: GyrePreview,
   "neon-sign-scene": NeonSignScenePreview,
   "type-garden": TypeGardenPreview,
 };

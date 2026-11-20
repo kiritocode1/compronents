@@ -18364,6 +18364,301 @@ export const componentMeta: Record<string, ComponentMeta> = {
       },
     ],
   },
+  gyre: {
+    demoPath: "src/components/demos/gyre.tsx",
+    studioPath: "src/components/studios/gyre.tsx",
+    nuance: [
+      {
+        label: "Every ring is the same rectangle further away",
+        description:
+          "The CPU sends each letter instance three numbers: arc position, ring and scale. The vertex shader walks a rounded rectangle to that position, bends the letter along the tangent, and pushes ring k back to depth d0 times q to the k. So the rings shrink geometrically into the fog without any per-ring layout.",
+      },
+      {
+        label: "The phrase always closes the loop",
+        description:
+          "From the letter size the engine solves for how many copies of the phrase fit exactly one lap. On resize it keeps the count until another one fits clearly better, then eases between counts while holding the reading position on the nearest copy.",
+      },
+      {
+        label: "Two cuts per letter",
+        description:
+          "The front three rings use a finer cut, seven curve segments, a three-step bevel and tessellated faces so the bend stays smooth. Deeper rings use a three-segment cut. Glyphs are extruded once and drawn instanced, about 300k triangles in a 820 by 560 box.",
+      },
+      {
+        label: "Kerning comes from the font",
+        description:
+          "Outlines, cap height and kerning pairs are read with opentype.js, which is why it is a dependency. Three's FontLoader format has no kerning table.",
+      },
+      {
+        label: "It pauses itself",
+        description:
+          "The loop stops while the box is off screen or the tab is hidden, and wakes on resize, pointer, wheel or a theme change.",
+      },
+    ],
+    editable: [],
+    assets: [
+      {
+        id: "gyre-unbounded-900",
+        label: "Unbounded Black",
+        provider: "vercel-blob",
+        pathname: "gyre/Unbounded-900.woff",
+        fallbackPath:
+          "https://zs4kp2p2okhfnarl.public.blob.vercel-storage.com/gyre/Unbounded-900.woff",
+        role: "The face every letter is extruded from. SIL Open Font License.",
+      },
+    ],
+    api: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The words, up to 60 characters. Uppercased, runs of spaces collapsed.",
+        default: '"SAY IT LOUDER"',
+      },
+      {
+        name: "sep",
+        type: "string",
+        description:
+          "Mark between repeats of the phrase, up to 4 characters. Empty for none.",
+        default: '"•"',
+      },
+      {
+        name: "tracking",
+        type: "number",
+        description: "Letter spacing in cap heights, -0.1 to 0.4.",
+        default: "0.04",
+      },
+      {
+        name: "wordGap",
+        type: "number",
+        description: "Word spacing in cap heights, 0.1 to 1.5.",
+        default: "0.42",
+      },
+      {
+        name: "size",
+        type: "number",
+        description:
+          "Letter size as a share of the box's short side, 0.05 to 0.22. The ring count rounds this so the phrase closes the loop.",
+        default: "0.115",
+      },
+      {
+        name: "extrude",
+        type: "number",
+        description:
+          "Letter depth in cap heights, 0.05 to 1.2. Changing it re-cuts every glyph.",
+        default: "0.5",
+      },
+      {
+        name: "bevel",
+        type: "number",
+        description: "Bevel in cap heights, 0 to 0.12.",
+        default: "0.045",
+      },
+      {
+        name: "margin",
+        type: "number",
+        description:
+          "Space between the front ring and the box edge, in CSS px, 0 to 80.",
+        default: "18",
+      },
+      {
+        name: "corner",
+        type: "number",
+        description: "Corner radius of the ring path in cap heights, 0.1 to 3.",
+        default: "0.6",
+      },
+      {
+        name: "turnGap",
+        type: "number",
+        description: "Gap between one ring and the next, 0.05 to 1.5.",
+        default: "0.55",
+      },
+      {
+        name: "turns",
+        type: "number",
+        description:
+          "Rings drawn behind the front one, 2 to 12. Fog usually hides the last few.",
+        default: "8",
+      },
+      {
+        name: "fogStart",
+        type: "number",
+        description: "Ring at which the fade into the ground starts, 0 to 8.",
+        default: "0.7",
+      },
+      {
+        name: "fogEnd",
+        type: "number",
+        description: "Ring at which letters are fully gone, 1 to 12.",
+        default: "3.8",
+      },
+      {
+        name: "speed",
+        type: "number",
+        description:
+          "Letters per second, -3 to 3. Negative runs the other way.",
+        default: "0.6",
+      },
+      {
+        name: "push",
+        type: "number",
+        description:
+          "How hard the mouse wheel throws the rings, 0 to 4. The push decays over about half a second.",
+        default: "1.2",
+      },
+      {
+        name: "fov",
+        type: "number",
+        description:
+          "Lens in degrees, 20 to 90. Wider makes the rings recede faster.",
+        default: "52",
+      },
+      {
+        name: "parallax",
+        type: "number",
+        description:
+          "How far the eye follows the pointer, 0 to 1.5. The front ring stays pinned to the box.",
+        default: "0.5",
+      },
+      {
+        name: "resizeLag",
+        type: "number",
+        description:
+          "Seconds the rings take to follow a resize, 0 to 1. 0 follows at once.",
+        default: "0",
+      },
+      {
+        name: "c1 … c7",
+        type: "string",
+        description:
+          "The seven foil colours in light mode, swept round the frame.",
+        default: '"#6f9fc8" … "#5e5fa3"',
+      },
+      {
+        name: "c1Dark … c7Dark",
+        type: "string",
+        description: "The seven foil colours in dark mode.",
+        default: '"#9cc6e0" … "#8689bd"',
+      },
+      {
+        name: "sat",
+        type: "number",
+        description: "Colour strength, 0 (grey) to 3.",
+        default: "1.7",
+      },
+      {
+        name: "spread",
+        type: "number",
+        description: "How many times the ramp repeats round one lap, 0 to 3.",
+        default: "0.9",
+      },
+      {
+        name: "letterHue",
+        type: "number",
+        description:
+          "Colour change from the foot to the top of a letter, 0 to 1.5.",
+        default: "0.32",
+      },
+      {
+        name: "film",
+        type: "number",
+        description: "Colour shift with view angle, like thin film, 0 to 2.",
+        default: "0.75",
+      },
+      {
+        name: "drift",
+        type: "number",
+        description: "Slow colour drift over time, 0 to 0.3.",
+        default: "0.03",
+      },
+      {
+        name: "sideShade",
+        type: "number",
+        description: "Brightness of the extruded sides, 0.2 to 1.2.",
+        default: "0.66",
+      },
+      {
+        name: "sideShift",
+        type: "number",
+        description:
+          "How far along the ramp the sides sit from the face, 0 to 1.",
+        default: "0.3",
+      },
+      {
+        name: "pale",
+        type: "number",
+        description:
+          "Whitens faces that look straight at the camera, 0 to 1. Halved in light mode.",
+        default: "0.12",
+      },
+      {
+        name: "gloss",
+        type: "number",
+        description: "Horizon band reflected in the faces, 0 to 2.",
+        default: "0.7",
+      },
+      {
+        name: "glint",
+        type: "number",
+        description: "Strength of the two specular glints, 0 to 4.",
+        default: "1.6",
+      },
+      {
+        name: "glintColor / glintColorDark",
+        type: "string",
+        description: "Glint and band colour per mode.",
+        default: '"#ffffff"',
+      },
+      {
+        name: "glow",
+        type: "number",
+        description: "Bloom strength, 0 to 2. Light mode uses 30% of it.",
+        default: "0.4",
+      },
+      {
+        name: "grain",
+        type: "number",
+        description: "Film grain, 0 to 0.25. Light mode uses 70% of it.",
+        default: "0.055",
+      },
+      {
+        name: "appearance",
+        type: '"auto" | "light" | "dark"',
+        description:
+          'Which colour set to use. "auto" follows the page: data-theme, color-scheme, a .dark class, then the OS.',
+        default: '"dark"',
+      },
+      {
+        name: "ground / groundDark",
+        type: "string",
+        description: "Background and fog colour per mode.",
+        default: '"#ecebe7" / "#020203"',
+      },
+      {
+        name: "fontUrl",
+        type: "string",
+        description:
+          "Font for the letters (woff, ttf or otf), parsed with opentype.js. Defaults to Unbounded Black.",
+        default: "GYRE_FONT_URL",
+      },
+      {
+        name: "onReady",
+        type: "(gyre: GyreHandle) => void",
+        description:
+          "Receives the running engine: set(), setZoom(), stats() and debug (freeze, setTime, settle, hand) for exact frames.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root. It fills its parent, so give the parent a size.",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Additional styles for the root.",
+      },
+    ],
+  },
   unfocused: {
     demoPath: "src/components/demos/unfocused.tsx",
     nuance: [

@@ -3087,6 +3087,16 @@ const warpedGalleryAssets = [
 
 export const assetItems = [
   {
+    id: "gyre-unbounded-900",
+    label: "Gyre font, Unbounded Black",
+    provider: "vercel-blob",
+    pathname: "gyre/Unbounded-900.woff",
+    fallbackPath: `${BLOB_PUBLIC_ORIGIN}/gyre/Unbounded-900.woff`,
+    role: "The face every Gyre letter is extruded from, parsed with opentype.js for outlines, cap height and kerning.",
+    notes:
+      "Unbounded weight 900 (SIL Open Font License), the exact WOFF the source served, uploaded byte-for-byte to Vercel Blob.",
+  } satisfies AssetItem,
+  {
     id: "cell-portrait-miku",
     label: "Cell Portrait demo illustration",
     provider: "vercel-blob",

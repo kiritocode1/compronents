@@ -675,6 +675,26 @@ export const registryItems: RegistryItem[] = [
     ],
   },
   {
+    name: "gyre",
+    title: "Gyre",
+    description:
+      "Your words in extruded iridescent foil, running round the edge of their box, ring behind ring, until the deeper rings fade into black. Resize the box and the rings re-fit live, picking how many copies of the phrase close one lap. Move the pointer and the rings shift in parallax; scroll the wheel to push them faster. The words, separator, letter size, depth, bevel, ring spacing, lens, seven foil colours, glints, glow and grain are all props, with a light mode alongside the dark default. Three.js with opentype.js glyphs, one instanced shader, bloom and film grain.",
+    section: "components",
+    category: "Animations",
+    pro: true,
+    date: "2026-11-19",
+    type: "registry:ui",
+    dependencies: ["three", "opentype.js"],
+    registryDependencies: [],
+    files: [
+      {
+        path: "src/registry/gyre.tsx",
+        target: "components/ui/gyre.tsx",
+        type: "registry:ui",
+      },
+    ],
+  },
+  {
     name: "unfocused",
     title: "Unfocused",
     description:

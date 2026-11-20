@@ -29,6 +29,7 @@ import FisheyeScrollStudio from "./fisheye-scroll";
 import FrameScrollStudio from "./frame-scroll";
 import GatherFieldStudio from "./gather-field";
 import GlyphRainStudio from "./glyph-rain";
+import GyreStudio from "./gyre";
 import ImagePixelationStudio from "./image-pixelation";
 import ImageRevealStudio from "./image-reveal";
 import InkFieldStudio from "./ink-field";
@@ -74,6 +75,7 @@ export const studios: Record<string, StudioComponent> = {
   "cell-portrait": CellPortraitStudio,
   "bunker-scene": BunkerSceneStudio,
   "patch-cables": PatchCablesStudio,
+  gyre: GyreStudio,
   "neon-sign-scene": NeonSignSceneStudio,
   "glyph-rain": GlyphRainStudio,
   "image-pixelation": ImagePixelationStudio,

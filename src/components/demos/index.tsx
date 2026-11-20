@@ -110,6 +110,7 @@ import GrainGradientNavDemo from "./grain-gradient-nav";
 import GravityDropLandingDemo from "./gravity-drop-landing";
 import GridScrambleHoverDemo from "./grid-scramble-hover";
 import GrowthClockDemo from "./growth-clock";
+import GyreDemo from "./gyre";
 import HalftoneHandsDemo from "./halftone-hands";
 import HalftoneInterfaceHeroDemo from "./halftone-interface-hero";
 import HalftoneSceneFooterDemo from "./halftone-scene-footer";
@@ -550,6 +551,7 @@ export const demos: Record<string, ComponentType> = {
   "glyph-rain": GlyphRainDemo,
   "bunker-scene": BunkerSceneDemo,
   "patch-cables": PatchCablesDemo,
+  gyre: GyreDemo,
   "neon-sign-scene": NeonSignSceneDemo,
   "scribble-cursor": ScribbleCursorDemo,
   "halftone-hands": HalftoneHandsDemo,
