@@ -683,6 +683,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Web platform, CSS and performance",
     links: [
       {
+        title:
+          "How WeTV cut performance debugging time by 87% using Chrome DevTools for agents and Modern Web Guidance",
+        href: "https://developer.chrome.com/blog/wetv-agentic-performance-debugging",
+        dateAdded: "2026-11-20",
+        kind: "essay",
+        stack: ["chrome-devtools", "mcp", "css"],
+        useFor: [
+          "agent fixes cls regressions",
+          "chrome devtools mcp performance trace",
+          "clsculprits insight",
+          "performance checks in merge requests",
+          "parallel agents for performance debugging",
+          "reserve space for ssr player",
+        ],
+        description:
+          "Chrome for Developers case study, published Nov 10, 2026, on how Tencent's WeTV put an AI coding agent into its merge request pipeline to diagnose and fix Cumulative Layout Shift regressions against a CLS limit of 0.1. The agent traces desktop and mobile with Chrome DevTools for agents (performance_start_trace, then performance_analyze_insight with CLSCulprits), applies the Modern Web Guidance skill, and splits the work across three agents that each own separate files. In the worked example a desktop playback page scored 0.39 because the server-rendered player reserved no height, fixed with aspect-ratio: 16/9. WeTV reports resolution time falling from about 4 hours to 30 minutes, with 90% of recurring regressions handled automatically and a human reviewing the patch only after it passes.",
+      },
+      {
         title: "good-css",
         href: "https://good-css.com/",
         dateAdded: "2026-10-08",
@@ -3754,6 +3772,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Interface design guidelines and craft",
     links: [
+      {
+        title: "On Drawing Icons",
+        href: "https://pierre.computer/writing/on-drawing-icons",
+        dateAdded: "2026-11-20",
+        kind: "essay",
+        stack: ["figma", "svg", "react"],
+        useFor: [
+          "draw an icon set per size",
+          "icon stroke weights per grid",
+          "figma icon base shapes and boolean groups",
+          "svg to react icon pipeline",
+          "outline fill and duotone icon variants",
+          "icon qa preview gallery",
+        ],
+        description:
+          "Pierre Computer Company's write-up, posted by @mdo on Nov 18, 2026, on redrawing its icon library into more than 1,200 icons across 12, 16 and 24px grids with Outline, Fill and Duo variants, each size drawn separately rather than scaled. It gives the stroke tokens (1, 1.25 and 2px for 12, 16 and 24), shows how five base families built with non-destructive boolean groups produce almost 600 icons, and lists the custom Figma plugins, including Layer Swap, Taper Stroke and an SVGO exporter. It also covers a failed runtime badge experiment that roughly doubled bundle size, the final pipeline where canonical SVGs generate the @pierre/icons React components, a sprite and an HTML preview, and a QA gallery that shows icons beside real text.",
+      },
       {
         title: "Interfere Design System",
         href: "https://design.interfere.com/",
@@ -6917,6 +6952,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Plotter",
+        href: "https://plotter.pasqualevitiello.com/",
+        dateAdded: "2026-11-20",
+        kind: ["skill", "asset"],
+        stack: ["svg"],
+        useFor: [
+          "blueprint style product illustrations",
+          "editable svg construction drawings",
+          "agent skill that draws svg illustrations",
+          "animated svg diagrams",
+          "empty state illustrations",
+          "line drawing visual grammar",
+        ],
+        description:
+          "Plotter, by Pasquale Vitiello, is a library of 109 editable SVG construction drawings for product ideas, a visual grammar, and an agent skill that draws new ones by the same rules. The grammar gives primary forms, construction lines, dimensions and hatching one meaning each, and animations change one thing at a time. The library covers geometry, interfaces, empty states, agents and objects such as a detailed keyboard and an animated Newton's cradle. The skill installs into Claude Code or Codex from a downloadable plotter.zip and outputs an editable SVG for stills or standalone HTML for motion; the source is MIT-licensed at github.com/pasqualevitiello/plotter.",
+      },
       {
         title: "Tripo",
         href: "https://www.tripo3d.ai/",
@@ -10348,6 +10400,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Machine learning and deep learning",
     links: [
+      {
+        title: "tufazip",
+        href: "https://tufalabs.ai/research/tufazip/",
+        dateAdded: "2026-11-20",
+        kind: "essay",
+        useFor: [
+          "neural lossless text compression",
+          "transformer with arithmetic coding",
+          "online learning compressor",
+          "enwik9 large text compression benchmark",
+          "replay window ablation",
+          "offline prior for online learning",
+        ],
+        description:
+          "Tufa Labs research post by Tommy He (Oct 14, 2026) on tufazip, a lossless text compressor that uses a single Transformer as its only prediction model with an arithmetic coder. Encoder and decoder start from identical weights and apply the same deterministic gradient update after each token, so learned weights never need to be transmitted, building on Bellard's NNCP. The final version compresses enwik9 to 105,388,353 bytes using a 163M-parameter, 12-layer model, replay over 35M earlier tokens, and a 4.33 MB quantized prior, placing #2 on Matt Mahoney's Large Text Compression Benchmark. Ablations cover replay window, vocabulary size, model capacity and offline priors, and the code is at github.com/Tufalabs/tufazip.",
+      },
       {
         title: "Handwired",
         href: "https://chenglou.me/handwired/",
