@@ -10401,6 +10401,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Machine learning and deep learning",
     links: [
       {
+        title: "Depth Pro 2",
+        href: "https://huggingface.co/apple/DepthPro2",
+        dateAdded: "2026-11-24",
+        kind: "tool",
+        stack: ["python", "pytorch", "huggingface"],
+        useFor: [
+          "metric depth from a single photo",
+          "monocular depth estimation",
+          "temporally consistent video depth",
+          "depth maps from a live camera feed",
+          "per-pixel depth in meters",
+          "estimate focal length from a photo",
+        ],
+        description:
+          "Apple's Hugging Face card for Depth Pro 2, a model that estimates metric depth in meters for every pixel of a single photo, a whole video or a live feed at the input's full resolution, with sharp object edges and little frame-to-frame jitter. It ships in four sizes, S (24M parameters, 97 MB), B (97M), L (334M) and H+ (872M, 3.5 GB), each in its own repo, plus a shared 23.5M-parameter focal length estimator for photos without a recorded focal length. The quick start installs the depth_pro_2 package from github.com/apple-aiml-research/ml-depth-pro-2 and calls model.infer() on an image or model.infer_video() over frames 16 at a time, and the architecture is a multi-view transformer that alternates within-frame and cross-frame attention, followed by a DPT decoder per frame. The card reports better Boundary F1 and lower jitter than prior single-frame and multi-frame methods on Sintel and Spring, and the weights are under the Apple Machine Learning Research Model license, which limits use to scientific research and academic development.",
+      },
+      {
         title: "tufazip",
         href: "https://tufalabs.ai/research/tufazip/",
         dateAdded: "2026-11-20",
@@ -11223,6 +11240,32 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "AI agent platforms and infrastructure",
     links: [
+      {
+        title: "screen-relay",
+        href: "https://github.com/vercel-labs/screen-relay",
+        dateAdded: "2026-11-24",
+        kind: "tool",
+        stack: [
+          "cpp",
+          "node",
+          "linux",
+          "macos",
+          "windows",
+          "computer-use",
+          "agents",
+        ],
+        useFor: [
+          "stream a desktop to the browser",
+          "let an agent control a desktop",
+          "computer use screenshots and clicks",
+          "watch an agent sandbox desktop",
+          "control a desktop from the shell",
+          "desktop streaming in vercel sandbox",
+          "headless linux desktop for agents",
+        ],
+        description:
+          "screen-relay is a Vercel Labs experiment that starts a desktop on a Linux VM, sandbox or container (X11 with XFCE, or headless Wayland with sway), or attaches to a Mac's display or a signed-in Windows desktop, and streams it to a browser as H.264 decoded with WebCodecs at 10 to 120 fps, lowering the bitrate on a slow link. An agent drives the same session one command at a time with screen-relay screenshot, click (coordinates are fractions of the screen), type and key, then takes another screenshot to check the result, and the CLI, a Node SDK and an HTTP and WebSocket API all reach that session. One viewer or SDK client owns input at a time, sessions listen on loopback with no token unless started with --public, every command prints JSON with --json, and screen-relay skills get core prints agent skills matched to the installed version. Install with npm install -g screen-relay and screen-relay install (Node 22+), with guides for Docker and Vercel Sandbox. Audio, IME and hardware encoding are not supported, and the project is Apache-2.0, with the engine linking GPL x264.",
+      },
       {
         title: "voxl",
         href: "https://github.com/tembo/voxl",
@@ -12533,6 +12576,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Infrastructure, observability and runtimes",
     links: [
+      {
+        title: "unkernel",
+        href: "https://unkernel.dev/",
+        dateAdded: "2026-11-24",
+        kind: "tool",
+        stack: ["linux", "wasm", "typescript", "node", "alpine", "debian"],
+        useFor: [
+          "run linux in the browser",
+          "linux kernel compiled to webassembly",
+          "embed a linux shell in a web app",
+          "browser linux sandbox with persistent disk",
+          "run alpine or debian packages in wasm",
+          "script a linux vm from node",
+          "linux vm in a web worker",
+        ],
+        description:
+          "unkernel is Linux 7.x built as a single WebAssembly module with a real MMU, so the kernel's syscalls, scheduler, memory management, ext4 and TCP/IP run as compiled code and only unmodified aarch64 user programs are emulated, with a JIT for hot code. unkernel.dev boots an Alpine 3.24 desktop with a terminal after a download of about 10 MB, saves changes to a persistent disk in the browser and reaches the internet through a Wisp proxy, and Debian 13 boots the same way with Mesa drawing through WebGL2. From a terminal, npx unkernel boots the same kernel with flags such as --mount, --forward, --display and scripted --input, and the zero-dependency, MIT-licensed TypeScript SDK on npm embeds it in Node or a browser Web Worker. The README reports the kernel reaching /init about 70 ms after start and fork + exit + wait in about 60 µs, while CPU-heavy work stays well behind native (apk add python3 takes about 3.4 s). Source is at github.com/pithings/unkernel from PiThings, the repo is GPL-2.0, and it needs a browser with JSPI such as Chrome 137+, Firefox 153+ or Safari 27+.",
+      },
       {
         title: "pwn.watch",
         href: "https://pwn.watch/all",
