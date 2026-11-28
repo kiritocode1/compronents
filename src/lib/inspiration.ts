@@ -7763,6 +7763,102 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Free typefaces",
     links: [
       {
+        title: "Allo",
+        href: "https://allo.joshpuckett.me",
+        dateAdded: "2026-11-28",
+        kind: "asset",
+        useFor: [
+          "friendly ui font",
+          "rounded variable sans",
+          "interface typeface",
+          "font with interface symbols",
+          "optical size font",
+          "open source sans serif",
+        ],
+        description:
+          "A free sans by Josh Puckett, started from Inter 4.1 with every glyph redrawn so it reads warm without turning cute. Three variable axes: weight 100 to 900, roundness 0 to 100, and optical size 9 to 32, which switches between text and display cuts automatically, plus a drawn oblique in every weight. 755 glyphs cover 70+ languages, with tabular figures, fractions, interface symbols and arrows that form when you type them. SIL OFL, installable with npm i allo-font, source on GitHub.",
+      },
+      {
+        title: "Valley Sans",
+        href: "https://fonts.google.com/specimen/Valley+Sans",
+        dateAdded: "2026-11-28",
+        kind: "asset",
+        useFor: [
+          "warm sans serif",
+          "publishing typeface",
+          "warm ui font",
+          "flared sans serif",
+          "brand typeface",
+          "google fonts variable sans",
+        ],
+        description:
+          "A sans by Niklas Ekholm and Lari Mörö of Helsinki Type Studio, made as a Moomin type system for brand communication, publishing and digital interfaces, and released on Google Fonts. It takes the sturdy, slightly flared terminals of Tove Jansson's uppercase lettering and adds a lowercase built from late-1800s models, so it reads clearly in editorial text and gives user interfaces some warmth. Variable weight axis from 100 to 900 with italics, Latin and Latin Extended, OFL licensed, source on GitHub.",
+      },
+      {
+        title: "Katagami",
+        href: "https://katagami.kevinliu.studio",
+        dateAdded: "2026-11-28",
+        kind: "asset",
+        useFor: [
+          "squared sans serif",
+          "multilingual font family",
+          "cjk font",
+          "sans serif and mono superfamily",
+          "free serif font",
+          "rounded sans",
+          "monospace for code",
+        ],
+        description:
+          "A free type family by Kevin Liu with five members, Sans, Round, Text, Serif and Mono, each a variable roman and italic (100 to 900, Mono 100 to 700). It starts from Inter's outlines, squares the bowls and cuts terminals level, then merges 28 scripts from Noto for 31 in total, with companion fonts for Chinese, Japanese and Korean. Version 1.6 ships as one 72 MB zip, smaller per-language packages, or a hosted web stylesheet, and the site has a glyph browser, OpenType feature demos and a tool that previews any website set in Katagami. SIL OFL 1.1.",
+      },
+      {
+        title: "Paper Mono",
+        href: "https://paper.design/mono",
+        dateAdded: "2026-11-28",
+        kind: "asset",
+        useFor: [
+          "monospace font for code",
+          "box drawing characters",
+          "coding ligatures",
+          "duospace font",
+          "monospace for headlines and ui",
+          "terminal font",
+        ],
+        description:
+          "A monospace family from Paper, the design tool, made for headlines, interface text and code. Variable weight from 100 to 800 across 8 named weights, 800 glyphs for 100+ languages, and 128 box-drawing characters plus 32 blocks for drawing tables and progress bars in plain text. Stylistic sets add a small set of coding ligatures (ss01), duospaced wide letters (ss02), narrow word spaces (ss03), small arrows (ss04), a single-story a and a slashed zero. Free under the SIL OFL 1.1, source on GitHub.",
+      },
+      {
+        title: "Obel Mono",
+        href: "https://typographic.systems/obel-mono",
+        dateAdded: "2026-11-28",
+        kind: "asset",
+        useFor: [
+          "monospace font for code",
+          "hide api keys on screen",
+          "terminal font",
+          "screen sharing secrets",
+          "font for coding agents",
+          "editor font",
+        ],
+        description:
+          "A free monospace font for terminals, editors and agent windows, drawn in code by Cody of Typographic Systems, a one-person studio in Bangkok. The Masked build hides API keys on screen: 205 key prefixes from 82 issuers render as dots while the file and clipboard keep every character. Variable weight from 100 to 900 in roman and italic, 1,618 characters including the status marks coding agents print, and eight handwritten alternates on ss02. Version 1.004 ships TTF, OTF and WOFF2 under the SIL OFL 1.1.",
+      },
+      {
+        title: "Helix Mono",
+        href: "https://helixdb.github.io/helix-mono/",
+        dateAdded: "2026-11-28",
+        kind: "asset",
+        useFor: [
+          "monospace font for code",
+          "jetbrains mono alternative",
+          "terminal font",
+          "editor font",
+          "self host monospace woff2",
+        ],
+        description:
+          "HelixDB's monospace typeface, built on JetBrains Mono NL 2.304 and presented as a product manual with a spec sheet and install steps. Six weights from ExtraLight 200 to Bold 700, each with an italic, for 12 styles on a 600-unit advance. Ships as one zip of TTF and WOFF2 with an @font-face snippet and instructions to set it as your editor or terminal font, free under the SIL OFL 1.1.",
+      },
+      {
         title: "Datatype",
         href: "https://fonts.google.com/specimen/Datatype",
         dateAdded: "2026-07-29",
