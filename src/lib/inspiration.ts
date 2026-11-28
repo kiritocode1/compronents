@@ -3773,6 +3773,23 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Interface design guidelines and craft",
     links: [
       {
+        title: "The Invisible Shape",
+        href: "https://sorenblank.com/craft/the-invisible-shape",
+        dateAdded: "2026-11-24",
+        kind: "essay",
+        useFor: [
+          "nested submenu hover intent",
+          "safe triangle for submenus",
+          "keep submenu open on diagonal move",
+          "context menu submenu behavior",
+          "menu aim pointer prediction",
+          "steering law for menus",
+          "hover timeout vs intent prediction",
+        ],
+        description:
+          "Soren Blank's October 2026 essay on why a nested menu's sub-menu closes when the cursor moves diagonally toward it, and on the invisible region between the parent row and the sub-menu that keeps it open. It starts from Bruce Tognazzini's Mac spec and the steering law, which treats the parent row as a long, one-row-tall tunnel, then compares the fixes: a 300ms timeout, Hakim El Hattab's curved SVG, Linear's clip-path MouseSafeArea triangle, Amazon's slope-based menu aim and patent, and Base UI's speed-based intent prediction with a 0.1 px/ms threshold and a 40ms stop timer. Animated figures and a playground switch between the approaches, and the essay covers the accessibility cost of speed checks, React Aria's atan2 angle comparison with a 15 degree margin, and the Open UI proposal for browsers to handle the safe triangle natively. Its rule is to check again on every pointer move rather than guess once with a fixed timeout.",
+      },
+      {
         title: "On Drawing Icons",
         href: "https://pierre.computer/writing/on-drawing-icons",
         dateAdded: "2026-11-20",
@@ -4136,6 +4153,21 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Design inspiration galleries",
     links: [
+      {
+        title: "perfolios",
+        href: "https://directoryyy.com/",
+        dateAdded: "2026-11-28",
+        useFor: [
+          "portfolio website inspiration",
+          "personal site directory",
+          "design engineer portfolios",
+          "developer portfolio examples",
+          "studio and agency sites",
+          "minimal portfolio examples",
+        ],
+        description:
+          "perfolios is a hand-picked directory of personal and portfolio websites curated by Shawn (@zzzzshawn), listing 353 sites from designers, design engineers, developers and studios, plus a few tools. You can filter by style (Minimal, Thoughtful, Playful, Creative, Showcase) or type (Personal, Studios, Devs, Tools), search, or pick one at random with Surprise me, and each entry shows a one-line description and the date it was added. It is free to browse, takes submissions through a link on the site, and has a sponsor slot.",
+      },
       {
         title: "Savee",
         href: "https://savee.com/",
@@ -6952,6 +6984,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Illustration and visual assets",
     links: [
+      {
+        title: "Trazo",
+        href: "https://trazo.akoder.xyz/",
+        dateAdded: "2026-11-28",
+        stack: ["react", "vue", "svelte", "svg"],
+        useFor: [
+          "hand drawn crayon stickers",
+          "crayon svg doodles",
+          "hand drawn arrows and emphasis marks",
+          "recolorable svg stickers",
+          "playful stickers for a landing page",
+          "react svg sticker components",
+        ],
+        description:
+          "Trazo is a library of hand-drawn wax-crayon SVG stickers by Aditya (AdityaKodez), covering sea creatures, cats, arrows, stars, clouds, hearts, emphasis marks, school and food items, and game pieces such as coins, gems and an XP badge. Its library page searches the set, recolors any sticker live, and copies it as React, Vue, Svelte or standalone SVG code, or you can download SVG and PNG packs. Install with npm i trazo-stickers. The site lists 106 stickers, and the repo is TypeScript under the MIT license.",
+      },
       {
         title: "Plotter",
         href: "https://plotter.pasqualevitiello.com/",
@@ -10129,6 +10177,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "LLMs and AI engineering",
     links: [
       {
+        title: "Agents are users, so your software needs evals",
+        href: "https://vercel.com/blog/agent-evals",
+        dateAdded: "2026-11-28",
+        kind: "essay",
+        stack: ["vercel", "harbor", "claude-code", "codex", "agents"],
+        useFor: [
+          "agent evals",
+          "evaluate a cli with coding agents",
+          "pass@k vs pass^k",
+          "agentic testing pyramid",
+          "design eval tasks and verifiers",
+          "run evals on vercel sandbox",
+          "analyze agent traces",
+          "prevent reward hacking in evals",
+        ],
+        description:
+          "Vercel blog post by George Fahmy and Yury Selivanov from November 2026 arguing that agents are now users of APIs, CLIs, MCP servers and SDKs, so software needs evals, which it defines as a test you run many times and score. It lays out an agentic testing pyramid tiered by the number of LLM calls and a five-step process: set a narrow goal, choose metrics such as success rate, pass@k and pass^k, design tasks with a fixed starting environment and a per-constraint verifier, run trials concurrently, and read the traces. The running example evaluates an sfbeans coffee-ordering CLI with Harbor on Vercel Sandbox across Claude Code and Codex variants, where traces exposed discovery, access and skipped-quote failures. It also covers keeping seed data and verifiers out of the agent's reach and summarizing trials with up to 40 reader agents.",
+      },
+      {
         title: "claude.dev",
         href: "https://claude.dev/",
         dateAdded: "2026-10-01",
@@ -11267,6 +11334,25 @@ export const inspirationGroups: InspirationGroup[] = [
           "screen-relay is a Vercel Labs experiment that starts a desktop on a Linux VM, sandbox or container (X11 with XFCE, or headless Wayland with sway), or attaches to a Mac's display or a signed-in Windows desktop, and streams it to a browser as H.264 decoded with WebCodecs at 10 to 120 fps, lowering the bitrate on a slow link. An agent drives the same session one command at a time with screen-relay screenshot, click (coordinates are fractions of the screen), type and key, then takes another screenshot to check the result, and the CLI, a Node SDK and an HTTP and WebSocket API all reach that session. One viewer or SDK client owns input at a time, sessions listen on loopback with no token unless started with --public, every command prints JSON with --json, and screen-relay skills get core prints agent skills matched to the installed version. Install with npm install -g screen-relay and screen-relay install (Node 22+), with guides for Docker and Vercel Sandbox. Audio, IME and hardware encoding are not supported, and the project is Apache-2.0, with the engine linking GPL x264.",
       },
       {
+        title: "Honcho",
+        href: "https://honcho.dev/docs/v3/documentation/introduction/overview",
+        dateAdded: "2026-11-20",
+        kind: "tool",
+        stack: ["python", "typescript", "mcp", "postgres", "ai-sdk", "agents"],
+        useFor: [
+          "persistent memory for ai agents",
+          "remember users across sessions",
+          "model users from conversations",
+          "ask questions about a user",
+          "prompt ready conversation context",
+          "memory for coding agents",
+          "self hosted agent memory",
+          "migrate from mem0",
+        ],
+        description:
+          "Honcho is an open source memory library and managed service from Plastic Labs for agents that need to remember users, other agents or groups across sessions. Its data model is workspaces, peers, sessions and messages: messages written to a session are reasoned over in the background into conclusions stored as per-peer representations, which an agent reads back with session.context() for prompt-ready history or peer.chat() for a natural-language question about one peer. The docs cover Python and TypeScript SDKs, a CLI and an MCP server, with integration guides for Claude Code, Codex, Cursor, OpenCode, the Vercel AI SDK, LangGraph and CrewAI, plus a Mem0 migration guide. Self-hosting needs Postgres, Redis and an LLM provider key (honcho start --setup runs the stack in Docker), and the server is licensed AGPL-3.0.",
+      },
+      {
         title: "voxl",
         href: "https://github.com/tembo/voxl",
         dateAdded: "2026-11-03",
@@ -12228,6 +12314,25 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Databases and storage",
     links: [
       {
+        title: "Distributed, high-performance blob storage on SQLite",
+        href: "https://zerodha.tech/blog/high-performance-distributed-blob-storage/",
+        dateAdded: "2026-11-24",
+        kind: "essay",
+        stack: ["rust", "sqlite", "redis", "zstd"],
+        useFor: [
+          "blob storage on sqlite",
+          "redis protocol blob server",
+          "sqlite write batching",
+          "consistent hashing across shards",
+          "redis cluster slot routing",
+          "zstd blob compression",
+          "migrating off ssdb",
+          "sqlite vacuum and ttl cleanup",
+        ],
+        description:
+          "Sarat Chandra on Blobasaur, the open source Rust blob server Zerodha built for Kite's UI data (chart layouts, drawings and workspaces for about 20 million customers) after outgrowing CouchDB and the abandoned, single-node SSDB. It speaks the Redis protocol and stores data in several WAL-mode SQLite shards per node, chosen by multi-probe consistent hashing, with one writer per shard batching writes into a single transaction beside a pool of read-only connections, while the Redis Cluster protocol's 16384 CRC16 slots route keys between nodes. zstd cuts the average payload from 63.6 KiB to 5.5 KiB, and a three-node cluster of 4 vCPU, 8 GB machines serves a trading session at about 2 ms p99 and 250 to 550 µs p50. The November 2026 post also covers the month of dual writes before SSDB was switched off, reclaiming file space with incremental auto_vacuum, and routing TTL cleanup through the shard writer to stop 30 to 50 ms write spikes.",
+      },
+      {
         title: "Git for Global Law",
         href: "https://github.com/lexifina/global-law",
         dateAdded: "2026-11-03",
@@ -13030,6 +13135,22 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Books and fundamentals",
     links: [
+      {
+        title: "Silk book: Values and functions",
+        href: "https://silklang.org/docs/book/values-and-functions",
+        dateAdded: "2026-11-28",
+        stack: ["silk"],
+        useFor: [
+          "silk programming language",
+          "learn silk syntax",
+          "effect typed function signatures",
+          "explicit integer conversions",
+          "trapping arithmetic overflow",
+          "systems language design",
+        ],
+        description:
+          "Chapter 2 of the Silk book, the guide to Silk, an alpha systems language built by Julia in which every function states what it returns, how it can fail and what it needs, and the compiler checks it. The chapter builds a small tasks report while covering let and let mut bindings, fixed-size integer types with no implicit conversions, effect fn signatures that declare failures with ! and required services with ?, explicit return, and drop for values you mean to discard. Overflow, division by zero and out-of-bounds indexing trap at runtime, and wrappingAdd, saturatingAdd and checkedAdd opt into other behavior. The 14-section book goes on to ownership, lifetimes, interfaces and generics, effects, services and providers, concurrency and compile-time work.",
+      },
       {
         title: "Four Rivers of Computing",
         href: "https://four-rivers-of-computing.sunil25996.chatgpt.site/",
@@ -17101,6 +17222,43 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Talks and individual videos",
     links: [
       {
+        title: "Advanced Effect Design Patterns, Harry Solovay",
+        href: "https://www.youtube.com/watch?v=_tSGby_q890",
+        dateAdded: "2026-11-27",
+        kind: "video",
+        stack: ["effect", "typescript"],
+        useFor: [
+          "advanced effect patterns",
+          "effect service factory",
+          "effect library configuration with layers",
+          "effect context across fibers",
+          "effect ai chat branching",
+          "atomic file writes in effect",
+          "effect variant schema",
+          "effect http error responses",
+        ],
+        description:
+          "Harry Solovay's Effect Miami 3 talk on composition patterns for larger Effect codebases, published on the Effect channel in November 2026 and running about 55 minutes. It opens with service factories that return a yieldable Context tag with its layer and schema attached, letting library consumers choose implementations by supplying layers in a TypeScript config file, tags used as optional payment capabilities read with serviceOption, and copying an Effect AI Chat before parallel generateText calls so they stop sharing one history. Later sections cover capturing and narrowing Context for effects stored and run in another fiber, errors that render their own HTTP response with RFC 9457 problem details, atomic file creation and replacement through a scoped temp directory, the unstable VariantSchema module and Model.Class for insert, select and JSON variants of one schema, and typed shared config across monorepo services deployed with Alchemy.",
+      },
+      {
+        title: "The Design and Evolution of io_uring, Jens Axboe",
+        href: "https://www.youtube.com/watch?v=y4cb39pBp0I&t=327s",
+        dateAdded: "2026-11-27",
+        kind: "video",
+        stack: ["linux", "c"],
+        useFor: [
+          "io_uring design",
+          "linux async io",
+          "io_uring vs epoll",
+          "native aio limitations",
+          "io_uring task_work",
+          "io_uring zero copy networking",
+          "io_uring security history",
+        ],
+        description:
+          "Jens Axboe's Systems Distributed '26 talk on how io_uring came to be and what it does today, published by TigerBeetle in August 2026 and running about 42 minutes. Axboe, who created io_uring and liburing and wrote fio, starts from native Linux AIO working only with O_DIRECT and silently blocking otherwise, and from the 2007 fibril and syslet attempts that never merged. He then explains the shared submission and completion rings, the inline fast path that falls back to task_work and io-wq, how one completion model replaces the readiness model sockets used, later features such as registered buffers and files, multishot recv with provided buffers, zero-copy networking and ublk, and io_uring's security history. The link starts at 5:27 in the storage-only status quo chapter, and the slides are linked from the video description.",
+      },
+      {
         title: "Open Source at Scale with Corbin Crutchley",
         href: "https://youtu.be/y4sMQeqmdVM?si=h7ICUo_5HQYGcue3",
         dateAdded: "2026-10-04",
@@ -17739,6 +17897,23 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "sprite-stacking",
+        href: "https://github.com/danielwh2/sprite-stacking",
+        dateAdded: "2026-11-28",
+        kind: "skill",
+        stack: ["python", "numpy", "pillow"],
+        useFor: [
+          "sprite stacking",
+          "fake 3d pixel art",
+          "rotatable pixel art sprite",
+          "voxel carving from four views",
+          "pixel art sprite sheet with 16 directions",
+          "agent skill for game sprites",
+        ],
+        description:
+          "sprite-stacking is an agent skill by Daniel White that turns four orthographic pixel art views (top, side, front and back) into a fake-3D sprite you can spin, for Claude Code, Codex, Cursor, OpenCode, Gemini CLI and Pi. Its Python slicer (Pillow and NumPy) keeps a voxel only where all four views cover it, cuts the volume into layers from the ground up, and renders each layer rotated, squashed for pitch and lifted 1 px, with flags for slice count, palette size, normals and emissive pixels. A standalone HTML viewer adds turntable, slice scan, exploded and diorama modes, a draggable sun, rain and snow, and exports a 16-direction PNG sprite sheet. Install with npx skills add danielwh2/sprite-stacking; MIT licensed.",
+      },
       {
         title: "Transitions UI generation",
         href: "https://github.com/Jakubantalik/transitions.dev/tree/main/skills/transitions-ui-generation",
