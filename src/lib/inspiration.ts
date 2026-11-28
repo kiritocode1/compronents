@@ -1516,6 +1516,24 @@ export const inspirationGroups: InspirationGroup[] = [
     title: "Component libraries and blocks",
     links: [
       {
+        title: "ramka",
+        href: "https://ramka.dev/",
+        dateAdded: "2026-11-28",
+        kind: "library",
+        stack: ["react", "typescript", "nextjs"],
+        useFor: [
+          "react lightbox",
+          "image gallery lightbox",
+          "view transitions morph",
+          "pinch to zoom images",
+          "pull to dismiss",
+          "headless gallery primitives",
+          "swipe image viewer",
+        ],
+        description:
+          "A headless React lightbox by Artur Bień, installed with pnpm add @ramka/react, that opens images, video or any React content from its thumbnail with a shared-element View Transitions morph and falls back to a crossfade. Slides use real CSS scroll snapping instead of a transform carousel, with pinch, double-tap and ctrl-scroll zoom, and a drag or trackpad pull to dismiss. Unstyled primitives (Trigger, Slides, Zoom, Captions, Thumbnails, Counter) follow the Radix and Base UI API style, inside a focus-trapped dialog with keyboard shortcuts, reduced-motion and RTL support, and Next.js Image support. Zero runtime dependencies, about 19 KB gzipped up front, MIT licensed, used for galleries at Mintlify, Whop, Paper and Operate.",
+      },
+      {
         title: "Modulify Templates",
         href: "https://modulify.ai/templates",
         dateAdded: "2026-11-08",
@@ -17993,6 +18011,24 @@ export const inspirationGroups: InspirationGroup[] = [
   {
     title: "Agent skills directories",
     links: [
+      {
+        title: "Copybook",
+        href: "https://copybook.page/",
+        dateAdded: "2026-11-28",
+        kind: "library",
+        stack: ["claude-code", "codex", "mcp"],
+        useFor: [
+          "copy paste prompts for coding agents",
+          "claude.md rules tips",
+          "agents.md review",
+          "claude code prompts",
+          "codex prompts",
+          "coding agent tips library",
+          "keep rules file short",
+        ],
+        description:
+          "A library of copy-paste prompts, rules and skills for coding agents by Vox (@Voxyz_ai), each one opening with the problem it fixes, such as an outdated CLAUDE.md or a site that looks like every other AI site. It holds 160 tips from March to November 2026, filterable by Claude Code, Codex, Cursor and Grok and by topics like codebase, review, design and long runs, sorted by newest or by saves on X. Agents can read it mid-task through a read-only MCP server, or install the skill pack (including a coordinator skill for parallel agents) with npx skills or as a Claude Code or Codex plugin. Browsing and copying are free with 30 agent lookups a day; a $9 30-day pass or a 1-year pass ($59 at launch, then $89) adds unlimited lookups and a full line-by-line review of your CLAUDE.md or AGENTS.md.",
+      },
       {
         title: "sprite-stacking",
         href: "https://github.com/danielwh2/sprite-stacking",
